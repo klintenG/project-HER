@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project HER v2.0 – AI Video Agent</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"
+          crossorigin="anonymous">
+    <style>
+        :root { --accent: #00ffc8; --accent-dim: #00b891; }
+        body { background: #0a0a1a; font-family: 'Segoe UI', system-ui, sans-serif; }
+        .accent { color: var(--accent); }
+        .brand-bar {
+            background: linear-gradient(135deg, #0d0d2b 0%, #1a0a30 100%);
+            border-bottom: 1px solid rgba(0,255,200,.15);
+            padding: 1rem 0;
+        }
+        .brand-bar h1 { font-size: 1.6rem; font-weight: 700; margin: 0; }
+        .brand-bar .subtitle { color: #888; font-size: .85rem; }
+        .card {
+            background: #111125;
+            border: 1px solid rgba(255,255,255,.06);
+            border-radius: 12px;
+        }
+        .card-header {
+            background: rgba(0,255,200,.04);
+            border-bottom: 1px solid rgba(255,255,255,.06);
+            font-weight: 600;
+        }
+        .form-select, .form-control {
+            background: #0d0d20;
+            border-color: rgba(255,255,255,.1);
+            color: #e0e0e0;
+        }
+        .form-select:focus, .form-control:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(0,255,200,.15);
+        }
+        .btn-accent { background: var(--accent); color: #000; font-weight: 600; border: none; }
+        .btn-accent:hover { background: var(--accent-dim); color: #000; }
+        .btn-outline-accent { border: 1px solid var(--accent); color: var(--accent); }
+        .btn-outline-accent:hover { background: rgba(0,255,200,.1); color: var(--accent); }
+        .result-card {
+            background: #0d0d20;
+            border: 1px solid rgba(0,255,200,.2);
+            border-radius: 12px;
+        }
+        .result-card .label {
+            color: #888; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em;
+        }
+        .result-card .value { color: #fff; font-weight: 500; }
+        /* Spinner */
+        .spinner-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,.7); z-index: 9999;
+            display: none; justify-content: center; align-items: center; flex-direction: column;
+        }
+        .spinner-overlay.active { display: flex; }
+        .spinner-overlay .spinner-border { width: 3rem; height: 3rem; color: var(--accent); }
+        .spinner-overlay p { color: #ccc; margin-top: 1rem; font-size: 1.1rem; }
+        /* Tabs */
+        .nav-tabs .nav-link { color: #888; border: none; }
+        .nav-tabs .nav-link.active {
+            color: var(--accent); background: transparent; border-bottom: 2px solid var(--accent);
+        }
+        /* Remotion Studio */
+        #tab-remotion-studio .accordion-button {
+            background: #1a1a2e; color: #ddd; padding: .6rem .75rem; font-size: .9rem;
+        }
+        #tab-remotion-studio .accordion-button:not(.collapsed) { background: #16213e; }
+        #tab-remotion-studio .accordion-button::after { filter: invert(1); }
+        #tab-remotion-studio .accordion-item { background: transparent; border-color: #333; }
+        #tab-remotion-studio .list-group-item { background: #111; border-color: #222; color: #ddd; }
+        #tab-remotion-studio .list-group-item:hover { background: #1a1a2e; }
+        #tab-remotion-studio .list-group-item.active { background: #0f3460 !important; border-color: #3498db; }
+        .preview-kp {
+            background: rgba(0,255,200,.03); border-radius: 8px;
+            padding: 1rem; margin-bottom: .75rem; border-left: 3px solid var(--accent);
+        }
+        .history-item {
+            background: #111125; border-radius: 8px; padding: .75rem; margin-bottom: .5rem;
+            border: 1px solid rgba(255,255,255,.05); cursor: pointer; transition: border-color .2s;
+        }
+        .history-item:hover { border-color: var(--accent); }
+        video { border-radius: 8px; background: #000; }
+        @keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:.5 } }
+        .generating-text { animation: pulse 1.5s infinite; }
+        .color-swatch {
+            display: inline-block; width: 14px; height: 14px; border-radius: 3px;
+            vertical-align: middle; margin-right: 4px; border: 1px solid rgba(255,255,255,.15);
+        }
+        .explainer-hint { font-size: .72rem; color: #888; margin-top: 4px; }
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 10000; }
+    </style>
+</head>
+<body>
+
+<!-- Toast container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Spinner Overlay -->
+<div class="spinner-overlay" id="spinner">
+    <div class="spinner-border" role="status"></div>
+    <p class="generating-text" id="spinnerText">Generating video…</p>
+    <p class="text-muted" style="font-size:.85rem;">This may take 2-5 minutes</p>
+    <div id="pipelineProgress" class="mt-3 d-none" style="width:380px;">
+        <div class="progress mb-2" style="height:6px;background:rgba(255,255,255,.1);">
+            <div id="overallBar" class="progress-bar" role="progressbar"
+                 style="width:0%;background:var(--accent);"></div>
+        </div>
+        <div id="stageList" style="text-align:left;"></div>
+    </div>
+</div>
+
+<!-- Brand Bar -->
+<div class="brand-bar">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+            <div>
+                <h1><i class="bi bi-camera-reels accent"></i> Project HER
+                    <span class="accent">v2.0</span></h1>
+                <div class="subtitle">AI-Powered Article-to-Video Agent</div>
+            </div>
+            <div>
+                <span class="badge bg-dark border border-secondary"><i class="bi bi-cpu"></i> Groq AI</span>
+                <span class="badge bg-dark border border-secondary"><i class="bi bi-image"></i> Pexels</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-4">
+    <!-- Tabs -->
+    <ul class="nav nav-tabs mb-4" role="tablist">
+        <li class="nav-item">
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-generate">
+                <i class="bi bi-camera-reels"></i> Generate
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-history">
+                <i class="bi bi-clock-history"></i> History
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-reference">
+                <i class="bi bi-book"></i> Reference
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-remotion-studio" onclick="loadRemotionStudio()">
+                <i class="bi bi-film"></i> Remotion Studio
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <!-- ═══════════════════════ GENERATE TAB ═══════════════════════ -->
+        <div class="tab-pane fade show active" id="tab-generate">
+            <div class="row g-4">
+                <!-- LEFT: Controls -->
+                <div class="col-lg-5">
+                <!-- LLM Provider card -->
+                    <div class="card mb-3">
+                        <div class="card-header"><i class="bi bi-cpu"></i> AI Engine</div>
+                        <div class="card-body">
+                            <div class="row g-2 align-items-end">
+                                <div class="col">
+                                    <label class="form-label small text-muted">LLM Provider</label>
+                                    <select class="form-select form-select-sm" id="selLlmProvider"
+                                            onchange="switchLlmProvider(this.value)">
+                                        {% for pkey, pval in llm_providers.items() %}
+                                        <option value="{{ pkey }}"{{ ' selected' if pkey == llm_provider }}>
+                                            {{ pval.label }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col" id="copilotModelInfo"
+                                     {% if llm_provider != 'copilot_bridge' %}class="d-none"{% endif %}>
+                                    <label class="form-label small text-muted">Model</label>
+                                    <input type="text" class="form-control form-control-sm" 
+                                           id="txtCopilotModel" value="{{ copilot_bridge_model }}"
+                                           placeholder="claude-sonnet-4.6">
+                                </div>
+                            </div>
+                            <div class="mt-2" id="providerStatus">
+                                <small class="text-muted">
+                                    {% if provider_info.ready %}
+                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                    {{ provider_info.label }} ready — using <strong>{{ provider_info.model_label }}</strong>
+                                    {% else %}
+                                    <i class="bi bi-exclamation-triangle-fill text-warning"></i>
+                                    {{ provider_info.label }} — API key not configured
+                                    {% endif %}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                <!-- Input card -->
+                    <div class="card mb-3">
+                        <div class="card-header"><i class="bi bi-input-cursor-text"></i> Input</div>
+                        <div class="card-body">
+                            <!-- Content Mode Selector -->
+                            <div class="mb-3">
+                                <label class="form-label small text-muted">Content Mode</label>
+                                <div class="btn-group w-100" role="group">
+                                    {% for mode_key in available_content_modes %}
+                                    <input type="radio" class="btn-check" name="contentMode"
+                                           id="mode_{{ mode_key }}" value="{{ mode_key }}"
+                                           {{ 'checked' if mode_key == default_content_mode }}
+                                           onchange="switchContentMode('{{ mode_key }}')">
+                                    <label class="btn btn-outline-secondary btn-sm" for="mode_{{ mode_key }}">
+                                        {{ content_modes[mode_key].icon }} {{ content_modes[mode_key].label }}
+                                    </label>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- Article mode inputs (default) -->
+                            <div id="inputArticle">
+                                <div class="mb-3">
+                                    <label class="form-label small text-muted">Article URL</label>
+                                    <input type="url" class="form-control" id="inputUrl"
+                                           placeholder="https://example.com/article…">
+                                </div>
+                                <div class="text-center text-muted small mb-2">— or —</div>
+                                <div>
+                                    <label class="form-label small text-muted">Paste Text</label>
+                                    <textarea class="form-control" id="inputText" rows="4"
+                                              placeholder="Paste your article or story text here…"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Thought Experiment mode inputs -->
+                            <div id="inputThoughtExperiment" class="d-none">
+                                <div class="mb-3">
+                                    <label class="form-label small text-muted">
+                                        <i class="bi bi-lightbulb"></i> Your Question
+                                    </label>
+                                    <textarea class="form-control" id="inputQuestion" rows="3"
+                                              placeholder="What if humans could photosynthesize? What would happen if the internet disappeared tomorrow?"></textarea>
+                                    <div class="explainer-hint">
+                                        Ask a provocative "what if" question. We'll create a 60-second philosophical exploration video.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ghost Collaboration mode inputs -->
+                            <div id="inputGhostCollab" class="d-none">
+                                <div class="mb-3">
+                                    <label class="form-label small text-muted">
+                                        <i class="bi bi-person-badge"></i> Historical / Fictional Character
+                                    </label>
+                                    <input type="text" class="form-control" id="inputCharacterName"
+                                           placeholder="e.g. Nikola Tesla, Cleopatra, Sherlock Holmes…">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small text-muted">
+                                        <i class="bi bi-chat-dots"></i> Modern Topic to Discuss
+                                    </label>
+                                    <input type="text" class="form-control" id="inputModernTopic"
+                                           placeholder="e.g. AI replacing jobs, social media addiction, space tourism…">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small text-muted">Voice Pair</label>
+                                    <select class="form-select form-select-sm" id="selVoicePair">
+                                        {% for pair_name, pair in ghost_collab_voices.items() %}
+                                        <option value="{{ pair_name }}"{{ ' selected' if pair_name == 'default' }}>
+                                            {{ pair.label }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="explainer-hint">
+                                        Two different voices alternate: narrator introduces, character responds.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Deep Dive mode inputs (NotebookLM-style) -->
+                            <div id="inputDeepDive" class="d-none">
+                                <div class="mb-3">
+                                    <label class="form-label small text-muted">
+                                        <i class="bi bi-broadcast"></i> Sources (URLs or text — up to {{ deep_dive_max_sources }})
+                                    </label>
+                                    <div id="deepDiveSources">
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text" style="background:#0d0d20;border-color:rgba(255,255,255,.1);color:#888;">1</span>
+                                            <input type="url" class="form-control deep-dive-url" placeholder="https://example.com/article-1…">
+                                        </div>
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text" style="background:#0d0d20;border-color:rgba(255,255,255,.1);color:#888;">2</span>
+                                            <input type="url" class="form-control deep-dive-url" placeholder="https://example.com/article-2… (optional)">
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-outline-secondary btn-sm" onclick="addDeepDiveSource()" id="btnAddSource">
+                                        <i class="bi bi-plus-lg"></i> Add Source
+                                    </button>
+                                    <div class="explainer-hint">
+                                        Paste up to {{ deep_dive_max_sources }} article URLs. Our AI will read them all, find the surprising
+                                        connections, and generate a two-host podcast-style video — like NotebookLM's Deep Dive.
+                                    </div>
+                                </div>
+                                <div class="text-center text-muted small mb-2">— or paste raw text —</div>
+                                <div class="mb-3">
+                                    <textarea class="form-control" id="inputDeepDiveText" rows="3"
+                                              placeholder="Paste combined text from multiple sources here…"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small text-muted">Host Voice Pair</label>
+                                    <select class="form-select form-select-sm" id="selDeepDiveVoicePair">
+                                        {% for pair_name, pair in deep_dive_voices.items() %}
+                                        <option value="{{ pair_name }}"{{ ' selected' if pair_name == 'default' }}>
+                                            {{ pair.label }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="explainer-hint">
+                                        Two hosts discuss your sources: one explains, the other reacts and asks questions.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Series Controls (shown for all modes) -->
+                            <div class="mt-3 pt-2" style="border-top:1px solid rgba(255,255,255,.06);">
+                                <div class="form-check form-switch mb-2">
+                                    <input class="form-check-input" type="checkbox" id="chkSeries"
+                                           onchange="toggleSeriesPanel()">
+                                    <label class="form-check-label small" for="chkSeries">
+                                        <i class="bi bi-collection-play"></i> Series Mode
+                                        <span class="badge bg-warning text-dark ms-1" style="font-size:.6rem;">NEW</span>
+                                    </label>
+                                </div>
+                                <div id="seriesPanel" class="d-none">
+                                    <div class="row g-2">
+                                        <div class="col-8">
+                                            <label class="form-label small text-muted">Series Name</label>
+                                            <input type="text" class="form-control form-control-sm"
+                                                   id="inputSeriesId" placeholder="my-series-name">
+                                        </div>
+                                        <div class="col-4">
+                                            <label class="form-label small text-muted">Episode #</label>
+                                            <input type="number" class="form-control form-control-sm"
+                                                   id="inputEpisodeNumber" min="0" value="0"
+                                                   placeholder="0=auto">
+                                        </div>
+                                    </div>
+                                    <div class="explainer-hint">
+                                        Connected videos with cliffhanger endings. Episode 0 = auto-detect next.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Style card -->
+                    <div class="card mb-3">
+                        <div class="card-header"><i class="bi bi-palette"></i> Style &amp; Settings</div>
+                        <div class="card-body">
+                            <div class="row g-2 mb-2">
+                                <div class="col-6">
+                                    <label class="form-label small text-muted">Tone</label>
+                                    <select class="form-select form-select-sm" id="selTone">
+                                        {% for t in tones %}
+                                        <option value="{{ t }}"{{ ' selected' if t == 'informative' }}>
+                                            {{ t | replace('_',' ') | title }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label small text-muted">Visual Style</label>
+                                    <select class="form-select form-select-sm" id="selVisualStyle">
+                                        {% for s in visual_styles %}
+                                        <option value="{{ s }}"{{ ' selected' if s == default_visual_style }}
+                                                title="{{ visual_style_details[s].description }}">
+                                            {{ visual_style_details[s].label }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="explainer-hint" id="styleHint"></div>
+                                </div>
+                            </div>
+                            <div class="row g-2 mb-2">
+                                <div class="col-6">
+                                    <label class="form-label small text-muted">Theme</label>
+                                    <select class="form-select form-select-sm" id="selTheme">
+                                        {% for t in themes %}
+                                        <option value="{{ t }}"{{ ' selected' if t == 'cinematic' }}>
+                                            {{ theme_details[t].label }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label small text-muted">Transition</label>
+                                    <select class="form-select form-select-sm" id="selTransition">
+                                        {% for t in transitions %}
+                                        <option value="{{ t }}">{{ t | replace('_',' ') | title }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <label class="form-label small text-muted">Voice</label>
+                                    <select class="form-select form-select-sm" id="selVoice">
+                                        {% for name, vid in voices.items() %}
+                                        <option value="{{ name }}"{{ ' selected' if name == 'aria' }}>
+                                            {{ name | replace('_',' ') | title }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label small text-muted">Format</label>
+                                    <select class="form-select form-select-sm" id="selFormat">
+                                        {% for f in formats %}
+                                        <option value="{{ f }}"{{ ' selected' if f == 'vertical' }}>
+                                            {{ format_details[f].label }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced card -->
+                    <div class="card mb-3">
+                        <div class="card-header" role="button"
+                             data-bs-toggle="collapse" data-bs-target="#advancedPanel">
+                            <i class="bi bi-gear"></i> Advanced
+                            <i class="bi bi-chevron-down float-end"></i>
+                        </div>
+                        <div class="collapse" id="advancedPanel">
+                            <div class="card-body">
+                                <div class="row g-2 mb-2">
+                                    <div class="col-6">
+                                        <label class="form-label small text-muted">Platform Preset</label>
+                                        <select class="form-select form-select-sm" id="selPlatform"
+                                                onchange="applyPlatformPreset()">
+                                            <option value="">(none)</option>
+                                            {% for p in platforms %}
+                                            <option value="{{ p }}">{{ platform_details[p].label }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="explainer-hint" id="platformHint"></div>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label small text-muted">Quality</label>
+                                        <select class="form-select form-select-sm" id="selQuality">
+                                            {% for q in qualities %}
+                                            <option value="{{ q }}"{{ ' selected' if q == 'standard' }}>
+                                                {{ quality_details[q].label }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row g-2 mb-2">
+                                    <div class="col-6">
+                                        <label class="form-label small text-muted">Watermark</label>
+                                        <input type="text" class="form-control form-control-sm"
+                                               id="inputWatermark" placeholder="@myhandle">
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label small text-muted">Key Points (0 = auto)</label>
+                                        <input type="number" class="form-control form-control-sm"
+                                               id="inputPoints" min="0" max="6" value="0">
+                                    </div>
+                                </div>
+                                <div class="row g-2 mb-2">
+                                    <div class="col-6">
+                                        <label class="form-label small text-muted">Render Engine</label>
+                                        <select class="form-select form-select-sm" id="selRenderer">
+                                            <option value="moviepy" selected>MoviePy (Classic)</option>
+                                            <option value="remotion">Remotion (React/TS)</option>
+                                        </select>
+                                        <p class="small text-muted mb-0" style="font-size:.65rem;margin-top:2px;">
+                                            Remotion uses React + TypeScript for richer animations &amp; transitions.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Premium card -->
+                    <div class="card mb-3">
+                        <div class="card-header" role="button"
+                             data-bs-toggle="collapse" data-bs-target="#premiumPanel">
+                            <i class="bi bi-stars"></i> Premium
+                            <i class="bi bi-chevron-down float-end"></i>
+                        </div>
+                        <div class="collapse" id="premiumPanel">
+                            <div class="card-body">
+                                <div class="row g-2 mb-2">
+                                    <div class="col-6">
+                                        <label class="form-label small text-muted">Color Grade</label>
+                                        <select class="form-select form-select-sm" id="selColorGrade">
+                                            {% for g in color_grades %}
+                                            <option value="{{ g }}"{{ ' selected' if g == default_color_grade }}>
+                                                {{ g | replace('_',' ') | title }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label small text-muted">Language</label>
+                                        <select class="form-select form-select-sm" id="selLanguage">
+                                            <option value="">(default – English)</option>
+                                            {% for code in languages %}
+                                            <option value="{{ code }}">{{ language_details[code].label }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <label class="form-label small text-muted">Voice Speed</label>
+                                        <select class="form-select form-select-sm" id="selSpeed">
+                                            <option value="">Default (+0%)</option>
+                                            <option value="-20%">Slower (-20%)</option>
+                                            <option value="-10%">Slightly slower (-10%)</option>
+                                            <option value="+10%">Slightly faster (+10%)</option>
+                                            <option value="+20%">Faster (+20%)</option>
+                                            <option value="+30%">Much faster (+30%)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label small text-muted">&nbsp;</label>
+                                        <p class="small text-muted mb-0" style="margin-top:4px;">
+                                            <i class="bi bi-info-circle"></i>
+                                            Custom font, BGM, intro/outro via CLI
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr class="my-2 opacity-25">
+                                <div class="row g-2 mb-2">
+                                    <div class="col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="chkAiImages"
+                                                   onchange="toggleAiImages()">
+                                            <label class="form-check-label small" for="chkAiImages">
+                                                <i class="bi bi-stars"></i> AI Images (Claymorphism)
+                                                <span class="badge bg-info text-dark ms-1" style="font-size:.65rem;">NEW</span>
+                                            </label>
+                                        </div>
+                                        <p class="small text-muted mb-0" style="font-size:.7rem;margin-top:2px;">
+                                            Generate AI visuals instead of stock photos. No API key needed.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div id="aiImageOptions" class="d-none">
+                                    <div class="row g-2">
+                                        <div class="col-12">
+                                            <label class="form-label small text-muted">Brand Text</label>
+                                            <input type="text" class="form-control form-control-sm"
+                                                   id="inputBrand" placeholder="Your Brand Name">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action buttons -->
+                    <div class="d-grid gap-2 d-md-flex mb-3">
+                        <button class="btn btn-outline-accent flex-grow-1"
+                                id="btnPreview" onclick="previewAnalysis()">
+                            <i class="bi bi-search"></i> Preview Analysis
+                        </button>
+                        <button class="btn btn-accent flex-grow-1"
+                                id="btnGenerate" onclick="generateVideo()">
+                            <i class="bi bi-camera-reels"></i> Generate Video
+                        </button>
+                    </div>
+
+                    <!-- Preview panel -->
+                    <div class="card d-none" id="previewPanel">
+                        <div class="card-header"><i class="bi bi-eye"></i> Analysis Preview</div>
+                        <div class="card-body" id="previewContent"></div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Output -->
+                <div class="col-lg-7">
+                    <div class="card">
+                        <div class="card-header"><i class="bi bi-play-circle"></i> Output</div>
+                        <div class="card-body">
+                            <div id="videoContainer" class="text-center mb-3">
+                                <div class="text-muted py-5">
+                                    <i class="bi bi-camera-reels" style="font-size:3rem;opacity:.3;"></i>
+                                    <p class="mt-2">Generate a video to see it here</p>
+                                </div>
+                            </div>
+                            <div id="thumbnailContainer" class="d-none mb-3">
+                                <label class="form-label small text-muted">Thumbnail</label>
+                                <img id="thumbnailImg" class="img-fluid rounded" style="max-height:200px;">
+                            </div>
+                            <div id="resultInfo" class="d-none">
+                                <div class="result-card p-3 mb-3">
+                                    <div class="row g-3">
+                                        <div class="col-6">
+                                            <div class="label">Title</div>
+                                            <div class="value" id="resTitle">—</div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="label">Hook</div>
+                                            <div class="value fst-italic" id="resHook">—</div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="label">Duration</div>
+                                            <div class="value" id="resDuration">—</div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="label">Resolution</div>
+                                            <div class="value" id="resResolution">—</div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="label">Key Points</div>
+                                            <div class="value" id="resPoints">—</div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="label">Type</div>
+                                            <div class="value" id="resType">—</div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="label">Mood</div>
+                                            <div class="value" id="resMood">—</div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="label">Theme</div>
+                                            <div class="value" id="resTheme">—</div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="label">Style</div>
+                                            <div class="value" id="resStyle">—</div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="label">Time</div>
+                                            <div class="value" id="resTime">—</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <a id="downloadVideo" class="btn btn-sm btn-outline-accent" download>
+                                        <i class="bi bi-download"></i> Video
+                                    </a>
+                                    <a id="downloadSrt" class="btn btn-sm btn-outline-accent d-none" download>
+                                        <i class="bi bi-file-text"></i> Subtitles
+                                    </a>
+                                    <a id="downloadThumb" class="btn btn-sm btn-outline-accent d-none" download>
+                                        <i class="bi bi-image"></i> Thumbnail
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════ HISTORY TAB ═══════════════════════ -->
+        <div class="tab-pane fade" id="tab-history">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-clock-history"></i> Previous Outputs</span>
+                    <button class="btn btn-sm btn-outline-accent" onclick="loadHistory()">
+                        <i class="bi bi-arrow-clockwise"></i> Refresh
+                    </button>
+                </div>
+                <div class="card-body" id="historyContent">
+                    <p class="text-muted">Click Refresh to load.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════ REFERENCE TAB ═══════════════════════ -->
+        <div class="tab-pane fade" id="tab-reference">
+            <div class="row g-4">
+                <!-- Visual Styles -->
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header"><i class="bi bi-brush"></i> Visual Styles (AI Images)</div>
+                        <div class="card-body p-0">
+                            <table class="table table-sm table-dark mb-0">
+                                <thead><tr><th>Name</th><th>Label</th><th>Description</th></tr></thead>
+                                <tbody>
+                                {% for name, s in visual_style_details.items() %}
+                                <tr>
+                                    <td><code>{{ name }}</code></td>
+                                    <td>{{ s.label }}</td>
+                                    <td class="text-muted small">{{ s.description }}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Themes -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header"><i class="bi bi-palette"></i> Themes</div>
+                        <div class="card-body p-0">
+                            <table class="table table-sm table-dark mb-0">
+                                <thead><tr><th>Name</th><th>Label</th><th>Accent</th><th>Vignette</th></tr></thead>
+                                <tbody>
+                                {% for name, t in theme_details.items() %}
+                                <tr>
+                                    <td><code>{{ name }}</code></td>
+                                    <td>{{ t.label }}</td>
+                                    <td>
+                                        <span class="color-swatch"
+                                              style="background:rgb({{ t.accent_color[0] }},{{ t.accent_color[1] }},{{ t.accent_color[2] }});">
+                                        </span>
+                                        {{ t.accent_color[0] }},{{ t.accent_color[1] }},{{ t.accent_color[2] }}
+                                    </td>
+                                    <td>{{ '&#10003;' if t.vignette else '–' }}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Caption Styles -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header"><i class="bi bi-chat-dots"></i> Caption Styles</div>
+                        <div class="card-body p-0">
+                            <table class="table table-sm table-dark mb-0">
+                                <thead><tr><th>Name</th><th>Label</th><th>Description</th></tr></thead>
+                                <tbody>
+                                {% for name, c in caption_details.items() %}
+                                <tr>
+                                    <td><code>{{ name }}</code></td>
+                                    <td>{{ c.label }}</td>
+                                    <td class="text-muted small">{{ c.description }}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Platform Presets -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header"><i class="bi bi-phone"></i> Platform Presets</div>
+                        <div class="card-body p-0">
+                            <table class="table table-sm table-dark mb-0">
+                                <thead><tr><th>Name</th><th>Format</th><th>Duration</th><th>Theme</th><th>Captions</th></tr></thead>
+                                <tbody>
+                                {% for name, p in platform_details.items() %}
+                                <tr>
+                                    <td><code>{{ name }}</code></td>
+                                    <td>{{ p.format }}</td>
+                                    <td>{{ p.target_duration[0] }}–{{ p.target_duration[1] }}s</td>
+                                    <td>{{ p.recommended_theme }}</td>
+                                    <td>{{ p.recommended_captions }}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Voices -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header"><i class="bi bi-mic"></i> Voices</div>
+                        <div class="card-body p-0">
+                            <table class="table table-sm table-dark mb-0">
+                                <thead><tr><th>Shortcut</th><th>Voice ID</th></tr></thead>
+                                <tbody>
+                                {% for name, vid in voices.items() %}
+                                <tr>
+                                    <td><code>{{ name }}</code></td>
+                                    <td class="text-muted small">{{ vid }}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Color Grades -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header"><i class="bi bi-palette2"></i> Color Grades</div>
+                        <div class="card-body p-0">
+                            <table class="table table-sm table-dark mb-0">
+                                <thead><tr><th>Name</th><th>Brightness</th><th>Contrast</th><th>Saturation</th></tr></thead>
+                                <tbody>
+                                {% for g in color_grades %}
+                                <tr>
+                                    <td><code>{{ g }}</code></td>
+                                    <td>{{ "%.2f"|format(color_grade_details[g].brightness) }}</td>
+                                    <td>{{ "%.2f"|format(color_grade_details[g].contrast) }}</td>
+                                    <td>{{ "%.2f"|format(color_grade_details[g].saturation) }}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Languages -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header"><i class="bi bi-globe"></i> Languages</div>
+                        <div class="card-body p-0">
+                            <table class="table table-sm table-dark mb-0">
+                                <thead><tr><th>Code</th><th>Language</th><th>Voice</th></tr></thead>
+                                <tbody>
+                                {% for code in languages %}
+                                <tr>
+                                    <td><code>{{ code }}</code></td>
+                                    <td>{{ language_details[code].label }}</td>
+                                    <td class="text-muted small">{{ language_details[code].voice }}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tone Presets (full width) -->
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header"><i class="bi bi-chat-square-text"></i> Tone Presets</div>
+                        <div class="card-body p-0">
+                            <table class="table table-sm table-dark mb-0">
+                                <thead><tr><th style="width:120px;">Tone</th><th>Description</th></tr></thead>
+                                <tbody>
+                                {% for name, desc in tone_details.items() %}
+                                <tr>
+                                    <td><code>{{ name }}</code></td>
+                                    <td class="text-muted" style="font-size:.85rem;">
+                                        {{ desc[:120] }}{% if desc|length > 120 %}…{% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════ REMOTION STUDIO TAB ═══════════════════════ -->
+        <div class="tab-pane fade" id="tab-remotion-studio">
+            <div class="row g-3">
+                <!-- LEFT: Effect Catalog -->
+                <div class="col-lg-5 col-xl-4">
+                    <div class="card" style="max-height:85vh;overflow-y:auto;">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-film"></i> Effect Library</span>
+                            <span class="badge bg-secondary" id="effectCount">0 effects</span>
+                        </div>
+                        <div class="card-body p-0" id="effectCatalog">
+                            <div class="text-center py-5 text-muted">
+                                <div class="spinner-border spinner-border-sm me-2"></div>
+                                Loading effect catalog...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Preview Panel -->
+                <div class="col-lg-7 col-xl-8">
+                    <div class="card" style="position:sticky;top:1rem;">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-play-circle"></i> Effect Preview</span>
+                            <span class="badge bg-info" id="previewEffectLabel">Select an effect</span>
+                        </div>
+                        <div class="card-body text-center" id="previewPanel">
+                            <!-- Placeholder -->
+                            <div id="previewPlaceholder" class="py-5">
+                                <i class="bi bi-eye" style="font-size:4rem;color:#444;"></i>
+                                <p class="text-muted mt-3 mb-0">Click any effect to preview it</p>
+                                <p class="text-muted small">Previews are rendered via Remotion (first load may take ~10-15s)</p>
+                            </div>
+                            <!-- Video player (hidden until loaded) -->
+                            <div id="previewVideoWrap" class="d-none">
+                                <video id="previewVideo"
+                                       style="max-width:100%;max-height:60vh;border-radius:12px;background:#000;"
+                                       autoplay loop muted playsinline controls>
+                                </video>
+                            </div>
+                            <!-- Loading state -->
+                            <div id="previewLoading" class="d-none py-5">
+                                <div class="spinner-border text-primary mb-3" style="width:3rem;height:3rem;"></div>
+                                <p class="text-muted">Rendering preview via Remotion...</p>
+                                <p class="text-muted small" id="previewLoadingDetail">This takes ~10-15 seconds for first load</p>
+                            </div>
+                            <!-- Error state -->
+                            <div id="previewError" class="d-none py-5">
+                                <i class="bi bi-exclamation-triangle" style="font-size:3rem;color:#e74c3c;"></i>
+                                <p class="text-danger mt-2" id="previewErrorMsg"></p>
+                            </div>
+                        </div>
+                        <!-- Effect info -->
+                        <div class="card-footer small" id="previewFooter" style="display:none;">
+                            <div class="row text-muted">
+                                <div class="col"><strong>Category:</strong> <span id="infoCategory">-</span></div>
+                                <div class="col"><strong>Name:</strong> <code id="infoName">-</code></div>
+                                <div class="col"><strong>Status:</strong> <span id="infoStatus">-</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Render All Previews -->
+                    <div class="card mt-3">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>Batch Render</strong>
+                                <small class="text-muted ms-2">Pre-render all effect previews for instant playback</small>
+                            </div>
+                            <button class="btn btn-outline-primary btn-sm" onclick="batchRenderPreviews()" id="btnBatchRender">
+                                <i class="bi bi-collection-play"></i> Render All
+                            </button>
+                        </div>
+                        <div class="progress d-none" id="batchProgress" style="height:4px;">
+                            <div class="progress-bar" id="batchProgressBar" style="width:0%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /tab-content -->
+</div><!-- /container -->
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   Platform presets (injected from server config)
+   ═══════════════════════════════════════════════════════ */
+const platformPresets = {
+    {% for name, p in platform_details.items() %}
+    '{{ name }}': {
+        format: '{{ p.format }}',
+        theme: '{{ p.recommended_theme }}',
+        captions: '{{ p.recommended_captions }}',
+        transition: '{{ p.recommended_transition }}',
+        maxPoints: {{ p.max_points }}
+    },
+    {% endfor %}
+};
+
+/* ══ Helpers ══ */
+function showSpinner(msg) {
+    document.getElementById('spinnerText').textContent = msg || 'Processing…';
+    document.getElementById('spinner').classList.add('active');
+}
+function hideSpinner() {
+    document.getElementById('spinner').classList.remove('active');
+}
+
+function showToast(msg, type) {
+    const c = document.getElementById('toastContainer');
+    const bg = type === 'error' ? 'bg-danger' : type === 'success' ? 'bg-success' : 'bg-secondary';
+    const d = document.createElement('div');
+    d.className = `toast show align-items-center text-white ${bg} border-0 mb-2`;
+    d.setAttribute('role', 'alert');
+    d.innerHTML = `<div class="d-flex"><div class="toast-body">${msg}</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                onclick="this.closest('.toast').remove()"></button></div>`;
+    c.appendChild(d);
+    setTimeout(() => { if (d.parentNode) d.remove(); }, 5000);
+}
+
+function setSelectValue(id, value) {
+    const sel = document.getElementById(id);
+    if (!sel) return false;
+    for (let i = 0; i < sel.options.length; i++) {
+        if (sel.options[i].value === value) { sel.selectedIndex = i; return true; }
+    }
+    return false;
+}
+
+function getFormData() {
+    const contentMode = document.querySelector('input[name="contentMode"]:checked')?.value || 'article';
+    const provider = document.getElementById('selLlmProvider')?.value || '';
+
+    // Collect Deep Dive sources
+    let deepDiveSources = [];
+    if (contentMode === 'deep_dive') {
+        document.querySelectorAll('.deep-dive-url').forEach(input => {
+            const v = input.value.trim();
+            if (v) deepDiveSources.push(v);
+        });
+    }
+
+    // Determine LLM model based on provider
+    let llmModel = '';
+    if (provider === 'copilot_bridge') {
+        llmModel = document.getElementById('txtCopilotModel')?.value || 'claude-sonnet-4.6';
+    }
+
+    return {
+        url:        document.getElementById('inputUrl').value.trim(),
+        text:       document.getElementById('inputText').value.trim(),
+        tone:       document.getElementById('selTone').value,
+        theme:      document.getElementById('selTheme').value,
+        visual_style: document.getElementById('selVisualStyle').value,
+        transition: document.getElementById('selTransition').value,
+        voice:      document.getElementById('selVoice').value,
+        format:     document.getElementById('selFormat').value,
+        platform:   document.getElementById('selPlatform').value,
+        quality:    document.getElementById('selQuality').value,
+        watermark:  document.getElementById('inputWatermark').value.trim(),
+        points:     parseInt(document.getElementById('inputPoints').value) || 0,
+        subtitles:  true,
+        color_grade: document.getElementById('selColorGrade').value,
+        language:   document.getElementById('selLanguage').value,
+        speed:      document.getElementById('selSpeed').value,
+        ai_images:  document.getElementById('chkAiImages').checked,
+        brand_text: document.getElementById('inputBrand').value.trim(),
+        // Content mode fields
+        content_mode: contentMode,
+        question:     document.getElementById('inputQuestion')?.value?.trim() || '',
+        character_name: document.getElementById('inputCharacterName')?.value?.trim() || '',
+        modern_topic: document.getElementById('inputModernTopic')?.value?.trim() || '',
+        voice_pair:   contentMode === 'deep_dive'
+                        ? document.getElementById('selDeepDiveVoicePair')?.value || 'default'
+                        : document.getElementById('selVoicePair')?.value || 'default',
+        // Deep Dive fields
+        deep_dive_sources: deepDiveSources,
+        deep_dive_text: document.getElementById('inputDeepDiveText')?.value?.trim() || '',
+        // Series fields
+        series_id:    document.getElementById('chkSeries')?.checked
+                        ? document.getElementById('inputSeriesId')?.value?.trim() || ''
+                        : '',
+        episode_number: document.getElementById('chkSeries')?.checked
+                        ? parseInt(document.getElementById('inputEpisodeNumber')?.value) || 0
+                        : 0,
+        // Renderer engine
+        renderer:   document.getElementById('selRenderer').value,
+        // LLM provider fields
+        llm_provider: provider,
+        llm_model:    llmModel,
+    };
+}
+
+/* ══ Toggle AI Images panel ══ */
+function toggleAiImages() {
+    const on = document.getElementById('chkAiImages').checked;
+    document.getElementById('aiImageOptions').classList.toggle('d-none', !on);
+}
+
+/* ══ LLM Provider Switching ══ */
+function switchLlmProvider(provider) {
+    const copilotCol = document.getElementById('copilotModelInfo');
+    // Hide all model fields first
+    copilotCol.classList.add('d-none');
+    // Show the relevant one
+    if (provider === 'copilot_bridge') {
+        copilotCol.classList.remove('d-none');
+    }
+    // Update status indicator
+    const status = document.getElementById('providerStatus');
+    const labels = {{ llm_providers | tojson }};
+    const label = labels[provider]?.label || provider;
+    if (provider === 'copilot_bridge') {
+        status.innerHTML = `<small class="text-muted"><i class="bi bi-pc-display"></i> <strong>${label}</strong> — VS Code must be open with Copilot Bridge extension</small>`;
+    } else {
+        status.innerHTML = `<small class="text-muted"><i class="bi bi-arrow-repeat"></i> Switched to <strong>${label}</strong> — will validate on generate</small>`;
+    }
+}
+
+/* ══ Content Mode Switching ══ */
+function switchContentMode(mode) {
+    // Hide all input panels
+    document.getElementById('inputArticle').classList.add('d-none');
+    document.getElementById('inputThoughtExperiment').classList.add('d-none');
+    document.getElementById('inputGhostCollab').classList.add('d-none');
+    document.getElementById('inputDeepDive').classList.add('d-none');
+
+    // Show the relevant panel
+    if (mode === 'thought_experiment') {
+        document.getElementById('inputThoughtExperiment').classList.remove('d-none');
+        // Force AI images on for thought experiment
+        document.getElementById('chkAiImages').checked = true;
+        toggleAiImages();
+    } else if (mode === 'ghost_collab') {
+        document.getElementById('inputGhostCollab').classList.remove('d-none');
+        // Force AI images on for ghost collab
+        document.getElementById('chkAiImages').checked = true;
+        toggleAiImages();
+    } else if (mode === 'deep_dive') {
+        document.getElementById('inputDeepDive').classList.remove('d-none');
+        // Force AI images on for deep dive
+        document.getElementById('chkAiImages').checked = true;
+        toggleAiImages();
+    } else {
+        document.getElementById('inputArticle').classList.remove('d-none');
+    }
+}
+
+/* ══ Deep Dive: Add Source ══ */
+let deepDiveSourceCount = 2;
+const deepDiveMaxSources = {{ deep_dive_max_sources }};
+function addDeepDiveSource() {
+    if (deepDiveSourceCount >= deepDiveMaxSources) {
+        showToast(`Maximum ${deepDiveMaxSources} sources allowed.`, 'warning');
+        return;
+    }
+    deepDiveSourceCount++;
+    const container = document.getElementById('deepDiveSources');
+    const div = document.createElement('div');
+    div.className = 'input-group mb-2';
+    div.innerHTML = `
+        <span class="input-group-text" style="background:#0d0d20;border-color:rgba(255,255,255,.1);color:#888;">${deepDiveSourceCount}</span>
+        <input type="url" class="form-control deep-dive-url" placeholder="https://example.com/article-${deepDiveSourceCount}… (optional)">
+        <button class="btn btn-outline-danger btn-sm" onclick="removeDeepDiveSource(this)"><i class="bi bi-x-lg"></i></button>
+    `;
+    container.appendChild(div);
+    if (deepDiveSourceCount >= deepDiveMaxSources) {
+        document.getElementById('btnAddSource').classList.add('d-none');
+    }
+}
+function removeDeepDiveSource(btn) {
+    btn.closest('.input-group').remove();
+    deepDiveSourceCount--;
+    document.getElementById('btnAddSource').classList.remove('d-none');
+}
+
+/* ══ Toggle Series Panel ══ */
+function toggleSeriesPanel() {
+    const on = document.getElementById('chkSeries').checked;
+    document.getElementById('seriesPanel').classList.toggle('d-none', !on);
+}
+
+/* ══ Platform preset auto-apply ══ */
+function applyPlatformPreset() {
+    const platform = document.getElementById('selPlatform').value;
+    const hint = document.getElementById('platformHint');
+    if (!platform || !platformPresets[platform]) { hint.textContent = ''; return; }
+
+    const p = platformPresets[platform];
+    setSelectValue('selFormat', p.format);
+    setSelectValue('selTheme', p.theme);
+    setSelectValue('selTransition', p.transition);
+    if (p.maxPoints) document.getElementById('inputPoints').value = p.maxPoints;
+
+    // Auto-match tone for explainer
+    if (platform === 'explainer') setSelectValue('selTone', 'explainer');
+
+    hint.textContent = `Auto-set: ${p.format} format, ${p.theme} theme`;
+}
+
+/* ══ Generate (SSE) ══ */
+async function generateVideo() {
+    const data = getFormData();
+
+    // Validate based on content mode
+    if (data.content_mode === 'thought_experiment') {
+        if (!data.question) { showToast('Provide a question for the Thought Experiment.', 'error'); return; }
+    } else if (data.content_mode === 'ghost_collab') {
+        if (!data.character_name) { showToast('Provide a character name for Ghost Collaboration.', 'error'); return; }
+    } else if (data.content_mode === 'deep_dive') {
+        if (!data.deep_dive_sources.length && !data.deep_dive_text) {
+            showToast('Provide at least one URL or paste text for Deep Dive.', 'error'); return;
+        }
+    } else {
+        if (!data.url && !data.text) { showToast('Provide a URL or paste text.', 'error'); return; }
+    }
+
+    showSpinner('Starting pipeline…');
+    document.getElementById('pipelineProgress').classList.remove('d-none');
+    document.getElementById('stageList').innerHTML = '';
+    document.getElementById('overallBar').style.width = '0%';
+    document.getElementById('btnGenerate').disabled = true;
+    document.getElementById('btnPreview').disabled = true;
+
+    try {
+        const resp = await fetch('/api/generate', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data),
+        });
+        const result = await resp.json();
+        if (result.error) {
+            showToast('Error: ' + result.error, 'error');
+            hideSpinner();
+            document.getElementById('btnGenerate').disabled = false;
+            document.getElementById('btnPreview').disabled = false;
+            return;
+        }
+
+        const jobId = result.job_id;
+        const evtSource = new EventSource('/api/progress/' + jobId);
+        const stageIcons = {scrape:'📄', analyze:'🧠', visuals:'🖼️', narrate:'🎙️', compose:'🎬'};
+
+        evtSource.addEventListener('progress', function(e) {
+            const s = JSON.parse(e.data);
+            document.getElementById('spinnerText').textContent = s.message;
+            const pct = ((s.index - 1 + s.progress_pct) / s.total * 100);
+            document.getElementById('overallBar').style.width = Math.min(pct, 100) + '%';
+
+            let el = document.getElementById('stage-' + s.name);
+            const icon = stageIcons[s.name] || '⏳';
+            const st = s.status === 'completed' ? '✅' :
+                       s.status === 'failed' ? '❌' :
+                       s.status === 'running' ? '⏳' : '⬜';
+            const html = '<span>' + st + ' ' + icon + ' ' + s.label + '</span>' +
+                '<span class="text-muted" style="font-size:.8rem;">' +
+                (s.elapsed > 0 ? s.elapsed + 's ' : '') + (s.detail || '') + '</span>';
+            if (!el) {
+                el = document.createElement('div');
+                el.id = 'stage-' + s.name;
+                el.className = 'd-flex justify-content-between align-items-center mb-1';
+                el.style.cssText = 'color:#ccc;font-size:.9rem;';
+                document.getElementById('stageList').appendChild(el);
+            }
+            el.innerHTML = html;
+        });
+
+        evtSource.addEventListener('done', function(e) {
+            evtSource.close();
+            const r = JSON.parse(e.data);
+            document.getElementById('overallBar').style.width = '100%';
+            document.getElementById('btnGenerate').disabled = false;
+            document.getElementById('btnPreview').disabled = false;
+
+            if (r.error) { hideSpinner(); showToast('Error: ' + r.error, 'error'); return; }
+
+            /* video */
+            document.getElementById('videoContainer').innerHTML =
+                '<video controls autoplay style="max-width:100%;max-height:600px;">' +
+                '<source src="' + r.video_url + '" type="video/mp4"></video>';
+
+            /* thumbnail */
+            if (r.thumbnail_url) {
+                document.getElementById('thumbnailContainer').classList.remove('d-none');
+                document.getElementById('thumbnailImg').src = r.thumbnail_url;
+                document.getElementById('downloadThumb').href = r.thumbnail_url;
+                document.getElementById('downloadThumb').classList.remove('d-none');
+            }
+
+            /* result card */
+            document.getElementById('resultInfo').classList.remove('d-none');
+            document.getElementById('resTitle').textContent    = r.title || '—';
+            document.getElementById('resHook').textContent     = r.hook || '—';
+            document.getElementById('resDuration').textContent = (r.duration || 0) + 's';
+            document.getElementById('resResolution').textContent = r.resolution || '—';
+            document.getElementById('resPoints').textContent   = r.key_points || '—';
+            document.getElementById('resType').textContent     = r.content_type || '—';
+            document.getElementById('resMood').textContent     = r.mood || '—';
+            document.getElementById('resTheme').textContent    = r.theme || '—';
+            document.getElementById('resStyle').textContent    = r.caption_style || r.theme || '—';
+            document.getElementById('resTime').textContent     = (r.processing_time || 0) + 's';
+            document.getElementById('downloadVideo').href      = r.video_url;
+            if (r.srt_url) {
+                document.getElementById('downloadSrt').href = r.srt_url;
+                document.getElementById('downloadSrt').classList.remove('d-none');
+            }
+
+            hideSpinner();
+            showToast('Video generated successfully!', 'success');
+        });
+
+        evtSource.onerror = function() {
+            evtSource.close();
+            document.getElementById('btnGenerate').disabled = false;
+            document.getElementById('btnPreview').disabled = false;
+            setTimeout(hideSpinner, 1000);
+        };
+    } catch (e) {
+        showToast('Request failed: ' + e.message, 'error');
+        hideSpinner();
+        document.getElementById('btnGenerate').disabled = false;
+        document.getElementById('btnPreview').disabled = false;
+    }
+}
+
+/* ══ Preview Analysis ══ */
+async function previewAnalysis() {
+    const data = getFormData();
+    if (!data.url && !data.text) { showToast('Provide a URL or paste text.', 'error'); return; }
+
+    showSpinner('Analyzing content…');
+    document.getElementById('btnPreview').disabled = true;
+    try {
+        const resp = await fetch('/api/preview', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data),
+        });
+        const r = await resp.json();
+        if (!resp.ok || r.error) { showToast('Error: ' + (r.error || 'Unknown'), 'error'); return; }
+
+        const panel = document.getElementById('previewPanel');
+        panel.classList.remove('d-none');
+
+        let h = '<h6 class="accent">' + r.title + '</h6>';
+        if (r.hook) h += '<p class="fst-italic text-muted">"' + r.hook + '"</p>';
+        h += '<div class="mb-2"><span class="badge bg-secondary">' + r.content_type + '</span> ' +
+             '<span class="badge bg-secondary">' + r.mood + '</span></div>';
+        if (r.summary) h += '<p class="small">' + r.summary + '</p>';
+        if (r.cta) h += '<p class="small"><strong>CTA:</strong> ' + r.cta + '</p>';
+        h += '<hr>';
+
+        for (const kp of r.key_points) {
+            h += '<div class="preview-kp">' +
+                '<strong>' + (kp.index + 1) + '. ' + kp.headline + '</strong>' +
+                '<span class="badge bg-dark ms-2" style="font-size:.7rem;">' + kp.emotion + '</span>' +
+                '<p class="small mb-1 mt-1">' + kp.narration + '</p>' +
+                '<p class="small text-muted mb-0"><i class="bi bi-image"></i> ' + kp.visual_query + '</p></div>';
+        }
+        document.getElementById('previewContent').innerHTML = h;
+    } catch (e) {
+        showToast('Preview failed: ' + e.message, 'error');
+    } finally {
+        hideSpinner();
+        document.getElementById('btnPreview').disabled = false;
+    }
+}
+
+/* ══ History ══ */
+async function loadHistory() {
+    try {
+        const resp = await fetch('/api/history');
+        const d = await resp.json();
+        const c = document.getElementById('historyContent');
+        if (!d.outputs || !d.outputs.length) { c.innerHTML = '<p class="text-muted">No outputs found.</p>'; return; }
+
+        let h = '';
+        for (const item of d.outputs) {
+            h += '<div class="history-item" onclick="playHistoryVideo(\'' + item.video_url + '\')">' +
+                '<div class="d-flex justify-content-between align-items-center">' +
+                '<div><i class="bi bi-film accent"></i> <strong>' + item.name + '</strong>' +
+                '<span class="text-muted small ms-2">' + item.video + '</span></div>' +
+                '<div><span class="badge bg-dark">' + Math.round(item.size_kb / 1024) + 'MB</span>' +
+                '<a href="' + item.video_url + '" class="btn btn-sm btn-outline-accent ms-2" download>' +
+                '<i class="bi bi-download"></i></a></div></div></div>';
+        }
+        c.innerHTML = h;
+    } catch (e) {
+        document.getElementById('historyContent').innerHTML =
+            '<p class="text-danger">Failed to load: ' + e.message + '</p>';
+    }
+}
+
+function playHistoryVideo(url) {
+    const tab = document.querySelector('[data-bs-target="#tab-generate"]');
+    bootstrap.Tab.getOrCreateInstance(tab).show();
+    document.getElementById('videoContainer').innerHTML =
+        '<video controls autoplay style="max-width:100%;max-height:600px;">' +
+        '<source src="' + url + '" type="video/mp4"></video>';
+}
+
+/* ══ Init ══ */
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('[data-bs-target="#tab-history"]')
+        ?.addEventListener('shown.bs.tab', loadHistory);
+
+    // Visual style hint
+    const styleDescriptions = {
+        {% for name, s in visual_style_details.items() %}
+        '{{ name }}': '{{ s.description }}',
+        {% endfor %}
+    };
+    const selStyle = document.getElementById('selVisualStyle');
+    const styleHint = document.getElementById('styleHint');
+    if (selStyle && styleHint) {
+        function updateStyleHint() {
+            const desc = styleDescriptions[selStyle.value] || '';
+            styleHint.textContent = desc;
+        }
+        selStyle.addEventListener('change', updateStyleHint);
+        updateStyleHint();
+    }
+});
+
+/* ═══════════════════════════════════════════════════════
+   Remotion Studio
+   ═══════════════════════════════════════════════════════ */
+
+let _studioLoaded = false;
+let _effectCatalog = null;
+let _currentPreview = null;
+
+function loadRemotionStudio() {
+    if (_studioLoaded) return;
+    _studioLoaded = true;
+    fetch('/api/effect-catalog')
+        .then(r => r.json())
+        .then(catalog => {
+            _effectCatalog = catalog;
+            renderEffectCatalog(catalog);
+        })
+        .catch(err => {
+            document.getElementById('effectCatalog').innerHTML =
+                `<div class="text-danger p-3">Failed to load: ${err.message}</div>`;
+        });
+}
+
+function renderEffectCatalog(catalog) {
+    const container = document.getElementById('effectCatalog');
+    let totalEffects = 0;
+    let html = '<div class="accordion accordion-flush" id="effectAccordion">';
+
+    const categoryColors = {
+        text_entry: '#3498db',
+        text_exit: '#e74c3c',
+        text_continuous: '#9b59b6',
+        image_entry: '#2ecc71',
+        image_treatment: '#f39c12',
+        image_exit: '#e67e22',
+        transition: '#1abc9c',
+        overlay: '#8e44ad',
+        background: '#2c3e50',
+    };
+
+    Object.entries(catalog).forEach(([catKey, catData], idx) => {
+        const effects = catData.effects;
+        totalEffects += effects.length;
+        const color = categoryColors[catKey] || '#666';
+        const cachedCount = effects.filter(e => e.cached).length;
+
+        html += `
+        <div class="accordion-item" style="border-left:3px solid ${color};">
+            <h2 class="accordion-header">
+                <button class="accordion-button ${idx > 0 ? 'collapsed' : ''}"
+                        type="button" data-bs-toggle="collapse"
+                        data-bs-target="#cat-${catKey}">
+                    <i class="bi ${catData.icon} me-2" style="color:${color}"></i>
+                    <span class="me-auto">${catData.label}</span>
+                    <span class="badge bg-dark me-2">${effects.length}</span>
+                    ${cachedCount > 0 ? `<span class="badge bg-success me-1" title="Cached">${cachedCount} <i class="bi bi-check"></i></span>` : ''}
+                </button>
+            </h2>
+            <div id="cat-${catKey}" class="accordion-collapse collapse ${idx === 0 ? 'show' : ''}"
+                 data-bs-parent="#effectAccordion">
+                <div class="accordion-body p-0">
+                    <div class="list-group list-group-flush">`;
+
+        effects.forEach(eff => {
+            const cached = eff.cached;
+            html += `
+                <button class="list-group-item list-group-item-action d-flex align-items-center effect-btn"
+                        data-category="${catKey}" data-name="${eff.name}"
+                        onclick="previewEffect('${catKey}', '${eff.name}', this)"
+                        style="font-size:.875rem;padding:.5rem .75rem;">
+                    <span class="me-auto">
+                        <strong>${eff.label}</strong>
+                        <br><small class="text-muted">${eff.desc}</small>
+                    </span>
+                    ${cached
+                        ? '<i class="bi bi-check-circle-fill text-success ms-2" title="Cached"></i>'
+                        : '<i class="bi bi-circle text-muted ms-2" title="Not yet rendered"></i>'
+                    }
+                </button>`;
+        });
+
+        html += `
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    });
+
+    html += '</div>';
+    container.innerHTML = html;
+    document.getElementById('effectCount').textContent = `${totalEffects} effects`;
+}
+
+function previewEffect(category, name, btnEl) {
+    // Highlight active button
+    document.querySelectorAll('.effect-btn.active').forEach(b => b.classList.remove('active'));
+    if (btnEl) btnEl.classList.add('active');
+
+    const label = _effectCatalog?.[category]?.label || category;
+    const effData = _effectCatalog?.[category]?.effects?.find(e => e.name === name);
+    const effLabel = effData?.label || name;
+
+    document.getElementById('previewEffectLabel').textContent = `${label} › ${effLabel}`;
+    document.getElementById('previewFooter').style.display = '';
+    document.getElementById('infoCategory').textContent = label;
+    document.getElementById('infoName').textContent = name;
+
+    // Show loading
+    document.getElementById('previewPlaceholder').classList.add('d-none');
+    document.getElementById('previewVideoWrap').classList.add('d-none');
+    document.getElementById('previewError').classList.add('d-none');
+    document.getElementById('previewLoading').classList.remove('d-none');
+    document.getElementById('infoStatus').innerHTML = '<span class="text-warning">Rendering...</span>';
+
+    _currentPreview = `${category}__${name}`;
+
+    fetch('/api/effect-preview', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ category, name }),
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (_currentPreview !== `${category}__${name}`) return; // stale
+        if (data.error) throw new Error(data.error);
+
+        document.getElementById('previewLoading').classList.add('d-none');
+        document.getElementById('previewVideoWrap').classList.remove('d-none');
+
+        const video = document.getElementById('previewVideo');
+        video.src = data.url + '?t=' + Date.now();
+        video.play().catch(() => {});
+
+        document.getElementById('infoStatus').innerHTML = '<span class="text-success">Ready</span>';
+
+        // Mark as cached in catalog
+        if (btnEl) {
+            const icon = btnEl.querySelector('.bi-circle');
+            if (icon) {
+                icon.className = 'bi bi-check-circle-fill text-success ms-2';
+                icon.title = 'Cached';
+            }
+        }
+    })
+    .catch(err => {
+        if (_currentPreview !== `${category}__${name}`) return;
+        document.getElementById('previewLoading').classList.add('d-none');
+        document.getElementById('previewError').classList.remove('d-none');
+        document.getElementById('previewErrorMsg').textContent = err.message;
+        document.getElementById('infoStatus').innerHTML = '<span class="text-danger">Error</span>';
+    });
+}
+
+async function batchRenderPreviews() {
+    if (!_effectCatalog) {
+        showToast('Catalog not loaded yet', 'error');
+        return;
+    }
+
+    const btn = document.getElementById('btnBatchRender');
+    const bar = document.getElementById('batchProgress');
+    const barInner = document.getElementById('batchProgressBar');
+
+    // Collect all uncached effects
+    const toRender = [];
+    Object.entries(_effectCatalog).forEach(([catKey, catData]) => {
+        catData.effects.forEach(eff => {
+            if (!eff.cached) toRender.push({ category: catKey, name: eff.name });
+        });
+    });
+
+    if (toRender.length === 0) {
+        showToast('All previews already cached!', 'success');
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Rendering...';
+    bar.classList.remove('d-none');
+
+    let done = 0;
+    for (const item of toRender) {
+        try {
+            await fetch('/api/effect-preview', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(item),
+            });
+        } catch (e) {
+            console.warn(`Failed: ${item.category}/${item.name}`, e);
+        }
+        done++;
+        barInner.style.width = `${(done / toRender.length) * 100}%`;
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-collection-play"></i> Render All';
+    bar.classList.add('d-none');
+    showToast(`Rendered ${done}/${toRender.length} previews`, 'success');
+
+    // Reload catalog to update cached status
+    _studioLoaded = false;
+    loadRemotionStudio();
+}
+</script>
+</body>
+</html>

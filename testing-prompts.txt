@@ -1,0 +1,17 @@
+python main.py generate \
+  --text "Benny the tortoise harboured a grand dream of flying and spent each morning watching birds zip and swoop across the sky, sighing wistfully that he wished he had wings, until one day a sprightly little bird named Pip landed beside him and asked what troubled him; Benny confessed his desire to fly despite being a sluggish tortoise, prompting Pip to question whether he truly lacked special abilities, and when she failed to lift a heavy acorn that Benny easily tucked beneath his shell and later challenged him to swim like the ducks, Benny admitted he could not but proudly explained that he could walk along the pond’s bottom instead, and by sunset the two had discovered twelve remarkable abilities unique to Benny, leading him to realize with a contented smile that he did not need to fly because being a tortoise was splendid in its own way, a sentiment Pip warmly agreed with as she nestled atop his shell, and from that day on Benny remembered that everyone soars in their own unique way." \
+  --theme neon \
+  --transition slide_left \
+  --tone informative \
+  --captions pop \
+  -v
+
+  python main.py generate \
+  --url "https://timesofindia.indiatimes.com/technology/tech-news/google-ceo-sundar-pichai-says-it-feels-nostalgic-to-see-transition-from-digital-india-to-india-ai-impact-summit-2026/articleshow/128508341.cms" \
+  --theme neon \
+  --transition slide_left \
+  --tone informative \
+  --captions pop \
+  --quality high \
+  --watermark "@ProjectHER" \
+  -v

@@ -1,0 +1,54 @@
+{
+  "name": "copilot-bridge",
+  "displayName": "Project HER — Copilot Bridge",
+  "description": "Local HTTP bridge that exposes VS Code GitHub Copilot's Language Model API to Project HER",
+  "version": "1.0.0",
+  "publisher": "project-her",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./src/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "copilotBridge.start",
+        "title": "Copilot Bridge: Start Server"
+      },
+      {
+        "command": "copilotBridge.stop",
+        "title": "Copilot Bridge: Stop Server"
+      },
+      {
+        "command": "copilotBridge.status",
+        "title": "Copilot Bridge: Show Status"
+      }
+    ],
+    "configuration": {
+      "title": "Copilot Bridge",
+      "properties": {
+        "copilotBridge.port": {
+          "type": "number",
+          "default": 18945,
+          "description": "Port for the local HTTP bridge server"
+        },
+        "copilotBridge.autoStart": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically start the bridge server when VS Code opens"
+        },
+        "copilotBridge.preferredModel": {
+          "type": "string",
+          "default": "claude-sonnet-4",
+          "description": "Preferred model family to use (e.g. claude-sonnet-4, gpt-4o)"
+        }
+      }
+    }
+  },
+  "extensionDependencies": [
+    "github.copilot-chat"
+  ]
+}
