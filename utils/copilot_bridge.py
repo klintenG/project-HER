@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import urllib.request
 import urllib.error
 from dataclasses import dataclass, field
@@ -18,7 +19,8 @@ from typing import Optional
 
 logger = logging.getLogger(__name__)
 
-BRIDGE_URL = "http://127.0.0.1:18945"
+# Read port/URL from env so it stays in sync with .env / config.py
+BRIDGE_URL = os.getenv("COPILOT_BRIDGE_URL", "http://127.0.0.1:18945")
 BRIDGE_TIMEOUT = 180  # seconds — Copilot LLM calls can be slow for long prompts
 
 

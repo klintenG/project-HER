@@ -172,8 +172,8 @@ def api_generate():
         # For copilot_bridge, offer a helpful message about VS Code
         if effective_provider == "copilot_bridge":
             return jsonify({"error": (
-                "Copilot Bridge not reachable. Make sure VS Code is open "
-                "with the Copilot Bridge extension active (port 18945). "
+                f"Copilot Bridge not reachable. Make sure VS Code is open "
+                f"with the Copilot Bridge extension active ({config.COPILOT_BRIDGE_URL}). "
                 "Or switch to a different LLM provider."
             )}), 400
         return jsonify({"error": f"API key not set for {pinfo['label']}. Check your .env file."}), 400
