@@ -189,7 +189,7 @@ export const TextBlock: React.FC<TextBlockProps> = ({
   const highlightColor = rgbToCSS(vs.highlight_color);
   const highlightTextColor = rgbToCSS(vs.highlight_text);
   const baseTextColor = screen.narration_position === "top"
-    ? rgbToCSS(vs.text_dark)
+    ? rgbToCSS(vs.text_light)
     : rgbToCSS(vs.text_light);
 
   const fontSize = screen.text.length > 120 ? 36 : screen.text.length > 60 ? 42 : 48;
