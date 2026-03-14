@@ -154,6 +154,12 @@
                 <i class="bi bi-film"></i> Remotion Studio
             </button>
         </li>
+        <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-kids-story">
+                <i class="bi bi-book"></i> Kids Story
+                <span class="badge bg-warning text-dark ms-1" style="font-size:.55rem;">NEW</span>
+            </button>
+        </li>
     </ul>
 
     <div class="tab-content">
@@ -936,6 +942,146 @@
             </div>
         </div>
 
+        <!-- ═══════════════════════ KIDS STORY TAB ═══════════════════════ -->
+        <div class="tab-pane fade" id="tab-kids-story">
+            <div class="row g-4">
+                <!-- LEFT: Input -->
+                <div class="col-lg-5">
+                    <!-- Locked config badge -->
+                    <div class="card mb-3" style="border-color:rgba(255,200,50,.25);">
+                        <div class="card-body py-2 px-3">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <small class="text-muted">
+                                    <i class="bi bi-lock-fill" style="color:#ffc832;"></i>
+                                    Locked config &mdash; optimised for kids story videos
+                                </small>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2 mt-2">
+                                <span class="badge bg-dark border border-secondary"><i class="bi bi-mic"></i> Ryan UK</span>
+                                <span class="badge bg-dark border border-secondary"><i class="bi bi-film"></i> Remotion</span>
+                                <span class="badge bg-dark border border-secondary"><i class="bi bi-stars"></i> AI Images</span>
+                                <span class="badge bg-dark border border-secondary"><i class="bi bi-brush"></i> Claymorphism</span>
+                                <span class="badge bg-dark border border-secondary"><i class="bi bi-phone"></i> Vertical</span>
+                                <span class="badge bg-dark border border-secondary"><i class="bi bi-speedometer2"></i> High Quality</span>
+                                <span class="badge bg-dark border border-secondary"><i class="bi bi-chat-dots"></i> Storytelling</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Story Input -->
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <i class="bi bi-book"></i> Story Input
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label small text-muted">Story Title (optional)</label>
+                                <input type="text" class="form-control" id="ksTitle"
+                                       placeholder="e.g. The Curious Cat and the Moon">
+                                <div class="explainer-hint">Leave blank for AI-generated title</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small text-muted">
+                                    <i class="bi bi-pencil"></i> Your Story
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <textarea class="form-control" id="ksStoryText" rows="10"
+                                          placeholder="Paste or write your kids story here…&#10;&#10;Example:&#10;A little kitten named Milo loved to stare at the sky every night. The moon was the most beautiful thing he had ever seen…"
+                                          style="min-height:220px;"></textarea>
+                                <div class="d-flex justify-content-between mt-1">
+                                    <div class="explainer-hint">Paste the full story. The AI will split it into scenes, generate images, and create the video.</div>
+                                    <small class="text-muted" id="ksWordCount">0 words</small>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small text-muted">Brand Text (optional)</label>
+                                <input type="text" class="form-control form-control-sm" id="ksBrand"
+                                       placeholder="Your Channel Name">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Generate -->
+                    <div class="d-grid mb-3">
+                        <button class="btn btn-accent btn-lg" id="btnKsGenerate"
+                                onclick="generateKidsStory()">
+                            <i class="bi bi-magic"></i> Generate Kids Story Video
+                        </button>
+                    </div>
+
+                    <!-- How it works -->
+                    <div class="card" style="border-color:rgba(255,255,255,.04);">
+                        <div class="card-body py-2">
+                            <small class="text-muted d-block mb-1"><strong>How it works:</strong></small>
+                            <small class="text-muted">
+                                1. AI splits your story into cinematic scenes<br>
+                                2. AI generates claymorphism images for each scene<br>
+                                3. Ryan UK narrates with karaoke word highlighting<br>
+                                4. Remotion renders with transitions &amp; effects<br>
+                                <strong>~2-5 min</strong> for a 60-90s video
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Output -->
+                <div class="col-lg-7">
+                    <div class="card">
+                        <div class="card-header"><i class="bi bi-play-circle"></i> Story Video Output</div>
+                        <div class="card-body">
+                            <div id="ksVideoContainer" class="text-center mb-3">
+                                <div class="text-muted py-5">
+                                    <i class="bi bi-book" style="font-size:3rem;opacity:.3;"></i>
+                                    <p class="mt-2">Paste a story and click Generate to create your video</p>
+                                </div>
+                            </div>
+                            <div id="ksThumbnailContainer" class="d-none mb-3">
+                                <label class="form-label small text-muted">Thumbnail</label>
+                                <img id="ksThumbnailImg" class="img-fluid rounded" style="max-height:200px;">
+                            </div>
+                            <div id="ksResultInfo" class="d-none">
+                                <div class="result-card p-3 mb-3">
+                                    <div class="row g-3">
+                                        <div class="col-6">
+                                            <div class="label">Title</div>
+                                            <div class="value" id="ksResTitle">—</div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="label">Hook</div>
+                                            <div class="value fst-italic" id="ksResHook">—</div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="label">Duration</div>
+                                            <div class="value" id="ksResDuration">—</div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="label">Resolution</div>
+                                            <div class="value" id="ksResResolution">—</div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="label">Time</div>
+                                            <div class="value" id="ksResTime">—</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <a id="ksDownloadVideo" class="btn btn-sm btn-outline-accent" download>
+                                        <i class="bi bi-download"></i> Video
+                                    </a>
+                                    <a id="ksDownloadSrt" class="btn btn-sm btn-outline-accent d-none" download>
+                                        <i class="bi bi-file-text"></i> Subtitles
+                                    </a>
+                                    <a id="ksDownloadThumb" class="btn btn-sm btn-outline-accent d-none" download>
+                                        <i class="bi bi-image"></i> Thumbnail
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div><!-- /tab-content -->
 </div><!-- /container -->
 
@@ -1052,6 +1198,167 @@ function getFormData() {
         llm_provider: provider,
         llm_model:    llmModel,
     };
+}
+
+/* ══ Kids Story — word count ══ */
+(function() {
+    const ta = document.getElementById('ksStoryText');
+    if (ta) {
+        ta.addEventListener('input', function() {
+            const wc = this.value.trim() ? this.value.trim().split(/\s+/).length : 0;
+            document.getElementById('ksWordCount').textContent = wc + ' words';
+        });
+    }
+})();
+
+/* ══ Kids Story — Generate (isolated pipeline) ══ */
+async function generateKidsStory() {
+    const storyText = document.getElementById('ksStoryText').value.trim();
+    if (!storyText) {
+        showToast('Please paste or write a story first.', 'error');
+        return;
+    }
+
+    // Hardcoded config — isolated from the Generate tab
+    // All fields mirror getFormData() to ensure full parity with Generate tab
+    const data = {
+        text:           storyText,
+        url:            '',
+        tone:           'storytelling',
+        theme:          'cinematic',
+        visual_style:   'claymorphism',
+        transition:     'fade',
+        voice:          'ryan_uk',
+        format:         'vertical',
+        platform:       '',
+        quality:        'high',
+        watermark:      '',
+        points:         0,
+        subtitles:      true,
+        captions:       'karaoke',
+        color_grade:    '{{ default_color_grade }}',
+        language:       '',
+        speed:          '',
+        ai_images:      true,
+        brand_text:     document.getElementById('ksBrand').value.trim(),
+        content_mode:   'article',
+        question:       '',
+        character_name: '',
+        modern_topic:   '',
+        voice_pair:     'default',
+        deep_dive_sources: [],
+        deep_dive_text: '',
+        series_id:      '',
+        episode_number: 0,
+        renderer:       'remotion',
+        llm_provider:   document.getElementById('selLlmProvider')?.value || '',
+        llm_model:      (document.getElementById('selLlmProvider')?.value === 'copilot_bridge')
+                            ? (document.getElementById('txtCopilotModel')?.value || 'claude-sonnet-4.6')
+                            : '',
+    };
+
+    // Optional title override
+    const title = document.getElementById('ksTitle').value.trim();
+    if (title) {
+        data.text = title + '\n\n' + storyText;
+    }
+
+    showSpinner('Starting Kids Story pipeline…');
+    document.getElementById('pipelineProgress').classList.remove('d-none');
+    document.getElementById('stageList').innerHTML = '';
+    document.getElementById('overallBar').style.width = '0%';
+    document.getElementById('btnKsGenerate').disabled = true;
+
+    try {
+        const resp = await fetch('/api/generate', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data),
+        });
+        const result = await resp.json();
+        if (result.error) {
+            showToast('Error: ' + result.error, 'error');
+            hideSpinner();
+            document.getElementById('btnKsGenerate').disabled = false;
+            return;
+        }
+
+        const jobId = result.job_id;
+        const evtSource = new EventSource('/api/progress/' + jobId);
+        const stageIcons = {scrape:'📄', analyze:'🧠', visuals:'🖼️', narrate:'🎙️', vfx_plan:'🎨', compose:'🎬'};
+
+        evtSource.addEventListener('progress', function(e) {
+            const s = JSON.parse(e.data);
+            document.getElementById('spinnerText').textContent = s.message;
+            const pct = ((s.index - 1 + s.progress_pct) / s.total * 100);
+            document.getElementById('overallBar').style.width = Math.min(pct, 100) + '%';
+
+            let el = document.getElementById('stage-' + s.name);
+            const icon = stageIcons[s.name] || '⏳';
+            const st = s.status === 'completed' ? '✅' :
+                       s.status === 'failed' ? '❌' :
+                       s.status === 'running' ? '⏳' : '⬜';
+            const html = '<span>' + st + ' ' + icon + ' ' + s.label + '</span>' +
+                '<span class="text-muted" style="font-size:.8rem;">' +
+                (s.elapsed > 0 ? s.elapsed + 's ' : '') + (s.detail || '') + '</span>';
+            if (!el) {
+                el = document.createElement('div');
+                el.id = 'stage-' + s.name;
+                el.className = 'd-flex justify-content-between align-items-center mb-1';
+                el.style.cssText = 'color:#ccc;font-size:.9rem;';
+                document.getElementById('stageList').appendChild(el);
+            }
+            el.innerHTML = html;
+        });
+
+        evtSource.addEventListener('done', function(e) {
+            evtSource.close();
+            const r = JSON.parse(e.data);
+            document.getElementById('overallBar').style.width = '100%';
+            document.getElementById('btnKsGenerate').disabled = false;
+
+            if (r.error) { hideSpinner(); showToast('Error: ' + r.error, 'error'); return; }
+
+            /* video */
+            document.getElementById('ksVideoContainer').innerHTML =
+                '<video controls autoplay style="max-width:100%;max-height:600px;">' +
+                '<source src="' + r.video_url + '" type="video/mp4"></video>';
+
+            /* thumbnail */
+            if (r.thumbnail_url) {
+                document.getElementById('ksThumbnailContainer').classList.remove('d-none');
+                document.getElementById('ksThumbnailImg').src = r.thumbnail_url;
+                document.getElementById('ksDownloadThumb').href = r.thumbnail_url;
+                document.getElementById('ksDownloadThumb').classList.remove('d-none');
+            }
+
+            /* result card */
+            document.getElementById('ksResultInfo').classList.remove('d-none');
+            document.getElementById('ksResTitle').textContent    = r.title || '—';
+            document.getElementById('ksResHook').textContent     = r.hook || '—';
+            document.getElementById('ksResDuration').textContent = (r.duration || 0) + 's';
+            document.getElementById('ksResResolution').textContent = r.resolution || '—';
+            document.getElementById('ksResTime').textContent     = (r.processing_time || 0) + 's';
+            document.getElementById('ksDownloadVideo').href      = r.video_url;
+            if (r.srt_url) {
+                document.getElementById('ksDownloadSrt').href = r.srt_url;
+                document.getElementById('ksDownloadSrt').classList.remove('d-none');
+            }
+
+            hideSpinner();
+            showToast('Kids story video generated!', 'success');
+        });
+
+        evtSource.onerror = function() {
+            evtSource.close();
+            document.getElementById('btnKsGenerate').disabled = false;
+            setTimeout(hideSpinner, 1000);
+        };
+    } catch (e) {
+        showToast('Request failed: ' + e.message, 'error');
+        hideSpinner();
+        document.getElementById('btnKsGenerate').disabled = false;
+    }
 }
 
 /* ══ Toggle AI Images panel ══ */
