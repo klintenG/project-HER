@@ -142,6 +142,11 @@ class StorySplitter:
                 modern_topic=modern_topic or text,
                 tone=tone,
             )
+        elif content_mode == "kids_story":
+            prompt = self._build_kids_story_prompt(
+                text=text,
+                title=title,
+            )
         else:
             prompt = self._build_prompt(
                 text, title, tone,
@@ -228,6 +233,24 @@ class StorySplitter:
                 "The character speaks in a style true to their era and personality, but translated so a modern listener gets it instantly. "
                 "The vibe is two interesting people having a surprisingly great conversation, not a history lecture. "
                 "You NEVER claim the character actually said these things — this is clearly AI-generated creative content. "
+                + human_voice
+            )
+        elif content_mode == "kids_story":
+            return (
+                "You are a VIRAL short-form kids story creator — "
+                "the #1 storyteller on TikTok/YouTube Shorts for children's content. "
+                "You know that the first 3 seconds decide whether a viewer stays or scrolls away. "
+                "Every story you write starts with a PATTERN INTERRUPT — something surprising, mysterious, "
+                "funny, emotional, or visually wild that instantly triggers curiosity. "
+                "You NEVER start with 'Once upon a time' or any slow traditional opening. "
+                "You structure stories for 20-35 second videos using the viral pacing model: "
+                "Hook (0-3s) → Setup (3-10s) → Adventure (10-20s) → Twist (20-25s) → Ending (25-30s). "
+                "Your language is simple enough for a 5-year-old but entertaining for adults too. "
+                "Every sentence is short, punchy, and propels the story forward. "
+                "You use CURIOSITY LOOPS — unresolved questions planted early that compel viewers to keep watching. "
+                "You always end with a heartwarming twist or positive lesson. "
+                "Your image prompts are dynamic, colorful, and visually STRIKING — "
+                "especially the first image which must be a visual pattern interrupt (something unexpected happening). "
                 + human_voice
             )
         else:
@@ -394,6 +417,163 @@ RESPOND WITH THIS EXACT JSON STRUCTURE:
       "image_subject": "primary subject name",
       "emotion": "neutral",
       "emphasis_words": []
+    }}
+  ]
+}}
+
+Return ONLY valid JSON. No markdown code fences. No extra text."""
+
+    # ── Kids Story Prompt (Viral Short-Form) ─────────
+
+    def _build_kids_story_prompt(self, text: str, title: str) -> str:
+        min_screens, max_screens = config.KIDS_STORY_SCREENS
+
+        return f"""You have an amazing kids story and your job is to turn it into a VIRAL short-form video
+script (20-35 seconds) that captures attention in the FIRST 3 SECONDS and keeps viewers watching
+until the very end.
+
+{"STORY TITLE: " + title if title else ""}
+STORY TEXT:
+{text[:3000]}
+
+═══════════════════════════════════════════════════════
+🎯 THE GOLDEN RULE: FIRST 3 SECONDS = EVERYTHING
+═══════════════════════════════════════════════════════
+
+The first screen MUST be a PATTERN INTERRUPT — something that makes the viewer's brain go:
+"Wait… what happens next?"
+
+Traditional openings like "Once upon a time" are BANNED. They are scroll-killers.
+
+Choose ONE of these proven viral hook styles for Screen 1:
+
+🔮 MYSTERY HOOK: Creates intrigue
+   "This kitten tried to catch the moon… but something impossible happened."
+
+💔 EMOTIONAL HOOK: Triggers empathy
+   "Everyone ignored this little bear… until one night changed everything."
+
+⚡ DANGER HOOK: Introduces tension
+   "This tiny penguin got lost in the desert… but then THIS happened."
+
+🔄 REVERSE STORY HOOK: Start at the most surprising moment
+   "A turtle flying in the sky?! Let me explain…"
+
+❓ QUESTION HOOK: Activates curiosity
+   "What would happen if a turtle tried to fly?"
+
+═══════════════════════════════════════════════════════
+📖 VIRAL STORY STRUCTURE (20-35 seconds)
+═══════════════════════════════════════════════════════
+
+Screen 1 — HOOK (0-3 seconds)
+  ▸ Pattern interrupt. Curiosity trigger. 2-3 second screen.
+  ▸ The image_prompt MUST be visually STRIKING and unexpected:
+    - A character mid-fall, a giant glowing moon, an explosion of magical stars,
+      an animal doing something impossible, something physically surreal.
+  ▸ The text is 1 short punch line that creates a knowledge gap.
+
+Screens 2-3 — STORY SETUP (3-10 seconds)
+  ▸ Introduce the character and their goal in 1-2 screens.
+  ▸ Keep it simple: name, what they want, why it matters.
+  ▸ Plant a CURIOSITY LOOP — hint at what's coming without revealing it.
+  ▸ "Watch what happens when…" / "But he had no idea…"
+
+Screens 4-6 — ADVENTURE / ATTEMPT (10-20 seconds)
+  ▸ Show the character TRYING something exciting.
+  ▸ Build momentum: each screen is more intense than the last.
+  ▸ Use action words: climbed, jumped, splashed, zoomed, crashed, flew.
+  ▸ Image prompts should be DYNAMIC — movement, action, energy.
+
+Screen 7-8 — TWIST (20-25 seconds)
+  ▸ The SURPRISING or FUNNY or UNEXPECTED outcome.
+  ▸ This is the payoff for the curiosity loop set up in screen 1.
+  ▸ "But instead of flying… he splashed into the water and swam SUPER fast!"
+  ▸ Image must capture the twist moment vividly.
+
+Screen 8-9 — ENDING / MESSAGE (25-30 seconds)
+  ▸ Heartwarming realization or life lesson.
+  ▸ "And that's when Timo realized… he was already special."
+  ▸ Image should be warm, emotional, feel-good.
+
+═══════════════════════════════════════════════════════
+🗣️ NARRATION STYLE RULES
+═══════════════════════════════════════════════════════
+
+✓ Use language a 5-year-old can understand — but that entertains adults too.
+✓ Keep EVERY sentence SHORT and PUNCHY. Max 12-15 words per sentence.
+✓ Use sound effects in text: "SPLASH!", "WHOOSH!", "BOOM!"
+✓ Use dramatic pauses with ellipsis: "And then…" "But wait…"
+✓ Use repetition for rhythm: "He tried. And tried. And tried again."
+✓ Use "you" to pull the viewer in: "Can you guess what happened?"
+✓ Make the character's emotions vivid: "His tiny heart was RACING."
+✓ Use contractions always: "didn't", "couldn't", "wasn't", "he'd"
+✓ React to the story: "Crazy, right?" / "I know — sounds impossible!"
+
+✗ NEVER use "Once upon a time" or any traditional fairy tale opening.
+✗ NEVER use complex vocabulary or long sentences.
+✗ NEVER use passive voice. Always active: "Timo jumped" not "The jump was made".
+✗ NEVER be preachy. The lesson should feel like a DISCOVERY, not a lecture.
+✗ NEVER use formal connectors: "Furthermore", "Additionally", "In conclusion".
+
+═══════════════════════════════════════════════════════
+🎨 VISUAL HOOK STRATEGY (CRITICAL)
+═══════════════════════════════════════════════════════
+
+Visual storytelling is STRONGER than narration in short-form video.
+The FIRST IMAGE must be a visual pattern interrupt — something that makes
+viewers stop scrolling BEFORE they even hear the narration.
+
+SCREEN 1 IMAGE MUST be one of:
+  - A character mid-action (falling, flying, jumping from something tall)
+  - Something physically impossible or magical happening
+  - A giant/glowing/surreal object (huge moon, rainbow explosion, magical portal)
+  - An animal in a surprising/dangerous/funny situation
+  - An emotional close-up (tears, fear, wonder, shock)
+
+ALL images should be:
+  - Bright, colorful, and instantly readable
+  - Dynamic (action/movement, not static poses)
+  - One clear subject per image (not cluttered)
+  - With dramatic lighting and depth of field
+  - Kid-friendly but visually sophisticated
+
+EVERY screen MUST have visual_type "image". Zero text_only screens.
+100% image coverage — every second of video needs a background image.
+
+═══════════════════════════════════════════════════════
+📐 STRUCTURE
+═══════════════════════════════════════════════════════
+
+Total: {min_screens}-{max_screens} screens, 20-35 seconds.
+Screen 1 (HOOK): 2-3 seconds. scene_type "A".
+Screens 2-3 (SETUP): 3-4 seconds each. scene_type "B".
+Screens 4-6 (ADVENTURE): 3-4 seconds each. scene_type "B".
+Screen 7+ (TWIST + ENDING): 3-4 seconds each. scene_type "B".
+
+TEXT REVEAL PATTERN — split every screen's text:
+  "setup_text": Casual context ("So this little turtle", "And right at that moment")
+  "subject_text": The key beat in bold ("tried to jump off the mountain", "he could actually SWIM")
+
+RESPOND WITH THIS EXACT JSON STRUCTURE:
+{{
+  "title": "catchy 4-8 word title (e.g. 'The Turtle Who Tried to Fly')",
+  "hook": "the pattern interrupt opening line from screen 1",
+  "mood": "playful/adventurous/warm/magical",
+  "cta": "cliffhanger or engaging sign-off",
+  "screens": [
+    {{
+      "text": "narration text for this screen (SHORT — 1-2 sentences max)",
+      "setup_text": "casual context phrase",
+      "subject_text": "key beat (bold)",
+      "caption_text": "",
+      "scene_type": "A",
+      "duration": 2.5,
+      "visual_type": "image",
+      "image_prompt": "VIVID, DYNAMIC, COLORFUL description of visual — one clear subject, dramatic lighting, action/movement, kid-friendly claymorphism style",
+      "image_subject": "primary subject",
+      "emotion": "excited",
+      "emphasis_words": [{{ "text": "important word", "style": "scale" }}]
     }}
   ]
 }}

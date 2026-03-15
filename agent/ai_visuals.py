@@ -51,12 +51,20 @@ class AIImageGenerator:
     Generates images via Replicate (primary, paid, unlimited),
     HuggingFace (free fallback), or Pollinations.ai (final fallback)
     with Claymorphism style.
+
+    Enhanced mode (Generate tab): 9:16 portrait images with negative prompts.
+    Kids Story mode: original 1024×1024 square images.
     """
 
-    def __init__(self, provider: str = "", visual_style: str = ""):
+    def __init__(self, provider: str = "", visual_style: str = "", portrait_mode: bool = False):
         self.provider = provider or config.AI_IMAGE_PROVIDER
-        self.width = config.AI_IMAGE_WIDTH
-        self.height = config.AI_IMAGE_HEIGHT
+        self.portrait_mode = portrait_mode
+        if portrait_mode and getattr(config, 'ENHANCED_IMAGE_PORTRAIT', False):
+            self.width = getattr(config, 'AI_IMAGE_PORTRAIT_WIDTH', 768)
+            self.height = getattr(config, 'AI_IMAGE_PORTRAIT_HEIGHT', 1344)
+        else:
+            self.width = config.AI_IMAGE_WIDTH
+            self.height = config.AI_IMAGE_HEIGHT
         self.timeout = config.AI_IMAGE_TIMEOUT
         self.max_retries = config.AI_IMAGE_MAX_RETRIES
         self._concurrency = config.AI_IMAGE_CONCURRENT
@@ -379,12 +387,14 @@ class AIImageGenerator:
 
         def _run_replicate():
             """Synchronous Replicate SDK call (run in executor)."""
+            # Use portrait aspect ratio for enhanced pipeline
+            aspect = "9:16" if self.portrait_mode else "1:1"
             output = replicate_sdk.run(
                 self.replicate_model,
                 input={
                     "prompt": prompt,
                     "num_outputs": 1,
-                    "aspect_ratio": "1:1",
+                    "aspect_ratio": aspect,
                     "output_format": "png",
                     "output_quality": 90,
                 },
@@ -548,7 +558,13 @@ class AIImageGenerator:
     def _build_styled_prompt(self, raw_prompt: str) -> str:
         """Augment a raw image prompt with the active visual style suffix."""
         cleaned = raw_prompt.strip().rstrip(".")
-        return f"{cleaned}, {self.style_suffix}"
+        styled = f"{cleaned}, {self.style_suffix}"
+        # Add negative prompt guidance for enhanced pipeline
+        if self.portrait_mode:
+            neg = getattr(config, 'AI_IMAGE_NEGATIVE_PROMPT', '')
+            if neg:
+                styled += f". Avoid: {neg}"
+        return styled
 
 
 # ── Utility ───────────────────────────────────────────
@@ -557,7 +573,8 @@ def generate_ai_images(
     screens: list[ScreenSegment],
     output_dir: Path,
     visual_style: str = "",
+    portrait_mode: bool = False,
 ) -> list[AIImageAsset]:
     """Convenience function for generating AI images."""
-    generator = AIImageGenerator(visual_style=visual_style)
+    generator = AIImageGenerator(visual_style=visual_style, portrait_mode=portrait_mode)
     return generator.generate_images(screens, output_dir)

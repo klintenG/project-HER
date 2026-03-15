@@ -239,16 +239,46 @@ class NarrationEngine:
 
     @staticmethod
     def _get_audio_duration(audio_path: Path) -> float:
-        """Get the duration of an audio file using moviepy."""
+        """Get the duration of an audio file with multiple fallback methods."""
+        # Method 1: moviepy
         try:
             from moviepy import AudioFileClip
             clip = AudioFileClip(str(audio_path))
             dur = clip.duration
             clip.close()
             return dur
-        except Exception as e:
-            logger.warning("Could not determine audio duration: %s", e)
-            return 3.0
+        except Exception:
+            pass
+
+        # Method 2: mutagen (lightweight, handles mp3/ogg/wav)
+        try:
+            from mutagen import File as MutagenFile
+            audio = MutagenFile(str(audio_path))
+            if audio and audio.info and audio.info.length:
+                return audio.info.length
+        except Exception:
+            pass
+
+        # Method 3: pydub
+        try:
+            from pydub import AudioSegment
+            seg = AudioSegment.from_file(str(audio_path))
+            return len(seg) / 1000.0
+        except Exception:
+            pass
+
+        # Method 4: file-size estimation (very rough — assumes 16kHz 16-bit mono for edge-tts mp3)
+        try:
+            size = audio_path.stat().st_size
+            # Typical edge-tts mp3 bitrate ~48kbps → 6000 bytes/sec
+            estimated = size / 6000.0
+            logger.warning("Audio duration estimated from file size: %.1fs — timing may be approximate", estimated)
+            return max(1.0, estimated)
+        except Exception:
+            pass
+
+        logger.error("Could not determine audio duration for %s — using 3.0s fallback", audio_path)
+        return 3.0
 
     # ── Dual-Voice (Ghost Collaboration) ──────────────
 

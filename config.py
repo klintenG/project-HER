@@ -200,6 +200,38 @@ NARRATION_VOLUME = "+0%"
 VOICE_SPEED = os.getenv("VOICE_SPEED", "+0%")  # e.g. "+20%", "-10%"
 SCENE_PADDING = 0.4  # seconds of silence between scenes
 
+# ── ElevenLabs TTS (Generate tab — premium narration) ──
+ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY", "")
+# TTS provider: "elevenlabs" | "replicate" | "edge_tts"
+# - elevenlabs: Premium quality, free tier 10k chars, then paid
+# - replicate: Kokoro-82m via Replicate, ~$0.003/video (ultra cheap)
+# - edge_tts: Free (Microsoft), always used for Kids Story
+TTS_PROVIDER = os.getenv("TTS_PROVIDER", "elevenlabs")
+
+# ── Enhanced Pipeline Flags ────────────────────────────
+# These enhancements only apply to the Generate tab (non-kids_story modes).
+# Kids Story tab is unaffected — it uses the original pipeline settings.
+ENHANCED_PIPELINE = True          # master switch for all v2.1 enhancements
+ENHANCED_IMAGE_PORTRAIT = True    # generate 9:16 images (768×1344)
+ENHANCED_FULL_BLEED = True        # full-screen images with text overlay
+ENHANCED_SILENCE_GAPS = True      # 300ms silence between scenes
+ENHANCED_TRANSITION_SFX = True    # whoosh/pop on scene transitions
+ENHANCED_VARIABLE_PACING = True   # variable transition durations per mood
+ENHANCED_CHAR_CONSISTENCY = True  # anchor character descriptions across screens
+ENHANCED_VISUAL_VOCAB = True      # consistent effect theme per video
+SCENE_SILENCE_MS = 300            # milliseconds of silence between scenes
+
+# Portrait image dimensions for enhanced pipeline
+AI_IMAGE_PORTRAIT_WIDTH = 768
+AI_IMAGE_PORTRAIT_HEIGHT = 1344
+
+# Negative prompts for AI image quality
+AI_IMAGE_NEGATIVE_PROMPT = (
+    "text, watermark, logo, blurry, deformed, distorted, disfigured, "
+    "bad anatomy, extra limbs, ugly, low quality, pixelated, cropped, "
+    "out of frame, duplicate, morbid, mutilated"
+)
+
 AVAILABLE_VOICES = {
     "aria": "en-US-AriaNeural",
     "guy": "en-US-GuyNeural",
@@ -922,10 +954,27 @@ CONTENT_MODES = {
         "requires_url_or_text": False,
         "icon": "bi-chat-left-quote",
     },
+    "kids_story": {
+        "label": "Kids Story ✨",
+        "description": "Viral short-form kids story with curiosity hooks and fast pacing",
+        "requires_url_or_text": True,
+        "icon": "bi-book",
+    },
 }
 
 DEFAULT_CONTENT_MODE = "article"
 AVAILABLE_CONTENT_MODES = list(CONTENT_MODES.keys())
+
+# ── Kids Story Settings (Viral Short-Form) ───────────
+KIDS_STORY_DURATION = (35, 55)           # target seconds — short & punchy for viral
+KIDS_STORY_SCREENS = (6, 12)             # screen count range
+KIDS_STORY_HOOK_STYLES = [
+    "mystery",        # "This kitten tried to catch the moon… but something impossible happened."
+    "emotional",      # "Everyone ignored this little bear… until one night changed everything."
+    "danger",         # "This tiny penguin got lost in the desert… but then THIS happened."
+    "reverse_story",  # "A turtle flying in the sky?! Let me explain…"
+    "question",       # "What would happen if a turtle tried to fly?"
+]
 
 # ── Thought Experiment Settings ───────────────────────
 THOUGHT_EXPERIMENT_DURATION = (45, 75)  # target seconds - slightly shorter, punchy

@@ -151,6 +151,9 @@ def api_generate():
         if not character_name:
             return jsonify({"error": "Please provide a character name for Ghost Collaboration."}), 400
         input_source = input_source or f"Dialogue with {character_name}"
+    elif content_mode == "kids_story":
+        if not input_source:
+            return jsonify({"error": "Please paste or write a story for Kids Story mode."}), 400
     elif not input_source:
         return jsonify({"error": "Please provide a URL or text content."}), 400
 
@@ -240,6 +243,11 @@ def api_generate():
     def _run_pipeline():
         try:
             from agent.orchestrator import AgentOrchestrator
+
+            # Override TTS provider from UI selection (only for Generate tab)
+            tts_provider = data.get("tts_provider", "")
+            if tts_provider and content_mode != "kids_story":
+                config.TTS_PROVIDER = tts_provider
 
             orchestrator = AgentOrchestrator(
                 llm_provider=llm_provider,
@@ -348,6 +356,18 @@ def api_progress(job_id):
             "X-Accel-Buffering": "no",
         },
     )
+
+
+@app.route("/api/result/<job_id>")
+def api_result(job_id):
+    """Fallback polling endpoint — returns the job result if available."""
+    result = _job_results.get(job_id)
+    if result is None:
+        # Check if job is still running
+        if job_id in _active_jobs:
+            return jsonify({"status": "running"}), 202
+        return jsonify({"error": "Job not found"}), 404
+    return jsonify(result)
 
 
 @app.route("/api/preview", methods=["POST"])

@@ -84,6 +84,14 @@ export const ImageBlock: React.FC<ImageBlockProps> = ({
     ...(progress > exitStart ? exitStyle : {}),
   };
 
+  // In fullbleed ("full") mode, strip CSS filter properties from treatments
+  // to prevent brightness/saturation/hue changes that wash out images.
+  // Transform-based effects (ken_burns, zoom_pulse, parallax) still apply.
+  if (layout === "full") {
+    delete imageEffectStyle.filter;
+    delete (imageEffectStyle as any).WebkitFilter;
+  }
+
   // Layout positioning
   const containerStyle: React.CSSProperties = (() => {
     const base: React.CSSProperties = {

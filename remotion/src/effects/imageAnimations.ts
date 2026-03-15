@@ -69,6 +69,36 @@ export const imageEntry = {
       transform: `perspective(1200px) rotateY(${interpolate(s, [0, 1], [-45, 0])}deg) translateZ(${interpolate(s, [0, 1], [-200, 0])}px)`,
     };
   },
+
+  /** Cinematic dolly push — starts zoomed + blurred, pushes to full */
+  img_dolly_push(frame: number, fps: number): React.CSSProperties {
+    const s = spring({ frame, fps, config: SPRING_GENTLE, durationInFrames: 40 });
+    const blur = interpolate(s, [0, 0.5], [10, 0], { extrapolateRight: "clamp" });
+    return {
+      opacity: interpolate(s, [0, 0.3], [0, 1], { extrapolateRight: "clamp" }),
+      transform: `scale(${interpolate(s, [0, 1], [1.5, 1])})`,
+      filter: `blur(${blur}px)`,
+    };
+  },
+
+  /** Glitch reveal — digital glitch distortion entry */
+  img_glitch_reveal(frame: number, fps: number): React.CSSProperties {
+    const s = spring({ frame, fps, config: SPRING_SNAPPY, durationInFrames: 22 });
+    const glitch = Math.sin(frame * 30) * (1 - s) * 15;
+    return {
+      opacity: interpolate(s, [0, 0.4], [0, 1], { extrapolateRight: "clamp" }),
+      transform: `translateX(${glitch}px) skewX(${(1 - s) * 8}deg)`,
+      filter: `hue-rotate(${(1 - s) * 90}deg)`,
+    };
+  },
+
+  /** Wipe reveal from left — clip-path reveal */
+  img_wipe_left(frame: number, fps: number, durationFrames = 22): React.CSSProperties {
+    const p = interpolate(frame, [0, durationFrames], [0, 1], { extrapolateRight: "clamp" });
+    return {
+      clipPath: `inset(0 ${100 - p * 100}% 0 0)`,
+    };
+  },
 };
 
 // ═══════════════════════════════════════════════════
@@ -76,12 +106,13 @@ export const imageEntry = {
 // ═══════════════════════════════════════════════════
 
 export const imageTreatment = {
-  /** Ken Burns — slow zoom + pan */
+  /** Ken Burns — slow zoom + pan (always overscaled to prevent edge reveal) */
   ken_burns(frame: number, fps: number, durationFrames: number, direction = 1): React.CSSProperties {
     const p = interpolate(frame, [0, durationFrames], [0, 1], { extrapolateRight: "clamp" });
-    const zoom = 1 + 0.18 * p;
-    const panX = direction * 5 * p;
-    const panY = 3 * p;
+    // Minimum scale 1.15 at start, rising to 1.25 — guarantees no edge reveal even with max pan
+    const zoom = 1.15 + 0.10 * p;
+    const panX = direction * 3 * p;  // max 3% (well within scale overshoot)
+    const panY = 2 * p;
     return {
       transform: `scale(${zoom}) translate(${panX}%, ${panY}%)`,
     };
@@ -90,15 +121,15 @@ export const imageTreatment = {
   /** Zoom pulse — rhythmic breathing zoom */
   zoom_pulse(frame: number, fps: number): React.CSSProperties {
     const t = frame / fps;
-    const zoom = 1 + 0.06 * Math.sin(2 * Math.PI * 0.4 * t);
+    const zoom = 1.05 + 0.05 * Math.sin(2 * Math.PI * 0.4 * t);
     return { transform: `scale(${zoom})` };
   },
 
-  /** 2D parallax shift */
+  /** Gentle float — subtle drift with overscale to prevent edges showing */
   parallax_2d(frame: number, fps: number, durationFrames: number): React.CSSProperties {
     const p = interpolate(frame, [0, durationFrames], [-1, 1], { extrapolateRight: "clamp" });
     return {
-      transform: `translate(${p * 5}%, ${p * 3}%)`,
+      transform: `scale(1.12) translate(${p * 2.5}%, ${p * 1.5}%)`,
     };
   },
 
@@ -174,6 +205,35 @@ export const imageTreatment = {
   cinematic_crop(_frame: number, _fps: number): React.CSSProperties {
     return {
       clipPath: "inset(8% 0 8% 0)",
+    };
+  },
+
+  /** Drift zoom — very slow continuous zoom with drift (cinematic b-roll) */
+  drift_zoom(frame: number, fps: number, durationFrames: number): React.CSSProperties {
+    const p = interpolate(frame, [0, durationFrames], [0, 1], { extrapolateRight: "clamp" });
+    const scale = 1.08 + 0.08 * p;
+    const dx = Math.sin(p * Math.PI) * 1.5;
+    return {
+      transform: `scale(${scale}) translate(${dx}%, ${p * 1}%)`,
+    };
+  },
+
+  /** Handheld shake — subtle organic camera shake for realism */
+  handheld_shake(frame: number, fps: number): React.CSSProperties {
+    const t = frame / fps;
+    const x = Math.sin(t * 4.3) * 2 + Math.sin(t * 7.1) * 1;
+    const y = Math.cos(t * 3.7) * 1.5 + Math.cos(t * 6.3) * 0.8;
+    const r = Math.sin(t * 2.5) * 0.3;
+    return {
+      transform: `scale(1.04) translate(${x}px, ${y}px) rotate(${r}deg)`,
+    };
+  },
+
+  /** Dramatic desaturate — slow drain to near-monochrome */
+  dramatic_desat(frame: number, fps: number, durationFrames: number): React.CSSProperties {
+    const p = interpolate(frame, [0, durationFrames], [0, 1], { extrapolateRight: "clamp" });
+    return {
+      filter: `saturate(${1 - 0.7 * p}) contrast(${1 + 0.15 * p})`,
     };
   },
 };

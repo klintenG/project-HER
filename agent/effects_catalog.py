@@ -390,6 +390,34 @@ class EffectsCatalog:
                 EffectParam("duration", "Smoke dissipation time", 0.8, 0.3, 2.0),
             ],
         ))
+        self._register(EffectDefinition(
+            name="whip_in",
+            category="text_entry",
+            description="Text whips in horizontally from off-screen with motion blur — fast cinematic entry",
+            mood_tags=["action", "fast", "energetic", "sports", "music", "hype"],
+            intensity=4,
+        ))
+        self._register(EffectDefinition(
+            name="pop_in",
+            category="text_entry",
+            description="Text pops in from zero scale with slight rotation — punchy and fun",
+            mood_tags=["fun", "playful", "surprise", "energetic", "social_media"],
+            intensity=3,
+        ))
+        self._register(EffectDefinition(
+            name="cinema_title",
+            category="text_entry",
+            description="Dramatic slow zoom with letter spacing and warm glow — movie title reveal",
+            mood_tags=["cinematic", "epic", "dramatic", "movie", "trailer"],
+            intensity=3,
+        ))
+        self._register(EffectDefinition(
+            name="rise_settle",
+            category="text_entry",
+            description="Text floats up gently and settles into position with deceleration",
+            mood_tags=["elegant", "calm", "gentle", "narrative", "documentary"],
+            intensity=2,
+        ))
 
     # ──────────────────────────────────────────────────
     #  2. TEXT EXIT ANIMATIONS (how text disappears)
@@ -682,6 +710,48 @@ class EffectsCatalog:
             description="Electric sparks/arcs occasionally jump across and along the text",
             mood_tags=["electric", "energy", "power", "storm", "tech", "intense"],
             intensity=4,
+        ))
+        self._register(EffectDefinition(
+            name="kinetic_bounce",
+            category="text_continuous",
+            description="Music-video style rhythmic bounce with squash/stretch — very energetic",
+            mood_tags=["music", "energetic", "hype", "fun", "dance", "social_media"],
+            intensity=3,
+        ))
+        self._register(EffectDefinition(
+            name="energy_pulse",
+            category="text_continuous",
+            description="Text scales with golden glow surges — signals power or impact moments",
+            mood_tags=["impact", "dramatic", "power", "epic", "revelation"],
+            intensity=3,
+        ))
+        self._register(EffectDefinition(
+            name="magnetic_drift",
+            category="text_continuous",
+            description="Subtle organic floating drift left-right — as if suspended magnetically",
+            mood_tags=["sci-fi", "calm", "futuristic", "ethereal", "space"],
+            intensity=1,
+        ))
+        self._register(EffectDefinition(
+            name="letterpress",
+            category="text_continuous",
+            description="Emboss/press shadow effect with depth pulsing — tactile quality",
+            mood_tags=["elegant", "vintage", "print", "classic", "authority"],
+            intensity=1,
+        ))
+        self._register(EffectDefinition(
+            name="vibrate",
+            category="text_continuous",
+            description="High-frequency micro-shake for tension/urgency — more subtle than shake",
+            mood_tags=["tension", "suspense", "danger", "urgent", "anxiety"],
+            intensity=3,
+        ))
+        self._register(EffectDefinition(
+            name="spotlight_sweep",
+            category="text_continuous",
+            description="Moving shadow as if a spotlight sweeps across the text",
+            mood_tags=["cinematic", "dramatic", "stage", "spotlight", "elegant"],
+            intensity=2,
         ))
 
     # ──────────────────────────────────────────────────
@@ -1125,6 +1195,27 @@ class EffectsCatalog:
             mood_tags=["dramatic", "reveal", "photography", "elegant"],
             intensity=3,
         ))
+        self._register(EffectDefinition(
+            name="img_dolly_push",
+            category="image_entry",
+            description="Cinematic dolly push — starts zoomed/blurred and pushes into focus",
+            mood_tags=["cinematic", "film", "dramatic", "reveal", "documentary"],
+            intensity=3,
+        ))
+        self._register(EffectDefinition(
+            name="img_glitch_reveal",
+            category="image_entry",
+            description="Digital glitch distortion entry — RGB shift and skew artifacts",
+            mood_tags=["tech", "cyberpunk", "glitch", "digital", "intense"],
+            intensity=4,
+        ))
+        self._register(EffectDefinition(
+            name="img_wipe_left",
+            category="image_entry",
+            description="Clean wipe reveal from left to right — clip-path animation",
+            mood_tags=["clean", "modern", "news", "professional", "documentary"],
+            intensity=2,
+        ))
 
     # ──────────────────────────────────────────────────
     #  8. IMAGE EXIT EFFECTS
@@ -1277,6 +1368,27 @@ class EffectsCatalog:
             description="Apply split-toning — warm highlights, cool shadows",
             mood_tags=["cinematic", "film", "artistic", "mood"],
             intensity=2,
+        ))
+        self._register(EffectDefinition(
+            name="drift_zoom",
+            category="image_effect",
+            description="Very slow continuous zoom-in with subtle drift — cinematic b-roll feel",
+            mood_tags=["cinematic", "documentary", "dramatic", "narrative", "elegant"],
+            intensity=2,
+        ))
+        self._register(EffectDefinition(
+            name="handheld_shake",
+            category="image_effect",
+            description="Subtle organic camera shake simulating handheld footage — adds realism",
+            mood_tags=["documentary", "realistic", "raw", "news", "war", "action"],
+            intensity=2,
+        ))
+        self._register(EffectDefinition(
+            name="dramatic_desat",
+            category="image_effect",
+            description="Slow drain to near-monochrome with contrast boost — dramatic mood",
+            mood_tags=["dramatic", "somber", "serious", "dark", "noir", "war"],
+            intensity=3,
         ))
 
     # ──────────────────────────────────────────────────

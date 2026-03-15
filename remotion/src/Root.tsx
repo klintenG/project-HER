@@ -71,6 +71,9 @@ export const RemotionRoot: React.FC = () => {
           height: 1920,
           cta: "Thanks for watching!",
           visual_theme: "dynamic",
+          layout_mode: "classic",
+          transition_frames: 15,
+          scene_silence_ms: 0,
         }}
         calculateMetadata={async ({ props }) => {
           // Calculate total duration from all screens

@@ -111,6 +111,10 @@ export const VideoPropsSchema = z.object({
   height: z.number().default(1920),
   cta: z.string().default("Thanks for watching!"),
   visual_theme: z.string().default("dynamic"),
+  // Enhanced pipeline flags (Generate tab only)
+  layout_mode: z.enum(["classic", "fullbleed"]).default("classic"),
+  transition_frames: z.number().default(15),
+  scene_silence_ms: z.number().default(0),
 });
 export type VideoProps = z.infer<typeof VideoPropsSchema>;
 

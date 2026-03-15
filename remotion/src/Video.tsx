@@ -66,11 +66,13 @@ export const Video: React.FC<VideoProps> = (props) => {
     screens,
     visual_style: visualStyle,
     cta,
+    layout_mode: layoutMode,
+    transition_frames: transitionFramesProp,
   } = props;
 
   // Build timeline: compute start frame and duration for each scene
   const timeline = useMemo(() => {
-    const TRANSITION_FRAMES = 15; // default overlap
+    const DEFAULT_TRANSITION_FRAMES = transitionFramesProp || 15;
     let currentFrame = 0;
     const entries: Array<{
       screen: ScreenData;
@@ -84,9 +86,24 @@ export const Video: React.FC<VideoProps> = (props) => {
       const durationFrames = Math.round(screen.duration * fps);
       const effects = screen.effects;
 
+      // Variable transition duration based on emotion (enhanced pipeline)
+      let tFrames = DEFAULT_TRANSITION_FRAMES;
+      if (layoutMode === "fullbleed" && effects) {
+        const emotion = screen.emotion || "neutral";
+        // Fast cuts for action/urgent, slow for calm/sad
+        const emotionTransFrames: Record<string, number> = {
+          excitement: 8, urgent: 6, anger: 8, tension: 10,
+          joy: 10, triumph: 10, dramatic: 12,
+          calm: 24, sadness: 24, nostalgia: 22, thoughtful: 20,
+          mystery: 18, awe: 20, wonder: 20, horror: 14,
+          neutral: 15, informative: 15,
+        };
+        tFrames = emotionTransFrames[emotion] || DEFAULT_TRANSITION_FRAMES;
+      }
+
       // Transition INTO this scene (from previous)
       const transitionIn = i > 0
-        ? getTransition(effects?.scene_transition || "crossfade", TRANSITION_FRAMES)
+        ? getTransition(effects?.scene_transition || "crossfade", tFrames)
         : undefined;
 
       // For the first scene, no overlap
@@ -149,6 +166,7 @@ export const Video: React.FC<VideoProps> = (props) => {
             brandText={brandText}
             watermark={watermark}
             sceneStartFrame={startFrame}
+            layoutMode={layoutMode || "classic"}
           />
         );
 

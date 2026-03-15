@@ -490,6 +490,17 @@
                                             Remotion uses React + TypeScript for richer animations &amp; transitions.
                                         </p>
                                     </div>
+                                    <div class="col-6">
+                                        <label class="form-label small text-muted">Voice Engine</label>
+                                        <select class="form-select form-select-sm" id="selTTSProvider">
+                                            <option value="elevenlabs">ElevenLabs (Premium)</option>
+                                            <option value="replicate">Replicate/Kokoro (Cheap)</option>
+                                            <option value="edge_tts">Edge TTS (Free)</option>
+                                        </select>
+                                        <p class="small text-muted mb-0" style="font-size:.65rem;margin-top:2px;">
+                                            ElevenLabs: best quality (free tier). Replicate: ~$0.003/video.
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -953,17 +964,17 @@
                             <div class="d-flex align-items-center justify-content-between">
                                 <small class="text-muted">
                                     <i class="bi bi-lock-fill" style="color:#ffc832;"></i>
-                                    Locked config &mdash; optimised for kids story videos
+                                    Viral Kids Story &mdash; optimised for 3-second hooks &amp; maximum retention
                                 </small>
                             </div>
                             <div class="d-flex flex-wrap gap-2 mt-2">
+                                <span class="badge bg-dark border border-secondary"><i class="bi bi-lightning-charge-fill" style="color:#ff6b35;"></i> 3s Hook</span>
                                 <span class="badge bg-dark border border-secondary"><i class="bi bi-mic"></i> Ryan UK</span>
                                 <span class="badge bg-dark border border-secondary"><i class="bi bi-film"></i> Remotion</span>
                                 <span class="badge bg-dark border border-secondary"><i class="bi bi-stars"></i> AI Images</span>
                                 <span class="badge bg-dark border border-secondary"><i class="bi bi-brush"></i> Claymorphism</span>
                                 <span class="badge bg-dark border border-secondary"><i class="bi bi-phone"></i> Vertical</span>
                                 <span class="badge bg-dark border border-secondary"><i class="bi bi-speedometer2"></i> High Quality</span>
-                                <span class="badge bg-dark border border-secondary"><i class="bi bi-chat-dots"></i> Storytelling</span>
                             </div>
                         </div>
                     </div>
@@ -986,10 +997,10 @@
                                     <span class="text-danger">*</span>
                                 </label>
                                 <textarea class="form-control" id="ksStoryText" rows="10"
-                                          placeholder="Paste or write your kids story here…&#10;&#10;Example:&#10;A little kitten named Milo loved to stare at the sky every night. The moon was the most beautiful thing he had ever seen…"
+                                          placeholder="Paste or write your kids story here…&#10;&#10;Example:&#10;A tiny turtle named Timo dreamed of flying. Every day he watched the birds soar across the sky and wished he could join them. One morning, Timo climbed the tallest rock he could find, took a deep breath, and jumped! But instead of flying, he splashed right into the pond below. And that's when he discovered something amazing — he could swim faster than any bird could fly!"
                                           style="min-height:220px;"></textarea>
                                 <div class="d-flex justify-content-between mt-1">
-                                    <div class="explainer-hint">Paste the full story. The AI will split it into scenes, generate images, and create the video.</div>
+                                    <div class="explainer-hint">Paste your story. AI will create a viral hook, split into fast-paced scenes (20-35s), and generate striking visuals.</div>
                                     <small class="text-muted" id="ksWordCount">0 words</small>
                                 </div>
                             </div>
@@ -1014,11 +1025,25 @@
                         <div class="card-body py-2">
                             <small class="text-muted d-block mb-1"><strong>How it works:</strong></small>
                             <small class="text-muted">
-                                1. AI splits your story into cinematic scenes<br>
-                                2. AI generates claymorphism images for each scene<br>
-                                3. Ryan UK narrates with karaoke word highlighting<br>
-                                4. Remotion renders with transitions &amp; effects<br>
-                                <strong>~2-5 min</strong> for a 60-90s video
+                                1. <strong style="color:#ff6b35;">AI creates a pattern-interrupt hook</strong> (mystery, emotional, danger, reverse, or question)<br>
+                                2. Story is restructured for viral pacing: Hook &rarr; Setup &rarr; Adventure &rarr; Twist &rarr; Ending<br>
+                                3. AI generates striking claymorphism visuals (first image = visual hook)<br>
+                                4. Ryan UK narrates with karaoke word highlighting<br>
+                                5. Remotion renders a <strong>20-35s</strong> viral-ready video<br>
+                                <span style="color:#ffc832;">~2-4 min</span> processing time
+                            </small>
+                        </div>
+                    </div>
+                    <!-- Hook styles info -->
+                    <div class="card mt-2" style="border-color:rgba(255,255,255,.04);">
+                        <div class="card-body py-2">
+                            <small class="text-muted d-block mb-1"><strong>AI Hook Styles:</strong></small>
+                            <small class="text-muted">
+                                <span style="color:#a78bfa;">&#x1f52e; Mystery</span> &mdash; "This kitten tried to catch the moon&hellip; but something impossible happened."<br>
+                                <span style="color:#f472b6;">&#x1f494; Emotional</span> &mdash; "Everyone ignored this little bear&hellip; until one night changed everything."<br>
+                                <span style="color:#fb923c;">&#x26a1; Danger</span> &mdash; "This tiny penguin got lost in the desert&hellip; but then THIS happened."<br>
+                                <span style="color:#34d399;">&#x1f504; Reverse</span> &mdash; "A turtle flying in the sky?! Let me explain&hellip;"<br>
+                                <span style="color:#60a5fa;">&#x2753; Question</span> &mdash; "What would happen if a turtle tried to fly?"
                             </small>
                         </div>
                     </div>
@@ -1194,6 +1219,8 @@ function getFormData() {
                         : 0,
         // Renderer engine
         renderer:   document.getElementById('selRenderer').value,
+        // TTS voice engine
+        tts_provider: document.getElementById('selTTSProvider').value,
         // LLM provider fields
         llm_provider: provider,
         llm_model:    llmModel,
@@ -1241,7 +1268,7 @@ async function generateKidsStory() {
         speed:          '',
         ai_images:      true,
         brand_text:     document.getElementById('ksBrand').value.trim(),
-        content_mode:   'article',
+        content_mode:   'kids_story',
         question:       '',
         character_name: '',
         modern_topic:   '',
@@ -1351,8 +1378,23 @@ async function generateKidsStory() {
 
         evtSource.onerror = function() {
             evtSource.close();
+            // Try polling for the final result in case SSE dropped but job completed
+            fetch('/api/result/' + jobId).then(r => r.ok ? r.json() : null).then(data => {
+                if (data && data.video_url) {
+                    document.getElementById('ksResultPanel').classList.remove('d-none');
+                    document.getElementById('ksResultVideo').src = data.video_url;
+                    document.getElementById('ksDownloadMp4').href = data.video_url;
+                    hideSpinner();
+                    showToast('Kids story generated (connection recovered)!', 'success');
+                } else {
+                    showToast('Connection lost — generation may still be running. Check History tab.', 'error');
+                    hideSpinner();
+                }
+            }).catch(() => {
+                showToast('Connection lost — generation may still be running. Check History tab.', 'error');
+                hideSpinner();
+            });
             document.getElementById('btnKsGenerate').disabled = false;
-            setTimeout(hideSpinner, 1000);
         };
     } catch (e) {
         showToast('Request failed: ' + e.message, 'error');
@@ -1581,9 +1623,24 @@ async function generateVideo() {
 
         evtSource.onerror = function() {
             evtSource.close();
+            // Try polling for the final result in case SSE dropped but job completed
+            fetch('/api/result/' + jobId).then(r => r.ok ? r.json() : null).then(data => {
+                if (data && data.video_url) {
+                    document.getElementById('resultPanel').classList.remove('d-none');
+                    document.getElementById('resultVideo').src = data.video_url;
+                    document.getElementById('downloadMp4').href = data.video_url;
+                    hideSpinner();
+                    showToast('Video generated (connection recovered)!', 'success');
+                } else {
+                    showToast('Connection lost — generation may still be running. Check History tab.', 'error');
+                    hideSpinner();
+                }
+            }).catch(() => {
+                showToast('Connection lost — generation may still be running. Check History tab.', 'error');
+                hideSpinner();
+            });
             document.getElementById('btnGenerate').disabled = false;
             document.getElementById('btnPreview').disabled = false;
-            setTimeout(hideSpinner, 1000);
         };
     } catch (e) {
         showToast('Request failed: ' + e.message, 'error');

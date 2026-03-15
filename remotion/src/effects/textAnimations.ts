@@ -208,6 +208,55 @@ export const textEntry = {
       backfaceVisibility: "hidden" as const,
     };
   },
+
+  /** Whip pan in — fast horizontal whip entry with motion blur */
+  whip_in(frame: number, fps: number): React.CSSProperties {
+    const s = spring({ frame, fps, config: SPRING_DRAMATIC, durationInFrames: 18 });
+    const blur = interpolate(s, [0, 0.6], [12, 0], { extrapolateRight: "clamp" });
+    return {
+      opacity: interpolate(s, [0, 0.3], [0, 1], { extrapolateRight: "clamp" }),
+      transform: `translateX(${interpolate(s, [0, 1], [600, 0])}px) scaleX(${interpolate(s, [0, 1], [1.4, 1])})`,
+      filter: `blur(${blur}px)`,
+    };
+  },
+
+  /** Pop scatter — burst in from random direction (per-word) */
+  pop_in(frame: number, fps: number): React.CSSProperties {
+    const s = spring({ frame, fps, config: SPRING_POP, durationInFrames: 20 });
+    return {
+      opacity: interpolate(s, [0, 0.2], [0, 1], { extrapolateRight: "clamp" }),
+      transform: `scale(${interpolate(s, [0, 1], [0, 1])}) rotate(${interpolate(s, [0, 1], [-15, 0])}deg)`,
+    };
+  },
+
+  /** Cinema title — dramatic slow zoom-in with glow */
+  cinema_title(frame: number, fps: number): React.CSSProperties {
+    const s = spring({ frame, fps, config: SPRING_GENTLE, durationInFrames: 40 });
+    return {
+      opacity: interpolate(s, [0, 0.4], [0, 1], { extrapolateRight: "clamp" }),
+      transform: `scale(${interpolate(s, [0, 1], [0.7, 1])})`,
+      letterSpacing: `${interpolate(s, [0, 1], [20, 0])}px`,
+      textShadow: `0 0 ${interpolate(s, [0, 1], [30, 0])}px rgba(255,200,100,0.6)`,
+    };
+  },
+
+  /** Rise and settle — float up with deceleration */
+  rise_settle(frame: number, fps: number): React.CSSProperties {
+    const s = spring({ frame, fps, config: SPRING_SMOOTH, durationInFrames: 35 });
+    return {
+      opacity: interpolate(s, [0, 0.4], [0, 1], { extrapolateRight: "clamp" }),
+      transform: `translateY(${interpolate(s, [0, 1], [80, 0])}px) scale(${interpolate(s, [0, 1], [0.95, 1])})`,
+    };
+  },
+
+  /** Split reveal horizontal — text clips in from center outward */
+  split_reveal(frame: number, fps: number, durationFrames = 20): React.CSSProperties {
+    const p = interpolate(frame, [0, durationFrames], [0, 1], { extrapolateRight: "clamp" });
+    return {
+      opacity: 1,
+      clipPath: `inset(0 ${50 - p * 50}% 0 ${50 - p * 50}%)`,
+    };
+  },
 };
 
 // ═══════════════════════════════════════════════════
@@ -490,6 +539,65 @@ export const textContinuous = {
         0 0 ${intensity * 40}px #ff0080,
         0 0 ${intensity * 80}px #ff0080
       `,
+    };
+  },
+
+  /** Kinetic bounce — rhythmic vertical bounce like music video text */
+  kinetic_bounce(frame: number, fps: number): React.CSSProperties {
+    const t = frame / fps;
+    const bounce = Math.abs(Math.sin(Math.PI * t * 1.5)) * 8;
+    const squash = 1 + 0.03 * Math.sin(Math.PI * t * 3);
+    return {
+      transform: `translateY(${-bounce}px) scaleX(${squash}) scaleY(${2 - squash})`,
+    };
+  },
+
+  /** Energy pulse — scale + brightness surge for impact moments */
+  energy_pulse(frame: number, fps: number): React.CSSProperties {
+    const t = frame / fps;
+    const pulse = 1 + 0.04 * Math.sin(Math.PI * t * 3);
+    const glow = 0.3 + 0.3 * Math.sin(Math.PI * t * 2);
+    return {
+      transform: `scale(${pulse})`,
+      textShadow: `0 0 ${glow * 20}px rgba(255,180,0,${glow}), 0 2px 8px rgba(0,0,0,0.3)`,
+    };
+  },
+
+  /** Magnetic drift — text subtly drifts left-right like floating in space */
+  magnetic_drift(frame: number, fps: number): React.CSSProperties {
+    const t = frame / fps;
+    const dx = Math.sin(t * 0.8) * 6;
+    const dy = Math.cos(t * 0.5) * 3;
+    return {
+      transform: `translate(${dx}px, ${dy}px)`,
+    };
+  },
+
+  /** Cinematic letterpress — very subtle emboss/press effect */
+  letterpress(frame: number, fps: number): React.CSSProperties {
+    const t = frame / fps;
+    const depth = 1 + 0.5 * Math.sin(t * 0.7);
+    return {
+      textShadow: `0 ${depth}px ${depth}px rgba(0,0,0,0.4), 0 -${depth * 0.3}px 0 rgba(255,255,255,0.15)`,
+    };
+  },
+
+  /** Vibrate — quick shake for tension/suspense */
+  vibrate(frame: number, fps: number): React.CSSProperties {
+    const intensity = 2.5;
+    const x = Math.sin(frame * 19) * intensity;
+    const y = Math.cos(frame * 23) * intensity * 0.6;
+    return {
+      transform: `translate(${x}px, ${y}px)`,
+    };
+  },
+
+  /** Spotlight sweep — text shadow moves across as if a light is passing */
+  spotlight_sweep(frame: number, fps: number): React.CSSProperties {
+    const t = frame / fps;
+    const pos = Math.sin(t * 0.6) * 30;
+    return {
+      textShadow: `${pos}px 4px 16px rgba(255,200,100,0.5), 0 2px 6px rgba(0,0,0,0.3)`,
     };
   },
 };

@@ -40,6 +40,10 @@ from utils.helpers import slugify, ensure_dir
 from utils.progress import ProgressTracker, ProgressCallback
 from utils.cache import get_cache, set_cache
 
+# ── Enhanced pipeline imports ──
+from agent.elevenlabs_tts import ElevenLabsTTS, ElevenLabsClip
+from agent.audio_utils import append_silence_to_audio, generate_whoosh_sfx
+
 logger = logging.getLogger(__name__)
 
 
@@ -208,7 +212,7 @@ class AgentOrchestrator:
             # ── Stage 2: ANALYZE (with cache) ──────────────
             tracker.start_stage("analyze", "Analyzing content with AI...")
 
-            cache_content = f"{input_source}|{tone}|{num_points}"
+            cache_content = f"{input_source}|{tone}|{num_points}|{config.LLM_PROVIDER}"
             cached_analysis = get_cache("analysis", cache_content)
 
             if cached_analysis:
@@ -560,15 +564,26 @@ class AgentOrchestrator:
             # ── Post-process: Force 100% image coverage ────
             # Convert any remaining text_only screens to image screens.
             # Every second of video should have a background image.
+            is_enhanced = (
+                content_mode != "kids_story"
+                and getattr(config, "ENHANCED_PIPELINE", False)
+            )
+
             text_only_converted = 0
             for s in screenplay.screens:
                 if s.visual_type == "text_only":
                     s.visual_type = "image"
                     # Auto-generate an image prompt from the screen text
                     if not s.image_prompt:
-                        # Use the screen text as a basis for a visual prompt
                         snippet = s.text[:120].strip()
-                        s.image_prompt = f"Atmospheric cinematic scene: {snippet}"
+                        if is_enhanced:
+                            # Better auto-prompt: cinematic + specific visual cues
+                            s.image_prompt = (
+                                f"Cinematic wide shot, dramatic lighting, "
+                                f"photorealistic scene illustrating: {snippet}"
+                            )
+                        else:
+                            s.image_prompt = f"Atmospheric cinematic scene: {snippet}"
                     s.scene_type = "B"  # Convert to narrative+image scene
                     text_only_converted += 1
                     logger.info(
@@ -581,6 +596,41 @@ class AgentOrchestrator:
                     text_only_converted,
                 )
 
+            # ── Character consistency: anchor descriptions ──
+            # For enhanced pipeline, extract character/subject descriptions
+            # from the first non-intro screen's image_prompt and prepend
+            # to all subsequent image prompts for visual consistency.
+            if is_enhanced and getattr(config, "ENHANCED_CHAR_CONSISTENCY", False):
+                anchor_prompt = ""
+                for s in screenplay.screens:
+                    if not s.is_intro and not s.is_outro and s.image_prompt:
+                        anchor_prompt = s.image_prompt
+                        break
+
+                if anchor_prompt:
+                    # Extract visual subject cues (first 80 chars typically
+                    # contain the subject/character description)
+                    anchor_snippet = anchor_prompt[:100]
+                    applied = 0
+                    for s in screenplay.screens:
+                        if s.is_intro or s.is_outro or not s.image_prompt:
+                            continue
+                        # Skip the anchor screen itself
+                        if s.image_prompt == anchor_prompt:
+                            continue
+                        # Prepend consistency anchor if not already present
+                        if anchor_snippet[:40] not in s.image_prompt:
+                            s.image_prompt = (
+                                f"Same visual style and characters as: {anchor_snippet}. "
+                                f"{s.image_prompt}"
+                            )
+                            applied += 1
+                    if applied:
+                        logger.info(
+                            "Character consistency: anchored %d screens to '%s'",
+                            applied, anchor_snippet[:50],
+                        )
+
             tracker.complete_stage(
                 "analyze",
                 f"{len(screenplay.screens)} screen segments created",
@@ -588,7 +638,14 @@ class AgentOrchestrator:
 
             # ── Stage 3: AI VISUALS (Pollinations) ────────
             tracker.start_stage("visuals", "Generating AI images...")
-            generator = AIImageGenerator(visual_style=visual_style)
+            portrait_mode = (
+                is_enhanced
+                and getattr(config, "ENHANCED_IMAGE_PORTRAIT", False)
+            )
+            generator = AIImageGenerator(
+                visual_style=visual_style,
+                portrait_mode=portrait_mode,
+            )
 
             images = self._run_stage_with_retry(
                 "visuals",
@@ -648,8 +705,63 @@ class AgentOrchestrator:
                 finally:
                     # Cleanup temp voice config
                     config.GHOST_COLLAB_VOICES.pop("_deep_dive_temp", None)
+            elif is_enhanced and getattr(config, "TTS_PROVIDER", "") in ("elevenlabs", "replicate"):
+                # ── Enhanced TTS: ElevenLabs or Replicate ──
+                tts_provider = config.TTS_PROVIDER
+                logger.info("Using %s TTS (enhanced pipeline)", tts_provider)
+                narration_key_points = [
+                    KeyPoint(
+                        index=screen.index,
+                        headline=screen.text[:60],
+                        narration=screen.text,
+                        visual_query=screen.image_prompt or screen.text[:40],
+                        duration=screen.duration,
+                        emotion=screen.emotion,
+                    )
+                    for screen in screenplay.screens
+                    if not screen.is_intro and not screen.is_outro
+                ]
+
+                try:
+                    if tts_provider == "replicate":
+                        from agent.replicate_tts import ReplicateTTS
+                        tts_engine = ReplicateTTS(mood=screenplay.mood or "neutral")
+                    else:
+                        tts_engine = ElevenLabsTTS(mood=screenplay.mood or "neutral")
+
+                    enhanced_clips = self._run_stage_with_retry(
+                        "narrate",
+                        lambda: tts_engine.generate_narration(
+                            narration_key_points, output_dir,
+                        ),
+                        tracker,
+                    )
+                    # Convert to NarrationClip for downstream compat
+                    narrations = [
+                        NarrationClip(
+                            key_point_index=c.index,
+                            audio_path=c.audio_path,
+                            duration=c.duration,
+                            word_timings=c.word_timings,
+                            subtitle_data=c.subtitle_data,
+                            speaker=getattr(c, "speaker", ""),
+                        )
+                        for c in enhanced_clips
+                    ]
+                except Exception as tts_err:
+                    logger.warning(
+                        "%s TTS failed, falling back to edge-tts: %s",
+                        tts_provider, tts_err,
+                    )
+                    narrations = self._run_stage_with_retry(
+                        "narrate",
+                        lambda: self.narration_engine.generate_narration(
+                            narration_key_points, output_dir,
+                        ),
+                        tracker,
+                    )
             else:
-                # Standard single-voice narration
+                # Standard single-voice narration (edge-tts)
                 # Adapt ScreenSegments → KeyPoint objects for NarrationEngine
                 narration_key_points = [
                     KeyPoint(
@@ -671,6 +783,23 @@ class AgentOrchestrator:
                     ),
                     tracker,
                 )
+
+            # ── Post-narration: Silence gaps between clips ──
+            if is_enhanced and getattr(config, "ENHANCED_SILENCE_GAPS", False):
+                silence_ms = getattr(config, "SCENE_SILENCE_MS", 300)
+                padded_count = 0
+                for n in narrations:
+                    ap = getattr(n, "audio_path", None)
+                    if ap and Path(ap).exists():
+                        new_dur = append_silence_to_audio(ap, silence_ms=silence_ms)
+                        if new_dur is not None and new_dur > n.duration:
+                            n.duration = new_dur
+                            padded_count += 1
+                if padded_count:
+                    logger.info(
+                        "Added %dms silence gap to %d narration clips",
+                        silence_ms, padded_count,
+                    )
 
             total_narration = sum(n.duration for n in narrations)
             logger.info(
@@ -715,6 +844,15 @@ class AgentOrchestrator:
             # ── Stage 5: COMPOSE ───────────────────────────
             video_filename = f"{slugify(screenplay.title)}.mp4"
 
+            # Determine enhanced rendering params
+            layout_mode = "classic"
+            scene_silence_ms = 0
+            if is_enhanced:
+                if getattr(config, "ENHANCED_FULL_BLEED", False):
+                    layout_mode = "fullbleed"
+                if getattr(config, "ENHANCED_SILENCE_GAPS", False):
+                    scene_silence_ms = getattr(config, "SCENE_SILENCE_MS", 300)
+
             if renderer == "remotion":
                 tracker.start_stage("compose", "Rendering with Remotion...")
                 remotion = RemotionRenderer(
@@ -734,6 +872,8 @@ class AgentOrchestrator:
                         include_subtitles=include_subtitles,
                         color_grade=color_grade,
                         brand_text=brand_text,
+                        layout_mode=layout_mode,
+                        scene_silence_ms=scene_silence_ms,
                     ),
                     tracker,
                     max_retries=1,

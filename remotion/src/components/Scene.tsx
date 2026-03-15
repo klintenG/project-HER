@@ -18,6 +18,7 @@ import {
 } from "remotion";
 import { ScreenData, SceneEffectsPlan, VisualStyle, rgbToCSS } from "../types";
 import { TextBlock } from "./TextBlock";
+import { KineticTextBlock } from "./KineticTextBlock";
 import { ImageBlock, MultiImageBlock } from "./ImageBlock";
 import { getOverlayComponent } from "../effects/overlays";
 import { getBackgroundComponent } from "../effects/backgrounds";
@@ -100,6 +101,7 @@ interface SceneProps {
   brandText?: string;
   watermark?: string;
   sceneStartFrame: number;
+  layoutMode?: "classic" | "fullbleed";
 }
 
 export const Scene: React.FC<SceneProps> = ({
@@ -108,14 +110,20 @@ export const Scene: React.FC<SceneProps> = ({
   brandText = "",
   watermark = "",
   sceneStartFrame,
+  layoutMode = "classic",
 }) => {
   const frame = useCurrentFrame();
   const { fps, width, height } = useVideoConfig();
   const effects = screen.effects || DEFAULT_EFFECTS;
   const sceneDurationFrames = Math.round(screen.duration * fps);
 
+  const isFullBleed = layoutMode === "fullbleed";
+
   // Image always in a fixed center position — text is the dynamic element
   const imageLayout = (): "full" | "center" => {
+    if (isFullBleed && screen.visual_type === "image" && screen.image_paths.length > 0) {
+      return "full";
+    }
     if (screen.visual_type === "image" && screen.image_paths.length > 0) {
       return "center";
     }
@@ -125,7 +133,12 @@ export const Scene: React.FC<SceneProps> = ({
   return (
     <AbsoluteFill>
       {/* Layer 0: Background */}
-      <ClayBackground style={visualStyle} effects={effects} />
+      {/* In fullbleed mode, use solid black so transitions don't show warm-white bleed-through */}
+      {isFullBleed && screen.image_paths.length > 0 ? (
+        <AbsoluteFill style={{ backgroundColor: "#000" }} />
+      ) : (
+        <ClayBackground style={visualStyle} effects={effects} />
+      )}
 
       {/* Layer 1: Images */}
       {screen.visual_type === "image" && screen.image_paths.length > 0 && (
@@ -149,17 +162,53 @@ export const Scene: React.FC<SceneProps> = ({
         />
       )}
 
-      {/* Layer 2: Text */}
-      <TextBlock
-        screen={screen}
-        effects={effects}
-        style={visualStyle}
-        sceneStartFrame={sceneStartFrame}
-        sceneDurationFrames={sceneDurationFrames}
-      />
+      {/* Layer 1.5: Edge vignette for fullbleed — darkens edges only, preserves centre image */}
+      {isFullBleed && screen.image_paths.length > 0 && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            zIndex: 15,
+            background: [
+              // Soft vignette around edges (not center)
+              "radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0,0,0,0.35) 100%)",
+            ].join(", "),
+          }}
+        />
+      )}
+
+      {/* Layer 2: Text — Kinetic typography in fullbleed, classic TextBlock otherwise */}
+      {isFullBleed ? (
+        <KineticTextBlock
+          screen={screen}
+          effects={effects}
+          style={visualStyle}
+          sceneStartFrame={sceneStartFrame}
+          sceneDurationFrames={sceneDurationFrames}
+          layoutMode={layoutMode}
+        />
+      ) : (
+        <TextBlock
+          screen={screen}
+          effects={effects}
+          style={visualStyle}
+          sceneStartFrame={sceneStartFrame}
+          sceneDurationFrames={sceneDurationFrames}
+          layoutMode={layoutMode}
+        />
+      )}
 
       {/* Layer 3: Overlay effects */}
+      {/* In fullbleed mode, skip overlays that use blend modes (grain, scan-lines, etc.)
+          which can wash out or discolour the underlying image. */}
       {effects.overlay_effect && effects.overlay_effect !== "overlay_none" && (() => {
+        // Overlays that purely add particle/element layers without blend modes
+        const FULLBLEED_SAFE_OVERLAYS = new Set([
+          "dust_particles", "fire_embers", "sparkle_overlay", "rain_overlay", "bokeh_overlay",
+        ]);
+        if (isFullBleed && !FULLBLEED_SAFE_OVERLAYS.has(effects.overlay_effect)) {
+          return null; // skip blend-mode overlays in fullbleed
+        }
         const OvComponent = getOverlayComponent(effects.overlay_effect);
         return <OvComponent {...(effects.overlay_params || {})} />;
       })()}
@@ -168,7 +217,7 @@ export const Scene: React.FC<SceneProps> = ({
       {brandText && (
         <BrandBar
           text={brandText}
-          color={rgbToCSS(visualStyle.primary)}
+          color={isFullBleed ? "rgba(0,0,0,0.4)" : rgbToCSS(visualStyle.primary)}
           textColor={rgbToCSS(visualStyle.text_light)}
         />
       )}

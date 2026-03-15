@@ -88,6 +88,8 @@ class RemotionRenderer:
         color_grade: str = "none",
         watermark: str = "",
         brand_text: str = "",
+        layout_mode: str = "classic",
+        scene_silence_ms: int = 0,
     ) -> dict:
         """
         Render video using Remotion. Returns dict with:
@@ -108,6 +110,8 @@ class RemotionRenderer:
             effects_plan=effects_plan,
             watermark=watermark or config.WATERMARK_TEXT or "",
             brand_text=brand_text or screenplay.brand_text or "",
+            layout_mode=layout_mode,
+            scene_silence_ms=scene_silence_ms,
         )
 
         # Step 2: Write props to JSON file
@@ -127,10 +131,19 @@ class RemotionRenderer:
         total_duration = sum(s.get("duration", 0) for s in props["screens"])
         logger.info("Remotion render complete in %.1fs → %s", elapsed, output_path)
 
+        # Step 5: Cleanup staged assets from remotion/public/ to save disk
+        self._cleanup_staged_assets()
+
+        # Step 6: Generate SRT subtitles from word timings
+        srt_path = self._generate_srt(props, output_dir)
+
+        # Step 7: Extract thumbnail from rendered video
+        thumbnail_path = self._extract_thumbnail(output_path, total_duration)
+
         return {
             "video_path": output_path,
-            "srt_path": None,  # TODO: generate SRT from word timings
-            "thumbnail_path": None,
+            "srt_path": srt_path,
+            "thumbnail_path": thumbnail_path,
             "duration": total_duration,
             "resolution": f"{self.W}x{self.H}",
         }
@@ -160,8 +173,11 @@ class RemotionRenderer:
                 dst_name = f"narration_{n.key_point_index:02d}{src.suffix}"
                 dst = audio_dir / dst_name
                 shutil.copy2(str(src), str(dst))
-                # staticFile path (relative to public/)
-                self._audio_map[str(src.resolve())] = f"audio/{dst_name}"
+                # Store multiple key variants to handle path normalization differences
+                staged_path = f"audio/{dst_name}"
+                self._audio_map[str(src.resolve())] = staged_path
+                self._audio_map[str(src)] = staged_path
+                self._audio_map[str(src.absolute())] = staged_path
 
         for img in images:
             src = Path(img.local_path)
@@ -169,12 +185,140 @@ class RemotionRenderer:
                 dst_name = f"img_{img.screen_index:02d}_{img.sub_index}{src.suffix}"
                 dst = img_dir / dst_name
                 shutil.copy2(str(src), str(dst))
-                self._image_map[str(src.resolve())] = f"images/{dst_name}"
+                staged_path = f"images/{dst_name}"
+                self._image_map[str(src.resolve())] = staged_path
+                self._image_map[str(src)] = staged_path
+                self._image_map[str(src.absolute())] = staged_path
 
         logger.info(
             "Staged %d audio + %d image assets into remotion/public/",
             len(self._audio_map), len(self._image_map),
         )
+
+    def _cleanup_staged_assets(self) -> None:
+        """Remove staged audio/image files from remotion/public/ after render."""
+        public_dir = REMOTION_DIR / "public"
+        removed = 0
+        for subdir in ("audio", "images"):
+            d = public_dir / subdir
+            if d.exists():
+                for f in d.iterdir():
+                    if f.is_file():
+                        f.unlink()
+                        removed += 1
+        if removed:
+            logger.info("Cleaned up %d staged assets from remotion/public/", removed)
+
+    # ──────────────────────────────────────────────────
+    #  SRT SUBTITLE GENERATION
+    # ──────────────────────────────────────────────────
+
+    def _generate_srt(self, props: dict, output_dir: Path) -> Optional[Path]:
+        """
+        Generate SRT subtitle file from word timings in props.
+        Groups words into subtitle blocks of ~6-10 words each.
+        """
+        try:
+            all_entries: list[dict] = []
+            time_offset = 0.0  # cumulative offset across screens
+
+            for screen in props.get("screens", []):
+                word_timings = screen.get("word_timings", [])
+                if not word_timings:
+                    time_offset += screen.get("duration", 0)
+                    continue
+
+                # Group words into subtitle blocks (~8 words or natural breaks)
+                block_words: list[dict] = []
+                for wt in word_timings:
+                    block_words.append({
+                        "word": wt["word"],
+                        "start": wt["start"] + time_offset,
+                        "end": wt["end"] + time_offset,
+                    })
+
+                    # End block at ~8 words or sentence boundaries
+                    end_of_sentence = wt["word"].rstrip().endswith((".", "!", "?", ":", ";"))
+                    if len(block_words) >= 8 or (len(block_words) >= 4 and end_of_sentence):
+                        all_entries.append({
+                            "start": block_words[0]["start"],
+                            "end": block_words[-1]["end"],
+                            "text": " ".join(w["word"] for w in block_words),
+                        })
+                        block_words = []
+
+                # Flush remaining words
+                if block_words:
+                    all_entries.append({
+                        "start": block_words[0]["start"],
+                        "end": block_words[-1]["end"],
+                        "text": " ".join(w["word"] for w in block_words),
+                    })
+
+                time_offset += screen.get("duration", 0)
+
+            if not all_entries:
+                logger.info("No word timings available — SRT not generated")
+                return None
+
+            # Write SRT file
+            srt_path = output_dir / "subtitles.srt"
+            with open(srt_path, "w", encoding="utf-8") as f:
+                for i, entry in enumerate(all_entries, 1):
+                    start_ts = self._srt_timestamp(entry["start"])
+                    end_ts = self._srt_timestamp(entry["end"])
+                    f.write(f"{i}\n{start_ts} --> {end_ts}\n{entry['text']}\n\n")
+
+            logger.info("SRT generated: %s (%d entries)", srt_path, len(all_entries))
+            return srt_path
+
+        except Exception as e:
+            logger.warning("SRT generation failed: %s", e)
+            return None
+
+    @staticmethod
+    def _srt_timestamp(seconds: float) -> str:
+        """Convert seconds to SRT timestamp format: HH:MM:SS,mmm"""
+        h = int(seconds // 3600)
+        m = int((seconds % 3600) // 60)
+        s = int(seconds % 60)
+        ms = int((seconds % 1) * 1000)
+        return f"{h:02d}:{m:02d}:{s:02d},{ms:03d}"
+
+    # ──────────────────────────────────────────────────
+    #  THUMBNAIL EXTRACTION
+    # ──────────────────────────────────────────────────
+
+    def _extract_thumbnail(self, video_path: Path, duration: float) -> Optional[Path]:
+        """Extract a frame from ~25% into the video as thumbnail."""
+        try:
+            thumb_path = video_path.with_suffix(".jpg")
+            seek_time = max(0.5, duration * 0.25)
+
+            result = subprocess.run(
+                [
+                    "ffmpeg", "-y",
+                    "-ss", str(seek_time),
+                    "-i", str(video_path),
+                    "-vframes", "1",
+                    "-q:v", "2",
+                    str(thumb_path),
+                ],
+                capture_output=True,
+                text=True,
+                timeout=30,
+            )
+
+            if result.returncode == 0 and thumb_path.exists():
+                logger.info("Thumbnail extracted: %s", thumb_path)
+                return thumb_path
+            else:
+                logger.warning("Thumbnail extraction failed: %s", result.stderr[:200])
+                return None
+
+        except Exception as e:
+            logger.warning("Thumbnail extraction failed: %s", e)
+            return None
 
     # ──────────────────────────────────────────────────
     #  BUILD PROPS
@@ -188,6 +332,8 @@ class RemotionRenderer:
         effects_plan,
         watermark: str,
         brand_text: str,
+        layout_mode: str = "classic",
+        scene_silence_ms: int = 0,
     ) -> dict:
         """Convert Python pipeline data to Remotion VideoProps JSON."""
 
@@ -218,9 +364,18 @@ class RemotionRenderer:
             # Resolve image paths via staged public/ directory
             image_paths = []
             for img in imgs:
-                abs_path = str(Path(img.local_path).resolve())
-                staged = self._image_map.get(abs_path, "")
-                image_paths.append(staged if staged else abs_path)
+                img_src = Path(img.local_path)
+                staged = (
+                    self._image_map.get(str(img_src.resolve()))
+                    or self._image_map.get(str(img_src))
+                    or self._image_map.get(str(img_src.absolute()))
+                )
+                if not staged:
+                    logger.warning(
+                        "Image path not found in staged assets (screen %d): %s",
+                        idx, img.local_path,
+                    )
+                image_paths.append(staged or "")
 
             # Word timings
             word_timings = []
@@ -268,13 +423,25 @@ class RemotionRenderer:
                     "reasoning": efx.reasoning or "",
                 }
 
-            # Audio path — use staged public/ path
+            # Audio path — use staged public/ path (NEVER absolute paths)
             audio_path = ""
             audio_duration = 0.0
             if narr:
-                abs_path = str(Path(narr.audio_path).resolve())
-                staged = self._audio_map.get(abs_path, "")
-                audio_path = staged if staged else abs_path
+                narr_src = Path(narr.audio_path)
+                staged = (
+                    self._audio_map.get(str(narr_src.resolve()))
+                    or self._audio_map.get(str(narr_src))
+                    or self._audio_map.get(str(narr_src.absolute()))
+                )
+                if staged:
+                    audio_path = staged
+                else:
+                    logger.warning(
+                        "Audio path not found in staged assets (screen %d): %s — "
+                        "map keys: %s",
+                        idx, narr.audio_path,
+                        list(self._audio_map.keys())[:5],
+                    )
                 audio_duration = narr.duration
 
             # Screen duration: use narration duration as primary source
@@ -341,6 +508,9 @@ class RemotionRenderer:
             "height": self.H,
             "cta": screenplay.cta or "Thanks for watching!",
             "visual_theme": effects_plan.visual_theme if effects_plan else "dynamic",
+            "layout_mode": layout_mode,
+            "transition_frames": 15,  # default; Video.tsx overrides per-emotion when fullbleed
+            "scene_silence_ms": scene_silence_ms,
         }
 
     # ──────────────────────────────────────────────────
@@ -376,7 +546,7 @@ class RemotionRenderer:
             "--props", str(props_path),
             "--concurrency", str(min(os.cpu_count() or 4, 8)),
             "--image-format", "jpeg",
-            "--jpeg-quality", "90",
+            "--jpeg-quality", "95",
             "--log", "verbose",
             "--overwrite",
         ]

@@ -56,12 +56,48 @@ const KaraokeWord: React.FC<KaraokeWordProps> = ({
     ? interpolate(currentTime, [timing.start, timing.end], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })
     : isPast ? 1 : 0;
 
-  // Highlight animation
+  // ── Smooth highlight animation using interpolate (NOT CSS transitions) ──
+  // CSS transitions don't work in Remotion's frame-by-frame rendering.
+  // Use frame-based interpolation for smooth karaoke effect.
+  const wordStartFrame = Math.round(timing.start * fps);
+  const wordEndFrame = Math.round(timing.end * fps);
+  const fadeInFrames = 4; // ~133ms smooth fade-in
+  const fadeOutFrames = 6; // ~200ms smooth fade-out
+
+  // Highlight intensity: 0 = inactive, 1 = fully active
+  let highlightIntensity = 0;
+  if (isActive) {
+    // Fade in at the start of the word
+    highlightIntensity = interpolate(
+      localFrame,
+      [wordStartFrame, wordStartFrame + fadeInFrames],
+      [0, 1],
+      { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
+    );
+  } else if (isPast) {
+    // Fade out after the word ends
+    highlightIntensity = interpolate(
+      localFrame,
+      [wordEndFrame, wordEndFrame + fadeOutFrames],
+      [1, 0],
+      { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
+    );
+  }
+
+  // Scale animation using spring (already works since it's frame-based)
   const highlightSpring = spring({
     frame: isActive ? Math.floor((currentTime - timing.start) * fps) : 0,
     fps,
     config: { damping: 12, mass: 0.5, stiffness: 200 },
   });
+
+  const scaleVal = isActive
+    ? 1 + highlightSpring * 0.08
+    : isEmphasis && isPast ? 1.02 : 1;
+
+  // Interpolated colors and background
+  const bgOpacity = highlightIntensity;
+  const textOpacity = isPast ? 1 : (0.65 + 0.35 * highlightIntensity);
 
   const style: React.CSSProperties = {
     display: "inline-block",
@@ -72,16 +108,13 @@ const KaraokeWord: React.FC<KaraokeWordProps> = ({
     margin: "0 3px",
     padding: "2px 6px",
     borderRadius: 6,
-    transition: "all 0.15s ease",
-    color: isActive ? highlightText : isPast ? baseColor : `${baseColor}aa`,
-    backgroundColor: isActive ? highlightColor : "transparent",
-    transform: isActive
-      ? `scale(${1 + highlightSpring * 0.08})`
-      : isEmphasis && isPast
-        ? "scale(1.02)"
-        : "scale(1)",
-    textShadow: isActive
-      ? `0 0 20px ${highlightColor}88`
+    // NO CSS transition — use frame-interpolated values instead
+    color: highlightIntensity > 0.5 ? highlightText : baseColor,
+    opacity: textOpacity,
+    backgroundColor: `rgba(${highlightColor.replace(/[^\d,]/g, '')}, ${bgOpacity * 0.9})`,
+    transform: `scale(${scaleVal})`,
+    textShadow: highlightIntensity > 0.3
+      ? `0 0 ${20 * highlightIntensity}px ${highlightColor}88`
       : "none",
   };
 
@@ -116,6 +149,7 @@ interface TextBlockProps {
   style: VisualStyle;
   sceneStartFrame: number;
   sceneDurationFrames: number;
+  layoutMode?: "classic" | "fullbleed";
 }
 
 export const TextBlock: React.FC<TextBlockProps> = ({
@@ -124,6 +158,7 @@ export const TextBlock: React.FC<TextBlockProps> = ({
   style: vs,
   sceneStartFrame,
   sceneDurationFrames,
+  layoutMode = "classic",
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -185,12 +220,19 @@ export const TextBlock: React.FC<TextBlockProps> = ({
     return map;
   }, [screen.emphasis_words]);
 
-  // Colors
+  // Colors — fix: use text_dark for top (over light bg), text_light for bottom
   const highlightColor = rgbToCSS(vs.highlight_color);
   const highlightTextColor = rgbToCSS(vs.highlight_text);
-  const baseTextColor = screen.narration_position === "top"
+
+  const isFullBleed = layoutMode === "fullbleed";
+
+  // In full-bleed mode, text is always white (over dark gradient scrim)
+  // In classic mode, use proper contrast colors based on position
+  const baseTextColor = isFullBleed
     ? rgbToCSS(vs.text_light)
-    : rgbToCSS(vs.text_light);
+    : screen.narration_position === "top"
+      ? rgbToCSS(vs.text_dark)    // top text over light background
+      : rgbToCSS(vs.text_light);  // bottom text over darker area
 
   const fontSize = screen.text.length > 120 ? 36 : screen.text.length > 60 ? 42 : 48;
 
@@ -198,26 +240,31 @@ export const TextBlock: React.FC<TextBlockProps> = ({
   // Text is the dynamic element (top/bottom), image stays fixed center
   const positionStyle: React.CSSProperties = {
     position: "absolute",
-    left: 40,
-    right: 40,
+    left: isFullBleed ? 32 : 40,
+    right: isFullBleed ? 32 : 40,
     zIndex: 20,
     ...(screen.narration_position === "top"
-      ? { top: 160 }        // below top branding zone
+      ? { top: isFullBleed ? 120 : 160 }
       : screen.narration_position === "bottom"
-        ? { bottom: 180 }   // above bottom branding zone
-        : { bottom: 180 }), // default to bottom safe zone
+        ? { bottom: isFullBleed ? 140 : 180 }
+        : { bottom: isFullBleed ? 140 : 180 }),
   };
 
-  // Card background
-  const cardStyle: React.CSSProperties = {
-    backgroundColor: rgbToCSS(
-      [vs.card_bg[0], vs.card_bg[1], vs.card_bg[2]],
-      vs.card_bg[3] / 255,
-    ),
-    borderRadius: vs.card_radius,
-    padding: "28px 32px",
-    boxShadow: "0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08)",
-  };
+  // Card background — transparent in full-bleed mode (text reads over gradient scrim)
+  const cardStyle: React.CSSProperties = isFullBleed
+    ? {
+        padding: "20px 24px",
+        borderRadius: vs.card_radius,
+      }
+    : {
+        backgroundColor: rgbToCSS(
+          [vs.card_bg[0], vs.card_bg[1], vs.card_bg[2]],
+          vs.card_bg[3] / 255,
+        ),
+        borderRadius: vs.card_radius,
+        padding: "28px 32px",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08)",
+      };
 
   const hasWordTimings = screen.word_timings && screen.word_timings.length > 0;
 
@@ -269,6 +316,9 @@ export const TextBlock: React.FC<TextBlockProps> = ({
                 fontWeight: 600,
                 color: baseTextColor,
                 lineHeight: 1.4,
+                textShadow: isFullBleed
+                  ? "0 2px 12px rgba(0,0,0,0.8), 0 0px 4px rgba(0,0,0,0.6), 0 0 20px rgba(0,0,0,0.3)"
+                  : "none",
               }}
             >
               {screen.text}
