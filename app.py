@@ -21,6 +21,15 @@ import logging
 from pathlib import Path
 from typing import Optional
 
+# ── ZeroGPU compatibility (if Space hardware is accidentally set to ZeroGPU) ──
+try:
+    import spaces
+    @spaces.GPU(duration=60)
+    def _spaces_gpu_keepalive():
+        pass
+except (ImportError, Exception):
+    pass
+
 import gradio as gr
 import config
 
