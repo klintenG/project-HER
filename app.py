@@ -175,8 +175,6 @@ footer { display: none !important; }
 
 with gr.Blocks(
     title="🎬 Project HER — AI Video Generator",
-    theme=gr.themes.Soft(primary_hue="purple", neutral_hue="slate"),
-    css=CSS,
 ) as demo:
 
     # ── Header ────────────────────────────────────────────────────────────────
@@ -279,7 +277,6 @@ with gr.Blocks(
         with gr.Column(scale=5):
             video_out = gr.Video(
                 label="Generated Video",
-                show_download_button=True,
                 height=480,
             )
             status_out = gr.Markdown(
