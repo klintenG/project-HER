@@ -1,0 +1,62 @@
+# .dockerignore – keeps the Docker image lean and avoids baking in secrets
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Local secrets – NEVER bake into the image
+.env
+
+# Generated output and cache (ephemeral, not needed in image)
+output/
+temp/
+
+# Git history
+.git/
+.gitignore
+
+# Node / Remotion dev artifacts (not needed at runtime)
+node_modules/
+remotion/node_modules/
+remotion/public/previews/
+
+# Python caches
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# Large test/dev images you committed locally
+image1.png
+image2.png
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# VS Code bridge extension (dev only)
+vscode-copilot-bridge/
+
+# Series JSON files (optional – remove this line if you want them deployed)
+series/
+
+# Test files
+test_remotion.py
+test_remotion_cat.py
+_test_elevenlabs.py
+testing-prompts.txt
+
+# Docs (not needed at runtime)
+AI_Video_Generation_Prompt_Daria-i-Noor.md
+Universal_Video_Style_Guide_Prompt.md
+README.md

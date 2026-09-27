@@ -19,6 +19,13 @@ numpy>=1.24.0
 # Image downloading
 aiohttp>=3.9.0
 
+# Web UI (Flask — local dev only)
+flask>=3.0.0
+gunicorn>=21.0.0
+
+# HF Spaces UI (Gradio — used in app.py for HF deployment)
+gradio>=4.44.0
+
 # CLI
 click>=8.1.0
 rich>=13.0.0

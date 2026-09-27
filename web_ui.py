@@ -18,7 +18,9 @@ import queue
 from pathlib import Path
 from typing import Optional
 
-from flask import Flask, render_template, request, jsonify, send_from_directory, Response
+from flask import Flask, render_template, request, jsonify, send_from_directory, Response, send_file
+import io
+
 
 import config
 from utils.llm_client import get_provider_info
@@ -36,6 +38,17 @@ for logger_name in ["urllib3", "httpx", "openai", "moviepy", "PIL", "httpcore"]:
 logger = logging.getLogger("web_ui")
 
 app = Flask(__name__, template_folder="templates", static_folder="output")
+
+# ── Allow iframe embedding from klinteng.com ─────────────────────────────────
+@app.after_request
+def allow_iframe_embedding(response):
+    """Allow klinteng.com portfolio to embed this app in an iframe."""
+    response.headers.pop("X-Frame-Options", None)
+    response.headers["Content-Security-Policy"] = (
+        "frame-ancestors 'self' https://klinteng.com https://www.klinteng.com "
+        "https://*.huggingface.co https://*.hf.space;"
+    )
+    return response
 
 # ── SSE Progress Infrastructure ───────────────────────
 
@@ -107,7 +120,7 @@ def index():
         # ── LLM Providers ──
         llm_providers=config.LLM_PROVIDERS,
         llm_provider=config.LLM_PROVIDER,
-        copilot_bridge_model=config.COPILOT_BRIDGE_MODEL,
+        gemini_model=config.GEMINI_MODEL,
         provider_info=get_provider_info(),
     )
 
@@ -172,14 +185,7 @@ def api_generate():
     effective_provider = llm_provider or config.LLM_PROVIDER
     pinfo = get_provider_info(effective_provider)
     if not pinfo["ready"]:
-        # For copilot_bridge, offer a helpful message about VS Code
-        if effective_provider == "copilot_bridge":
-            return jsonify({"error": (
-                f"Copilot Bridge not reachable. Make sure VS Code is open "
-                f"with the Copilot Bridge extension active ({config.COPILOT_BRIDGE_URL}). "
-                "Or switch to a different LLM provider."
-            )}), 400
-        return jsonify({"error": f"API key not set for {pinfo['label']}. Check your .env file."}), 400
+        return jsonify({"error": f"API key not set for {pinfo['label']}. Check GEMINI_API_KEY in your .env file."}), 400
     if not config.PEXELS_API_KEY and not ai_images:
         return jsonify({"error": "PEXELS_API_KEY not set in .env (or enable AI Images mode)"}), 400
 
@@ -193,6 +199,7 @@ def api_generate():
     quality = data.get("quality", "standard")
     watermark = data.get("watermark", "")
     num_points = data.get("points", 0)
+    target_duration = int(data.get("target_duration", 0) or 0)
     include_subtitles = data.get("subtitles", True)
     color_grade = data.get("color_grade", config.DEFAULT_COLOR_GRADE)
     language = data.get("language", "")
@@ -219,8 +226,10 @@ def api_generate():
         if not num_points:
             num_points = preset["max_points"]
 
-    # Apply watermark
-    config.WATERMARK_TEXT = watermark if watermark else ""
+    # Apply watermark (only override if user explicitly typed something;
+    # otherwise keep .env / config.py default)
+    if watermark:
+        config.WATERMARK_TEXT = watermark
 
     # Apply quality
     if quality:
@@ -278,6 +287,7 @@ def api_generate():
                 deep_dive_sources=deep_dive_sources,
                 deep_dive_text=deep_dive_text,
                 renderer=data.get("renderer", "moviepy"),
+                target_duration=target_duration,
             )
 
             if not result.success:
@@ -306,6 +316,8 @@ def api_generate():
                 "video_url": f"/output/{video_rel}" if video_rel else None,
                 "thumbnail_url": f"/output/{thumb_rel}" if thumb_rel else None,
                 "srt_url": f"/output/{srt_rel}" if srt_rel else None,
+                # Direct in-memory download — works even on ephemeral cloud hosts
+                "download_url": f"/api/download/{job_id}" if video_rel else None,
             }
             _job_results[job_id] = result_data
             q = _active_jobs.get(job_id)
@@ -446,6 +458,55 @@ def api_history():
 def serve_output(filename):
     """Serve files from the output directory."""
     return send_from_directory(config.OUTPUT_DIR, filename)
+
+
+@app.route("/api/download/<job_id>")
+def api_download_video(job_id):
+    """Stream the generated video directly from disk into RAM and send to client.
+
+    This endpoint works on ephemeral cloud hosts (Railway, Render) where the
+    output/ folder may be wiped on redeploy. The file is read immediately after
+    generation — as long as the request comes before a restart, the video is
+    streamed successfully.
+    """
+    result = _job_results.get(job_id)
+    if not result or result.get("error"):
+        return jsonify({"error": "Job result not found or generation failed"}), 404
+
+    video_url = result.get("video_url")  # e.g. "/output/run_abc123/video.mp4"
+    if not video_url:
+        return jsonify({"error": "No video in result"}), 404
+
+    # Reconstruct absolute path from relative URL
+    rel_path = video_url.lstrip("/output/")
+    video_path = config.OUTPUT_DIR / rel_path
+
+    if not video_path.exists():
+        return jsonify({"error": "Video file not found on disk"}), 404
+
+    try:
+        # Read into memory buffer so the file handle is closed cleanly
+        buf = io.BytesIO(video_path.read_bytes())
+        buf.seek(0)
+        filename = video_path.name
+        return send_file(
+            buf,
+            mimetype="video/mp4",
+            as_attachment=True,
+            download_name=filename,
+        )
+    except Exception as e:
+        logger.error("Video download error: %s", e)
+        return jsonify({"error": str(e)}), 500
+
+
+
+
+@app.route("/daily-output/<path:filename>")
+def serve_daily_output(filename):
+    """Serve files from the daily runs directory."""
+    daily_dir = Path(config.BASE_DIR) / "data" / "daily_runs"
+    return send_from_directory(daily_dir, filename)
 
 
 @app.route("/api/series")
@@ -723,9 +784,124 @@ def api_effect_catalog():
     return jsonify(catalog)
 
 
+# ── Daily Pipeline API ────────────────────────────────
+
+@app.route("/api/daily-pipeline", methods=["POST"])
+def api_daily_pipeline():
+    """
+    Trigger the daily agentic pipeline.
+    Curates stories → validates → generates videos → schedules publishing.
+    """
+    from automation.daily_pipeline import DailyPipeline, DailyConfig
+
+    data = request.json or {}
+    job_id = f"daily_{int(time.time())}"
+
+    # Override TTS provider if specified in Daily Pipeline UI
+    tts_provider = data.get("tts_provider", "")
+    if tts_provider:
+        config.TTS_PROVIDER = tts_provider
+
+    cfg = DailyConfig(
+        target_videos=int(data.get("target_videos", 5)),
+        tone=data.get("tone", "storytelling"),
+        renderer=data.get("renderer", "remotion"),
+        publish_strategy=data.get("publish_strategy", "manual"),
+        start_hour=int(data.get("start_hour", 17)),
+        interval_minutes=int(data.get("interval_minutes", 70)),
+        jitter_minutes=int(data.get("jitter_minutes", 15)),
+        dry_run=data.get("dry_run", False),
+        platforms=data.get("platforms", [
+            "youtube_shorts", "tiktok", "instagram_reels", "facebook", "twitter"
+        ]),
+    )
+
+    # Create SSE queue for progress
+    with _job_lock:
+        _active_jobs[job_id] = queue.Queue()
+
+    def _run_pipeline():
+        try:
+            q = _active_jobs.get(job_id)
+
+            def progress_cb(msg: str):
+                if q:
+                    q.put(("log", {"message": msg}))
+
+            pipeline = DailyPipeline(config=cfg)
+            report = pipeline.run(progress_callback=progress_cb)
+
+            result = {
+                "success": report.videos_generated > 0,
+                "date": report.date,
+                "duration_minutes": report.duration_minutes,
+                "stories_approved": report.stories_approved,
+                "stories_rejected": report.stories_rejected,
+                "videos_generated": report.videos_generated,
+                "videos_failed": report.videos_failed,
+                "posts_scheduled": report.posts_scheduled,
+                "errors": report.errors,
+                "video_details": report.video_details,
+            }
+
+            with _job_lock:
+                _job_results[job_id] = result
+            if q:
+                q.put(("complete", result))
+
+        except Exception as e:
+            logger.error("Daily pipeline failed: %s", e, exc_info=True)
+            result = {"success": False, "error": str(e)}
+            with _job_lock:
+                _job_results[job_id] = result
+            q = _active_jobs.get(job_id)
+            if q:
+                q.put(("error", result))
+
+    thread = threading.Thread(target=_run_pipeline, daemon=True)
+    thread.start()
+
+    return jsonify({"job_id": job_id, "status": "started"})
+
+
+@app.route("/api/daily-pipeline/stream/<job_id>")
+def api_daily_pipeline_stream(job_id):
+    """SSE stream for daily pipeline progress."""
+    def event_stream():
+        q = _active_jobs.get(job_id)
+        if not q:
+            yield f"data: {json.dumps({'type': 'error', 'message': 'Job not found'})}\n\n"
+            return
+
+        while True:
+            try:
+                event_type, data = q.get(timeout=120)
+                yield f"data: {json.dumps({'type': event_type, 'data': data})}\n\n"
+                if event_type in ("complete", "error"):
+                    break
+            except queue.Empty:
+                yield f"data: {json.dumps({'type': 'heartbeat'})}\n\n"
+
+    return Response(event_stream(), mimetype="text/event-stream")
+
+
+@app.route("/api/daily-pipeline/history")
+def api_daily_pipeline_history():
+    """Get story history and recent runs."""
+    from automation.story_history import StoryHistory
+    history = StoryHistory()
+    return jsonify({
+        "total_stories": len(history.all_stories),
+        "published": len(history.published_stories),
+        "today_count": history.get_today_count(),
+        "recent_stories": history.all_stories[-20:],  # last 20
+    })
+
+
 # ── Entry Point ───────────────────────────────────────
 
 if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 7860))
     print("\n🎬 Project HER v2.0 – Web UI")
-    print("   Open: http://localhost:7860\n")
-    app.run(host="0.0.0.0", port=7860, debug=False, threaded=True)
+    print(f"   Open: http://localhost:{port}\n")
+    app.run(host="0.0.0.0", port=port, debug=False, threaded=True)
