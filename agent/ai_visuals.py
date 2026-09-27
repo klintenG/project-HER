@@ -23,7 +23,10 @@ from pathlib import Path
 from typing import Optional
 
 import httpx
-import replicate as replicate_sdk
+try:
+    import replicate as replicate_sdk
+except ImportError:
+    replicate_sdk = None
 
 import config
 from agent.story_splitter import ScreenSegment
@@ -379,67 +382,70 @@ class AIImageGenerator:
         prompt: str,
     ) -> Optional[bytes]:
         """
-        Call Replicate API for image generation using FLUX models.
-        Uses the replicate SDK in a thread executor for async compat.
+        Call Replicate API for image generation using FLUX models via REST API.
+        Creates a prediction and polls for completion, avoiding SDK socket timeouts.
         Returns raw image bytes.
         """
-        loop = asyncio.get_event_loop()
-
-        def _run_replicate():
-            """Synchronous Replicate SDK call (run in executor)."""
-            # Use portrait aspect ratio for enhanced pipeline
-            aspect = "9:16" if self.portrait_mode else "1:1"
-            output = replicate_sdk.run(
-                self.replicate_model,
-                input={
-                    "prompt": prompt,
-                    "num_outputs": 1,
-                    "aspect_ratio": aspect,
-                    "output_format": "png",
-                    "output_quality": 90,
-                },
-            )
-            return output
+        aspect = "9:16" if self.portrait_mode else "1:1"
+        headers = {
+            "Authorization": f"Bearer {self.replicate_token}",
+            "Content-Type": "application/json",
+        }
+        create_url = f"https://api.replicate.com/v1/models/{self.replicate_model}/predictions"
+        payload = {
+            "input": {
+                "prompt": prompt,
+                "num_outputs": 1,
+                "aspect_ratio": aspect,
+                "output_format": "png",
+                "output_quality": 90,
+            }
+        }
 
         try:
-            output = await loop.run_in_executor(
-                None, _run_replicate
-            )
-
-            # FLUX models return a list of FileOutput objects (URL-like)
-            if not output:
-                logger.warning("  Replicate returned empty output")
+            # 1. Create prediction
+            create_resp = await client.post(create_url, headers=headers, json=payload, timeout=20.0)
+            if create_resp.status_code not in (200, 201):
+                logger.warning("  Replicate create prediction HTTP %d: %s", create_resp.status_code, create_resp.text[:120])
                 return None
 
-            # Get the first image URL
-            image_url = None
-            if isinstance(output, list):
-                image_url = str(output[0])
-            elif hasattr(output, "url"):
-                image_url = output.url
-            else:
-                image_url = str(output)
-
-            if not image_url:
-                logger.warning("  Replicate: no image URL in output")
+            data = create_resp.json()
+            pred_id = data.get("id")
+            if not pred_id:
+                logger.warning("  Replicate returned no prediction ID")
                 return None
 
-            # Download the image bytes
-            resp = await client.get(image_url)
-            if resp.status_code == 200:
-                content_type = resp.headers.get("content-type", "")
-                if "image" in content_type or len(resp.content) > 1000:
-                    return resp.content
-                else:
-                    logger.warning(
-                        "  Replicate download non-image: %s (%d bytes)",
-                        content_type, len(resp.content),
-                    )
+            poll_url = f"https://api.replicate.com/v1/predictions/{pred_id}"
+
+            # 2. Poll until finished (up to 45 seconds)
+            for _ in range(30):
+                await asyncio.sleep(1.5)
+                poll_resp = await client.get(poll_url, headers=headers, timeout=15.0, follow_redirects=True)
+                if poll_resp.status_code != 200:
+                    continue
+                poll_data = poll_resp.json()
+                status = poll_data.get("status")
+                if status == "succeeded":
+                    output = poll_data.get("output")
+                    if isinstance(output, list) and output:
+                        image_url = str(output[0])
+                    elif hasattr(output, "url"):
+                        image_url = output.url
+                    else:
+                        image_url = str(output)
+
+                    # 3. Download the image bytes (follow redirect for R2/S3 signed URLs)
+                    img_resp = await client.get(image_url, timeout=30.0, follow_redirects=True)
+                    if img_resp.status_code == 200 and len(img_resp.content) > 1000:
+                        return img_resp.content
+                    else:
+                        logger.warning("  Replicate image download failed: HTTP %d (size: %d)", img_resp.status_code, len(img_resp.content))
+                    break
+                elif status in ("failed", "canceled"):
+                    logger.warning("  Replicate prediction %s %s: %s", pred_id, status, poll_data.get("error"))
                     return None
 
-            logger.warning(
-                "  Replicate image download HTTP %d", resp.status_code
-            )
+            logger.warning("  Replicate prediction %s timed out polling", pred_id)
             return None
 
         except Exception as e:

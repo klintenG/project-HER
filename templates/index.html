@@ -4,6 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project HER v2.0 – AI Video Agent</title>
+    <script>
+    /* ── ngrok compatibility: inject skip-browser-warning header into every fetch ── */
+    (function() {
+        const _origFetch = window.fetch;
+        window.fetch = function(url, opts) {
+            opts = opts || {};
+            opts.headers = opts.headers || {};
+            if (opts.headers instanceof Headers) {
+                opts.headers.set('ngrok-skip-browser-warning', '1');
+            } else {
+                opts.headers['ngrok-skip-browser-warning'] = '1';
+            }
+            return _origFetch.call(this, url, opts);
+        };
+        /* EventSource doesn't support custom headers, so we append a query param
+           and handle it server-side, plus rely on ngrok's session cookie. */
+        const _origES = window.EventSource;
+        window.EventSource = function(url, opts) {
+            const sep = url.includes('?') ? '&' : '?';
+            return new _origES(url + sep + 'ngrok-skip-browser-warning=1', opts);
+        };
+        window.EventSource.prototype = _origES.prototype;
+    })();
+    </script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"
@@ -160,6 +184,12 @@
                 <span class="badge bg-warning text-dark ms-1" style="font-size:.55rem;">NEW</span>
             </button>
         </li>
+        <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-daily-pipeline" onclick="loadDailyHistory()">
+                <i class="bi bi-robot"></i> Daily Pipeline
+                <span class="badge bg-info text-dark ms-1" style="font-size:.55rem;">AUTO</span>
+            </button>
+        </li>
     </ul>
 
     <div class="tab-content">
@@ -184,12 +214,12 @@
                                         {% endfor %}
                                     </select>
                                 </div>
-                                <div class="col" id="copilotModelInfo"
-                                     {% if llm_provider != 'copilot_bridge' %}class="d-none"{% endif %}>
+                                <div class="col" id="llmModelInfo"
+                                     {% if llm_provider != 'gemini' %}class="d-none"{% endif %}>
                                     <label class="form-label small text-muted">Model</label>
                                     <input type="text" class="form-control form-control-sm" 
-                                           id="txtCopilotModel" value="{{ copilot_bridge_model }}"
-                                           placeholder="claude-sonnet-4.6">
+                                           id="txtLlmModel" value="{{ gemini_model }}"
+                                           placeholder="gemini-2.5-pro">
                                 </div>
                             </div>
                             <div class="mt-2" id="providerStatus">
@@ -481,6 +511,17 @@
                                 </div>
                                 <div class="row g-2 mb-2">
                                     <div class="col-6">
+                                        <label class="form-label small text-muted">Target Duration (seconds)</label>
+                                        <input type="number" class="form-control form-control-sm"
+                                               id="inputDuration" min="0" max="300" value="0"
+                                               placeholder="0 = auto">
+                                        <p class="small text-muted mb-0" style="font-size:.65rem;margin-top:2px;">
+                                            0 = auto. AI will try to fit the story within this time.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row g-2 mb-2">
+                                    <div class="col-6">
                                         <label class="form-label small text-muted">Render Engine</label>
                                         <select class="form-select form-select-sm" id="selRenderer">
                                             <option value="moviepy" selected>MoviePy (Classic)</option>
@@ -493,12 +534,13 @@
                                     <div class="col-6">
                                         <label class="form-label small text-muted">Voice Engine</label>
                                         <select class="form-select form-select-sm" id="selTTSProvider">
+                                            <option value="google_tts" selected>Google AI Studio (Gemini Voice - Default)</option>
                                             <option value="elevenlabs">ElevenLabs (Premium)</option>
                                             <option value="replicate">Replicate/Kokoro (Cheap)</option>
                                             <option value="edge_tts">Edge TTS (Free)</option>
                                         </select>
                                         <p class="small text-muted mb-0" style="font-size:.65rem;margin-top:2px;">
-                                            ElevenLabs: best quality (free tier). Replicate: ~$0.003/video.
+                                            ElevenLabs: best quality (free tier). Google: free 8 voices. Replicate: ~$0.003/video.
                                         </p>
                                     </div>
                                 </div>
@@ -1107,6 +1149,233 @@
             </div>
         </div>
 
+        <!-- ═══════════════════════ DAILY PIPELINE TAB ═══════════════════════ -->
+        <div class="tab-pane fade" id="tab-daily-pipeline">
+            <div class="row g-4">
+                <!-- LEFT: Controls -->
+                <div class="col-lg-5">
+                    <!-- Pipeline Configuration -->
+                    <div class="card mb-3">
+                        <div class="card-header"><i class="bi bi-gear"></i> Pipeline Configuration</div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <label class="form-label small text-muted">Videos to Generate</label>
+                                    <select class="form-select form-select-sm" id="dpVideos">
+                                        <option value="1">1 video</option>
+                                        <option value="2">2 videos</option>
+                                        <option value="3">3 videos</option>
+                                        <option value="5" selected>5 videos</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label small text-muted">Tone</label>
+                                    <select class="form-select form-select-sm" id="dpTone">
+                                        <option value="storytelling" selected>Storytelling</option>
+                                        <option value="informative">Informative</option>
+                                        <option value="social">Social / Punchy</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label small text-muted">Renderer</label>
+                                    <select class="form-select form-select-sm" id="dpRenderer">
+                                        <option value="remotion" selected>Remotion</option>
+                                        <option value="moviepy">MoviePy</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label small text-muted">Voice Engine</label>
+                                    <select class="form-select form-select-sm" id="dpTTSProvider">
+                                        <option value="google_tts" selected>Google AI Studio (Gemini Voice - Default)</option>
+                                        <option value="elevenlabs">ElevenLabs (Premium)</option>
+                                        <option value="replicate">Replicate/Kokoro (Cheap)</option>
+                                        <option value="edge_tts">Edge TTS (Free)</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label small text-muted">Publish Strategy</label>
+                                    <select class="form-select form-select-sm" id="dpPublish">
+                                        <option value="manual" selected>Manual (folder)</option>
+                                        <option value="browser">Browser Automation</option>
+                                        <option value="youtube_api">YouTube API</option>
+                                        <option value="macos_shortcuts">macOS Shortcuts</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scheduling -->
+                    <div class="card mb-3">
+                        <div class="card-header"><i class="bi bi-calendar-event"></i> Schedule Settings</div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-4">
+                                    <label class="form-label small text-muted">Start Hour</label>
+                                    <select class="form-select form-select-sm" id="dpStartHour">
+                                        <option value="9">9 AM</option>
+                                        <option value="12">12 PM</option>
+                                        <option value="15">3 PM</option>
+                                        <option value="17" selected>5 PM</option>
+                                        <option value="18">6 PM</option>
+                                        <option value="20">8 PM</option>
+                                    </select>
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label small text-muted">Interval (min)</label>
+                                    <input type="number" class="form-control form-control-sm" id="dpInterval"
+                                           value="70" min="30" max="180" step="10">
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label small text-muted">Jitter (±min)</label>
+                                    <input type="number" class="form-control form-control-sm" id="dpJitter"
+                                           value="15" min="0" max="30" step="5">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Platforms -->
+                    <div class="card mb-3">
+                        <div class="card-header"><i class="bi bi-share"></i> Platforms</div>
+                        <div class="card-body">
+                            <div class="d-flex flex-wrap gap-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="dpPlat_yt" value="youtube_shorts" checked>
+                                    <label class="form-check-label small" for="dpPlat_yt">YouTube Shorts</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="dpPlat_tt" value="tiktok" checked>
+                                    <label class="form-check-label small" for="dpPlat_tt">TikTok</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="dpPlat_ig" value="instagram_reels" checked>
+                                    <label class="form-check-label small" for="dpPlat_ig">Instagram Reels</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="dpPlat_fb" value="facebook" checked>
+                                    <label class="form-check-label small" for="dpPlat_fb">Facebook</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="dpPlat_tw" value="twitter" checked>
+                                    <label class="form-check-label small" for="dpPlat_tw">Twitter/X</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="card mb-3">
+                        <div class="card-body d-flex gap-2">
+                            <button class="btn btn-accent flex-grow-1" id="btnRunPipeline" onclick="runDailyPipeline(false)">
+                                <i class="bi bi-play-circle"></i> Run Pipeline
+                            </button>
+                            <button class="btn btn-outline-accent" onclick="runDailyPipeline(true)"
+                                    title="Test run — generates videos but doesn't publish">
+                                <i class="bi bi-bug"></i> Dry Run
+                            </button>
+                        </div>
+                        <div class="card-body pt-0">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="dpVerbose">
+                                <label class="form-check-label small text-muted" for="dpVerbose">Verbose logging</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Live Output + Results -->
+                <div class="col-lg-7">
+                    <!-- Live Progress -->
+                    <div class="card mb-3" id="dpProgressCard" style="display:none;">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-activity"></i> Pipeline Progress</span>
+                            <span class="badge bg-warning text-dark" id="dpStatusBadge">Running</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="progress mb-3" style="height:6px;background:rgba(255,255,255,.1);">
+                                <div id="dpProgressBar" class="progress-bar" role="progressbar"
+                                     style="width:0%;background:var(--accent);transition:width .3s;"></div>
+                            </div>
+                            <div id="dpLogOutput"
+                                 style="height:300px;overflow-y:auto;font-family:monospace;font-size:.78rem;
+                                        background:#0a0a15;border-radius:8px;padding:.75rem;
+                                        color:#bbb;border:1px solid rgba(255,255,255,.05);">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results Summary -->
+                    <div class="card mb-3" id="dpResultCard" style="display:none;">
+                        <div class="card-header"><i class="bi bi-check2-circle"></i> Pipeline Results</div>
+                        <div class="card-body">
+                            <div class="row g-3 mb-3">
+                                <div class="col-3">
+                                    <div class="result-card p-3 text-center">
+                                        <div class="label">Stories</div>
+                                        <div class="value fs-4" id="dpResStories">—</div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="result-card p-3 text-center">
+                                        <div class="label">Videos</div>
+                                        <div class="value fs-4" id="dpResVideos">—</div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="result-card p-3 text-center">
+                                        <div class="label">Scheduled</div>
+                                        <div class="value fs-4" id="dpResPosts">—</div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="result-card p-3 text-center">
+                                        <div class="label">Duration</div>
+                                        <div class="value fs-4" id="dpResDuration">—</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="dpVideoList"></div>
+                            <div id="dpErrors" class="mt-2"></div>
+                        </div>
+                    </div>
+
+                    <!-- Story History -->
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-journal-text"></i> Story History</span>
+                            <button class="btn btn-sm btn-outline-accent" onclick="loadDailyHistory()">
+                                <i class="bi bi-arrow-clockwise"></i>
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-2 mb-3">
+                                <div class="col-4">
+                                    <div class="result-card p-2 text-center">
+                                        <div class="label">Total Stories</div>
+                                        <div class="value" id="dpHistTotal">—</div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="result-card p-2 text-center">
+                                        <div class="label">Published</div>
+                                        <div class="value" id="dpHistPublished">—</div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="result-card p-2 text-center">
+                                        <div class="label">Today</div>
+                                        <div class="value" id="dpHistToday">—</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="dpHistoryList" style="max-height:400px;overflow-y:auto;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div><!-- /tab-content -->
 </div><!-- /container -->
 
@@ -1176,8 +1445,8 @@ function getFormData() {
 
     // Determine LLM model based on provider
     let llmModel = '';
-    if (provider === 'copilot_bridge') {
-        llmModel = document.getElementById('txtCopilotModel')?.value || 'claude-sonnet-4.6';
+    if (provider === 'gemini') {
+        llmModel = document.getElementById('txtLlmModel')?.value || 'gemini-2.5-pro';
     }
 
     return {
@@ -1193,6 +1462,7 @@ function getFormData() {
         quality:    document.getElementById('selQuality').value,
         watermark:  document.getElementById('inputWatermark').value.trim(),
         points:     parseInt(document.getElementById('inputPoints').value) || 0,
+        target_duration: parseInt(document.getElementById('inputDuration').value) || 0,
         subtitles:  true,
         color_grade: document.getElementById('selColorGrade').value,
         language:   document.getElementById('selLanguage').value,
@@ -1278,9 +1548,10 @@ async function generateKidsStory() {
         series_id:      '',
         episode_number: 0,
         renderer:       'remotion',
+        target_duration: 0,
         llm_provider:   document.getElementById('selLlmProvider')?.value || '',
-        llm_model:      (document.getElementById('selLlmProvider')?.value === 'copilot_bridge')
-                            ? (document.getElementById('txtCopilotModel')?.value || 'claude-sonnet-4.6')
+        llm_model:      (document.getElementById('selLlmProvider')?.value === 'gemini')
+                            ? (document.getElementById('txtLlmModel')?.value || 'gemini-2.5-pro')
                             : '',
     };
 
@@ -1411,19 +1682,20 @@ function toggleAiImages() {
 
 /* ══ LLM Provider Switching ══ */
 function switchLlmProvider(provider) {
-    const copilotCol = document.getElementById('copilotModelInfo');
-    // Hide all model fields first
-    copilotCol.classList.add('d-none');
-    // Show the relevant one
-    if (provider === 'copilot_bridge') {
-        copilotCol.classList.remove('d-none');
+    const modelCol = document.getElementById('llmModelInfo');
+    if (modelCol) {
+        if (provider === 'gemini') {
+            modelCol.classList.remove('d-none');
+        } else {
+            modelCol.classList.add('d-none');
+        }
     }
     // Update status indicator
     const status = document.getElementById('providerStatus');
     const labels = {{ llm_providers | tojson }};
     const label = labels[provider]?.label || provider;
-    if (provider === 'copilot_bridge') {
-        status.innerHTML = `<small class="text-muted"><i class="bi bi-pc-display"></i> <strong>${label}</strong> — VS Code must be open with Copilot Bridge extension</small>`;
+    if (provider === 'gemini') {
+        status.innerHTML = `<small class="text-muted"><i class="bi bi-stars text-primary"></i> <strong>${label}</strong> — Using Google Gemini AI Pro</small>`;
     } else {
         status.innerHTML = `<small class="text-muted"><i class="bi bi-arrow-repeat"></i> Switched to <strong>${label}</strong> — will validate on generate</small>`;
     }
@@ -1952,6 +2224,229 @@ async function batchRenderPreviews() {
     // Reload catalog to update cached status
     _studioLoaded = false;
     loadRemotionStudio();
+}
+
+/* ═══════════════════════════════════════════════════════
+   Daily Pipeline Tab
+   ═══════════════════════════════════════════════════════ */
+let _dpEventSource = null;
+
+function getDailyPlatforms() {
+    const checks = document.querySelectorAll('#tab-daily-pipeline .form-check-input[type="checkbox"]:checked');
+    return Array.from(checks).map(c => c.value);
+}
+
+async function runDailyPipeline(dryRun) {
+    const btn = document.getElementById('btnRunPipeline');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Running…';
+
+    // Show progress card, hide results
+    document.getElementById('dpProgressCard').style.display = '';
+    document.getElementById('dpResultCard').style.display = 'none';
+    document.getElementById('dpLogOutput').innerHTML = '';
+    document.getElementById('dpStatusBadge').textContent = 'Running';
+    document.getElementById('dpStatusBadge').className = 'badge bg-warning text-dark';
+    document.getElementById('dpProgressBar').style.width = '0%';
+
+    const payload = {
+        target_videos: parseInt(document.getElementById('dpVideos').value),
+        tone: document.getElementById('dpTone').value,
+        renderer: document.getElementById('dpRenderer').value,
+        tts_provider: document.getElementById('dpTTSProvider').value,
+        publish_strategy: document.getElementById('dpPublish').value,
+        start_hour: parseInt(document.getElementById('dpStartHour').value),
+        interval_minutes: parseInt(document.getElementById('dpInterval').value),
+        jitter_minutes: parseInt(document.getElementById('dpJitter').value),
+        dry_run: !!dryRun,
+        platforms: getDailyPlatforms(),
+    };
+
+    try {
+        const resp = await fetch('/api/daily-pipeline', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+        });
+        const data = await resp.json();
+
+        if (!data.job_id) {
+            showToast('Failed to start pipeline', 'error');
+            btn.disabled = false;
+            btn.innerHTML = '<i class="bi bi-play-circle"></i> Run Pipeline';
+            return;
+        }
+
+        // Connect to SSE stream
+        streamDailyProgress(data.job_id);
+
+    } catch (e) {
+        showToast('Error starting pipeline: ' + e.message, 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-play-circle"></i> Run Pipeline';
+    }
+}
+
+function streamDailyProgress(jobId) {
+    if (_dpEventSource) _dpEventSource.close();
+
+    const logEl = document.getElementById('dpLogOutput');
+    const barEl = document.getElementById('dpProgressBar');
+    let logLines = 0;
+    const maxLines = 500;
+
+    _dpEventSource = new EventSource(`/api/daily-pipeline/stream/${jobId}`);
+
+    _dpEventSource.onmessage = function(e) {
+        try {
+            const msg = JSON.parse(e.data);
+
+            if (msg.type === 'log') {
+                const line = document.createElement('div');
+                const text = msg.data?.message || '';
+
+                // Color-code log lines
+                if (text.includes('✅')) line.style.color = '#00ffc8';
+                else if (text.includes('❌')) line.style.color = '#ff4444';
+                else if (text.includes('⚠️')) line.style.color = '#ffaa00';
+                else if (text.includes('🎬') || text.includes('📹')) line.style.color = '#7ecfff';
+                else if (text.includes('📝') || text.includes('📅')) line.style.color = '#c4a7ff';
+
+                line.textContent = text;
+                logEl.appendChild(line);
+                logLines++;
+
+                // Auto-scroll
+                logEl.scrollTop = logEl.scrollHeight;
+
+                // Estimate progress from phases
+                if (text.includes('Curation Round')) barEl.style.width = '15%';
+                else if (text.includes('Generating') && text.includes('video')) barEl.style.width = '35%';
+                else if (text.includes('Metadata')) barEl.style.width = '75%';
+                else if (text.includes('Scheduling') || text.includes('Publishing')) barEl.style.width = '90%';
+            }
+            else if (msg.type === 'complete') {
+                barEl.style.width = '100%';
+                _dpEventSource.close();
+                showDailyResult(msg.data);
+                document.getElementById('dpStatusBadge').textContent = 'Complete';
+                document.getElementById('dpStatusBadge').className = 'badge bg-success';
+                const btn = document.getElementById('btnRunPipeline');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="bi bi-play-circle"></i> Run Pipeline';
+                showToast('Daily pipeline complete!', 'success');
+                loadDailyHistory();
+            }
+            else if (msg.type === 'error') {
+                _dpEventSource.close();
+                document.getElementById('dpStatusBadge').textContent = 'Error';
+                document.getElementById('dpStatusBadge').className = 'badge bg-danger';
+                const btn = document.getElementById('btnRunPipeline');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="bi bi-play-circle"></i> Run Pipeline';
+                showToast('Pipeline error: ' + (msg.data?.error || 'Unknown'), 'error');
+            }
+        } catch (err) {
+            console.warn('SSE parse error:', err);
+        }
+    };
+
+    _dpEventSource.onerror = function() {
+        _dpEventSource.close();
+        const btn = document.getElementById('btnRunPipeline');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-play-circle"></i> Run Pipeline';
+    };
+}
+
+function showDailyResult(data) {
+    const card = document.getElementById('dpResultCard');
+    card.style.display = '';
+
+    document.getElementById('dpResStories').textContent = data.stories_approved || 0;
+    document.getElementById('dpResVideos').textContent = data.videos_generated || 0;
+    document.getElementById('dpResPosts').textContent = data.posts_scheduled || 0;
+    document.getElementById('dpResDuration').textContent = (data.duration_minutes || 0).toFixed(1) + 'm';
+
+    // Video list
+    const listEl = document.getElementById('dpVideoList');
+    listEl.innerHTML = '';
+    if (data.video_details && data.video_details.length) {
+        for (const v of data.video_details) {
+            // Extract relative path under daily_runs/
+            const vpath = v.video_path || '';
+            const dailyIdx = vpath.indexOf('daily_runs/');
+            const relPath = dailyIdx >= 0 ? vpath.substring(dailyIdx + 'daily_runs/'.length) : '';
+            const item = document.createElement('div');
+            item.className = 'history-item d-flex justify-content-between align-items-center';
+            item.innerHTML = `
+                <div>
+                    <div class="fw-bold" style="color:var(--accent);">${v.title}</div>
+                    <div class="small text-muted">${v.duration?.toFixed(1) || '?'}s · rendered in ${(v.processing_time/60).toFixed(1)}min</div>
+                </div>
+                <a class="btn btn-sm btn-outline-accent" href="/daily-output/${relPath}" target="_blank">
+                    <i class="bi bi-play-fill"></i>
+                </a>`;
+            listEl.appendChild(item);
+        }
+    }
+
+    // Errors
+    const errEl = document.getElementById('dpErrors');
+    errEl.innerHTML = '';
+    if (data.errors && data.errors.length) {
+        for (const err of data.errors) {
+            const d = document.createElement('div');
+            d.className = 'alert alert-danger py-1 px-2 small mb-1';
+            d.textContent = err;
+            errEl.appendChild(d);
+        }
+    }
+}
+
+async function loadDailyHistory() {
+    try {
+        const resp = await fetch('/api/daily-pipeline/history');
+        const data = await resp.json();
+
+        document.getElementById('dpHistTotal').textContent = data.total_stories || 0;
+        document.getElementById('dpHistPublished').textContent = data.published || 0;
+        document.getElementById('dpHistToday').textContent = data.today_count || 0;
+
+        const listEl = document.getElementById('dpHistoryList');
+        listEl.innerHTML = '';
+
+        const stories = (data.recent_stories || []).reverse();
+        for (const s of stories) {
+            const statusColor = s.status === 'published' ? '#00ffc8'
+                              : s.status === 'approved' ? '#ffaa00' : '#888';
+            const statusIcon = s.status === 'published' ? 'check-circle-fill'
+                             : s.status === 'approved' ? 'clock' : 'x-circle';
+            const wc = s.full_story ? s.full_story.split(/\s+/).length : '?';
+            const item = document.createElement('div');
+            item.className = 'history-item';
+            item.innerHTML = `
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="fw-bold small" style="color:var(--accent);">${s.title || 'Untitled'}</div>
+                        <div class="text-muted" style="font-size:.72rem;">
+                            ${s.genre || ''} · ${wc} words · score ${s.score || '?'}/10
+                        </div>
+                        <div class="text-muted" style="font-size:.68rem;">${s.synopsis || ''}</div>
+                    </div>
+                    <span style="color:${statusColor};font-size:.85rem;" title="${s.status}">
+                        <i class="bi bi-${statusIcon}"></i>
+                    </span>
+                </div>`;
+            listEl.appendChild(item);
+        }
+
+        if (!stories.length) {
+            listEl.innerHTML = '<div class="text-muted text-center small py-3">No stories yet. Run the pipeline to get started!</div>';
+        }
+    } catch (e) {
+        console.warn('Failed to load daily history:', e);
+    }
 }
 </script>
 </body>

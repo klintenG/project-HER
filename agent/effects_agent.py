@@ -33,8 +33,8 @@ from typing import Any, Optional
 
 logger = logging.getLogger("effects_agent")
 
-# Model for VFX decisions — Claude Opus 4.6 via Copilot Bridge
-VFX_AGENT_MODEL = "claude-opus-4.6"
+# Model for VFX decisions — Google AI (Gemini Pro) via LLM Client
+VFX_AGENT_MODEL = "gemini-2.5-pro"
 
 
 # ── Data Classes ──────────────────────────────────────
@@ -414,20 +414,12 @@ class VFXDecisionAgent:
         content_mode: str,
         visual_style: str,
     ) -> Optional[VideoEffectsPlan]:
-        """Use Claude Opus 4.6 for intelligent effect selection."""
+        """Use Google AI (Gemini Pro) for intelligent effect selection."""
         try:
-            from utils.copilot_bridge import CopilotBridgeClient
-        except ImportError:
-            logger.error("[VFX Agent] Cannot import CopilotBridgeClient")
-            return None
-
-        client = CopilotBridgeClient()
-
-        # Check bridge health
-        if self._bridge_available is None:
-            self._bridge_available = client.check_health()
-        if not self._bridge_available:
-            logger.warning("[VFX Agent] Copilot Bridge not available")
+            from utils.llm_client import get_llm_client
+            client, model_name = get_llm_client()
+        except Exception as e:
+            logger.warning(f"[VFX Agent] LLM client not available: {e}")
             return None
 
         # Build the prompt
@@ -435,11 +427,14 @@ class VFXDecisionAgent:
         user_prompt = self._build_user_prompt(screens, mood, content_mode)
 
         try:
-            response = client.chat(
-                model=VFX_AGENT_MODEL,
-                system_prompt=system_prompt,
-                user_prompt=user_prompt,
+            response = client.chat.completions.create(
+                model=model_name or VFX_AGENT_MODEL,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
                 response_format={"type": "json_object"},
+                temperature=0.7,
             )
 
             content = response.choices[0].message.content
@@ -449,8 +444,7 @@ class VFXDecisionAgent:
             return self._parse_ai_response(content, len(screens))
 
         except Exception as e:
-            logger.error(f"[VFX Agent] Bridge call failed: {e}")
-            self._bridge_available = False
+            logger.warning(f"[VFX Agent] AI decision call failed: {e}")
             return None
 
     def _build_system_prompt(self, visual_style: str) -> str:

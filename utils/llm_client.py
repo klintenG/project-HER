@@ -3,8 +3,8 @@ Project HER v2.0 – LLM Client Factory
 Creates a configured OpenAI-compatible client based on the active LLM provider.
 
 Supports:
-- Groq AI (free, Llama 3.1 8B)
-- VS Code Copilot Bridge (Claude Sonnet 4.6 via VS Code — no API key needed)
+- Google AI Studio / Gemini Pro (recommended, high-intelligence reasoning & story writing)
+- Groq AI (Llama 3.1 8B, fast fallback)
 """
 
 from __future__ import annotations
@@ -15,7 +15,6 @@ from typing import Optional
 from openai import OpenAI
 
 import config
-from utils.copilot_bridge import CopilotBridgeClient, is_bridge_available
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +27,7 @@ def get_llm_client(
     Create an OpenAI-compatible LLM client for the given provider.
 
     Args:
-        provider: Override the default provider ("groq" or "copilot_bridge").
+        provider: Override the default provider ("gemini" or "groq").
                   If None, uses config.LLM_PROVIDER.
         model: Override the default model name.
                If None, uses the model configured for the chosen provider.
@@ -41,23 +40,20 @@ def get_llm_client(
     """
     provider = provider or config.LLM_PROVIDER
 
-    if provider == "copilot_bridge":
-        # Use the local VS Code Copilot Bridge — no API key needed
-        if not is_bridge_available():
-            raise ConnectionError(
-                "Copilot Bridge not reachable. Make sure VS Code is open "
-                "with the Copilot Bridge extension active. "
-                "Falling back is handled by the caller."
+    if provider in ("gemini", "google"):
+        api_key = config.GEMINI_API_KEY
+        if not api_key:
+            raise ValueError(
+                "GEMINI_API_KEY (or GOOGLE_API_KEY / GOOGLE_TTS_API_KEY) required. "
+                "Set it in your .env file. Get a key at https://aistudio.google.com/apikey"
             )
-        model_name = model or config.COPILOT_BRIDGE_MODEL
+        base_url = config.GEMINI_BASE_URL
+        model_name = model or config.GEMINI_MODEL
         logger.info(
-            "Using VS Code Copilot Bridge: model_hint=%s, endpoint=%s",
-            model_name, config.COPILOT_BRIDGE_URL,
+            "Using Google AI (Gemini): model=%s, endpoint=%s",
+            model_name, base_url,
         )
-        return CopilotBridgeClient(), model_name
-
-    else:
-        # Default: Groq
+    elif provider == "groq":
         api_key = config.GROQ_API_KEY
         if not api_key:
             raise ValueError(
@@ -67,6 +63,19 @@ def get_llm_client(
         model_name = model or config.GROQ_MODEL
         logger.info(
             "Using Groq AI: model=%s, endpoint=%s",
+            model_name, base_url,
+        )
+    else:
+        # Default fallback to Gemini
+        api_key = config.GEMINI_API_KEY
+        if not api_key:
+            raise ValueError(
+                f"Unknown LLM provider '{provider}' and GEMINI_API_KEY is not set in .env."
+            )
+        base_url = config.GEMINI_BASE_URL
+        model_name = model or config.GEMINI_MODEL
+        logger.info(
+            "Falling back to Google AI (Gemini): model=%s, endpoint=%s",
             model_name, base_url,
         )
 
@@ -83,14 +92,18 @@ def get_provider_info(provider: Optional[str] = None) -> dict:
     provider = provider or config.LLM_PROVIDER
     info = config.LLM_PROVIDERS.get(provider, {})
 
-    if provider == "copilot_bridge":
-        model = config.COPILOT_BRIDGE_MODEL
-        model_label = f"Copilot via VS Code ({model})"
-        has_key = is_bridge_available()
-    else:
+    if provider in ("gemini", "google"):
+        model = config.GEMINI_MODEL
+        model_label = f"Google Gemini ({model})"
+        has_key = bool(config.GEMINI_API_KEY)
+    elif provider == "groq":
         model = config.GROQ_MODEL
         model_label = "Llama 3.1 8B Instant"
         has_key = bool(config.GROQ_API_KEY)
+    else:
+        model = config.GEMINI_MODEL
+        model_label = f"Google Gemini ({model})"
+        has_key = bool(config.GEMINI_API_KEY)
 
     return {
         "provider": provider,

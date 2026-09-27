@@ -42,6 +42,7 @@ from utils.cache import get_cache, set_cache
 
 # ── Enhanced pipeline imports ──
 from agent.elevenlabs_tts import ElevenLabsTTS, ElevenLabsClip
+from agent.google_tts import GoogleTTS, GoogleTTSClip
 from agent.audio_utils import append_silence_to_audio, generate_whoosh_sfx
 
 logger = logging.getLogger(__name__)
@@ -126,6 +127,8 @@ class AgentOrchestrator:
         deep_dive_text: str = "",
         # ── Renderer selection ──
         renderer: str = "moviepy",  # "moviepy" | "remotion"
+        # ── Duration control ──
+        target_duration: int = 0,  # 0 = auto, else seconds
     ) -> PipelineResult:
         """
         Execute the full article-to-video pipeline with all v2.0 enhancements.
@@ -188,6 +191,7 @@ class AgentOrchestrator:
                 deep_dive_sources=deep_dive_sources,
                 deep_dive_text=deep_dive_text,
                 renderer=renderer,
+                target_duration=target_duration,
             )
 
         try:
@@ -253,13 +257,75 @@ class AgentOrchestrator:
 
             # ── Stage 4: NARRATION (word-level) ────────────
             tracker.start_stage("narrate", "Generating narration...")
-            narrations = self._run_stage_with_retry(
-                "narrate",
-                lambda: self.narration_engine.generate_narration(
-                    analysis.key_points, output_dir
-                ),
-                tracker,
-            )
+            tts_provider = getattr(config, "TTS_PROVIDER", "google_tts")
+            if tts_provider == "google_tts":
+                try:
+                    tts_engine = GoogleTTS(mood=analysis.mood or "neutral")
+                    enhanced_clips = self._run_stage_with_retry(
+                        "narrate",
+                        lambda: tts_engine.generate_narration(
+                            analysis.key_points, output_dir,
+                        ),
+                        tracker,
+                    )
+                    narrations = [
+                        NarrationClip(
+                            key_point_index=c.index,
+                            audio_path=c.audio_path,
+                            duration=c.duration,
+                            word_timings=c.word_timings,
+                            subtitle_data=c.subtitle_data,
+                            speaker=getattr(c, "speaker", ""),
+                        )
+                        for c in enhanced_clips
+                    ]
+                except Exception as tts_err:
+                    logger.warning("Google TTS failed in standard pipeline, falling back to edge-tts: %s", tts_err)
+                    narrations = self._run_stage_with_retry(
+                        "narrate",
+                        lambda: self.narration_engine.generate_narration(
+                            analysis.key_points, output_dir
+                        ),
+                        tracker,
+                    )
+            elif tts_provider == "elevenlabs":
+                try:
+                    tts_engine = ElevenLabsTTS(mood=analysis.mood or "neutral")
+                    enhanced_clips = self._run_stage_with_retry(
+                        "narrate",
+                        lambda: tts_engine.generate_narration(
+                            analysis.key_points, output_dir,
+                        ),
+                        tracker,
+                    )
+                    narrations = [
+                        NarrationClip(
+                            key_point_index=c.index,
+                            audio_path=c.audio_path,
+                            duration=c.duration,
+                            word_timings=c.word_timings,
+                            subtitle_data=c.subtitle_data,
+                            speaker=getattr(c, "speaker", ""),
+                        )
+                        for c in enhanced_clips
+                    ]
+                except Exception as tts_err:
+                    logger.warning("ElevenLabs TTS failed, falling back to edge-tts: %s", tts_err)
+                    narrations = self._run_stage_with_retry(
+                        "narrate",
+                        lambda: self.narration_engine.generate_narration(
+                            analysis.key_points, output_dir
+                        ),
+                        tracker,
+                    )
+            else:
+                narrations = self._run_stage_with_retry(
+                    "narrate",
+                    lambda: self.narration_engine.generate_narration(
+                        analysis.key_points, output_dir
+                    ),
+                    tracker,
+                )
 
             # Update key point durations
             for narration in narrations:
@@ -275,12 +341,14 @@ class AgentOrchestrator:
             )
             tracker.complete_stage("narrate", f"{total_narration:.1f}s narration generated")
 
-            # ── Duration Enforcement ──────────────────────
+            # ── Duration Check (soft guidance) ─────────────
+            # Only try to adjust if duration is WAY too short (below minimum).
+            # If too long, we preserve the full story — completeness wins.
             min_dur, max_dur = config.TARGET_DURATION
-            if total_narration < min_dur or total_narration > max_dur:
+            if total_narration < min_dur:
                 logger.warning(
-                    "Duration %.1fs is outside target range (%d-%ds). Adjusting...",
-                    total_narration, min_dur, max_dur,
+                    "Duration %.1fs is below minimum (%ds). Attempting adjustment...",
+                    total_narration, min_dur,
                 )
                 adjusted = self._enforce_duration(
                     article=article,
@@ -426,6 +494,8 @@ class AgentOrchestrator:
         deep_dive_text: str = "",
         # ── Renderer selection ──
         renderer: str = "moviepy",
+        # ── Duration control ──
+        target_duration: int = 0,
         **kwargs,
     ) -> PipelineResult:
         """
@@ -440,6 +510,22 @@ class AgentOrchestrator:
         from agent.analyzer import KeyPoint
 
         result = PipelineResult()
+
+        # ── Duration target (soft guidance) ────────────────
+        # Duration is a SOFT target. Story completeness always wins.
+        # We store the original config and set a generous range so the
+        # post-narration check only warns (doesn't cut) unless grossly over.
+        original_target_duration = config.TARGET_DURATION
+        if target_duration and target_duration > 0:
+            # Very generous range: allow up to 2x the target before even logging a warning
+            config.TARGET_DURATION = (
+                max(10, target_duration - 15),
+                int(target_duration * 2),  # 2x — story completeness is king
+            )
+            logger.info(
+                "Duration soft target: user=%ds → config range=(%d, %d)",
+                target_duration, config.TARGET_DURATION[0], config.TARGET_DURATION[1],
+            )
 
         # ── Series context loading ─────────────────────
         previous_cliffhanger = ""
@@ -545,6 +631,7 @@ class AgentOrchestrator:
                     series_id=series_id,
                     episode_number=episode_number,
                     previous_cliffhanger=previous_cliffhanger,
+                    target_duration=target_duration,
                 ),
                 tracker,
             )
@@ -705,8 +792,8 @@ class AgentOrchestrator:
                 finally:
                     # Cleanup temp voice config
                     config.GHOST_COLLAB_VOICES.pop("_deep_dive_temp", None)
-            elif is_enhanced and getattr(config, "TTS_PROVIDER", "") in ("elevenlabs", "replicate"):
-                # ── Enhanced TTS: ElevenLabs or Replicate ──
+            elif is_enhanced and getattr(config, "TTS_PROVIDER", "") in ("elevenlabs", "replicate", "google_tts"):
+                # ── Enhanced TTS: ElevenLabs, Google AI Studio, or Replicate ──
                 tts_provider = config.TTS_PROVIDER
                 logger.info("Using %s TTS (enhanced pipeline)", tts_provider)
                 narration_key_points = [
@@ -726,6 +813,8 @@ class AgentOrchestrator:
                     if tts_provider == "replicate":
                         from agent.replicate_tts import ReplicateTTS
                         tts_engine = ReplicateTTS(mood=screenplay.mood or "neutral")
+                    elif tts_provider == "google_tts":
+                        tts_engine = GoogleTTS(mood=screenplay.mood or "neutral")
                     else:
                         tts_engine = ElevenLabsTTS(mood=screenplay.mood or "neutral")
 
@@ -810,6 +899,30 @@ class AgentOrchestrator:
                 "narrate",
                 f"{total_narration:.1f}s narration generated",
             )
+
+            # ── Duration Check (informational — never drops story content) ──
+            # Duration is a SOFT guideline. Story completeness always wins.
+            # We only log here; we never remove screens or narration clips.
+            min_dur, max_dur = config.TARGET_DURATION
+            if target_duration and target_duration > 0:
+                overshoot = total_narration - target_duration
+                if overshoot > 0:
+                    logger.info(
+                        "Post-narration: %.1fs total (target: %ds, +%.1fs over — "
+                        "acceptable for story completeness)",
+                        total_narration, target_duration, overshoot,
+                    )
+                else:
+                    logger.info(
+                        "Post-narration: %.1fs total (target: %ds ✓)",
+                        total_narration, target_duration,
+                    )
+            elif total_narration > max_dur:
+                logger.info(
+                    "Post-narration: %.1fs total (default range %d-%ds — "
+                    "over target but preserving full story)",
+                    total_narration, min_dur, max_dur,
+                )
 
             # ── Stage 4.5: VFX PLANNING (Claude Opus 4.6) ──
             tracker.start_stage("vfx_plan", "AI VFX Agent planning effects...")
@@ -990,6 +1103,9 @@ class AgentOrchestrator:
             for stage in tracker.stages.values():
                 if stage.status == "running":
                     tracker.fail_stage(stage.name, str(e))
+
+        # Restore original config in case it was overridden
+        config.TARGET_DURATION = original_target_duration
 
         return result
 

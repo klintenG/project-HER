@@ -25,28 +25,31 @@ for d in [OUTPUT_DIR, TEMP_DIR, ASSETS_DIR, FONTS_DIR, MUSIC_DIR, SFX_DIR]:
     d.mkdir(parents=True, exist_ok=True)
 
 # ── API Keys ───────────────────────────────────────────
+GEMINI_API_KEY = (
+    os.getenv("GEMINI_API_KEY")
+    or os.getenv("GOOGLE_API_KEY")
+    or os.getenv("GOOGLE_TTS_API_KEY", "")
+)
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 PEXELS_API_KEY = os.getenv("PEXELS_API_KEY", "")
 
 # ── LLM Provider Selection ─────────────────────────────
-# Options: "groq" (free) | "copilot_bridge" (VS Code Copilot — no API key)
-LLM_PROVIDER = os.getenv("LLM_PROVIDER", "groq")
+# Options: "gemini" (Google AI Studio - Gemini Pro) | "groq" (Groq AI)
+LLM_PROVIDER = os.getenv("LLM_PROVIDER", "gemini")
+
+# ── Google Gemini AI Settings ─────────────────────────
+GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/"
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite")
 
 # ── Groq AI Settings ──────────────────────────────────
 GROQ_BASE_URL = "https://api.groq.com/openai/v1"
 GROQ_MODEL = "llama-3.1-8b-instant"
 
-# ── VS Code Copilot Bridge Settings ───────────────────
-# No API key needed — VS Code handles auth via your GitHub Copilot subscription
-# The bridge extension runs on localhost when VS Code is open
-COPILOT_BRIDGE_URL = os.getenv("COPILOT_BRIDGE_URL", "http://127.0.0.1:18945")
-COPILOT_BRIDGE_MODEL = os.getenv("COPILOT_BRIDGE_MODEL", "claude-sonnet-4.6")
-
 # ── Resolved LLM Settings (auto-set based on provider) ─
-if LLM_PROVIDER == "copilot_bridge":
-    LLM_MODEL = COPILOT_BRIDGE_MODEL
-    LLM_BASE_URL = COPILOT_BRIDGE_URL
-    LLM_API_KEY = "copilot-bridge"  # placeholder — no key needed
+if LLM_PROVIDER in ("gemini", "google"):
+    LLM_MODEL = GEMINI_MODEL
+    LLM_BASE_URL = GEMINI_BASE_URL
+    LLM_API_KEY = GEMINI_API_KEY
 else:
     LLM_MODEL = GROQ_MODEL
     LLM_BASE_URL = GROQ_BASE_URL
@@ -57,22 +60,22 @@ LLM_MAX_TOKENS = 3000
 
 # Available LLM providers for UI dropdown
 LLM_PROVIDERS = {
+    "gemini": {
+        "label": "Google AI Studio (Gemini Pro)",
+        "description": "Gemini 2.5 Pro — premium reasoning, rich narrative, excellent JSON adherence",
+        "requires": "GEMINI_API_KEY",
+    },
     "groq": {
         "label": "Groq AI (Free)",
         "description": "Llama 3.1 8B — fast, free, good for testing",
         "requires": "GROQ_API_KEY",
-    },
-    "copilot_bridge": {
-        "label": "VS Code Copilot (Local)",
-        "description": "Claude Sonnet 4.6 via VS Code — no API key needed, VS Code must be open",
-        "requires": None,
     },
 }
 AVAILABLE_LLM_PROVIDERS = list(LLM_PROVIDERS.keys())
 
 # ── Content Analysis ──────────────────────────────────
 MIN_KEY_POINTS = 3
-MAX_KEY_POINTS = 6
+MAX_KEY_POINTS = 5
 
 TONE_PRESETS = {
     "informative": "Write in a neutral, informative, news-anchor style.",
@@ -98,7 +101,7 @@ VIDEO_FORMATS = {
 }
 
 DEFAULT_VIDEO_FORMAT = os.getenv("DEFAULT_VIDEO_FORMAT", "vertical")
-TARGET_DURATION = (45, 90)  # seconds (min, max) — style guide sweet spot 55-65s
+TARGET_DURATION = (35, 62)  # seconds (min, max) — sweet spot 50-60s for short-form
 FPS = 30  # style guide mandates 30fps for Reels/Shorts/TikTok
 VIDEO_CODEC = "libx264"
 AUDIO_CODEC = "aac"
@@ -202,11 +205,19 @@ SCENE_PADDING = 0.4  # seconds of silence between scenes
 
 # ── ElevenLabs TTS (Generate tab — premium narration) ──
 ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY", "")
-# TTS provider: "elevenlabs" | "replicate" | "edge_tts"
+# ── Google AI Studio TTS (free, high-quality voices) ──
+GOOGLE_TTS_API_KEY = (
+    os.getenv("GOOGLE_TTS_API_KEY")
+    or os.getenv("GEMINI_API_KEY")
+    or os.getenv("GOOGLE_API_KEY")
+    or GEMINI_API_KEY
+)
+# TTS provider: "google_tts" | "elevenlabs" | "replicate" | "edge_tts"
+# - google_tts: Free via Gemini API (8 voices, high quality, default)
 # - elevenlabs: Premium quality, free tier 10k chars, then paid
 # - replicate: Kokoro-82m via Replicate, ~$0.003/video (ultra cheap)
 # - edge_tts: Free (Microsoft), always used for Kids Story
-TTS_PROVIDER = os.getenv("TTS_PROVIDER", "elevenlabs")
+TTS_PROVIDER = os.getenv("TTS_PROVIDER", "google_tts")
 
 # ── Enhanced Pipeline Flags ────────────────────────────
 # These enhancements only apply to the Generate tab (non-kids_story modes).
@@ -463,10 +474,10 @@ SFX_ENABLED = True
 SFX_VOLUME = 0.3
 
 # ── Watermark / Branding ──────────────────────────────
-WATERMARK_TEXT = os.getenv("WATERMARK_TEXT", "")     # e.g. "@myhandle"
+WATERMARK_TEXT = os.getenv("WATERMARK_TEXT", "Klin10 Creations")     # Brand name watermark
 WATERMARK_IMAGE = os.getenv("WATERMARK_IMAGE", "")   # path to PNG logo
-WATERMARK_OPACITY = 0.5
-WATERMARK_POSITION = "bottom_right"  # top_left, top_right, bottom_left, bottom_right
+WATERMARK_OPACITY = 0.35
+WATERMARK_POSITION = "anti_crop"  # "anti_crop" = right-center + bottom-center
 WATERMARK_FONT_SIZE = 22
 WATERMARK_MARGIN = 30
 

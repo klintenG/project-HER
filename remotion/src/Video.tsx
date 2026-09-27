@@ -15,6 +15,7 @@ import {
 } from "remotion";
 import { VideoProps, ScreenData, VisualStyle, SceneEffectsPlan } from "./types";
 import { Scene, IntroScene, OutroScene } from "./components/Scene";
+import { Watermark } from "./components/Watermark";
 import { getTransition, TransitionTiming } from "./transitions/sceneTransitions";
 
 // ═══════════════════════════════════════════════════
@@ -206,6 +207,11 @@ export const Video: React.FC<VideoProps> = (props) => {
           </Sequence>
         );
       })}
+
+      {/* Global anti-crop watermark — renders above all scenes/transitions */}
+      {watermark && (
+        <Watermark text={watermark} />
+      )}
     </AbsoluteFill>
   );
 };

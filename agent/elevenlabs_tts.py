@@ -44,10 +44,14 @@ logger = logging.getLogger("elevenlabs_tts")
 
 ELEVENLABS_API_KEY = config.os.getenv(
     "ELEVENLABS_API_KEY",
-    "22f30773422316f8e21cc92e0f3f43d3c823300974a1184ad57c2dedda4e0dd0",
+    "",
 )
 ELEVENLABS_BASE_URL = "https://api.elevenlabs.io/v1"
 ELEVENLABS_MODEL = "eleven_multilingual_v2"
+
+# Retry configuration
+MAX_RETRIES = 3
+RETRY_BASE_WAIT = 5.0  # seconds
 
 # Voice presets — best free voices for different moods
 VOICE_PRESETS = {
@@ -61,7 +65,7 @@ VOICE_PRESETS = {
     "dramatic":     "pNInz6obpgDQGcFmaJgB",  # Adam — dominant, firm
 }
 
-DEFAULT_VOICE_ID = VOICE_PRESETS["storyteller"]
+DEFAULT_VOICE_ID = "2KkUKn1TzEOhhKPCZGrT"
 
 # Map content mood → best voice
 MOOD_VOICE_MAP = {
@@ -159,24 +163,46 @@ class ElevenLabsTTS:
             
         Returns:
             List of ElevenLabsClip with paths and word timings
+            
+        Raises:
+            RuntimeError: If no clips could be generated (triggers edge-tts fallback)
         """
         audio_dir = output_dir / "audio"
         audio_dir.mkdir(parents=True, exist_ok=True)
         
         clips = []
+        consecutive_failures = 0
         for kp in key_points:
             clip = self._generate_single(kp, audio_dir)
             clips.append(clip)
+            
+            if clip.duration > 0 and clip.audio_path.exists():
+                consecutive_failures = 0
+            else:
+                consecutive_failures += 1
+                logger.warning(
+                    "ElevenLabs: screen %d failed (%d consecutive failures)",
+                    kp.index, consecutive_failures,
+                )
+                if consecutive_failures >= 2:
+                    raise RuntimeError(
+                        f"ElevenLabs TTS: {consecutive_failures} consecutive failures — "
+                        "likely quota exhausted or API issue"
+                    )
+        
+        valid_clips = [c for c in clips if c.duration > 0 and c.audio_path.exists()]
+        if not valid_clips:
+            raise RuntimeError("ElevenLabs TTS: all clips failed — no audio generated")
         
         total_dur = sum(c.duration for c in clips)
         logger.info(
-            "ElevenLabs narration complete: %d clips, %.1fs total",
-            len(clips), total_dur,
+            "ElevenLabs narration complete: %d/%d clips valid, %.1fs total",
+            len(valid_clips), len(clips), total_dur,
         )
         return clips
 
     def _generate_single(self, key_point, audio_dir: Path) -> ElevenLabsClip:
-        """Generate TTS for a single key point with word-level timestamps."""
+        """Generate TTS for a single key point with word-level timestamps and retry."""
         text = key_point.narration
         idx = key_point.index
         emotion = getattr(key_point, "emotion", self.mood)
@@ -198,18 +224,37 @@ class ElevenLabsTTS:
             "voice_settings": self._voice_settings_for_emotion(emotion),
         }
         
-        try:
-            resp = self._session.post(url, json=payload, timeout=30)
-            resp.raise_for_status()
-            data = resp.json()
-        except requests.exceptions.RequestException as e:
-            logger.error("ElevenLabs API error for screen %d: %s", idx, e)
-            # Return empty clip — orchestrator will handle fallback
-            return ElevenLabsClip(
-                index=idx,
-                audio_path=audio_path,
-                duration=0.0,
-            )
+        last_error = None
+        for attempt in range(MAX_RETRIES):
+            try:
+                resp = self._session.post(url, json=payload, timeout=30)
+                resp.raise_for_status()
+                data = resp.json()
+                break  # success
+            except requests.exceptions.RequestException as e:
+                last_error = e
+                status = 0
+                if e.response is not None:
+                    status = e.response.status_code
+                
+                logger.warning(
+                    "ElevenLabs API error for screen %d (attempt %d/%d, status=%d): %s",
+                    idx, attempt + 1, MAX_RETRIES, status, e,
+                )
+                
+                # Don't retry on auth errors or bad requests
+                if status in (401, 403, 400):
+                    break
+                
+                # Rate limit or server error — wait and retry
+                if attempt < MAX_RETRIES - 1:
+                    wait = RETRY_BASE_WAIT * (2 ** attempt)
+                    logger.info("Waiting %.0fs before retry...", wait)
+                    time.sleep(wait)
+        else:
+            # All retries exhausted
+            logger.error("ElevenLabs: all %d retries failed for screen %d: %s", MAX_RETRIES, idx, last_error)
+            return ElevenLabsClip(index=idx, audio_path=audio_path, duration=0.0)
         
         # Extract audio
         audio_b64 = data.get("audio_base64", "")

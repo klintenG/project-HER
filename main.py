@@ -189,10 +189,11 @@ def generate(url, text, text_file, tone, video_format, voice, theme, captions,
         sys.exit(1)
 
     # Validate API keys
-    if not config.GROQ_API_KEY:
+    llm_key = config.GEMINI_API_KEY if config.LLM_PROVIDER in ("gemini", "google") else config.GROQ_API_KEY
+    if not llm_key:
         console.print(
-            "[red]Error:[/red] GROQ_API_KEY not set. "
-            "Copy .env.example to .env and add your key."
+            f"[red]Error:[/red] API key for {config.LLM_PROVIDER} not set. "
+            "Check GEMINI_API_KEY in your .env file."
         )
         sys.exit(1)
     if not config.PEXELS_API_KEY and not ai_images:
@@ -738,6 +739,114 @@ def _resolve_input(url, text, text_file) -> Optional[str]:
     if text_file:
         return Path(text_file).read_text(encoding="utf-8").strip()
     return None
+
+
+# ── Daily Pipeline Command ────────────────────────────────
+
+
+@cli.command("daily")
+@click.option("--videos", type=int, default=5, help="Number of videos to generate (default: 5)")
+@click.option("--tone", default="storytelling", help="Narration tone for all videos")
+@click.option("--renderer", type=click.Choice(["remotion", "moviepy"]), default="remotion")
+@click.option("--publish", "publish_strategy",
+              type=click.Choice(["manual", "youtube_api", "macos_shortcuts", "browser"]),
+              default="manual", help="Publishing strategy")
+@click.option("--start-hour", type=int, default=17, help="Start posting at this hour (24h)")
+@click.option("--interval", type=int, default=70, help="Minutes between video posts")
+@click.option("--jitter", type=int, default=15, help="Random jitter ± minutes")
+@click.option("--dry-run", is_flag=True, help="Don't actually publish — just generate")
+@click.option("--platforms", multiple=True,
+              default=["youtube_shorts", "tiktok", "instagram_reels", "facebook", "twitter"],
+              help="Platforms to publish to")
+@click.option("-v", "--verbose", is_flag=True)
+def daily(videos, tone, renderer, publish_strategy, start_hour, interval, jitter,
+          dry_run, platforms, verbose):
+    """
+    🤖 Run the daily agentic pipeline.
+
+    Automatically curates stories, validates them, generates videos,
+    and prepares them for publishing across social media platforms.
+
+    Example:
+        python main.py daily --videos 5 --publish manual
+        python main.py daily --videos 3 --dry-run
+        python main.py daily --publish browser --start-hour 18
+    """
+    setup_logging(verbose)
+
+    from automation.daily_pipeline import DailyPipeline, DailyConfig
+
+    cfg = DailyConfig(
+        target_videos=videos,
+        tone=tone,
+        renderer=renderer,
+        publish_strategy=publish_strategy,
+        start_hour=start_hour,
+        interval_minutes=interval,
+        jitter_minutes=jitter,
+        dry_run=dry_run,
+        platforms=list(platforms),
+    )
+
+    console.print(Panel.fit(
+        f"[bold cyan]🤖 Daily Pipeline[/bold cyan]\n"
+        f"  Videos: {videos} | Tone: {tone} | Renderer: {renderer}\n"
+        f"  Publish: {publish_strategy} | Start: {start_hour}:00\n"
+        f"  Platforms: {', '.join(platforms)}\n"
+        f"  {'[yellow]DRY RUN[/yellow]' if dry_run else '[green]LIVE[/green]'}",
+        title="Configuration",
+    ))
+
+    def progress_cb(msg: str):
+        console.print(f"  {msg}")
+
+    pipeline = DailyPipeline(config=cfg)
+
+    try:
+        report = pipeline.run(progress_callback=progress_cb)
+    except KeyboardInterrupt:
+        console.print("\n[yellow]Pipeline interrupted by user[/yellow]")
+        sys.exit(130)
+    except SystemExit:
+        console.print("\n[yellow]Pipeline exited early — check daily_report.json for details[/yellow]")
+        # Report was already written by finally block
+        return
+    except Exception as e:
+        console.print(f"\n[red]Pipeline error: {e}[/red]")
+        return
+
+    # Summary
+    console.print()
+    table = Table(title="Daily Pipeline Report", show_lines=True)
+    table.add_column("Metric", style="cyan bold")
+    table.add_column("Value")
+
+    table.add_row("Date", report.date)
+    table.add_row("Duration", f"{report.duration_minutes:.1f} min")
+    table.add_row("Curation Rounds", str(report.curation_rounds))
+    table.add_row("Stories Approved", f"[green]{report.stories_approved}[/green]")
+    table.add_row("Stories Rejected", f"[red]{report.stories_rejected}[/red]")
+    table.add_row("Videos Generated", f"[green]{report.videos_generated}[/green]")
+    table.add_row("Videos Failed", f"[red]{report.videos_failed}[/red]" if report.videos_failed else "0")
+    table.add_row("Posts Scheduled", str(report.posts_scheduled))
+    table.add_row("Strategy", report.publish_strategy)
+    console.print(table)
+
+    if report.errors:
+        console.print(f"\n[yellow]⚠ {len(report.errors)} error(s):[/yellow]")
+        for err in report.errors:
+            console.print(f"  [red]• {err[:100]}[/red]")
+
+    if report.video_details:
+        console.print("\n[bold]Generated Videos:[/bold]")
+        for vd in report.video_details:
+            console.print(
+                f"  🎬 {vd['title'][:50]} → "
+                f"{vd.get('duration', 0):.1f}s ({vd.get('processing_time', 0):.0f}s to render)"
+            )
+
+    if not report.videos_generated:
+        sys.exit(1)
 
 
 # ── Entry Point ───────────────────────────────────────────

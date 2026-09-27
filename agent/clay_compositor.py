@@ -1347,16 +1347,59 @@ class ClayCompositor:
         draw.text((x, y), brand, fill=color, font=font)
 
     def _draw_watermark(self, draw: ImageDraw.Draw, watermark: str):
-        """Draw persistent watermark at bottom of screen."""
+        """
+        Draw anti-crop watermark in two locations:
+        1. Right-center: rotated -90°, overlaps content (impossible to crop)
+        2. Bottom-center: above platform UI (~120px from bottom)
+
+        Both render semi-transparent so they're subtle but visible.
+        """
         if not watermark:
             return
-        font = _get_font(self._brand_size)
-        color = (*self.style["text_light"], 180)
-        bbox = font.getbbox(watermark)
-        tw = bbox[2] - bbox[0]
-        x = (self.W - tw) // 2
-        y = self._bottom_y + self._zone_bottom_h // 2 - (bbox[3] - bbox[1]) // 2
-        draw.text((x, y), watermark, fill=self.style["text_light"], font=font)
+
+        frame_img = draw._image  # access the underlying PIL Image
+
+        # ── Right-side vertical watermark ──
+        side_font = _get_font(14, bold=True)
+        side_text = watermark.upper()
+        side_bbox = side_font.getbbox(side_text)
+        tw = side_bbox[2] - side_bbox[0]
+        th = side_bbox[3] - side_bbox[1]
+
+        # Render text on a temporary image, then rotate
+        txt_img = Image.new("RGBA", (tw + 20, th + 10), (0, 0, 0, 0))
+        txt_draw = ImageDraw.Draw(txt_img)
+        # Shadow for readability
+        txt_draw.text((11, 6), side_text, fill=(0, 0, 0, 80), font=side_font)
+        txt_draw.text((10, 5), side_text, fill=(255, 255, 255, 50), font=side_font)
+        rotated = txt_img.rotate(90, expand=True, resample=Image.BICUBIC)
+
+        # Position: right edge, vertically centered
+        rx = self.W - rotated.width - int(self.W * 0.02)
+        ry = (self.H - rotated.height) // 2
+        if frame_img.mode == "RGBA":
+            frame_img.alpha_composite(rotated, (rx, ry))
+        else:
+            frame_img.paste(rotated, (rx, ry), rotated)
+
+        # ── Bottom-center watermark (above platform UI) ──
+        bot_font = _get_font(11, bold=True)
+        bot_text = watermark.upper()
+        bot_bbox = bot_font.getbbox(bot_text)
+        btw = bot_bbox[2] - bot_bbox[0]
+        bth = bot_bbox[3] - bot_bbox[1]
+
+        bot_img = Image.new("RGBA", (btw + 10, bth + 6), (0, 0, 0, 0))
+        bot_draw = ImageDraw.Draw(bot_img)
+        bot_draw.text((6, 4), bot_text, fill=(0, 0, 0, 60), font=bot_font)
+        bot_draw.text((5, 3), bot_text, fill=(255, 255, 255, 40), font=bot_font)
+
+        bx = (self.W - bot_img.width) // 2
+        by = self.H - 120
+        if frame_img.mode == "RGBA":
+            frame_img.alpha_composite(bot_img, (bx, by))
+        else:
+            frame_img.paste(bot_img, (bx, by), bot_img)
 
     def _draw_text_centered(
         self,

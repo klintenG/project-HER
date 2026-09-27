@@ -100,6 +100,7 @@ class StorySplitter:
         series_id: str = "",
         episode_number: int = 0,
         previous_cliffhanger: str = "",
+        target_duration: int = 0,
     ) -> StoryScreenplay:
         """Split story text into screen segments using AI analysis.
 
@@ -135,22 +136,27 @@ class StorySplitter:
                 question=question or text,
                 tone=tone,
                 series_context=previous_cliffhanger,
+                target_duration=target_duration,
             )
         elif content_mode == "ghost_collab":
             prompt = self._build_ghost_collab_prompt(
                 character_name=character_name,
                 modern_topic=modern_topic or text,
                 tone=tone,
+                target_duration=target_duration,
             )
         elif content_mode == "kids_story":
             prompt = self._build_kids_story_prompt(
                 text=text,
                 title=title,
+                target_duration=target_duration,
             )
         else:
             prompt = self._build_prompt(
                 text, title, tone,
                 series_context=previous_cliffhanger,
+                target_duration=target_duration,
+                series_id=series_id,
             )
 
         try:
@@ -176,8 +182,89 @@ class StorySplitter:
                 screenplay.series_id = series_id
                 screenplay.episode_number = episode_number
 
+            # ── Strip cliffhanger/next-video content for non-series videos ──
+            if not series_id:
+                screenplay.cliffhanger = ""
+                screenplay.next_episode_hint = ""
+                # Clean CTA text of any next-video references the LLM may have added
+                if screenplay.cta:
+                    import re as _re
+                    next_video_patterns = [
+                        r'\b(next video|next episode|part \d|stay tuned|watch next|'
+                        r'next time|coming up|tune in|next part|to be continued|'
+                        r'in the next|find out next|more on this)\b',
+                    ]
+                    for pattern in next_video_patterns:
+                        if _re.search(pattern, screenplay.cta, _re.IGNORECASE):
+                            logger.info(
+                                "Stripped next-video CTA for standalone video: '%s'",
+                                screenplay.cta[:60],
+                            )
+                            screenplay.cta = ""
+                            break
+                # Also check the last screen's text for next-video references
+                if screenplay.screens:
+                    last_screen = screenplay.screens[-1]
+                    if _re.search(
+                        r'\b(next video|next episode|part \d|stay tuned|watch next|'
+                        r'next time|tune in|next part|to be continued)\b',
+                        last_screen.text, _re.IGNORECASE,
+                    ):
+                        logger.info(
+                            "Last screen has next-video text in standalone mode, cleaning: '%s'",
+                            last_screen.text[:60],
+                        )
+                        # Remove the continuation sentence(s) from the end
+                        sentences = _re.split(r'(?<=[.!?])\s+', last_screen.text)
+                        cleaned = []
+                        for sent in sentences:
+                            if not _re.search(
+                                r'\b(next video|next episode|part \d|stay tuned|'
+                                r'watch next|next time|tune in|next part|to be continued)\b',
+                                sent, _re.IGNORECASE,
+                            ):
+                                cleaned.append(sent)
+                        if cleaned:
+                            last_screen.text = " ".join(cleaned)
+                        # Else keep original if every sentence had it (rare)
+
             # Post-process: assign alternating narration positions
             self._assign_narration_positions(screenplay)
+
+            # ── Post-split duration logging (informational only) ──
+            # Duration is a SOFT target. We never trim or cut story content
+            # to hit a number — story completeness always wins.
+            TTS_WPS = 2.5
+            total_words = sum(len(s.text.split()) for s in screenplay.screens)
+            estimated_duration = total_words / TTS_WPS
+
+            if target_duration and target_duration > 0:
+                overshoot = estimated_duration - target_duration
+                if overshoot > 0:
+                    logger.info(
+                        "Post-split: %d words ≈ %.0fs estimated "
+                        "(target: %ds, +%.0fs over — acceptable for story completeness)",
+                        total_words, estimated_duration, target_duration, overshoot,
+                    )
+                else:
+                    logger.info(
+                        "Post-split: %d words ≈ %.0fs estimated (target: %ds ✓)",
+                        total_words, estimated_duration, target_duration,
+                    )
+            else:
+                logger.info(
+                    "Post-split: %d words ≈ %.0fs estimated",
+                    total_words, estimated_duration,
+                )
+
+            # Fix each screen's duration estimate from actual word count
+            for s in screenplay.screens:
+                word_count = len(s.text.split())
+                estimated_screen_dur = word_count / TTS_WPS
+                # If LLM's duration estimate is way off, correct it
+                if abs(s.duration - estimated_screen_dur) > 3:
+                    s.duration = estimated_screen_dur
+
             # Compute total duration
             screenplay.total_duration = sum(s.duration for s in screenplay.screens)
 
@@ -263,8 +350,62 @@ class StorySplitter:
                 + human_voice
             )
 
-    def _build_prompt(self, text: str, title: str, tone: str, series_context: str = "") -> str:
+    @staticmethod
+    def _build_pacing_block(target_duration: int = 0) -> str:
+        """Build pacing instructions based on user-provided target duration.
+
+        Philosophy: Story completeness and quality ALWAYS come first.
+        Duration is a SOFT GUIDELINE — the user's way of saying "try to
+        keep it around this length". If the story needs more time to
+        properly cover all key plot points, GO LONGER. Never sacrifice
+        important narrative beats just to hit a number.
+
+        TTS reads at ~2.5 words/second — useful for estimating duration.
+        """
+        TTS_WPS = 2.5  # words per second (average TTS speaking rate)
+
+        if target_duration and target_duration > 0:
+            # User specified a target — treat as soft guidance
+            word_budget = int(target_duration * TTS_WPS)
+            # Estimate screen count: ~5-7 seconds per screen
+            min_screens = max(3, target_duration // 8)
+            max_screens = max(5, min(15, target_duration // 5))
+            return (
+                f"PACING GUIDANCE (soft target — story quality comes FIRST):\n"
+                f"- The user would LIKE this video to be around {target_duration} seconds.\n"
+                f"  That's roughly ~{word_budget} words of narration (TTS reads ~{TTS_WPS} words/sec).\n"
+                f"- Aim for approximately {min_screens}-{max_screens} screens.\n"
+                f"- HOWEVER — story completeness is MORE IMPORTANT than hitting the duration target.\n"
+                f"  Your #1 job is to tell the story properly: all major plot points, key twists,\n"
+                f"  emotional beats, and the resolution MUST be included.\n"
+                f"- Be efficient with language — cut filler, redundancy, and tangents — but NEVER\n"
+                f"  skip important story beats just to save time.\n"
+                f"- If ~{word_budget} words is enough to tell the full story well, great.\n"
+                f"  If the story genuinely needs more to be told properly, USE MORE. Going 20-40%\n"
+                f"  over the target is perfectly fine if it means the story is complete and engaging.\n"
+                f"- Each screen's \"duration\" field = word count of that screen's text ÷ {TTS_WPS}."
+            )
+        else:
+            # Default: 50-60 second short-form target (soft)
+            return (
+                "PACING GUIDANCE (soft target — story quality comes FIRST):\n"
+                "- Aim for roughly 50-70 seconds total. This is a GUIDELINE, not a hard limit.\n"
+                "  That's about 125-175 words of narration (TTS reads ~2.5 words/sec).\n"
+                "- Use 6-12 screens.\n"
+                "- HOWEVER — story completeness is MORE IMPORTANT than hitting the duration target.\n"
+                "  Your #1 job is to tell the story properly: all major plot points, key twists,\n"
+                "  emotional beats, and the resolution MUST be included.\n"
+                "- Be efficient with language — cut filler, redundancy, and tangents — but NEVER\n"
+                "  skip important story beats just to save time.\n"
+                "- If the story needs 80-90 seconds to be told properly, that's fine.\n"
+                "- Each screen's \"duration\" field = word count of that screen's text ÷ 2.5."
+            )
+
+    def _build_prompt(self, text: str, title: str, tone: str, series_context: str = "", target_duration: int = 0, series_id: str = "") -> str:
         tone_instruction = config.TONE_PRESETS.get(tone, config.TONE_PRESETS["informative"])
+        is_series = bool(series_id or series_context)
+
+        pacing_block = self._build_pacing_block(target_duration)
 
         series_block = ""
         if series_context:
@@ -382,8 +523,7 @@ NARRATIVE ARC — DELAYED REVEAL:
 - First screen creates a question. Last screen answers it.
 
 CTA / ENDING:
-- CTA should feel like a cliffhanger: "But here's what they didn't tell you — next video."
-- Not: "Follow for more!"
+{('- CTA should feel like a cliffhanger that teases the NEXT video: "But here is what they did not tell you — next video."' + chr(10) + '- End with an unresolved question that makes viewers NEED to watch the next episode.') if is_series else ('- End with a SATISFYING CONCLUSION that wraps up the story.' + chr(10) + '- CTA should invite engagement: "What do you think?" or "That still blows my mind."' + chr(10) + '- Do NOT reference a "next video", "part 2", "next episode", or any continuation.' + chr(10) + '- This is a STANDALONE video — the story must feel COMPLETE by the end.' + chr(10) + '- No cliffhangers, no unresolved teases, no "stay tuned" language.')}
 
 SCENE TYPES (assign one per screen):
   "A" — HOOK OPENER: First scene only. Image-only. Most striking subject. 2-3 seconds.
@@ -393,8 +533,9 @@ SCENE TYPES (assign one per screen):
   "G" — COMPARISON: Two items compared. Setup question + two items. 4-6 seconds.
 
 PACING:
-- Aim for 55-65 seconds total.
-- Each idea gets space to land. Never rushed.
+{pacing_block}
+- Keep it TIGHT: cut anything that doesn't advance the story.
+- Each idea gets space to land. Never rushed, but never padded either.
 - Start with a Type A hook, end with a reveal or conclusion.
 
 RESPOND WITH THIS EXACT JSON STRUCTURE:
@@ -402,8 +543,7 @@ RESPOND WITH THIS EXACT JSON STRUCTURE:
   "title": "video title",
   "hook": "attention-grabbing opening line (mid-thought style)",
   "mood": "overall mood (calm/upbeat/dramatic/warm/neutral)",
-  "cta": "cliffhanger-style call to action",
-  "cliffhanger": "unresolved question for the next video (optional, for series)",
+{('  "cta": "cliffhanger-style call to action that teases the next episode",' + chr(10) + '  "cliffhanger": "unresolved question for the next video",') if is_series else ('  "cta": "satisfying closing line or engagement question (NO next-video references)",')}
   "screens": [
     {{
       "text": "full narrative text for this screen",
@@ -425,11 +565,19 @@ Return ONLY valid JSON. No markdown code fences. No extra text."""
 
     # ── Kids Story Prompt (Viral Short-Form) ─────────
 
-    def _build_kids_story_prompt(self, text: str, title: str) -> str:
+    def _build_kids_story_prompt(self, text: str, title: str, target_duration: int = 0) -> str:
         min_screens, max_screens = config.KIDS_STORY_SCREENS
 
+        # Override duration ranges if user specified a target
+        if target_duration and target_duration > 0:
+            ks_dur_text = f"{max(15, target_duration - 10)}-{target_duration + 10} seconds"
+            ks_pacing = self._build_pacing_block(target_duration)
+        else:
+            ks_dur_text = "20-35 seconds"
+            ks_pacing = f"Total: {min_screens}-{max_screens} screens, 20-35 seconds."
+
         return f"""You have an amazing kids story and your job is to turn it into a VIRAL short-form video
-script (20-35 seconds) that captures attention in the FIRST 3 SECONDS and keeps viewers watching
+script ({ks_dur_text}) that captures attention in the FIRST 3 SECONDS and keeps viewers watching
 until the very end.
 
 {"STORY TITLE: " + title if title else ""}
@@ -463,7 +611,7 @@ Choose ONE of these proven viral hook styles for Screen 1:
    "What would happen if a turtle tried to fly?"
 
 ═══════════════════════════════════════════════════════
-📖 VIRAL STORY STRUCTURE (20-35 seconds)
+📖 VIRAL STORY STRUCTURE ({ks_dur_text})
 ═══════════════════════════════════════════════════════
 
 Screen 1 — HOOK (0-3 seconds)
@@ -545,7 +693,7 @@ EVERY screen MUST have visual_type "image". Zero text_only screens.
 📐 STRUCTURE
 ═══════════════════════════════════════════════════════
 
-Total: {min_screens}-{max_screens} screens, 20-35 seconds.
+Total: {ks_pacing}
 Screen 1 (HOOK): 2-3 seconds. scene_type "A".
 Screens 2-3 (SETUP): 3-4 seconds each. scene_type "B".
 Screens 4-6 (ADVENTURE): 3-4 seconds each. scene_type "B".
@@ -560,7 +708,7 @@ RESPOND WITH THIS EXACT JSON STRUCTURE:
   "title": "catchy 4-8 word title (e.g. 'The Turtle Who Tried to Fly')",
   "hook": "the pattern interrupt opening line from screen 1",
   "mood": "playful/adventurous/warm/magical",
-  "cta": "cliffhanger or engaging sign-off",
+  "cta": "heartwarming closing line or fun engagement question (NO next-video references)",
   "screens": [
     {{
       "text": "narration text for this screen (SHORT — 1-2 sentences max)",
@@ -870,9 +1018,10 @@ Return ONLY valid JSON. No markdown code fences. No extra text."""
     # ── Thought Experiment Prompt ─────────────────────
 
     def _build_thought_experiment_prompt(
-        self, question: str, tone: str, series_context: str = ""
+        self, question: str, tone: str, series_context: str = "", target_duration: int = 0
     ) -> str:
         tone_instruction = config.TONE_PRESETS.get(tone, config.TONE_PRESETS["dramatic"])
+        is_series = bool(series_context)
 
         series_block = ""
         if series_context:
@@ -929,11 +1078,11 @@ STRUCTURE
    Think: empty corridors, cosmic imagery, surreal landscapes.
    Even abstract thoughts get a visual — moody photography, atmospheric scenes, symbolic imagery.
 
-4. Total: 8-12 screens, 45-70 seconds.
+4. Total: 8-12 screens. {self._build_pacing_block(target_duration)}
 
 5. End CTA = a DEEPER question: "But here's what really messes with you — what if this already happened?"
 
-6. Include a "cliffhanger" field — an unresolved angle for a follow-up.
+{('6. Include a "cliffhanger" field — an unresolved angle for the next episode in the series.') if is_series else ('6. This is a STANDALONE video. Do NOT include any "cliffhanger" field.' + chr(10) + '   Do NOT reference a next video, next episode, part 2, or any continuation.' + chr(10) + '   The thought experiment should feel COMPLETE by the end — leave them thinking, but do not tease a sequel.')}
 
 VISUAL STYLE:
 - Image prompts should be atmospheric and cinematic: moody lighting, surreal compositions,
@@ -948,7 +1097,7 @@ RESPOND WITH THIS EXACT JSON STRUCTURE:
   "hook": "Mid-thought hook line that stops scrolling",
   "mood": "eerie/dramatic/thoughtful/suspenseful",
   "cta": "A deeper question that haunts the viewer",
-  "cliffhanger": "An unresolved angle for a follow-up video",
+{('  "cliffhanger": "An unresolved angle for the next episode",') if is_series else ''}
   "screens": [
     {{
       "text": "full narrative text for this screen (use 'you' language)",
@@ -971,7 +1120,7 @@ Return ONLY valid JSON. No markdown code fences. No extra text."""
     # ── Ghost Collaboration Prompt ────────────────────
 
     def _build_ghost_collab_prompt(
-        self, character_name: str, modern_topic: str, tone: str
+        self, character_name: str, modern_topic: str, tone: str, target_duration: int = 0
     ) -> str:
         tone_instruction = config.TONE_PRESETS.get(tone, config.TONE_PRESETS["storytelling"])
         max_turns = config.GHOST_COLLAB_MAX_TURNS
@@ -1030,9 +1179,10 @@ STRUCTURE
    - Narrator screens: image of the modern topic.
    - Character screens: STYLIZED artistic portrait (never photorealistic).
 
-6. Total: {max_turns} screens, 40-65 seconds.
+6. {self._build_pacing_block(target_duration) if target_duration else f"Total: {max_turns} screens, 40-65 seconds."}
 
 7. End CTA: "Who should we talk to next?" or "What would YOU ask {character_name}?"
+   Do NOT reference a "next video" or "next episode" unless this is part of a series.
 
 VISUAL STYLE FOR CHARACTER:
 - NEVER use photorealistic depictions of real historical figures.

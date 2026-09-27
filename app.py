@@ -50,9 +50,13 @@ CAP_LABELS    = {k: config.CAPTION_STYLES[k].get("label", k) for k in CAPS}
 
 def _ready() -> tuple[bool, str]:
     """Check required API keys are present."""
-    if not config.GEMINI_API_KEY and not config.GROQ_API_KEY:
+    gemini_key = getattr(config, "GEMINI_API_KEY", None) or os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") or os.getenv("GOOGLE_TTS_API_KEY", "")
+    groq_key = getattr(config, "GROQ_API_KEY", None) or os.getenv("GROQ_API_KEY", "")
+    pexels_key = getattr(config, "PEXELS_API_KEY", None) or os.getenv("PEXELS_API_KEY", "")
+
+    if not gemini_key and not groq_key:
         return False, "❌ No LLM API key found (GEMINI_API_KEY or GROQ_API_KEY). Set them in Space → Settings → Secrets."
-    if not config.PEXELS_API_KEY:
+    if not pexels_key:
         return False, "⚠️ PEXELS_API_KEY missing — AI-Images mode will be used as fallback."
     return True, "✅ Ready"
 
@@ -81,7 +85,8 @@ def generate_video(
         return None, "❌ Please paste article text **or** enter a URL above."
 
     ready, msg = _ready()
-    if config.PEXELS_API_KEY:
+    pexels_key = getattr(config, "PEXELS_API_KEY", None) or os.getenv("PEXELS_API_KEY", "")
+    if pexels_key:
         pass  # fine
     elif not ai_images:
         # No pexels key, force AI images
@@ -260,7 +265,7 @@ with gr.Blocks(
                     )
                 ai_images = gr.Checkbox(
                     label="🤖 Use AI-generated images (HuggingFace)",
-                    value=not bool(config.PEXELS_API_KEY),
+                    value=not bool(getattr(config, "PEXELS_API_KEY", None) or os.getenv("PEXELS_API_KEY")),
                     info="Enabled automatically if PEXELS_API_KEY is not set",
                 )
 
