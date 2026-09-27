@@ -1,14 +1,13 @@
 ---
-title: Project HER – AI Video Generator
+title: Project HER
 emoji: 🎬
 colorFrom: purple
 colorTo: pink
 sdk: gradio
-sdk_version: "4.44.0"
+sdk_version: 4.44.0
 app_file: app.py
 pinned: false
 license: mit
-short_description: Turn any article or story into a cinematic AI video
 ---
 
 # 🎬 Project HER — AI Article-to-Video Agent
