@@ -1,0 +1,153 @@
+{
+  "project_her_version": "2.0",
+  "generated_at": "2026-03-19 13:39:35",
+  "title": "He was the most powerful man in the world… and he erased himself from history.",
+  "hook": "...and every painting, every statue, every portrait — he destroyed them all himself.",
+  "content_type": "ai_claymorphism",
+  "mood": "dramatic",
+  "duration_seconds": 126.1,
+  "resolution": "1080x1920",
+  "video_format": "vertical",
+  "key_point_count": 16,
+  "processing_time_seconds": 394.0,
+  "theme": "claymorphism",
+  "caption_style": "karaoke",
+  "video_file": "he-was-the-most-powerful-man-in-the-world-and-he-e.mp4",
+  "srt_file": "subtitles.srt",
+  "thumbnail_file": "he-was-the-most-powerful-man-in-the-world-and-he-e.jpg",
+  "config": {
+    "input_source": "He was the most powerful man in the world… and he burned every painting of himself. Every. Single. One.\n\nHis name was Qian. Not the real name — but close enough. He ruled an empire so vast that messen",
+    "tone": "storytelling",
+    "video_format": "vertical",
+    "theme": "claymorphism",
+    "pipeline": "ai_image",
+    "content_mode": "article",
+    "transition": "fade",
+    "color_grade": "none",
+    "voice": "en-US-AriaNeural",
+    "include_subtitles": true,
+    "brand_text": "",
+    "screen_count": 16,
+    "ai_images_generated": 16,
+    "question": "",
+    "character_name": "",
+    "modern_topic": "",
+    "series_id": "",
+    "episode_number": 0,
+    "cliffhanger": "What if the most influential people in history are the ones we've never heard of?",
+    "screens": [
+      {
+        "index": 0,
+        "visual_type": "image",
+        "text": "He ruled an empire so vast… messengers rode for weeks just to reach its borders.",
+        "emotion": "dramatic",
+        "speaker": ""
+      },
+      {
+        "index": 1,
+        "visual_type": "image",
+        "text": "Poets begged to write about him. Sculptors offered their life's work. And every ",
+        "emotion": "dramatic",
+        "speaker": ""
+      },
+      {
+        "index": 2,
+        "visual_type": "image",
+        "text": "His advisors were furious. 'Your legacy will vanish,' they warned. 'History will",
+        "emotion": "dramatic",
+        "speaker": ""
+      },
+      {
+        "index": 3,
+        "visual_type": "image",
+        "text": "He just… smiled.",
+        "emotion": "thoughtful",
+        "speaker": ""
+      },
+      {
+        "index": 4,
+        "visual_type": "image",
+        "text": "See, he'd watched his own father — a beloved ruler — get completely twisted afte",
+        "emotion": "warm",
+        "speaker": ""
+      },
+      {
+        "index": 5,
+        "visual_type": "image",
+        "text": "The man who burned his soup and laughed too loud? Gone. Replaced by a marble lie",
+        "emotion": "dramatic",
+        "speaker": ""
+      },
+      {
+        "index": 6,
+        "visual_type": "image",
+        "text": "So he made a decision. Do the work. Build the roads. Feed the poor. But leave no",
+        "emotion": "thoughtful",
+        "speaker": ""
+      },
+      {
+        "index": 7,
+        "visual_type": "image",
+        "text": "'Let them remember what I did,' he said. 'Not what I looked like.'",
+        "emotion": "warm",
+        "speaker": ""
+      },
+      {
+        "index": 8,
+        "visual_type": "image",
+        "text": "And then… he died. Quietly. Without ceremony.",
+        "emotion": "dramatic",
+        "speaker": ""
+      },
+      {
+        "index": 9,
+        "visual_type": "image",
+        "text": "Okay but here's what's wild — it worked. Generations later, the roads still conn",
+        "emotion": "warm",
+        "speaker": ""
+      },
+      {
+        "index": 10,
+        "visual_type": "image",
+        "text": "Children played in parks that existed because of him… and not one of them knew h",
+        "emotion": "warm",
+        "speaker": ""
+      },
+      {
+        "index": 11,
+        "visual_type": "image",
+        "text": "But they were alive. And they were fed. That's… kind of everything, isn't it?",
+        "emotion": "warm",
+        "speaker": ""
+      },
+      {
+        "index": 12,
+        "visual_type": "image",
+        "text": "His advisors had been so obsessed with being remembered… they missed the whole p",
+        "emotion": "thoughtful",
+        "speaker": ""
+      },
+      {
+        "index": 13,
+        "visual_type": "image",
+        "text": "And honestly? Think about all the things we do just so people will notice. The p",
+        "emotion": "thoughtful",
+        "speaker": ""
+      },
+      {
+        "index": 14,
+        "visual_type": "image",
+        "text": "Maybe the most powerful thing you can do… is build something real. And let it sp",
+        "emotion": "warm",
+        "speaker": ""
+      },
+      {
+        "index": 15,
+        "visual_type": "image",
+        "text": "Qian never trended. Never went viral. But he changed millions of lives. And some",
+        "emotion": "dramatic",
+        "speaker": ""
+      }
+    ]
+  }
+}

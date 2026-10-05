@@ -1,0 +1,111 @@
+{
+  "project_her_version": "2.0",
+  "generated_at": "2026-03-19 18:28:09",
+  "title": "She Painted for 40 Years. Then She Destroyed Everything.",
+  "hook": "...and then she walked in one morning and covered all of it. Every single inch.",
+  "content_type": "ai_claymorphism",
+  "mood": "dramatic",
+  "duration_seconds": 69.4,
+  "resolution": "1080x1920",
+  "video_format": "vertical",
+  "key_point_count": 10,
+  "processing_time_seconds": 235.7,
+  "theme": "claymorphism",
+  "caption_style": "karaoke",
+  "video_file": "she-painted-for-40-years-then-she-destroyed-everyt.mp4",
+  "srt_file": "subtitles.srt",
+  "thumbnail_file": "she-painted-for-40-years-then-she-destroyed-everyt.jpg",
+  "config": {
+    "input_source": "She spent forty years painting the most beautiful mural in the world. Every face, every brushstroke — people called it a miracle. Kings offered fortunes for it. Museums built wings around it. Then one",
+    "tone": "storytelling",
+    "video_format": "vertical",
+    "theme": "claymorphism",
+    "pipeline": "ai_image",
+    "content_mode": "article",
+    "transition": "fade",
+    "color_grade": "none",
+    "voice": "en-US-AriaNeural",
+    "include_subtitles": true,
+    "brand_text": "",
+    "screen_count": 10,
+    "ai_images_generated": 10,
+    "question": "",
+    "character_name": "",
+    "modern_topic": "",
+    "series_id": "",
+    "episode_number": 0,
+    "cliffhanger": "What other masterpieces exist only inside the minds of the people who witnessed them?",
+    "screens": [
+      {
+        "index": 0,
+        "visual_type": "image",
+        "text": "Forty years. That's how long she painted it.",
+        "emotion": "dramatic",
+        "speaker": ""
+      },
+      {
+        "index": 1,
+        "visual_type": "image",
+        "text": "Every face, every brushstroke — people called it a miracle. Kings offered fortun",
+        "emotion": "warm",
+        "speaker": ""
+      },
+      {
+        "index": 2,
+        "visual_type": "image",
+        "text": "And then — one morning — she walked in with a bucket of white paint.",
+        "emotion": "dramatic",
+        "speaker": ""
+      },
+      {
+        "index": 3,
+        "visual_type": "image",
+        "text": "She covered every inch. Gone. Just like that.",
+        "emotion": "dramatic",
+        "speaker": ""
+      },
+      {
+        "index": 4,
+        "visual_type": "image",
+        "text": "People thought she'd completely lost her mind. And honestly? She just smiled.",
+        "emotion": "warm",
+        "speaker": ""
+      },
+      {
+        "index": 5,
+        "visual_type": "image",
+        "text": "She said — 'Now it lives only in the memory of everyone who saw it. A canvas can",
+        "emotion": "thoughtful",
+        "speaker": ""
+      },
+      {
+        "index": 6,
+        "visual_type": "image",
+        "text": "She died a year later. And okay — wait. Here's where it gets actually wild.",
+        "emotion": "dramatic",
+        "speaker": ""
+      },
+      {
+        "index": 7,
+        "visual_type": "image",
+        "text": "Every single person who saw that mural — they all remember it differently. Every",
+        "emotion": "thoughtful",
+        "speaker": ""
+      },
+      {
+        "index": 8,
+        "visual_type": "image",
+        "text": "She didn't destroy her art. She multiplied it. Into thousands of masterpieces — ",
+        "emotion": "warm",
+        "speaker": ""
+      },
+      {
+        "index": 9,
+        "visual_type": "image",
+        "text": "That's… kind of the most beautiful thing I've ever heard. One masterpiece. Infin",
+        "emotion": "warm",
+        "speaker": ""
+      }
+    ]
+  }
+}

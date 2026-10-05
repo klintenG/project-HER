@@ -1,0 +1,2426 @@
+{
+  "title": "He Fought a War That Ended 50 Years Before He Stopped",
+  "hook": "...he found newspapers saying the war was over. So he burned them. Because obviously they were fake.",
+  "brand_text": "",
+  "watermark": "",
+  "mood": "dramatic",
+  "content_mode": "article",
+  "screens": [
+    {
+      "index": 0,
+      "text": "There's a man who kept fighting World War Two... until 1974.",
+      "duration": 4.99,
+      "visual_type": "image",
+      "scene_type": "A",
+      "emotion": "dramatic",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "Okay so picture this \u2014",
+      "subject_text": "a soldier still at war. Thirty years after everyone went home.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "top",
+      "emphasis_words": [
+        {
+          "text": "1974",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_00_0.png"
+      ],
+      "audio_path": "audio/narration_00.mp3",
+      "audio_duration": 4.99,
+      "word_timings": [
+        {
+          "word": "There's",
+          "start": 0.0,
+          "end": 0.279
+        },
+        {
+          "word": "a",
+          "start": 0.302,
+          "end": 0.325
+        },
+        {
+          "word": "man",
+          "start": 0.383,
+          "end": 0.569
+        },
+        {
+          "word": "who",
+          "start": 0.604,
+          "end": 0.708
+        },
+        {
+          "word": "kept",
+          "start": 0.766,
+          "end": 0.987
+        },
+        {
+          "word": "fighting",
+          "start": 1.045,
+          "end": 1.382
+        },
+        {
+          "word": "World",
+          "start": 1.44,
+          "end": 1.672
+        },
+        {
+          "word": "War",
+          "start": 1.718,
+          "end": 1.916
+        },
+        {
+          "word": "Two...",
+          "start": 1.997,
+          "end": 2.485
+        },
+        {
+          "word": "until",
+          "start": 2.81,
+          "end": 3.088
+        },
+        {
+          "word": "1974.",
+          "start": 3.146,
+          "end": 4.69
+        }
+      ],
+      "effects": {
+        "screen_index": 0,
+        "text_entry": "zoom_blur_in",
+        "text_entry_params": {},
+        "text_exit": "swipe_wipe",
+        "text_exit_params": {},
+        "text_continuous": "shake",
+        "text_continuous_params": {},
+        "image_entry": "img_scale_bounce",
+        "image_entry_params": {},
+        "image_treatment": "zoom_pulse",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "flash_transition",
+        "scene_transition_params": {},
+        "overlay_effect": "fire_embers",
+        "overlay_params": {},
+        "background_effect": "bg_pulse",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=dramatic, scene_type=A, keywords detected"
+      }
+    },
+    {
+      "index": 1,
+      "text": "His name was Hiroo Onoda. Japanese intelligence officer. Sent deep into the Philippine jungle during World War Two.",
+      "duration": 8.52,
+      "visual_type": "image",
+      "scene_type": "D",
+      "emotion": "neutral",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "His name was",
+      "subject_text": "Hiroo Onoda \u2014 and his orders were simple. Fight until you're relieved.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "bottom",
+      "emphasis_words": [
+        {
+          "text": "Hiroo Onoda",
+          "style": "bold"
+        },
+        {
+          "text": "Fight until you're relieved",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_01_0.png"
+      ],
+      "audio_path": "audio/narration_01.mp3",
+      "audio_duration": 8.52,
+      "word_timings": [
+        {
+          "word": "His",
+          "start": 0.0,
+          "end": 0.197
+        },
+        {
+          "word": "name",
+          "start": 0.267,
+          "end": 0.546
+        },
+        {
+          "word": "was",
+          "start": 0.58,
+          "end": 0.743
+        },
+        {
+          "word": "Hiroo",
+          "start": 0.824,
+          "end": 1.277
+        },
+        {
+          "word": "Onoda.",
+          "start": 1.451,
+          "end": 2.125
+        },
+        {
+          "word": "Japanese",
+          "start": 2.566,
+          "end": 3.135
+        },
+        {
+          "word": "intelligence",
+          "start": 3.17,
+          "end": 3.773
+        },
+        {
+          "word": "officer.",
+          "start": 3.82,
+          "end": 4.377
+        },
+        {
+          "word": "Sent",
+          "start": 4.702,
+          "end": 4.957
+        },
+        {
+          "word": "deep",
+          "start": 5.027,
+          "end": 5.271
+        },
+        {
+          "word": "into",
+          "start": 5.352,
+          "end": 5.561
+        },
+        {
+          "word": "the",
+          "start": 5.619,
+          "end": 5.689
+        },
+        {
+          "word": "Philippine",
+          "start": 5.724,
+          "end": 6.258
+        },
+        {
+          "word": "jungle",
+          "start": 6.316,
+          "end": 6.676
+        },
+        {
+          "word": "during",
+          "start": 6.722,
+          "end": 6.978
+        },
+        {
+          "word": "World",
+          "start": 7.047,
+          "end": 7.291
+        },
+        {
+          "word": "War",
+          "start": 7.338,
+          "end": 7.523
+        },
+        {
+          "word": "Two.",
+          "start": 7.593,
+          "end": 8.22
+        }
+      ],
+      "effects": {
+        "screen_index": 1,
+        "text_entry": "elastic_drop",
+        "text_entry_params": {},
+        "text_exit": "swipe_wipe",
+        "text_exit_params": {},
+        "text_continuous": "flicker",
+        "text_continuous_params": {},
+        "image_entry": "img_fade_in",
+        "image_entry_params": {},
+        "image_treatment": "zoom_pulse",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "circle_wipe",
+        "scene_transition_params": {},
+        "overlay_effect": "scan_lines",
+        "overlay_params": {},
+        "background_effect": "bg_pulse",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=neutral, scene_type=D, keywords detected"
+      }
+    },
+    {
+      "index": 2,
+      "text": "And then \u2014 the war ended. In 1945. And nobody told him.",
+      "duration": 9.727,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "dramatic",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "World War Two ended in 1945.",
+      "subject_text": "Nobody told Hiroo.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "top",
+      "emphasis_words": [
+        {
+          "text": "nobody told him",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_02_0.png"
+      ],
+      "audio_path": "audio/narration_02.mp3",
+      "audio_duration": 9.727,
+      "word_timings": [
+        {
+          "word": "And",
+          "start": 0.0,
+          "end": 2.67
+        },
+        {
+          "word": "then",
+          "start": 2.74,
+          "end": 3.1
+        },
+        {
+          "word": "\u2014",
+          "start": 3.425,
+          "end": 3.634
+        },
+        {
+          "word": "the",
+          "start": 4.586,
+          "end": 4.702
+        },
+        {
+          "word": "war",
+          "start": 4.76,
+          "end": 4.992
+        },
+        {
+          "word": "ended.",
+          "start": 5.085,
+          "end": 5.712
+        },
+        {
+          "word": "In",
+          "start": 6.153,
+          "end": 6.304
+        },
+        {
+          "word": "1945.",
+          "start": 6.351,
+          "end": 7.721
+        },
+        {
+          "word": "And",
+          "start": 8.231,
+          "end": 8.382
+        },
+        {
+          "word": "nobody",
+          "start": 8.44,
+          "end": 8.719
+        },
+        {
+          "word": "told",
+          "start": 8.777,
+          "end": 8.998
+        },
+        {
+          "word": "him.",
+          "start": 9.044,
+          "end": 9.427
+        }
+      ],
+      "effects": {
+        "screen_index": 2,
+        "text_entry": "scale_bounce",
+        "text_entry_params": {},
+        "text_exit": "slide_out_up",
+        "text_exit_params": {},
+        "text_continuous": "glow_pulse",
+        "text_continuous_params": {},
+        "image_entry": "img_scale_bounce",
+        "image_entry_params": {},
+        "image_treatment": "brightness_pulse",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "slide_horizontal",
+        "scene_transition_params": {},
+        "overlay_effect": "chromatic_aberration",
+        "overlay_params": {},
+        "background_effect": "bg_particle_float",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=dramatic, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 3,
+      "text": "Planes dropped leaflets saying the war was over. He looked at them and thought \u2014 enemy propaganda. Obviously.",
+      "duration": 8.52,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "dramatic",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "Leaflets fell from the sky saying",
+      "subject_text": "'The war is over.' He burned every single one.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "bottom",
+      "emphasis_words": [
+        {
+          "text": "propaganda",
+          "style": "bold"
+        },
+        {
+          "text": "burned",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_03_0.png"
+      ],
+      "audio_path": "audio/narration_03.mp3",
+      "audio_duration": 8.52,
+      "word_timings": [
+        {
+          "word": "Planes",
+          "start": 0.0,
+          "end": 0.511
+        },
+        {
+          "word": "dropped",
+          "start": 0.592,
+          "end": 0.952
+        },
+        {
+          "word": "leaflets",
+          "start": 1.033,
+          "end": 1.544
+        },
+        {
+          "word": "saying",
+          "start": 1.579,
+          "end": 1.869
+        },
+        {
+          "word": "the",
+          "start": 1.927,
+          "end": 1.997
+        },
+        {
+          "word": "war",
+          "start": 2.055,
+          "end": 2.334
+        },
+        {
+          "word": "was",
+          "start": 2.415,
+          "end": 2.554
+        },
+        {
+          "word": "over.",
+          "start": 2.624,
+          "end": 3.111
+        },
+        {
+          "word": "He",
+          "start": 3.437,
+          "end": 3.541
+        },
+        {
+          "word": "looked",
+          "start": 3.599,
+          "end": 3.855
+        },
+        {
+          "word": "at",
+          "start": 3.913,
+          "end": 4.017
+        },
+        {
+          "word": "them",
+          "start": 4.063,
+          "end": 4.249
+        },
+        {
+          "word": "and",
+          "start": 4.331,
+          "end": 4.516
+        },
+        {
+          "word": "thought",
+          "start": 4.586,
+          "end": 4.934
+        },
+        {
+          "word": "\u2014",
+          "start": 5.108,
+          "end": 5.178
+        },
+        {
+          "word": "enemy",
+          "start": 5.561,
+          "end": 5.875
+        },
+        {
+          "word": "propaganda.",
+          "start": 5.933,
+          "end": 6.896
+        },
+        {
+          "word": "Obviously.",
+          "start": 7.279,
+          "end": 8.22
+        }
+      ],
+      "effects": {
+        "screen_index": 3,
+        "text_entry": "slide_up",
+        "text_entry_params": {},
+        "text_exit": "evaporate",
+        "text_exit_params": {},
+        "text_continuous": "breathe",
+        "text_continuous_params": {},
+        "image_entry": "img_scale_bounce",
+        "image_entry_params": {},
+        "image_treatment": "color_shift",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "wipe_left",
+        "scene_transition_params": {},
+        "overlay_effect": "vhs_distortion",
+        "overlay_params": {},
+        "background_effect": "bg_color_breathe",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=dramatic, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 4,
+      "text": "He found actual newspapers. Forgeries, he decided. People came into the jungle to find him \u2014 he ambushed them. Because that's what soldiers do.",
+      "duration": 11.817,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "dramatic",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "He found newspapers. He found people.",
+      "subject_text": "He ambushed them. Every time.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "top",
+      "emphasis_words": [
+        {
+          "text": "Forgeries",
+          "style": "bold"
+        },
+        {
+          "text": "ambushed",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_04_0.png"
+      ],
+      "audio_path": "audio/narration_04.mp3",
+      "audio_duration": 11.817,
+      "word_timings": [
+        {
+          "word": "He",
+          "start": 0.0,
+          "end": 0.255
+        },
+        {
+          "word": "found",
+          "start": 0.325,
+          "end": 0.58
+        },
+        {
+          "word": "actual",
+          "start": 0.639,
+          "end": 0.987
+        },
+        {
+          "word": "newspapers.",
+          "start": 1.057,
+          "end": 1.869
+        },
+        {
+          "word": "Forgeries,",
+          "start": 2.113,
+          "end": 2.949
+        },
+        {
+          "word": "he",
+          "start": 3.03,
+          "end": 3.111
+        },
+        {
+          "word": "decided.",
+          "start": 3.181,
+          "end": 3.889
+        },
+        {
+          "word": "People",
+          "start": 4.331,
+          "end": 4.609
+        },
+        {
+          "word": "came",
+          "start": 4.644,
+          "end": 4.853
+        },
+        {
+          "word": "into",
+          "start": 4.888,
+          "end": 5.062
+        },
+        {
+          "word": "the",
+          "start": 5.12,
+          "end": 5.19
+        },
+        {
+          "word": "jungle",
+          "start": 5.248,
+          "end": 5.55
+        },
+        {
+          "word": "to",
+          "start": 5.573,
+          "end": 5.631
+        },
+        {
+          "word": "find",
+          "start": 5.712,
+          "end": 6.095
+        },
+        {
+          "word": "him",
+          "start": 6.177,
+          "end": 6.362
+        },
+        {
+          "word": "\u2014",
+          "start": 6.536,
+          "end": 6.594
+        },
+        {
+          "word": "he",
+          "start": 7.198,
+          "end": 7.279
+        },
+        {
+          "word": "ambushed",
+          "start": 7.372,
+          "end": 7.964
+        },
+        {
+          "word": "them.",
+          "start": 8.011,
+          "end": 8.51
+        },
+        {
+          "word": "Because",
+          "start": 9.114,
+          "end": 9.416
+        },
+        {
+          "word": "that's",
+          "start": 9.451,
+          "end": 9.706
+        },
+        {
+          "word": "what",
+          "start": 9.752,
+          "end": 9.903
+        },
+        {
+          "word": "soldiers",
+          "start": 9.973,
+          "end": 10.414
+        },
+        {
+          "word": "do.",
+          "start": 10.472,
+          "end": 11.517
+        }
+      ],
+      "effects": {
+        "screen_index": 4,
+        "text_entry": "elastic_drop",
+        "text_entry_params": {},
+        "text_exit": "flick_off",
+        "text_exit_params": {},
+        "text_continuous": "heartbeat",
+        "text_continuous_params": {},
+        "image_entry": "img_scale_bounce",
+        "image_entry_params": {},
+        "image_treatment": "vignette",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "ink_bleed",
+        "scene_transition_params": {},
+        "overlay_effect": "subtle_grain",
+        "overlay_params": {},
+        "background_effect": "bg_pulse",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=dramatic, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 5,
+      "text": "Meanwhile \u2014 the world just... moved on. Japan rebuilt. Cities rose from ash. Babies were born, grew up, had their OWN babies.",
+      "duration": 12.653,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "warm",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "While Hiroo hid in the jungle \u2014",
+      "subject_text": "the entire world rebuilt itself around him.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "bottom",
+      "emphasis_words": [
+        {
+          "text": "moved on",
+          "style": "bold"
+        },
+        {
+          "text": "rebuilt",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_05_0.png"
+      ],
+      "audio_path": "audio/narration_05.mp3",
+      "audio_duration": 12.653,
+      "word_timings": [
+        {
+          "word": "Meanwhile",
+          "start": 0.0,
+          "end": 0.929
+        },
+        {
+          "word": "\u2014",
+          "start": 0.964,
+          "end": 1.022
+        },
+        {
+          "word": "the",
+          "start": 1.347,
+          "end": 1.463
+        },
+        {
+          "word": "world",
+          "start": 1.533,
+          "end": 1.985
+        },
+        {
+          "word": "just...",
+          "start": 2.055,
+          "end": 2.612
+        },
+        {
+          "word": "moved",
+          "start": 3.123,
+          "end": 3.518
+        },
+        {
+          "word": "on.",
+          "start": 3.599,
+          "end": 4.156
+        },
+        {
+          "word": "Japan",
+          "start": 4.667,
+          "end": 5.132
+        },
+        {
+          "word": "rebuilt.",
+          "start": 5.224,
+          "end": 5.991
+        },
+        {
+          "word": "Cities",
+          "start": 6.316,
+          "end": 6.757
+        },
+        {
+          "word": "rose",
+          "start": 6.838,
+          "end": 7.279
+        },
+        {
+          "word": "from",
+          "start": 7.314,
+          "end": 7.488
+        },
+        {
+          "word": "ash.",
+          "start": 7.605,
+          "end": 8.208
+        },
+        {
+          "word": "Babies",
+          "start": 8.417,
+          "end": 8.916
+        },
+        {
+          "word": "were",
+          "start": 8.963,
+          "end": 9.114
+        },
+        {
+          "word": "born,",
+          "start": 9.149,
+          "end": 9.764
+        },
+        {
+          "word": "grew",
+          "start": 9.938,
+          "end": 10.194
+        },
+        {
+          "word": "up,",
+          "start": 10.275,
+          "end": 10.623
+        },
+        {
+          "word": "had",
+          "start": 10.774,
+          "end": 10.96
+        },
+        {
+          "word": "their",
+          "start": 11.006,
+          "end": 11.18
+        },
+        {
+          "word": "OWN",
+          "start": 11.25,
+          "end": 11.61
+        },
+        {
+          "word": "babies.",
+          "start": 11.691,
+          "end": 12.353
+        }
+      ],
+      "effects": {
+        "screen_index": 5,
+        "text_entry": "stamp_in",
+        "text_entry_params": {},
+        "text_exit": "flick_off",
+        "text_exit_params": {},
+        "text_continuous": "shake",
+        "text_continuous_params": {},
+        "image_entry": "img_fade_in",
+        "image_entry_params": {},
+        "image_treatment": "vignette",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "ink_bleed",
+        "scene_transition_params": {},
+        "overlay_effect": "scan_lines",
+        "overlay_params": {},
+        "background_effect": "bg_pulse",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=warm, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 6,
+      "text": "And Hiroo was still in that jungle. Sharpening his blade. Keeping his rifle clean. Waiting.",
+      "duration": 8.52,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "dramatic",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "Decades passed.",
+      "subject_text": "He was still there. Still waiting for orders.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "top",
+      "emphasis_words": [
+        {
+          "text": "still",
+          "style": "bold"
+        },
+        {
+          "text": "Waiting",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_06_0.png"
+      ],
+      "audio_path": "audio/narration_06.mp3",
+      "audio_duration": 8.52,
+      "word_timings": [
+        {
+          "word": "And",
+          "start": 0.0,
+          "end": 0.163
+        },
+        {
+          "word": "Hiroo",
+          "start": 0.244,
+          "end": 0.697
+        },
+        {
+          "word": "was",
+          "start": 0.778,
+          "end": 0.929
+        },
+        {
+          "word": "still",
+          "start": 0.975,
+          "end": 1.265
+        },
+        {
+          "word": "in",
+          "start": 1.382,
+          "end": 1.602
+        },
+        {
+          "word": "that",
+          "start": 1.683,
+          "end": 1.881
+        },
+        {
+          "word": "jungle.",
+          "start": 1.95,
+          "end": 2.519
+        },
+        {
+          "word": "Sharpening",
+          "start": 3.03,
+          "end": 3.518
+        },
+        {
+          "word": "his",
+          "start": 3.564,
+          "end": 3.669
+        },
+        {
+          "word": "blade.",
+          "start": 3.727,
+          "end": 4.389
+        },
+        {
+          "word": "Keeping",
+          "start": 4.83,
+          "end": 5.166
+        },
+        {
+          "word": "his",
+          "start": 5.224,
+          "end": 5.329
+        },
+        {
+          "word": "rifle",
+          "start": 5.41,
+          "end": 5.84
+        },
+        {
+          "word": "clean.",
+          "start": 5.886,
+          "end": 6.664
+        },
+        {
+          "word": "Waiting.",
+          "start": 7.361,
+          "end": 8.22
+        }
+      ],
+      "effects": {
+        "screen_index": 6,
+        "text_entry": "zoom_blur_in",
+        "text_entry_params": {},
+        "text_exit": "blur_exit",
+        "text_exit_params": {},
+        "text_continuous": "shake",
+        "text_continuous_params": {},
+        "image_entry": "img_scale_bounce",
+        "image_entry_params": {},
+        "image_treatment": "zoom_pulse",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "pixelate_transition",
+        "scene_transition_params": {},
+        "overlay_effect": "dust_particles",
+        "overlay_params": {},
+        "background_effect": "bg_particle_float",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=dramatic, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 7,
+      "text": "Fifty years. FIFTY. He was thirty years old when he went in. He was turning fifty-two in that jungle.",
+      "duration": 8.706,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "dramatic",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "Not five years. Not ten.",
+      "subject_text": "Fifty. Years. In the jungle.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "bottom",
+      "emphasis_words": [
+        {
+          "text": "Fifty",
+          "style": "bold"
+        },
+        {
+          "text": "fifty-two",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_07_0.png"
+      ],
+      "audio_path": "audio/narration_07.mp3",
+      "audio_duration": 8.706,
+      "word_timings": [
+        {
+          "word": "Fifty",
+          "start": 0.0,
+          "end": 0.662
+        },
+        {
+          "word": "years.",
+          "start": 1.173,
+          "end": 2.02
+        },
+        {
+          "word": "FIFTY.",
+          "start": 2.717,
+          "end": 3.471
+        },
+        {
+          "word": "He",
+          "start": 3.982,
+          "end": 4.098
+        },
+        {
+          "word": "was",
+          "start": 4.156,
+          "end": 4.261
+        },
+        {
+          "word": "thirty",
+          "start": 4.331,
+          "end": 4.609
+        },
+        {
+          "word": "years",
+          "start": 4.656,
+          "end": 4.888
+        },
+        {
+          "word": "old",
+          "start": 4.946,
+          "end": 5.166
+        },
+        {
+          "word": "when",
+          "start": 5.201,
+          "end": 5.329
+        },
+        {
+          "word": "he",
+          "start": 5.364,
+          "end": 5.41
+        },
+        {
+          "word": "went",
+          "start": 5.48,
+          "end": 5.677
+        },
+        {
+          "word": "in.",
+          "start": 5.735,
+          "end": 6.026
+        },
+        {
+          "word": "He",
+          "start": 6.142,
+          "end": 6.246
+        },
+        {
+          "word": "was",
+          "start": 6.293,
+          "end": 6.397
+        },
+        {
+          "word": "turning",
+          "start": 6.444,
+          "end": 6.711
+        },
+        {
+          "word": "fifty-two",
+          "start": 6.78,
+          "end": 7.303
+        },
+        {
+          "word": "in",
+          "start": 7.384,
+          "end": 7.465
+        },
+        {
+          "word": "that",
+          "start": 7.512,
+          "end": 7.674
+        },
+        {
+          "word": "jungle.",
+          "start": 7.744,
+          "end": 8.406
+        }
+      ],
+      "effects": {
+        "screen_index": 7,
+        "text_entry": "grow_from_center",
+        "text_entry_params": {},
+        "text_exit": "fade_out",
+        "text_exit_params": {},
+        "text_continuous": "flicker",
+        "text_continuous_params": {},
+        "image_entry": "img_scale_bounce",
+        "image_entry_params": {},
+        "image_treatment": "parallax_2d",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "crossfade",
+        "scene_transition_params": {},
+        "overlay_effect": "sparkle_overlay",
+        "overlay_params": {},
+        "background_effect": "bg_color_breathe",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=dramatic, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 8,
+      "text": "Then in 1974 \u2014 his original commanding officer flew to the Philippines. Walked into that jungle. In his old uniform.",
+      "duration": 9.216,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "dramatic",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "Then finally, in 1974 \u2014",
+      "subject_text": "his old commander walked back in.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "top",
+      "emphasis_words": [
+        {
+          "text": "1974",
+          "style": "bold"
+        },
+        {
+          "text": "old uniform",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_08_0.png"
+      ],
+      "audio_path": "audio/narration_08.mp3",
+      "audio_duration": 9.216,
+      "word_timings": [
+        {
+          "word": "Then",
+          "start": 0.0,
+          "end": 0.36
+        },
+        {
+          "word": "in",
+          "start": 0.476,
+          "end": 0.627
+        },
+        {
+          "word": "1974",
+          "start": 0.685,
+          "end": 1.892
+        },
+        {
+          "word": "\u2014",
+          "start": 2.101,
+          "end": 2.183
+        },
+        {
+          "word": "his",
+          "start": 2.508,
+          "end": 2.624
+        },
+        {
+          "word": "original",
+          "start": 2.67,
+          "end": 3.053
+        },
+        {
+          "word": "commanding",
+          "start": 3.1,
+          "end": 3.553
+        },
+        {
+          "word": "officer",
+          "start": 3.622,
+          "end": 3.982
+        },
+        {
+          "word": "flew",
+          "start": 4.04,
+          "end": 4.238
+        },
+        {
+          "word": "to",
+          "start": 4.272,
+          "end": 4.319
+        },
+        {
+          "word": "the",
+          "start": 4.365,
+          "end": 4.435
+        },
+        {
+          "word": "Philippines.",
+          "start": 4.47,
+          "end": 5.283
+        },
+        {
+          "word": "Walked",
+          "start": 5.457,
+          "end": 5.828
+        },
+        {
+          "word": "into",
+          "start": 5.886,
+          "end": 6.118
+        },
+        {
+          "word": "that",
+          "start": 6.188,
+          "end": 6.374
+        },
+        {
+          "word": "jungle.",
+          "start": 6.444,
+          "end": 6.954
+        },
+        {
+          "word": "In",
+          "start": 7.279,
+          "end": 7.43
+        },
+        {
+          "word": "his",
+          "start": 7.488,
+          "end": 7.605
+        },
+        {
+          "word": "old",
+          "start": 7.674,
+          "end": 7.883
+        },
+        {
+          "word": "uniform.",
+          "start": 7.976,
+          "end": 8.916
+        }
+      ],
+      "effects": {
+        "screen_index": 8,
+        "text_entry": "stamp_in",
+        "text_entry_params": {},
+        "text_exit": "swipe_wipe",
+        "text_exit_params": {},
+        "text_continuous": "glow_pulse",
+        "text_continuous_params": {},
+        "image_entry": "img_scale_bounce",
+        "image_entry_params": {},
+        "image_treatment": "brightness_pulse",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "flash_transition",
+        "scene_transition_params": {},
+        "overlay_effect": "fire_embers",
+        "overlay_params": {},
+        "background_effect": "bg_pulse",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=dramatic, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 9,
+      "text": "And gave Hiroo the only order he'd ever accept. Stand down. The war is over.",
+      "duration": 7.219,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "dramatic",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "And said the words",
+      "subject_text": "'Stand down. The war is over.'",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "bottom",
+      "emphasis_words": [
+        {
+          "text": "Stand down",
+          "style": "bold"
+        },
+        {
+          "text": "The war is over",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_09_0.png"
+      ],
+      "audio_path": "audio/narration_09.mp3",
+      "audio_duration": 7.219,
+      "word_timings": [
+        {
+          "word": "And",
+          "start": 0.0,
+          "end": 0.174
+        },
+        {
+          "word": "gave",
+          "start": 0.255,
+          "end": 0.697
+        },
+        {
+          "word": "Hiroo",
+          "start": 0.755,
+          "end": 1.207
+        },
+        {
+          "word": "the",
+          "start": 1.289,
+          "end": 1.393
+        },
+        {
+          "word": "only",
+          "start": 1.474,
+          "end": 1.869
+        },
+        {
+          "word": "order",
+          "start": 1.95,
+          "end": 2.241
+        },
+        {
+          "word": "he'd",
+          "start": 2.31,
+          "end": 2.485
+        },
+        {
+          "word": "ever",
+          "start": 2.543,
+          "end": 2.74
+        },
+        {
+          "word": "accept.",
+          "start": 2.81,
+          "end": 3.553
+        },
+        {
+          "word": "Stand",
+          "start": 4.156,
+          "end": 4.505
+        },
+        {
+          "word": "down.",
+          "start": 4.551,
+          "end": 5.074
+        },
+        {
+          "word": "The",
+          "start": 5.677,
+          "end": 5.793
+        },
+        {
+          "word": "war",
+          "start": 5.851,
+          "end": 6.13
+        },
+        {
+          "word": "is",
+          "start": 6.2,
+          "end": 6.304
+        },
+        {
+          "word": "over.",
+          "start": 6.374,
+          "end": 6.92
+        }
+      ],
+      "effects": {
+        "screen_index": 9,
+        "text_entry": "curtain_reveal",
+        "text_entry_params": {},
+        "text_exit": "dissolve_out",
+        "text_exit_params": {},
+        "text_continuous": "flicker",
+        "text_continuous_params": {},
+        "image_entry": "img_scale_bounce",
+        "image_entry_params": {},
+        "image_treatment": "color_shift",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "circle_wipe",
+        "scene_transition_params": {},
+        "overlay_effect": "scan_lines",
+        "overlay_params": {},
+        "background_effect": "bg_gradient_shift",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=dramatic, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 10,
+      "text": "Hiroo walked out of that jungle at fifty-two years old. Still in his uniform. Still carrying his weapon. Into a world he didn't recognize.",
+      "duration": 11.445,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "dramatic",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "He walked out \u2014",
+      "subject_text": "fifty-two years old. Uniform still on. Rifle still in hand.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "top",
+      "emphasis_words": [
+        {
+          "text": "fifty-two",
+          "style": "bold"
+        },
+        {
+          "text": "still carrying",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_10_0.png"
+      ],
+      "audio_path": "audio/narration_10.mp3",
+      "audio_duration": 11.445,
+      "word_timings": [
+        {
+          "word": "Hiroo",
+          "start": 0.0,
+          "end": 0.534
+        },
+        {
+          "word": "walked",
+          "start": 0.65,
+          "end": 0.998
+        },
+        {
+          "word": "out",
+          "start": 1.045,
+          "end": 1.161
+        },
+        {
+          "word": "of",
+          "start": 1.196,
+          "end": 1.242
+        },
+        {
+          "word": "that",
+          "start": 1.289,
+          "end": 1.428
+        },
+        {
+          "word": "jungle",
+          "start": 1.509,
+          "end": 1.904
+        },
+        {
+          "word": "at",
+          "start": 1.95,
+          "end": 2.043
+        },
+        {
+          "word": "fifty-two",
+          "start": 2.113,
+          "end": 2.694
+        },
+        {
+          "word": "years",
+          "start": 2.81,
+          "end": 3.088
+        },
+        {
+          "word": "old.",
+          "start": 3.158,
+          "end": 3.692
+        },
+        {
+          "word": "Still",
+          "start": 4.075,
+          "end": 4.458
+        },
+        {
+          "word": "in",
+          "start": 4.54,
+          "end": 4.621
+        },
+        {
+          "word": "his",
+          "start": 4.69,
+          "end": 4.807
+        },
+        {
+          "word": "uniform.",
+          "start": 4.876,
+          "end": 5.666
+        },
+        {
+          "word": "Still",
+          "start": 5.991,
+          "end": 6.281
+        },
+        {
+          "word": "carrying",
+          "start": 6.351,
+          "end": 6.908
+        },
+        {
+          "word": "his",
+          "start": 6.989,
+          "end": 7.14
+        },
+        {
+          "word": "weapon.",
+          "start": 7.221,
+          "end": 7.755
+        },
+        {
+          "word": "Into",
+          "start": 8.081,
+          "end": 8.348
+        },
+        {
+          "word": "a",
+          "start": 8.464,
+          "end": 8.487
+        },
+        {
+          "word": "world",
+          "start": 8.568,
+          "end": 9.195
+        },
+        {
+          "word": "he",
+          "start": 9.578,
+          "end": 9.694
+        },
+        {
+          "word": "didn't",
+          "start": 9.752,
+          "end": 9.985
+        },
+        {
+          "word": "recognize.",
+          "start": 10.031,
+          "end": 11.146
+        }
+      ],
+      "effects": {
+        "screen_index": 10,
+        "text_entry": "scale_bounce",
+        "text_entry_params": {},
+        "text_exit": "slide_out_up",
+        "text_exit_params": {},
+        "text_continuous": "wave_motion",
+        "text_continuous_params": {},
+        "image_entry": "img_scale_bounce",
+        "image_entry_params": {},
+        "image_treatment": "vignette",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "slide_horizontal",
+        "scene_transition_params": {},
+        "overlay_effect": "chromatic_aberration",
+        "overlay_params": {},
+        "background_effect": "bg_particle_float",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=dramatic, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 11,
+      "text": "And here's what wrecks me about this \u2014 he wasn't crazy. He wasn't delusional. He was the most disciplined, loyal person you could imagine.",
+      "duration": 9.077,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "thoughtful",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "And here's the part that really gets me \u2014",
+      "subject_text": "he wasn't broken. He was just... impossibly devoted.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "bottom",
+      "emphasis_words": [
+        {
+          "text": "wasn't crazy",
+          "style": "bold"
+        },
+        {
+          "text": "impossibly devoted",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_11_0.png"
+      ],
+      "audio_path": "audio/narration_11.mp3",
+      "audio_duration": 9.077,
+      "word_timings": [
+        {
+          "word": "And",
+          "start": 0.0,
+          "end": 0.255
+        },
+        {
+          "word": "here's",
+          "start": 0.313,
+          "end": 0.522
+        },
+        {
+          "word": "what",
+          "start": 0.557,
+          "end": 0.697
+        },
+        {
+          "word": "wrecks",
+          "start": 0.743,
+          "end": 0.998
+        },
+        {
+          "word": "me",
+          "start": 1.045,
+          "end": 1.138
+        },
+        {
+          "word": "about",
+          "start": 1.184,
+          "end": 1.463
+        },
+        {
+          "word": "this",
+          "start": 1.509,
+          "end": 1.753
+        },
+        {
+          "word": "\u2014",
+          "start": 1.869,
+          "end": 1.916
+        },
+        {
+          "word": "he",
+          "start": 2.032,
+          "end": 2.113
+        },
+        {
+          "word": "wasn't",
+          "start": 2.183,
+          "end": 2.473
+        },
+        {
+          "word": "crazy.",
+          "start": 2.508,
+          "end": 3.077
+        },
+        {
+          "word": "He",
+          "start": 3.228,
+          "end": 3.332
+        },
+        {
+          "word": "wasn't",
+          "start": 3.39,
+          "end": 3.646
+        },
+        {
+          "word": "delusional.",
+          "start": 3.692,
+          "end": 4.609
+        },
+        {
+          "word": "He",
+          "start": 4.783,
+          "end": 4.899
+        },
+        {
+          "word": "was",
+          "start": 4.957,
+          "end": 5.074
+        },
+        {
+          "word": "the",
+          "start": 5.12,
+          "end": 5.19
+        },
+        {
+          "word": "most",
+          "start": 5.248,
+          "end": 5.457
+        },
+        {
+          "word": "disciplined,",
+          "start": 5.538,
+          "end": 6.211
+        },
+        {
+          "word": "loyal",
+          "start": 6.304,
+          "end": 6.734
+        },
+        {
+          "word": "person",
+          "start": 6.803,
+          "end": 7.163
+        },
+        {
+          "word": "you",
+          "start": 7.233,
+          "end": 7.314
+        },
+        {
+          "word": "could",
+          "start": 7.372,
+          "end": 7.523
+        },
+        {
+          "word": "imagine.",
+          "start": 7.57,
+          "end": 8.777
+        }
+      ],
+      "effects": {
+        "screen_index": 11,
+        "text_entry": "blur_reveal",
+        "text_entry_params": {},
+        "text_exit": "flick_off",
+        "text_exit_params": {},
+        "text_continuous": "heartbeat",
+        "text_continuous_params": {},
+        "image_entry": "img_fade_in",
+        "image_entry_params": {},
+        "image_treatment": "vignette",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "slide_horizontal",
+        "scene_transition_params": {},
+        "overlay_effect": "fire_embers",
+        "overlay_params": {},
+        "background_effect": "bg_particle_float",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=thoughtful, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 12,
+      "text": "His greatest strength... was also his cage. He was so committed to the mission \u2014 he couldn't see the mission had become the prison.",
+      "duration": 10.006,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "thoughtful",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "His loyalty was real.",
+      "subject_text": "But it had become the bars of his own cage.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "top",
+      "emphasis_words": [
+        {
+          "text": "cage",
+          "style": "bold"
+        },
+        {
+          "text": "prison",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_12_0.png"
+      ],
+      "audio_path": "audio/narration_12.mp3",
+      "audio_duration": 10.006,
+      "word_timings": [
+        {
+          "word": "His",
+          "start": 0.0,
+          "end": 0.313
+        },
+        {
+          "word": "greatest",
+          "start": 0.372,
+          "end": 0.743
+        },
+        {
+          "word": "strength...",
+          "start": 0.789,
+          "end": 1.416
+        },
+        {
+          "word": "was",
+          "start": 1.927,
+          "end": 2.101
+        },
+        {
+          "word": "also",
+          "start": 2.159,
+          "end": 2.438
+        },
+        {
+          "word": "his",
+          "start": 2.519,
+          "end": 2.624
+        },
+        {
+          "word": "cage.",
+          "start": 2.682,
+          "end": 3.425
+        },
+        {
+          "word": "He",
+          "start": 4.029,
+          "end": 4.145
+        },
+        {
+          "word": "was",
+          "start": 4.203,
+          "end": 4.307
+        },
+        {
+          "word": "so",
+          "start": 4.354,
+          "end": 4.493
+        },
+        {
+          "word": "committed",
+          "start": 4.574,
+          "end": 5.004
+        },
+        {
+          "word": "to",
+          "start": 5.05,
+          "end": 5.12
+        },
+        {
+          "word": "the",
+          "start": 5.178,
+          "end": 5.248
+        },
+        {
+          "word": "mission",
+          "start": 5.306,
+          "end": 5.654
+        },
+        {
+          "word": "\u2014",
+          "start": 5.828,
+          "end": 5.898
+        },
+        {
+          "word": "he",
+          "start": 6.502,
+          "end": 6.56
+        },
+        {
+          "word": "couldn't",
+          "start": 6.606,
+          "end": 6.873
+        },
+        {
+          "word": "see",
+          "start": 6.908,
+          "end": 7.047
+        },
+        {
+          "word": "the",
+          "start": 7.082,
+          "end": 7.152
+        },
+        {
+          "word": "mission",
+          "start": 7.21,
+          "end": 7.628
+        },
+        {
+          "word": "had",
+          "start": 7.872,
+          "end": 8.022
+        },
+        {
+          "word": "become",
+          "start": 8.069,
+          "end": 8.429
+        },
+        {
+          "word": "the",
+          "start": 8.475,
+          "end": 8.545
+        },
+        {
+          "word": "prison.",
+          "start": 8.603,
+          "end": 9.706
+        }
+      ],
+      "effects": {
+        "screen_index": 12,
+        "text_entry": "zoom_blur_in",
+        "text_entry_params": {},
+        "text_exit": "scale_shrink",
+        "text_exit_params": {},
+        "text_continuous": "pendulum",
+        "text_continuous_params": {},
+        "image_entry": "img_fade_in",
+        "image_entry_params": {},
+        "image_treatment": "ken_burns",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "wipe_left",
+        "scene_transition_params": {},
+        "overlay_effect": "scan_lines",
+        "overlay_params": {},
+        "background_effect": "bg_color_breathe",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=thoughtful, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 13,
+      "text": "And honestly? I think a lot of us are doing the exact same thing. Still fighting fights that ended years ago. Still loyal to a version of someone \u2014 or ourselves \u2014 that doesn't exist anymore.",
+      "duration": 14.139,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "thoughtful",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "And I keep thinking \u2014",
+      "subject_text": "how many of us are still in that jungle right now?",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "bottom",
+      "emphasis_words": [
+        {
+          "text": "still fighting",
+          "style": "bold"
+        },
+        {
+          "text": "doesn't exist anymore",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_13_0.png"
+      ],
+      "audio_path": "audio/narration_13.mp3",
+      "audio_duration": 14.139,
+      "word_timings": [
+        {
+          "word": "And",
+          "start": 0.0,
+          "end": 0.441
+        },
+        {
+          "word": "honestly?",
+          "start": 0.952,
+          "end": 1.823
+        },
+        {
+          "word": "I",
+          "start": 2.426,
+          "end": 2.473
+        },
+        {
+          "word": "think",
+          "start": 2.566,
+          "end": 2.728
+        },
+        {
+          "word": "a",
+          "start": 2.775,
+          "end": 2.798
+        },
+        {
+          "word": "lot",
+          "start": 2.868,
+          "end": 3.053
+        },
+        {
+          "word": "of",
+          "start": 3.088,
+          "end": 3.135
+        },
+        {
+          "word": "us",
+          "start": 3.204,
+          "end": 3.297
+        },
+        {
+          "word": "are",
+          "start": 3.332,
+          "end": 3.425
+        },
+        {
+          "word": "doing",
+          "start": 3.46,
+          "end": 3.704
+        },
+        {
+          "word": "the",
+          "start": 3.75,
+          "end": 3.831
+        },
+        {
+          "word": "exact",
+          "start": 3.924,
+          "end": 4.296
+        },
+        {
+          "word": "same",
+          "start": 4.354,
+          "end": 4.69
+        },
+        {
+          "word": "thing.",
+          "start": 4.748,
+          "end": 5.399
+        },
+        {
+          "word": "Still",
+          "start": 5.84,
+          "end": 6.095
+        },
+        {
+          "word": "fighting",
+          "start": 6.165,
+          "end": 6.467
+        },
+        {
+          "word": "fights",
+          "start": 6.536,
+          "end": 6.815
+        },
+        {
+          "word": "that",
+          "start": 6.85,
+          "end": 6.989
+        },
+        {
+          "word": "ended",
+          "start": 7.059,
+          "end": 7.361
+        },
+        {
+          "word": "years",
+          "start": 7.43,
+          "end": 7.755
+        },
+        {
+          "word": "ago.",
+          "start": 7.802,
+          "end": 8.301
+        },
+        {
+          "word": "Still",
+          "start": 8.626,
+          "end": 8.905
+        },
+        {
+          "word": "loyal",
+          "start": 8.986,
+          "end": 9.369
+        },
+        {
+          "word": "to",
+          "start": 9.439,
+          "end": 9.509
+        },
+        {
+          "word": "a",
+          "start": 9.625,
+          "end": 9.648
+        },
+        {
+          "word": "version",
+          "start": 9.718,
+          "end": 10.077
+        },
+        {
+          "word": "of",
+          "start": 10.124,
+          "end": 10.194
+        },
+        {
+          "word": "someone",
+          "start": 10.263,
+          "end": 10.728
+        },
+        {
+          "word": "\u2014",
+          "start": 10.751,
+          "end": 10.797
+        },
+        {
+          "word": "or",
+          "start": 10.855,
+          "end": 11.018
+        },
+        {
+          "word": "ourselves",
+          "start": 11.088,
+          "end": 11.726
+        },
+        {
+          "word": "\u2014",
+          "start": 11.854,
+          "end": 11.9
+        },
+        {
+          "word": "that",
+          "start": 12.074,
+          "end": 12.249
+        },
+        {
+          "word": "doesn't",
+          "start": 12.307,
+          "end": 12.597
+        },
+        {
+          "word": "exist",
+          "start": 12.632,
+          "end": 12.98
+        },
+        {
+          "word": "anymore.",
+          "start": 13.038,
+          "end": 13.839
+        }
+      ],
+      "effects": {
+        "screen_index": 13,
+        "text_entry": "grow_from_center",
+        "text_entry_params": {},
+        "text_exit": "blur_exit",
+        "text_exit_params": {},
+        "text_continuous": "shake",
+        "text_continuous_params": {},
+        "image_entry": "img_fade_in",
+        "image_entry_params": {},
+        "image_treatment": "zoom_pulse",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "ink_bleed",
+        "scene_transition_params": {},
+        "overlay_effect": "chromatic_aberration",
+        "overlay_params": {},
+        "background_effect": "bg_pulse",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=thoughtful, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 14,
+      "text": "The question isn't whether you're committed. The question is \u2014 are you guarding a post no one needs anymore?",
+      "duration": 7.73,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "thoughtful",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "Commitment isn't the problem.",
+      "subject_text": "The question is \u2014 what are you committed TO?",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "top",
+      "emphasis_words": [
+        {
+          "text": "guarding a post",
+          "style": "bold"
+        },
+        {
+          "text": "no one needs anymore",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_14_0.png"
+      ],
+      "audio_path": "audio/narration_14.mp3",
+      "audio_duration": 7.73,
+      "word_timings": [
+        {
+          "word": "The",
+          "start": 0.0,
+          "end": 0.139
+        },
+        {
+          "word": "question",
+          "start": 0.186,
+          "end": 0.569
+        },
+        {
+          "word": "isn't",
+          "start": 0.639,
+          "end": 0.906
+        },
+        {
+          "word": "whether",
+          "start": 0.94,
+          "end": 1.173
+        },
+        {
+          "word": "you're",
+          "start": 1.219,
+          "end": 1.393
+        },
+        {
+          "word": "committed.",
+          "start": 1.428,
+          "end": 2.101
+        },
+        {
+          "word": "The",
+          "start": 2.612,
+          "end": 2.728
+        },
+        {
+          "word": "question",
+          "start": 2.775,
+          "end": 3.17
+        },
+        {
+          "word": "is",
+          "start": 3.239,
+          "end": 3.518
+        },
+        {
+          "word": "\u2014",
+          "start": 3.796,
+          "end": 4.063
+        },
+        {
+          "word": "are",
+          "start": 4.667,
+          "end": 4.818
+        },
+        {
+          "word": "you",
+          "start": 4.853,
+          "end": 4.923
+        },
+        {
+          "word": "guarding",
+          "start": 4.992,
+          "end": 5.317
+        },
+        {
+          "word": "a",
+          "start": 5.364,
+          "end": 5.387
+        },
+        {
+          "word": "post",
+          "start": 5.457,
+          "end": 5.759
+        },
+        {
+          "word": "no",
+          "start": 5.84,
+          "end": 5.944
+        },
+        {
+          "word": "one",
+          "start": 6.026,
+          "end": 6.165
+        },
+        {
+          "word": "needs",
+          "start": 6.211,
+          "end": 6.571
+        },
+        {
+          "word": "anymore?",
+          "start": 6.618,
+          "end": 7.43
+        }
+      ],
+      "effects": {
+        "screen_index": 14,
+        "text_entry": "stamp_in",
+        "text_entry_params": {},
+        "text_exit": "fade_out",
+        "text_exit_params": {},
+        "text_continuous": "flicker",
+        "text_continuous_params": {},
+        "image_entry": "img_fade_in",
+        "image_entry_params": {},
+        "image_treatment": "parallax_2d",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "blur_transition",
+        "scene_transition_params": {},
+        "overlay_effect": "vhs_distortion",
+        "overlay_params": {},
+        "background_effect": "bg_gradient_shift",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=thoughtful, scene_type=B, keywords detected"
+      }
+    }
+  ],
+  "visual_style": {
+    "name": "claymorphism",
+    "bg_center_color": [
+      240,
+      238,
+      236
+    ],
+    "bg_edge_color": [
+      200,
+      196,
+      192
+    ],
+    "text_dark": [
+      61,
+      61,
+      61
+    ],
+    "text_light": [
+      160,
+      155,
+      170
+    ],
+    "primary": [
+      61,
+      61,
+      61
+    ],
+    "secondary": [
+      200,
+      130,
+      160
+    ],
+    "accent": [
+      160,
+      200,
+      140
+    ],
+    "card_bg": [
+      255,
+      252,
+      248,
+      200
+    ],
+    "card_radius": 28,
+    "image_corner_radius": 24,
+    "highlight_color": [
+      255,
+      136,
+      0
+    ],
+    "highlight_text": [
+      255,
+      255,
+      255
+    ]
+  },
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "cta": "Now ask yourself \u2014 what jungle are YOU still fighting in?",
+  "visual_theme": "dynamic",
+  "layout_mode": "fullbleed",
+  "transition_frames": 15,
+  "scene_silence_ms": 300
+}

@@ -1,0 +1,1395 @@
+{
+  "title": "She Painted for 40 Years. Then She Destroyed Everything.",
+  "hook": "...and then she walked in one morning and covered all of it. Every single inch.",
+  "brand_text": "",
+  "watermark": "",
+  "mood": "dramatic",
+  "content_mode": "article",
+  "screens": [
+    {
+      "index": 0,
+      "text": "Forty years. That's how long she painted it.",
+      "duration": 3.504,
+      "visual_type": "image",
+      "scene_type": "A",
+      "emotion": "dramatic",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "Forty years.",
+      "subject_text": "That's how long she painted it.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "top",
+      "emphasis_words": [
+        {
+          "text": "Forty",
+          "style": "bold"
+        },
+        {
+          "text": "years",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_00_0.png"
+      ],
+      "audio_path": "audio/narration_00.mp3",
+      "audio_duration": 3.504,
+      "word_timings": [
+        {
+          "word": "Forty",
+          "start": 0.0,
+          "end": 0.395
+        },
+        {
+          "word": "years.",
+          "start": 0.464,
+          "end": 1.045
+        },
+        {
+          "word": "That's",
+          "start": 1.428,
+          "end": 1.683
+        },
+        {
+          "word": "how",
+          "start": 1.718,
+          "end": 1.846
+        },
+        {
+          "word": "long",
+          "start": 1.927,
+          "end": 2.206
+        },
+        {
+          "word": "she",
+          "start": 2.276,
+          "end": 2.392
+        },
+        {
+          "word": "painted",
+          "start": 2.461,
+          "end": 2.775
+        },
+        {
+          "word": "it.",
+          "start": 2.821,
+          "end": 3.204
+        }
+      ],
+      "effects": {
+        "screen_index": 0,
+        "text_entry": "zoom_blur_in",
+        "text_entry_params": {},
+        "text_exit": "swipe_wipe",
+        "text_exit_params": {},
+        "text_continuous": "glow_pulse",
+        "text_continuous_params": {},
+        "image_entry": "img_scale_bounce",
+        "image_entry_params": {},
+        "image_treatment": "zoom_pulse",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "flash_transition",
+        "scene_transition_params": {},
+        "overlay_effect": "fire_embers",
+        "overlay_params": {},
+        "background_effect": "bg_pulse",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=dramatic, scene_type=A, keywords detected"
+      }
+    },
+    {
+      "index": 1,
+      "text": "Every face, every brushstroke \u2014 people called it a miracle. Kings offered fortunes. Museums literally built wings around it.",
+      "duration": 9.82,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "warm",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "Kings offered fortunes for it.",
+      "subject_text": "Museums built entire wings just to hold it.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "bottom",
+      "emphasis_words": [
+        {
+          "text": "miracle",
+          "style": "bold"
+        },
+        {
+          "text": "fortunes",
+          "style": "bold"
+        },
+        {
+          "text": "wings",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_01_0.png"
+      ],
+      "audio_path": "audio/narration_01.mp3",
+      "audio_duration": 9.82,
+      "word_timings": [
+        {
+          "word": "Every",
+          "start": 0.0,
+          "end": 0.313
+        },
+        {
+          "word": "face,",
+          "start": 0.383,
+          "end": 0.906
+        },
+        {
+          "word": "every",
+          "start": 1.115,
+          "end": 1.405
+        },
+        {
+          "word": "brushstroke",
+          "start": 1.463,
+          "end": 2.334
+        },
+        {
+          "word": "\u2014",
+          "start": 2.38,
+          "end": 2.438
+        },
+        {
+          "word": "people",
+          "start": 2.682,
+          "end": 2.972
+        },
+        {
+          "word": "called",
+          "start": 3.007,
+          "end": 3.297
+        },
+        {
+          "word": "it",
+          "start": 3.344,
+          "end": 3.413
+        },
+        {
+          "word": "a",
+          "start": 3.448,
+          "end": 3.483
+        },
+        {
+          "word": "miracle.",
+          "start": 3.553,
+          "end": 4.249
+        },
+        {
+          "word": "Kings",
+          "start": 4.574,
+          "end": 5.016
+        },
+        {
+          "word": "offered",
+          "start": 5.074,
+          "end": 5.364
+        },
+        {
+          "word": "fortunes.",
+          "start": 5.422,
+          "end": 6.153
+        },
+        {
+          "word": "Museums",
+          "start": 6.362,
+          "end": 7.047
+        },
+        {
+          "word": "literally",
+          "start": 7.14,
+          "end": 7.628
+        },
+        {
+          "word": "built",
+          "start": 7.709,
+          "end": 7.976
+        },
+        {
+          "word": "wings",
+          "start": 8.092,
+          "end": 8.603
+        },
+        {
+          "word": "around",
+          "start": 8.661,
+          "end": 9.044
+        },
+        {
+          "word": "it.",
+          "start": 9.114,
+          "end": 9.52
+        }
+      ],
+      "effects": {
+        "screen_index": 1,
+        "text_entry": "elastic_drop",
+        "text_entry_params": {},
+        "text_exit": "swipe_wipe",
+        "text_exit_params": {},
+        "text_continuous": "wave_motion",
+        "text_continuous_params": {},
+        "image_entry": "img_fade_in",
+        "image_entry_params": {},
+        "image_treatment": "zoom_pulse",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "flash_transition",
+        "scene_transition_params": {},
+        "overlay_effect": "bokeh_overlay",
+        "overlay_params": {},
+        "background_effect": "bg_pulse",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=warm, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 2,
+      "text": "And then \u2014 one morning \u2014 she walked in with a bucket of white paint.",
+      "duration": 5.269,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "dramatic",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "And then one morning",
+      "subject_text": "she walked in with white paint.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "top",
+      "emphasis_words": [
+        {
+          "text": "white paint",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_02_0.png"
+      ],
+      "audio_path": "audio/narration_02.mp3",
+      "audio_duration": 5.269,
+      "word_timings": [
+        {
+          "word": "And",
+          "start": 0.0,
+          "end": 0.348
+        },
+        {
+          "word": "then",
+          "start": 0.441,
+          "end": 0.952
+        },
+        {
+          "word": "\u2014",
+          "start": 1.231,
+          "end": 1.312
+        },
+        {
+          "word": "one",
+          "start": 1.695,
+          "end": 1.95
+        },
+        {
+          "word": "morning",
+          "start": 2.02,
+          "end": 2.415
+        },
+        {
+          "word": "\u2014",
+          "start": 2.659,
+          "end": 2.868
+        },
+        {
+          "word": "she",
+          "start": 3.042,
+          "end": 3.181
+        },
+        {
+          "word": "walked",
+          "start": 3.251,
+          "end": 3.529
+        },
+        {
+          "word": "in",
+          "start": 3.576,
+          "end": 3.646
+        },
+        {
+          "word": "with",
+          "start": 3.704,
+          "end": 3.831
+        },
+        {
+          "word": "a",
+          "start": 3.866,
+          "end": 3.889
+        },
+        {
+          "word": "bucket",
+          "start": 3.947,
+          "end": 4.191
+        },
+        {
+          "word": "of",
+          "start": 4.226,
+          "end": 4.272
+        },
+        {
+          "word": "white",
+          "start": 4.319,
+          "end": 4.528
+        },
+        {
+          "word": "paint.",
+          "start": 4.563,
+          "end": 4.969
+        }
+      ],
+      "effects": {
+        "screen_index": 2,
+        "text_entry": "scale_bounce",
+        "text_entry_params": {},
+        "text_exit": "slide_out_up",
+        "text_exit_params": {},
+        "text_continuous": "wave_motion",
+        "text_continuous_params": {},
+        "image_entry": "img_scale_bounce",
+        "image_entry_params": {},
+        "image_treatment": "brightness_pulse",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "slide_horizontal",
+        "scene_transition_params": {},
+        "overlay_effect": "chromatic_aberration",
+        "overlay_params": {},
+        "background_effect": "bg_particle_float",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=dramatic, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 3,
+      "text": "She covered every inch. Gone. Just like that.",
+      "duration": 4.665,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "dramatic",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "She covered every single inch of it.",
+      "subject_text": "Gone. Just like that.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "bottom",
+      "emphasis_words": [
+        {
+          "text": "Gone",
+          "style": "bold"
+        },
+        {
+          "text": "every inch",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_03_0.png"
+      ],
+      "audio_path": "audio/narration_03.mp3",
+      "audio_duration": 4.665,
+      "word_timings": [
+        {
+          "word": "She",
+          "start": 0.0,
+          "end": 0.163
+        },
+        {
+          "word": "covered",
+          "start": 0.232,
+          "end": 0.511
+        },
+        {
+          "word": "every",
+          "start": 0.557,
+          "end": 0.778
+        },
+        {
+          "word": "inch.",
+          "start": 0.859,
+          "end": 1.277
+        },
+        {
+          "word": "Gone.",
+          "start": 1.788,
+          "end": 2.566
+        },
+        {
+          "word": "Just",
+          "start": 3.262,
+          "end": 3.483
+        },
+        {
+          "word": "like",
+          "start": 3.553,
+          "end": 3.75
+        },
+        {
+          "word": "that.",
+          "start": 3.785,
+          "end": 4.365
+        }
+      ],
+      "effects": {
+        "screen_index": 3,
+        "text_entry": "slide_up",
+        "text_entry_params": {},
+        "text_exit": "evaporate",
+        "text_exit_params": {},
+        "text_continuous": "float_drift",
+        "text_continuous_params": {},
+        "image_entry": "img_scale_bounce",
+        "image_entry_params": {},
+        "image_treatment": "color_shift",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "wipe_left",
+        "scene_transition_params": {},
+        "overlay_effect": "vhs_distortion",
+        "overlay_params": {},
+        "background_effect": "bg_color_breathe",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=dramatic, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 4,
+      "text": "People thought she'd completely lost her mind. And honestly? She just smiled.",
+      "duration": 5.64,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "warm",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "Everyone thought she'd lost her mind.",
+      "subject_text": "She just smiled.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "top",
+      "emphasis_words": [
+        {
+          "text": "smiled",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_04_0.png"
+      ],
+      "audio_path": "audio/narration_04.mp3",
+      "audio_duration": 5.64,
+      "word_timings": [
+        {
+          "word": "People",
+          "start": 0.0,
+          "end": 0.313
+        },
+        {
+          "word": "thought",
+          "start": 0.337,
+          "end": 0.546
+        },
+        {
+          "word": "she'd",
+          "start": 0.58,
+          "end": 0.766
+        },
+        {
+          "word": "completely",
+          "start": 0.813,
+          "end": 1.289
+        },
+        {
+          "word": "lost",
+          "start": 1.347,
+          "end": 1.614
+        },
+        {
+          "word": "her",
+          "start": 1.649,
+          "end": 1.73
+        },
+        {
+          "word": "mind.",
+          "start": 1.8,
+          "end": 2.438
+        },
+        {
+          "word": "And",
+          "start": 2.682,
+          "end": 2.856
+        },
+        {
+          "word": "honestly?",
+          "start": 2.926,
+          "end": 3.576
+        },
+        {
+          "word": "She",
+          "start": 4.017,
+          "end": 4.156
+        },
+        {
+          "word": "just",
+          "start": 4.249,
+          "end": 4.458
+        },
+        {
+          "word": "smiled.",
+          "start": 4.505,
+          "end": 5.341
+        }
+      ],
+      "effects": {
+        "screen_index": 4,
+        "text_entry": "grow_from_center",
+        "text_entry_params": {},
+        "text_exit": "evaporate",
+        "text_exit_params": {},
+        "text_continuous": "pendulum",
+        "text_continuous_params": {},
+        "image_entry": "img_fade_in",
+        "image_entry_params": {},
+        "image_treatment": "color_shift",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "wipe_left",
+        "scene_transition_params": {},
+        "overlay_effect": "fire_embers",
+        "overlay_params": {},
+        "background_effect": "bg_color_breathe",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=warm, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 5,
+      "text": "She said \u2014 'Now it lives only in the memory of everyone who saw it. A canvas can burn. A photograph fades. But what lives inside a person \u2014 that's eternal.'",
+      "duration": 11.26,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "thoughtful",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "She said,",
+      "subject_text": "'What lives inside a person \u2014 that's eternal.'",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "bottom",
+      "emphasis_words": [
+        {
+          "text": "eternal",
+          "style": "bold"
+        },
+        {
+          "text": "memory",
+          "style": "bold"
+        },
+        {
+          "text": "lives inside a person",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_05_0.png"
+      ],
+      "audio_path": "audio/narration_05.mp3",
+      "audio_duration": 11.26,
+      "word_timings": [
+        {
+          "word": "She",
+          "start": 0.0,
+          "end": 0.267
+        },
+        {
+          "word": "said",
+          "start": 0.337,
+          "end": 0.639
+        },
+        {
+          "word": "\u2014",
+          "start": 0.848,
+          "end": 0.987
+        },
+        {
+          "word": "'Now",
+          "start": 1.033,
+          "end": 1.428
+        },
+        {
+          "word": "it",
+          "start": 1.509,
+          "end": 1.591
+        },
+        {
+          "word": "lives",
+          "start": 1.649,
+          "end": 1.904
+        },
+        {
+          "word": "only",
+          "start": 1.962,
+          "end": 2.218
+        },
+        {
+          "word": "in",
+          "start": 2.276,
+          "end": 2.345
+        },
+        {
+          "word": "the",
+          "start": 2.38,
+          "end": 2.45
+        },
+        {
+          "word": "memory",
+          "start": 2.496,
+          "end": 2.833
+        },
+        {
+          "word": "of",
+          "start": 2.891,
+          "end": 2.961
+        },
+        {
+          "word": "everyone",
+          "start": 3.03,
+          "end": 3.471
+        },
+        {
+          "word": "who",
+          "start": 3.495,
+          "end": 3.587
+        },
+        {
+          "word": "saw",
+          "start": 3.657,
+          "end": 3.913
+        },
+        {
+          "word": "it.",
+          "start": 3.982,
+          "end": 4.156
+        },
+        {
+          "word": "A",
+          "start": 4.331,
+          "end": 4.412
+        },
+        {
+          "word": "canvas",
+          "start": 4.493,
+          "end": 4.946
+        },
+        {
+          "word": "can",
+          "start": 4.992,
+          "end": 5.12
+        },
+        {
+          "word": "burn.",
+          "start": 5.178,
+          "end": 5.7
+        },
+        {
+          "word": "A",
+          "start": 5.817,
+          "end": 5.886
+        },
+        {
+          "word": "photograph",
+          "start": 5.956,
+          "end": 6.502
+        },
+        {
+          "word": "fades.",
+          "start": 6.548,
+          "end": 7.082
+        },
+        {
+          "word": "But",
+          "start": 7.256,
+          "end": 7.407
+        },
+        {
+          "word": "what",
+          "start": 7.442,
+          "end": 7.593
+        },
+        {
+          "word": "lives",
+          "start": 7.651,
+          "end": 7.883
+        },
+        {
+          "word": "inside",
+          "start": 7.941,
+          "end": 8.429
+        },
+        {
+          "word": "a",
+          "start": 8.452,
+          "end": 8.487
+        },
+        {
+          "word": "person",
+          "start": 8.557,
+          "end": 8.951
+        },
+        {
+          "word": "\u2014",
+          "start": 9.067,
+          "end": 9.114
+        },
+        {
+          "word": "that's",
+          "start": 9.358,
+          "end": 9.694
+        },
+        {
+          "word": "eternal.'",
+          "start": 9.776,
+          "end": 10.96
+        }
+      ],
+      "effects": {
+        "screen_index": 5,
+        "text_entry": "grow_from_center",
+        "text_entry_params": {},
+        "text_exit": "blur_exit",
+        "text_exit_params": {},
+        "text_continuous": "shake",
+        "text_continuous_params": {},
+        "image_entry": "img_fade_in",
+        "image_entry_params": {},
+        "image_treatment": "vignette",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "ink_bleed",
+        "scene_transition_params": {},
+        "overlay_effect": "chromatic_aberration",
+        "overlay_params": {},
+        "background_effect": "bg_pulse",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=thoughtful, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 6,
+      "text": "She died a year later. And okay \u2014 wait. Here's where it gets actually wild.",
+      "duration": 7.823,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "dramatic",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "She died just one year later.",
+      "subject_text": "And here's where it gets wild.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "top",
+      "emphasis_words": [
+        {
+          "text": "wild",
+          "style": "bold"
+        },
+        {
+          "text": "year later",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_06_0.png"
+      ],
+      "audio_path": "audio/narration_06.mp3",
+      "audio_duration": 7.823,
+      "word_timings": [
+        {
+          "word": "She",
+          "start": 0.0,
+          "end": 0.174
+        },
+        {
+          "word": "died",
+          "start": 0.244,
+          "end": 0.511
+        },
+        {
+          "word": "a",
+          "start": 0.534,
+          "end": 0.569
+        },
+        {
+          "word": "year",
+          "start": 0.627,
+          "end": 0.824
+        },
+        {
+          "word": "later.",
+          "start": 0.894,
+          "end": 1.358
+        },
+        {
+          "word": "And",
+          "start": 1.962,
+          "end": 2.183
+        },
+        {
+          "word": "okay",
+          "start": 2.264,
+          "end": 2.81
+        },
+        {
+          "word": "\u2014",
+          "start": 3.053,
+          "end": 3.529
+        },
+        {
+          "word": "wait.",
+          "start": 3.704,
+          "end": 4.423
+        },
+        {
+          "word": "Here's",
+          "start": 5.027,
+          "end": 5.341
+        },
+        {
+          "word": "where",
+          "start": 5.375,
+          "end": 5.596
+        },
+        {
+          "word": "it",
+          "start": 5.631,
+          "end": 5.701
+        },
+        {
+          "word": "gets",
+          "start": 5.759,
+          "end": 6.014
+        },
+        {
+          "word": "actually",
+          "start": 6.072,
+          "end": 6.513
+        },
+        {
+          "word": "wild.",
+          "start": 6.606,
+          "end": 7.523
+        }
+      ],
+      "effects": {
+        "screen_index": 6,
+        "text_entry": "zoom_blur_in",
+        "text_entry_params": {},
+        "text_exit": "blur_exit",
+        "text_exit_params": {},
+        "text_continuous": "shake",
+        "text_continuous_params": {},
+        "image_entry": "img_scale_bounce",
+        "image_entry_params": {},
+        "image_treatment": "zoom_pulse",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "pixelate_transition",
+        "scene_transition_params": {},
+        "overlay_effect": "dust_particles",
+        "overlay_params": {},
+        "background_effect": "bg_particle_float",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=dramatic, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 7,
+      "text": "Every single person who saw that mural \u2014 they all remember it differently. Every one of them saw something completely unique.",
+      "duration": 7.73,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "thoughtful",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "Every person who ever saw it",
+      "subject_text": "remembers something completely different.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "bottom",
+      "emphasis_words": [
+        {
+          "text": "differently",
+          "style": "bold"
+        },
+        {
+          "text": "unique",
+          "style": "bold"
+        },
+        {
+          "text": "every one",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_07_0.png"
+      ],
+      "audio_path": "audio/narration_07.mp3",
+      "audio_duration": 7.73,
+      "word_timings": [
+        {
+          "word": "Every",
+          "start": 0.0,
+          "end": 0.29
+        },
+        {
+          "word": "single",
+          "start": 0.337,
+          "end": 0.627
+        },
+        {
+          "word": "person",
+          "start": 0.662,
+          "end": 0.952
+        },
+        {
+          "word": "who",
+          "start": 0.975,
+          "end": 1.08
+        },
+        {
+          "word": "saw",
+          "start": 1.149,
+          "end": 1.37
+        },
+        {
+          "word": "that",
+          "start": 1.44,
+          "end": 1.602
+        },
+        {
+          "word": "mural",
+          "start": 1.672,
+          "end": 2.009
+        },
+        {
+          "word": "\u2014",
+          "start": 2.032,
+          "end": 2.078
+        },
+        {
+          "word": "they",
+          "start": 2.125,
+          "end": 2.299
+        },
+        {
+          "word": "all",
+          "start": 2.368,
+          "end": 2.566
+        },
+        {
+          "word": "remember",
+          "start": 2.635,
+          "end": 3.065
+        },
+        {
+          "word": "it",
+          "start": 3.123,
+          "end": 3.193
+        },
+        {
+          "word": "differently.",
+          "start": 3.251,
+          "end": 3.901
+        },
+        {
+          "word": "Every",
+          "start": 4.226,
+          "end": 4.516
+        },
+        {
+          "word": "one",
+          "start": 4.586,
+          "end": 4.737
+        },
+        {
+          "word": "of",
+          "start": 4.76,
+          "end": 4.818
+        },
+        {
+          "word": "them",
+          "start": 4.865,
+          "end": 5.05
+        },
+        {
+          "word": "saw",
+          "start": 5.143,
+          "end": 5.375
+        },
+        {
+          "word": "something",
+          "start": 5.445,
+          "end": 5.77
+        },
+        {
+          "word": "completely",
+          "start": 5.828,
+          "end": 6.502
+        },
+        {
+          "word": "unique.",
+          "start": 6.594,
+          "end": 7.43
+        }
+      ],
+      "effects": {
+        "screen_index": 7,
+        "text_entry": "curtain_reveal",
+        "text_entry_params": {},
+        "text_exit": "swipe_wipe",
+        "text_exit_params": {},
+        "text_continuous": "glow_pulse",
+        "text_continuous_params": {},
+        "image_entry": "img_fade_in",
+        "image_entry_params": {},
+        "image_treatment": "zoom_pulse",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "pixelate_transition",
+        "scene_transition_params": {},
+        "overlay_effect": "subtle_grain",
+        "overlay_params": {},
+        "background_effect": "bg_particle_float",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=thoughtful, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 8,
+      "text": "She didn't destroy her art. She multiplied it. Into thousands of masterpieces \u2014 one for every soul who looked.",
+      "duration": 8.706,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "warm",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "She didn't destroy anything.",
+      "subject_text": "She multiplied it into thousands of masterpieces.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "top",
+      "emphasis_words": [
+        {
+          "text": "multiplied",
+          "style": "bold"
+        },
+        {
+          "text": "thousands",
+          "style": "bold"
+        },
+        {
+          "text": "every soul",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_08_0.png"
+      ],
+      "audio_path": "audio/narration_08.mp3",
+      "audio_duration": 8.706,
+      "word_timings": [
+        {
+          "word": "She",
+          "start": 0.0,
+          "end": 0.279
+        },
+        {
+          "word": "didn't",
+          "start": 0.325,
+          "end": 0.534
+        },
+        {
+          "word": "destroy",
+          "start": 0.58,
+          "end": 1.068
+        },
+        {
+          "word": "her",
+          "start": 1.149,
+          "end": 1.254
+        },
+        {
+          "word": "art.",
+          "start": 1.324,
+          "end": 1.707
+        },
+        {
+          "word": "She",
+          "start": 1.95,
+          "end": 2.09
+        },
+        {
+          "word": "multiplied",
+          "start": 2.206,
+          "end": 2.961
+        },
+        {
+          "word": "it.",
+          "start": 3.007,
+          "end": 3.204
+        },
+        {
+          "word": "Into",
+          "start": 3.379,
+          "end": 3.634
+        },
+        {
+          "word": "thousands",
+          "start": 3.75,
+          "end": 4.4
+        },
+        {
+          "word": "of",
+          "start": 4.435,
+          "end": 4.493
+        },
+        {
+          "word": "masterpieces",
+          "start": 4.563,
+          "end": 5.364
+        },
+        {
+          "word": "\u2014",
+          "start": 5.457,
+          "end": 5.503
+        },
+        {
+          "word": "one",
+          "start": 5.677,
+          "end": 5.944
+        },
+        {
+          "word": "for",
+          "start": 6.002,
+          "end": 6.142
+        },
+        {
+          "word": "every",
+          "start": 6.235,
+          "end": 6.606
+        },
+        {
+          "word": "soul",
+          "start": 6.699,
+          "end": 7.105
+        },
+        {
+          "word": "who",
+          "start": 7.221,
+          "end": 7.407
+        },
+        {
+          "word": "looked.",
+          "start": 7.523,
+          "end": 8.406
+        }
+      ],
+      "effects": {
+        "screen_index": 8,
+        "text_entry": "slide_up",
+        "text_entry_params": {},
+        "text_exit": "fade_out",
+        "text_exit_params": {},
+        "text_continuous": "breathe",
+        "text_continuous_params": {},
+        "image_entry": "img_fade_in",
+        "image_entry_params": {},
+        "image_treatment": "parallax_2d",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "crossfade",
+        "scene_transition_params": {},
+        "overlay_effect": "subtle_grain",
+        "overlay_params": {},
+        "background_effect": "bg_color_breathe",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=warm, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 9,
+      "text": "That's\u2026 kind of the most beautiful thing I've ever heard. One masterpiece. Infinite versions. All of them real.",
+      "duration": 5.0,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "warm",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "One masterpiece.",
+      "subject_text": "Infinite versions. All of them real.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "bottom",
+      "emphasis_words": [
+        {
+          "text": "Infinite",
+          "style": "bold"
+        },
+        {
+          "text": "real",
+          "style": "bold"
+        },
+        {
+          "text": "beautiful",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_09_0.png"
+      ],
+      "audio_path": "",
+      "audio_duration": 0.0,
+      "word_timings": [],
+      "effects": {
+        "screen_index": 9,
+        "text_entry": "elastic_drop",
+        "text_entry_params": {},
+        "text_exit": "swipe_wipe",
+        "text_exit_params": {},
+        "text_continuous": "wave_motion",
+        "text_continuous_params": {},
+        "image_entry": "img_fade_in",
+        "image_entry_params": {},
+        "image_treatment": "brightness_pulse",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "flash_transition",
+        "scene_transition_params": {},
+        "overlay_effect": "bokeh_overlay",
+        "overlay_params": {},
+        "background_effect": "bg_pulse",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=warm, scene_type=B, keywords detected"
+      }
+    }
+  ],
+  "visual_style": {
+    "name": "claymorphism",
+    "bg_center_color": [
+      240,
+      238,
+      236
+    ],
+    "bg_edge_color": [
+      200,
+      196,
+      192
+    ],
+    "text_dark": [
+      61,
+      61,
+      61
+    ],
+    "text_light": [
+      160,
+      155,
+      170
+    ],
+    "primary": [
+      61,
+      61,
+      61
+    ],
+    "secondary": [
+      200,
+      130,
+      160
+    ],
+    "accent": [
+      160,
+      200,
+      140
+    ],
+    "card_bg": [
+      255,
+      252,
+      248,
+      200
+    ],
+    "card_radius": 28,
+    "image_corner_radius": 24,
+    "highlight_color": [
+      255,
+      136,
+      0
+    ],
+    "highlight_text": [
+      255,
+      255,
+      255
+    ]
+  },
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "cta": "But here's what nobody talks about \u2014 what gets left behind when a genius decides to vanish. Next video.",
+  "visual_theme": "dynamic",
+  "layout_mode": "fullbleed",
+  "transition_frames": 15,
+  "scene_silence_ms": 300
+}

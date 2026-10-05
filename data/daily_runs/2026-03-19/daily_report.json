@@ -1,0 +1,26 @@
+{
+  "date": "2026-03-19",
+  "started_at": "2026-03-19T18:21:50.600555",
+  "finished_at": "2026-03-19T18:28:46.898795",
+  "duration_minutes": 6.9,
+  "total_candidates_generated": 7,
+  "curation_rounds": 1,
+  "stories_approved": 1,
+  "stories_rejected": 6,
+  "videos_generated": 1,
+  "videos_failed": 0,
+  "video_details": [
+    {
+      "story_id": "20260319_003",
+      "title": "The Last Painter Who Erased Her Masterpiece",
+      "video_path": "/Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/she-painted-for-40-years-then-she-destroyed-everyt.mp4",
+      "duration": 69.417,
+      "processing_time": 235.7450520992279
+    }
+  ],
+  "posts_scheduled": 5,
+  "posts_published": 0,
+  "posts_failed": 0,
+  "publish_strategy": "manual",
+  "errors": []
+}

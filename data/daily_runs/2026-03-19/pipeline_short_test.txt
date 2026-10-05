@@ -1,0 +1,1200 @@
+╭───────────────────────────── Configuration ─────────────────────────────╮
+│ 🤖 Daily Pipeline                                                       │
+│   Videos: 1 | Tone: storytelling | Renderer: remotion                   │
+│   Publish: manual | Start: 17:00                                        │
+│   Platforms: youtube_shorts, tiktok, instagram_reels, facebook, twitter │
+│   DRY RUN                                                               │
+╰─────────────────────────────────────────────────────────────────────────╯
+18:21:50 │ utils.llm_client     │ INFO    │ Using VS Code Copilot Bridge: model_hint=claude-sonnet-4.6, endpoint=http://127.0.0.1:18945
+18:21:50 │ utils.llm_client     │ INFO    │ Using VS Code Copilot Bridge: model_hint=claude-sonnet-4.6, endpoint=http://127.0.0.1:18945
+18:21:50 │ utils.llm_client     │ INFO    │ Using VS Code Copilot Bridge: model_hint=claude-sonnet-4.6, endpoint=http://127.0.0.1:18945
+18:21:50 │ automation.daily_pipeline │ INFO    │ ============================================================
+  ============================================================
+18:21:50 │ automation.daily_pipeline │ INFO    │ 🎬 DAILY PIPELINE — 2026-03-19
+  🎬 DAILY PIPELINE — 2026-03-19
+18:21:50 │ automation.daily_pipeline │ INFO    │    Target: 1 videos
+     Target: 1 videos
+18:21:50 │ automation.daily_pipeline │ INFO    │ ============================================================
+  ============================================================
+18:21:50 │ automation.daily_pipeline │ INFO    │ 
+🔄 Curation Round 1/5 — need 1 more stories
+  
+🔄 Curation Round 1/5 — need 1 more stories
+18:21:50 │ automation.daily_pipeline │ INFO    │   📖 Curator generating 7 candidates...
+    📖 Curator generating 7 candidates...
+18:21:50 │ automation.story_curator │ INFO    │ Curator: generating 7 story candidates
+18:22:57 │ automation.story_curator │ INFO    │ Curator: parsed 7 candidates from LLM response
+18:22:57 │ automation.daily_pipeline │ INFO    │   📖 Curator produced 7 candidates
+    📖 Curator produced 7 candidates
+18:22:57 │ automation.daily_pipeline │ INFO    │      • [philosophical parable] "The Last Painter Who Erased Her Masterpiece"
+       •  "The Last Painter Who Erased Her Masterpiece"
+18:22:57 │ automation.daily_pipeline │ INFO    │      • [dark fairytale] "The Town That Voted to Forget One Day"
+       •  "The Town That Voted to Forget One Day"
+18:22:57 │ automation.daily_pipeline │ INFO    │      • [underdog story] "He Trained His Whole Life for the Wrong Race"
+       •  "He Trained His Whole Life for the Wrong Race"
+18:22:57 │ automation.daily_pipeline │ INFO    │      • [sci-fi thought experiment] "The AI That Asked to Be Switched Off"
+       •  "The AI That Asked to Be Switched Off"
+18:22:57 │ automation.daily_pipeline │ INFO    │      • [heist / con] "She Stole the Crown and No One Noticed for Years"
+       •  "She Stole the Crown and No One Noticed for Years"
+18:22:57 │ automation.daily_pipeline │ INFO    │      • [mythology retelling] "The Myth of the God Who Chose to Be Mortal"
+       •  "The Myth of the God Who Chose to Be Mortal"
+18:22:57 │ automation.daily_pipeline │ INFO    │      • [real-world mystery] "The Man Who Remembered a War Nobody Else Did"
+       •  "The Man Who Remembered a War Nobody Else Did"
+18:22:57 │ automation.daily_pipeline │ INFO    │   🔍 Validator reviewing 7 candidates...
+    🔍 Validator reviewing 7 candidates...
+18:22:57 │ automation.story_validator │ INFO    │ Validator: reviewing 7 candidates
+18:24:13 │ automation.story_validator │ INFO    │ Validator: 4/7 approved (threshold=6.5)
+18:24:13 │ automation.story_history │ INFO    │ Added story 'The Last Painter Who Erased Her Masterpiece' (id=20260319_003) to history
+18:24:13 │ automation.daily_pipeline │ INFO    │   ✅ APPROVED: "The Last Painter Who Erased Her Masterpiece" (score: 7.8/10)
+    ✅ APPROVED: "The Last Painter Who Erased Her Masterpiece" (score: 7.8/10)
+18:24:13 │ automation.daily_pipeline │ INFO    │   ❌ REJECTED: "The Town That Voted to Forget One Day" (score: 5.8/10) — Reject and rewrite. The core problem is structural: your protagonist is passive.
+    ❌ REJECTED: "The Town That Voted to Forget One Day" (score: 5.8/10) — 
+Reject and rewrite. The core problem is structural: your protagonist is passive.
+18:24:13 │ automation.daily_pipeline │ INFO    │   ❌ REJECTED: "He Trained His Whole Life for the Wrong Race" (score: 8.2/10) — Approved. Strong candidate for the week's lead video. Minor suggestion: replace 
+    ❌ REJECTED: "He Trained His Whole Life for the Wrong Race" (score: 8.2/10) 
+— Approved. Strong candidate for the week's lead video. Minor suggestion: 
+replace 
+18:24:13 │ automation.daily_pipeline │ INFO    │   ❌ REJECTED: "The AI That Asked to Be Switched Off" (score: 6.2/10) — Reject for resubmission. First, fix the cut-off final line — that note is the en
+    ❌ REJECTED: "The AI That Asked to Be Switched Off" (score: 6.2/10) — Reject
+for resubmission. First, fix the cut-off final line — that note is the en
+18:24:13 │ automation.daily_pipeline │ INFO    │   ❌ REJECTED: "She Stole the Crown and No One Noticed for Years" (score: 8.5/10) — Approved — strongest candidate in this batch. Before producing, rewrite the mora
+    ❌ REJECTED: "She Stole the Crown and No One Noticed for Years" (score: 
+8.5/10) — Approved — strongest candidate in this batch. Before producing, 
+rewrite the mora
+18:24:13 │ automation.daily_pipeline │ INFO    │   ❌ REJECTED: "The Myth of the God Who Chose to Be Mortal" (score: 7.5/10) — Approved. For production, consider cutting the explicit moral entirely and letti
+    ❌ REJECTED: "The Myth of the God Who Chose to Be Mortal" (score: 7.5/10) — 
+Approved. For production, consider cutting the explicit moral entirely and letti
+18:24:13 │ automation.daily_pipeline │ INFO    │   ❌ REJECTED: "The Man Who Remembered a War Nobody Else Did" (score: 6.3/10) — Reject. Two separate issues need fixing before resubmission. First, the duplicat
+    ❌ REJECTED: "The Man Who Remembered a War Nobody Else Did" (score: 6.3/10) 
+— Reject. Two separate issues need fixing before resubmission. First, the 
+duplicat
+18:24:13 │ automation.daily_pipeline │ INFO    │ 
+✅ Curation complete: 1/1 stories approved in 1 rounds
+  
+✅ Curation complete: 1/1 stories approved in 1 rounds
+18:24:13 │ automation.daily_pipeline │ INFO    │ 
+📹 Generating 1 videos...
+  
+📹 Generating 1 videos...
+/Users/klinten/Desktop/My-projects/project-HER/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+18:24:13 │ utils.llm_client     │ INFO    │ Using VS Code Copilot Bridge: model_hint=claude-sonnet-4.6, endpoint=http://127.0.0.1:18945
+18:24:13 │ automation.daily_pipeline │ INFO    │ 
+  🎥 [1/1] Generating video for "The Last Painter Who Erased Her Masterpiece"...
+  
+  🎥 [1/1] Generating video for "The Last Painter Who Erased Her Masterpiece"...
+18:24:13 │ agent.scraper        │ INFO    │ Detected raw text input (753 chars)
+18:24:13 │ utils.llm_client     │ INFO    │ Using VS Code Copilot Bridge: model_hint=claude-sonnet-4.6, endpoint=http://127.0.0.1:18945
+18:24:13 │ story_splitter       │ INFO    │ Splitting story into screen segments (mode=article, tone=storytelling)
+18:24:44 │ story_splitter       │ INFO    │ Story split into 10 screens (43.5s total)
+18:24:44 │ agent.orchestrator   │ INFO    │ Story split: 10 screens, hook='...and then she walked in one morning an', mood=dramatic
+18:24:44 │ agent.orchestrator   │ INFO    │   [0] image | Forty years. That's how long she painted it. | 3.0s
+18:24:44 │ agent.orchestrator   │ INFO    │   [1] image | Every face, every brushstroke — people called it a | 5.0s
+18:24:44 │ agent.orchestrator   │ INFO    │   [2] image | And then — one morning — she walked in with a buck | 4.0s
+18:24:44 │ agent.orchestrator   │ INFO    │   [3] image | She covered every inch. Gone. Just like that. | 3.5s
+18:24:44 │ agent.orchestrator   │ INFO    │   [4] image | People thought she'd completely lost her mind. And | 4.0s
+18:24:44 │ agent.orchestrator   │ INFO    │   [5] image | She said — 'Now it lives only in the memory of eve | 5.0s
+18:24:44 │ agent.orchestrator   │ INFO    │   [6] image | She died a year later. And okay — wait. Here's whe | 4.0s
+18:24:44 │ agent.orchestrator   │ INFO    │   [7] image | Every single person who saw that mural — they all  | 5.0s
+18:24:44 │ agent.orchestrator   │ INFO    │   [8] image | She didn't destroy her art. She multiplied it. Int | 5.0s
+18:24:44 │ agent.orchestrator   │ INFO    │   [9] image | That's… kind of the most beautiful thing I've ever | 5.0s
+18:24:44 │ agent.orchestrator   │ INFO    │ Character consistency: anchored 9 screens to 'Elderly woman's paint-stained hands holding a brus'
+18:24:44 │ ai_visuals           │ INFO    │ AI image provider: replicate
+18:24:44 │ ai_visuals           │ INFO    │ Generating 10 AI images via Replicate (flux-schnell)
+18:24:44 │ asyncio              │ DEBUG   │ Using selector: KqueueSelector
+18:24:44 │ ai_visuals           │ INFO    │   [0.0] replicate attempt 1: Elderly woman's paint-stained hands holding a brush clo...
+18:24:44 │ ai_visuals           │ INFO    │   [1.0] replicate attempt 1: Same visual style and characters as: Elderly woman's pa...
+18:24:44 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='api.replicate.com' port=443 local_address=None timeout=5.0 socket_options=None
+18:24:44 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='api.replicate.com' port=443 local_address=None timeout=5.0 socket_options=None
+18:24:44 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112dae370>
+18:24:44 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c6d0> server_hostname='api.replicate.com' timeout=5.0
+18:24:44 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112da34c0>
+18:24:44 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c5f0> server_hostname='api.replicate.com' timeout=5.0
+18:24:44 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112dae340>
+18:24:44 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:24:44 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112da3490>
+18:24:44 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:24:44 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:24:44 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:24:44 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:24:44 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:24:44 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:24:44 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:24:44 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:24:44 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:24:45 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'Date', b'Thu, 19 Mar 2026 12:54:45 GMT'), (b'Content-Type', b'application/problem+json'), (b'Content-Length', b'243'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca09f9e6aae3d-MAA'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Retry-After', b'10'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'10'), (b'referrer-policy', b'same-origin'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=Wg9WHs%2F3hLjoq3u%2FuP06I9ARtBZ1BsN74x3Ne4ESwD9ZbMUqExx7xbe8fe%2FBs2CbX2zjbPuKvepm0aERoZMapSH4KzO5q2%2Ba%2FASacDziVjwZbN58YOk%2FSQIkucI%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:24:45 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:24:45 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:24:45 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:24:45 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:24:45 │ ai_visuals           │ WARNING │   Replicate API error: ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~10s.
+18:24:45 │ ai_visuals           │ WARNING │   [0.0] replicate error (attempt 1): ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~10s.
+18:24:45 │ ai_visuals           │ INFO    │   [0.0] Replicate rate-limited — waiting 12s before retry
+18:24:46 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Date', b'Thu, 19 Mar 2026 12:54:46 GMT'), (b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'1958'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca09f9e097fdd-MAA'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'10'), (b'referrer-policy', b'same-origin'), (b'replicate-prediction-id', b'6xq7s6x25nrmr0cx0rmryh6n0w'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=mReAZaZpnD3YYVxQ2s9RDY%2Fjx%2B0vE9OyZ1jdqmVzzzrV9WtQ7E3x92ZjNCWyBIYeQhL2RykcomdWZIHbmDBMF2gn9mq9wB5X4JQdl7nGkYnZiN8RfE30M9AoCcs%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:24:46 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:24:46 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:24:46 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:24:46 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:24:46 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='replicate.delivery' port=443 local_address=None timeout=30.0 socket_options=None
+18:24:46 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x112da3fd0>
+18:24:46 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c4a0> server_hostname='replicate.delivery' timeout=30.0
+18:24:46 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x112d97040>
+18:24:46 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'GET']>
+18:24:46 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:24:46 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'GET']>
+18:24:46 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:24:46 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'GET']>
+18:24:47 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 19 Mar 2026 12:54:47 GMT'), (b'Content-Type', b'image/png'), (b'Content-Length', b'1070193'), (b'Connection', b'keep-alive'), (b'x-guploader-uploadid', b'AGQBYWx6p5ReXA4ecbMbNPdPCHZLB044_ohAmvBD-sAbls_yhgJHrzRJMAGUpzmDiDc5_05j'), (b'last-modified', b'Thu, 19 Mar 2026 12:54:46 GMT'), (b'etag', b'"c47ba052cbba30b07b67fd7bf22d7f1b"'), (b'x-goog-generation', b'1773924886131386'), (b'x-goog-metageneration', b'1'), (b'x-goog-stored-content-encoding', b'identity'), (b'x-goog-stored-content-length', b'1070193'), (b'x-goog-hash', b'crc32c=E6sgeg=='), (b'x-goog-hash', b'md5=xHugUsu6MLB7Z/178i1/Gw=='), (b'x-goog-storage-class', b'STANDARD'), (b'Accept-Ranges', b'bytes'), (b'access-control-allow-origin', b'*'), (b'Server', b'cloudflare'), (b'via', b'1.1 google'), (b'Cache-Control', b'public,max-age=3600'), (b'cache-status', b'miss'), (b'cache-id', b'MAA-8fb6933b'), (b'cf-cache-status', b'DYNAMIC'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=l9KDn5EQ1ewGyh9%2FN7gA7B05lG1%2BT%2FkWRqF2UNziXc9HqojxuiSOiMgIGZrAMNaUQKTAf%2BJfVOysrxnda59m6ViLlErRUKk4txHs0%2FTGcFykxyXsf8JEsuoQsA9b"}]}'), (b'CF-RAY', b'9deca0added73059-MAA')])
+18:24:47 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'GET']>
+18:24:49 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:24:49 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:24:49 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:24:49 │ ai_visuals           │ INFO    │   [1.0] Saved: ai_img_1_0_190459ab.png (1045 KB) via replicate
+18:24:49 │ ai_visuals           │ INFO    │   [2.0] replicate attempt 1: Same visual style and characters as: Elderly woman's pa...
+18:24:49 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:24:49 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:24:49 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:24:49 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:24:49 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:24:50 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'Date', b'Thu, 19 Mar 2026 12:54:50 GMT'), (b'Content-Type', b'application/problem+json'), (b'Content-Length', b'241'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca0c028fb7fdd-MAA'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Retry-After', b'5'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'5'), (b'referrer-policy', b'same-origin'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=2P40TeqFjzmVz008gDe%2F5nG0AnAplUnu4ZLU04sMT%2B20946tc5Z92n5kqpGcM3wnS6LFZsn%2FutzNQQXEU0EHOcVgGlNC1ZtRwDNZRIUmMsTCuKZxNmnNxO1AATw%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:24:50 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:24:50 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:24:50 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:24:50 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:24:50 │ ai_visuals           │ WARNING │   Replicate API error: ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~5s.
+18:24:50 │ ai_visuals           │ WARNING │   [2.0] replicate error (attempt 1): ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~5s.
+18:24:50 │ ai_visuals           │ INFO    │   [2.0] Replicate rate-limited — waiting 7s before retry
+18:24:57 │ ai_visuals           │ INFO    │   [0.0] replicate attempt 2: Elderly woman's paint-stained hands holding a brush clo...
+18:24:57 │ httpcore.connection  │ DEBUG   │ close.started
+18:24:57 │ httpcore.connection  │ DEBUG   │ close.complete
+18:24:57 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='api.replicate.com' port=443 local_address=None timeout=5.0 socket_options=None
+18:24:57 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e39ac0>
+18:24:57 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c6d0> server_hostname='api.replicate.com' timeout=5.0
+18:24:57 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e39a90>
+18:24:57 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:24:57 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:24:57 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:24:57 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:24:57 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:24:57 │ ai_visuals           │ INFO    │   [2.0] replicate attempt 2: Same visual style and characters as: Elderly woman's pa...
+18:24:57 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='api.replicate.com' port=443 local_address=None timeout=5.0 socket_options=None
+18:24:57 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e3c7f0>
+18:24:57 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c6d0> server_hostname='api.replicate.com' timeout=5.0
+18:24:57 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e3c7c0>
+18:24:57 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:24:57 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:24:57 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:24:57 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:24:57 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:24:57 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'Date', b'Thu, 19 Mar 2026 12:54:57 GMT'), (b'Content-Type', b'application/problem+json'), (b'Content-Length', b'243'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca0f08d10f651-MAA'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Retry-After', b'10'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'10'), (b'referrer-policy', b'same-origin'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=jGN9V4oWmnYgc7a0XCVyrTbhOMrxRpOsJdR255o2YYUQxI8NReTToVpS6GWW2GIFevy66VomSak8g3asqlI95DPdsHHz8U0nLm0ndT0e97sMYfFJddk0MYwZ7yQ%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:24:57 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:24:57 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:24:57 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:24:57 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:24:57 │ ai_visuals           │ WARNING │   Replicate API error: ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~10s.
+18:24:57 │ ai_visuals           │ WARNING │   [2.0] replicate error (attempt 2): ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~10s.
+18:24:57 │ ai_visuals           │ INFO    │   [2.0] Replicate rate-limited — waiting 12s before retry
+18:24:59 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Date', b'Thu, 19 Mar 2026 12:54:58 GMT'), (b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'1773'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca0ef0a0ed5ee-MAA'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'10'), (b'referrer-policy', b'same-origin'), (b'replicate-prediction-id', b'psp74yyj41rmy0cx0rmsk8mt6w'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=OHnlfKTQ7i%2FBik4uHRDY4DaYrjSg5mY6aEr7q%2F0ug91zZFFZaMD%2BXGPJMryaWo%2BQe8NctyQQm30naHETYXS7CNq%2BAnG9kNLl1DOySi3hGRIwC%2Ft75iJCM2cj0mQ%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:24:59 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:24:59 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:24:59 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:24:59 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:24:59 │ httpcore.connection  │ DEBUG   │ close.started
+18:24:59 │ httpcore.connection  │ DEBUG   │ close.complete
+18:24:59 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='replicate.delivery' port=443 local_address=None timeout=30.0 socket_options=None
+18:24:59 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x112e3c0a0>
+18:24:59 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c4a0> server_hostname='replicate.delivery' timeout=30.0
+18:24:59 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x112e41fa0>
+18:24:59 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'GET']>
+18:24:59 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:24:59 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'GET']>
+18:24:59 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:24:59 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'GET']>
+18:24:59 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 19 Mar 2026 12:54:59 GMT'), (b'Content-Type', b'image/png'), (b'Content-Length', b'948040'), (b'Connection', b'keep-alive'), (b'x-guploader-uploadid', b'AGQBYWzeMvITLgAFUk79EAUrih1KKjCC6iUIwniimM8xfUTLD-1OIwfuGtTBXaygK-VpA09G'), (b'last-modified', b'Thu, 19 Mar 2026 12:54:58 GMT'), (b'etag', b'"c88ee94fd6f3631808969794b3c46f81"'), (b'x-goog-generation', b'1773924898546516'), (b'x-goog-metageneration', b'1'), (b'x-goog-stored-content-encoding', b'identity'), (b'x-goog-stored-content-length', b'948040'), (b'x-goog-hash', b'crc32c=qSFTkw=='), (b'x-goog-hash', b'md5=yI7pT9bzYxgIlpeUs8RvgQ=='), (b'x-goog-storage-class', b'STANDARD'), (b'Accept-Ranges', b'bytes'), (b'access-control-allow-origin', b'*'), (b'Server', b'cloudflare'), (b'via', b'1.1 google'), (b'Cache-Control', b'public,max-age=3600'), (b'cache-status', b'miss'), (b'cache-id', b'MAA-8fb6933b'), (b'cf-cache-status', b'DYNAMIC'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=bsJWkD7jxs5Eo%2FVqbthDm%2F5qlR6%2Fh1K3hLyZdbDQlYfjdaNVVf0Pg632QIpsDBUdp4vT8Fz8TpAIvm1bzKQ3SXC0xLHu7K%2BWwPLEaE9L083NKEz29EGDdGMwFtAV"}]}'), (b'CF-RAY', b'9deca0fb0aa77ff8-MAA')])
+18:24:59 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'GET']>
+18:25:00 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:25:00 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:25:00 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:25:00 │ ai_visuals           │ INFO    │   [0.0] Saved: ai_img_0_0_31e5c0e7.png (925 KB) via replicate
+18:25:00 │ ai_visuals           │ INFO    │   [3.0] replicate attempt 1: Same visual style and characters as: Elderly woman's pa...
+18:25:00 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:25:00 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:25:00 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:25:00 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:25:00 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:25:00 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'Date', b'Thu, 19 Mar 2026 12:55:00 GMT'), (b'Content-Type', b'application/problem+json'), (b'Content-Length', b'241'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca1012b83d5ee-MAA'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Retry-After', b'8'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'8'), (b'referrer-policy', b'same-origin'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=S8Fk0m9sKoFjGP%2FUCZZHCMnIuxwbC6v3I%2FoG%2BuCwwxWawAI6f6SspeZHrAmo464crjc7ScZ3YOfrX0Aj4kh60s1%2FaxXjl3gVcVtjb6lviU8b%2F9cgNly29jOeA9o%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:25:00 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:25:00 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:25:00 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:25:00 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:25:00 │ ai_visuals           │ WARNING │   Replicate API error: ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~8s.
+18:25:00 │ ai_visuals           │ WARNING │   [3.0] replicate error (attempt 1): ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~8s.
+18:25:00 │ ai_visuals           │ INFO    │   [3.0] Replicate rate-limited — waiting 10s before retry
+18:25:09 │ ai_visuals           │ INFO    │   [2.0] replicate attempt 3: Same visual style and characters as: Elderly woman's pa...
+18:25:09 │ httpcore.connection  │ DEBUG   │ close.started
+18:25:09 │ httpcore.connection  │ DEBUG   │ close.complete
+18:25:09 │ httpcore.connection  │ DEBUG   │ close.started
+18:25:09 │ httpcore.connection  │ DEBUG   │ close.complete
+18:25:09 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='api.replicate.com' port=443 local_address=None timeout=5.0 socket_options=None
+18:25:09 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112dffb20>
+18:25:09 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c6d0> server_hostname='api.replicate.com' timeout=5.0
+18:25:09 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112dffd00>
+18:25:09 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:25:09 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:25:09 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:25:09 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:25:09 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:25:10 │ ai_visuals           │ INFO    │   [3.0] replicate attempt 2: Same visual style and characters as: Elderly woman's pa...
+18:25:10 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='api.replicate.com' port=443 local_address=None timeout=5.0 socket_options=None
+18:25:10 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112d976d0>
+18:25:10 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c6d0> server_hostname='api.replicate.com' timeout=5.0
+18:25:10 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112d97e20>
+18:25:10 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:25:10 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:25:10 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:25:10 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:25:10 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:25:10 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'Date', b'Thu, 19 Mar 2026 12:55:10 GMT'), (b'Content-Type', b'application/problem+json'), (b'Content-Length', b'243'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca1416e3c7f9d-MAA'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Retry-After', b'10'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'10'), (b'referrer-policy', b'same-origin'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=9yDjFOU%2F%2Bd9ifyNwjH4SQk%2FROvcWaG69JGZf%2BQFPYyukPaiLNNeYNlpJ3%2BEwYoo%2BJsiVzN5EhfUqd3XoqO7GGm%2FG8VS01QZiGZ%2F4gL5jXaCyCGxK4KoxtZixXOY%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:25:10 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:25:10 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:25:10 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:25:10 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:25:10 │ ai_visuals           │ WARNING │   Replicate API error: ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~10s.
+18:25:10 │ ai_visuals           │ WARNING │   [3.0] replicate error (attempt 2): ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~10s.
+18:25:10 │ ai_visuals           │ INFO    │   [3.0] Replicate rate-limited — waiting 12s before retry
+18:25:12 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Date', b'Thu, 19 Mar 2026 12:55:12 GMT'), (b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'1969'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca13dda4a74f4-MAA'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'10'), (b'referrer-policy', b'same-origin'), (b'replicate-prediction-id', b'f1xs9c03e1rmr0cx0rnbfbkzhw'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=lAPS05eW5ebN2h636eLm23wMdSxM%2FedaoXxbkYGrY%2BZ%2FnQdt%2F34kw9wNlJTh56WBCy6qEiS2HbUT6rpF5eB5fb6Go8JqXKeKlA7gCCqhW72a5ZGS2NOx2SMiIUU%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:25:12 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:25:12 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:25:12 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:25:12 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:25:12 │ httpcore.connection  │ DEBUG   │ close.started
+18:25:12 │ httpcore.connection  │ DEBUG   │ close.complete
+18:25:12 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='replicate.delivery' port=443 local_address=None timeout=30.0 socket_options=None
+18:25:12 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x112e364c0>
+18:25:12 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c4a0> server_hostname='replicate.delivery' timeout=30.0
+18:25:12 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x112e39190>
+18:25:12 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'GET']>
+18:25:12 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:25:12 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'GET']>
+18:25:12 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:25:12 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'GET']>
+18:25:13 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 19 Mar 2026 12:55:12 GMT'), (b'Content-Type', b'image/png'), (b'Content-Length', b'901898'), (b'Connection', b'keep-alive'), (b'x-guploader-uploadid', b'AGQBYWyWreMx5I1yp5m1P8pCOTffz3VAHj5o2dTxAhWhVoEGd-CsCorEbGRXqouqPbjr3dfZg91u1ZY'), (b'last-modified', b'Thu, 19 Mar 2026 12:55:11 GMT'), (b'etag', b'"eb6f95aeddc4b8b1cee67f33a8c913f1"'), (b'x-goog-generation', b'1773924911704183'), (b'x-goog-metageneration', b'1'), (b'x-goog-stored-content-encoding', b'identity'), (b'x-goog-stored-content-length', b'901898'), (b'x-goog-hash', b'crc32c=WAx+xA=='), (b'x-goog-hash', b'md5=62+Vrt3EuLHO5n8zqMkT8Q=='), (b'x-goog-storage-class', b'STANDARD'), (b'Accept-Ranges', b'bytes'), (b'access-control-allow-origin', b'*'), (b'Server', b'cloudflare'), (b'via', b'1.1 google'), (b'Cache-Control', b'public,max-age=3600'), (b'cache-status', b'miss'), (b'cache-id', b'MAA-8fb6933b'), (b'cf-cache-status', b'DYNAMIC'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=TE5Y%2FuOMR4%2FvKKSIrApvrHyFfNmXiL%2BCA6gsZhmtnRpsNen9DSIiQX%2BTE3Vy1O8VAf4GWXCDN7Znnd9NWb8cQu2x1Y%2FW6%2FRmOisYX2CkgMVXKSzyKWqYUx7%2F9uwR"}]}'), (b'CF-RAY', b'9deca1502d6d93d3-MAA')])
+18:25:13 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'GET']>
+18:25:13 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:25:13 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:25:13 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:25:13 │ ai_visuals           │ INFO    │   [2.0] Saved: ai_img_2_0_bc6104c7.png (880 KB) via replicate
+18:25:13 │ ai_visuals           │ INFO    │   [4.0] replicate attempt 1: Same visual style and characters as: Elderly woman's pa...
+18:25:13 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:25:13 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:25:13 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:25:13 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:25:13 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:25:13 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'Date', b'Thu, 19 Mar 2026 12:55:13 GMT'), (b'Content-Type', b'application/problem+json'), (b'Content-Length', b'241'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca152f80a74f4-MAA'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Retry-After', b'7'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'7'), (b'referrer-policy', b'same-origin'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=LMURpeh57tcoDUY2vfIdI5YevxviN%2BepAA%2BPoowhatrV08MST2AbNT03077iYVTzMdDaor6qL5gHzFlZpQHhxek7%2BZO80y16JwjehUdhSePyfRLuA%2FfUkyl5EkQ%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:25:13 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:25:13 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:25:13 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:25:13 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:25:13 │ ai_visuals           │ WARNING │   Replicate API error: ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~7s.
+18:25:13 │ ai_visuals           │ WARNING │   [4.0] replicate error (attempt 1): ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~7s.
+18:25:13 │ ai_visuals           │ INFO    │   [4.0] Replicate rate-limited — waiting 9s before retry
+18:25:22 │ ai_visuals           │ INFO    │   [4.0] replicate attempt 2: Same visual style and characters as: Elderly woman's pa...
+18:25:22 │ httpcore.connection  │ DEBUG   │ close.started
+18:25:22 │ httpcore.connection  │ DEBUG   │ close.complete
+18:25:22 │ httpcore.connection  │ DEBUG   │ close.started
+18:25:22 │ httpcore.connection  │ DEBUG   │ close.complete
+18:25:22 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='api.replicate.com' port=443 local_address=None timeout=5.0 socket_options=None
+18:25:22 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e4e430>
+18:25:22 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c6d0> server_hostname='api.replicate.com' timeout=5.0
+18:25:22 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e4e400>
+18:25:22 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:25:22 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:25:22 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:25:22 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:25:22 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:25:22 │ ai_visuals           │ INFO    │   [3.0] replicate attempt 3: Same visual style and characters as: Elderly woman's pa...
+18:25:22 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='api.replicate.com' port=443 local_address=None timeout=5.0 socket_options=None
+18:25:22 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e51160>
+18:25:22 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c6d0> server_hostname='api.replicate.com' timeout=5.0
+18:25:22 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e51130>
+18:25:22 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:25:22 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:25:22 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:25:22 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:25:22 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:25:22 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'Date', b'Thu, 19 Mar 2026 12:55:22 GMT'), (b'Content-Type', b'application/problem+json'), (b'Content-Length', b'243'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca18e8a1eef77-MAA'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Retry-After', b'10'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'10'), (b'referrer-policy', b'same-origin'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=vbu15A%2F5e6ix1mKA98xcRLVnpssYQewENeXs7Q0mOO%2BEjw15%2BkHMD%2BT9ns0FtJKb7l%2B4I2iDZZ2fdhKZO1eOUD3iEmNl%2BhHFFc54x38KpwiAPo8HDyV0DrufSzQ%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:25:22 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:25:22 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:25:22 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:25:22 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:25:22 │ ai_visuals           │ WARNING │   Replicate API error: ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~10s.
+18:25:22 │ ai_visuals           │ WARNING │   [3.0] replicate error (attempt 3): ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~10s.
+18:25:22 │ ai_visuals           │ INFO    │   [3.0] Replicate rate-limited — waiting 12s before retry
+18:25:24 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Date', b'Thu, 19 Mar 2026 12:55:24 GMT'), (b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'1960'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca18cea758632-MAA'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'10'), (b'referrer-policy', b'same-origin'), (b'replicate-prediction-id', b'feb5ks1mw5rmy0cx0rnava5bbw'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=MrG0FzQ2WIZRasdUluyL6R6ntYSWaB1PrFcGPf2XXtPx7KPLs0qifcgrScD7dF3e9ntc6j7bgDLsZVPCjVgPQYvDJZvYKTgaApBdkKt0mI372XgKOHemzQzhAnk%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:25:24 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:25:24 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:25:24 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:25:24 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:25:24 │ httpcore.connection  │ DEBUG   │ close.started
+18:25:24 │ httpcore.connection  │ DEBUG   │ close.complete
+18:25:24 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='replicate.delivery' port=443 local_address=None timeout=30.0 socket_options=None
+18:25:24 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x112e51d60>
+18:25:24 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c4a0> server_hostname='replicate.delivery' timeout=30.0
+18:25:24 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x112e51610>
+18:25:24 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'GET']>
+18:25:24 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:25:24 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'GET']>
+18:25:24 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:25:24 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'GET']>
+18:25:24 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 19 Mar 2026 12:55:24 GMT'), (b'Content-Type', b'image/png'), (b'Content-Length', b'1239613'), (b'Connection', b'keep-alive'), (b'x-guploader-uploadid', b'AGQBYWzg0G1PGC4Z1tYNhYcCFoCNYPLTiuoGZb4Nf2YttWIlrW9ayBmi_eMxzRuEOpukwBlQG4Z5Ja0'), (b'last-modified', b'Thu, 19 Mar 2026 12:55:23 GMT'), (b'etag', b'"b2dc794feceedb8a47d4beaab7855222"'), (b'x-goog-generation', b'1773924923654923'), (b'x-goog-metageneration', b'1'), (b'x-goog-stored-content-encoding', b'identity'), (b'x-goog-stored-content-length', b'1239613'), (b'x-goog-hash', b'crc32c=f4L0Mg=='), (b'x-goog-hash', b'md5=stx5T+zu24pH1L6qt4VSIg=='), (b'x-goog-storage-class', b'STANDARD'), (b'Accept-Ranges', b'bytes'), (b'access-control-allow-origin', b'*'), (b'Server', b'cloudflare'), (b'via', b'1.1 google'), (b'Cache-Control', b'public,max-age=3600'), (b'cache-status', b'miss'), (b'cache-id', b'MAA-8fb6933b'), (b'cf-cache-status', b'DYNAMIC'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=hEQWPsV2thTYPuQrYy3nuwhc8h4%2BYIIzKd0XVtSmrjOHOUxldotih8eGvM0GBpR2oj6y%2FQazzfx%2BDG8CtXWyMBkZG050VjS9Zk56NrzbCr4B6oPp8SsLidX1%2BPXL"}]}'), (b'CF-RAY', b'9deca197f88274f4-MAA')])
+18:25:24 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'GET']>
+18:25:26 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:25:26 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:25:26 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:25:26 │ ai_visuals           │ INFO    │   [4.0] Saved: ai_img_4_0_3520125e.png (1210 KB) via replicate
+18:25:26 │ ai_visuals           │ INFO    │   [5.0] replicate attempt 1: Same visual style and characters as: Elderly woman's pa...
+18:25:26 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:25:26 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:25:26 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:25:26 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:25:26 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:25:26 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'Date', b'Thu, 19 Mar 2026 12:55:26 GMT'), (b'Content-Type', b'application/problem+json'), (b'Content-Length', b'241'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca1a5dcf68632-MAA'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Retry-After', b'7'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'7'), (b'referrer-policy', b'same-origin'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=k2Id2kxb55miI5LZQ3NJvZBCMlcjQ2TwjW5q1LikN6eMRZ6P9MFD9M7i7gpq06sXa%2BthGEOZSCd4GxqLqy60uTcnRURpNUBaIuNuqQHIueobXWcLBRipxfiXaUY%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:25:26 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:25:26 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:25:26 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:25:26 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:25:26 │ ai_visuals           │ WARNING │   Replicate API error: ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~7s.
+18:25:26 │ ai_visuals           │ WARNING │   [5.0] replicate error (attempt 1): ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~7s.
+18:25:26 │ ai_visuals           │ INFO    │   [5.0] Replicate rate-limited — waiting 9s before retry
+18:25:34 │ ai_visuals           │ INFO    │   [3.0] replicate attempt 4: Same visual style and characters as: Elderly woman's pa...
+18:25:34 │ httpcore.connection  │ DEBUG   │ close.started
+18:25:34 │ httpcore.connection  │ DEBUG   │ close.complete
+18:25:34 │ httpcore.connection  │ DEBUG   │ close.started
+18:25:34 │ httpcore.connection  │ DEBUG   │ close.complete
+18:25:34 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='api.replicate.com' port=443 local_address=None timeout=5.0 socket_options=None
+18:25:34 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e4b340>
+18:25:34 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c6d0> server_hostname='api.replicate.com' timeout=5.0
+18:25:34 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e4b670>
+18:25:34 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:25:34 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:25:34 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:25:34 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:25:34 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:25:35 │ ai_visuals           │ INFO    │   [5.0] replicate attempt 2: Same visual style and characters as: Elderly woman's pa...
+18:25:35 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='api.replicate.com' port=443 local_address=None timeout=5.0 socket_options=None
+18:25:35 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112d97700>
+18:25:35 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c6d0> server_hostname='api.replicate.com' timeout=5.0
+18:25:35 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112d976d0>
+18:25:35 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:25:35 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:25:35 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:25:35 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:25:35 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:25:36 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Date', b'Thu, 19 Mar 2026 12:55:36 GMT'), (b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'1960'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca1db5d1b7f7c-MAA'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'10'), (b'referrer-policy', b'same-origin'), (b'replicate-prediction-id', b'd8p04av5ynrmt0cx0rn8pdp3yg'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=v5SDwbyBIGMELN%2B0Md0RlMcodsvAcnTQmkVFlqRwJq%2Fnn3WsqwmpBSLJpe7iwYNkwQt8onEI5Y49GQBIln7MpxrgMqGQYHZ9JZ1sJIkTLJo6D7xxUSyRCDTydLo%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:25:36 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:25:36 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:25:36 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:25:36 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:25:36 │ httpcore.connection  │ DEBUG   │ close.started
+18:25:36 │ httpcore.connection  │ DEBUG   │ close.complete
+18:25:36 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='replicate.delivery' port=443 local_address=None timeout=30.0 socket_options=None
+18:25:36 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x112e39b20>
+18:25:36 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c4a0> server_hostname='replicate.delivery' timeout=30.0
+18:25:36 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x112e365b0>
+18:25:36 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'GET']>
+18:25:36 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:25:36 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'GET']>
+18:25:36 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:25:36 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'GET']>
+18:25:36 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'Date', b'Thu, 19 Mar 2026 12:55:36 GMT'), (b'Content-Type', b'application/problem+json'), (b'Content-Length', b'241'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca1e05bf83c06-BLR'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Retry-After', b'9'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'9'), (b'referrer-policy', b'same-origin'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=bdEwhgKOocAt8VUlSpWKVhzAWghjG6PqYPobltR4oaheBpEdQTHtce%2B4WG3fRFz3WPHNzw5dZxAqejcnJyj33R6y0ryrYqhBa5r3BD6V1nmTXdiSbVXWwmh39gk%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:25:36 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:25:36 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:25:36 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:25:36 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:25:36 │ ai_visuals           │ WARNING │   Replicate API error: ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~9s.
+18:25:36 │ ai_visuals           │ WARNING │   [5.0] replicate error (attempt 2): ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~9s.
+18:25:36 │ ai_visuals           │ INFO    │   [5.0] Replicate rate-limited — waiting 11s before retry
+18:25:37 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 19 Mar 2026 12:55:37 GMT'), (b'Content-Type', b'image/png'), (b'Content-Length', b'939536'), (b'Connection', b'keep-alive'), (b'x-guploader-uploadid', b'AGQBYWzRF8J1YBo6LTqOtEKtMtnVUGYhg72SeGENQ67lpKcxijyZ7KyFXEfupufvoY2y2Eac'), (b'last-modified', b'Thu, 19 Mar 2026 12:55:36 GMT'), (b'etag', b'"92c93c36356d142a125da4d276d6d7d8"'), (b'x-goog-generation', b'1773924936162811'), (b'x-goog-metageneration', b'1'), (b'x-goog-stored-content-encoding', b'identity'), (b'x-goog-stored-content-length', b'939536'), (b'x-goog-hash', b'crc32c=LeyT+Q=='), (b'x-goog-hash', b'md5=ksk8NjVtFCoSXaTSdtbX2A=='), (b'x-goog-storage-class', b'STANDARD'), (b'Accept-Ranges', b'bytes'), (b'access-control-allow-origin', b'*'), (b'Server', b'cloudflare'), (b'via', b'1.1 google'), (b'Cache-Control', b'public,max-age=3600'), (b'cache-status', b'miss'), (b'cache-id', b'MAA-8fb6933b'), (b'cf-cache-status', b'DYNAMIC'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=BCzrQfRsPTrTtuvOsoFvWA9C1s1bTcoOUJzkmGaKpAeUUml0faW9SqCMfo1cy7RQhLxGhsO4VQyRi8rpoOG65%2B0rEpu5CUjBW1fiHJUvSRCCmVzIUNteXMfytC2d"}]}'), (b'CF-RAY', b'9deca1e6bc6bc122-MAA')])
+18:25:37 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'GET']>
+18:25:39 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:25:39 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:25:39 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:25:39 │ ai_visuals           │ INFO    │   [3.0] Saved: ai_img_3_0_72e7e436.png (917 KB) via replicate
+18:25:39 │ ai_visuals           │ INFO    │   [6.0] replicate attempt 1: Same visual style and characters as: Elderly woman's pa...
+18:25:39 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:25:39 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:25:39 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:25:39 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:25:39 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:25:39 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'Date', b'Thu, 19 Mar 2026 12:55:39 GMT'), (b'Content-Type', b'application/problem+json'), (b'Content-Length', b'241'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca1f7ce817f7c-MAA'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Retry-After', b'6'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'6'), (b'referrer-policy', b'same-origin'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=QL306wV%2FNvdm%2Fn%2B07yqc8NCw5uJKvsRZgmCHZNgyeJkV6MKyRRmCkCSmst2zVNklq8WGPkPxJf0pqBLjnMmavwdl6LBYFLBcYd2gOJJ2X6AhaOI79WXTSLq912U%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:25:39 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:25:39 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:25:39 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:25:39 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:25:39 │ ai_visuals           │ WARNING │   Replicate API error: ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~6s.
+18:25:39 │ ai_visuals           │ WARNING │   [6.0] replicate error (attempt 1): ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~6s.
+18:25:39 │ ai_visuals           │ INFO    │   [6.0] Replicate rate-limited — waiting 8s before retry
+18:25:47 │ ai_visuals           │ INFO    │   [6.0] replicate attempt 2: Same visual style and characters as: Elderly woman's pa...
+18:25:47 │ httpcore.connection  │ DEBUG   │ close.started
+18:25:47 │ httpcore.connection  │ DEBUG   │ close.complete
+18:25:47 │ httpcore.connection  │ DEBUG   │ close.started
+18:25:47 │ httpcore.connection  │ DEBUG   │ close.complete
+18:25:47 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='api.replicate.com' port=443 local_address=None timeout=5.0 socket_options=None
+18:25:47 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e59ac0>
+18:25:47 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c6d0> server_hostname='api.replicate.com' timeout=5.0
+18:25:47 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e59a90>
+18:25:47 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:25:47 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:25:47 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:25:47 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:25:47 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:25:47 │ ai_visuals           │ INFO    │   [5.0] replicate attempt 3: Same visual style and characters as: Elderly woman's pa...
+18:25:47 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='api.replicate.com' port=443 local_address=None timeout=5.0 socket_options=None
+18:25:47 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e577f0>
+18:25:47 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c6d0> server_hostname='api.replicate.com' timeout=5.0
+18:25:47 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e577c0>
+18:25:47 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:25:47 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:25:47 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:25:47 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:25:47 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:25:48 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'Date', b'Thu, 19 Mar 2026 12:55:48 GMT'), (b'Content-Type', b'application/problem+json'), (b'Content-Length', b'243'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca22bee2a7ffe-MAA'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Retry-After', b'10'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'10'), (b'referrer-policy', b'same-origin'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=CSTwgvoybVQ1UsJ%2BtEFw4qpoL4GAMKjey3ISOHvbuTMZqQ2qM6YUZYvfrk0hcohL7adOeChL7ylVPXMQXpobs7HLQiJBOP9T6kMiMQ3poXwPBDo%2Fy5XYMUM4gh4%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:25:48 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:25:48 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:25:48 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:25:48 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:25:48 │ ai_visuals           │ WARNING │   Replicate API error: ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~10s.
+18:25:48 │ ai_visuals           │ WARNING │   [5.0] replicate error (attempt 3): ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~10s.
+18:25:48 │ ai_visuals           │ INFO    │   [5.0] Replicate rate-limited — waiting 12s before retry
+18:25:49 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Date', b'Thu, 19 Mar 2026 12:55:49 GMT'), (b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'1944'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca22b8ccb9bea-MAA'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'10'), (b'referrer-policy', b'same-origin'), (b'replicate-prediction-id', b'y69mnvwqzdrmt0cx0rnaqhn8cg'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=bAsg1kt06bPJ96Xc8ssLZur6YhTX9Bn%2B%2FMGacF5S4T6l7rtu0zKrDlcwcwZS097FgCEBCuCrUL2T%2FWCNO%2Ftzq5Kzthwld72WPNN%2BibAk%2BaJnYz8CUK4q4NoWo38%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:25:49 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:25:49 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:25:49 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:25:49 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:25:49 │ httpcore.connection  │ DEBUG   │ close.started
+18:25:49 │ httpcore.connection  │ DEBUG   │ close.complete
+18:25:49 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='replicate.delivery' port=443 local_address=None timeout=30.0 socket_options=None
+18:25:49 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x112e368b0>
+18:25:49 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c4a0> server_hostname='replicate.delivery' timeout=30.0
+18:25:49 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x112e5bfa0>
+18:25:49 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'GET']>
+18:25:49 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:25:49 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'GET']>
+18:25:49 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:25:49 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'GET']>
+18:25:49 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 19 Mar 2026 12:55:49 GMT'), (b'Content-Type', b'image/png'), (b'Content-Length', b'573749'), (b'Connection', b'keep-alive'), (b'x-guploader-uploadid', b'AGQBYWzqlQQRJ0XodPSlmNlhBdi9NhvSGYIL1A20mDTAk_c8vNd_tB1V9QUKWUG4i0dhw6K6'), (b'last-modified', b'Thu, 19 Mar 2026 12:55:48 GMT'), (b'etag', b'"852dfa622058389a3931250379d7adfd"'), (b'x-goog-generation', b'1773924948673316'), (b'x-goog-metageneration', b'1'), (b'x-goog-stored-content-encoding', b'identity'), (b'x-goog-stored-content-length', b'573749'), (b'x-goog-hash', b'crc32c=t8irog=='), (b'x-goog-hash', b'md5=hS36YiBYOJo5MSUDedet/Q=='), (b'x-goog-storage-class', b'STANDARD'), (b'Accept-Ranges', b'bytes'), (b'access-control-allow-origin', b'*'), (b'Server', b'cloudflare'), (b'via', b'1.1 google'), (b'Cache-Control', b'public,max-age=3600'), (b'cache-status', b'miss'), (b'cache-id', b'MAA-8fb6933b'), (b'cf-cache-status', b'DYNAMIC'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=2b4dxJSPIl5VkkncGzOrhUEULu63mV2YE6Gz0dQXloL%2FNkCnCBPaKKF3zBCB16U6RIEVmKbQpgrl1ioR33sDKmdXfTs07J65Xix56aBMYIQp1ckXQHe3nO5ebVl0"}]}'), (b'CF-RAY', b'9deca2342cbc637b-MAA')])
+18:25:49 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'GET']>
+18:25:49 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:25:49 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:25:49 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:25:49 │ ai_visuals           │ INFO    │   [6.0] Saved: ai_img_6_0_30bbc6fd.png (560 KB) via replicate
+18:25:49 │ ai_visuals           │ INFO    │   [7.0] replicate attempt 1: Same visual style and characters as: Elderly woman's pa...
+18:25:49 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:25:49 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:25:49 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:25:49 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:25:49 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:25:49 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'Date', b'Thu, 19 Mar 2026 12:55:49 GMT'), (b'Content-Type', b'application/problem+json'), (b'Content-Length', b'241'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca2368e499bea-MAA'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Retry-After', b'9'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'9'), (b'referrer-policy', b'same-origin'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=YSRGiWDGXup8ozkSvaUlOGpSQ5UFs6%2F1dJS4sHi%2BEm%2FUEgLXeI0f9L9HqMNf5RYrc08hhWL87NpYz1Ji0tWYgBiWzjOOborQ2ga%2FoMQClKJay8Q%2BT2cvW%2FjMZ%2Bo%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:25:49 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:25:49 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:25:49 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:25:49 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:25:49 │ ai_visuals           │ WARNING │   Replicate API error: ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~9s.
+18:25:49 │ ai_visuals           │ WARNING │   [7.0] replicate error (attempt 1): ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~9s.
+18:25:49 │ ai_visuals           │ INFO    │   [7.0] Replicate rate-limited — waiting 11s before retry
+18:26:00 │ ai_visuals           │ INFO    │   [5.0] replicate attempt 4: Same visual style and characters as: Elderly woman's pa...
+18:26:00 │ httpcore.connection  │ DEBUG   │ close.started
+18:26:00 │ httpcore.connection  │ DEBUG   │ close.complete
+18:26:00 │ httpcore.connection  │ DEBUG   │ close.started
+18:26:00 │ httpcore.connection  │ DEBUG   │ close.complete
+18:26:00 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='api.replicate.com' port=443 local_address=None timeout=5.0 socket_options=None
+18:26:00 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112dd0850>
+18:26:00 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c6d0> server_hostname='api.replicate.com' timeout=5.0
+18:26:00 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e41df0>
+18:26:00 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:26:00 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:26:00 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:26:00 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:26:00 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:26:00 │ ai_visuals           │ INFO    │   [7.0] replicate attempt 2: Same visual style and characters as: Elderly woman's pa...
+18:26:00 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='api.replicate.com' port=443 local_address=None timeout=5.0 socket_options=None
+18:26:00 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112dbe730>
+18:26:00 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c6d0> server_hostname='api.replicate.com' timeout=5.0
+18:26:00 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112dae3d0>
+18:26:00 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:26:00 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:26:00 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:26:00 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:26:00 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:26:01 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'Date', b'Thu, 19 Mar 2026 12:56:01 GMT'), (b'Content-Type', b'application/problem+json'), (b'Content-Length', b'243'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca27d1c183c06-BLR'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Retry-After', b'10'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'10'), (b'referrer-policy', b'same-origin'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=d274HrAMcaqz128MiBvHIVYu%2FMzn8cLihmJZMd1QrPJCjFYyUnJIGTEmsmk1QQ8%2BlPXbdDCZ6qHX8c%2FDcKtfUUvl0YfK%2BTXWFPu%2Bt%2BmJSgXIYUZ8CfhEp5UmiU8%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:26:01 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:26:01 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:26:01 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:26:01 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:26:01 │ ai_visuals           │ WARNING │   Replicate API error: ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~10s.
+18:26:01 │ ai_visuals           │ WARNING │   [7.0] replicate error (attempt 2): ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~10s.
+18:26:01 │ ai_visuals           │ INFO    │   [7.0] Replicate rate-limited — waiting 12s before retry
+18:26:02 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Date', b'Thu, 19 Mar 2026 12:56:02 GMT'), (b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'1951'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca278b8bc3c06-BLR'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'10'), (b'referrer-policy', b'same-origin'), (b'replicate-prediction-id', b'8ebnpcea15rmt0cx0rn80z12hr'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=G1v%2FTOWW54JaLJUNYIIBEytWSL1WbCNZM6%2BnUFjB88pCKG1LWc5cMsJyGThgnIQ5ct%2FOsAreoF89AG11rlG74isF1UB17ctq8NatVoOFvR%2B6p6gX1O6qYW5kHvg%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:26:02 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:26:02 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:26:02 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:26:02 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:26:02 │ httpcore.connection  │ DEBUG   │ close.started
+18:26:02 │ httpcore.connection  │ DEBUG   │ close.complete
+18:26:02 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='replicate.delivery' port=443 local_address=None timeout=30.0 socket_options=None
+18:26:02 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x112dff520>
+18:26:02 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c4a0> server_hostname='replicate.delivery' timeout=30.0
+18:26:02 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x112e5bb80>
+18:26:02 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'GET']>
+18:26:02 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:26:02 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'GET']>
+18:26:02 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:26:02 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'GET']>
+18:26:02 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 19 Mar 2026 12:56:02 GMT'), (b'Content-Type', b'image/png'), (b'Content-Length', b'1047044'), (b'Connection', b'keep-alive'), (b'x-guploader-uploadid', b'AGQBYWxphMytkc-pKGFW30QQUYnjfT1YFgMQAjWhhJxLa_Ibcu0S8M3FBPH_qGomLAVry5QSnH4C9eA'), (b'last-modified', b'Thu, 19 Mar 2026 12:56:01 GMT'), (b'etag', b'"c5bba58e3cf7cfbff05d3116416e4a77"'), (b'x-goog-generation', b'1773924961758883'), (b'x-goog-metageneration', b'1'), (b'x-goog-stored-content-encoding', b'identity'), (b'x-goog-stored-content-length', b'1047044'), (b'x-goog-hash', b'crc32c=FaA5qA=='), (b'x-goog-hash', b'md5=xbuljjz3z7/wXTEWQW5Kdw=='), (b'x-goog-storage-class', b'STANDARD'), (b'Accept-Ranges', b'bytes'), (b'access-control-allow-origin', b'*'), (b'Server', b'cloudflare'), (b'via', b'1.1 google'), (b'Cache-Control', b'public,max-age=3600'), (b'cache-status', b'miss'), (b'cache-id', b'MAA-8fb6933b'), (b'cf-cache-status', b'DYNAMIC'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=ginOK%2FBYonn1JYtbHFtz2yTPQH073mlIl2kl3JVG316sZrAO3O84Xv5PALu5BZvdsNlwbQUlXFK%2BXFFsIhqP1MO3YBXX6OTT4cnivZJ8pF%2FiCZTB7BfDx5jkLRr9"}]}'), (b'CF-RAY', b'9deca286cfbc3c01-BLR')])
+18:26:02 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'GET']>
+18:26:04 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:26:04 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:26:04 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:26:04 │ ai_visuals           │ INFO    │   [5.0] Saved: ai_img_5_0_51583bce.png (1022 KB) via replicate
+18:26:04 │ ai_visuals           │ INFO    │   [8.0] replicate attempt 1: Same visual style and characters as: Elderly woman's pa...
+18:26:04 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:26:04 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:26:04 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:26:04 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:26:04 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:26:04 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'Date', b'Thu, 19 Mar 2026 12:56:04 GMT'), (b'Content-Type', b'application/problem+json'), (b'Content-Length', b'241'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca2934e9e3c06-BLR'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Retry-After', b'7'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'7'), (b'referrer-policy', b'same-origin'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=qAsyQ5HjIPKGVpwDZ34BBR7hh5TMHw%2BZu1ZRxpDwyEWAGIZAULv3nYuAtTcnVqAa79Ak9dTUdUC1pQrjvz9Y%2F6G8X3D0sIWthgLthN%2B1Y%2BQ41HlmFzBNzlgjfP8%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:26:04 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:26:04 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:26:04 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:26:04 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:26:04 │ ai_visuals           │ WARNING │   Replicate API error: ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~7s.
+18:26:04 │ ai_visuals           │ WARNING │   [8.0] replicate error (attempt 1): ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~7s.
+18:26:04 │ ai_visuals           │ INFO    │   [8.0] Replicate rate-limited — waiting 9s before retry
+18:26:13 │ ai_visuals           │ INFO    │   [7.0] replicate attempt 3: Same visual style and characters as: Elderly woman's pa...
+18:26:13 │ httpcore.connection  │ DEBUG   │ close.started
+18:26:13 │ httpcore.connection  │ DEBUG   │ close.complete
+18:26:13 │ httpcore.connection  │ DEBUG   │ close.started
+18:26:13 │ httpcore.connection  │ DEBUG   │ close.complete
+18:26:13 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='api.replicate.com' port=443 local_address=None timeout=5.0 socket_options=None
+18:26:13 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e4e0d0>
+18:26:13 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c6d0> server_hostname='api.replicate.com' timeout=5.0
+18:26:13 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e4e070>
+18:26:13 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:26:13 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:26:13 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:26:13 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:26:13 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:26:13 │ ai_visuals           │ INFO    │   [8.0] replicate attempt 2: Same visual style and characters as: Elderly woman's pa...
+18:26:13 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='api.replicate.com' port=443 local_address=None timeout=5.0 socket_options=None
+18:26:13 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e60dc0>
+18:26:13 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c6d0> server_hostname='api.replicate.com' timeout=5.0
+18:26:13 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e60d90>
+18:26:13 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:26:13 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:26:13 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:26:13 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:26:13 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:26:13 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'Date', b'Thu, 19 Mar 2026 12:56:13 GMT'), (b'Content-Type', b'application/problem+json'), (b'Content-Length', b'243'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca2cdbdd37f77-MAA'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Retry-After', b'10'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'10'), (b'referrer-policy', b'same-origin'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=vLEC48FjiMqgdroNYXE%2FfK76jseQQWKGEtm2TwymhA%2F1wFriC54TvNyArCG8BGsbacTG3L9gmvnubh77Q8DQPm4pU14PKej%2FUwLFh2xboRM7loo6kTGvZRbW69A%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:26:13 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:26:13 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:26:13 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:26:13 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:26:13 │ ai_visuals           │ WARNING │   Replicate API error: ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~10s.
+18:26:13 │ ai_visuals           │ WARNING │   [8.0] replicate error (attempt 2): ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~10s.
+18:26:13 │ ai_visuals           │ INFO    │   [8.0] Replicate rate-limited — waiting 12s before retry
+18:26:14 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Date', b'Thu, 19 Mar 2026 12:56:14 GMT'), (b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'1963'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca2c9dd29b5bf-MAA'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'10'), (b'referrer-policy', b'same-origin'), (b'replicate-prediction-id', b'wvyxmp7v25rmt0cx0rnagkj5b8'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=HOiDKFsi3gwwL4AX3TPVausSIZx%2FdW7kfMLTYmUOedUE5wFasfa0S5FAzNJVrnJenVyZalY2CxS9y0Usq6YhFb5Ppr7cLW5q9LyakuLzZ3z%2FrxuczcsYQqaTUDU%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:26:14 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:26:14 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:26:14 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:26:14 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:26:14 │ httpcore.connection  │ DEBUG   │ close.started
+18:26:14 │ httpcore.connection  │ DEBUG   │ close.complete
+18:26:14 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='replicate.delivery' port=443 local_address=None timeout=30.0 socket_options=None
+18:26:14 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x112e54520>
+18:26:14 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c4a0> server_hostname='replicate.delivery' timeout=30.0
+18:26:14 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x112d976d0>
+18:26:14 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'GET']>
+18:26:14 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:26:14 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'GET']>
+18:26:14 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:26:14 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'GET']>
+18:26:15 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 19 Mar 2026 12:56:15 GMT'), (b'Content-Type', b'image/png'), (b'Content-Length', b'1164122'), (b'Connection', b'keep-alive'), (b'x-guploader-uploadid', b'AGQBYWyRWyVxJqW9BZmWP2EKhwMNse7mU0YYPdFUcE7xZ4qZqG-kiyxWpCT3pkDo2bFMrHt3R3L3JUE'), (b'last-modified', b'Thu, 19 Mar 2026 12:56:14 GMT'), (b'etag', b'"c27fef26c7384c01f2a009a1d536a94e"'), (b'x-goog-generation', b'1773924974406556'), (b'x-goog-metageneration', b'1'), (b'x-goog-stored-content-encoding', b'identity'), (b'x-goog-stored-content-length', b'1164122'), (b'x-goog-hash', b'crc32c=WkFlZQ=='), (b'x-goog-hash', b'md5=wn/vJsc4TAHyoAmh1TapTg=='), (b'x-goog-storage-class', b'STANDARD'), (b'Accept-Ranges', b'bytes'), (b'access-control-allow-origin', b'*'), (b'Server', b'cloudflare'), (b'via', b'1.1 google'), (b'Cache-Control', b'public,max-age=3600'), (b'cache-status', b'miss'), (b'cache-id', b'MAA-8fb6933b'), (b'cf-cache-status', b'DYNAMIC'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=i6QLS8ceFerR1qrv7D8auPeL4J4Y2WMbxF7OQiTee610LuF0FiUedm5Fd1CnWraR%2FhgpWpAuVQkfy5wKXNlwRGKqCi9KoCgBOqlPMKDpS8A6oVc0tcsIW1sqje1k"}]}'), (b'CF-RAY', b'9deca2d54d7c9be1-MAA')])
+18:26:15 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'GET']>
+18:26:15 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:26:15 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:26:15 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:26:15 │ ai_visuals           │ INFO    │   [7.0] Saved: ai_img_7_0_23495266.png (1136 KB) via replicate
+18:26:15 │ ai_visuals           │ INFO    │   [9.0] replicate attempt 1: Same visual style and characters as: Elderly woman's pa...
+18:26:15 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:26:15 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:26:15 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:26:15 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:26:15 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:26:15 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'Date', b'Thu, 19 Mar 2026 12:56:15 GMT'), (b'Content-Type', b'application/problem+json'), (b'Content-Length', b'241'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca2d7d8b4b5bf-MAA'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Retry-After', b'8'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'8'), (b'referrer-policy', b'same-origin'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=P0rdB8Z2YeEREzAgLJ0sxB5LmM60t6xxp45J7GOkSakQhue%2B7wJKQspeQFAakSCItI9LNxlXy%2FbF8P%2FjTrahQ%2BxEaQphr8ap9Rhc8IQ6TekFNb58nCTmtyQwN3c%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:26:15 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:26:15 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:26:15 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:26:15 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:26:15 │ ai_visuals           │ WARNING │   Replicate API error: ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~8s.
+18:26:15 │ ai_visuals           │ WARNING │   [9.0] replicate error (attempt 1): ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~8s.
+18:26:15 │ ai_visuals           │ INFO    │   [9.0] Replicate rate-limited — waiting 10s before retry
+18:26:25 │ ai_visuals           │ INFO    │   [9.0] replicate attempt 2: Same visual style and characters as: Elderly woman's pa...
+18:26:25 │ httpcore.connection  │ DEBUG   │ close.started
+18:26:25 │ httpcore.connection  │ DEBUG   │ close.complete
+18:26:25 │ httpcore.connection  │ DEBUG   │ close.started
+18:26:25 │ httpcore.connection  │ DEBUG   │ close.complete
+18:26:25 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='api.replicate.com' port=443 local_address=None timeout=5.0 socket_options=None
+18:26:25 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e5d8e0>
+18:26:25 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c6d0> server_hostname='api.replicate.com' timeout=5.0
+18:26:25 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e36160>
+18:26:25 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:26:25 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:26:25 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:26:25 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:26:25 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:26:25 │ ai_visuals           │ INFO    │   [8.0] replicate attempt 3: Same visual style and characters as: Elderly woman's pa...
+18:26:25 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='api.replicate.com' port=443 local_address=None timeout=5.0 socket_options=None
+18:26:26 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e39310>
+18:26:26 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c6d0> server_hostname='api.replicate.com' timeout=5.0
+18:26:26 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112dff9d0>
+18:26:26 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:26:26 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:26:26 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:26:26 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:26:26 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:26:26 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 429, b'Too Many Requests', [(b'Date', b'Thu, 19 Mar 2026 12:56:26 GMT'), (b'Content-Type', b'application/problem+json'), (b'Content-Length', b'243'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca31abde2b5bf-MAA'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Retry-After', b'10'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'10'), (b'referrer-policy', b'same-origin'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=5uV84uZZajs%2F4B%2FiBfwgkQfFlKA1VDKwLtnnNPj7lOROofJnovkTQ501ELo6fcf8abndEf4UzTM3Z7eR75UKE%2BXj%2FOckM2U7GzDXJT%2BNVG1cmxy8XEEE7QNjWn0%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:26:26 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:26:26 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:26:26 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:26:26 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:26:26 │ ai_visuals           │ WARNING │   Replicate API error: ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~10s.
+18:26:26 │ ai_visuals           │ WARNING │   [8.0] replicate error (attempt 3): ReplicateError Details:
+status: 429
+detail: Request was throttled. Your rate limit for creating predictions is reduced to 6 requests per minute with a burst of 1 requests while you have less than $5.0 in credit. Your rate limit resets in ~10s.
+18:26:26 │ ai_visuals           │ INFO    │   [8.0] Replicate rate-limited — waiting 12s before retry
+18:26:27 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Date', b'Thu, 19 Mar 2026 12:56:27 GMT'), (b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'1979'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca3187ff47fe8-MAA'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'10'), (b'referrer-policy', b'same-origin'), (b'replicate-prediction-id', b'z2vj2z1c3xrmy0cx0rnvrdv6d8'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=CcL16lAJMaYAJ54DEPwbZf%2FPzYitho9%2BO9nPNGLHm0U%2BZWXZK9lPXRMRmfPx1GkYlU2dcPpIqSzoQ2xWQgreSmi8enk6RudWALJctnqjiTl%2FrdwS4CLIppXnSOI%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:26:27 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:26:27 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:26:27 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:26:27 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:26:27 │ httpcore.connection  │ DEBUG   │ close.started
+18:26:27 │ httpcore.connection  │ DEBUG   │ close.complete
+18:26:27 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='replicate.delivery' port=443 local_address=None timeout=30.0 socket_options=None
+18:26:27 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x112e61ee0>
+18:26:27 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c4a0> server_hostname='replicate.delivery' timeout=30.0
+18:26:27 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x112dae5e0>
+18:26:27 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'GET']>
+18:26:27 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:26:27 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'GET']>
+18:26:27 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:26:27 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'GET']>
+18:26:27 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 19 Mar 2026 12:56:27 GMT'), (b'Content-Type', b'image/png'), (b'Content-Length', b'1111957'), (b'Connection', b'keep-alive'), (b'x-guploader-uploadid', b'AGQBYWzGJJq2anDoSZg_ZWqKioENMPBb61JQOk6UClVekEXm2CYvCxO8H0SBjscKwpS3njfJpbPhY2A'), (b'last-modified', b'Thu, 19 Mar 2026 12:56:26 GMT'), (b'etag', b'"7ed91c27f15a1efe9a37111c0bcb95f4"'), (b'x-goog-generation', b'1773924986950369'), (b'x-goog-metageneration', b'1'), (b'x-goog-stored-content-encoding', b'identity'), (b'x-goog-stored-content-length', b'1111957'), (b'x-goog-hash', b'crc32c=zuBV8Q=='), (b'x-goog-hash', b'md5=ftkcJ/FaHv6aNxEcC8uV9A=='), (b'x-goog-storage-class', b'STANDARD'), (b'Accept-Ranges', b'bytes'), (b'access-control-allow-origin', b'*'), (b'Server', b'cloudflare'), (b'via', b'1.1 google'), (b'Cache-Control', b'public,max-age=3600'), (b'cache-status', b'miss'), (b'cache-id', b'MAA-8fb6933b'), (b'cf-cache-status', b'DYNAMIC'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=IXKNEhLZVZe0aEtdu9DS1BfyVTBi0rZEK%2F5mC%2BXqc1jWEuJVS2jhW22ReoFHSQQ8Qb5TwmAA67kD4BJhmqYR6Vw%2BcKAhUd1DR3QFvM%2F6Y16xgXYr05YdeLnuXMP7"}]}'), (b'CF-RAY', b'9deca3242e667fe0-MAA')])
+18:26:27 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'GET']>
+18:26:27 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:26:27 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:26:27 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:26:27 │ ai_visuals           │ INFO    │   [9.0] Saved: ai_img_9_0_7d6ad2e4.png (1085 KB) via replicate
+18:26:38 │ ai_visuals           │ INFO    │   [8.0] replicate attempt 4: Same visual style and characters as: Elderly woman's pa...
+18:26:38 │ httpcore.connection  │ DEBUG   │ close.started
+18:26:38 │ httpcore.connection  │ DEBUG   │ close.complete
+18:26:38 │ httpcore.connection  │ DEBUG   │ close.started
+18:26:38 │ httpcore.connection  │ DEBUG   │ close.complete
+18:26:38 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='api.replicate.com' port=443 local_address=None timeout=5.0 socket_options=None
+18:26:38 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e41670>
+18:26:38 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c6d0> server_hostname='api.replicate.com' timeout=5.0
+18:26:38 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x112e41340>
+18:26:38 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'POST']>
+18:26:38 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:26:38 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'POST']>
+18:26:38 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:26:38 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'POST']>
+18:26:41 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Date', b'Thu, 19 Mar 2026 12:56:41 GMT'), (b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'1982'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'9deca36abe473c07-BLR'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Preference-Applied', b'wait=60'), (b'expect-ct', b'max-age=86400, enforce'), (b'ratelimit-remaining', b'0'), (b'ratelimit-reset', b'10'), (b'referrer-policy', b'same-origin'), (b'replicate-prediction-id', b'7bgwdfv1z9rmt0cx0rntcssw2c'), (b'x-content-type-options', b'nosniff'), (b'x-frame-options', b'SAMEORIGIN'), (b'x-xss-protection', b'1; mode=block'), (b'Vary', b'accept-encoding'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=IvpbcNOaqu0aCjw5%2FaAav1sjNrHf5a%2FQYXz7mcXz%2Ff7wIgMyyAQDRT4wS4pO%2BFnX1ZwdhDDysb47c1JoNipLyVACqOBzEEj6DJZBg%2B626W6G%2FJIdjd24ce3ia3U%3D"}]}'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'alt-svc', b'h3=":443"; ma=86400')])
+18:26:41 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'POST']>
+18:26:41 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:26:41 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:26:41 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:26:41 │ httpcore.connection  │ DEBUG   │ close.started
+18:26:41 │ httpcore.connection  │ DEBUG   │ close.complete
+18:26:41 │ httpcore.connection  │ DEBUG   │ connect_tcp.started host='replicate.delivery' port=443 local_address=None timeout=30.0 socket_options=None
+18:26:41 │ httpcore.connection  │ DEBUG   │ connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x112e59220>
+18:26:41 │ httpcore.connection  │ DEBUG   │ start_tls.started ssl_context=<ssl.SSLContext object at 0x112d7c4a0> server_hostname='replicate.delivery' timeout=30.0
+18:26:41 │ httpcore.connection  │ DEBUG   │ start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x112dff6d0>
+18:26:41 │ httpcore.http11      │ DEBUG   │ send_request_headers.started request=<Request [b'GET']>
+18:26:41 │ httpcore.http11      │ DEBUG   │ send_request_headers.complete
+18:26:41 │ httpcore.http11      │ DEBUG   │ send_request_body.started request=<Request [b'GET']>
+18:26:41 │ httpcore.http11      │ DEBUG   │ send_request_body.complete
+18:26:41 │ httpcore.http11      │ DEBUG   │ receive_response_headers.started request=<Request [b'GET']>
+18:26:41 │ httpcore.http11      │ DEBUG   │ receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Thu, 19 Mar 2026 12:56:41 GMT'), (b'Content-Type', b'image/png'), (b'Content-Length', b'1127886'), (b'Connection', b'keep-alive'), (b'x-guploader-uploadid', b'AGQBYWzTOqFbt7p2CS1q6WAshkL35qGio1kkakefj007aXb5zo8xo-BnB-wn4kQxY6K86MJJ'), (b'last-modified', b'Thu, 19 Mar 2026 12:56:40 GMT'), (b'etag', b'"0af537ffa573dba17d57e0566d6a8c0a"'), (b'x-goog-generation', b'1773925000883312'), (b'x-goog-metageneration', b'1'), (b'x-goog-stored-content-encoding', b'identity'), (b'x-goog-stored-content-length', b'1127886'), (b'x-goog-hash', b'crc32c=41so4Q=='), (b'x-goog-hash', b'md5=CvU3/6Vz26F9V+BWbWqMCg=='), (b'x-goog-storage-class', b'STANDARD'), (b'Accept-Ranges', b'bytes'), (b'access-control-allow-origin', b'*'), (b'Server', b'cloudflare'), (b'via', b'1.1 google'), (b'Cache-Control', b'public,max-age=3600'), (b'cache-status', b'miss'), (b'cache-id', b'MAA-8fb6933b'), (b'cf-cache-status', b'DYNAMIC'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=y9mTimAtDl8ekK5WwyUXAVkE4fOv1UkrI84j4dlxBnYaF%2BiYMBxaEpMJB56XXTEfEZ%2FXIQVyHCEHAVMoejTqt6e1lfMNfg1A0IYRhHpLJEuJEduGXIgZKSnDHINN"}]}'), (b'CF-RAY', b'9deca37b2ab96ce0-MAA')])
+18:26:41 │ httpcore.http11      │ DEBUG   │ receive_response_body.started request=<Request [b'GET']>
+18:26:42 │ httpcore.http11      │ DEBUG   │ receive_response_body.complete
+18:26:42 │ httpcore.http11      │ DEBUG   │ response_closed.started
+18:26:42 │ httpcore.http11      │ DEBUG   │ response_closed.complete
+18:26:42 │ ai_visuals           │ INFO    │   [8.0] Saved: ai_img_8_0_16dd4c43.png (1101 KB) via replicate
+18:26:42 │ httpcore.connection  │ DEBUG   │ close.started
+18:26:42 │ httpcore.connection  │ DEBUG   │ close.complete
+18:26:42 │ ai_visuals           │ INFO    │ Generated 10/10 images in 117.9s
+18:26:42 │ agent.orchestrator   │ INFO    │ Using elevenlabs TTS (enhanced pipeline)
+18:26:42 │ elevenlabs_tts       │ INFO    │ ElevenLabs TTS initialized: voice=pNInz6obpgDQGcFmaJgB, mood=dramatic
+18:26:42 │ elevenlabs_tts       │ INFO    │ ElevenLabs generating [0]: 'Forty years. That's how long she painted it.' (emotion=dramatic)
+18:26:43 │ elevenlabs_tts       │ INFO    │ ElevenLabs [0]: 3.2s, 8 words timed, saved to narration_0.mp3
+18:26:43 │ elevenlabs_tts       │ INFO    │ ElevenLabs generating [1]: 'Every face, every brushstroke — people called it a miracle. ' (emotion=warm)
+18:26:45 │ elevenlabs_tts       │ INFO    │ ElevenLabs [1]: 9.6s, 19 words timed, saved to narration_1.mp3
+18:26:45 │ elevenlabs_tts       │ INFO    │ ElevenLabs generating [2]: 'And then — one morning — she walked in with a bucket of whit' (emotion=dramatic)
+18:26:47 │ elevenlabs_tts       │ INFO    │ ElevenLabs [2]: 5.0s, 15 words timed, saved to narration_2.mp3
+18:26:47 │ elevenlabs_tts       │ INFO    │ ElevenLabs generating [3]: 'She covered every inch. Gone. Just like that.' (emotion=dramatic)
+18:26:48 │ elevenlabs_tts       │ INFO    │ ElevenLabs [3]: 4.4s, 8 words timed, saved to narration_3.mp3
+18:26:48 │ elevenlabs_tts       │ INFO    │ ElevenLabs generating [4]: 'People thought she'd completely lost her mind. And honestly?' (emotion=warm)
+18:26:49 │ elevenlabs_tts       │ INFO    │ ElevenLabs [4]: 5.4s, 12 words timed, saved to narration_4.mp3
+18:26:49 │ elevenlabs_tts       │ INFO    │ ElevenLabs generating [5]: 'She said — 'Now it lives only in the memory of everyone who ' (emotion=thoughtful)
+18:26:51 │ elevenlabs_tts       │ INFO    │ ElevenLabs [5]: 11.0s, 31 words timed, saved to narration_5.mp3
+18:26:51 │ elevenlabs_tts       │ INFO    │ ElevenLabs generating [6]: 'She died a year later. And okay — wait. Here's where it gets' (emotion=dramatic)
+18:26:53 │ elevenlabs_tts       │ INFO    │ ElevenLabs [6]: 7.5s, 15 words timed, saved to narration_6.mp3
+18:26:53 │ elevenlabs_tts       │ INFO    │ ElevenLabs generating [7]: 'Every single person who saw that mural — they all remember i' (emotion=thoughtful)
+18:26:54 │ elevenlabs_tts       │ INFO    │ ElevenLabs [7]: 7.5s, 21 words timed, saved to narration_7.mp3
+18:26:54 │ elevenlabs_tts       │ INFO    │ ElevenLabs generating [8]: 'She didn't destroy her art. She multiplied it. Into thousand' (emotion=warm)
+18:26:56 │ elevenlabs_tts       │ INFO    │ ElevenLabs [8]: 8.4s, 19 words timed, saved to narration_8.mp3
+18:26:56 │ elevenlabs_tts       │ INFO    │ ElevenLabs generating [9]: 'That's… kind of the most beautiful thing I've ever heard. On' (emotion=warm)
+18:26:57 │ elevenlabs_tts       │ ERROR   │ ElevenLabs API error for screen 9: 401 Client Error: Unauthorized for url: https://api.elevenlabs.io/v1/text-to-speech/pNInz6obpgDQGcFmaJgB/with-timestamps
+18:26:57 │ elevenlabs_tts       │ INFO    │ ElevenLabs narration complete: 10 clips, 62.1s total
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess.call(['ffmpeg', '-y', '-i', '/Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/audio/narration_0.mp3', '-acodec', 'pcm_s16le', '-vn', '-f', 'wav', '-'])
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess.call(['ffmpeg', '-y', '-f', 'wav', '-i', '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmpax9th9s_', '-f', 'mp3', '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmpistpdfcj'])
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'ffmpeg version 8.0.1 Copyright (c) 2000-2025 the FFmpeg developers'
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'  built with Apple clang version 17.0.0 (clang-1700.6.3.2)'
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'  configuration: --prefix=/opt/homebrew/Cellar/ffmpeg/8.0.1_4 --enable-shared --enable-pthreads --enable-version3 --cc=clang --host-cflags= --host-ldflags= --enable-ffplay --enable-gpl --enable-libsvtav1 --enable-libopus --enable-libx264 --enable-libmp3lame --enable-libdav1d --enable-libvpx --enable-libx265 --enable-openssl --enable-videotoolbox --enable-audiotoolbox --enable-neon'
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavutil      60.  8.100 / 60.  8.100'
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavcodec     62. 11.100 / 62. 11.100'
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavformat    62.  3.100 / 62.  3.100'
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavdevice    62.  1.100 / 62.  1.100'
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavfilter    11.  4.100 / 11.  4.100'
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libswscale      9.  1.100 /  9.  1.100'
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libswresample   6.  1.100 /  6.  1.100'
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'[aist#0:0/pcm_s16le @ 0xbfec0c180] Guessed Channel Layout: mono'
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b"Input #0, wav, from '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmpax9th9s_':"
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Duration: 00:00:03.50, bitrate: 705 kb/s'
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 44100 Hz, mono, s16, 705 kb/s'
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'Stream mapping:'
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0 -> #0:0 (pcm_s16le (native) -> mp3 (libmp3lame))'
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'Press [q] to stop, [?] for help'
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b"Output #0, mp3, to '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmpistpdfcj':"
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Metadata:'
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'    TSSE            : Lavf62.3.100'
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0: Audio: mp3, 44100 Hz, mono, s16p'
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'    Metadata:'
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'      encoder         : Lavc62.11.100 libmp3lame'
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'[out#0/mp3 @ 0xbfec1c180] video:0KiB audio:28KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.795187%'
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess output: b'size=      28KiB time=00:00:03.50 bitrate=  65.4kbits/s speed= 252x elapsed=0:00:00.01'
+18:26:57 │ audio_utils          │ DEBUG   │ Appended 300ms silence to narration_0.mp3 (3.5s)
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess.call(['ffmpeg', '-y', '-i', '/Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/audio/narration_1.mp3', '-acodec', 'pcm_s16le', '-vn', '-f', 'wav', '-'])
+18:26:57 │ pydub.converter      │ DEBUG   │ subprocess.call(['ffmpeg', '-y', '-f', 'wav', '-i', '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmp95iz7jt1', '-f', 'mp3', '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmp_560ggp4'])
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'ffmpeg version 8.0.1 Copyright (c) 2000-2025 the FFmpeg developers'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  built with Apple clang version 17.0.0 (clang-1700.6.3.2)'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  configuration: --prefix=/opt/homebrew/Cellar/ffmpeg/8.0.1_4 --enable-shared --enable-pthreads --enable-version3 --cc=clang --host-cflags= --host-ldflags= --enable-ffplay --enable-gpl --enable-libsvtav1 --enable-libopus --enable-libx264 --enable-libmp3lame --enable-libdav1d --enable-libvpx --enable-libx265 --enable-openssl --enable-videotoolbox --enable-audiotoolbox --enable-neon'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavutil      60.  8.100 / 60.  8.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavcodec     62. 11.100 / 62. 11.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavformat    62.  3.100 / 62.  3.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavdevice    62.  1.100 / 62.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavfilter    11.  4.100 / 11.  4.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libswscale      9.  1.100 /  9.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libswresample   6.  1.100 /  6.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'[aist#0:0/pcm_s16le @ 0x900c0c180] Guessed Channel Layout: mono'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b"Input #0, wav, from '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmp95iz7jt1':"
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Duration: 00:00:09.82, bitrate: 705 kb/s'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 44100 Hz, mono, s16, 705 kb/s'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'Stream mapping:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0 -> #0:0 (pcm_s16le (native) -> mp3 (libmp3lame))'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'Press [q] to stop, [?] for help'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b"Output #0, mp3, to '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmp_560ggp4':"
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Metadata:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'    TSSE            : Lavf62.3.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0: Audio: mp3, 44100 Hz, mono, s16p'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'    Metadata:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'      encoder         : Lavc62.11.100 libmp3lame'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'[out#0/mp3 @ 0x901024180] video:0KiB audio:77KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.286857%'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'size=      77KiB time=00:00:09.82 bitrate=  64.4kbits/s speed= 277x elapsed=0:00:00.03'
+18:26:58 │ audio_utils          │ DEBUG   │ Appended 300ms silence to narration_1.mp3 (9.8s)
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess.call(['ffmpeg', '-y', '-i', '/Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/audio/narration_2.mp3', '-acodec', 'pcm_s16le', '-vn', '-f', 'wav', '-'])
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess.call(['ffmpeg', '-y', '-f', 'wav', '-i', '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmp79zj206o', '-f', 'mp3', '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmptj83svhn'])
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'ffmpeg version 8.0.1 Copyright (c) 2000-2025 the FFmpeg developers'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  built with Apple clang version 17.0.0 (clang-1700.6.3.2)'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  configuration: --prefix=/opt/homebrew/Cellar/ffmpeg/8.0.1_4 --enable-shared --enable-pthreads --enable-version3 --cc=clang --host-cflags= --host-ldflags= --enable-ffplay --enable-gpl --enable-libsvtav1 --enable-libopus --enable-libx264 --enable-libmp3lame --enable-libdav1d --enable-libvpx --enable-libx265 --enable-openssl --enable-videotoolbox --enable-audiotoolbox --enable-neon'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavutil      60.  8.100 / 60.  8.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavcodec     62. 11.100 / 62. 11.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavformat    62.  3.100 / 62.  3.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavdevice    62.  1.100 / 62.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavfilter    11.  4.100 / 11.  4.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libswscale      9.  1.100 /  9.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libswresample   6.  1.100 /  6.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'[aist#0:0/pcm_s16le @ 0x707014180] Guessed Channel Layout: mono'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b"Input #0, wav, from '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmp79zj206o':"
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Duration: 00:00:05.27, bitrate: 705 kb/s'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 44100 Hz, mono, s16, 705 kb/s'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'Stream mapping:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0 -> #0:0 (pcm_s16le (native) -> mp3 (libmp3lame))'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'Press [q] to stop, [?] for help'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b"Output #0, mp3, to '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmptj83svhn':"
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Metadata:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'    TSSE            : Lavf62.3.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0: Audio: mp3, 44100 Hz, mono, s16p'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'    Metadata:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'      encoder         : Lavc62.11.100 libmp3lame'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'[out#0/mp3 @ 0x70704c180] video:0KiB audio:41KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.532742%'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'size=      42KiB time=00:00:05.26 bitrate=  64.8kbits/s speed= 276x elapsed=0:00:00.01'
+18:26:58 │ audio_utils          │ DEBUG   │ Appended 300ms silence to narration_2.mp3 (5.3s)
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess.call(['ffmpeg', '-y', '-i', '/Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/audio/narration_3.mp3', '-acodec', 'pcm_s16le', '-vn', '-f', 'wav', '-'])
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess.call(['ffmpeg', '-y', '-f', 'wav', '-i', '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmp48fn06lv', '-f', 'mp3', '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmpshr_bzee'])
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'ffmpeg version 8.0.1 Copyright (c) 2000-2025 the FFmpeg developers'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  built with Apple clang version 17.0.0 (clang-1700.6.3.2)'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  configuration: --prefix=/opt/homebrew/Cellar/ffmpeg/8.0.1_4 --enable-shared --enable-pthreads --enable-version3 --cc=clang --host-cflags= --host-ldflags= --enable-ffplay --enable-gpl --enable-libsvtav1 --enable-libopus --enable-libx264 --enable-libmp3lame --enable-libdav1d --enable-libvpx --enable-libx265 --enable-openssl --enable-videotoolbox --enable-audiotoolbox --enable-neon'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavutil      60.  8.100 / 60.  8.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavcodec     62. 11.100 / 62. 11.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavformat    62.  3.100 / 62.  3.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavdevice    62.  1.100 / 62.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavfilter    11.  4.100 / 11.  4.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libswscale      9.  1.100 /  9.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libswresample   6.  1.100 /  6.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'[aist#0:0/pcm_s16le @ 0x78d014180] Guessed Channel Layout: mono'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b"Input #0, wav, from '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmp48fn06lv':"
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Duration: 00:00:04.67, bitrate: 705 kb/s'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 44100 Hz, mono, s16, 705 kb/s'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'Stream mapping:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0 -> #0:0 (pcm_s16le (native) -> mp3 (libmp3lame))'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'Press [q] to stop, [?] for help'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b"Output #0, mp3, to '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmpshr_bzee':"
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Metadata:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'    TSSE            : Lavf62.3.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0: Audio: mp3, 44100 Hz, mono, s16p'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'    Metadata:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'      encoder         : Lavc62.11.100 libmp3lame'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'[out#0/mp3 @ 0x78d04c180] video:0KiB audio:37KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.600808%'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'size=      37KiB time=00:00:04.66 bitrate=  64.9kbits/s speed= 312x elapsed=0:00:00.01'
+18:26:58 │ audio_utils          │ DEBUG   │ Appended 300ms silence to narration_3.mp3 (4.7s)
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess.call(['ffmpeg', '-y', '-i', '/Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/audio/narration_4.mp3', '-acodec', 'pcm_s16le', '-vn', '-f', 'wav', '-'])
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess.call(['ffmpeg', '-y', '-f', 'wav', '-i', '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmpuq2aeu5e', '-f', 'mp3', '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmp6ykn8ay7'])
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'ffmpeg version 8.0.1 Copyright (c) 2000-2025 the FFmpeg developers'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  built with Apple clang version 17.0.0 (clang-1700.6.3.2)'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  configuration: --prefix=/opt/homebrew/Cellar/ffmpeg/8.0.1_4 --enable-shared --enable-pthreads --enable-version3 --cc=clang --host-cflags= --host-ldflags= --enable-ffplay --enable-gpl --enable-libsvtav1 --enable-libopus --enable-libx264 --enable-libmp3lame --enable-libdav1d --enable-libvpx --enable-libx265 --enable-openssl --enable-videotoolbox --enable-audiotoolbox --enable-neon'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavutil      60.  8.100 / 60.  8.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavcodec     62. 11.100 / 62. 11.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavformat    62.  3.100 / 62.  3.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavdevice    62.  1.100 / 62.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavfilter    11.  4.100 / 11.  4.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libswscale      9.  1.100 /  9.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libswresample   6.  1.100 /  6.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'[aist#0:0/pcm_s16le @ 0x925014180] Guessed Channel Layout: mono'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b"Input #0, wav, from '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmpuq2aeu5e':"
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Duration: 00:00:05.64, bitrate: 705 kb/s'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 44100 Hz, mono, s16, 705 kb/s'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'Stream mapping:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0 -> #0:0 (pcm_s16le (native) -> mp3 (libmp3lame))'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'Press [q] to stop, [?] for help'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b"Output #0, mp3, to '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmp6ykn8ay7':"
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Metadata:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'    TSSE            : Lavf62.3.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0: Audio: mp3, 44100 Hz, mono, s16p'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'    Metadata:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'      encoder         : Lavc62.11.100 libmp3lame'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'[out#0/mp3 @ 0x92504c180] video:0KiB audio:44KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.498368%'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'size=      45KiB time=00:00:05.64 bitrate=  64.6kbits/s speed= 287x elapsed=0:00:00.01'
+18:26:58 │ audio_utils          │ DEBUG   │ Appended 300ms silence to narration_4.mp3 (5.6s)
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess.call(['ffmpeg', '-y', '-i', '/Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/audio/narration_5.mp3', '-acodec', 'pcm_s16le', '-vn', '-f', 'wav', '-'])
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess.call(['ffmpeg', '-y', '-f', 'wav', '-i', '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmpikhbo4x4', '-f', 'mp3', '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmp1olux8_m'])
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'ffmpeg version 8.0.1 Copyright (c) 2000-2025 the FFmpeg developers'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  built with Apple clang version 17.0.0 (clang-1700.6.3.2)'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  configuration: --prefix=/opt/homebrew/Cellar/ffmpeg/8.0.1_4 --enable-shared --enable-pthreads --enable-version3 --cc=clang --host-cflags= --host-ldflags= --enable-ffplay --enable-gpl --enable-libsvtav1 --enable-libopus --enable-libx264 --enable-libmp3lame --enable-libdav1d --enable-libvpx --enable-libx265 --enable-openssl --enable-videotoolbox --enable-audiotoolbox --enable-neon'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavutil      60.  8.100 / 60.  8.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavcodec     62. 11.100 / 62. 11.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavformat    62.  3.100 / 62.  3.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavdevice    62.  1.100 / 62.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavfilter    11.  4.100 / 11.  4.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libswscale      9.  1.100 /  9.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libswresample   6.  1.100 /  6.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'[aist#0:0/pcm_s16le @ 0xa9b014180] Guessed Channel Layout: mono'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b"Input #0, wav, from '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmpikhbo4x4':"
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Duration: 00:00:11.26, bitrate: 705 kb/s'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 44100 Hz, mono, s16, 705 kb/s'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'Stream mapping:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0 -> #0:0 (pcm_s16le (native) -> mp3 (libmp3lame))'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'Press [q] to stop, [?] for help'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b"Output #0, mp3, to '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmp1olux8_m':"
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Metadata:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'    TSSE            : Lavf62.3.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0: Audio: mp3, 44100 Hz, mono, s16p'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'    Metadata:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'      encoder         : Lavc62.11.100 libmp3lame'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'[libmp3lame @ 0xa9b048a80] Trying to remove 1152 samples, but the queue is empty'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'[out#0/mp3 @ 0xa9b04c180] video:0KiB audio:88KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.249757%'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'size=      89KiB time=00:00:11.25 bitrate=  64.5kbits/s speed= 287x elapsed=0:00:00.03'
+18:26:58 │ audio_utils          │ DEBUG   │ Appended 300ms silence to narration_5.mp3 (11.3s)
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess.call(['ffmpeg', '-y', '-i', '/Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/audio/narration_6.mp3', '-acodec', 'pcm_s16le', '-vn', '-f', 'wav', '-'])
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess.call(['ffmpeg', '-y', '-f', 'wav', '-i', '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmpguipnuk2', '-f', 'mp3', '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmp06rdurb4'])
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'ffmpeg version 8.0.1 Copyright (c) 2000-2025 the FFmpeg developers'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  built with Apple clang version 17.0.0 (clang-1700.6.3.2)'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  configuration: --prefix=/opt/homebrew/Cellar/ffmpeg/8.0.1_4 --enable-shared --enable-pthreads --enable-version3 --cc=clang --host-cflags= --host-ldflags= --enable-ffplay --enable-gpl --enable-libsvtav1 --enable-libopus --enable-libx264 --enable-libmp3lame --enable-libdav1d --enable-libvpx --enable-libx265 --enable-openssl --enable-videotoolbox --enable-audiotoolbox --enable-neon'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavutil      60.  8.100 / 60.  8.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavcodec     62. 11.100 / 62. 11.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavformat    62.  3.100 / 62.  3.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavdevice    62.  1.100 / 62.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavfilter    11.  4.100 / 11.  4.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libswscale      9.  1.100 /  9.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libswresample   6.  1.100 /  6.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'[aist#0:0/pcm_s16le @ 0x900c0c180] Guessed Channel Layout: mono'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b"Input #0, wav, from '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmpguipnuk2':"
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Duration: 00:00:07.82, bitrate: 705 kb/s'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 44100 Hz, mono, s16, 705 kb/s'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'Stream mapping:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0 -> #0:0 (pcm_s16le (native) -> mp3 (libmp3lame))'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'Press [q] to stop, [?] for help'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b"Output #0, mp3, to '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmp06rdurb4':"
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Metadata:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'    TSSE            : Lavf62.3.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0: Audio: mp3, 44100 Hz, mono, s16p'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'    Metadata:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'      encoder         : Lavc62.11.100 libmp3lame'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'[out#0/mp3 @ 0x900c1c180] video:0KiB audio:61KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.359289%'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'size=      62KiB time=00:00:07.82 bitrate=  64.6kbits/s speed= 311x elapsed=0:00:00.02'
+18:26:58 │ audio_utils          │ DEBUG   │ Appended 300ms silence to narration_6.mp3 (7.8s)
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess.call(['ffmpeg', '-y', '-i', '/Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/audio/narration_7.mp3', '-acodec', 'pcm_s16le', '-vn', '-f', 'wav', '-'])
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess.call(['ffmpeg', '-y', '-f', 'wav', '-i', '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmpctf0kt30', '-f', 'mp3', '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmp04hj9963'])
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'ffmpeg version 8.0.1 Copyright (c) 2000-2025 the FFmpeg developers'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  built with Apple clang version 17.0.0 (clang-1700.6.3.2)'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  configuration: --prefix=/opt/homebrew/Cellar/ffmpeg/8.0.1_4 --enable-shared --enable-pthreads --enable-version3 --cc=clang --host-cflags= --host-ldflags= --enable-ffplay --enable-gpl --enable-libsvtav1 --enable-libopus --enable-libx264 --enable-libmp3lame --enable-libdav1d --enable-libvpx --enable-libx265 --enable-openssl --enable-videotoolbox --enable-audiotoolbox --enable-neon'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavutil      60.  8.100 / 60.  8.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavcodec     62. 11.100 / 62. 11.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavformat    62.  3.100 / 62.  3.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavdevice    62.  1.100 / 62.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavfilter    11.  4.100 / 11.  4.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libswscale      9.  1.100 /  9.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libswresample   6.  1.100 /  6.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'[aist#0:0/pcm_s16le @ 0x766c08180] Guessed Channel Layout: mono'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b"Input #0, wav, from '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmpctf0kt30':"
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Duration: 00:00:07.73, bitrate: 705 kb/s'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 44100 Hz, mono, s16, 705 kb/s'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'Stream mapping:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0 -> #0:0 (pcm_s16le (native) -> mp3 (libmp3lame))'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'Press [q] to stop, [?] for help'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b"Output #0, mp3, to '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmp04hj9963':"
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Metadata:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'    TSSE            : Lavf62.3.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0: Audio: mp3, 44100 Hz, mono, s16p'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'    Metadata:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'      encoder         : Lavc62.11.100 libmp3lame'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'[out#0/mp3 @ 0x767020180] video:0KiB audio:61KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.364129%'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'size=      61KiB time=00:00:07.73 bitrate=  64.5kbits/s speed= 274x elapsed=0:00:00.02'
+18:26:58 │ audio_utils          │ DEBUG   │ Appended 300ms silence to narration_7.mp3 (7.7s)
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess.call(['ffmpeg', '-y', '-i', '/Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/audio/narration_8.mp3', '-acodec', 'pcm_s16le', '-vn', '-f', 'wav', '-'])
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess.call(['ffmpeg', '-y', '-f', 'wav', '-i', '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmp3pt8bifi', '-f', 'mp3', '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmpyy3xlsud'])
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'ffmpeg version 8.0.1 Copyright (c) 2000-2025 the FFmpeg developers'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  built with Apple clang version 17.0.0 (clang-1700.6.3.2)'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  configuration: --prefix=/opt/homebrew/Cellar/ffmpeg/8.0.1_4 --enable-shared --enable-pthreads --enable-version3 --cc=clang --host-cflags= --host-ldflags= --enable-ffplay --enable-gpl --enable-libsvtav1 --enable-libopus --enable-libx264 --enable-libmp3lame --enable-libdav1d --enable-libvpx --enable-libx265 --enable-openssl --enable-videotoolbox --enable-audiotoolbox --enable-neon'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavutil      60.  8.100 / 60.  8.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavcodec     62. 11.100 / 62. 11.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavformat    62.  3.100 / 62.  3.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavdevice    62.  1.100 / 62.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libavfilter    11.  4.100 / 11.  4.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libswscale      9.  1.100 /  9.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  libswresample   6.  1.100 /  6.  1.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'[aist#0:0/pcm_s16le @ 0x8eb014180] Guessed Channel Layout: mono'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b"Input #0, wav, from '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmp3pt8bifi':"
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Duration: 00:00:08.71, bitrate: 705 kb/s'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 44100 Hz, mono, s16, 705 kb/s'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'Stream mapping:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0 -> #0:0 (pcm_s16le (native) -> mp3 (libmp3lame))'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'Press [q] to stop, [?] for help'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b"Output #0, mp3, to '/var/folders/r8/pwmf565d5xg_4d6k35ctvgjh0000gn/T/tmpyy3xlsud':"
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Metadata:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'    TSSE            : Lavf62.3.100'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'  Stream #0:0: Audio: mp3, 44100 Hz, mono, s16p'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'    Metadata:'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'      encoder         : Lavc62.11.100 libmp3lame'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'[out#0/mp3 @ 0x8eb04c180] video:0KiB audio:68KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.322820%'
+18:26:58 │ pydub.converter      │ DEBUG   │ subprocess output: b'size=      69KiB time=00:00:08.70 bitrate=  64.5kbits/s speed= 258x elapsed=0:00:00.03'
+18:26:58 │ audio_utils          │ DEBUG   │ Appended 300ms silence to narration_8.mp3 (8.7s)
+18:26:58 │ agent.orchestrator   │ INFO    │ Added 300ms silence gap to 9 narration clips
+18:26:58 │ agent.orchestrator   │ INFO    │ Narration generated: 64.4s total, 10 clips
+18:26:58 │ effects_agent        │ WARNING │ [VFX Agent] AI decision failed: 'CopilotBridgeClient' object has no attribute 'check_health', using fallback
+18:26:58 │ effects_agent        │ INFO    │ [VFX Agent] Effects plan ready: 10 scenes
+18:26:58 │ agent.orchestrator   │ INFO    │ VFX plan generated: 10 scene plans, theme=dynamic
+18:26:58 │ agent.orchestrator   │ INFO    │   [0] entry=zoom_blur_in exit=swipe_wipe transition=flash_transition overlay=fire_embers | Rule-based: emotion=dramatic, scene_type=A, keywords detecte
+18:26:58 │ agent.orchestrator   │ INFO    │   [1] entry=elastic_drop exit=swipe_wipe transition=flash_transition overlay=bokeh_overlay | Rule-based: emotion=warm, scene_type=B, keywords detected
+18:26:58 │ agent.orchestrator   │ INFO    │   [2] entry=scale_bounce exit=slide_out_up transition=slide_horizontal overlay=chromatic_aberration | Rule-based: emotion=dramatic, scene_type=B, keywords detecte
+18:26:58 │ agent.orchestrator   │ INFO    │   [3] entry=slide_up exit=evaporate transition=wipe_left overlay=vhs_distortion | Rule-based: emotion=dramatic, scene_type=B, keywords detecte
+18:26:58 │ agent.orchestrator   │ INFO    │   [4] entry=grow_from_center exit=evaporate transition=wipe_left overlay=fire_embers | Rule-based: emotion=warm, scene_type=B, keywords detected
+18:26:58 │ agent.orchestrator   │ INFO    │   [5] entry=grow_from_center exit=blur_exit transition=ink_bleed overlay=chromatic_aberration | Rule-based: emotion=thoughtful, scene_type=B, keywords detec
+18:26:58 │ agent.orchestrator   │ INFO    │   [6] entry=zoom_blur_in exit=blur_exit transition=pixelate_transition overlay=dust_particles | Rule-based: emotion=dramatic, scene_type=B, keywords detecte
+18:26:58 │ agent.orchestrator   │ INFO    │   [7] entry=curtain_reveal exit=swipe_wipe transition=pixelate_transition overlay=subtle_grain | Rule-based: emotion=thoughtful, scene_type=B, keywords detec
+18:26:58 │ agent.orchestrator   │ INFO    │   [8] entry=slide_up exit=fade_out transition=crossfade overlay=subtle_grain | Rule-based: emotion=warm, scene_type=B, keywords detected
+18:26:58 │ agent.orchestrator   │ INFO    │   [9] entry=elastic_drop exit=swipe_wipe transition=flash_transition overlay=bokeh_overlay | Rule-based: emotion=warm, scene_type=B, keywords detected
+18:26:58 │ remotion_renderer    │ INFO    │ Staged 9 audio + 10 image assets into remotion/public/
+18:26:58 │ remotion_renderer    │ WARNING │ Audio path not found in staged assets (screen 9): /Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/audio/narration_9.mp3 — map keys: ['/Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/audio/narration_0.mp3', '/Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/audio/narration_1.mp3', '/Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/audio/narration_2.mp3', '/Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/audio/narration_3.mp3', '/Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/audio/narration_4.mp3']
+18:26:58 │ remotion_renderer    │ INFO    │ Remotion props written to /Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/remotion_props.json (10 screens)
+18:26:58 │ remotion_renderer    │ INFO    │ Invoking Remotion render:
+  npx remotion render /Users/klinten/Desktop/My-projects/project-HER/remotion/src/index.ts ProjectHER /Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/she-painted-for-40-years-then-she-destroyed-everyt.mp4 --props /Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/remotion_props.json --concurrency 8 --image-format jpeg --jpeg-quality 95 --log verbose --overwrite
+18:28:09 │ remotion_renderer    │ INFO    │   [remotion] Stitched 2083/2083
+18:28:09 │ remotion_renderer    │ INFO    │   [remotion] Stitching done in 15254ms
+18:28:09 │ remotion_renderer    │ INFO    │   [remotion] +                    /Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/she-painted-for-40-years-then-she-destroyed-everyt.mp4 22.8 MB
+18:28:09 │ remotion_renderer    │ INFO    │   [remotion] Slowest frames:
+18:28:09 │ remotion_renderer    │ INFO    │   [remotion]   Frame 1345 (4871.168ms)
+18:28:09 │ remotion_renderer    │ INFO    │   [remotion]   Frame 1344 (4661.581ms)
+18:28:09 │ remotion_renderer    │ INFO    │   [remotion]   Frame 1348 (4652.149ms)
+18:28:09 │ remotion_renderer    │ INFO    │   [remotion]   Frame 1346 (4545.414ms)
+18:28:09 │ remotion_renderer    │ INFO    │   [remotion]   Frame 1349 (4540.318ms)
+18:28:09 │ remotion_renderer    │ INFO    │   [remotion]   Frame 1342 (4444.374ms)
+18:28:09 │ remotion_renderer    │ INFO    │   [remotion]   Frame 1343 (4115.164ms)
+18:28:09 │ remotion_renderer    │ INFO    │   [remotion]   Frame 1347 (3993.358ms)
+18:28:09 │ remotion_renderer    │ INFO    │   [remotion]   Frame 1124 (3842.051ms)
+18:28:09 │ remotion_renderer    │ INFO    │   [remotion]   Frame 1126 (3603.770ms)
+18:28:09 │ remotion_renderer    │ INFO    │   [remotion] Render performance:
+18:28:09 │ remotion_renderer    │ INFO    │   [remotion]   activate-target => 1ms (n = 2083)
+18:28:09 │ remotion_renderer    │ INFO    │   [remotion]   capture => 137ms (n = 2083)
+18:28:09 │ remotion_renderer    │ INFO    │   [remotion]   save => 72ms (n = 4166)
+18:28:09 │ remotion_renderer    │ INFO    │   [remotion] Cleaning up...
+18:28:09 │ remotion_renderer    │ INFO    │   [remotion] Cleanup done in 14ms
+18:28:09 │ remotion_renderer    │ INFO    │ Remotion render successful → /Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/she-painted-for-40-years-then-she-destroyed-everyt.mp4 (22.8 MB)
+18:28:09 │ remotion_renderer    │ INFO    │ Remotion render complete in 70.5s → /Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/she-painted-for-40-years-then-she-destroyed-everyt.mp4
+18:28:09 │ remotion_renderer    │ INFO    │ Cleaned up 19 staged assets from remotion/public/
+18:28:09 │ remotion_renderer    │ INFO    │ SRT generated: /Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/subtitles.srt (24 entries)
+18:28:09 │ remotion_renderer    │ INFO    │ Thumbnail extracted: /Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/she-painted-for-40-years-then-she-destroyed-everyt.jpg
+18:28:09 │ agent.orchestrator   │ INFO    │ ============================================================
+18:28:09 │ agent.orchestrator   │ INFO    │ AI IMAGE PIPELINE COMPLETE (article mode)
+18:28:09 │ agent.orchestrator   │ INFO    │   Video: /Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/she-painted-for-40-years-then-she-destroyed-everyt.mp4
+18:28:09 │ agent.orchestrator   │ INFO    │   Duration: 69.4s
+18:28:09 │ agent.orchestrator   │ INFO    │   Resolution: 1080x1920
+18:28:09 │ agent.orchestrator   │ INFO    │   Screens: 10 | AI images: 10
+18:28:09 │ agent.orchestrator   │ INFO    │   Processing time: 235.7s
+18:28:09 │ agent.orchestrator   │ INFO    │ ============================================================
+18:28:09 │ agent.orchestrator   │ INFO    │ Manifest saved: /Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/video_20260319_003/manifest.json
+18:28:09 │ automation.daily_pipeline │ INFO    │   ✅ Video done: 69.4s, took 235.7s
+    ✅ Video done: 69.4s, took 235.7s
+18:28:09 │ automation.story_history │ INFO    │ Updated story 20260319_003: ['video_path']
+18:28:09 │ automation.daily_pipeline │ INFO    │ 
+📝 Generating metadata for 1 videos...
+  
+📝 Generating metadata for 1 videos...
+18:28:09 │ automation.daily_pipeline │ INFO    │   📝 Metadata for "The Last Painter Who Erased Her Masterpiece"...
+    📝 Metadata for "The Last Painter Who Erased Her Masterpiece"...
+18:28:09 │ automation.metadata_generator │ INFO    │ Metadata: generating for 'The Last Painter Who Erased Her Masterpiece' across 5 platforms
+18:28:46 │ automation.metadata_generator │ ERROR   │ Could not parse metadata response
+18:28:46 │ automation.story_history │ INFO    │ Updated story 20260319_003: ['platform_metadata']
+18:28:46 │ automation.daily_pipeline │ INFO    │   ✅ Metadata ready for 5 platforms
+    ✅ Metadata ready for 5 platforms
+18:28:46 │ automation.daily_pipeline │ INFO    │ 
+📅 Scheduling 1 videos...
+  
+📅 Scheduling 1 videos...
+18:28:46 │ automation.publisher │ INFO    │ Generated schedule: 5 posts across 1 videos, starting 2026-03-20 17:00
+18:28:46 │ automation.daily_pipeline │ INFO    │ 
+📅 Publishing schedule (5 posts):
+  
+📅 Publishing schedule (5 posts):
+18:28:46 │ automation.daily_pipeline │ INFO    │   📌 2026-03-20T17:09:00 — youtube_shorts, tiktok, instagram_reels, facebook, twitter
+    📌 2026-03-20T17:09:00 — youtube_shorts, tiktok, instagram_reels, facebook, 
+twitter
+18:28:46 │ automation.publisher │ INFO    │ Saved publishing queue: 5 items → /Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/publish_queue.json
+18:28:46 │ automation.daily_pipeline │ INFO    │ 
+🚀 Publishing with strategy: manual
+  
+🚀 Publishing with strategy: manual
+18:28:46 │ automation.publisher │ INFO    │ Executing schedule: 5 posts, strategy=manual, dry_run=True
+18:28:46 │ automation.publisher │ INFO    │ Manual upload package ready: /Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/upload_ready
+18:28:46 │ automation.publisher │ INFO    │ Saved publishing queue: 5 items → /Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/publish_queue.json
+18:28:46 │ automation.daily_pipeline │ INFO    │ ============================================================
+18:28:46 │ automation.daily_pipeline │ INFO    │ DAILY PIPELINE COMPLETE
+18:28:46 │ automation.daily_pipeline │ INFO    │   Date: 2026-03-19
+18:28:46 │ automation.daily_pipeline │ INFO    │   Duration: 6.9 min
+18:28:46 │ automation.daily_pipeline │ INFO    │   Stories: 1 approved, 6 rejected
+18:28:46 │ automation.daily_pipeline │ INFO    │   Videos: 1 generated, 0 failed
+18:28:46 │ automation.daily_pipeline │ INFO    │   Posts: 5 scheduled, 0 published, 0 failed
+18:28:46 │ automation.daily_pipeline │ INFO    │   Report: /Users/klinten/Desktop/My-projects/project-HER/data/daily_runs/2026-03-19/daily_report.json
+18:28:46 │ automation.daily_pipeline │ INFO    │ ============================================================
+
+      Daily Pipeline Report      
+┏━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Metric           ┃ Value      ┃
+┡━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
+│ Date             │ 2026-03-19 │
+├──────────────────┼────────────┤
+│ Duration         │ 6.9 min    │
+├──────────────────┼────────────┤
+│ Curation Rounds  │ 1          │
+├──────────────────┼────────────┤
+│ Stories Approved │ 1          │
+├──────────────────┼────────────┤
+│ Stories Rejected │ 6          │
+├──────────────────┼────────────┤
+│ Videos Generated │ 1          │
+├──────────────────┼────────────┤
+│ Videos Failed    │ 0          │
+├──────────────────┼────────────┤
+│ Posts Scheduled  │ 5          │
+├──────────────────┼────────────┤
+│ Strategy         │ manual     │
+└──────────────────┴────────────┘
+
+Generated Videos:
+  🎬 The Last Painter Who Erased Her Masterpiece → 69.4s (236s to render)

@@ -1,0 +1,2376 @@
+{
+  "title": "He was the most powerful man in the world\u2026 and he erased himself from history.",
+  "hook": "...and every painting, every statue, every portrait \u2014 he destroyed them all himself.",
+  "brand_text": "",
+  "watermark": "",
+  "mood": "dramatic",
+  "content_mode": "article",
+  "screens": [
+    {
+      "index": 0,
+      "text": "He ruled an empire so vast\u2026 messengers rode for weeks just to reach its borders.",
+      "duration": 5.919,
+      "visual_type": "image",
+      "scene_type": "A",
+      "emotion": "dramatic",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "He ruled an empire so vast\u2026",
+      "subject_text": "messengers rode for weeks just to reach its borders.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "top",
+      "emphasis_words": [
+        {
+          "text": "vast",
+          "style": "bold"
+        },
+        {
+          "text": "weeks",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_00_0.png"
+      ],
+      "audio_path": "audio/narration_00.mp3",
+      "audio_duration": 5.919,
+      "word_timings": [
+        {
+          "word": "He",
+          "start": 0.0,
+          "end": 0.151
+        },
+        {
+          "word": "ruled",
+          "start": 0.221,
+          "end": 0.592
+        },
+        {
+          "word": "an",
+          "start": 0.662,
+          "end": 0.766
+        },
+        {
+          "word": "empire",
+          "start": 0.824,
+          "end": 1.405
+        },
+        {
+          "word": "so",
+          "start": 1.451,
+          "end": 1.637
+        },
+        {
+          "word": "vast\u2026",
+          "start": 1.73,
+          "end": 2.345
+        },
+        {
+          "word": "messengers",
+          "start": 2.554,
+          "end": 3.077
+        },
+        {
+          "word": "rode",
+          "start": 3.146,
+          "end": 3.437
+        },
+        {
+          "word": "for",
+          "start": 3.471,
+          "end": 3.611
+        },
+        {
+          "word": "weeks",
+          "start": 3.692,
+          "end": 4.005
+        },
+        {
+          "word": "just",
+          "start": 4.052,
+          "end": 4.249
+        },
+        {
+          "word": "to",
+          "start": 4.272,
+          "end": 4.331
+        },
+        {
+          "word": "reach",
+          "start": 4.412,
+          "end": 4.598
+        },
+        {
+          "word": "its",
+          "start": 4.644,
+          "end": 4.748
+        },
+        {
+          "word": "borders.",
+          "start": 4.795,
+          "end": 5.619
+        }
+      ],
+      "effects": {
+        "screen_index": 0,
+        "text_entry": "zoom_blur_in",
+        "text_entry_params": {},
+        "text_exit": "swipe_wipe",
+        "text_exit_params": {},
+        "text_continuous": "glow_pulse",
+        "text_continuous_params": {},
+        "image_entry": "img_scale_bounce",
+        "image_entry_params": {},
+        "image_treatment": "zoom_pulse",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "flash_transition",
+        "scene_transition_params": {},
+        "overlay_effect": "fire_embers",
+        "overlay_params": {},
+        "background_effect": "bg_pulse",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=dramatic, scene_type=A, keywords detected"
+      }
+    },
+    {
+      "index": 1,
+      "text": "Poets begged to write about him. Sculptors offered their life's work. And every single time\u2026 he said no.",
+      "duration": 7.73,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "dramatic",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "Poets begged. Sculptors offered everything they had.",
+      "subject_text": "And every single time\u2026 he said no.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "bottom",
+      "emphasis_words": [
+        {
+          "text": "every",
+          "style": "bold"
+        },
+        {
+          "text": "single",
+          "style": "bold"
+        },
+        {
+          "text": "no",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_01_0.png"
+      ],
+      "audio_path": "audio/narration_01.mp3",
+      "audio_duration": 7.73,
+      "word_timings": [
+        {
+          "word": "Poets",
+          "start": 0.0,
+          "end": 0.406
+        },
+        {
+          "word": "begged",
+          "start": 0.464,
+          "end": 0.801
+        },
+        {
+          "word": "to",
+          "start": 0.824,
+          "end": 0.882
+        },
+        {
+          "word": "write",
+          "start": 0.94,
+          "end": 1.173
+        },
+        {
+          "word": "about",
+          "start": 1.196,
+          "end": 1.463
+        },
+        {
+          "word": "him.",
+          "start": 1.498,
+          "end": 1.707
+        },
+        {
+          "word": "Sculptors",
+          "start": 1.823,
+          "end": 2.368
+        },
+        {
+          "word": "offered",
+          "start": 2.438,
+          "end": 2.717
+        },
+        {
+          "word": "their",
+          "start": 2.74,
+          "end": 2.902
+        },
+        {
+          "word": "life's",
+          "start": 2.961,
+          "end": 3.228
+        },
+        {
+          "word": "work.",
+          "start": 3.274,
+          "end": 3.762
+        },
+        {
+          "word": "And",
+          "start": 4.087,
+          "end": 4.249
+        },
+        {
+          "word": "every",
+          "start": 4.319,
+          "end": 4.528
+        },
+        {
+          "word": "single",
+          "start": 4.586,
+          "end": 4.911
+        },
+        {
+          "word": "time\u2026",
+          "start": 4.946,
+          "end": 5.7
+        },
+        {
+          "word": "he",
+          "start": 6.397,
+          "end": 6.478
+        },
+        {
+          "word": "said",
+          "start": 6.548,
+          "end": 6.78
+        },
+        {
+          "word": "no.",
+          "start": 6.861,
+          "end": 7.43
+        }
+      ],
+      "effects": {
+        "screen_index": 1,
+        "text_entry": "curtain_reveal",
+        "text_entry_params": {},
+        "text_exit": "dissolve_out",
+        "text_exit_params": {},
+        "text_continuous": "breathe",
+        "text_continuous_params": {},
+        "image_entry": "img_scale_bounce",
+        "image_entry_params": {},
+        "image_treatment": "parallax_2d",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "circle_wipe",
+        "scene_transition_params": {},
+        "overlay_effect": "scan_lines",
+        "overlay_params": {},
+        "background_effect": "bg_gradient_shift",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=dramatic, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 2,
+      "text": "His advisors were furious. 'Your legacy will vanish,' they warned. 'History will forget you.'",
+      "duration": 6.476,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "dramatic",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "His advisors were furious.",
+      "subject_text": "'History will forget you ever existed.'",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "top",
+      "emphasis_words": [
+        {
+          "text": "furious",
+          "style": "bold"
+        },
+        {
+          "text": "vanish",
+          "style": "bold"
+        },
+        {
+          "text": "forget",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_02_0.png"
+      ],
+      "audio_path": "audio/narration_02.mp3",
+      "audio_duration": 6.476,
+      "word_timings": [
+        {
+          "word": "His",
+          "start": 0.0,
+          "end": 0.313
+        },
+        {
+          "word": "advisors",
+          "start": 0.36,
+          "end": 0.987
+        },
+        {
+          "word": "were",
+          "start": 1.045,
+          "end": 1.207
+        },
+        {
+          "word": "furious.",
+          "start": 1.277,
+          "end": 2.009
+        },
+        {
+          "word": "'Your",
+          "start": 2.218,
+          "end": 2.461
+        },
+        {
+          "word": "legacy",
+          "start": 2.519,
+          "end": 2.868
+        },
+        {
+          "word": "will",
+          "start": 2.914,
+          "end": 3.053
+        },
+        {
+          "word": "vanish,'",
+          "start": 3.111,
+          "end": 3.576
+        },
+        {
+          "word": "they",
+          "start": 3.692,
+          "end": 3.855
+        },
+        {
+          "word": "warned.",
+          "start": 3.924,
+          "end": 4.447
+        },
+        {
+          "word": "'History",
+          "start": 4.528,
+          "end": 4.981
+        },
+        {
+          "word": "will",
+          "start": 5.016,
+          "end": 5.155
+        },
+        {
+          "word": "forget",
+          "start": 5.201,
+          "end": 5.468
+        },
+        {
+          "word": "you.'",
+          "start": 5.526,
+          "end": 6.177
+        }
+      ],
+      "effects": {
+        "screen_index": 2,
+        "text_entry": "scale_bounce",
+        "text_entry_params": {},
+        "text_exit": "slide_out_up",
+        "text_exit_params": {},
+        "text_continuous": "glow_pulse",
+        "text_continuous_params": {},
+        "image_entry": "img_scale_bounce",
+        "image_entry_params": {},
+        "image_treatment": "parallax_2d",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "slide_horizontal",
+        "scene_transition_params": {},
+        "overlay_effect": "dust_particles",
+        "overlay_params": {},
+        "background_effect": "bg_particle_float",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=dramatic, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 3,
+      "text": "He just\u2026 smiled.",
+      "duration": 2.575,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "thoughtful",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "And you know what he did?",
+      "subject_text": "He just\u2026 smiled.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "bottom",
+      "emphasis_words": [
+        {
+          "text": "smiled",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_03_0.png"
+      ],
+      "audio_path": "audio/narration_03.mp3",
+      "audio_duration": 2.575,
+      "word_timings": [
+        {
+          "word": "He",
+          "start": 0.0,
+          "end": 0.151
+        },
+        {
+          "word": "just\u2026",
+          "start": 0.232,
+          "end": 0.824
+        },
+        {
+          "word": "smiled.",
+          "start": 1.335,
+          "end": 2.276
+        }
+      ],
+      "effects": {
+        "screen_index": 3,
+        "text_entry": "blur_reveal",
+        "text_entry_params": {},
+        "text_exit": "flick_off",
+        "text_exit_params": {},
+        "text_continuous": "heartbeat",
+        "text_continuous_params": {},
+        "image_entry": "img_fade_in",
+        "image_entry_params": {},
+        "image_treatment": "brightness_pulse",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "slide_horizontal",
+        "scene_transition_params": {},
+        "overlay_effect": "fire_embers",
+        "overlay_params": {},
+        "background_effect": "bg_particle_float",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=thoughtful, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 4,
+      "text": "See, he'd watched his own father \u2014 a beloved ruler \u2014 get completely twisted after death. Poets changed his words. Painters made him taller. Priests made him a god.",
+      "duration": 11.91,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "warm",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "He'd watched it happen to his own father.",
+      "subject_text": "Poets changed his words. Priests made him a god.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "top",
+      "emphasis_words": [
+        {
+          "text": "twisted",
+          "style": "bold"
+        },
+        {
+          "text": "changed",
+          "style": "bold"
+        },
+        {
+          "text": "god",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_04_0.png"
+      ],
+      "audio_path": "audio/narration_04.mp3",
+      "audio_duration": 11.91,
+      "word_timings": [
+        {
+          "word": "See,",
+          "start": 0.0,
+          "end": 0.36
+        },
+        {
+          "word": "he'd",
+          "start": 0.383,
+          "end": 0.534
+        },
+        {
+          "word": "watched",
+          "start": 0.58,
+          "end": 0.917
+        },
+        {
+          "word": "his",
+          "start": 0.964,
+          "end": 1.08
+        },
+        {
+          "word": "own",
+          "start": 1.126,
+          "end": 1.3
+        },
+        {
+          "word": "father",
+          "start": 1.382,
+          "end": 1.765
+        },
+        {
+          "word": "\u2014",
+          "start": 1.788,
+          "end": 1.834
+        },
+        {
+          "word": "a",
+          "start": 1.881,
+          "end": 1.939
+        },
+        {
+          "word": "beloved",
+          "start": 2.02,
+          "end": 2.508
+        },
+        {
+          "word": "ruler",
+          "start": 2.577,
+          "end": 2.961
+        },
+        {
+          "word": "\u2014",
+          "start": 3.042,
+          "end": 3.088
+        },
+        {
+          "word": "get",
+          "start": 3.158,
+          "end": 3.332
+        },
+        {
+          "word": "completely",
+          "start": 3.379,
+          "end": 3.913
+        },
+        {
+          "word": "twisted",
+          "start": 3.971,
+          "end": 4.377
+        },
+        {
+          "word": "after",
+          "start": 4.423,
+          "end": 4.656
+        },
+        {
+          "word": "death.",
+          "start": 4.725,
+          "end": 5.224
+        },
+        {
+          "word": "Poets",
+          "start": 5.55,
+          "end": 5.944
+        },
+        {
+          "word": "changed",
+          "start": 6.002,
+          "end": 6.478
+        },
+        {
+          "word": "his",
+          "start": 6.525,
+          "end": 6.653
+        },
+        {
+          "word": "words.",
+          "start": 6.722,
+          "end": 7.314
+        },
+        {
+          "word": "Painters",
+          "start": 7.465,
+          "end": 7.918
+        },
+        {
+          "word": "made",
+          "start": 7.976,
+          "end": 8.162
+        },
+        {
+          "word": "him",
+          "start": 8.185,
+          "end": 8.278
+        },
+        {
+          "word": "taller.",
+          "start": 8.336,
+          "end": 8.905
+        },
+        {
+          "word": "Priests",
+          "start": 9.056,
+          "end": 9.625
+        },
+        {
+          "word": "made",
+          "start": 9.834,
+          "end": 10.054
+        },
+        {
+          "word": "him",
+          "start": 10.077,
+          "end": 10.159
+        },
+        {
+          "word": "a",
+          "start": 10.194,
+          "end": 10.217
+        },
+        {
+          "word": "god.",
+          "start": 10.275,
+          "end": 11.61
+        }
+      ],
+      "effects": {
+        "screen_index": 4,
+        "text_entry": "grow_from_center",
+        "text_entry_params": {},
+        "text_exit": "scale_shrink",
+        "text_exit_params": {},
+        "text_continuous": "float_drift",
+        "text_continuous_params": {},
+        "image_entry": "img_fade_in",
+        "image_entry_params": {},
+        "image_treatment": "color_shift",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "wipe_left",
+        "scene_transition_params": {},
+        "overlay_effect": "chromatic_aberration",
+        "overlay_params": {},
+        "background_effect": "bg_color_breathe",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=warm, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 5,
+      "text": "The man who burned his soup and laughed too loud? Gone. Replaced by a marble lie.",
+      "duration": 6.987,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "dramatic",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "The real man \u2014 the actual human being \u2014",
+      "subject_text": "completely replaced by a marble lie.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "bottom",
+      "emphasis_words": [
+        {
+          "text": "Gone",
+          "style": "bold"
+        },
+        {
+          "text": "marble",
+          "style": "bold"
+        },
+        {
+          "text": "lie",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_05_0.png"
+      ],
+      "audio_path": "audio/narration_05.mp3",
+      "audio_duration": 6.987,
+      "word_timings": [
+        {
+          "word": "The",
+          "start": 0.0,
+          "end": 0.151
+        },
+        {
+          "word": "man",
+          "start": 0.197,
+          "end": 0.406
+        },
+        {
+          "word": "who",
+          "start": 0.441,
+          "end": 0.546
+        },
+        {
+          "word": "burned",
+          "start": 0.615,
+          "end": 0.906
+        },
+        {
+          "word": "his",
+          "start": 0.952,
+          "end": 1.08
+        },
+        {
+          "word": "soup",
+          "start": 1.138,
+          "end": 1.416
+        },
+        {
+          "word": "and",
+          "start": 1.486,
+          "end": 1.591
+        },
+        {
+          "word": "laughed",
+          "start": 1.672,
+          "end": 1.985
+        },
+        {
+          "word": "too",
+          "start": 2.032,
+          "end": 2.194
+        },
+        {
+          "word": "loud?",
+          "start": 2.287,
+          "end": 2.868
+        },
+        {
+          "word": "Gone.",
+          "start": 3.471,
+          "end": 4.145
+        },
+        {
+          "word": "Replaced",
+          "start": 4.656,
+          "end": 5.12
+        },
+        {
+          "word": "by",
+          "start": 5.166,
+          "end": 5.341
+        },
+        {
+          "word": "a",
+          "start": 5.41,
+          "end": 5.445
+        },
+        {
+          "word": "marble",
+          "start": 5.515,
+          "end": 5.898
+        },
+        {
+          "word": "lie.",
+          "start": 5.956,
+          "end": 6.687
+        }
+      ],
+      "effects": {
+        "screen_index": 5,
+        "text_entry": "blur_reveal",
+        "text_entry_params": {},
+        "text_exit": "scale_shrink",
+        "text_exit_params": {},
+        "text_continuous": "pendulum",
+        "text_continuous_params": {},
+        "image_entry": "img_scale_bounce",
+        "image_entry_params": {},
+        "image_treatment": "ken_burns",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "blur_transition",
+        "scene_transition_params": {},
+        "overlay_effect": "bokeh_overlay",
+        "overlay_params": {},
+        "background_effect": "bg_gradient_shift",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=dramatic, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 6,
+      "text": "So he made a decision. Do the work. Build the roads. Feed the poor. But leave no image. No statue. Nothing.",
+      "duration": 11.631,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "thoughtful",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "So he made a decision.",
+      "subject_text": "Do the work. Leave no image. Nothing.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "top",
+      "emphasis_words": [
+        {
+          "text": "decision",
+          "style": "bold"
+        },
+        {
+          "text": "Nothing",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_06_0.png"
+      ],
+      "audio_path": "audio/narration_06.mp3",
+      "audio_duration": 11.631,
+      "word_timings": [
+        {
+          "word": "So",
+          "start": 0.0,
+          "end": 0.186
+        },
+        {
+          "word": "he",
+          "start": 0.255,
+          "end": 0.325
+        },
+        {
+          "word": "made",
+          "start": 0.418,
+          "end": 0.708
+        },
+        {
+          "word": "a",
+          "start": 0.743,
+          "end": 0.766
+        },
+        {
+          "word": "decision.",
+          "start": 0.824,
+          "end": 1.544
+        },
+        {
+          "word": "Do",
+          "start": 1.985,
+          "end": 2.159
+        },
+        {
+          "word": "the",
+          "start": 2.241,
+          "end": 2.31
+        },
+        {
+          "word": "work.",
+          "start": 2.38,
+          "end": 2.856
+        },
+        {
+          "word": "Build",
+          "start": 3.367,
+          "end": 3.704
+        },
+        {
+          "word": "the",
+          "start": 3.75,
+          "end": 3.831
+        },
+        {
+          "word": "roads.",
+          "start": 3.913,
+          "end": 4.76
+        },
+        {
+          "word": "Feed",
+          "start": 5.039,
+          "end": 5.375
+        },
+        {
+          "word": "the",
+          "start": 5.433,
+          "end": 5.503
+        },
+        {
+          "word": "poor.",
+          "start": 5.573,
+          "end": 6.327
+        },
+        {
+          "word": "But",
+          "start": 6.711,
+          "end": 6.873
+        },
+        {
+          "word": "leave",
+          "start": 6.92,
+          "end": 7.163
+        },
+        {
+          "word": "no",
+          "start": 7.221,
+          "end": 7.361
+        },
+        {
+          "word": "image.",
+          "start": 7.477,
+          "end": 8.173
+        },
+        {
+          "word": "No",
+          "start": 8.777,
+          "end": 8.94
+        },
+        {
+          "word": "statue.",
+          "start": 9.033,
+          "end": 9.973
+        },
+        {
+          "word": "Nothing.",
+          "start": 10.577,
+          "end": 11.331
+        }
+      ],
+      "effects": {
+        "screen_index": 6,
+        "text_entry": "stamp_in",
+        "text_entry_params": {},
+        "text_exit": "fade_out",
+        "text_exit_params": {},
+        "text_continuous": "flicker",
+        "text_continuous_params": {},
+        "image_entry": "img_fade_in",
+        "image_entry_params": {},
+        "image_treatment": "ken_burns",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "blur_transition",
+        "scene_transition_params": {},
+        "overlay_effect": "vhs_distortion",
+        "overlay_params": {},
+        "background_effect": "bg_gradient_shift",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=thoughtful, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 7,
+      "text": "'Let them remember what I did,' he said. 'Not what I looked like.'",
+      "duration": 5.223,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "warm",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "And he said something that honestly still hits hard.",
+      "subject_text": "'Let them remember what I did. Not what I looked like.'",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "bottom",
+      "emphasis_words": [
+        {
+          "text": "did",
+          "style": "bold"
+        },
+        {
+          "text": "looked",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_07_0.png"
+      ],
+      "audio_path": "audio/narration_07.mp3",
+      "audio_duration": 5.223,
+      "word_timings": [
+        {
+          "word": "'Let",
+          "start": 0.0,
+          "end": 0.313
+        },
+        {
+          "word": "them",
+          "start": 0.348,
+          "end": 0.476
+        },
+        {
+          "word": "remember",
+          "start": 0.534,
+          "end": 0.906
+        },
+        {
+          "word": "what",
+          "start": 0.952,
+          "end": 1.091
+        },
+        {
+          "word": "I",
+          "start": 1.138,
+          "end": 1.161
+        },
+        {
+          "word": "did,'",
+          "start": 1.277,
+          "end": 1.753
+        },
+        {
+          "word": "he",
+          "start": 2.032,
+          "end": 2.113
+        },
+        {
+          "word": "said.",
+          "start": 2.206,
+          "end": 2.728
+        },
+        {
+          "word": "'Not",
+          "start": 3.111,
+          "end": 3.402
+        },
+        {
+          "word": "what",
+          "start": 3.448,
+          "end": 3.576
+        },
+        {
+          "word": "I",
+          "start": 3.622,
+          "end": 3.646
+        },
+        {
+          "word": "looked",
+          "start": 3.727,
+          "end": 3.971
+        },
+        {
+          "word": "like.'",
+          "start": 4.029,
+          "end": 4.923
+        }
+      ],
+      "effects": {
+        "screen_index": 7,
+        "text_entry": "scale_bounce",
+        "text_entry_params": {},
+        "text_exit": "blur_exit",
+        "text_exit_params": {},
+        "text_continuous": "glow_pulse",
+        "text_continuous_params": {},
+        "image_entry": "img_fade_in",
+        "image_entry_params": {},
+        "image_treatment": "zoom_pulse",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "pixelate_transition",
+        "scene_transition_params": {},
+        "overlay_effect": "vhs_distortion",
+        "overlay_params": {},
+        "background_effect": "bg_particle_float",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=warm, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 8,
+      "text": "And then\u2026 he died. Quietly. Without ceremony.",
+      "duration": 6.848,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "dramatic",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "And then one day \u2014",
+      "subject_text": "he died. Quietly. Without ceremony.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "top",
+      "emphasis_words": [
+        {
+          "text": "Quietly",
+          "style": "bold"
+        },
+        {
+          "text": "ceremony",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_08_0.png"
+      ],
+      "audio_path": "audio/narration_08.mp3",
+      "audio_duration": 6.848,
+      "word_timings": [
+        {
+          "word": "And",
+          "start": 0.0,
+          "end": 0.163
+        },
+        {
+          "word": "then\u2026",
+          "start": 0.221,
+          "end": 0.72
+        },
+        {
+          "word": "he",
+          "start": 1.672,
+          "end": 1.765
+        },
+        {
+          "word": "died.",
+          "start": 1.858,
+          "end": 2.612
+        },
+        {
+          "word": "Quietly.",
+          "start": 3.564,
+          "end": 4.447
+        },
+        {
+          "word": "Without",
+          "start": 5.143,
+          "end": 5.526
+        },
+        {
+          "word": "ceremony.",
+          "start": 5.596,
+          "end": 6.548
+        }
+      ],
+      "effects": {
+        "screen_index": 8,
+        "text_entry": "stamp_in",
+        "text_entry_params": {},
+        "text_exit": "swipe_wipe",
+        "text_exit_params": {},
+        "text_continuous": "glow_pulse",
+        "text_continuous_params": {},
+        "image_entry": "img_scale_bounce",
+        "image_entry_params": {},
+        "image_treatment": "brightness_pulse",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "flash_transition",
+        "scene_transition_params": {},
+        "overlay_effect": "fire_embers",
+        "overlay_params": {},
+        "background_effect": "bg_pulse",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=dramatic, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 9,
+      "text": "Okay but here's what's wild \u2014 it worked. Generations later, the roads still connected villages. The irrigation systems still fed harvests.",
+      "duration": 10.099,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "warm",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "Okay but here's what's wild \u2014",
+      "subject_text": "it worked. Centuries later, the roads still connected villages.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "bottom",
+      "emphasis_words": [
+        {
+          "text": "worked",
+          "style": "bold"
+        },
+        {
+          "text": "still",
+          "style": "bold"
+        },
+        {
+          "text": "still",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_09_0.png"
+      ],
+      "audio_path": "audio/narration_09.mp3",
+      "audio_duration": 10.099,
+      "word_timings": [
+        {
+          "word": "Okay",
+          "start": 0.0,
+          "end": 0.488
+        },
+        {
+          "word": "but",
+          "start": 0.534,
+          "end": 0.65
+        },
+        {
+          "word": "here's",
+          "start": 0.685,
+          "end": 0.894
+        },
+        {
+          "word": "what's",
+          "start": 0.929,
+          "end": 1.149
+        },
+        {
+          "word": "wild",
+          "start": 1.219,
+          "end": 1.765
+        },
+        {
+          "word": "\u2014",
+          "start": 1.881,
+          "end": 1.974
+        },
+        {
+          "word": "it",
+          "start": 2.218,
+          "end": 2.368
+        },
+        {
+          "word": "worked.",
+          "start": 2.438,
+          "end": 3.019
+        },
+        {
+          "word": "Generations",
+          "start": 3.402,
+          "end": 4.052
+        },
+        {
+          "word": "later,",
+          "start": 4.133,
+          "end": 4.47
+        },
+        {
+          "word": "the",
+          "start": 4.493,
+          "end": 4.563
+        },
+        {
+          "word": "roads",
+          "start": 4.632,
+          "end": 5.05
+        },
+        {
+          "word": "still",
+          "start": 5.097,
+          "end": 5.364
+        },
+        {
+          "word": "connected",
+          "start": 5.422,
+          "end": 5.828
+        },
+        {
+          "word": "villages.",
+          "start": 5.886,
+          "end": 6.478
+        },
+        {
+          "word": "The",
+          "start": 6.606,
+          "end": 6.722
+        },
+        {
+          "word": "irrigation",
+          "start": 6.803,
+          "end": 7.43
+        },
+        {
+          "word": "systems",
+          "start": 7.5,
+          "end": 7.906
+        },
+        {
+          "word": "still",
+          "start": 7.941,
+          "end": 8.197
+        },
+        {
+          "word": "fed",
+          "start": 8.255,
+          "end": 8.464
+        },
+        {
+          "word": "harvests.",
+          "start": 8.533,
+          "end": 9.799
+        }
+      ],
+      "effects": {
+        "screen_index": 9,
+        "text_entry": "elastic_drop",
+        "text_entry_params": {},
+        "text_exit": "swipe_wipe",
+        "text_exit_params": {},
+        "text_continuous": "wave_motion",
+        "text_continuous_params": {},
+        "image_entry": "img_fade_in",
+        "image_entry_params": {},
+        "image_treatment": "brightness_pulse",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "flash_transition",
+        "scene_transition_params": {},
+        "overlay_effect": "bokeh_overlay",
+        "overlay_params": {},
+        "background_effect": "bg_pulse",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=warm, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 10,
+      "text": "Children played in parks that existed because of him\u2026 and not one of them knew his name.",
+      "duration": 6.105,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "warm",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "Children played in parks he built \u2014",
+      "subject_text": "and not one of them knew his name.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "top",
+      "emphasis_words": [
+        {
+          "text": "not one",
+          "style": "bold"
+        },
+        {
+          "text": "name",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_10_0.png"
+      ],
+      "audio_path": "audio/narration_10.mp3",
+      "audio_duration": 6.105,
+      "word_timings": [
+        {
+          "word": "Children",
+          "start": 0.0,
+          "end": 0.464
+        },
+        {
+          "word": "played",
+          "start": 0.522,
+          "end": 0.813
+        },
+        {
+          "word": "in",
+          "start": 0.848,
+          "end": 0.917
+        },
+        {
+          "word": "parks",
+          "start": 0.998,
+          "end": 1.312
+        },
+        {
+          "word": "that",
+          "start": 1.347,
+          "end": 1.486
+        },
+        {
+          "word": "existed",
+          "start": 1.544,
+          "end": 1.997
+        },
+        {
+          "word": "because",
+          "start": 2.043,
+          "end": 2.38
+        },
+        {
+          "word": "of",
+          "start": 2.415,
+          "end": 2.473
+        },
+        {
+          "word": "him\u2026",
+          "start": 2.543,
+          "end": 2.961
+        },
+        {
+          "word": "and",
+          "start": 3.564,
+          "end": 3.738
+        },
+        {
+          "word": "not",
+          "start": 3.808,
+          "end": 4.005
+        },
+        {
+          "word": "one",
+          "start": 4.087,
+          "end": 4.272
+        },
+        {
+          "word": "of",
+          "start": 4.307,
+          "end": 4.365
+        },
+        {
+          "word": "them",
+          "start": 4.412,
+          "end": 4.586
+        },
+        {
+          "word": "knew",
+          "start": 4.656,
+          "end": 4.853
+        },
+        {
+          "word": "his",
+          "start": 4.923,
+          "end": 5.05
+        },
+        {
+          "word": "name.",
+          "start": 5.12,
+          "end": 5.805
+        }
+      ],
+      "effects": {
+        "screen_index": 10,
+        "text_entry": "blur_reveal",
+        "text_entry_params": {},
+        "text_exit": "dissolve_out",
+        "text_exit_params": {},
+        "text_continuous": "float_drift",
+        "text_continuous_params": {},
+        "image_entry": "img_fade_in",
+        "image_entry_params": {},
+        "image_treatment": "color_shift",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "circle_wipe",
+        "scene_transition_params": {},
+        "overlay_effect": "dust_particles",
+        "overlay_params": {},
+        "background_effect": "bg_gradient_shift",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=warm, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 11,
+      "text": "But they were alive. And they were fed. That's\u2026 kind of everything, isn't it?",
+      "duration": 9.309,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "warm",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "But they were alive.",
+      "subject_text": "And they were fed. That's kind of everything, isn't it?",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "bottom",
+      "emphasis_words": [
+        {
+          "text": "alive",
+          "style": "bold"
+        },
+        {
+          "text": "fed",
+          "style": "bold"
+        },
+        {
+          "text": "everything",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_11_0.png"
+      ],
+      "audio_path": "audio/narration_11.mp3",
+      "audio_duration": 9.309,
+      "word_timings": [
+        {
+          "word": "But",
+          "start": 0.0,
+          "end": 0.372
+        },
+        {
+          "word": "they",
+          "start": 1.486,
+          "end": 1.66
+        },
+        {
+          "word": "were",
+          "start": 1.707,
+          "end": 1.858
+        },
+        {
+          "word": "alive.",
+          "start": 1.892,
+          "end": 2.67
+        },
+        {
+          "word": "And",
+          "start": 3.367,
+          "end": 3.541
+        },
+        {
+          "word": "they",
+          "start": 3.599,
+          "end": 3.715
+        },
+        {
+          "word": "were",
+          "start": 3.762,
+          "end": 3.901
+        },
+        {
+          "word": "fed.",
+          "start": 3.947,
+          "end": 4.609
+        },
+        {
+          "word": "That's\u2026",
+          "start": 5.422,
+          "end": 6.014
+        },
+        {
+          "word": "kind",
+          "start": 6.966,
+          "end": 7.314
+        },
+        {
+          "word": "of",
+          "start": 7.384,
+          "end": 7.477
+        },
+        {
+          "word": "everything,",
+          "start": 7.651,
+          "end": 8.266
+        },
+        {
+          "word": "isn't",
+          "start": 8.29,
+          "end": 8.533
+        },
+        {
+          "word": "it?",
+          "start": 8.568,
+          "end": 9.009
+        }
+      ],
+      "effects": {
+        "screen_index": 11,
+        "text_entry": "zoom_blur_in",
+        "text_entry_params": {},
+        "text_exit": "slide_out_up",
+        "text_exit_params": {},
+        "text_continuous": "heartbeat",
+        "text_continuous_params": {},
+        "image_entry": "img_fade_in",
+        "image_entry_params": {},
+        "image_treatment": "vignette",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "slide_horizontal",
+        "scene_transition_params": {},
+        "overlay_effect": "sparkle_overlay",
+        "overlay_params": {},
+        "background_effect": "bg_particle_float",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=warm, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 12,
+      "text": "His advisors had been so obsessed with being remembered\u2026 they missed the whole point. The work WAS the legacy.",
+      "duration": 7.173,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "thoughtful",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "His advisors were obsessed with being remembered.",
+      "subject_text": "They missed it. The work WAS the legacy.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "top",
+      "emphasis_words": [
+        {
+          "text": "obsessed",
+          "style": "bold"
+        },
+        {
+          "text": "missed",
+          "style": "bold"
+        },
+        {
+          "text": "WAS",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_12_0.png"
+      ],
+      "audio_path": "audio/narration_12.mp3",
+      "audio_duration": 7.173,
+      "word_timings": [
+        {
+          "word": "His",
+          "start": 0.0,
+          "end": 0.197
+        },
+        {
+          "word": "advisors",
+          "start": 0.244,
+          "end": 0.813
+        },
+        {
+          "word": "had",
+          "start": 0.859,
+          "end": 0.952
+        },
+        {
+          "word": "been",
+          "start": 0.987,
+          "end": 1.138
+        },
+        {
+          "word": "so",
+          "start": 1.184,
+          "end": 1.312
+        },
+        {
+          "word": "obsessed",
+          "start": 1.393,
+          "end": 1.892
+        },
+        {
+          "word": "with",
+          "start": 1.939,
+          "end": 2.09
+        },
+        {
+          "word": "being",
+          "start": 2.148,
+          "end": 2.473
+        },
+        {
+          "word": "remembered\u2026",
+          "start": 2.543,
+          "end": 3.274
+        },
+        {
+          "word": "they",
+          "start": 3.518,
+          "end": 3.692
+        },
+        {
+          "word": "missed",
+          "start": 3.773,
+          "end": 4.063
+        },
+        {
+          "word": "the",
+          "start": 4.087,
+          "end": 4.156
+        },
+        {
+          "word": "whole",
+          "start": 4.203,
+          "end": 4.389
+        },
+        {
+          "word": "point.",
+          "start": 4.435,
+          "end": 4.934
+        },
+        {
+          "word": "The",
+          "start": 5.259,
+          "end": 5.387
+        },
+        {
+          "word": "work",
+          "start": 5.445,
+          "end": 5.654
+        },
+        {
+          "word": "WAS",
+          "start": 5.712,
+          "end": 5.84
+        },
+        {
+          "word": "the",
+          "start": 5.909,
+          "end": 5.979
+        },
+        {
+          "word": "legacy.",
+          "start": 6.049,
+          "end": 6.873
+        }
+      ],
+      "effects": {
+        "screen_index": 12,
+        "text_entry": "zoom_blur_in",
+        "text_entry_params": {},
+        "text_exit": "scale_shrink",
+        "text_exit_params": {},
+        "text_continuous": "pendulum",
+        "text_continuous_params": {},
+        "image_entry": "img_fade_in",
+        "image_entry_params": {},
+        "image_treatment": "ken_burns",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "wipe_left",
+        "scene_transition_params": {},
+        "overlay_effect": "scan_lines",
+        "overlay_params": {},
+        "background_effect": "bg_color_breathe",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=thoughtful, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 13,
+      "text": "And honestly? Think about all the things we do just so people will notice. The posts. The highlights. The curated version of who we are.",
+      "duration": 11.678,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "thoughtful",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "And honestly? Think about what we do every single day.",
+      "subject_text": "The posts. The highlights. The carefully curated version of who we are.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "bottom",
+      "emphasis_words": [
+        {
+          "text": "notice",
+          "style": "bold"
+        },
+        {
+          "text": "posts",
+          "style": "bold"
+        },
+        {
+          "text": "curated",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_13_0.png"
+      ],
+      "audio_path": "audio/narration_13.mp3",
+      "audio_duration": 11.678,
+      "word_timings": [
+        {
+          "word": "And",
+          "start": 0.0,
+          "end": 0.163
+        },
+        {
+          "word": "honestly?",
+          "start": 0.244,
+          "end": 1.115
+        },
+        {
+          "word": "Think",
+          "start": 1.718,
+          "end": 1.939
+        },
+        {
+          "word": "about",
+          "start": 1.985,
+          "end": 2.229
+        },
+        {
+          "word": "all",
+          "start": 2.287,
+          "end": 2.577
+        },
+        {
+          "word": "the",
+          "start": 2.647,
+          "end": 2.717
+        },
+        {
+          "word": "things",
+          "start": 2.786,
+          "end": 3.088
+        },
+        {
+          "word": "we",
+          "start": 3.146,
+          "end": 3.32
+        },
+        {
+          "word": "do",
+          "start": 3.413,
+          "end": 3.657
+        },
+        {
+          "word": "just",
+          "start": 3.773,
+          "end": 3.971
+        },
+        {
+          "word": "so",
+          "start": 4.005,
+          "end": 4.122
+        },
+        {
+          "word": "people",
+          "start": 4.203,
+          "end": 4.481
+        },
+        {
+          "word": "will",
+          "start": 4.516,
+          "end": 4.69
+        },
+        {
+          "word": "notice.",
+          "start": 4.76,
+          "end": 5.375
+        },
+        {
+          "word": "The",
+          "start": 5.654,
+          "end": 5.77
+        },
+        {
+          "word": "posts.",
+          "start": 5.84,
+          "end": 6.664
+        },
+        {
+          "word": "The",
+          "start": 6.943,
+          "end": 7.059
+        },
+        {
+          "word": "highlights.",
+          "start": 7.129,
+          "end": 8.022
+        },
+        {
+          "word": "The",
+          "start": 8.348,
+          "end": 8.464
+        },
+        {
+          "word": "curated",
+          "start": 8.51,
+          "end": 9.033
+        },
+        {
+          "word": "version",
+          "start": 9.102,
+          "end": 9.625
+        },
+        {
+          "word": "of",
+          "start": 10.136,
+          "end": 10.275
+        },
+        {
+          "word": "who",
+          "start": 10.333,
+          "end": 10.449
+        },
+        {
+          "word": "we",
+          "start": 10.519,
+          "end": 10.635
+        },
+        {
+          "word": "are.",
+          "start": 10.716,
+          "end": 11.378
+        }
+      ],
+      "effects": {
+        "screen_index": 13,
+        "text_entry": "grow_from_center",
+        "text_entry_params": {},
+        "text_exit": "blur_exit",
+        "text_exit_params": {},
+        "text_continuous": "shake",
+        "text_continuous_params": {},
+        "image_entry": "img_fade_in",
+        "image_entry_params": {},
+        "image_treatment": "zoom_pulse",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "ink_bleed",
+        "scene_transition_params": {},
+        "overlay_effect": "chromatic_aberration",
+        "overlay_params": {},
+        "background_effect": "bg_pulse",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=thoughtful, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 14,
+      "text": "Maybe the most powerful thing you can do\u2026 is build something real. And let it speak entirely for itself.",
+      "duration": 7.173,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "warm",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "Maybe the most powerful thing you can do \u2014",
+      "subject_text": "build something real. And let it speak for itself.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "top",
+      "emphasis_words": [
+        {
+          "text": "powerful",
+          "style": "bold"
+        },
+        {
+          "text": "real",
+          "style": "bold"
+        },
+        {
+          "text": "itself",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_14_0.png"
+      ],
+      "audio_path": "audio/narration_14.mp3",
+      "audio_duration": 7.173,
+      "word_timings": [
+        {
+          "word": "Maybe",
+          "start": 0.0,
+          "end": 0.337
+        },
+        {
+          "word": "the",
+          "start": 0.372,
+          "end": 0.441
+        },
+        {
+          "word": "most",
+          "start": 0.499,
+          "end": 0.697
+        },
+        {
+          "word": "powerful",
+          "start": 0.743,
+          "end": 1.219
+        },
+        {
+          "word": "thing",
+          "start": 1.277,
+          "end": 1.498
+        },
+        {
+          "word": "you",
+          "start": 1.567,
+          "end": 1.66
+        },
+        {
+          "word": "can",
+          "start": 1.718,
+          "end": 1.846
+        },
+        {
+          "word": "do\u2026",
+          "start": 1.904,
+          "end": 2.113
+        },
+        {
+          "word": "is",
+          "start": 2.136,
+          "end": 2.241
+        },
+        {
+          "word": "build",
+          "start": 2.31,
+          "end": 2.705
+        },
+        {
+          "word": "something",
+          "start": 2.775,
+          "end": 3.204
+        },
+        {
+          "word": "real.",
+          "start": 3.32,
+          "end": 3.843
+        },
+        {
+          "word": "And",
+          "start": 4.087,
+          "end": 4.261
+        },
+        {
+          "word": "let",
+          "start": 4.331,
+          "end": 4.481
+        },
+        {
+          "word": "it",
+          "start": 4.528,
+          "end": 4.598
+        },
+        {
+          "word": "speak",
+          "start": 4.656,
+          "end": 4.969
+        },
+        {
+          "word": "entirely",
+          "start": 5.039,
+          "end": 5.689
+        },
+        {
+          "word": "for",
+          "start": 5.759,
+          "end": 5.944
+        },
+        {
+          "word": "itself.",
+          "start": 6.014,
+          "end": 6.873
+        }
+      ],
+      "effects": {
+        "screen_index": 14,
+        "text_entry": "elastic_drop",
+        "text_entry_params": {},
+        "text_exit": "scale_shrink",
+        "text_exit_params": {},
+        "text_continuous": "shake",
+        "text_continuous_params": {},
+        "image_entry": "img_fade_in",
+        "image_entry_params": {},
+        "image_treatment": "parallax_2d",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "blur_transition",
+        "scene_transition_params": {},
+        "overlay_effect": "chromatic_aberration",
+        "overlay_params": {},
+        "background_effect": "bg_gradient_shift",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=warm, scene_type=B, keywords detected"
+      }
+    },
+    {
+      "index": 15,
+      "text": "Qian never trended. Never went viral. But he changed millions of lives. And somehow\u2026 we're still talking about him.",
+      "duration": 9.216,
+      "visual_type": "image",
+      "scene_type": "B",
+      "emotion": "dramatic",
+      "is_intro": false,
+      "is_outro": false,
+      "setup_text": "He never trended. Never went viral.",
+      "subject_text": "But we're still talking about him.",
+      "caption_text": "",
+      "speaker": "",
+      "character_name": "",
+      "narration_position": "bottom",
+      "emphasis_words": [
+        {
+          "text": "never",
+          "style": "bold"
+        },
+        {
+          "text": "never",
+          "style": "bold"
+        },
+        {
+          "text": "still",
+          "style": "bold"
+        },
+        {
+          "text": "talking",
+          "style": "bold"
+        }
+      ],
+      "image_paths": [
+        "images/img_15_0.png"
+      ],
+      "audio_path": "audio/narration_15.mp3",
+      "audio_duration": 9.216,
+      "word_timings": [
+        {
+          "word": "Qian",
+          "start": 0.0,
+          "end": 0.348
+        },
+        {
+          "word": "never",
+          "start": 0.418,
+          "end": 0.615
+        },
+        {
+          "word": "trended.",
+          "start": 0.673,
+          "end": 1.219
+        },
+        {
+          "word": "Never",
+          "start": 1.463,
+          "end": 1.718
+        },
+        {
+          "word": "went",
+          "start": 1.776,
+          "end": 1.962
+        },
+        {
+          "word": "viral.",
+          "start": 2.02,
+          "end": 2.659
+        },
+        {
+          "word": "But",
+          "start": 2.868,
+          "end": 3.03
+        },
+        {
+          "word": "he",
+          "start": 3.065,
+          "end": 3.123
+        },
+        {
+          "word": "changed",
+          "start": 3.204,
+          "end": 3.715
+        },
+        {
+          "word": "millions",
+          "start": 3.924,
+          "end": 4.47
+        },
+        {
+          "word": "of",
+          "start": 4.516,
+          "end": 4.586
+        },
+        {
+          "word": "lives.",
+          "start": 4.667,
+          "end": 5.341
+        },
+        {
+          "word": "And",
+          "start": 5.492,
+          "end": 5.654
+        },
+        {
+          "word": "somehow\u2026",
+          "start": 5.712,
+          "end": 6.42
+        },
+        {
+          "word": "we're",
+          "start": 7.117,
+          "end": 7.338
+        },
+        {
+          "word": "still",
+          "start": 7.361,
+          "end": 7.581
+        },
+        {
+          "word": "talking",
+          "start": 7.639,
+          "end": 7.999
+        },
+        {
+          "word": "about",
+          "start": 8.046,
+          "end": 8.324
+        },
+        {
+          "word": "him.",
+          "start": 8.382,
+          "end": 8.916
+        }
+      ],
+      "effects": {
+        "screen_index": 15,
+        "text_entry": "grow_from_center",
+        "text_entry_params": {},
+        "text_exit": "fade_out",
+        "text_exit_params": {},
+        "text_continuous": "flicker",
+        "text_continuous_params": {},
+        "image_entry": "img_scale_bounce",
+        "image_entry_params": {},
+        "image_treatment": "color_shift",
+        "image_treatment_params": {},
+        "image_exit": "img_fade_out",
+        "image_exit_params": {},
+        "scene_transition": "crossfade",
+        "scene_transition_params": {},
+        "overlay_effect": "sparkle_overlay",
+        "overlay_params": {},
+        "background_effect": "bg_color_breathe",
+        "background_params": {},
+        "emphasis_style": "scale_bounce",
+        "emphasis_params": {},
+        "reasoning": "Rule-based: emotion=dramatic, scene_type=B, keywords detected"
+      }
+    }
+  ],
+  "visual_style": {
+    "name": "claymorphism",
+    "bg_center_color": [
+      240,
+      238,
+      236
+    ],
+    "bg_edge_color": [
+      200,
+      196,
+      192
+    ],
+    "text_dark": [
+      61,
+      61,
+      61
+    ],
+    "text_light": [
+      160,
+      155,
+      170
+    ],
+    "primary": [
+      61,
+      61,
+      61
+    ],
+    "secondary": [
+      200,
+      130,
+      160
+    ],
+    "accent": [
+      160,
+      200,
+      140
+    ],
+    "card_bg": [
+      255,
+      252,
+      248,
+      200
+    ],
+    "card_radius": 28,
+    "image_corner_radius": 24,
+    "highlight_color": [
+      255,
+      136,
+      0
+    ],
+    "highlight_text": [
+      255,
+      255,
+      255
+    ]
+  },
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "cta": "But here's the part nobody talks about \u2014 what happens when the world finally figures out who built everything. Next video.",
+  "visual_theme": "dynamic",
+  "layout_mode": "fullbleed",
+  "transition_frames": 15,
+  "scene_silence_ms": 300
+}

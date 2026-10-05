@@ -1,0 +1,29 @@
+# Files NOT uploaded to Cloud Build (keeps upload small, keeps secrets out)
+.git/
+.gitignore
+.env
+venv/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# generated media / history
+output/
+temp/
+data/
+image1.png
+image2.png
+
+# Remotion + dev-only stuff (not used by the moviepy renderer)
+node_modules/
+remotion/node_modules/
+remotion/public/
+vscode-copilot-bridge/
+.vscode/
+
+# docs / tests
+*.md
+test_remotion*.py
+_test_elevenlabs.py
+testing-prompts.txt

@@ -1,0 +1,146 @@
+{
+  "project_her_version": "2.0",
+  "generated_at": "2026-03-19 18:04:07",
+  "title": "He Fought a War That Ended 50 Years Before He Stopped",
+  "hook": "...he found newspapers saying the war was over. So he burned them. Because obviously they were fake.",
+  "content_type": "ai_claymorphism",
+  "mood": "dramatic",
+  "duration_seconds": 142.3,
+  "resolution": "1080x1920",
+  "video_format": "vertical",
+  "key_point_count": 15,
+  "processing_time_seconds": 394.9,
+  "theme": "claymorphism",
+  "caption_style": "karaoke",
+  "video_file": "he-fought-a-war-that-ended-50-years-before-he-stop.mp4",
+  "srt_file": "subtitles.srt",
+  "thumbnail_file": "he-fought-a-war-that-ended-50-years-before-he-stop.jpg",
+  "config": {
+    "input_source": "His name was Hiroo Onoda. And in 1945, when World War Two ended, nobody told him. He was a Japanese intelligence officer, deep in the jungles of the Philippines, and his orders were simple — fight unt",
+    "tone": "storytelling",
+    "video_format": "vertical",
+    "theme": "claymorphism",
+    "pipeline": "ai_image",
+    "content_mode": "article",
+    "transition": "fade",
+    "color_grade": "none",
+    "voice": "en-US-AriaNeural",
+    "include_subtitles": true,
+    "brand_text": "",
+    "screen_count": 15,
+    "ai_images_generated": 15,
+    "question": "",
+    "character_name": "",
+    "modern_topic": "",
+    "series_id": "",
+    "episode_number": 0,
+    "cliffhanger": "And he wasn't the only one. There were others like him. Still out there.",
+    "screens": [
+      {
+        "index": 0,
+        "visual_type": "image",
+        "text": "There's a man who kept fighting World War Two... until 1974.",
+        "emotion": "dramatic",
+        "speaker": ""
+      },
+      {
+        "index": 1,
+        "visual_type": "image",
+        "text": "His name was Hiroo Onoda. Japanese intelligence officer. Sent deep into the Phil",
+        "emotion": "neutral",
+        "speaker": ""
+      },
+      {
+        "index": 2,
+        "visual_type": "image",
+        "text": "And then — the war ended. In 1945. And nobody told him.",
+        "emotion": "dramatic",
+        "speaker": ""
+      },
+      {
+        "index": 3,
+        "visual_type": "image",
+        "text": "Planes dropped leaflets saying the war was over. He looked at them and thought —",
+        "emotion": "dramatic",
+        "speaker": ""
+      },
+      {
+        "index": 4,
+        "visual_type": "image",
+        "text": "He found actual newspapers. Forgeries, he decided. People came into the jungle t",
+        "emotion": "dramatic",
+        "speaker": ""
+      },
+      {
+        "index": 5,
+        "visual_type": "image",
+        "text": "Meanwhile — the world just... moved on. Japan rebuilt. Cities rose from ash. Bab",
+        "emotion": "warm",
+        "speaker": ""
+      },
+      {
+        "index": 6,
+        "visual_type": "image",
+        "text": "And Hiroo was still in that jungle. Sharpening his blade. Keeping his rifle clea",
+        "emotion": "dramatic",
+        "speaker": ""
+      },
+      {
+        "index": 7,
+        "visual_type": "image",
+        "text": "Fifty years. FIFTY. He was thirty years old when he went in. He was turning fift",
+        "emotion": "dramatic",
+        "speaker": ""
+      },
+      {
+        "index": 8,
+        "visual_type": "image",
+        "text": "Then in 1974 — his original commanding officer flew to the Philippines. Walked i",
+        "emotion": "dramatic",
+        "speaker": ""
+      },
+      {
+        "index": 9,
+        "visual_type": "image",
+        "text": "And gave Hiroo the only order he'd ever accept. Stand down. The war is over.",
+        "emotion": "dramatic",
+        "speaker": ""
+      },
+      {
+        "index": 10,
+        "visual_type": "image",
+        "text": "Hiroo walked out of that jungle at fifty-two years old. Still in his uniform. St",
+        "emotion": "dramatic",
+        "speaker": ""
+      },
+      {
+        "index": 11,
+        "visual_type": "image",
+        "text": "And here's what wrecks me about this — he wasn't crazy. He wasn't delusional. He",
+        "emotion": "thoughtful",
+        "speaker": ""
+      },
+      {
+        "index": 12,
+        "visual_type": "image",
+        "text": "His greatest strength... was also his cage. He was so committed to the mission —",
+        "emotion": "thoughtful",
+        "speaker": ""
+      },
+      {
+        "index": 13,
+        "visual_type": "image",
+        "text": "And honestly? I think a lot of us are doing the exact same thing. Still fighting",
+        "emotion": "thoughtful",
+        "speaker": ""
+      },
+      {
+        "index": 14,
+        "visual_type": "image",
+        "text": "The question isn't whether you're committed. The question is — are you guarding ",
+        "emotion": "thoughtful",
+        "speaker": ""
+      }
+    ]
+  }
+}

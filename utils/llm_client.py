@@ -12,7 +12,7 @@ from __future__ import annotations
 import logging
 from typing import Optional
 
-from openai import OpenAI
+from openai import OpenAI, RateLimitError, APIStatusError
 
 import config
 
@@ -84,7 +84,46 @@ def get_llm_client(
         base_url=base_url,
     )
 
+    # If Gemini is the primary and a Groq key exists, fall back to Groq on rate limits
+    if base_url == config.GEMINI_BASE_URL and config.GROQ_API_KEY:
+        client = _FallbackClient(client)
+
     return client, model_name
+
+
+class _FallbackCompletions:
+    """Mimics client.chat.completions; retries on Groq if Gemini is rate-limited."""
+
+    def __init__(self, primary: OpenAI):
+        self._primary = primary
+        self._groq: Optional[OpenAI] = None
+
+    def create(self, **kwargs):
+        try:
+            return self._primary.chat.completions.create(**kwargs)
+        except RateLimitError as exc:
+            logger.warning("Gemini rate-limited (%s) - falling back to Groq", exc)
+        except APIStatusError as exc:
+            if exc.status_code != 429:
+                raise
+            logger.warning("Gemini quota error 429 - falling back to Groq")
+
+        if self._groq is None:
+            self._groq = OpenAI(api_key=config.GROQ_API_KEY, base_url=config.GROQ_BASE_URL)
+        kwargs["model"] = config.GROQ_MODEL
+        return self._groq.chat.completions.create(**kwargs)
+
+
+class _FallbackChat:
+    def __init__(self, primary: OpenAI):
+        self.completions = _FallbackCompletions(primary)
+
+
+class _FallbackClient:
+    """Drop-in replacement for the OpenAI client exposing .chat.completions.create()."""
+
+    def __init__(self, primary: OpenAI):
+        self.chat = _FallbackChat(primary)
 
 
 def get_provider_info(provider: Optional[str] = None) -> dict:

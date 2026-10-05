@@ -125,10 +125,47 @@ def index():
     )
 
 
+# ── Public-demo usage limits (protect API quota / free hosting) ───────
+# Set a value to 0 to disable that limit (e.g. for local development).
+DAILY_VIDEO_CAP = int(os.environ.get("DAILY_VIDEO_CAP", "10"))
+PER_VISITOR_DAILY_CAP = int(os.environ.get("PER_VISITOR_DAILY_CAP", "2"))
+MAX_CONCURRENT_JOBS = int(os.environ.get("MAX_CONCURRENT_JOBS", "1"))
+
+_usage_lock = threading.Lock()
+_usage = {"day": "", "total": 0, "per_ip": {}}
+
+
+def _client_ip() -> str:
+    fwd = request.headers.get("X-Forwarded-For", "")
+    return fwd.split(",")[0].strip() if fwd else (request.remote_addr or "unknown")
+
+
+def _check_and_reserve_quota() -> Optional[str]:
+    """Return an error message if the request is over a limit, else reserve a slot."""
+    today = time.strftime("%Y-%m-%d")
+    ip = _client_ip()
+    with _usage_lock:
+        if _usage["day"] != today:
+            _usage.update(day=today, total=0, per_ip={})
+        if MAX_CONCURRENT_JOBS and len(_active_jobs) >= MAX_CONCURRENT_JOBS:
+            return "Another video is being generated right now. Please try again in a few minutes."
+        if DAILY_VIDEO_CAP and _usage["total"] >= DAILY_VIDEO_CAP:
+            return "Today's free demo limit has been reached. Please come back tomorrow!"
+        if PER_VISITOR_DAILY_CAP and _usage["per_ip"].get(ip, 0) >= PER_VISITOR_DAILY_CAP:
+            return f"Demo limit reached ({PER_VISITOR_DAILY_CAP} videos per visitor per day)."
+        _usage["total"] += 1
+        _usage["per_ip"][ip] = _usage["per_ip"].get(ip, 0) + 1
+    return None
+
+
 @app.route("/api/generate", methods=["POST"])
 def api_generate():
     """Run the full video generation pipeline with SSE progress support."""
     data = request.json
+
+    limit_error = _check_and_reserve_quota()
+    if limit_error:
+        return jsonify({"error": limit_error}), 429
 
     input_url = data.get("url", "").strip()
     input_text = data.get("text", "").strip()
