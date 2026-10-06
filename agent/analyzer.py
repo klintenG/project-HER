@@ -127,6 +127,14 @@ class ContentAnalyzer:
             # Take beginning and end for context
             article_text = article_text[:4000] + "\n\n[...]\n\n" + article_text[-1500:]
 
+        topic_directive = ""
+        if article.word_count < 50:
+            topic_directive = """
+TOPIC PROMPT DIRECTIVE:
+The user provided a concise topic prompt rather than a full article.
+Expand this topic into 3 captivating scenes from scratch, covering the background, main conflict/breakthrough, and takeaway.
+"""
+
         return f"""You just read something fascinating and you're turning it into a short video script.
 Your job is NOT to summarize the article — it's to RETELL the story the way a real human would tell a friend.
 
@@ -136,6 +144,7 @@ ARTICLE TEXT:
 {article_text}
 
 TONE INSTRUCTION: {tone_instruction}
+{topic_directive}
 
 ═══════════════════════════════════════════════════════
 HUMAN NARRATION STYLE — THE MOST IMPORTANT SECTION

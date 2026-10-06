@@ -207,11 +207,14 @@ class AgentOrchestrator:
                 f"Scraped: '{article.title}' ({article.word_count} words)",
             )
 
-            if article.word_count < 50:
+            is_url = self.scraper._is_url(input_source)
+            if is_url and article.word_count < 25:
                 raise ValueError(
-                    f"Article too short ({article.word_count} words). "
-                    "Need at least 50 words."
+                    f"Could not extract sufficient text from URL ({article.word_count} words). "
+                    "Please check the URL or paste the article content directly."
                 )
+            elif not is_url and article.word_count < 3:
+                raise ValueError("Please provide a topic, script, or article with at least 3 words.")
 
             # ── Stage 2: ANALYZE (with cache) ──────────────
             tracker.start_stage("analyze", "Analyzing content with AI...")
@@ -607,11 +610,14 @@ class AgentOrchestrator:
                     f"Scraped: '{article.title}' ({article.word_count} words)",
                 )
 
-                if article.word_count < 50:
+                is_url = self.scraper._is_url(input_source)
+                if is_url and article.word_count < 25:
                     raise ValueError(
-                        f"Article too short ({article.word_count} words). "
-                        "Need at least 50 words."
+                        f"Could not extract sufficient text from URL ({article.word_count} words). "
+                        "Please check the URL or paste the article content directly."
                     )
+                elif not is_url and article.word_count < 3:
+                    raise ValueError("Please provide a topic, script, or article with at least 3 words.")
 
             # ── Stage 2: SPLIT (AI story → screens) ───────
             tracker.start_stage("analyze", "Splitting story into screens...")

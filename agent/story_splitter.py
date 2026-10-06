@@ -418,8 +418,18 @@ This video is part of a series. The previous episode ended with this unresolved 
 - Include a "cliffhanger" field in the JSON response with the new unresolved question.
 """
 
+        is_topic_prompt = len(text.split()) < 50
+        prompt_directive = ""
+        if is_topic_prompt:
+            prompt_directive = """
+TOPIC PROMPT DIRECTIVE:
+The user provided a concise topic prompt rather than a full article.
+Expand this concept into a complete, captivating narrative script from scratch!
+Develop key ideas, surprising implications, real-world stakes, and vivid visual scenes.
+"""
+
         return f"""You just read an amazing story and now you're telling a friend about it on camera.
-Your job: turn this article into a SPOKEN video script — screen by screen — that sounds like
+Your job: turn this article or topic into a SPOKEN video script — screen by screen — that sounds like
 a real person narrating, not a robot summarizing.
 
 STORY TITLE: {title or '(untitled)'}
@@ -427,6 +437,7 @@ STORY TEXT: {text[:3000]}
 
 TONE: {tone_instruction}
 {series_block}
+{prompt_directive}
 
 ═══════════════════════════════════════════════════════
 HUMAN NARRATION STYLE — THE MOST IMPORTANT SECTION
