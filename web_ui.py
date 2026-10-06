@@ -45,7 +45,8 @@ def allow_iframe_embedding(response):
     """Allow klinteng.com portfolio to embed this app in an iframe."""
     response.headers.pop("X-Frame-Options", None)
     response.headers["Content-Security-Policy"] = (
-        "frame-ancestors 'self' https://klinteng.com https://www.klinteng.com "
+        "frame-ancestors 'self' http://localhost:* http://127.0.0.1:* "
+        "https://klinteng.com https://www.klinteng.com "
         "https://*.huggingface.co https://*.hf.space;"
     )
     return response
@@ -118,6 +119,47 @@ def index():
         deep_dive_voices=config.DEEP_DIVE_VOICES,
         deep_dive_max_sources=config.DEEP_DIVE_MAX_SOURCES,
         # ── LLM Providers ──
+        llm_providers=config.LLM_PROVIDERS,
+        llm_provider=config.LLM_PROVIDER,
+        gemini_model=config.GEMINI_MODEL,
+        provider_info=get_provider_info(),
+    )
+
+
+@app.route("/backup")
+@app.route("/classic")
+def backup_ui():
+    """Serve the original full UI page for backward compatibility / reference."""
+    return render_template(
+        "index_backup.html",
+        themes=list(config.THEMES.keys()),
+        theme_details=config.THEMES,
+        captions=list(config.CAPTION_STYLES.keys()),
+        caption_details=config.CAPTION_STYLES,
+        transitions=config.AVAILABLE_TRANSITIONS,
+        tones=list(config.TONE_PRESETS.keys()),
+        tone_details=config.TONE_PRESETS,
+        voices=config.AVAILABLE_VOICES,
+        platforms=config.AVAILABLE_PLATFORMS,
+        platform_details=config.PLATFORM_PRESETS,
+        qualities=list(config.QUALITY_PRESETS.keys()),
+        quality_details=config.QUALITY_PRESETS,
+        formats=list(config.VIDEO_FORMATS.keys()),
+        format_details=config.VIDEO_FORMATS,
+        color_grades=config.AVAILABLE_COLOR_GRADES,
+        color_grade_details=config.COLOR_GRADES,
+        default_color_grade=config.DEFAULT_COLOR_GRADE,
+        languages=config.AVAILABLE_LANGUAGES,
+        language_details=config.LANGUAGE_VOICES,
+        visual_styles=config.AVAILABLE_VISUAL_STYLES,
+        visual_style_details=config.VISUAL_STYLES,
+        default_visual_style=config.DEFAULT_VISUAL_STYLE,
+        content_modes=config.CONTENT_MODES,
+        available_content_modes=config.AVAILABLE_CONTENT_MODES,
+        default_content_mode=config.DEFAULT_CONTENT_MODE,
+        ghost_collab_voices=config.GHOST_COLLAB_VOICES,
+        deep_dive_voices=config.DEEP_DIVE_VOICES,
+        deep_dive_max_sources=config.DEEP_DIVE_MAX_SOURCES,
         llm_providers=config.LLM_PROVIDERS,
         llm_provider=config.LLM_PROVIDER,
         gemini_model=config.GEMINI_MODEL,
@@ -207,7 +249,7 @@ def api_generate():
     elif not input_source:
         return jsonify({"error": "Please provide a URL or text content."}), 400
 
-    ai_images = data.get("ai_images", False)
+    ai_images = data.get("ai_images", True)
     brand_text = data.get("brand_text", "")
 
     # LLM provider override from UI
@@ -226,7 +268,7 @@ def api_generate():
     if not config.PEXELS_API_KEY and not ai_images:
         return jsonify({"error": "PEXELS_API_KEY not set in .env (or enable AI Images mode)"}), 400
 
-    tone = data.get("tone", "informative")
+    tone = data.get("tone", "explainer")
     video_format = data.get("format", "vertical")
     voice = data.get("voice", "")
     theme = data.get("theme", "cinematic")
@@ -323,7 +365,7 @@ def api_generate():
                 episode_number=episode_number,
                 deep_dive_sources=deep_dive_sources,
                 deep_dive_text=deep_dive_text,
-                renderer=data.get("renderer", "moviepy"),
+                renderer=data.get("renderer", "remotion"),
                 target_duration=target_duration,
             )
 

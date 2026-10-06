@@ -566,10 +566,11 @@ class RemotionRenderer:
                 logger.info("  [remotion] %s", line)
 
         if result.returncode != 0:
-            logger.error("Remotion render failed (code %d):\n%s", result.returncode, result.stderr[-1000:])
+            err_msg = result.stderr.strip() if result.stderr else result.stdout.strip()
+            logger.error("Remotion render failed (code %d):\n%s", result.returncode, err_msg)
             raise RuntimeError(
-                f"Remotion render failed (exit {result.returncode}): "
-                f"{result.stderr[-300:]}"
+                f"Remotion render failed (exit {result.returncode}):\n"
+                f"{err_msg[-2000:]}"
             )
 
         if not output_path.exists():

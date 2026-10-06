@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project HER v2.0 – AI Video Agent</title>
+    <title>Project HER — Autonomous AI Video Generator</title>
+
+    <!-- ngrok / reverse proxy compatibility -->
     <script>
-    /* ── ngrok compatibility: inject skip-browser-warning header into every fetch ── */
     (function() {
         const _origFetch = window.fetch;
         window.fetch = function(url, opts) {
@@ -18,8 +19,6 @@
             }
             return _origFetch.call(this, url, opts);
         };
-        /* EventSource doesn't support custom headers, so we append a query param
-           and handle it server-side, plus rely on ngrok's session cookie. */
         const _origES = window.EventSource;
         window.EventSource = function(url, opts) {
             const sep = url.includes('?') ? '&' : '?';
@@ -28,2426 +27,1013 @@
         window.EventSource.prototype = _origES.prototype;
     })();
     </script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"
-          crossorigin="anonymous">
+
+    <!-- Google Fonts: Inter & JetBrains Mono (Synced with klinteng.com) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" crossorigin="anonymous">
+
     <style>
-        :root { --accent: #00ffc8; --accent-dim: #00b891; }
-        body { background: #0a0a1a; font-family: 'Segoe UI', system-ui, sans-serif; }
-        .accent { color: var(--accent); }
-        .brand-bar {
-            background: linear-gradient(135deg, #0d0d2b 0%, #1a0a30 100%);
-            border-bottom: 1px solid rgba(0,255,200,.15);
-            padding: 1rem 0;
+        :root {
+            /* Synchronized with klinteng.com portfolio palette */
+            --bg-primary: #0a0e14;
+            --bg-secondary: #0f1620;
+            --bg-card: #111822;
+            --bg-card-hover: #16202e;
+            --bg-input: #0b111a;
+            --border: #1e2a3c;
+            --border-light: rgba(255, 255, 255, 0.08);
+            --border-gold: rgba(201, 168, 76, 0.35);
+
+            --accent: #c9a84c;
+            --accent-light: #e0c56e;
+            --accent-dim: #997e33;
+            --accent-glow: rgba(201, 168, 76, 0.18);
+
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-full: 9999px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .brand-bar h1 { font-size: 1.6rem; font-weight: 700; margin: 0; }
-        .brand-bar .subtitle { color: #888; font-size: .85rem; }
-        .card {
-            background: #111125;
-            border: 1px solid rgba(255,255,255,.06);
-            border-radius: 12px;
+
+        *, *::before, *::after {
+            box-sizing: border-box;
         }
-        .card-header {
-            background: rgba(0,255,200,.04);
-            border-bottom: 1px solid rgba(255,255,255,.06);
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(201, 168, 76, 0.07), transparent 70%),
+                radial-gradient(circle at 10% 90%, rgba(30, 42, 60, 0.4), transparent 50%);
+            background-attachment: fixed;
+        }
+
+        /* ── Top Bar ── */
+        .app-header {
+            background: rgba(15, 22, 32, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 0.85rem 0;
+        }
+
+        .brand-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, rgba(201, 168, 76, 0.15), rgba(201, 168, 76, 0.05));
+            border: 1px solid var(--border-gold);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            color: var(--accent-light);
+            font-size: 0.75rem;
             font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
-        .form-select, .form-control {
-            background: #0d0d20;
-            border-color: rgba(255,255,255,.1);
-            color: #e0e0e0;
+
+        .brand-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: var(--text-primary);
         }
-        .form-select:focus, .form-control:focus {
+
+        .brand-logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            color: #0a0e14;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+            font-size: 1.1rem;
+            font-weight: 800;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .header-nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .header-nav-link:hover {
+            color: var(--accent);
+            background: rgba(201, 168, 76, 0.08);
+        }
+
+        /* ── Cards & Containers ── */
+        .her-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .her-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.85rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .her-card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .her-card-title i {
+            color: var(--accent);
+        }
+
+        /* ── Form Controls ── */
+        .form-label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-control, .form-select {
+            background-color: var(--bg-input);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            border-radius: var(--radius-md);
+            padding: 0.65rem 0.9rem;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus, .form-select:focus {
+            background-color: var(--bg-input);
             border-color: var(--accent);
-            box-shadow: 0 0 0 2px rgba(0,255,200,.15);
+            color: var(--text-primary);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+            outline: none;
         }
-        .btn-accent { background: var(--accent); color: #000; font-weight: 600; border: none; }
-        .btn-accent:hover { background: var(--accent-dim); color: #000; }
-        .btn-outline-accent { border: 1px solid var(--accent); color: var(--accent); }
-        .btn-outline-accent:hover { background: rgba(0,255,200,.1); color: var(--accent); }
-        .result-card {
-            background: #0d0d20;
-            border: 1px solid rgba(0,255,200,.2);
-            border-radius: 12px;
+
+        .form-control::placeholder {
+            color: #4b586e;
+            font-size: 0.88rem;
         }
-        .result-card .label {
-            color: #888; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em;
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 140px;
+            font-family: inherit;
+            line-height: 1.6;
         }
-        .result-card .value { color: #fff; font-weight: 500; }
-        /* Spinner */
-        .spinner-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,.7); z-index: 9999;
-            display: none; justify-content: center; align-items: center; flex-direction: column;
+
+        /* ── Prompt Pill Suggestions ── */
+        .prompt-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            margin-top: 0.6rem;
         }
-        .spinner-overlay.active { display: flex; }
-        .spinner-overlay .spinner-border { width: 3rem; height: 3rem; color: var(--accent); }
-        .spinner-overlay p { color: #ccc; margin-top: 1rem; font-size: 1.1rem; }
-        /* Tabs */
-        .nav-tabs .nav-link { color: #888; border: none; }
-        .nav-tabs .nav-link.active {
-            color: var(--accent); background: transparent; border-bottom: 2px solid var(--accent);
+
+        .prompt-chip {
+            background: rgba(30, 42, 60, 0.4);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-full);
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            user-select: none;
         }
-        /* Remotion Studio */
-        #tab-remotion-studio .accordion-button {
-            background: #1a1a2e; color: #ddd; padding: .6rem .75rem; font-size: .9rem;
+
+        .prompt-chip:hover {
+            background: rgba(201, 168, 76, 0.12);
+            border-color: var(--border-gold);
+            color: var(--accent-light);
+            transform: translateY(-1px);
         }
-        #tab-remotion-studio .accordion-button:not(.collapsed) { background: #16213e; }
-        #tab-remotion-studio .accordion-button::after { filter: invert(1); }
-        #tab-remotion-studio .accordion-item { background: transparent; border-color: #333; }
-        #tab-remotion-studio .list-group-item { background: #111; border-color: #222; color: #ddd; }
-        #tab-remotion-studio .list-group-item:hover { background: #1a1a2e; }
-        #tab-remotion-studio .list-group-item.active { background: #0f3460 !important; border-color: #3498db; }
-        .preview-kp {
-            background: rgba(0,255,200,.03); border-radius: 8px;
-            padding: 1rem; margin-bottom: .75rem; border-left: 3px solid var(--accent);
+
+        /* ── Action Button ── */
+        .btn-generate {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            color: #0a0e14;
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 0.85rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(201, 168, 76, 0.25);
+            letter-spacing: 0.2px;
         }
-        .history-item {
-            background: #111125; border-radius: 8px; padding: .75rem; margin-bottom: .5rem;
-            border: 1px solid rgba(255,255,255,.05); cursor: pointer; transition: border-color .2s;
+
+        .btn-generate:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 22px rgba(201, 168, 76, 0.4);
+            color: #0a0e14;
         }
-        .history-item:hover { border-color: var(--accent); }
-        video { border-radius: 8px; background: #000; }
-        @keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:.5 } }
-        .generating-text { animation: pulse 1.5s infinite; }
-        .color-swatch {
-            display: inline-block; width: 14px; height: 14px; border-radius: 3px;
-            vertical-align: middle; margin-right: 4px; border: 1px solid rgba(255,255,255,.15);
+
+        .btn-generate:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
-        .explainer-hint { font-size: .72rem; color: #888; margin-top: 4px; }
-        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 10000; }
+
+        /* ── Engine Status Pills ── */
+        .status-pill {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            padding: 0.2rem 0.55rem;
+            border-radius: var(--radius-full);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-light);
+            color: var(--text-secondary);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .status-pill.active {
+            border-color: var(--border-gold);
+            color: var(--accent-light);
+            background: rgba(201, 168, 76, 0.08);
+        }
+
+        /* ── Progress & Pipeline Monitor ── */
+        .pipeline-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .progress-track {
+            height: 8px;
+            background: var(--bg-input);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            margin: 1rem 0;
+            border: 1px solid var(--border);
+        }
+
+        .progress-bar-glow {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            border-radius: var(--radius-full);
+            transition: width 0.4s ease;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .stage-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.65rem 0.85rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 0.5rem;
+            background: rgba(15, 22, 32, 0.6);
+            border: 1px solid transparent;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+
+        .stage-item.pending {
+            color: var(--text-muted);
+        }
+
+        .stage-item.running {
+            background: rgba(201, 168, 76, 0.07);
+            border-color: var(--border-gold);
+            color: var(--accent-light);
+            box-shadow: 0 0 12px rgba(201, 168, 76, 0.1);
+        }
+
+        .stage-item.completed {
+            border-color: rgba(16, 185, 129, 0.2);
+            color: #e2e8f0;
+        }
+
+        .stage-item.failed {
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.08);
+        }
+
+        /* ── Video Player & Result ── */
+        .video-wrapper {
+            background: #000;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            position: relative;
+            max-height: 480px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            max-height: 480px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .spec-badge {
+            background: var(--bg-input);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            padding: 0.35rem 0.65rem;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .spec-badge strong {
+            color: var(--text-primary);
+        }
+
+        /* ── Empty State / Architecture Graphic ── */
+        .idle-showcase {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            border: 1px dashed var(--border);
+            border-radius: var(--radius-lg);
+            background: rgba(15, 22, 32, 0.3);
+        }
+
+        .idle-icon-ring {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: rgba(201, 168, 76, 0.08);
+            border: 1px solid var(--border-gold);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 0 25px var(--accent-glow);
+        }
+
+        /* ── Toast Notifications ── */
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1050;
+        }
+
+        .her-toast {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            border-radius: var(--radius-md);
+            padding: 0.85rem 1.25rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.88rem;
+            margin-top: 0.5rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        .her-toast.success { border-color: rgba(16, 185, 129, 0.4); }
+        .her-toast.error { border-color: rgba(239, 68, 68, 0.4); }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: var(--radius-full); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-dim); }
     </style>
 </head>
 <body>
 
-<!-- Toast container -->
-<div class="toast-container" id="toastContainer"></div>
-
-<!-- Spinner Overlay -->
-<div class="spinner-overlay" id="spinner">
-    <div class="spinner-border" role="status"></div>
-    <p class="generating-text" id="spinnerText">Generating video…</p>
-    <p class="text-muted" style="font-size:.85rem;">This may take 2-5 minutes</p>
-    <div id="pipelineProgress" class="mt-3 d-none" style="width:380px;">
-        <div class="progress mb-2" style="height:6px;background:rgba(255,255,255,.1);">
-            <div id="overallBar" class="progress-bar" role="progressbar"
-                 style="width:0%;background:var(--accent);"></div>
-        </div>
-        <div id="stageList" style="text-align:left;"></div>
-    </div>
-</div>
-
-<!-- Brand Bar -->
-<div class="brand-bar">
-    <div class="container">
-        <div class="d-flex align-items-center justify-content-between">
-            <div>
-                <h1><i class="bi bi-camera-reels accent"></i> Project HER
-                    <span class="accent">v2.0</span></h1>
-                <div class="subtitle">AI-Powered Article-to-Video Agent</div>
-            </div>
-            <div>
-                <span class="badge bg-dark border border-secondary"><i class="bi bi-cpu"></i> Groq AI</span>
-                <span class="badge bg-dark border border-secondary"><i class="bi bi-image"></i> Pexels</span>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container py-4">
-    <!-- Tabs -->
-    <ul class="nav nav-tabs mb-4" role="tablist">
-        <li class="nav-item">
-            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-generate">
-                <i class="bi bi-camera-reels"></i> Generate
-            </button>
-        </li>
-        <li class="nav-item">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-history">
-                <i class="bi bi-clock-history"></i> History
-            </button>
-        </li>
-        <li class="nav-item">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-reference">
-                <i class="bi bi-book"></i> Reference
-            </button>
-        </li>
-        <li class="nav-item">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-remotion-studio" onclick="loadRemotionStudio()">
-                <i class="bi bi-film"></i> Remotion Studio
-            </button>
-        </li>
-        <li class="nav-item">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-kids-story">
-                <i class="bi bi-book"></i> Kids Story
-                <span class="badge bg-warning text-dark ms-1" style="font-size:.55rem;">NEW</span>
-            </button>
-        </li>
-        <li class="nav-item">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-daily-pipeline" onclick="loadDailyHistory()">
-                <i class="bi bi-robot"></i> Daily Pipeline
-                <span class="badge bg-info text-dark ms-1" style="font-size:.55rem;">AUTO</span>
-            </button>
-        </li>
-    </ul>
-
-    <div class="tab-content">
-        <!-- ═══════════════════════ GENERATE TAB ═══════════════════════ -->
-        <div class="tab-pane fade show active" id="tab-generate">
-            <div class="row g-4">
-                <!-- LEFT: Controls -->
-                <div class="col-lg-5">
-                <!-- LLM Provider card -->
-                    <div class="card mb-3">
-                        <div class="card-header"><i class="bi bi-cpu"></i> AI Engine</div>
-                        <div class="card-body">
-                            <div class="row g-2 align-items-end">
-                                <div class="col">
-                                    <label class="form-label small text-muted">LLM Provider</label>
-                                    <select class="form-select form-select-sm" id="selLlmProvider"
-                                            onchange="switchLlmProvider(this.value)">
-                                        {% for pkey, pval in llm_providers.items() %}
-                                        <option value="{{ pkey }}"{{ ' selected' if pkey == llm_provider }}>
-                                            {{ pval.label }}
-                                        </option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="col" id="llmModelInfo"
-                                     {% if llm_provider != 'gemini' %}class="d-none"{% endif %}>
-                                    <label class="form-label small text-muted">Model</label>
-                                    <input type="text" class="form-control form-control-sm" 
-                                           id="txtLlmModel" value="{{ gemini_model }}"
-                                           placeholder="gemini-2.5-pro">
-                                </div>
-                            </div>
-                            <div class="mt-2" id="providerStatus">
-                                <small class="text-muted">
-                                    {% if provider_info.ready %}
-                                    <i class="bi bi-check-circle-fill text-success"></i>
-                                    {{ provider_info.label }} ready — using <strong>{{ provider_info.model_label }}</strong>
-                                    {% else %}
-                                    <i class="bi bi-exclamation-triangle-fill text-warning"></i>
-                                    {{ provider_info.label }} — API key not configured
-                                    {% endif %}
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-
-                <!-- Input card -->
-                    <div class="card mb-3">
-                        <div class="card-header"><i class="bi bi-input-cursor-text"></i> Input</div>
-                        <div class="card-body">
-                            <!-- Content Mode Selector -->
-                            <div class="mb-3">
-                                <label class="form-label small text-muted">Content Mode</label>
-                                <div class="btn-group w-100" role="group">
-                                    {% for mode_key in available_content_modes %}
-                                    <input type="radio" class="btn-check" name="contentMode"
-                                           id="mode_{{ mode_key }}" value="{{ mode_key }}"
-                                           {{ 'checked' if mode_key == default_content_mode }}
-                                           onchange="switchContentMode('{{ mode_key }}')">
-                                    <label class="btn btn-outline-secondary btn-sm" for="mode_{{ mode_key }}">
-                                        {{ content_modes[mode_key].icon }} {{ content_modes[mode_key].label }}
-                                    </label>
-                                    {% endfor %}
-                                </div>
-                            </div>
-
-                            <!-- Article mode inputs (default) -->
-                            <div id="inputArticle">
-                                <div class="mb-3">
-                                    <label class="form-label small text-muted">Article URL</label>
-                                    <input type="url" class="form-control" id="inputUrl"
-                                           placeholder="https://example.com/article…">
-                                </div>
-                                <div class="text-center text-muted small mb-2">— or —</div>
-                                <div>
-                                    <label class="form-label small text-muted">Paste Text</label>
-                                    <textarea class="form-control" id="inputText" rows="4"
-                                              placeholder="Paste your article or story text here…"></textarea>
-                                </div>
-                            </div>
-
-                            <!-- Thought Experiment mode inputs -->
-                            <div id="inputThoughtExperiment" class="d-none">
-                                <div class="mb-3">
-                                    <label class="form-label small text-muted">
-                                        <i class="bi bi-lightbulb"></i> Your Question
-                                    </label>
-                                    <textarea class="form-control" id="inputQuestion" rows="3"
-                                              placeholder="What if humans could photosynthesize? What would happen if the internet disappeared tomorrow?"></textarea>
-                                    <div class="explainer-hint">
-                                        Ask a provocative "what if" question. We'll create a 60-second philosophical exploration video.
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Ghost Collaboration mode inputs -->
-                            <div id="inputGhostCollab" class="d-none">
-                                <div class="mb-3">
-                                    <label class="form-label small text-muted">
-                                        <i class="bi bi-person-badge"></i> Historical / Fictional Character
-                                    </label>
-                                    <input type="text" class="form-control" id="inputCharacterName"
-                                           placeholder="e.g. Nikola Tesla, Cleopatra, Sherlock Holmes…">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label small text-muted">
-                                        <i class="bi bi-chat-dots"></i> Modern Topic to Discuss
-                                    </label>
-                                    <input type="text" class="form-control" id="inputModernTopic"
-                                           placeholder="e.g. AI replacing jobs, social media addiction, space tourism…">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label small text-muted">Voice Pair</label>
-                                    <select class="form-select form-select-sm" id="selVoicePair">
-                                        {% for pair_name, pair in ghost_collab_voices.items() %}
-                                        <option value="{{ pair_name }}"{{ ' selected' if pair_name == 'default' }}>
-                                            {{ pair.label }}
-                                        </option>
-                                        {% endfor %}
-                                    </select>
-                                    <div class="explainer-hint">
-                                        Two different voices alternate: narrator introduces, character responds.
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Deep Dive mode inputs (NotebookLM-style) -->
-                            <div id="inputDeepDive" class="d-none">
-                                <div class="mb-3">
-                                    <label class="form-label small text-muted">
-                                        <i class="bi bi-broadcast"></i> Sources (URLs or text — up to {{ deep_dive_max_sources }})
-                                    </label>
-                                    <div id="deepDiveSources">
-                                        <div class="input-group mb-2">
-                                            <span class="input-group-text" style="background:#0d0d20;border-color:rgba(255,255,255,.1);color:#888;">1</span>
-                                            <input type="url" class="form-control deep-dive-url" placeholder="https://example.com/article-1…">
-                                        </div>
-                                        <div class="input-group mb-2">
-                                            <span class="input-group-text" style="background:#0d0d20;border-color:rgba(255,255,255,.1);color:#888;">2</span>
-                                            <input type="url" class="form-control deep-dive-url" placeholder="https://example.com/article-2… (optional)">
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-outline-secondary btn-sm" onclick="addDeepDiveSource()" id="btnAddSource">
-                                        <i class="bi bi-plus-lg"></i> Add Source
-                                    </button>
-                                    <div class="explainer-hint">
-                                        Paste up to {{ deep_dive_max_sources }} article URLs. Our AI will read them all, find the surprising
-                                        connections, and generate a two-host podcast-style video — like NotebookLM's Deep Dive.
-                                    </div>
-                                </div>
-                                <div class="text-center text-muted small mb-2">— or paste raw text —</div>
-                                <div class="mb-3">
-                                    <textarea class="form-control" id="inputDeepDiveText" rows="3"
-                                              placeholder="Paste combined text from multiple sources here…"></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label small text-muted">Host Voice Pair</label>
-                                    <select class="form-select form-select-sm" id="selDeepDiveVoicePair">
-                                        {% for pair_name, pair in deep_dive_voices.items() %}
-                                        <option value="{{ pair_name }}"{{ ' selected' if pair_name == 'default' }}>
-                                            {{ pair.label }}
-                                        </option>
-                                        {% endfor %}
-                                    </select>
-                                    <div class="explainer-hint">
-                                        Two hosts discuss your sources: one explains, the other reacts and asks questions.
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Series Controls (shown for all modes) -->
-                            <div class="mt-3 pt-2" style="border-top:1px solid rgba(255,255,255,.06);">
-                                <div class="form-check form-switch mb-2">
-                                    <input class="form-check-input" type="checkbox" id="chkSeries"
-                                           onchange="toggleSeriesPanel()">
-                                    <label class="form-check-label small" for="chkSeries">
-                                        <i class="bi bi-collection-play"></i> Series Mode
-                                        <span class="badge bg-warning text-dark ms-1" style="font-size:.6rem;">NEW</span>
-                                    </label>
-                                </div>
-                                <div id="seriesPanel" class="d-none">
-                                    <div class="row g-2">
-                                        <div class="col-8">
-                                            <label class="form-label small text-muted">Series Name</label>
-                                            <input type="text" class="form-control form-control-sm"
-                                                   id="inputSeriesId" placeholder="my-series-name">
-                                        </div>
-                                        <div class="col-4">
-                                            <label class="form-label small text-muted">Episode #</label>
-                                            <input type="number" class="form-control form-control-sm"
-                                                   id="inputEpisodeNumber" min="0" value="0"
-                                                   placeholder="0=auto">
-                                        </div>
-                                    </div>
-                                    <div class="explainer-hint">
-                                        Connected videos with cliffhanger endings. Episode 0 = auto-detect next.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Style card -->
-                    <div class="card mb-3">
-                        <div class="card-header"><i class="bi bi-palette"></i> Style &amp; Settings</div>
-                        <div class="card-body">
-                            <div class="row g-2 mb-2">
-                                <div class="col-6">
-                                    <label class="form-label small text-muted">Tone</label>
-                                    <select class="form-select form-select-sm" id="selTone">
-                                        {% for t in tones %}
-                                        <option value="{{ t }}"{{ ' selected' if t == 'informative' }}>
-                                            {{ t | replace('_',' ') | title }}
-                                        </option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="col-6">
-                                    <label class="form-label small text-muted">Visual Style</label>
-                                    <select class="form-select form-select-sm" id="selVisualStyle">
-                                        {% for s in visual_styles %}
-                                        <option value="{{ s }}"{{ ' selected' if s == default_visual_style }}
-                                                title="{{ visual_style_details[s].description }}">
-                                            {{ visual_style_details[s].label }}
-                                        </option>
-                                        {% endfor %}
-                                    </select>
-                                    <div class="explainer-hint" id="styleHint"></div>
-                                </div>
-                            </div>
-                            <div class="row g-2 mb-2">
-                                <div class="col-6">
-                                    <label class="form-label small text-muted">Theme</label>
-                                    <select class="form-select form-select-sm" id="selTheme">
-                                        {% for t in themes %}
-                                        <option value="{{ t }}"{{ ' selected' if t == 'cinematic' }}>
-                                            {{ theme_details[t].label }}
-                                        </option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="col-6">
-                                    <label class="form-label small text-muted">Transition</label>
-                                    <select class="form-select form-select-sm" id="selTransition">
-                                        {% for t in transitions %}
-                                        <option value="{{ t }}">{{ t | replace('_',' ') | title }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row g-2">
-                                <div class="col-6">
-                                    <label class="form-label small text-muted">Voice</label>
-                                    <select class="form-select form-select-sm" id="selVoice">
-                                        {% for name, vid in voices.items() %}
-                                        <option value="{{ name }}"{{ ' selected' if name == 'aria' }}>
-                                            {{ name | replace('_',' ') | title }}
-                                        </option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="col-6">
-                                    <label class="form-label small text-muted">Format</label>
-                                    <select class="form-select form-select-sm" id="selFormat">
-                                        {% for f in formats %}
-                                        <option value="{{ f }}"{{ ' selected' if f == 'vertical' }}>
-                                            {{ format_details[f].label }}
-                                        </option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Advanced card -->
-                    <div class="card mb-3">
-                        <div class="card-header" role="button"
-                             data-bs-toggle="collapse" data-bs-target="#advancedPanel">
-                            <i class="bi bi-gear"></i> Advanced
-                            <i class="bi bi-chevron-down float-end"></i>
-                        </div>
-                        <div class="collapse" id="advancedPanel">
-                            <div class="card-body">
-                                <div class="row g-2 mb-2">
-                                    <div class="col-6">
-                                        <label class="form-label small text-muted">Platform Preset</label>
-                                        <select class="form-select form-select-sm" id="selPlatform"
-                                                onchange="applyPlatformPreset()">
-                                            <option value="">(none)</option>
-                                            {% for p in platforms %}
-                                            <option value="{{ p }}">{{ platform_details[p].label }}</option>
-                                            {% endfor %}
-                                        </select>
-                                        <div class="explainer-hint" id="platformHint"></div>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="form-label small text-muted">Quality</label>
-                                        <select class="form-select form-select-sm" id="selQuality">
-                                            {% for q in qualities %}
-                                            <option value="{{ q }}"{{ ' selected' if q == 'standard' }}>
-                                                {{ quality_details[q].label }}
-                                            </option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row g-2 mb-2">
-                                    <div class="col-6">
-                                        <label class="form-label small text-muted">Watermark</label>
-                                        <input type="text" class="form-control form-control-sm"
-                                               id="inputWatermark" placeholder="@myhandle">
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="form-label small text-muted">Key Points (0 = auto)</label>
-                                        <input type="number" class="form-control form-control-sm"
-                                               id="inputPoints" min="0" max="6" value="0">
-                                    </div>
-                                </div>
-                                <div class="row g-2 mb-2">
-                                    <div class="col-6">
-                                        <label class="form-label small text-muted">Target Duration (seconds)</label>
-                                        <input type="number" class="form-control form-control-sm"
-                                               id="inputDuration" min="0" max="300" value="0"
-                                               placeholder="0 = auto">
-                                        <p class="small text-muted mb-0" style="font-size:.65rem;margin-top:2px;">
-                                            0 = auto. AI will try to fit the story within this time.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="row g-2 mb-2">
-                                    <div class="col-6">
-                                        <label class="form-label small text-muted">Render Engine</label>
-                                        <select class="form-select form-select-sm" id="selRenderer">
-                                            <option value="moviepy" selected>MoviePy (Classic)</option>
-                                            <option value="remotion">Remotion (React/TS)</option>
-                                        </select>
-                                        <p class="small text-muted mb-0" style="font-size:.65rem;margin-top:2px;">
-                                            Remotion uses React + TypeScript for richer animations &amp; transitions.
-                                        </p>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="form-label small text-muted">Voice Engine</label>
-                                        <select class="form-select form-select-sm" id="selTTSProvider">
-                                            <option value="google_tts" selected>Google AI Studio (Gemini Voice - Default)</option>
-                                            <option value="elevenlabs">ElevenLabs (Premium)</option>
-                                            <option value="replicate">Replicate/Kokoro (Cheap)</option>
-                                            <option value="edge_tts">Edge TTS (Free)</option>
-                                        </select>
-                                        <p class="small text-muted mb-0" style="font-size:.65rem;margin-top:2px;">
-                                            ElevenLabs: best quality (free tier). Google: free 8 voices. Replicate: ~$0.003/video.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Premium card -->
-                    <div class="card mb-3">
-                        <div class="card-header" role="button"
-                             data-bs-toggle="collapse" data-bs-target="#premiumPanel">
-                            <i class="bi bi-stars"></i> Premium
-                            <i class="bi bi-chevron-down float-end"></i>
-                        </div>
-                        <div class="collapse" id="premiumPanel">
-                            <div class="card-body">
-                                <div class="row g-2 mb-2">
-                                    <div class="col-6">
-                                        <label class="form-label small text-muted">Color Grade</label>
-                                        <select class="form-select form-select-sm" id="selColorGrade">
-                                            {% for g in color_grades %}
-                                            <option value="{{ g }}"{{ ' selected' if g == default_color_grade }}>
-                                                {{ g | replace('_',' ') | title }}
-                                            </option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="form-label small text-muted">Language</label>
-                                        <select class="form-select form-select-sm" id="selLanguage">
-                                            <option value="">(default – English)</option>
-                                            {% for code in languages %}
-                                            <option value="{{ code }}">{{ language_details[code].label }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row g-2">
-                                    <div class="col-6">
-                                        <label class="form-label small text-muted">Voice Speed</label>
-                                        <select class="form-select form-select-sm" id="selSpeed">
-                                            <option value="">Default (+0%)</option>
-                                            <option value="-20%">Slower (-20%)</option>
-                                            <option value="-10%">Slightly slower (-10%)</option>
-                                            <option value="+10%">Slightly faster (+10%)</option>
-                                            <option value="+20%">Faster (+20%)</option>
-                                            <option value="+30%">Much faster (+30%)</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="form-label small text-muted">&nbsp;</label>
-                                        <p class="small text-muted mb-0" style="margin-top:4px;">
-                                            <i class="bi bi-info-circle"></i>
-                                            Custom font, BGM, intro/outro via CLI
-                                        </p>
-                                    </div>
-                                </div>
-                                <hr class="my-2 opacity-25">
-                                <div class="row g-2 mb-2">
-                                    <div class="col-12">
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="chkAiImages"
-                                                   onchange="toggleAiImages()">
-                                            <label class="form-check-label small" for="chkAiImages">
-                                                <i class="bi bi-stars"></i> AI Images (Claymorphism)
-                                                <span class="badge bg-info text-dark ms-1" style="font-size:.65rem;">NEW</span>
-                                            </label>
-                                        </div>
-                                        <p class="small text-muted mb-0" style="font-size:.7rem;margin-top:2px;">
-                                            Generate AI visuals instead of stock photos. No API key needed.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div id="aiImageOptions" class="d-none">
-                                    <div class="row g-2">
-                                        <div class="col-12">
-                                            <label class="form-label small text-muted">Brand Text</label>
-                                            <input type="text" class="form-control form-control-sm"
-                                                   id="inputBrand" placeholder="Your Brand Name">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Action buttons -->
-                    <div class="d-grid gap-2 d-md-flex mb-3">
-                        <button class="btn btn-outline-accent flex-grow-1"
-                                id="btnPreview" onclick="previewAnalysis()">
-                            <i class="bi bi-search"></i> Preview Analysis
-                        </button>
-                        <button class="btn btn-accent flex-grow-1"
-                                id="btnGenerate" onclick="generateVideo()">
-                            <i class="bi bi-camera-reels"></i> Generate Video
-                        </button>
-                    </div>
-
-                    <!-- Preview panel -->
-                    <div class="card d-none" id="previewPanel">
-                        <div class="card-header"><i class="bi bi-eye"></i> Analysis Preview</div>
-                        <div class="card-body" id="previewContent"></div>
-                    </div>
+    <!-- Header Navigation Bar -->
+    <header class="app-header">
+        <div class="container-xl d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-3">
+                <div class="brand-logo-icon">
+                    <i class="bi bi-film"></i>
                 </div>
-
-                <!-- RIGHT: Output -->
-                <div class="col-lg-7">
-                    <div class="card">
-                        <div class="card-header"><i class="bi bi-play-circle"></i> Output</div>
-                        <div class="card-body">
-                            <div id="videoContainer" class="text-center mb-3">
-                                <div class="text-muted py-5">
-                                    <i class="bi bi-camera-reels" style="font-size:3rem;opacity:.3;"></i>
-                                    <p class="mt-2">Generate a video to see it here</p>
-                                </div>
-                            </div>
-                            <div id="thumbnailContainer" class="d-none mb-3">
-                                <label class="form-label small text-muted">Thumbnail</label>
-                                <img id="thumbnailImg" class="img-fluid rounded" style="max-height:200px;">
-                            </div>
-                            <div id="resultInfo" class="d-none">
-                                <div class="result-card p-3 mb-3">
-                                    <div class="row g-3">
-                                        <div class="col-6">
-                                            <div class="label">Title</div>
-                                            <div class="value" id="resTitle">—</div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="label">Hook</div>
-                                            <div class="value fst-italic" id="resHook">—</div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="label">Duration</div>
-                                            <div class="value" id="resDuration">—</div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="label">Resolution</div>
-                                            <div class="value" id="resResolution">—</div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="label">Key Points</div>
-                                            <div class="value" id="resPoints">—</div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="label">Type</div>
-                                            <div class="value" id="resType">—</div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="label">Mood</div>
-                                            <div class="value" id="resMood">—</div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="label">Theme</div>
-                                            <div class="value" id="resTheme">—</div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="label">Style</div>
-                                            <div class="value" id="resStyle">—</div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="label">Time</div>
-                                            <div class="value" id="resTime">—</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <a id="downloadVideo" class="btn btn-sm btn-outline-accent" download>
-                                        <i class="bi bi-download"></i> Video
-                                    </a>
-                                    <a id="downloadSrt" class="btn btn-sm btn-outline-accent d-none" download>
-                                        <i class="bi bi-file-text"></i> Subtitles
-                                    </a>
-                                    <a id="downloadThumb" class="btn btn-sm btn-outline-accent d-none" download>
-                                        <i class="bi bi-image"></i> Thumbnail
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ═══════════════════════ HISTORY TAB ═══════════════════════ -->
-        <div class="tab-pane fade" id="tab-history">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <span><i class="bi bi-clock-history"></i> Previous Outputs</span>
-                    <button class="btn btn-sm btn-outline-accent" onclick="loadHistory()">
-                        <i class="bi bi-arrow-clockwise"></i> Refresh
-                    </button>
-                </div>
-                <div class="card-body" id="historyContent">
-                    <p class="text-muted">Click Refresh to load.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- ═══════════════════════ REFERENCE TAB ═══════════════════════ -->
-        <div class="tab-pane fade" id="tab-reference">
-            <div class="row g-4">
-                <!-- Visual Styles -->
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header"><i class="bi bi-brush"></i> Visual Styles (AI Images)</div>
-                        <div class="card-body p-0">
-                            <table class="table table-sm table-dark mb-0">
-                                <thead><tr><th>Name</th><th>Label</th><th>Description</th></tr></thead>
-                                <tbody>
-                                {% for name, s in visual_style_details.items() %}
-                                <tr>
-                                    <td><code>{{ name }}</code></td>
-                                    <td>{{ s.label }}</td>
-                                    <td class="text-muted small">{{ s.description }}</td>
-                                </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <!-- Themes -->
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header"><i class="bi bi-palette"></i> Themes</div>
-                        <div class="card-body p-0">
-                            <table class="table table-sm table-dark mb-0">
-                                <thead><tr><th>Name</th><th>Label</th><th>Accent</th><th>Vignette</th></tr></thead>
-                                <tbody>
-                                {% for name, t in theme_details.items() %}
-                                <tr>
-                                    <td><code>{{ name }}</code></td>
-                                    <td>{{ t.label }}</td>
-                                    <td>
-                                        <span class="color-swatch"
-                                              style="background:rgb({{ t.accent_color[0] }},{{ t.accent_color[1] }},{{ t.accent_color[2] }});">
-                                        </span>
-                                        {{ t.accent_color[0] }},{{ t.accent_color[1] }},{{ t.accent_color[2] }}
-                                    </td>
-                                    <td>{{ '&#10003;' if t.vignette else '–' }}</td>
-                                </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <!-- Caption Styles -->
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header"><i class="bi bi-chat-dots"></i> Caption Styles</div>
-                        <div class="card-body p-0">
-                            <table class="table table-sm table-dark mb-0">
-                                <thead><tr><th>Name</th><th>Label</th><th>Description</th></tr></thead>
-                                <tbody>
-                                {% for name, c in caption_details.items() %}
-                                <tr>
-                                    <td><code>{{ name }}</code></td>
-                                    <td>{{ c.label }}</td>
-                                    <td class="text-muted small">{{ c.description }}</td>
-                                </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <!-- Platform Presets -->
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header"><i class="bi bi-phone"></i> Platform Presets</div>
-                        <div class="card-body p-0">
-                            <table class="table table-sm table-dark mb-0">
-                                <thead><tr><th>Name</th><th>Format</th><th>Duration</th><th>Theme</th><th>Captions</th></tr></thead>
-                                <tbody>
-                                {% for name, p in platform_details.items() %}
-                                <tr>
-                                    <td><code>{{ name }}</code></td>
-                                    <td>{{ p.format }}</td>
-                                    <td>{{ p.target_duration[0] }}–{{ p.target_duration[1] }}s</td>
-                                    <td>{{ p.recommended_theme }}</td>
-                                    <td>{{ p.recommended_captions }}</td>
-                                </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <!-- Voices -->
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header"><i class="bi bi-mic"></i> Voices</div>
-                        <div class="card-body p-0">
-                            <table class="table table-sm table-dark mb-0">
-                                <thead><tr><th>Shortcut</th><th>Voice ID</th></tr></thead>
-                                <tbody>
-                                {% for name, vid in voices.items() %}
-                                <tr>
-                                    <td><code>{{ name }}</code></td>
-                                    <td class="text-muted small">{{ vid }}</td>
-                                </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <!-- Color Grades -->
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header"><i class="bi bi-palette2"></i> Color Grades</div>
-                        <div class="card-body p-0">
-                            <table class="table table-sm table-dark mb-0">
-                                <thead><tr><th>Name</th><th>Brightness</th><th>Contrast</th><th>Saturation</th></tr></thead>
-                                <tbody>
-                                {% for g in color_grades %}
-                                <tr>
-                                    <td><code>{{ g }}</code></td>
-                                    <td>{{ "%.2f"|format(color_grade_details[g].brightness) }}</td>
-                                    <td>{{ "%.2f"|format(color_grade_details[g].contrast) }}</td>
-                                    <td>{{ "%.2f"|format(color_grade_details[g].saturation) }}</td>
-                                </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <!-- Languages -->
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header"><i class="bi bi-globe"></i> Languages</div>
-                        <div class="card-body p-0">
-                            <table class="table table-sm table-dark mb-0">
-                                <thead><tr><th>Code</th><th>Language</th><th>Voice</th></tr></thead>
-                                <tbody>
-                                {% for code in languages %}
-                                <tr>
-                                    <td><code>{{ code }}</code></td>
-                                    <td>{{ language_details[code].label }}</td>
-                                    <td class="text-muted small">{{ language_details[code].voice }}</td>
-                                </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <!-- Tone Presets (full width) -->
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header"><i class="bi bi-chat-square-text"></i> Tone Presets</div>
-                        <div class="card-body p-0">
-                            <table class="table table-sm table-dark mb-0">
-                                <thead><tr><th style="width:120px;">Tone</th><th>Description</th></tr></thead>
-                                <tbody>
-                                {% for name, desc in tone_details.items() %}
-                                <tr>
-                                    <td><code>{{ name }}</code></td>
-                                    <td class="text-muted" style="font-size:.85rem;">
-                                        {{ desc[:120] }}{% if desc|length > 120 %}…{% endif %}
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ═══════════════════════ REMOTION STUDIO TAB ═══════════════════════ -->
-        <div class="tab-pane fade" id="tab-remotion-studio">
-            <div class="row g-3">
-                <!-- LEFT: Effect Catalog -->
-                <div class="col-lg-5 col-xl-4">
-                    <div class="card" style="max-height:85vh;overflow-y:auto;">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <span><i class="bi bi-film"></i> Effect Library</span>
-                            <span class="badge bg-secondary" id="effectCount">0 effects</span>
-                        </div>
-                        <div class="card-body p-0" id="effectCatalog">
-                            <div class="text-center py-5 text-muted">
-                                <div class="spinner-border spinner-border-sm me-2"></div>
-                                Loading effect catalog...
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- RIGHT: Preview Panel -->
-                <div class="col-lg-7 col-xl-8">
-                    <div class="card" style="position:sticky;top:1rem;">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <span><i class="bi bi-play-circle"></i> Effect Preview</span>
-                            <span class="badge bg-info" id="previewEffectLabel">Select an effect</span>
-                        </div>
-                        <div class="card-body text-center" id="previewPanel">
-                            <!-- Placeholder -->
-                            <div id="previewPlaceholder" class="py-5">
-                                <i class="bi bi-eye" style="font-size:4rem;color:#444;"></i>
-                                <p class="text-muted mt-3 mb-0">Click any effect to preview it</p>
-                                <p class="text-muted small">Previews are rendered via Remotion (first load may take ~10-15s)</p>
-                            </div>
-                            <!-- Video player (hidden until loaded) -->
-                            <div id="previewVideoWrap" class="d-none">
-                                <video id="previewVideo"
-                                       style="max-width:100%;max-height:60vh;border-radius:12px;background:#000;"
-                                       autoplay loop muted playsinline controls>
-                                </video>
-                            </div>
-                            <!-- Loading state -->
-                            <div id="previewLoading" class="d-none py-5">
-                                <div class="spinner-border text-primary mb-3" style="width:3rem;height:3rem;"></div>
-                                <p class="text-muted">Rendering preview via Remotion...</p>
-                                <p class="text-muted small" id="previewLoadingDetail">This takes ~10-15 seconds for first load</p>
-                            </div>
-                            <!-- Error state -->
-                            <div id="previewError" class="d-none py-5">
-                                <i class="bi bi-exclamation-triangle" style="font-size:3rem;color:#e74c3c;"></i>
-                                <p class="text-danger mt-2" id="previewErrorMsg"></p>
-                            </div>
-                        </div>
-                        <!-- Effect info -->
-                        <div class="card-footer small" id="previewFooter" style="display:none;">
-                            <div class="row text-muted">
-                                <div class="col"><strong>Category:</strong> <span id="infoCategory">-</span></div>
-                                <div class="col"><strong>Name:</strong> <code id="infoName">-</code></div>
-                                <div class="col"><strong>Status:</strong> <span id="infoStatus">-</span></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Render All Previews -->
-                    <div class="card mt-3">
-                        <div class="card-body d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong>Batch Render</strong>
-                                <small class="text-muted ms-2">Pre-render all effect previews for instant playback</small>
-                            </div>
-                            <button class="btn btn-outline-primary btn-sm" onclick="batchRenderPreviews()" id="btnBatchRender">
-                                <i class="bi bi-collection-play"></i> Render All
-                            </button>
-                        </div>
-                        <div class="progress d-none" id="batchProgress" style="height:4px;">
-                            <div class="progress-bar" id="batchProgressBar" style="width:0%;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ═══════════════════════ KIDS STORY TAB ═══════════════════════ -->
-        <div class="tab-pane fade" id="tab-kids-story">
-            <div class="row g-4">
-                <!-- LEFT: Input -->
-                <div class="col-lg-5">
-                    <!-- Locked config badge -->
-                    <div class="card mb-3" style="border-color:rgba(255,200,50,.25);">
-                        <div class="card-body py-2 px-3">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <small class="text-muted">
-                                    <i class="bi bi-lock-fill" style="color:#ffc832;"></i>
-                                    Viral Kids Story &mdash; optimised for 3-second hooks &amp; maximum retention
-                                </small>
-                            </div>
-                            <div class="d-flex flex-wrap gap-2 mt-2">
-                                <span class="badge bg-dark border border-secondary"><i class="bi bi-lightning-charge-fill" style="color:#ff6b35;"></i> 3s Hook</span>
-                                <span class="badge bg-dark border border-secondary"><i class="bi bi-mic"></i> Ryan UK</span>
-                                <span class="badge bg-dark border border-secondary"><i class="bi bi-film"></i> Remotion</span>
-                                <span class="badge bg-dark border border-secondary"><i class="bi bi-stars"></i> AI Images</span>
-                                <span class="badge bg-dark border border-secondary"><i class="bi bi-brush"></i> Claymorphism</span>
-                                <span class="badge bg-dark border border-secondary"><i class="bi bi-phone"></i> Vertical</span>
-                                <span class="badge bg-dark border border-secondary"><i class="bi bi-speedometer2"></i> High Quality</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Story Input -->
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <i class="bi bi-book"></i> Story Input
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <label class="form-label small text-muted">Story Title (optional)</label>
-                                <input type="text" class="form-control" id="ksTitle"
-                                       placeholder="e.g. The Curious Cat and the Moon">
-                                <div class="explainer-hint">Leave blank for AI-generated title</div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label small text-muted">
-                                    <i class="bi bi-pencil"></i> Your Story
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <textarea class="form-control" id="ksStoryText" rows="10"
-                                          placeholder="Paste or write your kids story here…&#10;&#10;Example:&#10;A tiny turtle named Timo dreamed of flying. Every day he watched the birds soar across the sky and wished he could join them. One morning, Timo climbed the tallest rock he could find, took a deep breath, and jumped! But instead of flying, he splashed right into the pond below. And that's when he discovered something amazing — he could swim faster than any bird could fly!"
-                                          style="min-height:220px;"></textarea>
-                                <div class="d-flex justify-content-between mt-1">
-                                    <div class="explainer-hint">Paste your story. AI will create a viral hook, split into fast-paced scenes (20-35s), and generate striking visuals.</div>
-                                    <small class="text-muted" id="ksWordCount">0 words</small>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label small text-muted">Brand Text (optional)</label>
-                                <input type="text" class="form-control form-control-sm" id="ksBrand"
-                                       placeholder="Your Channel Name">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Generate -->
-                    <div class="d-grid mb-3">
-                        <button class="btn btn-accent btn-lg" id="btnKsGenerate"
-                                onclick="generateKidsStory()">
-                            <i class="bi bi-magic"></i> Generate Kids Story Video
-                        </button>
-                    </div>
-
-                    <!-- How it works -->
-                    <div class="card" style="border-color:rgba(255,255,255,.04);">
-                        <div class="card-body py-2">
-                            <small class="text-muted d-block mb-1"><strong>How it works:</strong></small>
-                            <small class="text-muted">
-                                1. <strong style="color:#ff6b35;">AI creates a pattern-interrupt hook</strong> (mystery, emotional, danger, reverse, or question)<br>
-                                2. Story is restructured for viral pacing: Hook &rarr; Setup &rarr; Adventure &rarr; Twist &rarr; Ending<br>
-                                3. AI generates striking claymorphism visuals (first image = visual hook)<br>
-                                4. Ryan UK narrates with karaoke word highlighting<br>
-                                5. Remotion renders a <strong>20-35s</strong> viral-ready video<br>
-                                <span style="color:#ffc832;">~2-4 min</span> processing time
-                            </small>
-                        </div>
-                    </div>
-                    <!-- Hook styles info -->
-                    <div class="card mt-2" style="border-color:rgba(255,255,255,.04);">
-                        <div class="card-body py-2">
-                            <small class="text-muted d-block mb-1"><strong>AI Hook Styles:</strong></small>
-                            <small class="text-muted">
-                                <span style="color:#a78bfa;">&#x1f52e; Mystery</span> &mdash; "This kitten tried to catch the moon&hellip; but something impossible happened."<br>
-                                <span style="color:#f472b6;">&#x1f494; Emotional</span> &mdash; "Everyone ignored this little bear&hellip; until one night changed everything."<br>
-                                <span style="color:#fb923c;">&#x26a1; Danger</span> &mdash; "This tiny penguin got lost in the desert&hellip; but then THIS happened."<br>
-                                <span style="color:#34d399;">&#x1f504; Reverse</span> &mdash; "A turtle flying in the sky?! Let me explain&hellip;"<br>
-                                <span style="color:#60a5fa;">&#x2753; Question</span> &mdash; "What would happen if a turtle tried to fly?"
-                            </small>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- RIGHT: Output -->
-                <div class="col-lg-7">
-                    <div class="card">
-                        <div class="card-header"><i class="bi bi-play-circle"></i> Story Video Output</div>
-                        <div class="card-body">
-                            <div id="ksVideoContainer" class="text-center mb-3">
-                                <div class="text-muted py-5">
-                                    <i class="bi bi-book" style="font-size:3rem;opacity:.3;"></i>
-                                    <p class="mt-2">Paste a story and click Generate to create your video</p>
-                                </div>
-                            </div>
-                            <div id="ksThumbnailContainer" class="d-none mb-3">
-                                <label class="form-label small text-muted">Thumbnail</label>
-                                <img id="ksThumbnailImg" class="img-fluid rounded" style="max-height:200px;">
-                            </div>
-                            <div id="ksResultInfo" class="d-none">
-                                <div class="result-card p-3 mb-3">
-                                    <div class="row g-3">
-                                        <div class="col-6">
-                                            <div class="label">Title</div>
-                                            <div class="value" id="ksResTitle">—</div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="label">Hook</div>
-                                            <div class="value fst-italic" id="ksResHook">—</div>
-                                        </div>
-                                        <div class="col-4">
-                                            <div class="label">Duration</div>
-                                            <div class="value" id="ksResDuration">—</div>
-                                        </div>
-                                        <div class="col-4">
-                                            <div class="label">Resolution</div>
-                                            <div class="value" id="ksResResolution">—</div>
-                                        </div>
-                                        <div class="col-4">
-                                            <div class="label">Time</div>
-                                            <div class="value" id="ksResTime">—</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <a id="ksDownloadVideo" class="btn btn-sm btn-outline-accent" download>
-                                        <i class="bi bi-download"></i> Video
-                                    </a>
-                                    <a id="ksDownloadSrt" class="btn btn-sm btn-outline-accent d-none" download>
-                                        <i class="bi bi-file-text"></i> Subtitles
-                                    </a>
-                                    <a id="ksDownloadThumb" class="btn btn-sm btn-outline-accent d-none" download>
-                                        <i class="bi bi-image"></i> Thumbnail
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ═══════════════════════ DAILY PIPELINE TAB ═══════════════════════ -->
-        <div class="tab-pane fade" id="tab-daily-pipeline">
-            <div class="row g-4">
-                <!-- LEFT: Controls -->
-                <div class="col-lg-5">
-                    <!-- Pipeline Configuration -->
-                    <div class="card mb-3">
-                        <div class="card-header"><i class="bi bi-gear"></i> Pipeline Configuration</div>
-                        <div class="card-body">
-                            <div class="row g-3">
-                                <div class="col-6">
-                                    <label class="form-label small text-muted">Videos to Generate</label>
-                                    <select class="form-select form-select-sm" id="dpVideos">
-                                        <option value="1">1 video</option>
-                                        <option value="2">2 videos</option>
-                                        <option value="3">3 videos</option>
-                                        <option value="5" selected>5 videos</option>
-                                    </select>
-                                </div>
-                                <div class="col-6">
-                                    <label class="form-label small text-muted">Tone</label>
-                                    <select class="form-select form-select-sm" id="dpTone">
-                                        <option value="storytelling" selected>Storytelling</option>
-                                        <option value="informative">Informative</option>
-                                        <option value="social">Social / Punchy</option>
-                                    </select>
-                                </div>
-                                <div class="col-6">
-                                    <label class="form-label small text-muted">Renderer</label>
-                                    <select class="form-select form-select-sm" id="dpRenderer">
-                                        <option value="remotion" selected>Remotion</option>
-                                        <option value="moviepy">MoviePy</option>
-                                    </select>
-                                </div>
-                                <div class="col-6">
-                                    <label class="form-label small text-muted">Voice Engine</label>
-                                    <select class="form-select form-select-sm" id="dpTTSProvider">
-                                        <option value="google_tts" selected>Google AI Studio (Gemini Voice - Default)</option>
-                                        <option value="elevenlabs">ElevenLabs (Premium)</option>
-                                        <option value="replicate">Replicate/Kokoro (Cheap)</option>
-                                        <option value="edge_tts">Edge TTS (Free)</option>
-                                    </select>
-                                </div>
-                                <div class="col-6">
-                                    <label class="form-label small text-muted">Publish Strategy</label>
-                                    <select class="form-select form-select-sm" id="dpPublish">
-                                        <option value="manual" selected>Manual (folder)</option>
-                                        <option value="browser">Browser Automation</option>
-                                        <option value="youtube_api">YouTube API</option>
-                                        <option value="macos_shortcuts">macOS Shortcuts</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Scheduling -->
-                    <div class="card mb-3">
-                        <div class="card-header"><i class="bi bi-calendar-event"></i> Schedule Settings</div>
-                        <div class="card-body">
-                            <div class="row g-3">
-                                <div class="col-4">
-                                    <label class="form-label small text-muted">Start Hour</label>
-                                    <select class="form-select form-select-sm" id="dpStartHour">
-                                        <option value="9">9 AM</option>
-                                        <option value="12">12 PM</option>
-                                        <option value="15">3 PM</option>
-                                        <option value="17" selected>5 PM</option>
-                                        <option value="18">6 PM</option>
-                                        <option value="20">8 PM</option>
-                                    </select>
-                                </div>
-                                <div class="col-4">
-                                    <label class="form-label small text-muted">Interval (min)</label>
-                                    <input type="number" class="form-control form-control-sm" id="dpInterval"
-                                           value="70" min="30" max="180" step="10">
-                                </div>
-                                <div class="col-4">
-                                    <label class="form-label small text-muted">Jitter (±min)</label>
-                                    <input type="number" class="form-control form-control-sm" id="dpJitter"
-                                           value="15" min="0" max="30" step="5">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Platforms -->
-                    <div class="card mb-3">
-                        <div class="card-header"><i class="bi bi-share"></i> Platforms</div>
-                        <div class="card-body">
-                            <div class="d-flex flex-wrap gap-2">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="dpPlat_yt" value="youtube_shorts" checked>
-                                    <label class="form-check-label small" for="dpPlat_yt">YouTube Shorts</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="dpPlat_tt" value="tiktok" checked>
-                                    <label class="form-check-label small" for="dpPlat_tt">TikTok</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="dpPlat_ig" value="instagram_reels" checked>
-                                    <label class="form-check-label small" for="dpPlat_ig">Instagram Reels</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="dpPlat_fb" value="facebook" checked>
-                                    <label class="form-check-label small" for="dpPlat_fb">Facebook</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="dpPlat_tw" value="twitter" checked>
-                                    <label class="form-check-label small" for="dpPlat_tw">Twitter/X</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Actions -->
-                    <div class="card mb-3">
-                        <div class="card-body d-flex gap-2">
-                            <button class="btn btn-accent flex-grow-1" id="btnRunPipeline" onclick="runDailyPipeline(false)">
-                                <i class="bi bi-play-circle"></i> Run Pipeline
-                            </button>
-                            <button class="btn btn-outline-accent" onclick="runDailyPipeline(true)"
-                                    title="Test run — generates videos but doesn't publish">
-                                <i class="bi bi-bug"></i> Dry Run
-                            </button>
-                        </div>
-                        <div class="card-body pt-0">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="dpVerbose">
-                                <label class="form-check-label small text-muted" for="dpVerbose">Verbose logging</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- RIGHT: Live Output + Results -->
-                <div class="col-lg-7">
-                    <!-- Live Progress -->
-                    <div class="card mb-3" id="dpProgressCard" style="display:none;">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <span><i class="bi bi-activity"></i> Pipeline Progress</span>
-                            <span class="badge bg-warning text-dark" id="dpStatusBadge">Running</span>
-                        </div>
-                        <div class="card-body">
-                            <div class="progress mb-3" style="height:6px;background:rgba(255,255,255,.1);">
-                                <div id="dpProgressBar" class="progress-bar" role="progressbar"
-                                     style="width:0%;background:var(--accent);transition:width .3s;"></div>
-                            </div>
-                            <div id="dpLogOutput"
-                                 style="height:300px;overflow-y:auto;font-family:monospace;font-size:.78rem;
-                                        background:#0a0a15;border-radius:8px;padding:.75rem;
-                                        color:#bbb;border:1px solid rgba(255,255,255,.05);">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Results Summary -->
-                    <div class="card mb-3" id="dpResultCard" style="display:none;">
-                        <div class="card-header"><i class="bi bi-check2-circle"></i> Pipeline Results</div>
-                        <div class="card-body">
-                            <div class="row g-3 mb-3">
-                                <div class="col-3">
-                                    <div class="result-card p-3 text-center">
-                                        <div class="label">Stories</div>
-                                        <div class="value fs-4" id="dpResStories">—</div>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="result-card p-3 text-center">
-                                        <div class="label">Videos</div>
-                                        <div class="value fs-4" id="dpResVideos">—</div>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="result-card p-3 text-center">
-                                        <div class="label">Scheduled</div>
-                                        <div class="value fs-4" id="dpResPosts">—</div>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="result-card p-3 text-center">
-                                        <div class="label">Duration</div>
-                                        <div class="value fs-4" id="dpResDuration">—</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="dpVideoList"></div>
-                            <div id="dpErrors" class="mt-2"></div>
-                        </div>
-                    </div>
-
-                    <!-- Story History -->
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <span><i class="bi bi-journal-text"></i> Story History</span>
-                            <button class="btn btn-sm btn-outline-accent" onclick="loadDailyHistory()">
-                                <i class="bi bi-arrow-clockwise"></i>
-                            </button>
-                        </div>
-                        <div class="card-body">
-                            <div class="row g-2 mb-3">
-                                <div class="col-4">
-                                    <div class="result-card p-2 text-center">
-                                        <div class="label">Total Stories</div>
-                                        <div class="value" id="dpHistTotal">—</div>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="result-card p-2 text-center">
-                                        <div class="label">Published</div>
-                                        <div class="value" id="dpHistPublished">—</div>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="result-card p-2 text-center">
-                                        <div class="label">Today</div>
-                                        <div class="value" id="dpHistToday">—</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="dpHistoryList" style="max-height:400px;overflow-y:auto;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div><!-- /tab-content -->
-</div><!-- /container -->
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
-
-<script>
-/* ═══════════════════════════════════════════════════════
-   Platform presets (injected from server config)
-   ═══════════════════════════════════════════════════════ */
-const platformPresets = {
-    {% for name, p in platform_details.items() %}
-    '{{ name }}': {
-        format: '{{ p.format }}',
-        theme: '{{ p.recommended_theme }}',
-        captions: '{{ p.recommended_captions }}',
-        transition: '{{ p.recommended_transition }}',
-        maxPoints: {{ p.max_points }}
-    },
-    {% endfor %}
-};
-
-/* ══ Helpers ══ */
-function showSpinner(msg) {
-    document.getElementById('spinnerText').textContent = msg || 'Processing…';
-    document.getElementById('spinner').classList.add('active');
-}
-function hideSpinner() {
-    document.getElementById('spinner').classList.remove('active');
-}
-
-function showToast(msg, type) {
-    const c = document.getElementById('toastContainer');
-    const bg = type === 'error' ? 'bg-danger' : type === 'success' ? 'bg-success' : 'bg-secondary';
-    const d = document.createElement('div');
-    d.className = `toast show align-items-center text-white ${bg} border-0 mb-2`;
-    d.setAttribute('role', 'alert');
-    d.innerHTML = `<div class="d-flex"><div class="toast-body">${msg}</div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto"
-                onclick="this.closest('.toast').remove()"></button></div>`;
-    c.appendChild(d);
-    setTimeout(() => { if (d.parentNode) d.remove(); }, 5000);
-}
-
-function setSelectValue(id, value) {
-    const sel = document.getElementById(id);
-    if (!sel) return false;
-    for (let i = 0; i < sel.options.length; i++) {
-        if (sel.options[i].value === value) { sel.selectedIndex = i; return true; }
-    }
-    return false;
-}
-
-function getFormData() {
-    const contentMode = document.querySelector('input[name="contentMode"]:checked')?.value || 'article';
-    const provider = document.getElementById('selLlmProvider')?.value || '';
-
-    // Collect Deep Dive sources
-    let deepDiveSources = [];
-    if (contentMode === 'deep_dive') {
-        document.querySelectorAll('.deep-dive-url').forEach(input => {
-            const v = input.value.trim();
-            if (v) deepDiveSources.push(v);
-        });
-    }
-
-    // Determine LLM model based on provider
-    let llmModel = '';
-    if (provider === 'gemini') {
-        llmModel = document.getElementById('txtLlmModel')?.value || 'gemini-2.5-pro';
-    }
-
-    return {
-        url:        document.getElementById('inputUrl').value.trim(),
-        text:       document.getElementById('inputText').value.trim(),
-        tone:       document.getElementById('selTone').value,
-        theme:      document.getElementById('selTheme').value,
-        visual_style: document.getElementById('selVisualStyle').value,
-        transition: document.getElementById('selTransition').value,
-        voice:      document.getElementById('selVoice').value,
-        format:     document.getElementById('selFormat').value,
-        platform:   document.getElementById('selPlatform').value,
-        quality:    document.getElementById('selQuality').value,
-        watermark:  document.getElementById('inputWatermark').value.trim(),
-        points:     parseInt(document.getElementById('inputPoints').value) || 0,
-        target_duration: parseInt(document.getElementById('inputDuration').value) || 0,
-        subtitles:  true,
-        color_grade: document.getElementById('selColorGrade').value,
-        language:   document.getElementById('selLanguage').value,
-        speed:      document.getElementById('selSpeed').value,
-        ai_images:  document.getElementById('chkAiImages').checked,
-        brand_text: document.getElementById('inputBrand').value.trim(),
-        // Content mode fields
-        content_mode: contentMode,
-        question:     document.getElementById('inputQuestion')?.value?.trim() || '',
-        character_name: document.getElementById('inputCharacterName')?.value?.trim() || '',
-        modern_topic: document.getElementById('inputModernTopic')?.value?.trim() || '',
-        voice_pair:   contentMode === 'deep_dive'
-                        ? document.getElementById('selDeepDiveVoicePair')?.value || 'default'
-                        : document.getElementById('selVoicePair')?.value || 'default',
-        // Deep Dive fields
-        deep_dive_sources: deepDiveSources,
-        deep_dive_text: document.getElementById('inputDeepDiveText')?.value?.trim() || '',
-        // Series fields
-        series_id:    document.getElementById('chkSeries')?.checked
-                        ? document.getElementById('inputSeriesId')?.value?.trim() || ''
-                        : '',
-        episode_number: document.getElementById('chkSeries')?.checked
-                        ? parseInt(document.getElementById('inputEpisodeNumber')?.value) || 0
-                        : 0,
-        // Renderer engine
-        renderer:   document.getElementById('selRenderer').value,
-        // TTS voice engine
-        tts_provider: document.getElementById('selTTSProvider').value,
-        // LLM provider fields
-        llm_provider: provider,
-        llm_model:    llmModel,
-    };
-}
-
-/* ══ Kids Story — word count ══ */
-(function() {
-    const ta = document.getElementById('ksStoryText');
-    if (ta) {
-        ta.addEventListener('input', function() {
-            const wc = this.value.trim() ? this.value.trim().split(/\s+/).length : 0;
-            document.getElementById('ksWordCount').textContent = wc + ' words';
-        });
-    }
-})();
-
-/* ══ Kids Story — Generate (isolated pipeline) ══ */
-async function generateKidsStory() {
-    const storyText = document.getElementById('ksStoryText').value.trim();
-    if (!storyText) {
-        showToast('Please paste or write a story first.', 'error');
-        return;
-    }
-
-    // Hardcoded config — isolated from the Generate tab
-    // All fields mirror getFormData() to ensure full parity with Generate tab
-    const data = {
-        text:           storyText,
-        url:            '',
-        tone:           'storytelling',
-        theme:          'cinematic',
-        visual_style:   'claymorphism',
-        transition:     'fade',
-        voice:          'ryan_uk',
-        format:         'vertical',
-        platform:       '',
-        quality:        'high',
-        watermark:      '',
-        points:         0,
-        subtitles:      true,
-        captions:       'karaoke',
-        color_grade:    '{{ default_color_grade }}',
-        language:       '',
-        speed:          '',
-        ai_images:      true,
-        brand_text:     document.getElementById('ksBrand').value.trim(),
-        content_mode:   'kids_story',
-        question:       '',
-        character_name: '',
-        modern_topic:   '',
-        voice_pair:     'default',
-        deep_dive_sources: [],
-        deep_dive_text: '',
-        series_id:      '',
-        episode_number: 0,
-        renderer:       'remotion',
-        target_duration: 0,
-        llm_provider:   document.getElementById('selLlmProvider')?.value || '',
-        llm_model:      (document.getElementById('selLlmProvider')?.value === 'gemini')
-                            ? (document.getElementById('txtLlmModel')?.value || 'gemini-2.5-pro')
-                            : '',
-    };
-
-    // Optional title override
-    const title = document.getElementById('ksTitle').value.trim();
-    if (title) {
-        data.text = title + '\n\n' + storyText;
-    }
-
-    showSpinner('Starting Kids Story pipeline…');
-    document.getElementById('pipelineProgress').classList.remove('d-none');
-    document.getElementById('stageList').innerHTML = '';
-    document.getElementById('overallBar').style.width = '0%';
-    document.getElementById('btnKsGenerate').disabled = true;
-
-    try {
-        const resp = await fetch('/api/generate', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(data),
-        });
-        const result = await resp.json();
-        if (result.error) {
-            showToast('Error: ' + result.error, 'error');
-            hideSpinner();
-            document.getElementById('btnKsGenerate').disabled = false;
-            return;
-        }
-
-        const jobId = result.job_id;
-        const evtSource = new EventSource('/api/progress/' + jobId);
-        const stageIcons = {scrape:'📄', analyze:'🧠', visuals:'🖼️', narrate:'🎙️', vfx_plan:'🎨', compose:'🎬'};
-
-        evtSource.addEventListener('progress', function(e) {
-            const s = JSON.parse(e.data);
-            document.getElementById('spinnerText').textContent = s.message;
-            const pct = ((s.index - 1 + s.progress_pct) / s.total * 100);
-            document.getElementById('overallBar').style.width = Math.min(pct, 100) + '%';
-
-            let el = document.getElementById('stage-' + s.name);
-            const icon = stageIcons[s.name] || '⏳';
-            const st = s.status === 'completed' ? '✅' :
-                       s.status === 'failed' ? '❌' :
-                       s.status === 'running' ? '⏳' : '⬜';
-            const html = '<span>' + st + ' ' + icon + ' ' + s.label + '</span>' +
-                '<span class="text-muted" style="font-size:.8rem;">' +
-                (s.elapsed > 0 ? s.elapsed + 's ' : '') + (s.detail || '') + '</span>';
-            if (!el) {
-                el = document.createElement('div');
-                el.id = 'stage-' + s.name;
-                el.className = 'd-flex justify-content-between align-items-center mb-1';
-                el.style.cssText = 'color:#ccc;font-size:.9rem;';
-                document.getElementById('stageList').appendChild(el);
-            }
-            el.innerHTML = html;
-        });
-
-        evtSource.addEventListener('done', function(e) {
-            evtSource.close();
-            const r = JSON.parse(e.data);
-            document.getElementById('overallBar').style.width = '100%';
-            document.getElementById('btnKsGenerate').disabled = false;
-
-            if (r.error) { hideSpinner(); showToast('Error: ' + r.error, 'error'); return; }
-
-            /* video */
-            document.getElementById('ksVideoContainer').innerHTML =
-                '<video controls autoplay style="max-width:100%;max-height:600px;">' +
-                '<source src="' + r.video_url + '" type="video/mp4"></video>';
-
-            /* thumbnail */
-            if (r.thumbnail_url) {
-                document.getElementById('ksThumbnailContainer').classList.remove('d-none');
-                document.getElementById('ksThumbnailImg').src = r.thumbnail_url;
-                document.getElementById('ksDownloadThumb').href = r.thumbnail_url;
-                document.getElementById('ksDownloadThumb').classList.remove('d-none');
-            }
-
-            /* result card */
-            document.getElementById('ksResultInfo').classList.remove('d-none');
-            document.getElementById('ksResTitle').textContent    = r.title || '—';
-            document.getElementById('ksResHook').textContent     = r.hook || '—';
-            document.getElementById('ksResDuration').textContent = (r.duration || 0) + 's';
-            document.getElementById('ksResResolution').textContent = r.resolution || '—';
-            document.getElementById('ksResTime').textContent     = (r.processing_time || 0) + 's';
-            document.getElementById('ksDownloadVideo').href      = r.video_url;
-            if (r.srt_url) {
-                document.getElementById('ksDownloadSrt').href = r.srt_url;
-                document.getElementById('ksDownloadSrt').classList.remove('d-none');
-            }
-
-            hideSpinner();
-            showToast('Kids story video generated!', 'success');
-        });
-
-        evtSource.onerror = function() {
-            evtSource.close();
-            // Try polling for the final result in case SSE dropped but job completed
-            fetch('/api/result/' + jobId).then(r => r.ok ? r.json() : null).then(data => {
-                if (data && data.video_url) {
-                    document.getElementById('ksResultPanel').classList.remove('d-none');
-                    document.getElementById('ksResultVideo').src = data.video_url;
-                    document.getElementById('ksDownloadMp4').href = data.video_url;
-                    hideSpinner();
-                    showToast('Kids story generated (connection recovered)!', 'success');
-                } else {
-                    showToast('Connection lost — generation may still be running. Check History tab.', 'error');
-                    hideSpinner();
-                }
-            }).catch(() => {
-                showToast('Connection lost — generation may still be running. Check History tab.', 'error');
-                hideSpinner();
-            });
-            document.getElementById('btnKsGenerate').disabled = false;
-        };
-    } catch (e) {
-        showToast('Request failed: ' + e.message, 'error');
-        hideSpinner();
-        document.getElementById('btnKsGenerate').disabled = false;
-    }
-}
-
-/* ══ Toggle AI Images panel ══ */
-function toggleAiImages() {
-    const on = document.getElementById('chkAiImages').checked;
-    document.getElementById('aiImageOptions').classList.toggle('d-none', !on);
-}
-
-/* ══ LLM Provider Switching ══ */
-function switchLlmProvider(provider) {
-    const modelCol = document.getElementById('llmModelInfo');
-    if (modelCol) {
-        if (provider === 'gemini') {
-            modelCol.classList.remove('d-none');
-        } else {
-            modelCol.classList.add('d-none');
-        }
-    }
-    // Update status indicator
-    const status = document.getElementById('providerStatus');
-    const labels = {{ llm_providers | tojson }};
-    const label = labels[provider]?.label || provider;
-    if (provider === 'gemini') {
-        status.innerHTML = `<small class="text-muted"><i class="bi bi-stars text-primary"></i> <strong>${label}</strong> — Using Google Gemini AI Pro</small>`;
-    } else {
-        status.innerHTML = `<small class="text-muted"><i class="bi bi-arrow-repeat"></i> Switched to <strong>${label}</strong> — will validate on generate</small>`;
-    }
-}
-
-/* ══ Content Mode Switching ══ */
-function switchContentMode(mode) {
-    // Hide all input panels
-    document.getElementById('inputArticle').classList.add('d-none');
-    document.getElementById('inputThoughtExperiment').classList.add('d-none');
-    document.getElementById('inputGhostCollab').classList.add('d-none');
-    document.getElementById('inputDeepDive').classList.add('d-none');
-
-    // Show the relevant panel
-    if (mode === 'thought_experiment') {
-        document.getElementById('inputThoughtExperiment').classList.remove('d-none');
-        // Force AI images on for thought experiment
-        document.getElementById('chkAiImages').checked = true;
-        toggleAiImages();
-    } else if (mode === 'ghost_collab') {
-        document.getElementById('inputGhostCollab').classList.remove('d-none');
-        // Force AI images on for ghost collab
-        document.getElementById('chkAiImages').checked = true;
-        toggleAiImages();
-    } else if (mode === 'deep_dive') {
-        document.getElementById('inputDeepDive').classList.remove('d-none');
-        // Force AI images on for deep dive
-        document.getElementById('chkAiImages').checked = true;
-        toggleAiImages();
-    } else {
-        document.getElementById('inputArticle').classList.remove('d-none');
-    }
-}
-
-/* ══ Deep Dive: Add Source ══ */
-let deepDiveSourceCount = 2;
-const deepDiveMaxSources = {{ deep_dive_max_sources }};
-function addDeepDiveSource() {
-    if (deepDiveSourceCount >= deepDiveMaxSources) {
-        showToast(`Maximum ${deepDiveMaxSources} sources allowed.`, 'warning');
-        return;
-    }
-    deepDiveSourceCount++;
-    const container = document.getElementById('deepDiveSources');
-    const div = document.createElement('div');
-    div.className = 'input-group mb-2';
-    div.innerHTML = `
-        <span class="input-group-text" style="background:#0d0d20;border-color:rgba(255,255,255,.1);color:#888;">${deepDiveSourceCount}</span>
-        <input type="url" class="form-control deep-dive-url" placeholder="https://example.com/article-${deepDiveSourceCount}… (optional)">
-        <button class="btn btn-outline-danger btn-sm" onclick="removeDeepDiveSource(this)"><i class="bi bi-x-lg"></i></button>
-    `;
-    container.appendChild(div);
-    if (deepDiveSourceCount >= deepDiveMaxSources) {
-        document.getElementById('btnAddSource').classList.add('d-none');
-    }
-}
-function removeDeepDiveSource(btn) {
-    btn.closest('.input-group').remove();
-    deepDiveSourceCount--;
-    document.getElementById('btnAddSource').classList.remove('d-none');
-}
-
-/* ══ Toggle Series Panel ══ */
-function toggleSeriesPanel() {
-    const on = document.getElementById('chkSeries').checked;
-    document.getElementById('seriesPanel').classList.toggle('d-none', !on);
-}
-
-/* ══ Platform preset auto-apply ══ */
-function applyPlatformPreset() {
-    const platform = document.getElementById('selPlatform').value;
-    const hint = document.getElementById('platformHint');
-    if (!platform || !platformPresets[platform]) { hint.textContent = ''; return; }
-
-    const p = platformPresets[platform];
-    setSelectValue('selFormat', p.format);
-    setSelectValue('selTheme', p.theme);
-    setSelectValue('selTransition', p.transition);
-    if (p.maxPoints) document.getElementById('inputPoints').value = p.maxPoints;
-
-    // Auto-match tone for explainer
-    if (platform === 'explainer') setSelectValue('selTone', 'explainer');
-
-    hint.textContent = `Auto-set: ${p.format} format, ${p.theme} theme`;
-}
-
-/* ══ Generate (SSE) ══ */
-async function generateVideo() {
-    const data = getFormData();
-
-    // Validate based on content mode
-    if (data.content_mode === 'thought_experiment') {
-        if (!data.question) { showToast('Provide a question for the Thought Experiment.', 'error'); return; }
-    } else if (data.content_mode === 'ghost_collab') {
-        if (!data.character_name) { showToast('Provide a character name for Ghost Collaboration.', 'error'); return; }
-    } else if (data.content_mode === 'deep_dive') {
-        if (!data.deep_dive_sources.length && !data.deep_dive_text) {
-            showToast('Provide at least one URL or paste text for Deep Dive.', 'error'); return;
-        }
-    } else {
-        if (!data.url && !data.text) { showToast('Provide a URL or paste text.', 'error'); return; }
-    }
-
-    showSpinner('Starting pipeline…');
-    document.getElementById('pipelineProgress').classList.remove('d-none');
-    document.getElementById('stageList').innerHTML = '';
-    document.getElementById('overallBar').style.width = '0%';
-    document.getElementById('btnGenerate').disabled = true;
-    document.getElementById('btnPreview').disabled = true;
-
-    try {
-        const resp = await fetch('/api/generate', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(data),
-        });
-        const result = await resp.json();
-        if (result.error) {
-            showToast('Error: ' + result.error, 'error');
-            hideSpinner();
-            document.getElementById('btnGenerate').disabled = false;
-            document.getElementById('btnPreview').disabled = false;
-            return;
-        }
-
-        const jobId = result.job_id;
-        const evtSource = new EventSource('/api/progress/' + jobId);
-        const stageIcons = {scrape:'📄', analyze:'🧠', visuals:'🖼️', narrate:'🎙️', compose:'🎬'};
-
-        evtSource.addEventListener('progress', function(e) {
-            const s = JSON.parse(e.data);
-            document.getElementById('spinnerText').textContent = s.message;
-            const pct = ((s.index - 1 + s.progress_pct) / s.total * 100);
-            document.getElementById('overallBar').style.width = Math.min(pct, 100) + '%';
-
-            let el = document.getElementById('stage-' + s.name);
-            const icon = stageIcons[s.name] || '⏳';
-            const st = s.status === 'completed' ? '✅' :
-                       s.status === 'failed' ? '❌' :
-                       s.status === 'running' ? '⏳' : '⬜';
-            const html = '<span>' + st + ' ' + icon + ' ' + s.label + '</span>' +
-                '<span class="text-muted" style="font-size:.8rem;">' +
-                (s.elapsed > 0 ? s.elapsed + 's ' : '') + (s.detail || '') + '</span>';
-            if (!el) {
-                el = document.createElement('div');
-                el.id = 'stage-' + s.name;
-                el.className = 'd-flex justify-content-between align-items-center mb-1';
-                el.style.cssText = 'color:#ccc;font-size:.9rem;';
-                document.getElementById('stageList').appendChild(el);
-            }
-            el.innerHTML = html;
-        });
-
-        evtSource.addEventListener('done', function(e) {
-            evtSource.close();
-            const r = JSON.parse(e.data);
-            document.getElementById('overallBar').style.width = '100%';
-            document.getElementById('btnGenerate').disabled = false;
-            document.getElementById('btnPreview').disabled = false;
-
-            if (r.error) { hideSpinner(); showToast('Error: ' + r.error, 'error'); return; }
-
-            /* video */
-            document.getElementById('videoContainer').innerHTML =
-                '<video controls autoplay style="max-width:100%;max-height:600px;">' +
-                '<source src="' + r.video_url + '" type="video/mp4"></video>';
-
-            /* thumbnail */
-            if (r.thumbnail_url) {
-                document.getElementById('thumbnailContainer').classList.remove('d-none');
-                document.getElementById('thumbnailImg').src = r.thumbnail_url;
-                document.getElementById('downloadThumb').href = r.thumbnail_url;
-                document.getElementById('downloadThumb').classList.remove('d-none');
-            }
-
-            /* result card */
-            document.getElementById('resultInfo').classList.remove('d-none');
-            document.getElementById('resTitle').textContent    = r.title || '—';
-            document.getElementById('resHook').textContent     = r.hook || '—';
-            document.getElementById('resDuration').textContent = (r.duration || 0) + 's';
-            document.getElementById('resResolution').textContent = r.resolution || '—';
-            document.getElementById('resPoints').textContent   = r.key_points || '—';
-            document.getElementById('resType').textContent     = r.content_type || '—';
-            document.getElementById('resMood').textContent     = r.mood || '—';
-            document.getElementById('resTheme').textContent    = r.theme || '—';
-            document.getElementById('resStyle').textContent    = r.caption_style || r.theme || '—';
-            document.getElementById('resTime').textContent     = (r.processing_time || 0) + 's';
-            document.getElementById('downloadVideo').href      = r.video_url;
-            if (r.srt_url) {
-                document.getElementById('downloadSrt').href = r.srt_url;
-                document.getElementById('downloadSrt').classList.remove('d-none');
-            }
-
-            hideSpinner();
-            showToast('Video generated successfully!', 'success');
-        });
-
-        evtSource.onerror = function() {
-            evtSource.close();
-            // Try polling for the final result in case SSE dropped but job completed
-            fetch('/api/result/' + jobId).then(r => r.ok ? r.json() : null).then(data => {
-                if (data && data.video_url) {
-                    document.getElementById('resultPanel').classList.remove('d-none');
-                    document.getElementById('resultVideo').src = data.video_url;
-                    document.getElementById('downloadMp4').href = data.video_url;
-                    hideSpinner();
-                    showToast('Video generated (connection recovered)!', 'success');
-                } else {
-                    showToast('Connection lost — generation may still be running. Check History tab.', 'error');
-                    hideSpinner();
-                }
-            }).catch(() => {
-                showToast('Connection lost — generation may still be running. Check History tab.', 'error');
-                hideSpinner();
-            });
-            document.getElementById('btnGenerate').disabled = false;
-            document.getElementById('btnPreview').disabled = false;
-        };
-    } catch (e) {
-        showToast('Request failed: ' + e.message, 'error');
-        hideSpinner();
-        document.getElementById('btnGenerate').disabled = false;
-        document.getElementById('btnPreview').disabled = false;
-    }
-}
-
-/* ══ Preview Analysis ══ */
-async function previewAnalysis() {
-    const data = getFormData();
-    if (!data.url && !data.text) { showToast('Provide a URL or paste text.', 'error'); return; }
-
-    showSpinner('Analyzing content…');
-    document.getElementById('btnPreview').disabled = true;
-    try {
-        const resp = await fetch('/api/preview', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(data),
-        });
-        const r = await resp.json();
-        if (!resp.ok || r.error) { showToast('Error: ' + (r.error || 'Unknown'), 'error'); return; }
-
-        const panel = document.getElementById('previewPanel');
-        panel.classList.remove('d-none');
-
-        let h = '<h6 class="accent">' + r.title + '</h6>';
-        if (r.hook) h += '<p class="fst-italic text-muted">"' + r.hook + '"</p>';
-        h += '<div class="mb-2"><span class="badge bg-secondary">' + r.content_type + '</span> ' +
-             '<span class="badge bg-secondary">' + r.mood + '</span></div>';
-        if (r.summary) h += '<p class="small">' + r.summary + '</p>';
-        if (r.cta) h += '<p class="small"><strong>CTA:</strong> ' + r.cta + '</p>';
-        h += '<hr>';
-
-        for (const kp of r.key_points) {
-            h += '<div class="preview-kp">' +
-                '<strong>' + (kp.index + 1) + '. ' + kp.headline + '</strong>' +
-                '<span class="badge bg-dark ms-2" style="font-size:.7rem;">' + kp.emotion + '</span>' +
-                '<p class="small mb-1 mt-1">' + kp.narration + '</p>' +
-                '<p class="small text-muted mb-0"><i class="bi bi-image"></i> ' + kp.visual_query + '</p></div>';
-        }
-        document.getElementById('previewContent').innerHTML = h;
-    } catch (e) {
-        showToast('Preview failed: ' + e.message, 'error');
-    } finally {
-        hideSpinner();
-        document.getElementById('btnPreview').disabled = false;
-    }
-}
-
-/* ══ History ══ */
-async function loadHistory() {
-    try {
-        const resp = await fetch('/api/history');
-        const d = await resp.json();
-        const c = document.getElementById('historyContent');
-        if (!d.outputs || !d.outputs.length) { c.innerHTML = '<p class="text-muted">No outputs found.</p>'; return; }
-
-        let h = '';
-        for (const item of d.outputs) {
-            h += '<div class="history-item" onclick="playHistoryVideo(\'' + item.video_url + '\')">' +
-                '<div class="d-flex justify-content-between align-items-center">' +
-                '<div><i class="bi bi-film accent"></i> <strong>' + item.name + '</strong>' +
-                '<span class="text-muted small ms-2">' + item.video + '</span></div>' +
-                '<div><span class="badge bg-dark">' + Math.round(item.size_kb / 1024) + 'MB</span>' +
-                '<a href="' + item.video_url + '" class="btn btn-sm btn-outline-accent ms-2" download>' +
-                '<i class="bi bi-download"></i></a></div></div></div>';
-        }
-        c.innerHTML = h;
-    } catch (e) {
-        document.getElementById('historyContent').innerHTML =
-            '<p class="text-danger">Failed to load: ' + e.message + '</p>';
-    }
-}
-
-function playHistoryVideo(url) {
-    const tab = document.querySelector('[data-bs-target="#tab-generate"]');
-    bootstrap.Tab.getOrCreateInstance(tab).show();
-    document.getElementById('videoContainer').innerHTML =
-        '<video controls autoplay style="max-width:100%;max-height:600px;">' +
-        '<source src="' + url + '" type="video/mp4"></video>';
-}
-
-/* ══ Init ══ */
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelector('[data-bs-target="#tab-history"]')
-        ?.addEventListener('shown.bs.tab', loadHistory);
-
-    // Visual style hint
-    const styleDescriptions = {
-        {% for name, s in visual_style_details.items() %}
-        '{{ name }}': '{{ s.description }}',
-        {% endfor %}
-    };
-    const selStyle = document.getElementById('selVisualStyle');
-    const styleHint = document.getElementById('styleHint');
-    if (selStyle && styleHint) {
-        function updateStyleHint() {
-            const desc = styleDescriptions[selStyle.value] || '';
-            styleHint.textContent = desc;
-        }
-        selStyle.addEventListener('change', updateStyleHint);
-        updateStyleHint();
-    }
-});
-
-/* ═══════════════════════════════════════════════════════
-   Remotion Studio
-   ═══════════════════════════════════════════════════════ */
-
-let _studioLoaded = false;
-let _effectCatalog = null;
-let _currentPreview = null;
-
-function loadRemotionStudio() {
-    if (_studioLoaded) return;
-    _studioLoaded = true;
-    fetch('/api/effect-catalog')
-        .then(r => r.json())
-        .then(catalog => {
-            _effectCatalog = catalog;
-            renderEffectCatalog(catalog);
-        })
-        .catch(err => {
-            document.getElementById('effectCatalog').innerHTML =
-                `<div class="text-danger p-3">Failed to load: ${err.message}</div>`;
-        });
-}
-
-function renderEffectCatalog(catalog) {
-    const container = document.getElementById('effectCatalog');
-    let totalEffects = 0;
-    let html = '<div class="accordion accordion-flush" id="effectAccordion">';
-
-    const categoryColors = {
-        text_entry: '#3498db',
-        text_exit: '#e74c3c',
-        text_continuous: '#9b59b6',
-        image_entry: '#2ecc71',
-        image_treatment: '#f39c12',
-        image_exit: '#e67e22',
-        transition: '#1abc9c',
-        overlay: '#8e44ad',
-        background: '#2c3e50',
-    };
-
-    Object.entries(catalog).forEach(([catKey, catData], idx) => {
-        const effects = catData.effects;
-        totalEffects += effects.length;
-        const color = categoryColors[catKey] || '#666';
-        const cachedCount = effects.filter(e => e.cached).length;
-
-        html += `
-        <div class="accordion-item" style="border-left:3px solid ${color};">
-            <h2 class="accordion-header">
-                <button class="accordion-button ${idx > 0 ? 'collapsed' : ''}"
-                        type="button" data-bs-toggle="collapse"
-                        data-bs-target="#cat-${catKey}">
-                    <i class="bi ${catData.icon} me-2" style="color:${color}"></i>
-                    <span class="me-auto">${catData.label}</span>
-                    <span class="badge bg-dark me-2">${effects.length}</span>
-                    ${cachedCount > 0 ? `<span class="badge bg-success me-1" title="Cached">${cachedCount} <i class="bi bi-check"></i></span>` : ''}
-                </button>
-            </h2>
-            <div id="cat-${catKey}" class="accordion-collapse collapse ${idx === 0 ? 'show' : ''}"
-                 data-bs-parent="#effectAccordion">
-                <div class="accordion-body p-0">
-                    <div class="list-group list-group-flush">`;
-
-        effects.forEach(eff => {
-            const cached = eff.cached;
-            html += `
-                <button class="list-group-item list-group-item-action d-flex align-items-center effect-btn"
-                        data-category="${catKey}" data-name="${eff.name}"
-                        onclick="previewEffect('${catKey}', '${eff.name}', this)"
-                        style="font-size:.875rem;padding:.5rem .75rem;">
-                    <span class="me-auto">
-                        <strong>${eff.label}</strong>
-                        <br><small class="text-muted">${eff.desc}</small>
-                    </span>
-                    ${cached
-                        ? '<i class="bi bi-check-circle-fill text-success ms-2" title="Cached"></i>'
-                        : '<i class="bi bi-circle text-muted ms-2" title="Not yet rendered"></i>'
-                    }
-                </button>`;
-        });
-
-        html += `
-                    </div>
-                </div>
-            </div>
-        </div>`;
-    });
-
-    html += '</div>';
-    container.innerHTML = html;
-    document.getElementById('effectCount').textContent = `${totalEffects} effects`;
-}
-
-function previewEffect(category, name, btnEl) {
-    // Highlight active button
-    document.querySelectorAll('.effect-btn.active').forEach(b => b.classList.remove('active'));
-    if (btnEl) btnEl.classList.add('active');
-
-    const label = _effectCatalog?.[category]?.label || category;
-    const effData = _effectCatalog?.[category]?.effects?.find(e => e.name === name);
-    const effLabel = effData?.label || name;
-
-    document.getElementById('previewEffectLabel').textContent = `${label} › ${effLabel}`;
-    document.getElementById('previewFooter').style.display = '';
-    document.getElementById('infoCategory').textContent = label;
-    document.getElementById('infoName').textContent = name;
-
-    // Show loading
-    document.getElementById('previewPlaceholder').classList.add('d-none');
-    document.getElementById('previewVideoWrap').classList.add('d-none');
-    document.getElementById('previewError').classList.add('d-none');
-    document.getElementById('previewLoading').classList.remove('d-none');
-    document.getElementById('infoStatus').innerHTML = '<span class="text-warning">Rendering...</span>';
-
-    _currentPreview = `${category}__${name}`;
-
-    fetch('/api/effect-preview', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ category, name }),
-    })
-    .then(r => r.json())
-    .then(data => {
-        if (_currentPreview !== `${category}__${name}`) return; // stale
-        if (data.error) throw new Error(data.error);
-
-        document.getElementById('previewLoading').classList.add('d-none');
-        document.getElementById('previewVideoWrap').classList.remove('d-none');
-
-        const video = document.getElementById('previewVideo');
-        video.src = data.url + '?t=' + Date.now();
-        video.play().catch(() => {});
-
-        document.getElementById('infoStatus').innerHTML = '<span class="text-success">Ready</span>';
-
-        // Mark as cached in catalog
-        if (btnEl) {
-            const icon = btnEl.querySelector('.bi-circle');
-            if (icon) {
-                icon.className = 'bi bi-check-circle-fill text-success ms-2';
-                icon.title = 'Cached';
-            }
-        }
-    })
-    .catch(err => {
-        if (_currentPreview !== `${category}__${name}`) return;
-        document.getElementById('previewLoading').classList.add('d-none');
-        document.getElementById('previewError').classList.remove('d-none');
-        document.getElementById('previewErrorMsg').textContent = err.message;
-        document.getElementById('infoStatus').innerHTML = '<span class="text-danger">Error</span>';
-    });
-}
-
-async function batchRenderPreviews() {
-    if (!_effectCatalog) {
-        showToast('Catalog not loaded yet', 'error');
-        return;
-    }
-
-    const btn = document.getElementById('btnBatchRender');
-    const bar = document.getElementById('batchProgress');
-    const barInner = document.getElementById('batchProgressBar');
-
-    // Collect all uncached effects
-    const toRender = [];
-    Object.entries(_effectCatalog).forEach(([catKey, catData]) => {
-        catData.effects.forEach(eff => {
-            if (!eff.cached) toRender.push({ category: catKey, name: eff.name });
-        });
-    });
-
-    if (toRender.length === 0) {
-        showToast('All previews already cached!', 'success');
-        return;
-    }
-
-    btn.disabled = true;
-    btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Rendering...';
-    bar.classList.remove('d-none');
-
-    let done = 0;
-    for (const item of toRender) {
-        try {
-            await fetch('/api/effect-preview', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(item),
-            });
-        } catch (e) {
-            console.warn(`Failed: ${item.category}/${item.name}`, e);
-        }
-        done++;
-        barInner.style.width = `${(done / toRender.length) * 100}%`;
-    }
-
-    btn.disabled = false;
-    btn.innerHTML = '<i class="bi bi-collection-play"></i> Render All';
-    bar.classList.add('d-none');
-    showToast(`Rendered ${done}/${toRender.length} previews`, 'success');
-
-    // Reload catalog to update cached status
-    _studioLoaded = false;
-    loadRemotionStudio();
-}
-
-/* ═══════════════════════════════════════════════════════
-   Daily Pipeline Tab
-   ═══════════════════════════════════════════════════════ */
-let _dpEventSource = null;
-
-function getDailyPlatforms() {
-    const checks = document.querySelectorAll('#tab-daily-pipeline .form-check-input[type="checkbox"]:checked');
-    return Array.from(checks).map(c => c.value);
-}
-
-async function runDailyPipeline(dryRun) {
-    const btn = document.getElementById('btnRunPipeline');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Running…';
-
-    // Show progress card, hide results
-    document.getElementById('dpProgressCard').style.display = '';
-    document.getElementById('dpResultCard').style.display = 'none';
-    document.getElementById('dpLogOutput').innerHTML = '';
-    document.getElementById('dpStatusBadge').textContent = 'Running';
-    document.getElementById('dpStatusBadge').className = 'badge bg-warning text-dark';
-    document.getElementById('dpProgressBar').style.width = '0%';
-
-    const payload = {
-        target_videos: parseInt(document.getElementById('dpVideos').value),
-        tone: document.getElementById('dpTone').value,
-        renderer: document.getElementById('dpRenderer').value,
-        tts_provider: document.getElementById('dpTTSProvider').value,
-        publish_strategy: document.getElementById('dpPublish').value,
-        start_hour: parseInt(document.getElementById('dpStartHour').value),
-        interval_minutes: parseInt(document.getElementById('dpInterval').value),
-        jitter_minutes: parseInt(document.getElementById('dpJitter').value),
-        dry_run: !!dryRun,
-        platforms: getDailyPlatforms(),
-    };
-
-    try {
-        const resp = await fetch('/api/daily-pipeline', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-        });
-        const data = await resp.json();
-
-        if (!data.job_id) {
-            showToast('Failed to start pipeline', 'error');
-            btn.disabled = false;
-            btn.innerHTML = '<i class="bi bi-play-circle"></i> Run Pipeline';
-            return;
-        }
-
-        // Connect to SSE stream
-        streamDailyProgress(data.job_id);
-
-    } catch (e) {
-        showToast('Error starting pipeline: ' + e.message, 'error');
-        btn.disabled = false;
-        btn.innerHTML = '<i class="bi bi-play-circle"></i> Run Pipeline';
-    }
-}
-
-function streamDailyProgress(jobId) {
-    if (_dpEventSource) _dpEventSource.close();
-
-    const logEl = document.getElementById('dpLogOutput');
-    const barEl = document.getElementById('dpProgressBar');
-    let logLines = 0;
-    const maxLines = 500;
-
-    _dpEventSource = new EventSource(`/api/daily-pipeline/stream/${jobId}`);
-
-    _dpEventSource.onmessage = function(e) {
-        try {
-            const msg = JSON.parse(e.data);
-
-            if (msg.type === 'log') {
-                const line = document.createElement('div');
-                const text = msg.data?.message || '';
-
-                // Color-code log lines
-                if (text.includes('✅')) line.style.color = '#00ffc8';
-                else if (text.includes('❌')) line.style.color = '#ff4444';
-                else if (text.includes('⚠️')) line.style.color = '#ffaa00';
-                else if (text.includes('🎬') || text.includes('📹')) line.style.color = '#7ecfff';
-                else if (text.includes('📝') || text.includes('📅')) line.style.color = '#c4a7ff';
-
-                line.textContent = text;
-                logEl.appendChild(line);
-                logLines++;
-
-                // Auto-scroll
-                logEl.scrollTop = logEl.scrollHeight;
-
-                // Estimate progress from phases
-                if (text.includes('Curation Round')) barEl.style.width = '15%';
-                else if (text.includes('Generating') && text.includes('video')) barEl.style.width = '35%';
-                else if (text.includes('Metadata')) barEl.style.width = '75%';
-                else if (text.includes('Scheduling') || text.includes('Publishing')) barEl.style.width = '90%';
-            }
-            else if (msg.type === 'complete') {
-                barEl.style.width = '100%';
-                _dpEventSource.close();
-                showDailyResult(msg.data);
-                document.getElementById('dpStatusBadge').textContent = 'Complete';
-                document.getElementById('dpStatusBadge').className = 'badge bg-success';
-                const btn = document.getElementById('btnRunPipeline');
-                btn.disabled = false;
-                btn.innerHTML = '<i class="bi bi-play-circle"></i> Run Pipeline';
-                showToast('Daily pipeline complete!', 'success');
-                loadDailyHistory();
-            }
-            else if (msg.type === 'error') {
-                _dpEventSource.close();
-                document.getElementById('dpStatusBadge').textContent = 'Error';
-                document.getElementById('dpStatusBadge').className = 'badge bg-danger';
-                const btn = document.getElementById('btnRunPipeline');
-                btn.disabled = false;
-                btn.innerHTML = '<i class="bi bi-play-circle"></i> Run Pipeline';
-                showToast('Pipeline error: ' + (msg.data?.error || 'Unknown'), 'error');
-            }
-        } catch (err) {
-            console.warn('SSE parse error:', err);
-        }
-    };
-
-    _dpEventSource.onerror = function() {
-        _dpEventSource.close();
-        const btn = document.getElementById('btnRunPipeline');
-        btn.disabled = false;
-        btn.innerHTML = '<i class="bi bi-play-circle"></i> Run Pipeline';
-    };
-}
-
-function showDailyResult(data) {
-    const card = document.getElementById('dpResultCard');
-    card.style.display = '';
-
-    document.getElementById('dpResStories').textContent = data.stories_approved || 0;
-    document.getElementById('dpResVideos').textContent = data.videos_generated || 0;
-    document.getElementById('dpResPosts').textContent = data.posts_scheduled || 0;
-    document.getElementById('dpResDuration').textContent = (data.duration_minutes || 0).toFixed(1) + 'm';
-
-    // Video list
-    const listEl = document.getElementById('dpVideoList');
-    listEl.innerHTML = '';
-    if (data.video_details && data.video_details.length) {
-        for (const v of data.video_details) {
-            // Extract relative path under daily_runs/
-            const vpath = v.video_path || '';
-            const dailyIdx = vpath.indexOf('daily_runs/');
-            const relPath = dailyIdx >= 0 ? vpath.substring(dailyIdx + 'daily_runs/'.length) : '';
-            const item = document.createElement('div');
-            item.className = 'history-item d-flex justify-content-between align-items-center';
-            item.innerHTML = `
                 <div>
-                    <div class="fw-bold" style="color:var(--accent);">${v.title}</div>
-                    <div class="small text-muted">${v.duration?.toFixed(1) || '?'}s · rendered in ${(v.processing_time/60).toFixed(1)}min</div>
+                    <h1 class="brand-title">
+                        PROJECT HER
+                        <span class="brand-badge d-none d-sm-inline-flex">
+                            <i class="bi bi-cpu"></i> v2.0 AI Video
+                        </span>
+                    </h1>
                 </div>
-                <a class="btn btn-sm btn-outline-accent" href="/daily-output/${relPath}" target="_blank">
-                    <i class="bi bi-play-fill"></i>
-                </a>`;
-            listEl.appendChild(item);
-        }
-    }
+            </div>
 
-    // Errors
-    const errEl = document.getElementById('dpErrors');
-    errEl.innerHTML = '';
-    if (data.errors && data.errors.length) {
-        for (const err of data.errors) {
-            const d = document.createElement('div');
-            d.className = 'alert alert-danger py-1 px-2 small mb-1';
-            d.textContent = err;
-            errEl.appendChild(d);
-        }
-    }
-}
+            <!-- Badges & Portfolio Links -->
+            <div class="d-flex align-items-center gap-2">
+                <span class="status-pill active d-none d-md-inline-flex">
+                    <i class="bi bi-play-circle-fill"></i> Remotion 4.0
+                </span>
+                <span class="status-pill active d-none d-lg-inline-flex">
+                    <i class="bi bi-stars"></i> Gemini 2.5 Pro
+                </span>
+                <a href="https://klinteng.com" target="_blank" class="header-nav-link">
+                    <i class="bi bi-person-workspace"></i>
+                    <span class="d-none d-sm-inline">Portfolio</span>
+                    <i class="bi bi-box-arrow-up-right" style="font-size:0.75rem;"></i>
+                </a>
+                <a href="/backup" class="header-nav-link text-muted" title="View Classic Advanced UI" style="font-size:0.75rem;">
+                    <i class="bi bi-clock-history"></i> Classic
+                </a>
+            </div>
+        </div>
+    </header>
 
-async function loadDailyHistory() {
-    try {
-        const resp = await fetch('/api/daily-pipeline/history');
-        const data = await resp.json();
-
-        document.getElementById('dpHistTotal').textContent = data.total_stories || 0;
-        document.getElementById('dpHistPublished').textContent = data.published || 0;
-        document.getElementById('dpHistToday').textContent = data.today_count || 0;
-
-        const listEl = document.getElementById('dpHistoryList');
-        listEl.innerHTML = '';
-
-        const stories = (data.recent_stories || []).reverse();
-        for (const s of stories) {
-            const statusColor = s.status === 'published' ? '#00ffc8'
-                              : s.status === 'approved' ? '#ffaa00' : '#888';
-            const statusIcon = s.status === 'published' ? 'check-circle-fill'
-                             : s.status === 'approved' ? 'clock' : 'x-circle';
-            const wc = s.full_story ? s.full_story.split(/\s+/).length : '?';
-            const item = document.createElement('div');
-            item.className = 'history-item';
-            item.innerHTML = `
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <div class="fw-bold small" style="color:var(--accent);">${s.title || 'Untitled'}</div>
-                        <div class="text-muted" style="font-size:.72rem;">
-                            ${s.genre || ''} · ${wc} words · score ${s.score || '?'}/10
+    <!-- Main Content Studio -->
+    <main class="container-xl py-4">
+        <div class="row g-4">
+            
+            <!-- Left Column: Input & Settings Studio -->
+            <div class="col-lg-6">
+                <div class="her-card">
+                    <div class="her-card-header">
+                        <div class="her-card-title">
+                            <i class="bi bi-magic"></i> Video Creation Studio
                         </div>
-                        <div class="text-muted" style="font-size:.68rem;">${s.synopsis || ''}</div>
+                        <div class="d-flex gap-2">
+                            <span class="spec-badge">
+                                <i class="bi bi-shield-check text-success"></i> Auto AI Images
+                            </span>
+                        </div>
                     </div>
-                    <span style="color:${statusColor};font-size:.85rem;" title="${s.status}">
-                        <i class="bi bi-${statusIcon}"></i>
-                    </span>
-                </div>`;
-            listEl.appendChild(item);
+
+                    <!-- Topic / Script / Article Input -->
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <label for="promptInput" class="form-label mb-0">
+                                <i class="bi bi-text-paragraph text-warning"></i> Topic, Script, or Article
+                            </label>
+                            <span id="charCount" class="text-muted" style="font-size:0.75rem; font-family:var(--font-mono);">0 words</span>
+                        </div>
+                        <textarea 
+                            id="promptInput" 
+                            class="form-control" 
+                            placeholder="Enter a topic, article text, or paste an article URL to generate an engaging video..."
+                            rows="6"
+                        ></textarea>
+
+                        <!-- Quick Inspiration Chips -->
+                        <div class="prompt-chips">
+                            <span class="prompt-chip" onclick="setPrompt('How Quantum Computing is revolutionizing encryption and supercomputers in 2026')">
+                                ⚡ Quantum Revolution
+                            </span>
+                            <span class="prompt-chip" onclick="setPrompt('The hidden mathematics behind modern neural networks and AI reasoning')">
+                                🧠 Deep Learning
+                            </span>
+                            <span class="prompt-chip" onclick="setPrompt('James Webb Space Telescope discoveries rewriting cosmic history')">
+                                🌌 Deep Space
+                            </span>
+                            <span class="prompt-chip" onclick="setPrompt('The fascinating history and global economics of specialty coffee')">
+                                ☕ Coffee Origins
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Streamlined Options Grid -->
+                    <div class="row g-3 mb-4">
+                        <!-- Tone: Explainer by default -->
+                        <div class="col-sm-6">
+                            <label for="selTone" class="form-label">
+                                <i class="bi bi-chat-quote"></i> Narration Tone
+                            </label>
+                            <select id="selTone" class="form-select">
+                                <option value="explainer" selected>Explainer (Default)</option>
+                                <option value="informative">Informative & Technical</option>
+                                <option value="storytelling">Storytelling & Narrative</option>
+                                <option value="educational">Educational & Structured</option>
+                                <option value="dramatic">Dramatic & Cinematic</option>
+                                <option value="motivational">Motivational & High-Energy</option>
+                            </select>
+                        </div>
+
+                        <!-- Video Format / Aspect Ratio -->
+                        <div class="col-sm-6">
+                            <label for="selFormat" class="form-label">
+                                <i class="bi bi-aspect-ratio"></i> Aspect Ratio
+                            </label>
+                            <select id="selFormat" class="form-select">
+                                <option value="vertical" selected>Vertical (9:16 Shorts / Reels)</option>
+                                <option value="horizontal">Horizontal (16:9 Landscape / Web)</option>
+                                <option value="square">Square (1:1 Feed)</option>
+                            </select>
+                        </div>
+
+                        <!-- Visual Style -->
+                        <div class="col-sm-6">
+                            <label for="selVisualStyle" class="form-label">
+                                <i class="bi bi-palette"></i> Visual Art Style
+                            </label>
+                            <select id="selVisualStyle" class="form-select">
+                                <option value="claymorphism" selected>Claymorphism (3D Animated)</option>
+                                <option value="glassmorphism">Glassmorphism (Frosted UI)</option>
+                                <option value="minimalism">Minimalism (Clean Vector)</option>
+                                <option value="hyper_realistic">Hyper-Realistic (Cinematic)</option>
+                                <option value="neo_brutalism">Neo-Brutalism (Bold Tech)</option>
+                            </select>
+                        </div>
+
+                        <!-- Target Duration -->
+                        <div class="col-sm-6">
+                            <label for="selDuration" class="form-label">
+                                <i class="bi bi-clock"></i> Target Duration
+                            </label>
+                            <select id="selDuration" class="form-select">
+                                <option value="30">30 Seconds (Quick Hook)</option>
+                                <option value="60" selected>60 Seconds (Full Explainer)</option>
+                                <option value="0">Auto (Adaptive Length)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Generate CTA Button -->
+                    <button id="btnGenerate" class="btn-generate" onclick="handleGenerate()">
+                        <i class="bi bi-stars"></i> Generate AI Video
+                    </button>
+
+                    <!-- Technical note -->
+                    <div class="d-flex align-items-center justify-content-between mt-3 text-muted" style="font-size:0.75rem;">
+                        <span><i class="bi bi-gear-fill me-1"></i> Engine: Remotion React Compositor</span>
+                        <span><i class="bi bi-check-circle-fill text-success me-1"></i> Multi-Agent Pipeline</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Live Monitor & Video Output Panel -->
+            <div class="col-lg-6">
+                <div class="pipeline-card" id="outputCard">
+                    
+                    <!-- 1. Idle Standby State -->
+                    <div id="stateIdle" class="idle-showcase my-auto">
+                        <div class="idle-icon-ring">
+                            <i class="bi bi-camera-reels"></i>
+                        </div>
+                        <h4 style="font-size:1.15rem; font-weight:700; margin-bottom:0.5rem;">
+                            Ready to Orchestrate
+                        </h4>
+                        <p class="text-secondary" style="font-size:0.88rem; max-width:380px; margin:0 auto 1.5rem;">
+                            Enter a topic or article on the left. The autonomous agent pipeline will generate scripts, visual assets, neural audio, and render via Remotion.
+                        </p>
+                        
+                        <div class="d-flex flex-wrap justify-content-center gap-2">
+                            <span class="status-pill">
+                                <i class="bi bi-file-text"></i> Script Analysis
+                            </span>
+                            <span class="status-pill">
+                                <i class="bi bi-image"></i> AI Visuals
+                            </span>
+                            <span class="status-pill">
+                                <i class="bi bi-mic"></i> Voice Narration
+                            </span>
+                            <span class="status-pill">
+                                <i class="bi bi-code-slash"></i> Remotion Render
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- 2. Active Pipeline Progress State (Hidden by default) -->
+                    <div id="stateProgress" class="d-none my-auto">
+                        <div class="her-card-header mb-3">
+                            <div class="her-card-title">
+                                <div class="spinner-border spinner-border-sm text-warning" role="status"></div>
+                                <span id="pipelineStatusText">Generating Video...</span>
+                            </div>
+                            <span id="elapsedTime" class="spec-badge">0.0s elapsed</span>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="progress-track">
+                            <div id="pipelineProgressBar" class="progress-bar-glow" style="width: 0%;"></div>
+                        </div>
+
+                        <!-- Pipeline Stages Checklist -->
+                        <div id="pipelineStagesList" class="mt-3">
+                            <div id="stage-scrape" class="stage-item pending">
+                                <span><i class="bi bi-file-earmark-text me-2"></i> Content Extraction & Parsing</span>
+                                <span class="stage-status text-muted" style="font-size:0.75rem;">Waiting</span>
+                            </div>
+                            <div id="stage-analyze" class="stage-item pending">
+                                <span><i class="bi bi-cpu me-2"></i> Gemini 2.5 Script & Scene Breakdown</span>
+                                <span class="stage-status text-muted" style="font-size:0.75rem;">Waiting</span>
+                            </div>
+                            <div id="stage-visuals" class="stage-item pending">
+                                <span><i class="bi bi-images me-2"></i> AI Visual Assets & Scene Generation</span>
+                                <span class="stage-status text-muted" style="font-size:0.75rem;">Waiting</span>
+                            </div>
+                            <div id="stage-narrate" class="stage-item pending">
+                                <span><i class="bi bi-mic me-2"></i> Neural Voiceover & Subtitles Timing</span>
+                                <span class="stage-status text-muted" style="font-size:0.75rem;">Waiting</span>
+                            </div>
+                            <div id="stage-compose" class="stage-item pending">
+                                <span><i class="bi bi-film me-2"></i> Remotion React Motion Composition</span>
+                                <span class="stage-status text-muted" style="font-size:0.75rem;">Waiting</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 p-2 rounded bg-dark border border-secondary border-opacity-25" style="font-family:var(--font-mono); font-size:0.75rem; color:#94a3b8;">
+                            <span class="text-warning">● ACTIVE LOG:</span> <span id="liveStageMessage">Initializing pipeline agent...</span>
+                        </div>
+                    </div>
+
+                    <!-- 3. Completed Video Showcase State (Hidden by default) -->
+                    <div id="stateCompleted" class="d-none">
+                        <div class="her-card-header mb-3">
+                            <div class="her-card-title text-success">
+                                <i class="bi bi-check-circle-fill"></i> Video Render Complete
+                            </div>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="resetToStudio()">
+                                <i class="bi bi-arrow-repeat me-1"></i> New Video
+                            </button>
+                        </div>
+
+                        <!-- Video Player Frame -->
+                        <div class="video-wrapper mb-3" id="videoFrameContainer">
+                            <!-- Populated with video element on success -->
+                        </div>
+
+                        <!-- Metadata Card -->
+                        <div class="mb-3">
+                            <h5 id="resultTitle" style="font-size:1.05rem; font-weight:700; margin-bottom:0.3rem;">Video Title</h5>
+                            <p id="resultHook" class="text-secondary" style="font-size:0.85rem; margin-bottom:0.75rem;">Video hook synopsis</p>
+                            
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <span class="spec-badge">
+                                    <i class="bi bi-clock"></i> <strong id="metricDuration">--</strong>
+                                </span>
+                                <span class="spec-badge">
+                                    <i class="bi bi-display"></i> <strong id="metricResolution">--</strong>
+                                </span>
+                                <span class="spec-badge">
+                                    <i class="bi bi-lightning"></i> <strong id="metricRenderTime">--</strong>
+                                </span>
+                                <span class="spec-badge">
+                                    <i class="bi bi-play-circle"></i> <strong>Remotion Engine</strong>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex flex-wrap gap-2">
+                            <a id="btnDownloadMp4" href="#" download class="btn btn-sm btn-warning fw-semibold px-3 py-2 text-dark" style="background:var(--accent);">
+                                <i class="bi bi-download me-1"></i> Download MP4
+                            </a>
+                            <a id="btnDownloadSrt" href="#" download class="btn btn-sm btn-outline-secondary px-3 py-2 d-none">
+                                <i class="bi bi-badge-cc me-1"></i> Subtitles (.srt)
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Toast Notifications Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <script>
+        /* ── Input Counter ── */
+        const promptInput = document.getElementById('promptInput');
+        const charCount = document.getElementById('charCount');
+
+        promptInput.addEventListener('input', function() {
+            const text = this.value.trim();
+            const words = text ? text.split(/\s+/).length : 0;
+            charCount.textContent = `${words} words`;
+        });
+
+        /* ── Quick Prompt Selection ── */
+        function setPrompt(text) {
+            promptInput.value = text;
+            promptInput.dispatchEvent(new Event('input'));
+            promptInput.focus();
         }
 
-        if (!stories.length) {
-            listEl.innerHTML = '<div class="text-muted text-center small py-3">No stories yet. Run the pipeline to get started!</div>';
+        /* ── Toast Helpers ── */
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `her-toast ${type}`;
+            const icon = type === 'success' ? 'bi-check-circle-fill text-success' :
+                         type === 'error' ? 'bi-exclamation-triangle-fill text-danger' :
+                         'bi-info-circle-fill text-warning';
+            toast.innerHTML = `<i class="bi ${icon}"></i> <span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 4500);
         }
-    } catch (e) {
-        console.warn('Failed to load daily history:', e);
-    }
-}
-</script>
+
+        /* ── UI State Switcher ── */
+        function setUIState(state) {
+            document.getElementById('stateIdle').classList.toggle('d-none', state !== 'idle');
+            document.getElementById('stateProgress').classList.toggle('d-none', state !== 'progress');
+            document.getElementById('stateCompleted').classList.toggle('d-none', state !== 'completed');
+        }
+
+        function resetToStudio() {
+            setUIState('idle');
+            document.getElementById('btnGenerate').disabled = false;
+        }
+
+        /* ── Elapsed Timer ── */
+        let timerInterval = null;
+        let startTime = 0;
+
+        function startTimer() {
+            startTime = Date.now();
+            timerInterval = setInterval(() => {
+                const sec = ((Date.now() - startTime) / 1000).toFixed(1);
+                document.getElementById('elapsedTime').textContent = `${sec}s elapsed`;
+            }, 200);
+        }
+
+        function stopTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+        }
+
+        /* ── Generate Video Pipeline ── */
+        async function handleGenerate() {
+            const inputVal = promptInput.value.trim();
+            if (!inputVal) {
+                showToast('Please enter a topic, article text, or URL to generate a video.', 'error');
+                promptInput.focus();
+                return;
+            }
+
+            const tone = document.getElementById('selTone').value || 'explainer';
+            const format = document.getElementById('selFormat').value || 'vertical';
+            const visualStyle = document.getElementById('selVisualStyle').value || 'claymorphism';
+            const duration = parseInt(document.getElementById('selDuration').value) || 60;
+
+            // Determine if input is URL or raw text
+            const isUrl = /^https?:\/\//i.test(inputVal);
+
+            const payload = {
+                url: isUrl ? inputVal : '',
+                text: isUrl ? '' : inputVal,
+                tone: tone,
+                format: format,
+                visual_style: visualStyle,
+                target_duration: duration,
+                renderer: 'remotion',       // Remotion by default
+                ai_images: true,            // AI images enabled by default
+                content_mode: 'article',
+                theme: 'explainer',
+                captions: 'karaoke',
+                transition: 'fade',
+                subtitles: true,
+                voice: '',
+                platform: '',
+                quality: 'standard',
+                watermark: '',
+                points: 0,
+                color_grade: 'standard',
+                language: 'english',
+                speed: '1.0',
+                brand_text: '',
+                question: '',
+                character_name: '',
+                modern_topic: '',
+                voice_pair: 'default',
+                deep_dive_sources: [],
+                deep_dive_text: '',
+                series_id: '',
+                episode_number: 0,
+                tts_provider: '',
+                llm_provider: '',
+                llm_model: ''
+            };
+
+            // Switch to progress UI
+            setUIState('progress');
+            document.getElementById('btnGenerate').disabled = true;
+            document.getElementById('pipelineProgressBar').style.width = '0%';
+            document.getElementById('pipelineStatusText').textContent = 'Starting pipeline...';
+            document.getElementById('liveStageMessage').textContent = 'Submitting request to Project HER orchestrator...';
+
+            // Reset stage items
+            ['scrape', 'analyze', 'visuals', 'narrate', 'compose'].forEach(s => {
+                const el = document.getElementById(`stage-${s}`);
+                if (el) {
+                    el.className = 'stage-item pending';
+                    const st = el.querySelector('.stage-status');
+                    if (st) st.textContent = 'Waiting';
+                }
+            });
+
+            startTimer();
+
+            try {
+                const resp = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await resp.json();
+                if (data.error) {
+                    stopTimer();
+                    showToast(data.error, 'error');
+                    resetToStudio();
+                    return;
+                }
+
+                const jobId = data.job_id;
+                connectSSE(jobId);
+
+            } catch (err) {
+                stopTimer();
+                showToast(`Network error: ${err.message}`, 'error');
+                resetToStudio();
+            }
+        }
+
+        /* ── Server-Sent Events Listener ── */
+        function connectSSE(jobId) {
+            const evtSource = new EventSource(`/api/progress/${jobId}`);
+
+            evtSource.addEventListener('progress', function(e) {
+                const stage = JSON.parse(e.data);
+                document.getElementById('pipelineStatusText').textContent = stage.label || 'Generating...';
+                document.getElementById('liveStageMessage').textContent = stage.message || stage.label;
+
+                // Overall progress calculation
+                const pct = Math.min(100, Math.max(5, ((stage.index - 1 + (stage.progress_pct || 0)) / (stage.total || 6)) * 100));
+                document.getElementById('pipelineProgressBar').style.width = `${pct}%`;
+
+                // Update stage item in list
+                const stageEl = document.getElementById(`stage-${stage.stage}`);
+                if (stageEl) {
+                    if (stage.status === 'running') {
+                        stageEl.className = 'stage-item running';
+                        const st = stageEl.querySelector('.stage-status');
+                        if (st) st.innerHTML = '<span class="spinner-border spinner-border-sm text-warning" style="width:0.75rem;height:0.75rem;"></span> Running';
+                    } else if (stage.status === 'completed') {
+                        stageEl.className = 'stage-item completed';
+                        const st = stageEl.querySelector('.stage-status');
+                        if (st) st.innerHTML = '<i class="bi bi-check-lg text-success"></i> Done';
+                    } else if (stage.status === 'failed') {
+                        stageEl.className = 'stage-item failed';
+                        const st = stageEl.querySelector('.stage-status');
+                        if (st) st.innerHTML = '<i class="bi bi-x-lg text-danger"></i> Failed';
+                    }
+                }
+            });
+
+            evtSource.addEventListener('done', function(e) {
+                evtSource.close();
+                stopTimer();
+                const res = JSON.parse(e.data);
+
+                if (res.error) {
+                    showToast(`Pipeline error: ${res.error}`, 'error');
+                    resetToStudio();
+                    return;
+                }
+
+                displayResult(res);
+            });
+
+            evtSource.onerror = function() {
+                evtSource.close();
+                // Attempt polling /api/result/<job_id>
+                setTimeout(() => {
+                    fetch(`/api/result/${jobId}`)
+                        .then(r => r.ok ? r.json() : null)
+                        .then(res => {
+                            stopTimer();
+                            if (res && res.video_url) {
+                                displayResult(res);
+                            } else {
+                                showToast('Connection disconnected. The job may still be rendering.', 'error');
+                                resetToStudio();
+                            }
+                        })
+                        .catch(() => {
+                            stopTimer();
+                            showToast('Connection interrupted.', 'error');
+                            resetToStudio();
+                        });
+                }, 2000);
+            };
+        }
+
+        /* ── Display Result Video & Metadata ── */
+        function displayResult(res) {
+            document.getElementById('pipelineProgressBar').style.width = '100%';
+            setUIState('completed');
+
+            // Video player
+            const container = document.getElementById('videoFrameContainer');
+            container.innerHTML = `
+                <video controls autoplay playsinline style="width:100%;max-height:480px;border-radius:var(--radius-md);">
+                    <source src="${res.video_url}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            `;
+
+            // Metadata
+            document.getElementById('resultTitle').textContent = res.title || 'Generated AI Video';
+            document.getElementById('resultHook').textContent = res.hook || 'Rendered via Remotion React Compositor';
+            document.getElementById('metricDuration').textContent = `${res.duration || 0}s`;
+            document.getElementById('metricResolution').textContent = res.resolution || '1080x1920';
+            document.getElementById('metricRenderTime').textContent = `${res.processing_time || 0}s render`;
+
+            // Download buttons
+            const btnMp4 = document.getElementById('btnDownloadMp4');
+            btnMp4.href = res.video_url;
+
+            const btnSrt = document.getElementById('btnDownloadSrt');
+            if (res.srt_url) {
+                btnSrt.href = res.srt_url;
+                btnSrt.classList.remove('d-none');
+            } else {
+                btnSrt.classList.add('d-none');
+            }
+
+            document.getElementById('btnGenerate').disabled = false;
+            showToast('AI Video generated successfully!', 'success');
+        }
+    </script>
+
 </body>
 </html>
