@@ -67,12 +67,26 @@ def allow_cors_and_framing(response):
     )
     return response
 
-# ── SSE Progress Infrastructure ───────────────────────
+# ── SSE Progress Infrastructure & Concurrency Tracking ───────────────────────
 
-# Active generation jobs: job_id → queue of SSE events
-_active_jobs: dict[str, queue.Queue] = {}
+# Concurrency tracking: job_id → dict with metadata (started: float, thread: Optional[Thread])
+_active_jobs: dict[str, dict] = {}
+# SSE progress event queues: job_id → queue.Queue
+_progress_queues: dict[str, queue.Queue] = {}
 _job_results: dict[str, dict] = {}
 _job_lock = threading.Lock()
+
+
+def _prune_active_jobs():
+    """Remove finished, failed, or stale jobs (>10 minutes) from concurrency tracking."""
+    now = time.time()
+    with _job_lock:
+        for jid in list(_active_jobs.keys()):
+            meta = _active_jobs[jid]
+            th = meta.get("thread") if isinstance(meta, dict) else None
+            started = meta.get("started", 0) if isinstance(meta, dict) else 0
+            if (th and not th.is_alive()) or (now - started > 600) or (jid in _job_results):
+                _active_jobs.pop(jid, None)
 
 
 def _create_sse_callback(job_id: str):
@@ -80,7 +94,7 @@ def _create_sse_callback(job_id: str):
     from utils.progress import StageInfo
 
     def callback(stage: StageInfo):
-        q = _active_jobs.get(job_id)
+        q = _progress_queues.get(job_id)
         if q:
             event = {
                 "stage": stage.name,
@@ -95,6 +109,7 @@ def _create_sse_callback(job_id: str):
             }
             q.put(("progress", event))
     return callback
+
 
 
 # ── Routes ────────────────────────────────────────────
@@ -239,7 +254,10 @@ def _check_and_reserve_quota() -> Optional[str]:
     Local workspace development has unlimited generations (concurrency limit still applies).
     """
     # Concurrency limit prevents simultaneous ffmpeg renders from clashing
-    if MAX_CONCURRENT_JOBS and len(_active_jobs) >= MAX_CONCURRENT_JOBS:
+    _prune_active_jobs()
+    with _job_lock:
+        active_count = len(_active_jobs)
+    if MAX_CONCURRENT_JOBS and active_count >= MAX_CONCURRENT_JOBS:
         return "Another video is being generated right now. Please try again in a few minutes."
 
     # Bypass daily caps in local development workspace unless explicitly forced
@@ -393,12 +411,13 @@ def api_generate():
 
     pts = int(num_points) if num_points and int(num_points) >= 3 else None
 
-    # Create job for SSE progress tracking
+    # Create job for SSE progress tracking and concurrency control
     import uuid
     job_id = str(uuid.uuid4())[:8]
 
     with _job_lock:
-        _active_jobs[job_id] = queue.Queue()
+        _progress_queues[job_id] = queue.Queue()
+        _active_jobs[job_id] = {"started": time.time(), "thread": None}
 
     progress_cb = _create_sse_callback(job_id)
 
@@ -444,10 +463,11 @@ def api_generate():
             )
 
             if not result.success:
-                _job_results[job_id] = {"error": "; ".join(result.errors)}
-                q = _active_jobs.get(job_id)
+                err_msg = "; ".join(result.errors) or "Generation failed"
+                _job_results[job_id] = {"error": err_msg}
+                q = _progress_queues.get(job_id)
                 if q:
-                    q.put(("done", {"error": "; ".join(result.errors)}))
+                    q.put(("done", {"error": err_msg}))
                 return
 
             video_rel = None
@@ -493,19 +513,27 @@ def api_generate():
                 "download_url": f"/api/download/{job_id}" if video_rel else None,
             }
             _job_results[job_id] = result_data
-            q = _active_jobs.get(job_id)
+            q = _progress_queues.get(job_id)
             if q:
                 q.put(("done", result_data))
 
         except Exception as e:
             logger.error("Pipeline error: %s", e, exc_info=True)
             _job_results[job_id] = {"error": str(e)}
-            q = _active_jobs.get(job_id)
+            q = _progress_queues.get(job_id)
             if q:
                 q.put(("done", {"error": str(e)}))
 
+        finally:
+            # Concurrency slot is ALWAYS freed immediately when pipeline thread finishes
+            with _job_lock:
+                _active_jobs.pop(job_id, None)
+
     # Start pipeline in background thread
     thread = threading.Thread(target=_run_pipeline, daemon=True)
+    with _job_lock:
+        if job_id in _active_jobs:
+            _active_jobs[job_id]["thread"] = thread
     thread.start()
 
     return jsonify({"job_id": job_id})
@@ -515,8 +543,12 @@ def api_generate():
 def api_progress(job_id):
     """SSE endpoint for real-time pipeline progress updates."""
     def event_stream():
-        q = _active_jobs.get(job_id)
+        q = _progress_queues.get(job_id)
         if not q:
+            # If job already finished, return done result immediately
+            if job_id in _job_results:
+                yield f"event: done\ndata: {json.dumps(_job_results[job_id])}\n\n"
+                return
             yield f"data: {json.dumps({'error': 'Job not found'})}\n\n"
             return
 
@@ -525,11 +557,16 @@ def api_progress(job_id):
                 event_type, data = q.get(timeout=10)
                 yield f"event: {event_type}\ndata: {json.dumps(data)}\n\n"
                 if event_type == "done":
-                    # Cleanup
+                    # Cleanup progress queue
                     with _job_lock:
-                        _active_jobs.pop(job_id, None)
+                        _progress_queues.pop(job_id, None)
                     break
             except queue.Empty:
+                if job_id in _job_results:
+                    yield f"event: done\ndata: {json.dumps(_job_results[job_id])}\n\n"
+                    with _job_lock:
+                        _progress_queues.pop(job_id, None)
+                    break
                 # Send keepalive
                 yield ": keepalive\n\n"
 
@@ -548,8 +585,10 @@ def api_result(job_id):
     """Fallback polling endpoint — returns the job result if available."""
     result = _job_results.get(job_id)
     if result is None:
-        # Check if job is still running
-        if job_id in _active_jobs:
+        _prune_active_jobs()
+        with _job_lock:
+            is_running = job_id in _active_jobs
+        if is_running:
             return jsonify({"status": "running"}), 202
         return jsonify({"error": "Job not found"}), 404
     return jsonify(result)
@@ -1011,13 +1050,14 @@ def api_daily_pipeline():
         ]),
     )
 
-    # Create SSE queue for progress
+    # Create SSE queue for progress and track active job
     with _job_lock:
-        _active_jobs[job_id] = queue.Queue()
+        _progress_queues[job_id] = queue.Queue()
+        _active_jobs[job_id] = {"started": time.time(), "thread": None}
 
     def _run_pipeline():
         try:
-            q = _active_jobs.get(job_id)
+            q = _progress_queues.get(job_id)
 
             def progress_cb(msg: str):
                 if q:
@@ -1049,11 +1089,18 @@ def api_daily_pipeline():
             result = {"success": False, "error": str(e)}
             with _job_lock:
                 _job_results[job_id] = result
-            q = _active_jobs.get(job_id)
+            q = _progress_queues.get(job_id)
             if q:
                 q.put(("error", result))
 
+        finally:
+            with _job_lock:
+                _active_jobs.pop(job_id, None)
+
     thread = threading.Thread(target=_run_pipeline, daemon=True)
+    with _job_lock:
+        if job_id in _active_jobs:
+            _active_jobs[job_id]["thread"] = thread
     thread.start()
 
     return jsonify({"job_id": job_id, "status": "started"})
@@ -1063,7 +1110,7 @@ def api_daily_pipeline():
 def api_daily_pipeline_stream(job_id):
     """SSE stream for daily pipeline progress."""
     def event_stream():
-        q = _active_jobs.get(job_id)
+        q = _progress_queues.get(job_id)
         if not q:
             yield f"data: {json.dumps({'type': 'error', 'message': 'Job not found'})}\n\n"
             return
@@ -1073,6 +1120,8 @@ def api_daily_pipeline_stream(job_id):
                 event_type, data = q.get(timeout=120)
                 yield f"data: {json.dumps({'type': event_type, 'data': data})}\n\n"
                 if event_type in ("complete", "error"):
+                    with _job_lock:
+                        _progress_queues.pop(job_id, None)
                     break
             except queue.Empty:
                 yield f"data: {json.dumps({'type': 'heartbeat'})}\n\n"
