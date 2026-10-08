@@ -1001,12 +1001,19 @@
 
             // Video player
             const container = document.getElementById('videoFrameContainer');
+            const videoUrl = res.video_url || (res.download_url ? res.download_url : '');
             container.innerHTML = `
-                <video controls autoplay playsinline style="width:100%;max-height:480px;border-radius:var(--radius-md);">
-                    <source src="${res.video_url}" type="video/mp4">
+                <video id="resultVideoPlayer" controls autoplay playsinline preload="auto" src="${videoUrl}" style="width:100%;max-height:480px;border-radius:var(--radius-md);background:#000;">
                     Your browser does not support the video tag.
                 </video>
             `;
+            const vPlayer = document.getElementById('resultVideoPlayer');
+            if (vPlayer) {
+                vPlayer.load();
+                vPlayer.play().catch(e => {
+                    console.log('Autoplay deferred or awaiting interaction:', e);
+                });
+            }
 
             // Metadata
             document.getElementById('resultTitle').textContent = res.title || 'Generated AI Video';
@@ -1017,11 +1024,15 @@
 
             // Download buttons
             const btnMp4 = document.getElementById('btnDownloadMp4');
-            btnMp4.href = res.video_url;
+            const downloadUrl = res.download_url || res.video_url;
+            btnMp4.href = downloadUrl;
+            const safeTitle = (res.title || 'project_her_video').replace(/[^a-z0-9_-]/gi, '_');
+            btnMp4.setAttribute('download', safeTitle + '.mp4');
 
             const btnSrt = document.getElementById('btnDownloadSrt');
             if (res.srt_url) {
                 btnSrt.href = res.srt_url;
+                btnSrt.setAttribute('download', safeTitle + '.srt');
                 btnSrt.classList.remove('d-none');
             } else {
                 btnSrt.classList.add('d-none');

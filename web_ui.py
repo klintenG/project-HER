@@ -535,8 +535,8 @@ def api_history():
 
 @app.route("/output/<path:filename>")
 def serve_output(filename):
-    """Serve files from the output directory."""
-    return send_from_directory(config.OUTPUT_DIR, filename)
+    """Serve files from the output directory with HTTP 206 Partial Content range support."""
+    return send_from_directory(config.OUTPUT_DIR, filename, conditional=True)
 
 
 @app.route("/api/download/<job_id>")
@@ -556,12 +556,23 @@ def api_download_video(job_id):
     if not video_url:
         return jsonify({"error": "No video in result"}), 404
 
-    # Reconstruct absolute path from relative URL
-    rel_path = video_url.lstrip("/output/")
+    # Safely reconstruct absolute path from relative URL without string stripping traps
+    if video_url.startswith("/output/"):
+        rel_path = video_url[len("/output/"):]
+    elif video_url.startswith("output/"):
+        rel_path = video_url[len("output/"):]
+    else:
+        rel_path = video_url.lstrip("/")
     video_path = config.OUTPUT_DIR / rel_path
 
     if not video_path.exists():
-        return jsonify({"error": "Video file not found on disk"}), 404
+        # Fallback: search for video filename inside OUTPUT_DIR
+        target_name = Path(rel_path).name
+        candidates = list(config.OUTPUT_DIR.rglob(target_name))
+        if candidates:
+            video_path = candidates[-1]
+        else:
+            return jsonify({"error": f"Video file not found on disk: {target_name}"}), 404
 
     try:
         # Read into memory buffer so the file handle is closed cleanly
