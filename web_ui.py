@@ -39,10 +39,24 @@ logger = logging.getLogger("web_ui")
 
 app = Flask(__name__, template_folder="templates", static_folder="output")
 
-# ── Allow iframe embedding from klinteng.com ─────────────────────────────────
+# ── Allow CORS and iframe embedding ──────────────────────────────────────────
+@app.before_request
+def handle_preflight():
+    if request.method == "OPTIONS":
+        res = Response()
+        res.headers["Access-Control-Allow-Origin"] = "*"
+        res.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS, HEAD"
+        res.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, Range, X-Requested-With"
+        return res
+
+
 @app.after_request
-def allow_iframe_embedding(response):
-    """Allow klinteng.com portfolio to embed this app in an iframe."""
+def allow_cors_and_framing(response):
+    """Allow klinteng.com portfolio and local apps to access API and embed."""
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS, HEAD"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, Range, X-Requested-With"
+    response.headers["Access-Control-Expose-Headers"] = "Content-Length, Content-Range, Content-Disposition"
     response.headers.pop("X-Frame-Options", None)
     response.headers["Content-Security-Policy"] = (
         "frame-ancestors 'self' http://localhost:* http://127.0.0.1:* "
@@ -376,9 +390,29 @@ def api_generate():
                     q.put(("done", {"error": "; ".join(result.errors)}))
                 return
 
-            video_rel = str(Path(result.video_path).relative_to(config.OUTPUT_DIR)) if result.video_path else None
-            thumb_rel = str(Path(result.thumbnail_path).relative_to(config.OUTPUT_DIR)) if result.thumbnail_path else None
-            srt_rel = str(Path(result.srt_path).relative_to(config.OUTPUT_DIR)) if result.srt_path else None
+            video_rel = None
+            if result.video_path:
+                try:
+                    video_rel = str(Path(result.video_path).resolve().relative_to(config.OUTPUT_DIR.resolve()))
+                except Exception:
+                    try:
+                        video_rel = str(Path(result.video_path).relative_to(config.OUTPUT_DIR))
+                    except Exception:
+                        video_rel = Path(result.video_path).name
+
+            thumb_rel = None
+            if result.thumbnail_path:
+                try:
+                    thumb_rel = str(Path(result.thumbnail_path).resolve().relative_to(config.OUTPUT_DIR.resolve()))
+                except Exception:
+                    thumb_rel = Path(result.thumbnail_path).name
+
+            srt_rel = None
+            if result.srt_path:
+                try:
+                    srt_rel = str(Path(result.srt_path).resolve().relative_to(config.OUTPUT_DIR.resolve()))
+                except Exception:
+                    srt_rel = Path(result.srt_path).name
 
             result_data = {
                 "success": True,
@@ -428,7 +462,7 @@ def api_progress(job_id):
 
         while True:
             try:
-                event_type, data = q.get(timeout=120)
+                event_type, data = q.get(timeout=10)
                 yield f"event: {event_type}\ndata: {json.dumps(data)}\n\n"
                 if event_type == "done":
                     # Cleanup
@@ -536,7 +570,18 @@ def api_history():
 @app.route("/output/<path:filename>")
 def serve_output(filename):
     """Serve files from the output directory with HTTP 206 Partial Content range support."""
-    return send_from_directory(config.OUTPUT_DIR, filename, conditional=True)
+    import urllib.parse
+    filename = urllib.parse.unquote(filename)
+    file_path = config.OUTPUT_DIR / filename
+    if not file_path.exists():
+        # Fallback search if path mismatch: search in OUTPUT_DIR for the filename
+        target_name = Path(filename).name
+        candidates = list(config.OUTPUT_DIR.rglob(target_name))
+        if candidates:
+            file_path = candidates[-1]
+            return send_from_directory(file_path.parent, file_path.name, conditional=True)
+        return jsonify({"error": f"File not found: {filename}"}), 404
+    return send_from_directory(file_path.parent, file_path.name, conditional=True)
 
 
 @app.route("/api/download/<job_id>")

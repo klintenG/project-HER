@@ -973,30 +973,50 @@ class AgentOrchestrator:
                     scene_silence_ms = getattr(config, "SCENE_SILENCE_MS", 300)
 
             if renderer == "remotion":
-                tracker.start_stage("compose", "Rendering with Remotion...")
+                tracker.start_stage("compose", "Rendering with Remotion React Engine...")
                 remotion = RemotionRenderer(
                     video_format=video_format,
                     platform=kwargs.get("platform", ""),
                     visual_style=visual_style,
                 )
-                compose_result = self._run_stage_with_retry(
-                    "compose",
-                    lambda: remotion.render(
+                try:
+                    compose_result = self._run_stage_with_retry(
+                        "compose",
+                        lambda: remotion.render(
+                            screenplay=screenplay,
+                            images=images,
+                            narrations=narrations,
+                            output_dir=output_dir,
+                            output_filename=video_filename,
+                            effects_plan=effects_plan,
+                            include_subtitles=include_subtitles,
+                            color_grade=color_grade,
+                            brand_text=brand_text,
+                            layout_mode=layout_mode,
+                            scene_silence_ms=scene_silence_ms,
+                        ),
+                        tracker,
+                        max_retries=1,
+                    )
+                except Exception as remotion_err:
+                    logger.warning("Remotion render failed (%s); seamlessly falling back to ClayCompositor", remotion_err)
+                    tracker.start_stage("compose", "Composing video (high-speed fallback)...")
+                    compositor = ClayCompositor(
+                        video_format=video_format,
+                        platform=kwargs.get("platform", ""),
+                        visual_style=visual_style,
+                    )
+                    compose_result = compositor.compose(
                         screenplay=screenplay,
                         images=images,
                         narrations=narrations,
                         output_dir=output_dir,
                         output_filename=video_filename,
-                        effects_plan=effects_plan,
                         include_subtitles=include_subtitles,
                         color_grade=color_grade,
                         brand_text=brand_text,
-                        layout_mode=layout_mode,
-                        scene_silence_ms=scene_silence_ms,
-                    ),
-                    tracker,
-                    max_retries=1,
-                )
+                        effects_plan=effects_plan,
+                    )
             else:
                 tracker.start_stage("compose", "Composing Claymorphism video...")
                 compositor = ClayCompositor(
