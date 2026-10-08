@@ -23,7 +23,8 @@ import {
 export const textEntry = {
   /** Fade in from transparent */
   fade_in(frame: number, fps: number, durationFrames = 15): React.CSSProperties {
-    const opacity = interpolate(frame, [0, durationFrames], [0, 1], {
+    const dur = typeof durationFrames === "number" && !isNaN(durationFrames) && durationFrames > 0 ? durationFrames : 15;
+    const opacity = interpolate(frame, [0, dur], [0, 1], {
       extrapolateRight: "clamp",
     });
     return { opacity };
@@ -81,7 +82,8 @@ export const textEntry = {
 
   /** Blur reveal — from blurry to sharp */
   blur_reveal(frame: number, fps: number, durationFrames = 20): React.CSSProperties {
-    const p = interpolate(frame, [0, durationFrames], [0, 1], { extrapolateRight: "clamp" });
+    const dur = typeof durationFrames === "number" && !isNaN(durationFrames) && durationFrames > 0 ? durationFrames : 20;
+    const p = interpolate(frame, [0, dur], [0, 1], { extrapolateRight: "clamp" });
     return {
       opacity: p,
       filter: `blur(${interpolate(p, [0, 1], [20, 0])}px)`,
@@ -110,7 +112,8 @@ export const textEntry = {
 
   /** Curtain reveal — clip from center outward */
   curtain_reveal(frame: number, fps: number, durationFrames = 20): React.CSSProperties {
-    const p = interpolate(frame, [0, durationFrames], [0, 1], {
+    const dur = typeof durationFrames === "number" && !isNaN(durationFrames) && durationFrames > 0 ? durationFrames : 20;
+    const p = interpolate(frame, [0, dur], [0, 1], {
       extrapolateRight: "clamp",
       easing: Easing.out(Easing.cubic),
     });
@@ -121,7 +124,8 @@ export const textEntry = {
 
   /** Smoke reveal — opacity pulse with blur */
   smoke_reveal(frame: number, fps: number, durationFrames = 24): React.CSSProperties {
-    const p = interpolate(frame, [0, durationFrames], [0, 1], { extrapolateRight: "clamp" });
+    const dur = typeof durationFrames === "number" && !isNaN(durationFrames) && durationFrames > 0 ? durationFrames : 24;
+    const p = interpolate(frame, [0, dur], [0, 1], { extrapolateRight: "clamp" });
     const wobble = Math.sin(frame * 0.5) * interpolate(p, [0, 0.5, 1], [3, 1, 0]);
     return {
       opacity: interpolate(p, [0, 0.5, 1], [0, 0.7, 1]),
@@ -141,11 +145,12 @@ export const textEntry = {
 
   /** Glitch in — digital distortion entrance */
   glitch_in(frame: number, fps: number, durationFrames = 18): React.CSSProperties {
-    const p = interpolate(frame, [0, durationFrames], [0, 1], { extrapolateRight: "clamp" });
-    const glitchX = frame < durationFrames * 0.7
+    const dur = typeof durationFrames === "number" && !isNaN(durationFrames) && durationFrames > 0 ? durationFrames : 18;
+    const p = interpolate(frame, [0, dur], [0, 1], { extrapolateRight: "clamp" });
+    const glitchX = frame < dur * 0.7
       ? Math.sin(frame * 30) * interpolate(p, [0, 0.7], [15, 0], { extrapolateRight: "clamp" })
       : 0;
-    const skew = frame < durationFrames * 0.5
+    const skew = frame < dur * 0.5
       ? Math.sin(frame * 20) * interpolate(p, [0, 0.5], [8, 0], { extrapolateRight: "clamp" })
       : 0;
     return {
@@ -174,11 +179,18 @@ export const textEntry = {
     };
   },
 
-  /** Typewriter reveal */
-  typewriter(frame: number, fps: number, text: string): { visibleChars: number } {
-    const charsPerSecond = 30;
-    const visibleChars = Math.floor((frame / fps) * charsPerSecond);
-    return { visibleChars: Math.min(visibleChars, text.length) };
+  /** Typewriter reveal — progressively reveals text horizontally */
+  typewriter(frame: number, fps: number, text?: string): React.CSSProperties {
+    const textLen = (typeof text === "string" && text.length > 0) ? text.length : 30;
+    const durationFrames = Math.min(Math.max(Math.round(textLen * 0.7), 15), 45);
+    const p = interpolate(frame, [0, durationFrames], [0, 1], {
+      extrapolateRight: "clamp",
+      easing: Easing.linear,
+    });
+    return {
+      clipPath: `inset(0 ${(1 - p) * 100}% 0 0)`,
+      opacity: interpolate(p, [0, 0.05], [0, 1], { extrapolateRight: "clamp" }),
+    };
   },
 
   /** Slide from left */
@@ -251,7 +263,8 @@ export const textEntry = {
 
   /** Split reveal horizontal — text clips in from center outward */
   split_reveal(frame: number, fps: number, durationFrames = 20): React.CSSProperties {
-    const p = interpolate(frame, [0, durationFrames], [0, 1], { extrapolateRight: "clamp" });
+    const dur = typeof durationFrames === "number" && !isNaN(durationFrames) && durationFrames > 0 ? durationFrames : 20;
+    const p = interpolate(frame, [0, dur], [0, 1], { extrapolateRight: "clamp" });
     return {
       opacity: 1,
       clipPath: `inset(0 ${50 - p * 50}% 0 ${50 - p * 50}%)`,
@@ -614,8 +627,11 @@ export function getTextEntryStyle(
   fps: number,
   text?: string,
 ): React.CSSProperties {
+  if (effectName === "typewriter") {
+    return textEntry.typewriter(frame, fps, text);
+  }
   const fn = (textEntry as Record<string, TextAnimFn>)[effectName];
-  if (fn) return fn(frame, fps, text);
+  if (fn) return fn(frame, fps);
   // Fallback
   return textEntry.fade_in(frame, fps);
 }

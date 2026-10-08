@@ -12,9 +12,11 @@ from __future__ import annotations
 import json
 import logging
 import os
+import re
 import time
 import threading
 import queue
+import urllib.parse
 from pathlib import Path
 from typing import Optional
 
@@ -191,20 +193,66 @@ _usage_lock = threading.Lock()
 _usage = {"day": "", "total": 0, "per_ip": {}}
 
 
+def _is_deployed_env() -> bool:
+    """Check if the application is running in a deployed cloud environment."""
+    return any([
+        os.environ.get("RAILWAY_ENVIRONMENT"),
+        os.environ.get("RAILWAY_STATIC_URL"),
+        os.environ.get("RAILWAY_PUBLIC_DOMAIN"),
+        os.environ.get("K_SERVICE"),           # Google Cloud Run
+        os.environ.get("RENDER"),              # Render
+        os.environ.get("SPACE_ID"),            # Hugging Face Spaces
+        os.environ.get("DYNO"),                # Heroku
+        os.environ.get("VERCEL"),              # Vercel
+        os.environ.get("FLY_APP_NAME"),        # Fly.io
+        os.environ.get("ENVIRONMENT", "").lower() in ("production", "prod", "staging", "deployed"),
+        os.environ.get("ENV", "").lower() in ("production", "prod", "staging", "deployed"),
+    ])
+
+
+def _is_local_request() -> bool:
+    """Check if the incoming HTTP request is strictly local (localhost / 127.0.0.1)."""
+    # If forwarded through an external proxy, check original client IP
+    fwd = request.headers.get("X-Forwarded-For", "").strip()
+    if fwd:
+        first_ip = fwd.split(",")[0].strip()
+        if first_ip not in ("127.0.0.1", "::1", "localhost"):
+            return False
+
+    host = (request.host or "").split(":")[0].lower()
+    local_hosts = {"localhost", "127.0.0.1", "0.0.0.0", "::1", "testserver"}
+    remote_ip = request.remote_addr or ""
+    is_loopback_ip = remote_ip in ("127.0.0.1", "::1", "localhost", "0.0.0.0")
+
+    return is_loopback_ip and (host in local_hosts or host.endswith(".local"))
+
+
 def _client_ip() -> str:
     fwd = request.headers.get("X-Forwarded-For", "")
     return fwd.split(",")[0].strip() if fwd else (request.remote_addr or "unknown")
 
 
 def _check_and_reserve_quota() -> Optional[str]:
-    """Return an error message if the request is over a limit, else reserve a slot."""
+    """Return an error message if the request is over a limit, else reserve a slot.
+
+    Daily video caps only apply to public visitors on deployed URLs.
+    Local workspace development has unlimited generations (concurrency limit still applies).
+    """
+    # Concurrency limit prevents simultaneous ffmpeg renders from clashing
+    if MAX_CONCURRENT_JOBS and len(_active_jobs) >= MAX_CONCURRENT_JOBS:
+        return "Another video is being generated right now. Please try again in a few minutes."
+
+    # Bypass daily caps in local development workspace unless explicitly forced
+    force_limits = os.environ.get("FORCE_DEMO_LIMITS", "").lower() in ("true", "1", "yes")
+    is_local = ((not _is_deployed_env()) or _is_local_request()) and not force_limits
+    if is_local:
+        return None
+
     today = time.strftime("%Y-%m-%d")
     ip = _client_ip()
     with _usage_lock:
         if _usage["day"] != today:
             _usage.update(day=today, total=0, per_ip={})
-        if MAX_CONCURRENT_JOBS and len(_active_jobs) >= MAX_CONCURRENT_JOBS:
-            return "Another video is being generated right now. Please try again in a few minutes."
         if DAILY_VIDEO_CAP and _usage["total"] >= DAILY_VIDEO_CAP:
             return "Today's free demo limit has been reached. Please come back tomorrow!"
         if PER_VISITOR_DAILY_CAP and _usage["per_ip"].get(ip, 0) >= PER_VISITOR_DAILY_CAP:
@@ -301,7 +349,19 @@ def api_generate():
 
     # Apply Phase 5 premium options
     if speed:
-        config.VOICE_SPEED = speed
+        import re
+        speed_str = str(speed).strip()
+        if re.match(r"^[+-]\d+%$", speed_str):
+            config.VOICE_SPEED = speed_str
+        elif re.match(r"^\d+%$", speed_str):
+            config.VOICE_SPEED = f"+{speed_str}"
+        else:
+            try:
+                mult = float(speed_str.replace("x", ""))
+                pct = int(round((mult - 1.0) * 100))
+                config.VOICE_SPEED = f"{'+' if pct >= 0 else ''}{pct}%"
+            except ValueError:
+                config.VOICE_SPEED = "+0%"
     if language and language in config.LANGUAGE_VOICES:
         lang_voice = config.LANGUAGE_VOICES[language]["voice"]
         voice = lang_voice
@@ -379,7 +439,7 @@ def api_generate():
                 episode_number=episode_number,
                 deep_dive_sources=deep_dive_sources,
                 deep_dive_text=deep_dive_text,
-                renderer=data.get("renderer", "remotion"),
+                renderer=(data.get("renderer") or getattr(config, "DEFAULT_RENDERER", "remotion")).strip(),
                 target_duration=target_duration,
             )
 

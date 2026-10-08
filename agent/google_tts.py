@@ -305,6 +305,19 @@ class GoogleTTS:
                 except Exception:
                     pass
 
+                body_lower = body.lower()
+                is_quota_exhausted = (
+                    "quota exceeded" in body_lower
+                    or "limit: 10" in body_lower
+                    or ("retry in" in body_lower and ("h" in body_lower or "d" in body_lower))
+                )
+                if status == 429 and is_quota_exhausted:
+                    logger.warning(
+                        "Google TTS daily quota exhausted for screen %d (%s). Fast-falling back to edge-tts.",
+                        idx, body[:120],
+                    )
+                    return None
+
                 if status == 429 and attempt < MAX_RETRIES:
                     wait = retry_after or (RETRY_BASE_WAIT * (2 ** attempt))
                     # Cap maximum wait at 45s (fail fast → fallback to edge-tts)

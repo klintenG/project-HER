@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import re
 from pathlib import Path
 from dataclasses import dataclass, field
 from typing import Optional
@@ -53,6 +54,23 @@ class NarrationEngine:
     karaoke-style animated captions with precise per-word timing.
     """
 
+    @staticmethod
+    def _normalize_rate(rate_val: Optional[str]) -> str:
+        """Convert rate values like '1.0', '1.0x', '+0%', '0%' to edge-tts regex '^[+-]\\d+%$'."""
+        if not rate_val:
+            return "+0%"
+        rate_str = str(rate_val).strip()
+        if re.match(r"^[+-]\d+%$", rate_str):
+            return rate_str
+        if re.match(r"^\d+%$", rate_str):
+            return f"+{rate_str}"
+        try:
+            val = float(rate_str.replace("x", ""))
+            pct = int(round((val - 1.0) * 100))
+            return f"{'+' if pct >= 0 else ''}{pct}%"
+        except ValueError:
+            return "+0%"
+
     def __init__(
         self,
         voice: Optional[str] = None,
@@ -60,7 +78,7 @@ class NarrationEngine:
         volume: Optional[str] = None,
     ):
         self.voice = voice or config.DEFAULT_VOICE
-        self.rate = rate or config.VOICE_SPEED or config.NARRATION_RATE
+        self.rate = self._normalize_rate(rate or config.VOICE_SPEED or config.NARRATION_RATE)
         self.volume = volume or config.NARRATION_VOLUME
 
     def generate_narration(
@@ -102,7 +120,7 @@ class NarrationEngine:
         communicate = edge_tts.Communicate(
             text=key_point.narration,
             voice=self.voice,
-            rate=self.rate,
+            rate=self._normalize_rate(self.rate),
             volume=self.volume,
             boundary="WordBoundary",
         )
@@ -364,7 +382,7 @@ class NarrationEngine:
         communicate = edge_tts.Communicate(
             text=screen.text,
             voice=voice,
-            rate=self.rate,
+            rate=self._normalize_rate(self.rate),
             volume=self.volume,
             boundary="WordBoundary",
         )

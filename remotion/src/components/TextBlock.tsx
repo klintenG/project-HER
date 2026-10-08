@@ -186,7 +186,7 @@ export const TextBlock: React.FC<TextBlockProps> = ({
   const exitFrames = Math.round(sceneDurationFrames * (1 - exitStart));
   const exitFrame = progress > exitStart ? localFrame - Math.round(sceneDurationFrames * exitStart) : 0;
 
-  const entryStyle = getTextEntryStyle(effects.text_entry, entryFrame, fps);
+  const entryStyle = getTextEntryStyle(effects.text_entry, entryFrame, fps, screen.text);
   const exitStyle = progress > exitStart
     ? getTextExitStyle(effects.text_exit, exitFrame, fps)
     : {};

@@ -126,7 +126,7 @@ class AgentOrchestrator:
         deep_dive_sources: Optional[list[str]] = None,
         deep_dive_text: str = "",
         # ── Renderer selection ──
-        renderer: str = "moviepy",  # "moviepy" | "remotion"
+        renderer: str = "remotion",  # "remotion" | "moviepy"
         # ── Duration control ──
         target_duration: int = 0,  # 0 = auto, else seconds
     ) -> PipelineResult:
@@ -496,7 +496,7 @@ class AgentOrchestrator:
         deep_dive_sources: Optional[list[str]] = None,
         deep_dive_text: str = "",
         # ── Renderer selection ──
-        renderer: str = "moviepy",
+        renderer: str = "remotion",
         # ── Duration control ──
         target_duration: int = 0,
         **kwargs,

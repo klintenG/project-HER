@@ -563,14 +563,14 @@
 
                     <!-- Streamlined Options Grid -->
                     <div class="row g-3 mb-4">
-                        <!-- Tone: Explainer by default -->
+                        <!-- Tone: Informative by default -->
                         <div class="col-sm-6">
                             <label for="selTone" class="form-label">
                                 <i class="bi bi-chat-quote"></i> Narration Tone
                             </label>
                             <select id="selTone" class="form-select">
-                                <option value="explainer" selected>Explainer (Default)</option>
-                                <option value="informative">Informative & Technical</option>
+                                <option value="informative" selected>Informative & Storytelling (Default)</option>
+                                <option value="explainer">Explainer</option>
                                 <option value="storytelling">Storytelling & Narrative</option>
                                 <option value="educational">Educational & Structured</option>
                                 <option value="dramatic">Dramatic & Cinematic</option>
@@ -596,7 +596,7 @@
                                 <i class="bi bi-palette"></i> Visual Art Style
                             </label>
                             <select id="selVisualStyle" class="form-select">
-                                <option value="claymorphism" selected>Claymorphism (3D Animated)</option>
+                                <option value="claymorphism" selected>Claymorphism (3D Animated — Default)</option>
                                 <option value="glassmorphism">Glassmorphism (Frosted UI)</option>
                                 <option value="minimalism">Minimalism (Clean Vector)</option>
                                 <option value="hyper_realistic">Hyper-Realistic (Cinematic)</option>
@@ -610,12 +610,16 @@
                                 <i class="bi bi-clock"></i> Target Duration
                             </label>
                             <select id="selDuration" class="form-select">
+                                <option value="0" selected>Auto / Adaptive Length (Default — ~45s)</option>
                                 <option value="30">30 Seconds (Quick Hook)</option>
-                                <option value="60" selected>60 Seconds (Full Explainer)</option>
-                                <option value="0">Auto (Adaptive Length)</option>
+                                <option value="60">60 Seconds (Full Explainer)</option>
                             </select>
                         </div>
                     </div>
+
+                    <!-- Hidden defaults: Remotion engine & Article content mode -->
+                    <input type="hidden" id="selRenderer" value="remotion">
+                    <input type="hidden" id="selContentMode" value="article">
 
                     <!-- Generate CTA Button -->
                     <button id="btnGenerate" class="btn-generate" onclick="handleGenerate()">
@@ -624,7 +628,7 @@
 
                     <!-- Technical note -->
                     <div class="d-flex align-items-center justify-content-between mt-3 text-muted" style="font-size:0.75rem;">
-                        <span><i class="bi bi-gear-fill me-1"></i> Engine: Remotion React Compositor</span>
+                        <span><i class="bi bi-gear-fill me-1"></i> Engine: <strong id="lblActiveEngine" class="text-light">Remotion React Compositor</strong></span>
                         <span><i class="bi bi-check-circle-fill text-success me-1"></i> Multi-Agent Pipeline</span>
                     </div>
                 </div>
@@ -775,6 +779,18 @@
             charCount.textContent = `${words} words`;
         });
 
+        /* ── Engine Selector Sync ── */
+        const selRenderer = document.getElementById('selRenderer');
+        if (selRenderer) {
+            selRenderer.addEventListener('change', function() {
+                const isRemotion = this.value === 'remotion';
+                const lbl = document.getElementById('lblActiveEngine');
+                if (lbl) {
+                    lbl.textContent = isRemotion ? 'Remotion React Compositor' : 'MoviePy Python Compositor';
+                }
+            });
+        }
+
         /* ── Quick Prompt Selection ── */
         function setPrompt(text) {
             promptInput.value = text;
@@ -836,10 +852,12 @@
                 return;
             }
 
-            const tone = document.getElementById('selTone').value || 'explainer';
-            const format = document.getElementById('selFormat').value || 'vertical';
-            const visualStyle = document.getElementById('selVisualStyle').value || 'claymorphism';
-            const duration = parseInt(document.getElementById('selDuration').value) || 60;
+            const contentMode = document.getElementById('selContentMode')?.value || 'article';
+            const tone = document.getElementById('selTone')?.value || 'informative';
+            const format = document.getElementById('selFormat')?.value || 'vertical';
+            const visualStyle = document.getElementById('selVisualStyle')?.value || 'claymorphism';
+            const duration = parseInt(document.getElementById('selDuration')?.value ?? '0') || 0;
+            const renderer = (document.getElementById('selRenderer')?.value || 'remotion');
 
             // Determine if input is URL or raw text
             const isUrl = /^https?:\/\//i.test(inputVal);
@@ -851,21 +869,21 @@
                 format: format,
                 visual_style: visualStyle,
                 target_duration: duration,
-                renderer: 'remotion',       // Remotion by default
+                renderer: renderer,         // Remotion by default
                 ai_images: true,            // AI images enabled by default
-                content_mode: (/Barnaby|rabbit|bedtime|story|once upon a time|little dreamer|bear|moonlit/i.test(inputVal) ? 'kids_story' : 'article'),
-                theme: 'explainer',
-                captions: 'karaoke',
-                transition: 'fade',
+                content_mode: contentMode,  // article by default (matches successful video)
+                theme: 'claymorphism',      // claymorphism theme
+                captions: 'karaoke',        // karaoke highlight
+                transition: 'fade',         // fade transition
                 subtitles: true,
-                voice: '',
+                voice: 'aria',              // en-US-AriaNeural
                 platform: '',
                 quality: 'standard',
                 watermark: '',
                 points: 0,
-                color_grade: 'standard',
+                color_grade: 'none',        // natural raw vibrance
                 language: 'english',
-                speed: '1.0',
+                speed: '+0%',
                 brand_text: '',
                 question: '',
                 character_name: '',
@@ -875,7 +893,7 @@
                 deep_dive_text: '',
                 series_id: '',
                 episode_number: 0,
-                tts_provider: '',
+                tts_provider: 'google_tts',
                 llm_provider: '',
                 llm_model: ''
             };

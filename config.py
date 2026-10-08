@@ -106,6 +106,9 @@ FPS = 30  # style guide mandates 30fps for Reels/Shorts/TikTok
 VIDEO_CODEC = "libx264"
 AUDIO_CODEC = "aac"
 VIDEO_BITRATE = "5000k"
+DEFAULT_RENDERER = os.getenv("DEFAULT_RENDERER", "remotion")
+AVAILABLE_RENDERERS = ["remotion", "moviepy"]
+
 
 # ── Platform Presets ───────────────────────────────────
 # Each preset bundles format, duration, bitrate, and recommended settings
