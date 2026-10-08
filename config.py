@@ -1061,3 +1061,6 @@ RENDER_THREADS = min(os.cpu_count() or 4, 8)
 ENABLE_CACHE = True
 CACHE_DIR = TEMP_DIR / "cache"
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
+
+# Default video render engine ("remotion" or "claymorphism")
+DEFAULT_RENDERER = os.getenv("DEFAULT_RENDERER", "remotion")

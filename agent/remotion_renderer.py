@@ -551,11 +551,26 @@ class RemotionRenderer:
             "--overwrite",
         ]
 
+        import sys
+        if sys.platform.startswith("linux"):
+            cmd.extend([
+                "--enable-multi-process-on-linux",
+                "--disable-web-security",
+            ])
+
+        # Ensure node_modules/.bin is on PATH
+        env = dict(os.environ)
+        local_bin = str(REMOTION_DIR / "node_modules" / ".bin")
+        current_path = env.get("PATH", "")
+        if local_bin not in current_path:
+            env["PATH"] = f"{local_bin}:{current_path}"
+
         logger.info("Invoking Remotion render:\n  %s", " ".join(cmd))
 
         result = subprocess.run(
             cmd,
             cwd=str(REMOTION_DIR),
+            env=env,
             capture_output=True,
             text=True,
             timeout=600,  # 10 min max
