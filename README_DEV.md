@@ -2,6 +2,8 @@
 
 > Turn any article, URL, or text story into a polished, cinematic short video — fully automated, AI-powered, zero editing required. Now with **Remotion React/TypeScript rendering** and **99 cinematic effects**.
 
+News mode is an additive, evidence-linked paper-cutout pipeline with its own shared Remotion/MoviePy manifest. See [README_NEWS.md](README_NEWS.md) for setup, source policies, current authenticated provider integrations, CLI examples, and observed validation limits. News deliberately uses restrained effects and phrase timing when native word boundaries are unavailable; the general effects/provider descriptions below describe the older modes.
+
 ---
 
 ## What It Does

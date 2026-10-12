@@ -74,8 +74,8 @@ LLM_PROVIDERS = {
 AVAILABLE_LLM_PROVIDERS = list(LLM_PROVIDERS.keys())
 
 # ── Content Analysis ──────────────────────────────────
-MIN_KEY_POINTS = 3
-MAX_KEY_POINTS = 5
+MIN_KEY_POINTS = 5
+MAX_KEY_POINTS = 12
 
 TONE_PRESETS = {
     "informative": "Write in a neutral, informative, news-anchor style.",
@@ -101,7 +101,7 @@ VIDEO_FORMATS = {
 }
 
 DEFAULT_VIDEO_FORMAT = os.getenv("DEFAULT_VIDEO_FORMAT", "vertical")
-TARGET_DURATION = (35, 62)  # seconds (min, max) — sweet spot 50-60s for short-form
+TARGET_DURATION = (60, 95)  # seconds (min, max) — sweet spot 60-90s for detailed, captivating storytelling
 FPS = 30  # style guide mandates 30fps for Reels/Shorts/TikTok
 VIDEO_CODEC = "libx264"
 AUDIO_CODEC = "aac"
@@ -117,73 +117,73 @@ PLATFORM_PRESETS = {
     "tiktok": {
         "label": "TikTok",
         "format": "vertical",
-        "target_duration": (15, 60),
+        "target_duration": (45, 75),
         "bitrate": "5000k",
         "fps": 30,
         "recommended_theme": "neon",
         "recommended_captions": "karaoke",
         "recommended_transition": "slide_left",
-        "max_points": 4,
+        "max_points": 8,
     },
     "youtube_shorts": {
         "label": "YouTube Shorts",
         "format": "vertical",
-        "target_duration": (30, 58),
+        "target_duration": (50, 85),
         "bitrate": "6000k",
         "fps": 30,
         "recommended_theme": "cinematic",
         "recommended_captions": "pop",
         "recommended_transition": "zoom_in",
-        "max_points": 5,
+        "max_points": 10,
     },
     "instagram_reels": {
         "label": "Instagram Reels",
         "format": "vertical",
-        "target_duration": (15, 60),
+        "target_duration": (45, 75),
         "bitrate": "5000k",
         "fps": 30,
         "recommended_theme": "neon",
         "recommended_captions": "glow",
         "recommended_transition": "wipe",
-        "max_points": 4,
+        "max_points": 8,
     },
     "youtube": {
         "label": "YouTube (Landscape)",
         "format": "horizontal",
-        "target_duration": (45, 90),
+        "target_duration": (60, 120),
         "bitrate": "8000k",
         "fps": 24,
         "recommended_theme": "cinematic",
         "recommended_captions": "classic",
         "recommended_transition": "fade",
-        "max_points": 6,
+        "max_points": 12,
     },
     "twitter": {
         "label": "Twitter / X",
         "format": "square",
-        "target_duration": (15, 45),
+        "target_duration": (30, 60),
         "bitrate": "4000k",
         "fps": 30,
         "recommended_theme": "minimal",
         "recommended_captions": "bold_impact",
         "recommended_transition": "slide_up",
-        "max_points": 3,
+        "max_points": 6,
     },
     "linkedin": {
         "label": "LinkedIn",
         "format": "square",
-        "target_duration": (30, 60),
+        "target_duration": (50, 90),
         "bitrate": "5000k",
         "fps": 24,
         "recommended_theme": "corporate",
         "recommended_captions": "classic",
         "recommended_transition": "fade",
-        "max_points": 5,
+        "max_points": 8,
     },
     "explainer": {
         "label": "Explainer Video",
         "format": "horizontal",
-        "target_duration": (45, 90),
+        "target_duration": (60, 120),
         "bitrate": "6000k",
         "fps": 24,
         "recommended_theme": "explainer",
@@ -980,8 +980,8 @@ DEFAULT_CONTENT_MODE = "article"
 AVAILABLE_CONTENT_MODES = list(CONTENT_MODES.keys())
 
 # ── Kids Story Settings (Viral Short-Form) ───────────
-KIDS_STORY_DURATION = (35, 55)           # target seconds — short & punchy for viral
-KIDS_STORY_SCREENS = (6, 12)             # screen count range
+KIDS_STORY_DURATION = (50, 75)           # target seconds — captivating story arc
+KIDS_STORY_SCREENS = (8, 16)             # screen count range
 KIDS_STORY_HOOK_STYLES = [
     "mystery",        # "This kitten tried to catch the moon… but something impossible happened."
     "emotional",      # "Everyone ignored this little bear… until one night changed everything."
@@ -991,13 +991,13 @@ KIDS_STORY_HOOK_STYLES = [
 ]
 
 # ── Thought Experiment Settings ───────────────────────
-THOUGHT_EXPERIMENT_DURATION = (45, 75)  # target seconds - slightly shorter, punchy
-THOUGHT_EXPERIMENT_SCREENS = (8, 14)    # screen count range
+THOUGHT_EXPERIMENT_DURATION = (60, 95)  # target seconds - in-depth philosophical exploration
+THOUGHT_EXPERIMENT_SCREENS = (10, 18)   # screen count range
 THOUGHT_EXPERIMENT_TONE = "dramatic"    # default tone for thought experiments
 
 # ── Deep Dive Settings (NotebookLM-inspired) ──────
-DEEP_DIVE_DURATION = (55, 90)        # target seconds — longer for discussion format
-DEEP_DIVE_SCREENS = (10, 18)         # screen count range (more turns for conversation)
+DEEP_DIVE_DURATION = (65, 110)       # target seconds — in-depth discussion format
+DEEP_DIVE_SCREENS = (12, 22)        # screen count range (more turns for conversation)
 DEEP_DIVE_MAX_SOURCES = 5            # max URLs/texts to combine
 DEEP_DIVE_MAX_CONTEXT_CHARS = 15000  # max combined source text sent to LLM
 # Deep Dive voice pairs: two hosts with distinct personalities
@@ -1064,3 +1064,51 @@ CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
 # Default video render engine ("remotion" or "claymorphism")
 DEFAULT_RENDERER = os.getenv("DEFAULT_RENDERER", "remotion")
+
+# Additive News settings; read only per-job snapshots in the News pipeline.
+CONTENT_MODES["news"] = {
+    "label": "News", "description": "Research or use your account, then create a paper-cutout news explainer.",
+    "requires_url_or_text": True, "icon": "bi-newspaper",
+}
+AVAILABLE_CONTENT_MODES = list(CONTENT_MODES)
+SERPER_API_KEY = os.getenv("SERPER_API_KEY", "")
+NEWS_MAX_PAGES = max(1, min(3, int(os.getenv("NEWS_MAX_PAGES", "3"))))
+NEWS_HTTP_TIMEOUT = max(2, min(20, int(os.getenv("NEWS_HTTP_TIMEOUT", "12"))))
+NEWS_PAGE_BYTES = 2_000_000
+NEWS_DEFAULT_DURATION = max(10, min(600, int(os.getenv("NEWS_DEFAULT_DURATION", "75"))))
+NEWS_CUTOUT_BACKEND = os.getenv("NEWS_CUTOUT_BACKEND", "rembg")
+NEWS_CUTOUT_MODELS = [m.strip() for m in os.getenv("NEWS_CUTOUT_MODELS", "isnet-general-use").split(",") if m.strip()][:2]
+NEWS_CUTOUT_CACHE = Path(os.getenv("NEWS_CUTOUT_CACHE", str(TEMP_DIR / "news_cutouts")))
+NEWS_ASSET_RETRIES = 3
+NEWS_REAL_IMAGE_MODEL = os.getenv("NEWS_REAL_IMAGE_MODEL", "black-forest-labs/flux-1.1-pro")
+NEWS_REFERENCE_IMAGE_MODEL = "black-forest-labs/flux-kontext-pro"
+NEWS_REAL_IMAGE_ATTEMPTS = 2
+NEWS_MAX_REAL_IMAGE_CALLS = max(0, min(24, int(os.getenv("NEWS_MAX_REAL_IMAGE_CALLS", "16"))))
+NEWS_REFERENCE_CACHE = TEMP_DIR / "news_references"
+NEWS_IDENTITY_IMAGE_CACHE = TEMP_DIR / "news_identity_images"
+# News-only speech fallback: selected provider -> this model -> free Edge TTS.
+NEWS_REPLICATE_TTS_MODEL = os.getenv("NEWS_REPLICATE_TTS_MODEL", "jaaari/kokoro-82m")
+NEWS_TTS_CACHE = TEMP_DIR / "news_speech"
+NEWS_STYLE_SUFFIX = (
+    "isolated editorial photographic archival collage illustration, restrained detail and natural color, "
+    "clean silhouette, entire subject visible with generous breathing room on all sides, "
+    "plain uniform contrasting neutral background suitable for segmentation, no surrounding scene, "
+    "no extra people, no scenery, no text, no watermark, no frame, no border, no baked-in shadow, "
+    "no sticker outline, no torn paper, no clay or plastic; illustrative asset, not documentary evidence"
+)
+POLLINATIONS_API_KEY = os.getenv("POLLINATIONS_API_KEY", "")
+NEWS_POLLINATIONS_MODEL = os.getenv("NEWS_POLLINATIONS_MODEL", "black-forest-labs/flux.1-schnell")
+NEWS_HF_PROVIDER = os.getenv("NEWS_HF_PROVIDER", "auto")
+EDITORIAL_VISION_MODEL = os.getenv("EDITORIAL_VISION_MODEL", GEMINI_MODEL)
+EDITORIAL_SUPPORT_IMAGE_MODEL = os.getenv("EDITORIAL_SUPPORT_IMAGE_MODEL", "black-forest-labs/flux-schnell")
+EDITORIAL_MAX_SUPPORT_CALLS = max(1,min(48,int(os.getenv("EDITORIAL_MAX_SUPPORT_CALLS", "24"))))
+
+NEWS_MUSIC = os.getenv("NEWS_MUSIC", "0").lower() in ("1", "true", "yes")
+
+# Optional registry of operator-audited RGBA maps, flags or logos under assets/.
+NEWS_VERIFIED_ASSETS_JSON = os.getenv("NEWS_VERIFIED_ASSETS_JSON", "")
+
+# Applied only to reference_editorial; legacy News and slideshow modes retain
+# their existing behavior. JSON overrides are validated by VisualSettings.
+import json as _visual_json
+NARRATION_VISUAL_SETTINGS = _visual_json.loads(os.getenv('HER_NARRATION_VISUAL_SETTINGS', '{}'))

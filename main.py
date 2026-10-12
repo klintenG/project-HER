@@ -103,8 +103,8 @@ def cli():
               type=click.Choice(list(config.QUALITY_PRESETS.keys())),
               default=None,
               help="Export quality preset (draft/standard/high/ultra).")
-@click.option("--points", type=click.IntRange(3, 6), default=None,
-              help="Number of key points (3-6).")
+@click.option("--points", type=click.IntRange(3, 15), default=None,
+              help="Number of key points (3-15).")
 @click.option("--output", type=click.Path(), default=None, help="Output directory.")
 @click.option("--no-subtitles", is_flag=True, help="Disable subtitle/caption generation.")
 @click.option("--watermark", type=str, default=None,
@@ -130,13 +130,40 @@ def cli():
               help="Use AI-generated images with Claymorphism style instead of Pexels.")
 @click.option("--brand", type=str, default="",
               help="Brand name to display on the video (AI image mode).")
+@click.option("--content-mode", type=click.Choice(config.AVAILABLE_CONTENT_MODES), default="article")
+@click.option("--news-source-policy", type=click.Choice(["auto", "online", "supplied"]), default="auto")
+@click.option("--renderer", type=click.Choice(["remotion", "moviepy"]), default=config.DEFAULT_RENDERER)
+@click.option("--target-duration", type=click.IntRange(0, 600), default=0)
+@click.option("--news-music", is_flag=True, help="Optional quiet, ducked music in News.")
+@click.option("--visual-preset", type=click.Choice(["default", "reference_editorial"]), default="default")
+@click.option("--editorial-text", type=click.Choice(["editorial", "complete"]), default="editorial")
+@click.option("--editorial-assets", type=click.Choice(["auto", "stock", "ai", "local"]), default="auto")
+@click.option("--local-assets", type=click.Path(exists=True), default=None, help="Editorial asset registry JSON.")
 @click.option("--verbose", "-v", is_flag=True, help="Enable verbose logging.")
 def generate(url, text, text_file, tone, video_format, voice, theme, captions,
              transition, platform, quality, points, output, no_subtitles, watermark,
              speed, color_grade, language, font, bgm, intro, outro,
-             ai_images, brand, verbose):
+             ai_images, brand, content_mode, news_source_policy, renderer, target_duration, news_music, visual_preset, editorial_text, editorial_assets, local_assets, verbose):
     """Generate a cinematic video from an article URL or text."""
     setup_logging(verbose)
+
+    if content_mode == "news" or visual_preset == "reference_editorial":
+        source = "\n".join(v for v in (url, text) if v) or _resolve_input(url, text, text_file)
+        if not source:
+            raise click.ClickException("Provide --url, --text, or --file.")
+        from agent.orchestrator import AgentOrchestrator
+        fmt = config.PLATFORM_PRESETS.get(platform, {}).get("format", video_format)
+        result = AgentOrchestrator().run(source, content_mode=content_mode, news_source_policy=news_source_policy,
+            renderer=renderer, target_duration=target_duration, tone=tone, video_format=fmt,
+            voice=config.LANGUAGE_VOICES.get(language, {}).get("voice", voice), language=language or "english",
+            quality=quality or "high", speed=speed or "+0%", output_dir=Path(output) if output else None, brand_text=brand,
+            news_music=news_music or bool(bgm), news_music_path=bgm,visual_preset=visual_preset,editorial_text=editorial_text,
+            editorial_assets="ai" if ai_images else editorial_assets,local_assets=local_assets)
+        console.print_json(data=result.news_details)
+        if not result.success:
+            raise click.ClickException("; ".join(result.errors))
+        console.print(f"Video: {result.video_path} | Subtitles: {result.srt_path}")
+        return
 
     # Apply platform preset (overrides individual settings if not explicitly set)
     if platform:
@@ -285,6 +312,10 @@ def generate(url, text, text_file, tone, video_format, voice, theme, captions,
             progress_callback=cli_progress_callback,
             ai_images=ai_images,
             brand_text=brand,
+            content_mode=content_mode,
+            visual_preset=visual_preset,editorial_text=editorial_text,editorial_assets=editorial_assets,local_assets=local_assets,
+            renderer=renderer,
+            target_duration=target_duration,
         )
 
     # Show result
@@ -335,8 +366,10 @@ def generate(url, text, text_file, tone, video_format, voice, theme, captions,
               type=click.Choice(["informative", "storytelling", "social", "dramatic", "educational", "motivational"]),
               default="informative")
 @click.option("--points", type=click.IntRange(3, 6), default=None)
+@click.option("--content-mode", type=click.Choice(config.AVAILABLE_CONTENT_MODES), default="article")
+@click.option("--news-source-policy", type=click.Choice(["auto", "online", "supplied"]), default="auto")
 @click.option("--verbose", "-v", is_flag=True)
-def preview(url, text, text_file, tone, points, verbose):
+def preview(url, text, text_file, tone, points, content_mode, news_source_policy, verbose):
     """Preview extracted key points, hook, and analysis without generating video."""
     setup_logging(verbose)
 
@@ -345,7 +378,7 @@ def preview(url, text, text_file, tone, points, verbose):
         console.print("[red]Error:[/red] Provide --url, --text, or --file as input.")
         sys.exit(1)
 
-    if not config.GROQ_API_KEY:
+    if content_mode != "news" and not config.GROQ_API_KEY:
         console.print("[red]Error:[/red] GROQ_API_KEY not set.")
         sys.exit(1)
 
@@ -353,6 +386,15 @@ def preview(url, text, text_file, tone, points, verbose):
 
     console.print("[cyan]Analyzing article...[/cyan]")
     orchestrator = AgentOrchestrator()
+    if content_mode == "news":
+        from agent.news_pipeline import preview_news
+        from agent.news_models import NewsError
+        try:
+            console.print_json(data=preview_news("\n".join(v for v in (url,text) if v) or input_source, source_policy=news_source_policy, tone=tone))
+        except NewsError as exc:
+            console.print_json(data=exc.response())
+            raise click.ClickException(str(exc))
+        return
     analysis = orchestrator.preview_analysis(input_source, tone=tone, num_points=points)
 
     # Display results

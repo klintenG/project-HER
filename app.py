@@ -73,6 +73,14 @@ def generate_video(
     voice: str,
     transition: str,
     ai_images: bool,
+    content_mode: str = "article",
+    news_source_policy: str = "auto",
+    renderer: str = "moviepy",
+    target_duration: int = 0,
+    news_music: bool = False,
+    visual_preset: str = "default",
+    editorial_text: str = "editorial",
+    editorial_assets: str = "auto",
     progress: gr.Progress = gr.Progress(track_tqdm=True),
 ) -> tuple[Optional[str], str]:
     """
@@ -83,6 +91,9 @@ def generate_video(
     source = input_url.strip() if input_url.strip() else input_text.strip()
     if not source:
         return None, "❌ Please paste article text **or** enter a URL above."
+
+    if content_mode == "news":
+        source = "\n".join(v for v in (input_url.strip(), input_text.strip()) if v)
 
     ready, msg = _ready()
     pexels_key = getattr(config, "PEXELS_API_KEY", None) or os.getenv("PEXELS_API_KEY", "")
@@ -107,8 +118,8 @@ def generate_video(
     def _progress_cb(stage):
         """Map StageInfo → Gradio progress."""
         icon, label = stage_labels.get(stage.name, ("⚙️", stage.label))
-        idx   = stage_order.index(stage.name) if stage.name in stage_order else 0
-        total = len(stage_order)
+        idx = stage.index - 1
+        total = stage.total
         # Overall progress = completed stages + fraction of current stage
         overall = (idx + stage.progress_pct) / total
         progress(overall, desc=f"{icon} {label}…")
@@ -130,12 +141,16 @@ def generate_video(
             transition=transition,
             ai_images=ai_images,
             progress_callback=_progress_cb,
-            renderer="moviepy",        # moviepy works on CPU; remotion needs Node.js
+            renderer=renderer,
+            content_mode=content_mode, news_source_policy=news_source_policy,
+            target_duration=int(target_duration), quality="high", news_music=news_music,
+            visual_preset=visual_preset,editorial_text=editorial_text,editorial_assets=editorial_assets,
         )
 
         if not result.success:
             err = "; ".join(result.errors) or "Unknown pipeline error"
-            return None, f"❌ **Generation failed:** {err}"
+            choices = " / ".join(result.news_details.get("choices", []))
+            return None, f"❌ **Generation failed:** {err}" + (f"\n\nChoose an event/year and add it to your input: {choices}" if choices else "")
 
         progress(1.0, desc="✅ Done!")
 
@@ -155,6 +170,11 @@ def generate_video(
             f"*Use the download button below the video to save it.*"
         )
 
+        if result.news_details:
+            info=result.news_details.get("input", {})
+            status_md += f"\n\n**News source:** {info.get('basis', '')} · {info.get('subject', '')} · {info.get('event_date') or 'Date unknown'}"
+            status_md += "\n\n" + "\n".join(f"- [{src['title']}]({src['url']})" if src.get('url') else "- User-supplied account" for src in result.news_details.get('sources', []))
+            status_md += "\n\n" + "\n".join(result.news_details.get('warnings', []))
         return str(result.video_path), status_md
 
     except Exception as exc:
@@ -220,7 +240,18 @@ with gr.Blocks(
                 lines=10,
             )
 
+            content_mode = gr.Dropdown(label="Content mode", choices=[(v["label"], k) for k,v in config.CONTENT_MODES.items() if k in ("article", "news")], value="article")
+            news_source_policy = gr.Dropdown(label="News source", choices=[("Auto", "auto"), ("Online research", "online"), ("Use my account", "supplied")], value="auto", visible=False)
+            news_note = gr.Markdown("Research or use your account, then create a paper-cutout news explainer. Fixed editorial cutouts, grey phrases and restrained motion.", visible=False)
+            news_music = gr.Checkbox(label="Quiet News background music",value=False,visible=False)
+            content_mode.change(lambda mode: (gr.update(visible=mode=="news"),gr.update(visible=mode=="news"),gr.update(visible=mode=="news")), inputs=content_mode, outputs=[news_source_policy,news_note,news_music])
+            visual_preset = gr.Dropdown(label="News visual preset", choices=[("Classic cutouts", "default"),("Reference editorial · Remotion, vertical", "reference_editorial")], value="default", visible=False)
+            editorial_text = gr.Dropdown(label="Editorial text",choices=[("Progressive editorial phrases", "editorial"),("Complete spoken captions", "complete")],value="editorial",visible=False)
+            editorial_assets = gr.Dropdown(label="Editorial assets",choices=[("Automatic · portraits + AI cutouts", "auto"),("Prefer stock / credited references", "stock"),("AI supporting illustrations + portraits", "ai")],value="auto",visible=False)
+            content_mode.change(lambda mode: tuple(gr.update(visible=mode=="news") for _ in range(3)), inputs=content_mode, outputs=[visual_preset,editorial_text,editorial_assets])
             with gr.Accordion("⚙️ Generation Options", open=False):
+                renderer = gr.Dropdown(label="Renderer", choices=["moviepy", "remotion"], value="moviepy")
+                target_duration = gr.Number(label="Target seconds (0 = in-depth adaptive ~60-90s)",value=0,minimum=0,maximum=600,precision=0)
                 with gr.Row():
                     tone = gr.Dropdown(
                         label="Tone",
@@ -267,6 +298,21 @@ with gr.Blocks(
                     info="Enabled automatically if PEXELS_API_KEY is not set",
                 )
 
+            news_preview_btn = gr.Button("Preview News script / sources")
+            news_preview = gr.Markdown()
+            def preview_news_ui(text, url, policy):
+                from agent.news_pipeline import preview_news
+                from agent.news_models import NewsError
+                try:
+                    p=preview_news("\n".join(v for v in (url.strip(),text.strip()) if v), source_policy=policy)
+                    info=p["input"]
+                    links="\n".join(f"- [{source['title']}]({source['url']})" if source['url'] else "- User-supplied account" for source in p['evidence']['sources'])
+                    return f"**{info['subject']}** · {info['event_date'] or 'Date unknown'} · {info['basis']}\n\n{p['script']['narration']}\n\n{links}"
+                except NewsError as exc:
+                    return str(exc)+"\n\n"+" / ".join(exc.choices)
+                except Exception as exc:
+                    return str(exc)
+            news_preview_btn.click(preview_news_ui, inputs=[input_text,input_url,news_source_policy], outputs=news_preview)
             generate_btn = gr.Button(
                 "🎬  Generate Video",
                 variant="primary",
@@ -309,6 +355,7 @@ with gr.Blocks(
             voice,
             transition,
             ai_images,
+            content_mode, news_source_policy, renderer, target_duration, news_music, visual_preset, editorial_text, editorial_assets,
         ],
         outputs=[video_out, status_out],
         show_progress="full",

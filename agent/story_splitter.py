@@ -330,8 +330,8 @@ class StorySplitter:
                 "Every story you write starts with a PATTERN INTERRUPT — something surprising, mysterious, "
                 "funny, emotional, or visually wild that instantly triggers curiosity. "
                 "You NEVER start with 'Once upon a time' or any slow traditional opening. "
-                "You structure stories for 20-35 second videos using the viral pacing model: "
-                "Hook (0-3s) → Setup (3-10s) → Adventure (10-20s) → Twist (20-25s) → Ending (25-30s). "
+                "You structure stories for 50-75 second videos using the viral pacing model: "
+                "Hook (0-5s) → Setup & World (5-18s) → Adventure & Obstacles (18-38s) → Climax & Twist (38-55s) → Heartwarming Payoff (55-70s). "
                 "Your language is simple enough for a 5-year-old but entertaining for adults too. "
                 "Every sentence is short, punchy, and propels the story forward. "
                 "You use CURIOSITY LOOPS — unresolved questions planted early that compel viewers to keep watching. "
@@ -344,9 +344,9 @@ class StorySplitter:
             return (
                 "You are a gifted storyteller who turns articles and raw information into compelling spoken-word video scripts. "
                 "You think like a documentary narrator meets a great podcast host: clear, vivid, human. "
-                "You split stories into screen-by-screen segments for short-form video (3-4 seconds each). "
+                "You split stories into screen-by-screen segments for captivating video storytelling (4-6 seconds each, 8-16 screens). "
                 "You decide whether each screen needs a visual image, animated text only, or multiple images. "
-                "Your MOST IMPORTANT job is making the narration sound like a REAL PERSON talking — not a Wikipedia summary read aloud. "
+                "Your MOST IMPORTANT job is making the narration sound like a REAL PERSON talking with depth and flavor — not a rushed 20-second summary or Wikipedia clip. "
                 + human_voice
             )
 
@@ -367,37 +367,31 @@ class StorySplitter:
         if target_duration and target_duration > 0:
             # User specified a target — treat as soft guidance
             word_budget = int(target_duration * TTS_WPS)
-            # Estimate screen count: ~5-7 seconds per screen
-            min_screens = max(3, target_duration // 8)
-            max_screens = max(5, min(15, target_duration // 5))
+            min_screens = max(5, target_duration // 7)
+            max_screens = max(8, min(24, target_duration // 4))
             return (
-                f"PACING GUIDANCE (soft target — story quality comes FIRST):\n"
+                f"PACING GUIDANCE (soft target — story completeness & depth come FIRST):\n"
                 f"- The user would LIKE this video to be around {target_duration} seconds.\n"
                 f"  That's roughly ~{word_budget} words of narration (TTS reads ~{TTS_WPS} words/sec).\n"
                 f"- Aim for approximately {min_screens}-{max_screens} screens.\n"
-                f"- HOWEVER — story completeness is MORE IMPORTANT than hitting the duration target.\n"
-                f"  Your #1 job is to tell the story properly: all major plot points, key twists,\n"
-                f"  emotional beats, and the resolution MUST be included.\n"
-                f"- Be efficient with language — cut filler, redundancy, and tangents — but NEVER\n"
-                f"  skip important story beats just to save time.\n"
+                f"- HOWEVER — story completeness and narrative flavor are MORE IMPORTANT than hitting the duration target.\n"
+                f"  Your #1 job is to tell the story properly: all major plot points, key character moments, twists,\n"
+                f"  emotional beats, conceptual explanations, and the resolution MUST be included without cutting corners.\n"
+                f"- Be engaging and detailed with language — cut filler, but NEVER skip important story beats or plot depth.\n"
                 f"- If ~{word_budget} words is enough to tell the full story well, great.\n"
                 f"  If the story genuinely needs more to be told properly, USE MORE. Going 20-40%\n"
-                f"  over the target is perfectly fine if it means the story is complete and engaging.\n"
+                f"  over the target is perfectly fine if it means the story is complete, vivid, and engaging.\n"
                 f"- Each screen's \"duration\" field = word count of that screen's text ÷ {TTS_WPS}."
             )
         else:
-            # Default: 50-60 second short-form target (soft)
+            # Default: 60-90 second in-depth storytelling target (soft)
             return (
-                "PACING GUIDANCE (soft target — story quality comes FIRST):\n"
-                "- Aim for roughly 50-70 seconds total. This is a GUIDELINE, not a hard limit.\n"
-                "  That's about 125-175 words of narration (TTS reads ~2.5 words/sec).\n"
-                "- Use 6-12 screens.\n"
-                "- HOWEVER — story completeness is MORE IMPORTANT than hitting the duration target.\n"
-                "  Your #1 job is to tell the story properly: all major plot points, key twists,\n"
-                "  emotional beats, and the resolution MUST be included.\n"
-                "- Be efficient with language — cut filler, redundancy, and tangents — but NEVER\n"
-                "  skip important story beats just to save time.\n"
-                "- If the story needs 80-90 seconds to be told properly, that's fine.\n"
+                "PACING GUIDANCE (in-depth narrative — story quality & completeness come FIRST):\n"
+                "- Aim for roughly 60-90 seconds total (~160-230 words of narration at ~2.5 words/sec).\n"
+                "- Use 8-16 screens to give each plot beat its own focused visual and narrative moment.\n"
+                "- NEVER produce a brief, superficial 20-30 second summary. Story completeness, depth of explanation, and captivating flavor are paramount.\n"
+                "- Your #1 job is to tell the full story with all its richness: context, characters, conflict, turning points, plot developments, twists, and memorable payoff.\n"
+                "- Every single screen must have a descriptive image prompt matching its narrative content.\n"
                 "- Each screen's \"duration\" field = word count of that screen's text ÷ 2.5."
             )
 
@@ -418,14 +412,15 @@ This video is part of a series. The previous episode ended with this unresolved 
 - Include a "cliffhanger" field in the JSON response with the new unresolved question.
 """
 
-        is_topic_prompt = len(text.split()) < 50
+        is_topic_prompt = len(text.split()) < 80
         prompt_directive = ""
         if is_topic_prompt:
             prompt_directive = """
 TOPIC PROMPT DIRECTIVE:
-The user provided a concise topic prompt rather than a full article.
-Expand this concept into a complete, captivating narrative script from scratch!
-Develop key ideas, surprising implications, real-world stakes, and vivid visual scenes.
+The user provided a concise topic prompt or story premise rather than a full article.
+Expand this concept into a complete, in-depth, captivating narrative script from scratch (8-16 screens)!
+Fully develop all characters, world/background context, rising action, conflicts, key turning points, twists, deeper implications, and a memorable climax/resolution.
+Never create a brief 20-30 second summary — give the story the depth, flavor, and details it deserves!
 """
 
         return f"""You just read an amazing story and now you're telling a friend about it on camera.
@@ -433,7 +428,7 @@ Your job: turn this article or topic into a SPOKEN video script — screen by sc
 a real person narrating, not a robot summarizing.
 
 STORY TITLE: {title or '(untitled)'}
-STORY TEXT: {text[:3000]}
+STORY TEXT: {text[:6000]}
 
 TONE: {tone_instruction}
 {series_block}
@@ -481,11 +476,12 @@ STORY CUTTING — HOW TO SPLIT THE CONTENT
 Do NOT mechanically extract bullet points from the article.
 Instead, RETELL the story in your own words. Reimagine it as a spoken narrative:
 
-1. Each screen = ONE conversational beat (1-2 sentences max, spoken naturally).
+1. Each screen = ONE conversational beat (1-3 sentences, 15-28 words, spoken naturally with rich flavor, emotion, or clear explanation).
 2. Cut at natural pause points — where a real speaker would take a breath or let something land.
 3. Leave emotional space: after a big reveal, give the viewer a beat to absorb it.
-4. Build MOMENTUM: each screen should make the viewer curious about the NEXT screen.
-5. Default screen duration: 3.5 seconds. Dense/list screens: 5-7 seconds.
+4. Build MOMENTUM and DEPTH: each screen advances the narrative and reveals something new.
+5. Default screen duration: 4.0-5.5 seconds.
+6. Generate as many screens as needed (typically 8-16 screens) to convey all main plots and explanations without cutting corners. Every screen gets a dedicated image!
 
 ═══════════════════════════════════════════════════════
 VISUAL DECISIONS
@@ -584,8 +580,8 @@ Return ONLY valid JSON. No markdown code fences. No extra text."""
             ks_dur_text = f"{max(15, target_duration - 10)}-{target_duration + 10} seconds"
             ks_pacing = self._build_pacing_block(target_duration)
         else:
-            ks_dur_text = "20-35 seconds"
-            ks_pacing = f"Total: {min_screens}-{max_screens} screens, 20-35 seconds."
+            ks_dur_text = "50-75 seconds"
+            ks_pacing = f"Total: {min_screens}-{max_screens} screens, 50-75 seconds."
 
         return f"""You have an amazing kids story and your job is to turn it into a VIRAL short-form video
 script ({ks_dur_text}) that captures attention in the FIRST 3 SECONDS and keeps viewers watching
@@ -593,7 +589,7 @@ until the very end.
 
 {"STORY TITLE: " + title if title else ""}
 STORY TEXT:
-{text[:3000]}
+{text[:6000]}
 
 ═══════════════════════════════════════════════════════
 🎯 THE GOLDEN RULE: FIRST 3 SECONDS = EVERYTHING
@@ -625,32 +621,32 @@ Choose ONE of these proven viral hook styles for Screen 1:
 📖 VIRAL STORY STRUCTURE ({ks_dur_text})
 ═══════════════════════════════════════════════════════
 
-Screen 1 — HOOK (0-3 seconds)
-  ▸ Pattern interrupt. Curiosity trigger. 2-3 second screen.
+Screen 1 — HOOK (0-5 seconds)
+  ▸ Pattern interrupt. Curiosity trigger. 3-4 second screen.
   ▸ The image_prompt MUST be visually STRIKING and unexpected:
     - A character mid-fall, a giant glowing moon, an explosion of magical stars,
       an animal doing something impossible, something physically surreal.
   ▸ The text is 1 short punch line that creates a knowledge gap.
 
-Screens 2-3 — STORY SETUP (3-10 seconds)
-  ▸ Introduce the character and their goal in 1-2 screens.
+Screens 2-4 — STORY SETUP & WORLD (5-18 seconds)
+  ▸ Introduce the character, their world, and their exciting goal.
   ▸ Keep it simple: name, what they want, why it matters.
   ▸ Plant a CURIOSITY LOOP — hint at what's coming without revealing it.
   ▸ "Watch what happens when…" / "But he had no idea…"
 
-Screens 4-6 — ADVENTURE / ATTEMPT (10-20 seconds)
-  ▸ Show the character TRYING something exciting.
+Screens 5-9 — ADVENTURE, OBSTACLES & CLIMAX (18-42 seconds)
+  ▸ Show the character TRYING something exciting through multiple progressive challenges.
   ▸ Build momentum: each screen is more intense than the last.
   ▸ Use action words: climbed, jumped, splashed, zoomed, crashed, flew.
   ▸ Image prompts should be DYNAMIC — movement, action, energy.
 
-Screen 7-8 — TWIST (20-25 seconds)
+Screens 10-12 — TWIST & REVELATION (42-58 seconds)
   ▸ The SURPRISING or FUNNY or UNEXPECTED outcome.
   ▸ This is the payoff for the curiosity loop set up in screen 1.
   ▸ "But instead of flying… he splashed into the water and swam SUPER fast!"
   ▸ Image must capture the twist moment vividly.
 
-Screen 8-9 — ENDING / MESSAGE (25-30 seconds)
+Screens 13-14 — HEARTWARMING ENDING & LESSON (58-72 seconds)
   ▸ Heartwarming realization or life lesson.
   ▸ "And that's when Timo realized… he was already special."
   ▸ Image should be warm, emotional, feel-good.

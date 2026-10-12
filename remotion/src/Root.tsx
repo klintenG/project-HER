@@ -10,6 +10,15 @@ import { Video } from "./Video";
 import { VideoPropsSchema, VideoProps } from "./types";
 import { EffectPreview, EffectPreviewSchema } from "./EffectPreview";
 
+import {NewsVideo} from "./NewsVideo";
+import {NewsPropsSchema,validateNewsManifest} from "./news-types";
+import {newsDefaults} from "./news-defaults";
+
+import {EditorialVideo} from "./editorial/EditorialVideo";
+import {validateTimelineHash} from "./editorial/contract";
+import {Timeline as EditorialTimeline} from "./editorial/types";
+import editorialDefaults from "./editorial/defaults.json";
+
 export const RemotionRoot: React.FC = () => {
   return (
     <>
@@ -90,6 +99,14 @@ export const RemotionRoot: React.FC = () => {
           };
         }}
       />
+
+      <Composition id="ProjectHERNews" component={NewsVideo} schema={NewsPropsSchema}
+        defaultProps={newsDefaults} durationInFrames={90} fps={30} width={1080} height={1920}
+        calculateMetadata={async ({props})=>{const m=await validateNewsManifest(props);return {durationInFrames:m.duration_frames,fps:m.fps,width:m.width,height:m.height};}}/>
+
+      <Composition id="ProjectHEREditorial" component={EditorialVideo}
+        defaultProps={editorialDefaults as unknown as EditorialTimeline} durationInFrames={360} fps={30} width={1080} height={1920}
+        calculateMetadata={async ({props})=>{const m=await validateTimelineHash(props);return {durationInFrames:m.durationInFrames,fps:m.fps,width:m.width,height:m.height};}}/>
 
       {/* Effect Preview – short clips for Remotion Studio */}
       <Composition

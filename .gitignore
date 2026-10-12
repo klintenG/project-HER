@@ -37,3 +37,13 @@ remotion/public/previews/
 dist/
 build/
 *.egg-info/
+
+# Durable per-job News preview media; generated, not source assets.
+remotion/public/news/
+
+# Editorial runtime models and staged per-run media.
+assets/alignment/
+remotion/public/editorial/
+
+# Local Chromium downloaded by render verification.
+.remotion/

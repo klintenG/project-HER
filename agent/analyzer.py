@@ -77,14 +77,16 @@ class ContentAnalyzer:
         """
         if num_points is None:
             word_count = article.word_count
-            if word_count < 200:
-                num_points = 3
-            elif word_count < 500:
-                num_points = 4
-            elif word_count < 1000:
-                num_points = 5
-            else:
+            if word_count < 100:
                 num_points = 6
+            elif word_count < 300:
+                num_points = 7
+            elif word_count < 600:
+                num_points = 8
+            elif word_count < 1200:
+                num_points = 10
+            else:
+                num_points = 12
 
         num_points = max(config.MIN_KEY_POINTS, min(config.MAX_KEY_POINTS, num_points))
 
@@ -128,11 +130,13 @@ class ContentAnalyzer:
             article_text = article_text[:4000] + "\n\n[...]\n\n" + article_text[-1500:]
 
         topic_directive = ""
-        if article.word_count < 50:
-            topic_directive = """
+        if article.word_count < 80:
+            topic_directive = f"""
 TOPIC PROMPT DIRECTIVE:
-The user provided a concise topic prompt rather than a full article.
-Expand this topic into 3 captivating scenes from scratch, covering the background, main conflict/breakthrough, and takeaway.
+The user provided a concise topic prompt or story premise rather than a full article.
+Expand this concept into a complete, in-depth, captivating {num_points}-scene narrative script from scratch!
+Develop background history, characters, core conflicts, turning points, breakthrough mechanics, surprising implications, and a meaningful takeaway.
+Do not summarize in 20-30 seconds — give the concept the narrative depth, flavor, and details it deserves!
 """
 
         return f"""You just read something fascinating and you're turning it into a short video script.
@@ -198,21 +202,22 @@ CONTENT RULES
 
 3. Suggest a music mood: "upbeat", "dramatic", "calm", "suspenseful", "playful", "inspirational", or "neutral".
 
-4. Create exactly {num_points} key points as a DELAYED-REVEAL NARRATIVE ARC:
-   - Point 1: DISORIENTING HOOK — Start with the conclusion or most shocking element.
-   - Points 2-{max(2, num_points-2)}: PROGRESSIVE REVELATION — Unveil context piece by piece.
-     Each answers ONE question while raising ANOTHER.
-   - Point {num_points-1}: TWIST OR ESCALATION — The "wait, it gets crazier" moment.
-   - Point {num_points}: PAYOFF + OPEN LOOP — Resolve the thread but plant a seed.
+4. Create exactly {num_points} key points as a rich, multi-beat DELAYED-REVEAL NARRATIVE ARC:
+   - Point 1: DISORIENTING HOOK — Start with the conclusion, shocking hook, or captivating mystery.
+   - Points 2 to {max(2, num_points // 3)}: RICH CONTEXT & SETUP — Establish characters, setting, stakes, or foundational concept.
+   - Points {max(3, num_points // 3 + 1)} to {max(4, num_points - 3)}: CORE PLOT & MECHANISM — Deep dive into the sequence of events, conflicts, breakthroughs, or detailed mechanics. Do NOT gloss over or skip main plot twists and details!
+   - Points {max(5, num_points - 2)}: TWIST, COMPLICATION OR TURNING POINT — The dramatic escalation or "wait, it gets crazier" reveal.
+   - Point {num_points - 1}: DEEP ANALYSIS & MEANING — Why this matters, what it means, the broader impact.
+   - Point {num_points}: RESOLUTION & ENGAGING PAYOFF — Resolve the narrative thread and leave a lasting impression.
 
 5. For each key point:
    - "headline": SHORT on-screen text (max 6 words, punchy)
-   - "narration": 1-2 SPOKEN sentences (15-30 words, written exactly as someone would SAY it)
-   - "visual_query": descriptive image search query
+   - "narration": 2-3 SPOKEN sentences (25-45 words, written exactly as someone would SAY it out loud, with vivid details, dramatic flavor, and conversational rhythm)
+   - "visual_query": highly descriptive image search query matching this exact scene
    - "emotion": one of "curious", "excited", "serious", "hopeful", "dramatic", "playful", "calm"
 
 6. The narration must flow as a STORY with momentum, NOT a list of facts.
-7. Combined narration: 25-35 seconds when spoken at normal pace.
+7. Combined narration: 60-90 seconds total when spoken at normal pace (approx 160-240 words). Never rush through the narrative or truncate important story plots.
 8. Stay factually accurate — don't invent information, just retell it in human words.
 9. Title: catchy, 4-8 words, thumbnail-worthy. Prefer incomplete phrases.
 10. CTA: a cliffhanger that teases a follow-up or asks a real question.

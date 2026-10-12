@@ -54,13 +54,14 @@ class ProgressTracker:
         tracker.complete_stage("scrape", "Article scraped: 500 words")
     """
 
-    def __init__(self, callback: Optional[ProgressCallback] = None):
+    def __init__(self, callback: Optional[ProgressCallback] = None, stages=None):
         self.callback = callback
         self.stages: dict[str, StageInfo] = {}
-        self.total_stages = len(PIPELINE_STAGES)
+        stage_definitions = PIPELINE_STAGES if stages is None else stages
+        self.total_stages = len(stage_definitions)
         self._pipeline_start = time.time()
 
-        for idx, (name, label) in enumerate(PIPELINE_STAGES, 1):
+        for idx, (name, label) in enumerate(stage_definitions, 1):
             self.stages[name] = StageInfo(
                 name=name,
                 label=label,

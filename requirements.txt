@@ -32,3 +32,9 @@ rich>=13.0.0
 
 # Environment
 python-dotenv>=1.0.0
+
+# News manifest validation and local font coverage checks
+pydantic>=2.7,<3
+fonttools>=4.47
+# Inference Providers SDK; <1 retains HfFolder required by Gradio 4.
+huggingface_hub>=0.31,<1

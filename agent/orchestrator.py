@@ -67,6 +67,7 @@ class PipelineResult:
     theme: str = ""
     caption_style: str = ""
     errors: list[str] = field(default_factory=list)
+    news_details: dict = field(default_factory=dict)
 
 
 class AgentOrchestrator:
@@ -90,10 +91,18 @@ class AgentOrchestrator:
     ):
         self.scraper = ArticleScraper()
         self.analyzer = ContentAnalyzer(provider=llm_provider, model=llm_model)
-        self.visual_finder = VisualFinder(api_key=pexels_api_key)
+        self._pexels_api_key = pexels_api_key
+        self._visual_finder = None
         self.narration_engine = NarrationEngine()
         self._llm_provider = llm_provider
         self._llm_model = llm_model
+
+    @property
+    def visual_finder(self):
+        # Stock credentials are needed only when the stock branch is actually used.
+        if self._visual_finder is None:
+            self._visual_finder = VisualFinder(api_key=self._pexels_api_key)
+        return self._visual_finder
 
     def run(
         self,
@@ -129,6 +138,17 @@ class AgentOrchestrator:
         renderer: str = "remotion",  # "remotion" | "moviepy"
         # ── Duration control ──
         target_duration: int = 0,  # 0 = auto, else seconds
+        news_source_policy: str = "auto",
+        language: str = "english",
+        tts_provider: Optional[str] = None,
+        speed: str = "+0%",
+        quality: str = "high",
+        news_music: Optional[bool] = None,
+        news_music_path: Optional[str] = None,
+        visual_preset: str = "default",
+        editorial_text: str = "editorial",
+        editorial_assets: str = "auto",
+        local_assets: Optional[str] = None,
     ) -> PipelineResult:
         """
         Execute the full article-to-video pipeline with all v2.0 enhancements.
@@ -150,6 +170,27 @@ class AgentOrchestrator:
         Returns:
             PipelineResult with output paths and metadata.
         """
+        if visual_preset == "reference_editorial" and content_mode in ("article", "story", "topic"):
+            from agent.editorial.pipeline import run_editorial
+            from agent.news_script import NewsLLM
+            return run_editorial(input_source,output_dir=output_dir,
+                source_policy="supplied" if content_mode=="story" else news_source_policy,
+                tone=tone,language=language,target_duration=target_duration,video_format=video_format,
+                renderer=renderer,voice=voice,tts_provider=tts_provider,speed=speed,quality=quality,
+                brand_text=brand_text,progress_callback=progress_callback,music=news_music,music_path=news_music_path,
+                llm=NewsLLM(self._llm_provider,self._llm_model),subtitle_mode=editorial_text,
+                asset_mode=editorial_assets,local_assets=local_assets)
+        if visual_preset == "reference_editorial" and content_mode != "news":
+            return PipelineResult(errors=["reference_editorial supports article, topic, story and News inputs."])
+        if content_mode == "news":
+            from agent.news_pipeline import run_news
+            from agent.news_script import NewsLLM
+            return run_news(input_source, output_dir=output_dir, source_policy=news_source_policy,
+                tone=tone, language=language, target_duration=target_duration, video_format=video_format,
+                renderer=renderer, voice=voice, tts_provider=tts_provider, speed=speed, quality=quality,
+                brand_text=brand_text, progress_callback=progress_callback, music=news_music, music_path=news_music_path,
+                llm=NewsLLM(self._llm_provider, self._llm_model),visual_preset=visual_preset,subtitle_mode=editorial_text,
+                asset_mode=editorial_assets,local_assets=local_assets)
         start_time = time.time()
         result = PipelineResult()
         tracker = ProgressTracker(callback=progress_callback)

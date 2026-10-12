@@ -1,0 +1,6 @@
+# Optional CPU segmentation for Python 3.9–3.12. Does not upgrade the app runtime.
+# Model is explicit (isnet-general-use), never rembg's changing default.
+rembg==2.0.57
+onnxruntime>=1.16,<1.20
+numpy>=1.24,<2
+opencv-python-headless>=4.8,<4.11

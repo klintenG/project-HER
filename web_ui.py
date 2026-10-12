@@ -65,6 +65,15 @@ def allow_cors_and_framing(response):
         "https://klinteng.com https://www.klinteng.com "
         "https://*.huggingface.co https://*.hf.space;"
     )
+    if request.path in ("/api/generate", "/api/preview") and response.is_json:
+        payload = response.get_json(silent=True) or {}
+        if payload.get("error"):
+            data = request.get_json(silent=True) or {}
+            status = payload.get("status", "error")
+            level = logging.WARNING if status == "needs_clarification" else logging.ERROR
+            logger.log(level, "%s %s failed | mode=%s | HTTP %s | status=%s | %s",
+                request.method, request.path, data.get("content_mode", "article"),
+                response.status_code, status, payload["error"])
     return response
 
 # ── SSE Progress Infrastructure & Concurrency Tracking ───────────────────────
@@ -78,14 +87,14 @@ _job_lock = threading.Lock()
 
 
 def _prune_active_jobs():
-    """Remove finished, failed, or stale jobs (>10 minutes) from concurrency tracking."""
+    """Remove finished workers and abandoned reservations; retain live jobs."""
     now = time.time()
     with _job_lock:
         for jid in list(_active_jobs.keys()):
             meta = _active_jobs[jid]
             th = meta.get("thread") if isinstance(meta, dict) else None
             started = meta.get("started", 0) if isinstance(meta, dict) else 0
-            if (th and not th.is_alive()) or (now - started > 600) or (jid in _job_results):
+            if (th is not None and not th.is_alive()) or (th is None and now - started > 600) or (jid in _job_results):
                 _active_jobs.pop(jid, None)
 
 
@@ -94,6 +103,10 @@ def _create_sse_callback(job_id: str):
     from utils.progress import StageInfo
 
     def callback(stage: StageInfo):
+        with _job_lock:
+            job = _active_jobs.get(job_id)
+            if job is not None:
+                job["stage"] = stage.name
         q = _progress_queues.get(job_id)
         if q:
             event = {
@@ -109,6 +122,15 @@ def _create_sse_callback(job_id: str):
             }
             q.put(("progress", event))
     return callback
+
+
+def _log_job_failure(job_id, content_mode, error, status="error", *, exc_info=False):
+    """Mirror the UI error in server logs, including failures returned as results."""
+    with _job_lock:
+        stage = _active_jobs.get(job_id, {}).get("stage", "initializing")
+    level = logging.INFO if status == "cancelled" else logging.WARNING if status == "needs_clarification" else logging.ERROR
+    logger.log(level, "Job %s | mode=%s | stage=%s | status=%s | %s",
+        job_id, content_mode, stage, status, error, exc_info=exc_info)
 
 
 
@@ -295,6 +317,8 @@ def api_generate():
 
     # Content mode handling
     content_mode = data.get("content_mode", "article")
+    if content_mode == "news":
+        return _start_news_job(data, "\n".join(v for v in (input_url, input_text) if v))
     question = data.get("question", "").strip()
     character_name = data.get("character_name", "").strip()
     modern_topic = data.get("modern_topic", "").strip()
@@ -450,6 +474,7 @@ def api_generate():
                 brand_text=brand_text,
                 visual_style=visual_style,
                 content_mode=content_mode,
+                visual_preset=data.get("visual_preset", "default"),
                 question=question,
                 character_name=character_name,
                 modern_topic=modern_topic,
@@ -464,6 +489,7 @@ def api_generate():
 
             if not result.success:
                 err_msg = "; ".join(result.errors) or "Generation failed"
+                _log_job_failure(job_id, content_mode, err_msg)
                 _job_results[job_id] = {"error": err_msg}
                 q = _progress_queues.get(job_id)
                 if q:
@@ -518,7 +544,7 @@ def api_generate():
                 q.put(("done", result_data))
 
         except Exception as e:
-            logger.error("Pipeline error: %s", e, exc_info=True)
+            _log_job_failure(job_id, content_mode, str(e), exc_info=True)
             _job_results[job_id] = {"error": str(e)}
             q = _progress_queues.get(job_id)
             if q:
@@ -537,6 +563,75 @@ def api_generate():
     thread.start()
 
     return jsonify({"job_id": job_id})
+
+
+def _start_news_job(data, input_source):
+    """News settings stay inside the job; legacy UI settings are untouched."""
+    if not input_source:
+        return jsonify({"error": "Provide a URL, event query, or supplied account."}), 400
+    if data.get("news_source_policy", "auto") not in ("auto", "online", "supplied"):
+        return jsonify({"error": "News source policy must be auto, online, or supplied."}), 400
+    import uuid
+    news_tts_provider = data.get("tts_provider") or config.TTS_PROVIDER
+    cancel_event = threading.Event()
+    job_id = uuid.uuid4().hex[:12]
+    with _job_lock:
+        _progress_queues[job_id] = queue.Queue()
+        _active_jobs[job_id] = {"started": time.time(), "thread": None, "news": True, "cancel_event": cancel_event}
+    def work():
+        try:
+            from agent.news_pipeline import run_news
+            from agent.news_script import NewsLLM
+            platform = config.PLATFORM_PRESETS.get(data.get("platform"), {})
+            result = run_news(input_source,
+                visual_preset=data.get("visual_preset", "default"),subtitle_mode=data.get("editorial_text", "editorial"),
+                asset_mode=data.get("editorial_assets", "auto"),local_assets=data.get("local_assets") or None,
+                source_policy=data.get("news_source_policy", "auto"),
+                tone=data.get("tone", "informative"), language=data.get("language", "english"),
+                target_duration=int(data.get("target_duration", 0) or 0),
+                video_format=platform.get("format", data.get("format", "vertical")),
+                renderer=data.get("renderer", config.DEFAULT_RENDERER),
+                voice=data.get("voice"), tts_provider=news_tts_provider,
+                speed=data.get("speed", "+0%"), quality=data.get("quality", "high"), music=bool(data.get("news_music", config.NEWS_MUSIC)),
+                brand_text=data.get("brand_text", ""), progress_callback=_create_sse_callback(job_id), cancel_event=cancel_event,
+                llm=NewsLLM(data.get("llm_provider") or None, data.get("llm_model") or None))
+            if not result.success:
+                payload={"error": "; ".join(result.errors) or "Generation failed", **result.news_details}
+                _log_job_failure(job_id, "news", payload["error"], payload.get("status", "error"))
+            else:
+                def link(path):
+                    return "/output/"+str(Path(path).resolve().relative_to(config.OUTPUT_DIR.resolve())) if path else None
+                payload={"success":True,"title":result.title,"hook":result.hook,"duration":round(result.duration,2),
+                    "resolution":result.resolution,"content_type":"news","theme":result.theme,"caption_style":result.caption_style,
+                    "key_points":result.key_point_count,"processing_time":round(result.processing_time,1),
+                    "video_url":link(result.video_path),"thumbnail_url":link(result.thumbnail_path),"srt_url":link(result.srt_path),
+                    "download_url":f"/api/download/{job_id}","news_details":result.news_details,
+                    "manifest_url":link(result.news_details["manifest"])}
+            _job_results[job_id]=payload
+            _progress_queues[job_id].put(("done",payload))
+        except Exception as exc:
+            _log_job_failure(job_id, "news", str(exc), exc_info=True)
+            payload={"error":str(exc)}
+            _job_results[job_id]=payload
+            _progress_queues[job_id].put(("done",payload))
+        finally:
+            with _job_lock:
+                _active_jobs.pop(job_id,None)
+    thread=threading.Thread(target=work,daemon=True)
+    with _job_lock:
+        _active_jobs[job_id]["thread"]=thread
+    thread.start()
+    return jsonify({"job_id":job_id})
+
+
+@app.route("/api/news/cancel/<job_id>", methods=["POST"])
+def cancel_news_job(job_id):
+    with _job_lock:
+        job=_active_jobs.get(job_id)
+        if not job or not job.get("news"):
+            return jsonify({"error":"No active News job found."}),404
+        job["cancel_event"].set()
+    return jsonify({"status":"cancelling"})
 
 
 @app.route("/api/progress/<job_id>")
@@ -599,6 +694,21 @@ def api_preview():
     """Run scrape + analyze only for quick preview."""
     data = request.json
 
+    if data.get("content_mode") == "news":
+        from agent.news_pipeline import preview_news
+        from agent.news_script import NewsLLM
+        from agent.news_models import NewsError
+        try:
+            preview = preview_news("\n".join(v for v in (data.get("url", "").strip(), data.get("text", "").strip()) if v),
+                source_policy=data.get("news_source_policy", "auto"), tone=data.get("tone", "informative"),
+                language=data.get("language", "english"), target_duration=int(data.get("target_duration", 0) or 0),
+                llm=NewsLLM(data.get("llm_provider") or None, data.get("llm_model") or None))
+            return jsonify(preview)
+        except NewsError as exc:
+            return jsonify(exc.response()), 409 if exc.status == "needs_clarification" else 422
+        except Exception as exc:
+            logger.exception("News script preview failed: %s", exc)
+            return jsonify({"error": str(exc)}), 422
     input_source = data.get("url", "").strip() or data.get("text", "").strip()
     if not input_source:
         return jsonify({"error": "Provide a URL or text."}), 400
@@ -634,6 +744,7 @@ def api_preview():
         })
 
     except Exception as e:
+        logger.exception("Script preview failed | mode=%s | %s", data.get("content_mode", "article"), e)
         return jsonify({"error": str(e)}), 500
 
 

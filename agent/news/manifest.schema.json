@@ -1,0 +1,1169 @@
+{
+  "$defs": {
+    "Asset": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "entity_id": {
+          "title": "Entity Id",
+          "type": "string"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "raw_path": {
+          "title": "Raw Path",
+          "type": "string"
+        },
+        "prompt": {
+          "title": "Prompt",
+          "type": "string"
+        },
+        "provider": {
+          "title": "Provider",
+          "type": "string"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Url"
+        },
+        "license": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License"
+        },
+        "attribution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attribution"
+        },
+        "reference_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Url"
+        },
+        "reference_entity": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Entity"
+        },
+        "image_model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Image Model"
+        },
+        "origin": {
+          "default": "generated",
+          "enum": [
+            "generated",
+            "photo",
+            "reference_edit",
+            "verified_local"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "identity_verified": {
+          "default": false,
+          "title": "Identity Verified",
+          "type": "boolean"
+        },
+        "illustrative": {
+          "default": true,
+          "title": "Illustrative",
+          "type": "boolean"
+        },
+        "source_basis": {
+          "title": "Source Basis",
+          "type": "string"
+        },
+        "segmentation": {
+          "title": "Segmentation",
+          "type": "string"
+        },
+        "mask": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Mask",
+          "type": "object"
+        },
+        "qa": {
+          "const": "passed",
+          "default": "passed",
+          "title": "Qa",
+          "type": "string"
+        },
+        "fallback": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fallback"
+        }
+      },
+      "required": [
+        "id",
+        "entity_id",
+        "path",
+        "raw_path",
+        "prompt",
+        "provider",
+        "source_basis",
+        "segmentation",
+        "mask"
+      ],
+      "title": "Asset",
+      "type": "object"
+    },
+    "Audio": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "duration": {
+          "exclusiveMinimum": 0,
+          "title": "Duration",
+          "type": "number"
+        },
+        "method": {
+          "enum": [
+            "native_words",
+            "sentence_clips",
+            "mixed"
+          ],
+          "title": "Method",
+          "type": "string"
+        },
+        "quality": {
+          "title": "Quality",
+          "type": "string"
+        },
+        "script_hash": {
+          "title": "Script Hash",
+          "type": "string"
+        },
+        "phrases": {
+          "items": {
+            "$ref": "#/$defs/Boundary"
+          },
+          "title": "Phrases",
+          "type": "array"
+        },
+        "words": {
+          "items": {
+            "$ref": "#/$defs/Boundary"
+          },
+          "title": "Words",
+          "type": "array"
+        },
+        "provider": {
+          "default": "",
+          "title": "Provider",
+          "type": "string"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        },
+        "fallbacks": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Fallbacks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "path",
+        "duration",
+        "method",
+        "quality",
+        "script_hash",
+        "phrases"
+      ],
+      "title": "Audio",
+      "type": "object"
+    },
+    "Beat": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "start": {
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "integer"
+        },
+        "sentence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Sentence Ids",
+          "type": "array"
+        },
+        "template": {
+          "enum": [
+            "single_subject",
+            "two_subjects",
+            "person_two_objects",
+            "subject_context",
+            "text_bridge",
+            "place_object_stack"
+          ],
+          "title": "Template",
+          "type": "string"
+        },
+        "texts": {
+          "items": {
+            "$ref": "#/$defs/Text"
+          },
+          "title": "Texts",
+          "type": "array"
+        },
+        "layers": {
+          "items": {
+            "$ref": "#/$defs/Layer"
+          },
+          "maxItems": 3,
+          "title": "Layers",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "start",
+        "end",
+        "sentence_ids",
+        "template",
+        "texts",
+        "layers"
+      ],
+      "title": "Beat",
+      "type": "object"
+    },
+    "Boundary": {
+      "additionalProperties": false,
+      "properties": {
+        "sentence_id": {
+          "title": "Sentence Id",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "start": {
+          "minimum": 0,
+          "title": "Start",
+          "type": "number"
+        },
+        "end": {
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "number"
+        }
+      },
+      "required": [
+        "sentence_id",
+        "text",
+        "start",
+        "end"
+      ],
+      "title": "Boundary",
+      "type": "object"
+    },
+    "Claim": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "excerpts": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Excerpts",
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "source_ids",
+        "text",
+        "excerpts"
+      ],
+      "title": "Claim",
+      "type": "object"
+    },
+    "Entity": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "person",
+            "animal",
+            "object",
+            "building",
+            "place",
+            "symbol"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "identity": {
+          "default": "generic",
+          "enum": [
+            "generic",
+            "real",
+            "fictional"
+          ],
+          "title": "Identity",
+          "type": "string"
+        },
+        "reference_query": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Query"
+        },
+        "exact_asset": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Exact Asset"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "kind",
+        "description"
+      ],
+      "title": "Entity",
+      "type": "object"
+    },
+    "Event": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "reveal",
+            "emphasize",
+            "move",
+            "persist",
+            "replace",
+            "exit"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "frame": {
+          "minimum": 0,
+          "title": "Frame",
+          "type": "integer"
+        },
+        "target": {
+          "title": "Target",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "frame",
+        "target"
+      ],
+      "title": "Event",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/Source"
+          },
+          "title": "Sources",
+          "type": "array"
+        },
+        "claims": {
+          "items": {
+            "$ref": "#/$defs/Claim"
+          },
+          "title": "Claims",
+          "type": "array"
+        },
+        "conflicts": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Conflicts",
+          "type": "array"
+        },
+        "unresolved": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Unresolved",
+          "type": "array"
+        },
+        "verification": {
+          "enum": [
+            "single_source",
+            "multiple_accounts",
+            "user_supplied",
+            "fictional",
+            "conflicting"
+          ],
+          "title": "Verification",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sources",
+        "claims",
+        "verification"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "Input": {
+      "additionalProperties": false,
+      "properties": {
+        "original": {
+          "title": "Original",
+          "type": "string"
+        },
+        "normalized": {
+          "title": "Normalized",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "source_url",
+            "topic_query",
+            "supplied_account",
+            "mixed"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "source_policy": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "online",
+            "supplied"
+          ],
+          "title": "Source Policy",
+          "type": "string"
+        },
+        "subject": {
+          "title": "Subject",
+          "type": "string"
+        },
+        "event_date": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Event Date"
+        },
+        "entities": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Entities",
+          "type": "array"
+        },
+        "places": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Places",
+          "type": "array"
+        },
+        "basis": {
+          "default": "reported",
+          "enum": [
+            "reported",
+            "user_supplied",
+            "corroborated",
+            "fictional"
+          ],
+          "title": "Basis",
+          "type": "string"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "original",
+        "normalized",
+        "kind",
+        "subject"
+      ],
+      "title": "Input",
+      "type": "object"
+    },
+    "Layer": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "entity_id": {
+          "title": "Entity Id",
+          "type": "string"
+        },
+        "rect": {
+          "$ref": "#/$defs/Rect"
+        },
+        "z": {
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Z",
+          "type": "integer"
+        },
+        "reveal": {
+          "minimum": 0,
+          "title": "Reveal",
+          "type": "integer"
+        },
+        "exit": {
+          "exclusiveMinimum": 0,
+          "title": "Exit",
+          "type": "integer"
+        },
+        "opacity": {
+          "default": 1,
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Opacity",
+          "type": "number"
+        },
+        "persist": {
+          "default": false,
+          "title": "Persist",
+          "type": "boolean"
+        },
+        "portrait_fade": {
+          "default": false,
+          "title": "Portrait Fade",
+          "type": "boolean"
+        },
+        "overlap": {
+          "default": "none",
+          "enum": [
+            "none",
+            "context"
+          ],
+          "title": "Overlap",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "asset_id",
+        "entity_id",
+        "rect",
+        "z",
+        "reveal",
+        "exit"
+      ],
+      "title": "Layer",
+      "type": "object"
+    },
+    "Rect": {
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "maximum": 0.85,
+          "minimum": 0.2,
+          "title": "Y",
+          "type": "number"
+        },
+        "w": {
+          "exclusiveMinimum": 0,
+          "maximum": 0.84,
+          "title": "W",
+          "type": "number"
+        },
+        "h": {
+          "exclusiveMinimum": 0,
+          "maximum": 0.65,
+          "title": "H",
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "w",
+        "h"
+      ],
+      "title": "Rect",
+      "type": "object"
+    },
+    "Script": {
+      "additionalProperties": false,
+      "properties": {
+        "summary": {
+          "title": "Summary",
+          "type": "string"
+        },
+        "narration": {
+          "title": "Narration",
+          "type": "string"
+        },
+        "sentences": {
+          "items": {
+            "$ref": "#/$defs/Sentence"
+          },
+          "maxItems": 24,
+          "minItems": 1,
+          "title": "Sentences",
+          "type": "array"
+        },
+        "entities": {
+          "items": {
+            "$ref": "#/$defs/Entity"
+          },
+          "maxItems": 12,
+          "title": "Entities",
+          "type": "array"
+        }
+      },
+      "required": [
+        "summary",
+        "narration",
+        "sentences"
+      ],
+      "title": "Script",
+      "type": "object"
+    },
+    "Sentence": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "text": {
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "claim_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Claim Ids",
+          "type": "array"
+        },
+        "entity_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 3,
+          "title": "Entity Ids",
+          "type": "array"
+        },
+        "phrase": {
+          "minLength": 1,
+          "title": "Phrase",
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "hook",
+            "context",
+            "development",
+            "meaning",
+            "close"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "emphasis": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Emphasis",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "claim_ids",
+        "phrase",
+        "role"
+      ],
+      "title": "Sentence",
+      "type": "object"
+    },
+    "Source": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "retrieved_at": {
+          "title": "Retrieved At",
+          "type": "string"
+        },
+        "published_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Published At"
+        },
+        "updated_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Updated At"
+        },
+        "event_date": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Event Date"
+        },
+        "authors": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Authors",
+          "type": "array"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "canonical_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Canonical Url"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "retrieved_at",
+        "text"
+      ],
+      "title": "Source",
+      "type": "object"
+    },
+    "Text": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "lines": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Lines",
+          "type": "array"
+        },
+        "rect": {
+          "$ref": "#/$defs/Rect"
+        },
+        "size": {
+          "maximum": 100,
+          "minimum": 14,
+          "title": "Size",
+          "type": "number"
+        },
+        "weight": {
+          "default": 600,
+          "enum": [
+            600,
+            700
+          ],
+          "title": "Weight",
+          "type": "integer"
+        },
+        "reveal_frames": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Reveal Frames",
+          "type": "array"
+        },
+        "emphasis": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Emphasis",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "lines",
+        "rect",
+        "size",
+        "reveal_frames"
+      ],
+      "title": "Text",
+      "type": "object"
+    },
+    "Theme": {
+      "additionalProperties": false,
+      "properties": {
+        "paper": {
+          "default": "#F2F0EC",
+          "title": "Paper",
+          "type": "string"
+        },
+        "center": {
+          "default": "#FAF9F6",
+          "title": "Center",
+          "type": "string"
+        },
+        "edge": {
+          "default": "#DDDAD4",
+          "title": "Edge",
+          "type": "string"
+        },
+        "text": {
+          "default": "#505050",
+          "title": "Text",
+          "type": "string"
+        },
+        "secondary": {
+          "default": "#686868",
+          "title": "Secondary",
+          "type": "string"
+        },
+        "font_semibold": {
+          "title": "Font Semibold",
+          "type": "string"
+        },
+        "font_bold": {
+          "title": "Font Bold",
+          "type": "string"
+        },
+        "transition_frames": {
+          "default": 10,
+          "maximum": 14,
+          "minimum": 8,
+          "title": "Transition Frames",
+          "type": "integer"
+        },
+        "branding": {
+          "default": "",
+          "title": "Branding",
+          "type": "string"
+        }
+      },
+      "required": [
+        "font_semibold",
+        "font_bold"
+      ],
+      "title": "Theme",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "content_mode": {
+      "const": "news",
+      "default": "news",
+      "title": "Content Mode",
+      "type": "string"
+    },
+    "generation_id": {
+      "pattern": "^[A-Za-z0-9_-]{1,80}$",
+      "title": "Generation Id",
+      "type": "string"
+    },
+    "width": {
+      "exclusiveMinimum": 0,
+      "title": "Width",
+      "type": "integer"
+    },
+    "height": {
+      "exclusiveMinimum": 0,
+      "title": "Height",
+      "type": "integer"
+    },
+    "fps": {
+      "maximum": 60,
+      "minimum": 1,
+      "title": "Fps",
+      "type": "integer"
+    },
+    "duration_frames": {
+      "exclusiveMinimum": 0,
+      "title": "Duration Frames",
+      "type": "integer"
+    },
+    "seed": {
+      "default": 42,
+      "title": "Seed",
+      "type": "integer"
+    },
+    "theme": {
+      "$ref": "#/$defs/Theme"
+    },
+    "input": {
+      "$ref": "#/$defs/Input"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "script": {
+      "$ref": "#/$defs/Script"
+    },
+    "audio": {
+      "$ref": "#/$defs/Audio"
+    },
+    "assets": {
+      "items": {
+        "$ref": "#/$defs/Asset"
+      },
+      "title": "Assets",
+      "type": "array"
+    },
+    "beats": {
+      "items": {
+        "$ref": "#/$defs/Beat"
+      },
+      "title": "Beats",
+      "type": "array"
+    },
+    "events": {
+      "items": {
+        "$ref": "#/$defs/Event"
+      },
+      "title": "Events",
+      "type": "array"
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    },
+    "stage_timings": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "title": "Stage Timings",
+      "type": "object"
+    },
+    "outputs": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Outputs",
+      "type": "object"
+    }
+  },
+  "required": [
+    "generation_id",
+    "width",
+    "height",
+    "fps",
+    "duration_frames",
+    "theme",
+    "input",
+    "evidence",
+    "script",
+    "audio",
+    "assets",
+    "beats",
+    "events"
+  ],
+  "title": "Manifest",
+  "type": "object"
+}

@@ -610,16 +610,49 @@
                                 <i class="bi bi-clock"></i> Target Duration
                             </label>
                             <select id="selDuration" class="form-select">
-                                <option value="0" selected>Auto / Adaptive Length (Default — ~45s)</option>
-                                <option value="30">30 Seconds (Quick Hook)</option>
-                                <option value="60">60 Seconds (Full Explainer)</option>
+                                <option value="0" selected>Auto / In-Depth Narrative (~60–90s — Recommended)</option>
+                                <option value="45">45 Seconds (Brisk Explainer)</option>
+                                <option value="60">60 Seconds (Standard Explainer)</option>
+                                <option value="90">90 Seconds (In-Depth Story & Analysis)</option>
+                                <option value="120">120 Seconds (Extended Deep Dive)</option>
                             </select>
                         </div>
                     </div>
 
                     <!-- Hidden defaults: Remotion engine & Article content mode -->
-                    <input type="hidden" id="selRenderer" value="remotion">
-                    <input type="hidden" id="selContentMode" value="article">
+                    <div class="row g-3 mt-1">
+                        <div class="col-sm-6"><label class="form-label" for="selContentMode">Content mode</label>
+                            <select id="selContentMode" class="form-select" onchange="toggleNewsControls()">
+                                {% for key, mode in content_modes.items() if key in ['article', 'news'] %}<option value="{{ key }}" {% if key == 'article' %}selected{% endif %}>{{ mode.label }}</option>{% endfor %}
+                            </select></div>
+                        <div class="col-sm-6"><label class="form-label" for="selRenderer">Renderer</label><select id="selRenderer" class="form-select"><option value="remotion">Remotion</option><option value="moviepy">MoviePy</option></select></div>
+                    </div>
+                    <div id="newsControls" class="mt-3" hidden>
+                        <p class="text-secondary small">Research or use your account, then create a paper-cutout news explainer. Fixed editorial cutouts, grey text and restrained motion.</p>
+                        <label for="newsVisualPreset" class="form-label">Visual preset</label>
+                        <select id="newsVisualPreset" class="form-select"><option value="default">Classic cutouts</option><option value="reference_editorial">Reference editorial</option></select>
+                        <p class="small text-secondary">Reference editorial: timed words, persistent subjects and a cool gray stage. Requires Remotion and vertical output.</p>
+                        <video controls muted preload="none" class="w-100 mb-2" style="max-height:220px" src="/output/reference_editorial_fixture/editorial.mp4" aria-label="Reference editorial example"></video>
+                        <label for="editorialText" class="form-label">Text</label>
+                        <select id="editorialText" class="form-select"><option value="editorial">Progressive editorial phrases</option><option value="complete">Complete spoken captions</option></select>
+                        <label for="editorialAssets" class="form-label">Assets</label>
+                        <select id="editorialAssets" class="form-select"><option value="auto">Automatic · portraits + AI cutouts</option><option value="stock">Prefer stock / credited references</option><option value="ai">AI supporting illustrations + portraits</option><option value="local">Local registry / symbolic fallback</option></select>
+                        <p class="small text-secondary">Reference editorial: retrieve real portraits first, then use reference-checked AI likenesses when needed. Supporting illustrations enter as their context is spoken. Full bodies and clothing are retained; backgrounds are removed. Generated images are labeled as illustrations.</p>
+                        <label for="editorialRegistry" class="form-label small">Local asset registry (optional path)</label><input id="editorialRegistry" class="form-control" placeholder="assets/editorial/registry.json">
+                        <label for="newsSourcePolicy" class="form-label">News source</label>
+                        <select id="newsSourcePolicy" class="form-select"><option value="auto">Auto</option><option value="online">Online research</option><option value="supplied">Use my account</option></select>
+                        <label for="newsTtsProvider" class="form-label mt-2">Narration</label>
+                        <select id="newsTtsProvider" class="form-select">
+                            <option value="google_tts">Google · automatic fallback</option>
+                            <option value="replicate">Replicate · configured model (Kokoro by default)</option>
+                            <option value="chatterbox_turbo">Replicate · Chatterbox Turbo</option>
+                            <option value="edge_tts">Edge TTS · free</option>
+                        </select>
+                        <label class="small d-block mt-2"><input type="checkbox" id="newsMusic"> Quiet background music</label>
+                        <button type="button" class="btn btn-outline-light btn-sm mt-2" onclick="previewNews()">Preview script and sources</button>
+                        <button type="button" id="cancelNews" class="btn btn-outline-secondary btn-sm mt-2" hidden onclick="cancelNewsJob()">Cancel News job</button>
+                        <div id="newsPreview" class="small mt-2" aria-live="polite"></div>
+                    </div>
 
                     <!-- Generate CTA Button -->
                     <button id="btnGenerate" class="btn-generate" onclick="handleGenerate()">
@@ -843,6 +876,49 @@
             if (timerInterval) clearInterval(timerInterval);
         }
 
+        let activeNewsJob = null;
+        async function cancelNewsJob() {
+            if(activeNewsJob) await fetch(`/api/news/cancel/${activeNewsJob}`,{method:"POST"});
+        }
+        function toggleNewsControls() {
+            const news = document.getElementById('selContentMode').value === 'news';
+            document.getElementById('newsControls').hidden = !news;
+            document.getElementById('selVisualStyle').disabled = news;
+        }
+        function showNewsDetails(data) {
+            const panel = document.getElementById('newsPreview');
+            panel.replaceChildren();
+            if (data.error) {
+                const message = document.createElement('p'); message.textContent = data.error; panel.append(message);
+                for (const choice of data.choices || []) {
+                    const button = document.createElement('button'); button.type='button'; button.className='btn btn-outline-light btn-sm m-1'; button.textContent=choice;
+                    button.onclick=()=>{promptInput.value += ' — ' + choice; panel.replaceChildren();}; panel.append(button);
+                }
+                return;
+            }
+            const input=data.input || data.news_details?.input;
+            if (input) { const summary=document.createElement('p'); summary.textContent=`${input.subject} · ${input.event_date || 'Date unknown'} · ${input.basis}`; panel.append(summary); }
+            if (data.script) { const narration=document.createElement('p'); narration.textContent=data.script.narration; panel.append(narration); }
+            if (data.news_details?.narration) {
+                const audio=data.news_details.narration; const el=document.createElement('p');
+                el.textContent=`Narration: ${audio.model || audio.provider}`; panel.append(el);
+            }
+            const sources=data.evidence?.sources || data.news_details?.sources || [];
+            for (const source of sources) { const el=document.createElement(source.url?'a':'span'); el.textContent=source.title; if(source.url && /^https?:\/\//i.test(source.url)){el.href=source.url;el.target='_blank';el.rel='noopener noreferrer';} panel.append(el,document.createElement('br')); }
+            for (const warning of data.warnings || data.news_details?.warnings || []) {const el=document.createElement('p');el.textContent=warning;panel.append(el);}
+            for (const image of data.news_details?.images || []) {
+                const el=document.createElement('p');
+                el.textContent=`${image.name}: ${image.origin === 'photo' ? 'Reference photo' : 'Illustration'}${image.attribution ? ' — ' + image.attribution : ''}`;
+                panel.append(el);
+            }
+            for (const assumption of input?.assumptions || []) {const el=document.createElement('p');el.textContent='Assumption: '+assumption;panel.append(el);}
+        }
+        async function previewNews() {
+            const panel=document.getElementById('newsPreview'); panel.textContent='Resolving and checking evidence…';
+            try {const response=await fetch('/api/preview',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content_mode:'news',text:promptInput.value,news_source_policy:document.getElementById('newsSourcePolicy').value,tone:document.getElementById('selTone').value,target_duration:Number(document.getElementById('selDuration').value)})});showNewsDetails(await response.json());}
+            catch(error){panel.textContent=error.message;}
+        }
+
         /* ── Generate Video Pipeline ── */
         async function handleGenerate() {
             const inputVal = promptInput.value.trim();
@@ -871,14 +947,20 @@
                 target_duration: duration,
                 renderer: renderer,         // Remotion by default
                 ai_images: true,            // AI images enabled by default
-                content_mode: contentMode,  // article by default (matches successful video)
+                content_mode: contentMode,  // article by default
+                news_source_policy: document.getElementById("newsSourcePolicy")?.value || "auto",
+                news_music: document.getElementById("newsMusic")?.checked || false,
+                visual_preset: document.getElementById("selContentMode").value === "news" ? document.getElementById("newsVisualPreset").value : "default",
+                editorial_text: document.getElementById("editorialText").value,
+                editorial_assets: document.getElementById("editorialAssets").value,
+                local_assets: document.getElementById("editorialRegistry").value,
                 theme: 'claymorphism',      // claymorphism theme
                 captions: 'karaoke',        // karaoke highlight
                 transition: 'fade',         // fade transition
                 subtitles: true,
                 voice: 'aria',              // en-US-AriaNeural
                 platform: '',
-                quality: 'standard',
+                quality: contentMode === 'news' ? 'high' : 'standard',
                 watermark: '',
                 points: 0,
                 color_grade: 'none',        // natural raw vibrance
@@ -893,7 +975,7 @@
                 deep_dive_text: '',
                 series_id: '',
                 episode_number: 0,
-                tts_provider: 'google_tts',
+                tts_provider: contentMode === 'news' ? document.getElementById('newsTtsProvider').value : 'google_tts',
                 llm_provider: '',
                 llm_model: ''
             };
@@ -905,6 +987,10 @@
             document.getElementById('pipelineStatusText').textContent = 'Starting pipeline...';
             document.getElementById('liveStageMessage').textContent = 'Submitting request to Project HER orchestrator...';
 
+            const stageList=document.getElementById('pipelineStagesList');
+            const stages=contentMode==='news' ? [['resolve','Resolving input'],['research','Researching / extracting'],['script','Validating script'],['subjects','Planning subjects'],['cutouts','Generating cutouts'],['cutout_qa','Validating cutouts'],['narrate','Narrating / alignment'],['timeline','Finalizing layout / timeline'],['compose','Rendering News']] : [['scrape','Content extraction'],['analyze','Script analysis'],['visuals','Visual assets'],['narrate','Narration'],['compose','Composition']];
+            stageList.replaceChildren();
+            for(const [id,label] of stages){const item=document.createElement('div');item.id='stage-'+id;item.className='stage-item pending';const title=document.createElement('span');title.textContent=label;const status=document.createElement('span');status.className='stage-status';status.textContent='Waiting';item.append(title,status);stageList.append(item);}
             // Reset stage items
             ['scrape', 'analyze', 'visuals', 'narrate', 'compose'].forEach(s => {
                 const el = document.getElementById(`stage-${s}`);
@@ -933,6 +1019,8 @@
                 }
 
                 const jobId = data.job_id;
+                activeNewsJob = contentMode === "news" ? jobId : null;
+                document.getElementById("cancelNews").hidden = !activeNewsJob;
                 connectSSE(jobId);
 
             } catch (err) {
@@ -976,10 +1064,12 @@
 
             evtSource.addEventListener('done', function(e) {
                 evtSource.close();
+                activeNewsJob = null; document.getElementById('cancelNews').hidden = true;
                 stopTimer();
                 const res = JSON.parse(e.data);
 
                 if (res.error) {
+                    if (res.status === 'needs_clarification') showNewsDetails(res);
                     showToast(`Pipeline error: ${res.error}`, 'error');
                     resetToStudio();
                     return;
@@ -995,7 +1085,7 @@
             };
 
             function pollResult(jobId, attempts = 0) {
-                if (attempts > 120) { // 6 minutes max
+                if (attempts > 120) { // 6 minutes without confirmation of an active job
                     stopTimer();
                     showToast('Video generation timed out. Please check output directory.', 'error');
                     resetToStudio();
@@ -1009,12 +1099,16 @@
                             displayResult(res);
                         } else if (res && res.error) {
                             stopTimer();
-                            showToast(`Pipeline error: ${res.error}`, 'error');
+                            if (res.status === 'needs_clarification') showNewsDetails(res);
+                    showToast(`Pipeline error: ${res.error}`, 'error');
                             resetToStudio();
                         } else {
                             // Still running: update status text
                             document.getElementById('pipelineStatusText').textContent = 'Rendering video composition...';
-                            setTimeout(() => pollResult(jobId, attempts + 1), 3000);
+                            // A confirmed live worker may legitimately take
+                            // longer than six minutes; only failed/unknown
+                            // polls consume the connection retry budget.
+                            setTimeout(() => pollResult(jobId, res?.status === 'running' ? 0 : attempts + 1), 3000);
                         }
                     })
                     .catch(() => {
@@ -1025,6 +1119,7 @@
 
         /* ── Display Result Video & Metadata ── */
         function displayResult(res) {
+            if (res.news_details) showNewsDetails(res);
             document.getElementById('pipelineProgressBar').style.width = '100%';
             setUIState('completed');
 

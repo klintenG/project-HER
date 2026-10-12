@@ -1,0 +1,344 @@
+"""Source-grounded people, image tiers, alpha cutouts and spoken visual cues."""
+import copy
+import json
+import tempfile
+import unittest
+from pathlib import Path
+from unittest.mock import AsyncMock,MagicMock,patch
+from PIL import Image
+import config
+from agent.news_models import Entity,Sentence,Script,Source,Claim,Evidence,NewsError
+from agent.news_references import ReferencePhoto
+from agent.cutout_processor import CutoutProcessor
+from agent.editorial.assets import acquire
+from agent.editorial.visuals import plan_visuals,anchor_index
+from agent.editorial.people import People
+from tests.news_fixtures import subject_image
+
+
+def story():
+    person=Entity(id='person',name='Example Person',kind='person',identity='real',description='Example Person in a complete portrait with visible torso')
+    sentences=[Sentence(id='s1',text='Example Person arrived for lunch.',phrase='Arrived for lunch',claim_ids=['c1'],entity_ids=['person'],role='hook'),
+        Sentence(id='s2',text='Coffee followed the lunch meeting.',phrase='Coffee after lunch',claim_ids=['c2'],entity_ids=['person'],role='development')]
+    return Script(summary='Fixture meal',narration=' '.join(s.text for s in sentences),entities=[person],sentences=sentences)
+
+
+class EditorialVisualTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name)
+        self.patches=[patch.object(config,'NEWS_IDENTITY_IMAGE_CACHE',self.root/'images'),patch.object(config,'NEWS_CUTOUT_CACHE',self.root/'cutouts')]
+        for p in self.patches:p.start()
+        self.image=self.root/'reference.png';subject_image('mira').save(self.image)
+        self.reference=ReferencePhoto(str(self.image),'https://commons.wikimedia.org/wiki/File:Portrait.png','Public domain','Fixture artist','https://www.wikidata.org/wiki/Q123')
+        self.people=MagicMock();self.people.resolve.return_value={'kind':'real','sources':[self.reference.entity_url],'references':[self.reference]}
+        self.generator=MagicMock()
+        async def create(prompt,path,reference=None):subject_image('mira').save(path);return 'replicate:black-forest-labs/flux-kontext-pro' if reference else 'replicate:black-forest-labs/flux-schnell'
+        self.generator.subject=AsyncMock(side_effect=create);self.generator.real_subject=AsyncMock(side_effect=create)
+        self.review=MagicMock(return_value={'sameLikeness':True,'singlePerson':True,'bodyPreserved':True,'confidence':.94,'problems':[]})
+    def tearDown(self):
+        for p in reversed(self.patches):p.stop()
+        self.tmp.cleanup()
+    def assets(self,**kwargs):
+        return acquire(story().model_copy(update={'sentences':story().sentences[:1],'narration':story().sentences[0].text}),self.root/'job',people=self.people,image_generator=self.generator,visual_review=self.review,**kwargs)
+    def failed_photo_processor(self):
+        real=CutoutProcessor()
+        def process(src,dest,**kwargs):
+            if Path(src)==self.image:raise NewsError('Reference segmentation rejected opaque background')
+            return real.process(src,dest,**kwargs)
+        return MagicMock(process=MagicMock(side_effect=process))
+
+    def test_available_real_portrait_is_an_alpha_cutout_without_ai(self):
+        _,assets=self.assets()
+        self.assertTrue(assets[0].alpha);self.assertTrue(assets[0].factual)
+        self.assertEqual(assets[0].role,'portrait')
+        self.generator.real_subject.assert_not_called();self.generator.subject.assert_not_called()
+        image=Image.open(assets[0].path)
+        self.assertLess(image.getchannel('A').getextrema()[0],255)
+
+    def test_premium_fallback_checks_reference_and_caches_only_accepted_likeness(self):
+        diagnostics={};_,assets=self.assets(processor=self.failed_photo_processor(),diagnostics=diagnostics)
+        self.assertTrue(assets[0].alpha);self.assertFalse(assets[0].factual)
+        self.assertIn('reference likeness reviewed',assets[0].fallback)
+        self.assertEqual(self.generator.real_subject.call_count,1);self.generator.subject.assert_not_called()
+        self.assertEqual(self.review.call_args.args[2][0],self.reference.path)
+        self.assertEqual(diagnostics['assetAcquisition']['assets'][0]['route'],'premium_reference_illustration')
+        self.assets(processor=self.failed_photo_processor())
+        self.assertEqual(self.generator.real_subject.call_count,1);self.assertEqual(self.review.call_count,1)
+
+    def test_wrong_likeness_gets_bounded_retries_and_no_symbol_or_cached_acceptance(self):
+        self.review.return_value={'sameLikeness':False,'singlePerson':True,'bodyPreserved':True,'confidence':.2,'problems':['Wrong face']}
+        with self.assertRaisesRegex(NewsError,'No usable portrait'):
+            self.assets(processor=self.failed_photo_processor())
+        self.assertEqual(self.generator.real_subject.call_count,2)
+        self.assertFalse(list((self.root/'images').glob('*/review.json')))
+        audit=json.loads((self.root/'job'/'asset_acquisition.json').read_text())
+        self.assertEqual(len(audit['assets'][0]['rejectedAttempts']),2)
+
+    def test_real_person_without_any_reference_does_not_claim_a_verified_ai_face(self):
+        self.people.resolve.return_value={'kind':'real','sources':['https://public.example/biography'],'references':[]}
+        with self.assertRaisesRegex(NewsError,'A name alone cannot validate an AI face'):self.assets()
+        self.generator.real_subject.assert_not_called();self.generator.subject.assert_not_called()
+
+    def test_historical_person_without_photo_uses_direct_supporting_illustration(self):
+        self.people.resolve.return_value={'kind':'historical','sources':['https://public.example/biography'],'references':[]}
+        _,assets=self.assets()
+        self.generator.subject.assert_called_once();self.generator.real_subject.assert_not_called();self.review.assert_not_called()
+        self.assertFalse(assets[0].factual);self.assertTrue(assets[0].alpha)
+        self.assertIn('reconstruction',assets[0].fallback)
+
+    def test_real_forces_use_representative_ai_group_without_individual_lookup(self):
+        from tests.test_cutout_groups import group_image
+        script=story()
+        script.entities[0]=Entity(id='person',name='Portuguese forces',kind='person',identity='real',description='A group of soldiers.')
+        script.sentences[0].text='The queen resisted Portuguese forces in the sixteenth century.'
+        script.narration=' '.join(s.text for s in script.sentences)
+        async def create(prompt,path):
+            group_image().save(path)
+            return 'replicate:black-forest-labs/flux-schnell'
+        self.generator.subject.side_effect=create
+        for mode in ('auto','ai'):
+            with self.subTest(mode=mode):
+                diagnostics={}
+                entities,assets=acquire(script,self.root/mode,asset_mode=mode,people=self.people,
+                    image_generator=self.generator,visual_review=self.review,diagnostics=diagnostics)
+                self.assertEqual(entities[0].name,'Portuguese forces')
+                self.assertEqual(assets[0].subject,'Portuguese forces')
+                self.assertTrue(assets[0].alpha);self.assertFalse(assets[0].factual)
+                self.assertEqual(assets[0].role,'portrait')
+                self.assertIn('not actual members',assets[0].fallback)
+                record=diagnostics['assetAcquisition']['assets'][0]
+                self.assertEqual(record['route'],'representative_group_illustration')
+                self.assertEqual(record['depictionIdentity'],'generic')
+        self.people.resolve.assert_not_called();self.generator.real_subject.assert_not_called();self.review.assert_not_called()
+        self.generator.subject.assert_called_once()  # Second request reuses the accepted cutout.
+        prompt=self.generator.subject.call_args.args[0]
+        self.assertIn('sixteenth century',prompt)
+        self.assertIn('representative people',prompt)
+        self.assertNotIn('Preserve the specific identity',prompt)
+
+    def test_collective_names_are_groups_without_explicit_group_description(self):
+        for name in ('Portuguese forces','Portuguese Army','British troops','Village warriors','Factory workers'):
+            with self.subTest(name=name):
+                entity=Entity(id='group',name=name,kind='person',identity='real',description='Standing figures')
+                self.assertTrue(entity.is_group)
+        entity=Entity(id='commander',name='Named Commander',kind='person',identity='real',description='One officer commanding Portuguese forces')
+        self.assertFalse(entity.is_group)
+        entity.description='Portrait of Named Commander standing in front of a group of soldiers'
+        self.assertFalse(entity.is_group)
+
+    def test_group_description_keeps_group_segmentation_for_a_collective_proper_name(self):
+        from tests.test_cutout_groups import group_image
+        script=story();script.entities[0]=Entity(id='person',name='Portugal',kind='person',identity='real',description='A group of soldiers')
+        async def create(prompt,path):
+            group_image().save(path)
+            return 'replicate:black-forest-labs/flux-schnell'
+        self.generator.subject.side_effect=create
+        _,assets=acquire(script,self.root/'group-name',people=self.people,image_generator=self.generator)
+        self.assertTrue(assets[0].alpha)
+        self.assertIn('three representative people',self.generator.subject.call_args.args[0])
+        self.people.resolve.assert_not_called()
+
+    def test_local_group_asset_takes_precedence_over_representative_generation(self):
+        from tests.test_cutout_groups import group_image
+        group_image().save(self.image)
+        script=story();script.entities[0]=Entity(id='person',name='Portuguese forces',kind='person',identity='real',description='A group of soldiers')
+        registry=self.root/'registry.json'
+        registry.write_text(json.dumps({'Portuguese forces':{'path':str(self.image),'subject':'Portuguese forces',
+            'source':'Supplied group image','license':'Test','attribution':'Test author','role':'portrait'}}))
+        _,assets=acquire(script,self.root/'local',local_registry=registry,people=self.people,image_generator=self.generator)
+        self.assertTrue(assets[0].alpha);self.assertTrue(assets[0].factual)
+        self.people.resolve.assert_not_called();self.generator.subject.assert_not_called()
+
+    def test_group_generation_failure_is_not_replaced_with_a_profile_symbol(self):
+        script=story();script.entities[0]=Entity(id='person',name='Portuguese forces',kind='person',identity='real',description='A group of soldiers')
+        self.generator.subject.side_effect=NewsError('Image provider unavailable')
+        with self.assertRaisesRegex(NewsError,'Image provider unavailable'):
+            acquire(script,self.root/'failed-group',people=self.people,image_generator=self.generator)
+        self.people.resolve.assert_not_called();self.generator.real_subject.assert_not_called()
+        self.assertFalse(list((self.root/'failed-group').glob('*-symbol.svg')))
+
+    def test_fictional_people_skip_real_identity_lookup_and_keep_full_cutout(self):
+        script=story();script.entities[0].identity='fictional'
+        _,assets=acquire(script,self.root/'fiction',asset_mode='auto',people=self.people,image_generator=self.generator)
+        self.people.resolve.assert_not_called();self.generator.subject.assert_called_once()
+        self.assertTrue(assets[0].alpha)
+        self.assertIn('torso',self.generator.subject.call_args.args[0])
+
+    def test_visual_plan_adds_relevant_objects_and_preserves_spoken_content(self):
+        script=story();original=script.model_dump()
+        value={'subjects':[{'id':'coffee','name':'Coffee cup','kind':'object','description':'One isolated ceramic cup with coffee','identity':'generic','reference_query':None,'exact_asset':None}],
+            'sections':[{'sectionId':'s1','cues':[{'entityId':'person','anchor':'Example Person'}]},
+                        {'sectionId':'s2','cues':[{'entityId':'coffee','anchor':'Coffee'}]}]}
+        llm=MagicMock(side_effect=[value,{'supported':True,'problems':[]}]);diagnostics={}
+        planned,cues=plan_visuals(script,llm=llm,diagnostics=diagnostics)
+        self.assertEqual(script.model_dump(),original);self.assertEqual(planned.narration,script.narration)
+        self.assertEqual(planned.sentences[1].entity_ids,['coffee']);self.assertEqual(len(planned.entities),2)
+        self.assertEqual(cues[1]['cues'][0]['anchor'],'Coffee');self.assertEqual(diagnostics['visualPlan']['mode'],'llm')
+
+    def test_invented_visual_anchors_and_new_real_people_are_rejected(self):
+        base={'subjects':[],'sections':[{'sectionId':'s1','cues':[{'entityId':'person','anchor':'Unspoken name'}]},{'sectionId':'s2','cues':[]}]}
+        for value in [base,{'subjects':[{'id':'new','name':'Invented Person','kind':'person','identity':'real','description':'A new person'}],'sections':base['sections']}]:
+            with self.subTest(value=value):
+                llm=MagicMock(return_value=value);diagnostics={};planned,cues=plan_visuals(story(),llm=llm,diagnostics=diagnostics)
+                self.assertEqual(llm.call_count,2);self.assertEqual(planned.narration,story().narration)
+                self.assertEqual(diagnostics['visualPlan']['mode'],'deterministic_fallback')
+
+    def test_semantically_unsupported_new_visuals_fail_the_independent_review(self):
+        value={'subjects':[],'sections':[{'sectionId':'s1','cues':[{'entityId':'person','anchor':'Example Person'}]},{'sectionId':'s2','cues':[]}]}
+        llm=MagicMock(side_effect=[value,{'supported':False,'problems':['Omitted context']},value,{'supported':False,'problems':['Omitted context']}])
+        diagnostics={};plan_visuals(story(),llm=llm,diagnostics=diagnostics)
+        self.assertEqual(diagnostics['visualPlan']['mode'],'deterministic_fallback');self.assertEqual(llm.call_count,4)
+
+    def test_anchor_matching_handles_punctuation_and_rejects_noncontiguous_words(self):
+        self.assertEqual(anchor_index('Then coffee, followed lunch.','coffee'),1)
+        self.assertIsNone(anchor_index('Then coffee followed lunch.','coffee lunch'))
+
+    def test_explicitly_named_person_is_restored_to_their_visual_beat(self):
+        from agent.editorial.visuals import restore_named_cues
+        script=story();rows=[{'sectionId':'s1','cues':[]},{'sectionId':'s2','cues':[{'entityId':'person','anchor':'Coffee'}]}]
+        planned,cues=restore_named_cues(script,rows)
+        self.assertEqual(cues[0]['cues'],[{'entityId':'person','anchor':'Example Person'}])
+        self.assertEqual(planned.sentences[0].entity_ids,['person'])
+
+    def test_historical_identity_requires_actual_source_death_passage(self):
+        source=Source(id='bio',title='Biography',text='Example Person was executed in 1931.',retrieved_at='2026-10-12',url='https://public.example/biography')
+        evidence=Evidence(sources=[source],claims=[Claim(id='c1',text=source.text,source_ids=['bio'],excerpts={'bio':source.text})],verification='single_source')
+        llm=MagicMock(return_value={'kind':'historical','source_id':'bio','excerpt':source.text,'reason':'Explicit execution passage'})
+        with patch('agent.editorial.people.ReferencePhotos') as refs,patch('agent.editorial.people.SerperSearch') as search:
+            refs.return_value.find.return_value=[];search.return_value.search.return_value=[]
+            result=People().resolve(story().entities[0],evidence,llm)
+        self.assertEqual(result['kind'],'historical');self.assertEqual(result['sources'],[source.url])
+
+    def test_unsupported_identity_is_not_accepted_from_search_snippets(self):
+        llm=MagicMock(return_value={'kind':'real','source_id':'missing','excerpt':'Not in a source','reason':'Looks plausible'})
+        with patch('agent.editorial.people.ReferencePhotos') as refs,patch('agent.editorial.people.SerperSearch') as search:
+            refs.return_value.find.return_value=[];search.return_value.search.return_value=[]
+            with self.assertRaisesRegex(NewsError,'Could not establish'):People().resolve(story().entities[0],None,llm)
+        self.assertEqual(llm.call_count,2)
+
+    def test_supplied_account_alone_cannot_establish_a_real_identity(self):
+        source=Source(id='input',title='Account',text='Example Person is a politician.',retrieved_at='2026-10-12')
+        evidence=Evidence(sources=[source],claims=[Claim(id='c1',text=source.text,source_ids=['input'],excerpts={'input':source.text})],verification='user_supplied')
+        llm=MagicMock(return_value={'kind':'real','source_id':'input','passage_id':'input:p1','reason':'User said so'})
+        with patch('agent.editorial.people.ReferencePhotos') as refs,patch('agent.editorial.people.SerperSearch') as search:
+            refs.return_value.find.return_value=[];search.return_value.search.return_value=[]
+            with self.assertRaisesRegex(NewsError,'Could not establish'):People().resolve(story().entities[0],evidence,llm)
+
+    def test_sourced_death_date_routes_a_historical_person_without_memory(self):
+        reference=copy.copy(self.reference);reference.death_date='+1931-03-23T00:00:00Z'
+        llm=MagicMock()
+        with patch('agent.editorial.people.ReferencePhotos') as refs:
+            refs.return_value.find.return_value=[reference]
+            result=People().resolve(story().entities[0],None,llm)
+        self.assertEqual(result['kind'],'historical');self.assertEqual(result['deathDate'],reference.death_date)
+        llm.assert_not_called()
+
+    def test_three_subjects_enter_on_their_spoken_cues_and_late_focus_is_bounded(self):
+        from agent.news_audio import synthesize
+        from agent.editorial.audio import prepare_existing
+        from agent.editorial.models import Entity as VisualEntity
+        from agent.editorial.assets import prepare
+        from agent.editorial.planner import build
+        from tests.news_fixtures import FixtureTTS
+        entities=[Entity(id='person',name='Example Person',kind='person',identity='generic',description='Complete illustrated person'),
+                  Entity(id='lunch',name='Lunch plate',kind='object',identity='generic',description='One isolated plate'),
+                  Entity(id='coffee',name='Coffee cup',kind='object',identity='generic',description='One isolated cup')]
+        sentence=Sentence(id='s1',text='Example Person first ate lunch and then ordered coffee.',phrase='Lunch and coffee',claim_ids=['c1'],entity_ids=[e.id for e in entities],role='development')
+        script=Script(summary='Spoken cue timing',narration=sentence.text,sentences=[sentence],entities=entities)
+        audio=synthesize(script,self.root/'speech','edge_tts',engine=FixtureTTS())
+        master,words,sections,_=prepare_existing(script,audio,self.root/'aligned')
+        assets=[prepare(e,self.image,self.root/'prepared',source='fixture',license='test',attribution='test',role='portrait' if e.kind=='person' else 'object') for e in entities]
+        visual_entities=[VisualEntity(id=e.id,name=e.name,identity=e.identity,assetIds=[a.id],source=a.source) for e,a in zip(entities,assets)]
+        cues=[{'sectionId':'s1','cues':[{'entityId':'person','anchor':'Example Person'},{'entityId':'lunch','anchor':'lunch'},{'entityId':'coffee','anchor':'coffee'}]}]
+        m=build(script,words,sections,visual_entities,assets,master,self.root/'timeline','cue-test',visual_cues=cues)
+        for eid,term in [('lunch','lunch'),('coffee','coffee.')]:
+            layer=next(l for l in m.layers if l.id=='entity-'+eid)
+            word=next(w for w in words if w.text==term)
+            self.assertLessEqual(abs(layer.startFrame/30-word.start),3/30)
+            self.assertEqual(layer.mask,'none')
+        person=next(l for l in m.layers if l.id=='entity-person')
+        self.assertEqual(person.mask,'none')
+        self.assertGreater(next(l for l in m.layers if l.id=='entity-coffee').startFrame,next(l for l in m.layers if l.id=='entity-lunch').startFrame)
+
+    def test_replicate_tiers_are_explicit_and_global_preferences_are_unchanged(self):
+        import asyncio
+        from agent.editorial.images import EditorialImages
+        response=MagicMock(status_code=201);response.json.return_value={'id':'fixture1','status':'succeeded','output':['https://public.example/image.png']}
+        client=MagicMock();client.post=AsyncMock(return_value=response)
+        context=MagicMock();context.__aenter__=AsyncMock(return_value=client);context.__aexit__=AsyncMock(return_value=False)
+        old=config.REPLICATE_USE_SCHNELL
+        with patch.object(config,'REPLICATE_API_TOKEN','fixture-token'),patch('httpx.AsyncClient',return_value=context),patch('agent.news_research.fetch',return_value=(self.image.read_bytes(),'https://public.example/image.png')):
+            generator=EditorialImages()
+            asyncio.run(generator.subject('One isolated cup',self.root/'support.png'))
+            support=client.post.call_args
+            self.assertIn('flux-schnell',support.args[0]);self.assertEqual(support.kwargs['json']['input']['num_inference_steps'],4)
+            asyncio.run(generator.real_subject('Preserve reference person',self.root/'person.png',self.reference))
+            premium=client.post.call_args
+            self.assertIn('flux-kontext-pro',premium.args[0]);self.assertTrue(premium.kwargs['json']['input']['input_image'].startswith('data:image/jpeg;base64,'))
+            self.assertEqual(generator.support_calls,1);self.assertEqual(generator.real_calls,1)
+        self.assertEqual(config.REPLICATE_USE_SCHNELL,old)
+
+    def test_supporting_call_cap_is_enforced_before_another_prediction(self):
+        import asyncio
+        from agent.editorial.images import EditorialImages
+        with patch.object(config,'REPLICATE_API_TOKEN','fixture-token'),patch.object(config,'EDITORIAL_MAX_SUPPORT_CALLS',1):
+            generator=EditorialImages();generator._prediction=AsyncMock(return_value='fixture')
+            asyncio.run(generator.subject('Cup',self.root/'cup.png'))
+            with self.assertRaisesRegex(NewsError,'call limit'):asyncio.run(generator.subject('Plate',self.root/'plate.png'))
+            self.assertEqual(generator._prediction.call_count,1)
+
+    def test_provider_http_error_is_actionable_and_does_not_include_response_body(self):
+        import asyncio
+        from agent.editorial.images import EditorialImages
+        response=MagicMock(status_code=429,text='credential-bearing provider response must not escape')
+        client=MagicMock();client.post=AsyncMock(return_value=response)
+        context=MagicMock();context.__aenter__=AsyncMock(return_value=client);context.__aexit__=AsyncMock(return_value=False)
+        with patch.object(config,'REPLICATE_API_TOKEN','fixture-token'),patch('httpx.AsyncClient',return_value=context),patch('asyncio.sleep',new_callable=AsyncMock):
+            with self.assertRaisesRegex(NewsError,'HTTP 429') as error:asyncio.run(EditorialImages().subject('Cup',self.root/'cup.png'))
+        self.assertNotIn('credential-bearing',str(error.exception))
+
+    def test_replicate_throttling_waits_then_polls_only_one_accepted_prediction(self):
+        import asyncio
+        from agent.editorial.images import EditorialImages
+        rejected=MagicMock(status_code=429,headers={'retry-after':'2'})
+        accepted=MagicMock(status_code=201);accepted.json.return_value={'id':'fixture1','status':'succeeded','output':['https://public.example/image.png']}
+        client=MagicMock();client.post=AsyncMock(side_effect=[rejected,accepted])
+        context=MagicMock();context.__aenter__=AsyncMock(return_value=client);context.__aexit__=AsyncMock(return_value=False)
+        with patch.object(config,'REPLICATE_API_TOKEN','fixture-token'),patch('httpx.AsyncClient',return_value=context),patch('asyncio.sleep',new_callable=AsyncMock) as pause,patch('agent.news_research.fetch',return_value=(self.image.read_bytes(),'https://public.example/image.png')):
+            generator=EditorialImages();asyncio.run(generator.subject('Cup',self.root/'cup.png'))
+        pause.assert_awaited_once_with(2);self.assertEqual(client.post.call_count,2);self.assertEqual(generator.support_calls,1)
+
+    def test_cancelled_prediction_is_cancelled_remotely(self):
+        import asyncio
+        from agent.editorial.images import EditorialImages
+        response=MagicMock(status_code=201);response.json.return_value={'id':'fixture1','status':'processing'}
+        client=MagicMock();client.post=AsyncMock(return_value=response)
+        context=MagicMock();context.__aenter__=AsyncMock(return_value=client);context.__aexit__=AsyncMock(return_value=False)
+        async def cancel_sleep(_):raise asyncio.CancelledError()
+        with patch.object(config,'REPLICATE_API_TOKEN','fixture-token'),patch('httpx.AsyncClient',return_value=context),patch('asyncio.sleep',side_effect=cancel_sleep):
+            with self.assertRaises(asyncio.CancelledError):asyncio.run(EditorialImages().subject('Cup',self.root/'cup.png'))
+        self.assertTrue(client.post.call_args.args[0].endswith('/fixture1/cancel'))
+
+    def test_web_job_uses_automatic_imagery_when_no_asset_override_is_sent(self):
+        from types import SimpleNamespace
+        import web_ui
+        from agent.orchestrator import PipelineResult
+        with web_ui.app.test_request_context('/'),patch('agent.news_script.NewsLLM'),patch('agent.news_pipeline.run_news',return_value=PipelineResult(errors=['fixture'])) as run,patch('web_ui.threading.Thread') as thread:
+            thread.side_effect=lambda target,**kwargs:SimpleNamespace(start=target)
+            web_ui._start_news_job({'visual_preset':'reference_editorial'},'A public story')
+        self.assertEqual(run.call_args.kwargs['asset_mode'],'auto')
+
+    def test_multi_subject_profiles_keep_narration_below_images_and_labels(self):
+        from agent.editorial.templates import profile
+        for template in ('process','document_photo','comparison','conclusion','object_location'):
+            for count in (1,2,3):
+                with self.subTest(template=template,count=count):
+                    _,text,boxes=profile(template,count)
+                    for box in boxes:
+                        # Single process/document compositions deliberately put
+                        # text beside or above the image, with separate x/y bands.
+                        if template in ('process','document_photo') and count==1:continue
+                        self.assertGreaterEqual(text.y,box.y+box.h+18+108)
+
+
+if __name__=='__main__':unittest.main()

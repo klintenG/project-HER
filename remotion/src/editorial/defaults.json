@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "2.0",
+  "preset": "reference_editorial",
+  "contentMode": "motion_study",
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "durationInFrames": 120,
+  "generationId": "editorial-studio-preview",
+  "script": "",
+  "scriptHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "fonts": {
+    "semibold": "news-demo/Poppins-SemiBold.ttf",
+    "bold": "news-demo/Poppins-Bold.ttf",
+    "version": "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c"
+  },
+  "audio": [
+    {
+      "path": "editorial-preview/silence.wav",
+      "offsetFrames": 0,
+      "duration": 4.0,
+      "kind": "master",
+      "gain": 1.0,
+      "sha256": "a5f5ebf2259813ed335fbdba26f55d3a1448df480f20bc0d8b12bec9131f1977"
+    }
+  ],
+  "words": [],
+  "sections": [],
+  "entities": [],
+  "assets": [],
+  "layers": [
+    {
+      "startFrame": 0,
+      "endFrame": 120,
+      "id": "heading",
+      "role": "heading",
+      "entityId": null,
+      "assetId": null,
+      "parentId": null,
+      "bounds": {
+        "x": 100.0,
+        "y": 420.0,
+        "w": 880.0,
+        "h": 190.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 60.0,
+        "weight": 600,
+        "align": "center",
+        "label": "A year comes into focus",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 0,
+      "endFrame": 120,
+      "id": "caption",
+      "role": "heading",
+      "entityId": null,
+      "assetId": null,
+      "parentId": null,
+      "bounds": {
+        "x": 140.0,
+        "y": 1170.0,
+        "w": 800.0,
+        "h": 200.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 44.0,
+        "weight": 600,
+        "align": "center",
+        "label": "Numeric transition study\nFinal display: 2026",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 0,
+      "endFrame": 120,
+      "id": "year",
+      "role": "year",
+      "entityId": null,
+      "assetId": null,
+      "parentId": null,
+      "bounds": {
+        "x": 140.0,
+        "y": 790.0,
+        "w": 800.0,
+        "h": 240.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": null,
+      "value": 2000
+    }
+  ],
+  "beats": [
+    {
+      "startFrame": 0,
+      "endFrame": 120,
+      "id": "study",
+      "template": "date_year",
+      "sectionIds": [],
+      "layerIds": [
+        "heading",
+        "caption",
+        "year"
+      ],
+      "purpose": "Isolated reusable primitive demonstration."
+    }
+  ],
+  "events": [
+    {
+      "startFrame": 24,
+      "endFrame": 64,
+      "id": "count",
+      "type": "year_counter",
+      "targetIds": [
+        "year"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 1.0,
+      "fromValue": 2000,
+      "toValue": 2026,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0
+    }
+  ],
+  "transitions": [],
+  "subtitleMode": "editorial",
+  "warnings": [
+    "Silent motion study; no historical event is asserted."
+  ],
+  "diagnostics": {}
+}

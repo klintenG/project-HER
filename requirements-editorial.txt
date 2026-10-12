@@ -1,0 +1,2 @@
+# Optional local forced alignment for reference_editorial. No paid API required.
+faster-whisper==1.2.1

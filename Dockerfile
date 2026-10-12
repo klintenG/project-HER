@@ -42,8 +42,12 @@ ENV HOME=/home/appuser
 WORKDIR /app
 
 # Install Python dependencies
-COPY requirements.txt .
-RUN pip install --upgrade pip && pip install -r requirements.txt
+COPY requirements.txt requirements-news.txt ./
+ARG INSTALL_NEWS_CUTOUTS=1
+RUN pip install --upgrade pip && pip install -r requirements.txt \
+    && if [ "$INSTALL_NEWS_CUTOUTS" = "1" ]; then pip install -r requirements-news.txt; fi
+ENV U2NET_HOME=/app/temp/news-models \
+    NUMBA_CACHE_DIR=/app/temp/numba
 
 # Pre-install Remotion npm dependencies (leverages Docker cache)
 COPY remotion/package.json remotion/package-lock.json /app/remotion/
