@@ -428,6 +428,8 @@ class NewsTests(unittest.TestCase):
         self.assertEqual(start.call_args.args[1],'https://public.example/a\nadditional notes')
         response=web_ui.app.test_client().get('/')
         self.assertEqual(response.status_code,200)
-        self.assertIn(b'newsSourcePolicy',response.data);self.assertIn(b'Preview script and sources',response.data)
+        self.assertNotIn(b'id="newsSourcePolicy"',response.data)
+        self.assertIn(b'STUDIO_DEFAULTS',response.data)
+        self.assertNotIn(b'Preview script and sources',response.data)
 
 if __name__=='__main__': unittest.main()

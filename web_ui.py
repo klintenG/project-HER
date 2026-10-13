@@ -41,6 +41,22 @@ logger = logging.getLogger("web_ui")
 
 app = Flask(__name__, template_folder="templates", static_folder="output")
 
+# The main creation studio has a fixed editorial configuration. Keep it shared
+# between its page, preview and generation; classic/API callers keep their modes.
+STUDIO_GENERATION_DEFAULTS = {
+    'tone':'informative', 'format':'vertical', 'visual_style':'claymorphism',
+    'target_duration':0, 'content_mode':'news', 'renderer':'remotion',
+    'visual_preset':'reference_editorial', 'editorial_text':'editorial',
+    'editorial_assets':'auto', 'news_source_policy':'auto',
+    'tts_provider':'replicate', 'news_music':False,
+}
+
+
+def _studio_request(data):
+    if data.get('ui_profile')=='editorial_studio':
+        return {**data,**STUDIO_GENERATION_DEFAULTS,'platform':'','local_assets':None}
+    return data
+
 # ── Allow CORS and iframe embedding ──────────────────────────────────────────
 @app.before_request
 def handle_preflight():
@@ -141,6 +157,7 @@ def index():
     """Serve the main UI page."""
     return render_template(
         "index.html",
+        studio_defaults=STUDIO_GENERATION_DEFAULTS,
         themes=list(config.THEMES.keys()),
         theme_details=config.THEMES,
         captions=list(config.CAPTION_STYLES.keys()),
@@ -305,7 +322,7 @@ def _check_and_reserve_quota() -> Optional[str]:
 @app.route("/api/generate", methods=["POST"])
 def api_generate():
     """Run the full video generation pipeline with SSE progress support."""
-    data = request.json
+    data = _studio_request(request.json)
 
     limit_error = _check_and_reserve_quota()
     if limit_error:
@@ -692,7 +709,7 @@ def api_result(job_id):
 @app.route("/api/preview", methods=["POST"])
 def api_preview():
     """Run scrape + analyze only for quick preview."""
-    data = request.json
+    data = _studio_request(request.json)
 
     if data.get("content_mode") == "news":
         from agent.news_pipeline import preview_news

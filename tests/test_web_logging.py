@@ -161,6 +161,60 @@ vm.runInNewContext(html.slice(start,end)+";pollResult('long-job',120);",sandbox)
         self.assertIn("/api/preview", logs.output[0])
         self.assertIsNone(logs.records[0].exc_info)
 
+    def test_studio_generation_enforces_fixed_defaults_on_server(self):
+        with patch('web_ui._start_news_job',return_value=({'job_id':'fixed-studio'},200)) as start:
+            response=self.client.post('/api/generate',json={
+                'ui_profile':'editorial_studio','text':'A supplied story',
+                'content_mode':'article','tone':'dramatic','format':'square',
+                'renderer':'moviepy','visual_preset':'default','tts_provider':'edge_tts',
+                'news_music':True,'platform':'youtube','local_assets':'other.json'})
+        self.assertEqual(response.status_code,200)
+        data,source=start.call_args.args
+        self.assertEqual(source,'A supplied story')
+        self.assertEqual({key:data[key] for key in web_ui.STUDIO_GENERATION_DEFAULTS},{
+            'tone':'informative','format':'vertical','visual_style':'claymorphism',
+            'target_duration':0,'content_mode':'news','renderer':'remotion',
+            'visual_preset':'reference_editorial','editorial_text':'editorial',
+            'editorial_assets':'auto','news_source_policy':'auto','tts_provider':'replicate','news_music':False})
+        self.assertEqual(data['platform'],'');self.assertIsNone(data['local_assets'])
+
+    def test_studio_preview_uses_same_news_defaults(self):
+        with patch('agent.news_pipeline.preview_news',return_value={}) as preview:
+            response=self.client.post('/api/preview',json={
+                'ui_profile':'editorial_studio','text':'A supplied story',
+                'content_mode':'article','tone':'dramatic','target_duration':120,'news_source_policy':'online'})
+        self.assertEqual(response.status_code,200)
+        self.assertEqual(preview.call_args.args[0],'A supplied story')
+        self.assertEqual(preview.call_args.kwargs['tone'],'informative')
+        self.assertEqual(preview.call_args.kwargs['target_duration'],0)
+        self.assertEqual(preview.call_args.kwargs['source_policy'],'auto')
+
+    def test_studio_browser_submits_defaults_without_removed_controls(self):
+        html=self.client.get('/').get_data(as_text=True)
+        removed=['selTone','selFormat','selVisualStyle','selDuration','selContentMode','selRenderer',
+                 'newsVisualPreset','editorialText','editorialAssets','newsSourcePolicy','newsTtsProvider','newsMusic']
+        for control in removed:self.assertNotIn('id="'+control+'"',html)
+        code=r"""
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const html=fs.readFileSync(0,'utf8');
+const defaults=html.match(/const STUDIO_DEFAULTS = Object.freeze\(([^;]+)\);/)[1];
+const start=html.indexOf('async function handleGenerate(');let end=html.indexOf('{',start),depth=0;
+do {if(html[end]==='{')depth++;if(html[end]==='}')depth--;end++;}while(depth);
+const removed=new Set(['selTone','selFormat','selVisualStyle','selDuration','selContentMode','selRenderer','newsVisualPreset','editorialText','editorialAssets','newsSourcePolicy','newsTtsProvider','newsMusic']);
+const node=()=>({style:{},append(){},replaceChildren(){},querySelector:()=>({})});
+let submitted,job;
+const sandbox={promptInput:{value:'A supplied story',focus(){}},document:{
+ getElementById:id=>{assert(!removed.has(id),'Read removed control '+id);return node();},createElement:node},
+ fetch:async(url,options)=>{assert.equal(url,'/api/generate');submitted=JSON.parse(options.body);return {json:async()=>({job_id:'studio-job'})};},
+ setUIState(){},startTimer(){},stopTimer(){},showToast:message=>assert.fail(message),resetToStudio(){},connectSSE:id=>job=id};
+(async()=>{await vm.runInNewContext('const STUDIO_DEFAULTS=Object.freeze('+defaults+');'+html.slice(start,end)+';handleGenerate();',sandbox);
+ assert.equal(job,'studio-job');assert.equal(submitted.text,'A supplied story');assert.equal(submitted.ui_profile,'editorial_studio');
+ for(const [key,value] of Object.entries({tone:'informative',format:'vertical',visual_style:'claymorphism',target_duration:0,content_mode:'news',renderer:'remotion',visual_preset:'reference_editorial',editorial_text:'editorial',editorial_assets:'auto',news_source_policy:'auto',tts_provider:'replicate',news_music:false}))assert.deepEqual(submitted[key],value,key);
+})().catch(error=>{console.error(error);process.exitCode=1;});
+"""
+        result=subprocess.run(['node','-e',code],input=html,capture_output=True,text=True,timeout=15)
+        self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+
     def test_unexpected_preview_errors_log_tracebacks(self):
         for mode in ("news", "article"):
             target = "agent.news_pipeline.preview_news" if mode == "news" else "agent.orchestrator.AgentOrchestrator"

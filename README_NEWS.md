@@ -52,6 +52,8 @@ Docker installs `requirements-news.txt` by default (`--build-arg INSTALL_NEWS_CU
 
 ## Inputs, preview and sources
 
+The main Flask creation studio now submits a fixed configuration without editable settings: informative storytelling, vertical, Claymorphism request style, automatic duration (`0`), News, Remotion, Reference editorial, progressive phrases, automatic portraits/AI cutouts, automatic sources, Replicate's configured speech model, and no background music. Preview and generation share these defaults, and the server enforces them for the studio profile. Reference editorial continues to own its rendering/asset art direction; the general Claymorphism style field is not an override of that preset. Classic UI and direct API mode selections retain their existing behavior.
+
 - **Auto** researches public queries, headlines and URLs before asking about ambiguous identities, titles or events. A concrete local account can be used directly, including a short factual sentence. Classification uses semantic analysis, not just length.
 - **Online research** performs one focused Serper query and fetches selected pages. It retains up to three sources and attempts at most six search candidates plus supplied URLs. Near-duplicate syndications are not independent accounts. A single source remains explicitly `single_source`.
 - **Use my account** only uses supplied facts. A URL without details or a vague topic is insufficient under this policy. Unknown dates, identities, causes and outcomes remain unknown. Fictional/hypothetical input is identified in the narration and evidence.
