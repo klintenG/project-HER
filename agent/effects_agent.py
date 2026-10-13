@@ -31,10 +31,12 @@ import re
 from dataclasses import dataclass, field
 from typing import Any, Optional
 
+import config
+
 logger = logging.getLogger("effects_agent")
 
-# Model for VFX decisions — Google AI (Gemini Pro) via LLM Client
-VFX_AGENT_MODEL = "gemini-2.5-pro"
+# Model for VFX decisions — Google AI (Gemini) via LLM Client
+VFX_AGENT_MODEL = getattr(config, "GEMINI_MODEL", "gemini-3.1-flash-lite")
 
 
 # ── Data Classes ──────────────────────────────────────

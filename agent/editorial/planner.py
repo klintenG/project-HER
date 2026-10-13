@@ -120,7 +120,12 @@ def phrase_layout(ids,words,width,size,height):
     raise NewsError('Editorial phrase exceeds legible bounds; shorten sentence or split phrase: '+' '.join(lookup[i].text for i in ids))
 
 
+_AI_MARKER=re.compile(r'\s*[\(\[]?\s*(?:ai[- ]?(?:generated|illustrat\w*|image|art)|generated (?:image|illustration)|illustrat(?:ion|ive|ed)(?: only)?|concept art|stock (?:image|photo)|not (?:a )?verified[^\)\]\n]*)\s*[\)\]]?\s*$',re.I)
+
+
 def label_lines(text,width):
+    prev=None
+    while prev!=text:prev=text;text=_AI_MARKER.sub('',text).strip()
     font=ImageFont.truetype(str(font_path(600)),36);lines=[];line=''
     for word in text.split():
         test=(line+' '+word).strip()

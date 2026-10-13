@@ -143,7 +143,12 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
             record.update(route='representative_group_illustration',depictionIdentity='generic')
         elif e.identity=='real' and e.kind=='person' and not existing and asset_mode!='local':
             try:identity=people.resolve(e,evidence,llm,diagnostics=record)
-            except Exception:save_audit();raise
+            except Exception as exc:
+                if getattr(exc,'status',None)=='cancelled':save_audit();raise
+                # Unverifiable identity is not fatal: continue with no references
+                # so the labelled AI-illustration fallback below is used.
+                identity={'kind':'unverified','references':[],'errors':[str(exc)]}
+                record.setdefault('errors',[]).append(str(exc))
             record['resolution']={k:v for k,v in identity.items() if k!='references'};save_audit()
             refs=identity.get('references',[])
             a=None
@@ -166,7 +171,16 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                     except NewsError as exc:
                         if exc.status=='cancelled':raise
                         record.setdefault('errors',[]).append(str(exc))
-                if a is None:save_audit();raise NewsError('No usable portrait or reference-checked likeness for '+e.name+'. Supply a clear individual portrait in the local registry or retry reference lookup. A name alone cannot validate an AI face; no profile symbol was substituted.')
+                if a is None:
+                    # No verified portrait: fall back to an AI illustration from the
+                    # description only, labelled as not a verified likeness.
+                    record.setdefault('errors',[]).append('No usable portrait for '+e.name+'; using AI illustration')
+                    illustration=e.model_copy(update={'identity':'generic','reference_query':None,
+                        'description':'An illustrative depiction of '+e.name+', based only on this description: '+e.description+
+                            ' Not a verified likeness; do not imply a documentary portrait.'})
+                    a=generated(illustration,record=record)
+                    a=a.model_copy(update={'fallback':'AI illustration; identity/likeness not verified'})
+                    record['route']='unverified_identity_ai_illustration';save_audit()
         elif e.identity=='real' and e.kind!='person' and asset_mode!='local' and not e.exact_asset:
             # Reuse identity-linked Commons retrieval for artifacts and places.
             # P18 alone does not establish the depiction: a multimodal check

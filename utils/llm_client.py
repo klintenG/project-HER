@@ -12,7 +12,14 @@ from __future__ import annotations
 import logging
 from typing import Optional
 
-from openai import OpenAI, RateLimitError, APIStatusError
+from openai import (
+    OpenAI,
+    RateLimitError,
+    APIStatusError,
+    APITimeoutError,
+    APIConnectionError,
+    InternalServerError,
+)
 
 import config
 
@@ -82,48 +89,166 @@ def get_llm_client(
     client = OpenAI(
         api_key=api_key,
         base_url=base_url,
+        max_retries=0,
     )
 
-    # If Gemini is the primary and a Groq key exists, fall back to Groq on rate limits
-    if base_url == config.GEMINI_BASE_URL and config.GROQ_API_KEY:
-        client = _FallbackClient(client)
+    # Wrap client with resilient retry, backoff, and model fallback
+    gemini_fallbacks = []
+    if base_url == config.GEMINI_BASE_URL:
+        # Build fallback model chain for Gemini
+        for candidate in ("gemini-flash-lite-latest", "gemini-3.1-flash-lite", "gemini-3.5-flash-lite", "gemini-3.8-flash"):
+            if candidate != model_name and candidate not in gemini_fallbacks:
+                gemini_fallbacks.append(candidate)
+
+    client = _ResilientClient(
+        primary=client,
+        primary_model=model_name,
+        fallback_models=gemini_fallbacks,
+        groq_api_key=config.GROQ_API_KEY,
+        groq_base_url=config.GROQ_BASE_URL,
+        groq_model=config.GROQ_MODEL,
+    )
 
     return client, model_name
 
 
-class _FallbackCompletions:
-    """Mimics client.chat.completions; retries on Groq if Gemini is rate-limited."""
+class _ResilientCompletions:
+    """Retries transient errors (503 high demand, 429 quota, 5xx, timeouts)
 
-    def __init__(self, primary: OpenAI):
+    with exponential backoff, and falls back to alternative Gemini models or Groq.
+    """
+
+    TRANSIENT_STATUS_CODES = {429, 500, 502, 503, 504}
+
+    def __init__(
+        self,
+        primary: OpenAI,
+        primary_model: str,
+        fallback_models: list[str],
+        groq_api_key: str = "",
+        groq_base_url: str = "",
+        groq_model: str = "",
+    ):
         self._primary = primary
+        self._primary_model = primary_model
+        self._fallback_models = fallback_models
+        self._groq_api_key = groq_api_key
+        self._groq_base_url = groq_base_url
+        self._groq_model = groq_model
         self._groq: Optional[OpenAI] = None
 
     def create(self, **kwargs):
-        try:
-            return self._primary.chat.completions.create(**kwargs)
-        except RateLimitError as exc:
-            logger.warning("Gemini rate-limited (%s) - falling back to Groq", exc)
-        except APIStatusError as exc:
-            if exc.status_code != 429:
+        import time
+        import random
+
+        requested_model = kwargs.get("model") or self._primary_model
+        # Construct model priority list starting with the requested model
+        models_to_try = [requested_model]
+        for m in self._fallback_models:
+            if m not in models_to_try:
+                models_to_try.append(m)
+
+        last_error = None
+
+        for model_idx, target_model in enumerate(models_to_try):
+            call_kwargs = dict(kwargs)
+            call_kwargs["model"] = target_model
+            # For 503 high demand, retry up to 2 attempts before trying fallback model
+            max_retries = 2 if len(models_to_try) > 1 else 3
+
+            for attempt in range(max_retries):
+                try:
+                    return self._primary.chat.completions.create(**call_kwargs)
+                except (RateLimitError, APITimeoutError, APIConnectionError) as exc:
+                    last_error = exc
+                    wait_time = min(2.0 * (2 ** attempt) + random.uniform(0.2, 0.8), 8.0)
+                    logger.warning(
+                        "LLM transient error on model %s (%s). Retrying in %.1fs (attempt %d/%d)...",
+                        target_model, exc, wait_time, attempt + 1, max_retries,
+                    )
+                    time.sleep(wait_time)
+                except APIStatusError as exc:
+                    last_error = exc
+                    if exc.status_code in self.TRANSIENT_STATUS_CODES:
+                        wait_time = min(2.0 * (2 ** attempt) + random.uniform(0.2, 0.8), 8.0)
+                        logger.warning(
+                            "LLM returned HTTP %d for model %s (%s). Retrying in %.1fs (attempt %d/%d)...",
+                            exc.status_code, target_model, exc.message if hasattr(exc, "message") else exc,
+                            wait_time, attempt + 1, max_retries,
+                        )
+                        time.sleep(wait_time)
+                    elif exc.status_code == 404:
+                        # Model not available / deprecated, immediately switch to next model
+                        logger.warning(
+                            "LLM model %s returned HTTP 404 (model not found/available). Switching to fallback...",
+                            target_model,
+                        )
+                        break
+                    else:
+                        raise
+
+            # If retries exhausted for this Gemini model, log and try next model
+            if model_idx < len(models_to_try) - 1:
+                next_model = models_to_try[model_idx + 1]
+                logger.warning(
+                    "Gemini model '%s' unavailable after %d attempts. Falling back to alternative model '%s'...",
+                    target_model, max_retries, next_model,
+                )
+
+        # If all Gemini models failed, fall back to Groq if available
+        if self._groq_api_key:
+            logger.warning("All Gemini models unavailable. Falling back to Groq (%s)...", self._groq_model)
+            try:
+                if self._groq is None:
+                    self._groq = OpenAI(api_key=self._groq_api_key, base_url=self._groq_base_url)
+                groq_kwargs = dict(kwargs)
+                groq_kwargs["model"] = self._groq_model
+                return self._groq.chat.completions.create(**groq_kwargs)
+            except Exception as groq_exc:
+                logger.error("Groq fallback also failed: %s", groq_exc)
+                if last_error:
+                    raise last_error from groq_exc
                 raise
-            logger.warning("Gemini quota error 429 - falling back to Groq")
 
-        if self._groq is None:
-            self._groq = OpenAI(api_key=config.GROQ_API_KEY, base_url=config.GROQ_BASE_URL)
-        kwargs["model"] = config.GROQ_MODEL
-        return self._groq.chat.completions.create(**kwargs)
+        if last_error:
+            raise last_error
+        raise RuntimeError("LLM request failed with no error details.")
 
 
-class _FallbackChat:
-    def __init__(self, primary: OpenAI):
-        self.completions = _FallbackCompletions(primary)
+class _ResilientChat:
+    def __init__(self, completions: _ResilientCompletions, primary_chat):
+        self.completions = completions
+        self._primary_chat = primary_chat
+
+    def __getattr__(self, name):
+        return getattr(self._primary_chat, name)
 
 
-class _FallbackClient:
-    """Drop-in replacement for the OpenAI client exposing .chat.completions.create()."""
+class _ResilientClient:
+    """Drop-in replacement for OpenAI client with retry & fallback."""
 
-    def __init__(self, primary: OpenAI):
-        self.chat = _FallbackChat(primary)
+    def __init__(
+        self,
+        primary: OpenAI,
+        primary_model: str,
+        fallback_models: list[str],
+        groq_api_key: str = "",
+        groq_base_url: str = "",
+        groq_model: str = "",
+    ):
+        self._primary = primary
+        completions = _ResilientCompletions(
+            primary=primary,
+            primary_model=primary_model,
+            fallback_models=fallback_models,
+            groq_api_key=groq_api_key,
+            groq_base_url=groq_base_url,
+            groq_model=groq_model,
+        )
+        self.chat = _ResilientChat(completions, primary.chat)
+
+    def __getattr__(self, name):
+        return getattr(self._primary, name)
 
 
 def get_provider_info(provider: Optional[str] = None) -> dict:
