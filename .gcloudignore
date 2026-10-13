@@ -19,6 +19,10 @@ image2.png
 node_modules/
 remotion/node_modules/
 remotion/public/
+.remotion/
+# Download once inside Cloud Build; local HF cache symlinks otherwise duplicate
+# the 464 MB alignment model in the uploaded source archive.
+assets/alignment/
 vscode-copilot-bridge/
 .vscode/
 

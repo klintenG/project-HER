@@ -42,9 +42,9 @@ ENV HOME=/home/appuser
 WORKDIR /app
 
 # Install Python dependencies
-COPY requirements.txt requirements-news.txt ./
+COPY requirements.txt requirements-news.txt requirements-portfolio.txt requirements-editorial.txt ./
 ARG INSTALL_NEWS_CUTOUTS=1
-RUN pip install --upgrade pip && pip install -r requirements.txt \
+RUN pip install --upgrade pip && pip install -r requirements.txt -r requirements-portfolio.txt -r requirements-editorial.txt \
     && if [ "$INSTALL_NEWS_CUTOUTS" = "1" ]; then pip install -r requirements-news.txt; fi
 ENV U2NET_HOME=/app/temp/news-models \
     NUMBA_CACHE_DIR=/app/temp/numba
@@ -65,6 +65,7 @@ RUN mkdir -p output temp assets/fonts assets/music assets/sfx \
 # Pre-download Remotion Chrome Headless Shell into appuser cache during build
 USER appuser
 RUN cd /app/remotion && npx remotion browser ensure
+RUN python scripts/setup_editorial.py
 
 # Cloud Run injects $PORT (default 8080). One worker + threads keeps in-memory
 # job state/SSE consistent; long timeout allows video renders.

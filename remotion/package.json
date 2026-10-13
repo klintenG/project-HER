@@ -1,7 +1,7 @@
 {
   "name": "project-her-remotion",
   "version": "2.0.0",
-  "description": "Project HER – Remotion Video Renderer with full motion graphics, 3D transforms, spring physics, and cinematic transitions",
+  "description": "Project HER \u2013 Remotion Video Renderer with full motion graphics, 3D transforms, spring physics, and cinematic transitions",
   "private": true,
   "scripts": {
     "start": "npx remotion studio",
@@ -10,17 +10,17 @@
     "upgrade": "npx remotion upgrade"
   },
   "dependencies": {
-    "@remotion/cli": "4.0.242",
-    "@remotion/player": "4.0.242",
-    "@remotion/renderer": "4.0.242",
-    "@remotion/transitions": "4.0.242",
-    "@remotion/three": "4.0.242",
-    "@remotion/noise": "4.0.242",
-    "@remotion/paths": "4.0.242",
-    "@remotion/shapes": "4.0.242",
-    "@remotion/motion-blur": "4.0.242",
-    "@remotion/layout-utils": "4.0.242",
-    "remotion": "4.0.242",
+    "@remotion/cli": "4.0.535",
+    "@remotion/player": "4.0.535",
+    "@remotion/renderer": "4.0.535",
+    "@remotion/transitions": "4.0.535",
+    "@remotion/three": "4.0.535",
+    "@remotion/noise": "4.0.535",
+    "@remotion/paths": "4.0.535",
+    "@remotion/shapes": "4.0.535",
+    "@remotion/motion-blur": "4.0.535",
+    "@remotion/layout-utils": "4.0.535",
+    "remotion": "4.0.535",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "@react-three/fiber": "^8.17.10",
@@ -32,9 +32,9 @@
   "devDependencies": {
     "@types/react": "^18.3.12",
     "@types/three": "^0.170.0",
-    "@remotion/eslint-config": "4.0.242",
+    "@remotion/eslint-config": "4.0.535",
     "typescript": "^5.6.3",
     "eslint": "^9.14.0",
-    "@remotion/bundler": "4.0.242"
+    "@remotion/bundler": "4.0.535"
   }
 }

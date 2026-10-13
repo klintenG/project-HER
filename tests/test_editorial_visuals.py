@@ -65,19 +65,29 @@ class EditorialVisualTests(unittest.TestCase):
         self.assets(processor=self.failed_photo_processor())
         self.assertEqual(self.generator.real_subject.call_count,1);self.assertEqual(self.review.call_count,1)
 
-    def test_wrong_likeness_gets_bounded_retries_and_no_symbol_or_cached_acceptance(self):
+    def test_wrong_likeness_gets_bounded_retries_then_disclosed_illustration(self):
         self.review.return_value={'sameLikeness':False,'singlePerson':True,'bodyPreserved':True,'confidence':.2,'problems':['Wrong face']}
-        with self.assertRaisesRegex(NewsError,'No usable portrait'):
-            self.assets(processor=self.failed_photo_processor())
+        _,assets=self.assets(processor=self.failed_photo_processor())
         self.assertEqual(self.generator.real_subject.call_count,2)
-        self.assertFalse(list((self.root/'images').glob('*/review.json')))
+        self.generator.subject.assert_called_once()
+        self.assertFalse(assets[0].factual)
+        self.assertEqual(assets[0].fallback,'AI illustration; identity/likeness not verified')
+        cached=[json.loads(p.read_text()) for p in (self.root/'images').glob('*/review.json')]
+        self.assertEqual(len(cached),1)
+        self.assertFalse(cached[0]['identityVerified'])
+        self.assertNotIn('visualReview',cached[0])
         audit=json.loads((self.root/'job'/'asset_acquisition.json').read_text())
         self.assertEqual(len(audit['assets'][0]['rejectedAttempts']),2)
+        self.assertEqual(audit['assets'][0]['route'],'unverified_identity_ai_illustration')
 
     def test_real_person_without_any_reference_does_not_claim_a_verified_ai_face(self):
         self.people.resolve.return_value={'kind':'real','sources':['https://public.example/biography'],'references':[]}
-        with self.assertRaisesRegex(NewsError,'A name alone cannot validate an AI face'):self.assets()
-        self.generator.real_subject.assert_not_called();self.generator.subject.assert_not_called()
+        _,assets=self.assets()
+        self.generator.real_subject.assert_not_called();self.generator.subject.assert_called_once()
+        self.review.assert_not_called()
+        self.assertFalse(assets[0].factual)
+        self.assertEqual(assets[0].fallback,'AI illustration; identity/likeness not verified')
+        self.assertIn('Not a verified likeness',self.generator.subject.call_args.args[0])
 
     def test_historical_person_without_photo_uses_direct_supporting_illustration(self):
         self.people.resolve.return_value={'kind':'historical','sources':['https://public.example/biography'],'references':[]}

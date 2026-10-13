@@ -90,7 +90,8 @@ def allow_cors_and_framing(response):
             logger.log(level, "%s %s failed | mode=%s | HTTP %s | status=%s | %s",
                 request.method, request.path, data.get("content_mode", "article"),
                 response.status_code, status, payload["error"])
-    return response
+    native_cors=app.extensions.get('her_portfolio_cors')
+    return native_cors(response) if native_cors else response
 
 # ── SSE Progress Infrastructure & Concurrency Tracking ───────────────────────
 
@@ -799,15 +800,10 @@ def serve_output(filename):
     """Serve files from the output directory with HTTP 206 Partial Content range support."""
     import urllib.parse
     filename = urllib.parse.unquote(filename)
-    file_path = config.OUTPUT_DIR / filename
-    if not file_path.exists():
-        # Fallback search if path mismatch: search in OUTPUT_DIR for the filename
-        target_name = Path(filename).name
-        candidates = list(config.OUTPUT_DIR.rglob(target_name))
-        if candidates:
-            file_path = candidates[-1]
-            return send_from_directory(file_path.parent, file_path.name, conditional=True)
-        return jsonify({"error": f"File not found: {filename}"}), 404
+    root=config.OUTPUT_DIR.resolve()
+    file_path=(root/filename).resolve()
+    if not file_path.is_relative_to(root) or not file_path.is_file():
+        return jsonify({"error": "Output file not found or expired."}),404
     return send_from_directory(file_path.parent, file_path.name, conditional=True)
 
 
@@ -835,16 +831,10 @@ def api_download_video(job_id):
         rel_path = video_url[len("output/"):]
     else:
         rel_path = video_url.lstrip("/")
-    video_path = config.OUTPUT_DIR / rel_path
-
-    if not video_path.exists():
-        # Fallback: search for video filename inside OUTPUT_DIR
-        target_name = Path(rel_path).name
-        candidates = list(config.OUTPUT_DIR.rglob(target_name))
-        if candidates:
-            video_path = candidates[-1]
-        else:
-            return jsonify({"error": f"Video file not found on disk: {target_name}"}), 404
+    root=config.OUTPUT_DIR.resolve()
+    video_path=(root/rel_path).resolve()
+    if not video_path.is_relative_to(root) or not video_path.is_file():
+        return jsonify({"error": "Video file not found or expired."}),404
 
     try:
         # Read into memory buffer so the file handle is closed cleanly
@@ -1271,6 +1261,9 @@ def api_daily_pipeline_history():
 
 
 # ── Entry Point ───────────────────────────────────────
+
+from agent.portfolio_api import install as install_portfolio_api
+install_portfolio_api(app)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 7860))

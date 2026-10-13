@@ -1,0 +1,4 @@
+# Durable native portfolio API only; providers and rendering stay in HER.
+google-cloud-firestore>=2.19,<3
+google-cloud-storage>=3.1,<4
+psutil>=6,<8
