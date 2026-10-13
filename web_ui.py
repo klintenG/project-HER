@@ -158,6 +158,8 @@ def index():
     return render_template(
         "index.html",
         studio_defaults=STUDIO_GENERATION_DEFAULTS,
+        visitor_cap=PER_VISITOR_DAILY_CAP,
+        daily_cap=DAILY_VIDEO_CAP,
         themes=list(config.THEMES.keys()),
         theme_details=config.THEMES,
         captions=list(config.CAPTION_STYLES.keys()),
