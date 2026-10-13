@@ -80,7 +80,7 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            background-image:
+            background-image: 
                 radial-gradient(ellipse 80% 50% at 50% -20%, rgba(201, 168, 76, 0.07), transparent 70%),
                 radial-gradient(circle at 10% 90%, rgba(30, 42, 60, 0.4), transparent 50%);
             background-attachment: fixed;
@@ -473,29 +473,6 @@
         ::-webkit-scrollbar-track { background: var(--bg-primary); }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: var(--radius-full); }
         ::-webkit-scrollbar-thumb:hover { background: var(--accent-dim); }
-
-        :where(a,button,input,textarea,select,summary,video):focus-visible { outline: 3px solid #e5c765; outline-offset: 4px; }
-        [hidden] { display: none !important; }
-        .creator-intro { margin-bottom: 24px; max-width: 760px; }
-        .creator-intro h2 { font-size: clamp(1.5rem,3vw,2rem); font-weight: 700; }
-        .creator-intro p, .creator-note { color: var(--text-secondary, #adb5bd); line-height: 1.6; font-size: .9rem; }
-        .creator-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-block:20px; }
-        .creator-grid > div { min-width:0; }
-        .creator-grid select { width:100%; min-height:44px; }
-        .creator-advanced { border-block:1px solid var(--border-color, #334155); padding-block:16px; margin-bottom:20px; }
-        .creator-advanced summary { cursor:pointer; font-weight:600; padding:8px 0; }
-        .creator-error { border:1px solid #e5a2a2; border-radius:10px; padding:20px; }
-        .creator-error p { overflow-wrap:anywhere; }
-        .creator-attribution { margin-top:18px; font-size:.8rem; color:#adb5bd; }
-        .prompt-chip { font:inherit; color:inherit; text-align:left; }
-        .app-header .header-nav-link { min-width:44px; min-height:44px; display:inline-flex; align-items:center; gap:6px; }
-        .app-header .container-xl { gap:12px; flex-wrap:wrap; }
-        .her-card, .pipeline-card, .stage-item { min-width:0; }
-        .stage-item { gap:12px; flex-wrap:wrap; }
-        #resultVideoPlayer { max-height:480px; width:100%; object-fit:contain; background:#080b11; }
-        .creator-sample { display:inline-block; padding:10px 0; color:var(--accent); text-underline-offset:4px; }
-        @media(max-width:430px) { .creator-grid { grid-template-columns:1fr; } .her-card,.pipeline-card { padding:20px; } .brand-title { font-size:1.2rem; } }
-        @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; } }
     </style>
 </head>
 <body>
@@ -525,13 +502,13 @@
                 <span class="status-pill active d-none d-lg-inline-flex">
                     <i class="bi bi-stars"></i> Gemini 2.5 Pro
                 </span>
-                <a href="https://klinteng.com/projects/project-her/" class="header-nav-link" aria-label="Back to the Project HER portfolio case study">
+                <a href="https://klinteng.com" target="_blank" class="header-nav-link">
                     <i class="bi bi-person-workspace"></i>
-                    <span>Portfolio</span>
-
+                    <span class="d-none d-sm-inline">Portfolio</span>
+                    <i class="bi bi-box-arrow-up-right" style="font-size:0.75rem;"></i>
                 </a>
-                <a href="/backup" class="header-nav-link text-muted" title="Open the full creator with all existing controls" style="font-size:0.75rem;">
-                    <i class="bi bi-sliders"></i> Full creator
+                <a href="/backup" class="header-nav-link text-muted" title="View Classic Advanced UI" style="font-size:0.75rem;">
+                    <i class="bi bi-clock-history"></i> Classic
                 </a>
             </div>
         </div>
@@ -539,13 +516,8 @@
 
     <!-- Main Content Studio -->
     <main class="container-xl py-4">
-        <div class="creator-intro">
-            <h2>Your story, narrated and composed.</h2>
-            <p>Enter a topic, story, or article URL. Choose the essentials, then generate. HER plans content, prepares narration and visuals, and renders a video. Processing time and output quality vary.</p>
-            <a class="creator-sample" href="https://klinteng.com/projects/project-her/#result" target="_blank" rel="noopener noreferrer" aria-label="Watch a generated sample in the portfolio (opens in a new tab)">Watch a generated sample — no generation needed ↗</a>
-        </div>
         <div class="row g-4">
-
+            
             <!-- Left Column: Input & Settings Studio -->
             <div class="col-lg-6">
                 <div class="her-card">
@@ -564,58 +536,31 @@
                     <div class="mb-3">
                         <div class="d-flex justify-content-between align-items-center mb-1">
                             <label for="promptInput" class="form-label mb-0">
-                                <i class="bi bi-text-paragraph text-warning"></i> Your idea — topic, story, or article URL
+                                <i class="bi bi-text-paragraph text-warning"></i> Topic, Script, or Article
                             </label>
                             <span id="charCount" class="text-muted" style="font-size:0.75rem; font-family:var(--font-mono);">0 words</span>
                         </div>
-                        <textarea
-                            id="promptInput"
-                            class="form-control"
+                        <textarea 
+                            id="promptInput" 
+                            class="form-control" 
                             placeholder="Enter a topic, article text, or paste an article URL to generate an engaging video..."
-                            rows="6" aria-describedby="inputHint"
+                            rows="6"
                         ></textarea>
 
-                        <p class="creator-note mt-2" id="inputHint">The default News/editorial flow accepts topics, article URLs, and supplied accounts. Review source claims before publishing. Examples below only fill the input; they are not validated presets.</p>
                         <!-- Quick Inspiration Chips -->
                         <div class="prompt-chips">
-                            <button type="button" class="prompt-chip" onclick="setPrompt('How Autonomous AI Agents and Reasoning Models Are Revolutionizing Software Engineering and Scientific Discovery in 2026')">
+                            <span class="prompt-chip" onclick="setPrompt('How Autonomous AI Agents and Reasoning Models Are Revolutionizing Software Engineering and Scientific Discovery in 2026')">
                                 🤖 AI Revolution (Topic)
-                            </button>
-                            <button type="button" class="prompt-chip" onclick="setPrompt('Barnaby the little rabbit was not ready to go to sleep. He hopped through the quiet meadow asking the flowers, the fireflies, and the sleepy stream why the day had to end. The gentle moon smiled down through the silver clouds and whispered, \'The night is when the world rests, little one, so tomorrow can be full of brand new adventures.\' Barnaby curled his long ears around his paws, listened to the soft lullaby of the breeze, and closed his eyes, drifting happily into dreamland.')">
+                            </span>
+                            <span class="prompt-chip" onclick="setPrompt('Barnaby the little rabbit was not ready to go to sleep. He hopped through the quiet meadow asking the flowers, the fireflies, and the sleepy stream why the day had to end. The gentle moon smiled down through the silver clouds and whispered, \'The night is when the world rests, little one, so tomorrow can be full of brand new adventures.\' Barnaby curled his long ears around his paws, listened to the soft lullaby of the breeze, and closed his eyes, drifting happily into dreamland.')">
                                 🌙 Barnaby's Bedtime (Kids Story)
-                            </button>
-                            <button type="button" class="prompt-chip" onclick="setPrompt('https://blog.google/technology/ai/google-gemini-next-generation-model-february-2024/')">
+                            </span>
+                            <span class="prompt-chip" onclick="setPrompt('https://blog.google/technology/ai/google-gemini-next-generation-model-february-2024/')">
                                 🔗 Google Gemini Launch (Article Link)
-                            </button>
+                            </span>
                         </div>
                     </div>
 
-                    <fieldset>
-                        <legend class="h6">Video essentials</legend>
-                        <div class="creator-grid">
-                            <div><label class="form-label" for="creatorTone">Narration tone</label><select id="creatorTone" class="form-select">{% for tone in tones %}<option value="{{ tone }}" {{ 'selected' if tone == studio_defaults.tone }}>{{ tone | replace('_',' ') | title }}</option>{% endfor %}</select></div>
-                            <div><label class="form-label" for="creatorDuration">Target duration</label><select id="creatorDuration" class="form-select"><option value="0">Auto · based on input</option><option value="30">About 30 seconds</option><option value="60">About 60 seconds</option><option value="90">About 90 seconds</option></select></div>
-                            <div><label class="form-label" for="creatorFormat">Aspect ratio</label><select id="creatorFormat" class="form-select">{% for format in formats %}<option value="{{ format }}" {{ 'selected' if format == studio_defaults.format }}>{{ format | title }}</option>{% endfor %}</select></div>
-                            <div><label class="form-label" for="creatorArt">Classic visual style</label><select id="creatorArt" class="form-select">{% for style in visual_styles %}<option value="{{ style }}" {{ 'selected' if style == studio_defaults.visual_style }}>{{ style | replace('_',' ') | title }}</option>{% endfor %}</select><small class="creator-note">Applies to Classic article/story mode. Editorial uses its own illustrative assets.</small></div>
-                        </div>
-                    </fieldset>
-                    <details class="creator-advanced">
-                        <summary>Advanced — modes, rendering, and editorial settings</summary>
-                        <p class="creator-note mt-2">The default remains News with reference editorial composition. Select the cutout preset for MoviePy or another aspect ratio. All legacy expert controls remain in the <a href="/classic">full creator</a>.</p>
-                        <div class="creator-grid">
-                            <div><label class="form-label" for="creatorMode">Content mode</label><select id="creatorMode" class="form-select"><option value="news">News / editorial</option><option value="article">Classic article / topic</option><option value="kids_story">Classic kids story</option></select></div>
-                            <div><label class="form-label" for="creatorRenderer">Renderer</label><select id="creatorRenderer" class="form-select"><option value="remotion">Remotion</option><option value="moviepy">MoviePy</option></select></div>
-                            <div><label class="form-label" for="creatorPreset">News visual preset</label><select id="creatorPreset" class="form-select"><option value="reference_editorial">Reference editorial</option><option value="news_editorial_cutout">News cutout</option></select></div>
-                            <div><label class="form-label" for="creatorSource">News research policy</label><select id="creatorSource" class="form-select"><option value="auto">Auto</option><option value="supplied">Supplied account only</option><option value="online">Online research</option></select></div>
-                            <div><label class="form-label" for="creatorText">Editorial text</label><select id="creatorText" class="form-select"><option value="editorial">Progressive phrases</option><option value="complete">Complete spoken captions</option></select></div>
-                            <div><label class="form-label" for="creatorAssets">Editorial assets</label><select id="creatorAssets" class="form-select"><option value="auto">Auto</option><option value="ai">Generated illustrations</option><option value="stock">Stock assets</option><option value="local">Local registry</option></select></div>
-                            <div><label class="form-label" for="creatorTts">News narration provider</label><select id="creatorTts" class="form-select"><option value="replicate">Replicate</option><option value="google_tts">Google TTS</option><option value="edge_tts">Edge TTS</option><option value="elevenlabs">ElevenLabs</option></select></div>
-                            <div><label class="form-label" for="creatorMusic">News music</label><select id="creatorMusic" class="form-select"><option value="false">Off</option><option value="true">On · configured licensed bed</option></select></div>
-                        </div>
-                        <label class="form-label" for="creatorLocalAssets">Local asset registry JSON (optional)</label><textarea id="creatorLocalAssets" class="form-control" rows="3" placeholder="Use an existing server-side registry; omit to use configured assets."></textarea>
-                        <p class="creator-note mt-2">Provider availability and media rights depend on server configuration. This page does not upload local files.</p>
-                    </details>
-                    <p id="creatorFeedback" role="alert" class="text-warning" hidden></p>
                     <div id="newsControls" class="mb-3">
                         <button type="button" id="cancelNews" class="btn btn-outline-secondary btn-sm" hidden onclick="cancelNewsJob()">Cancel generation</button>
                         <div id="newsPreview" class="small mt-2" aria-live="polite"></div>
@@ -626,8 +571,6 @@
                         <i class="bi bi-stars"></i> Generate AI Video
                     </button>
 
-                    <p class="creator-note mt-3">Generation uses external AI services. Start only when ready; processing time varies. {% if visitor_cap %}Public demo limit: {{ visitor_cap }} attempts per visitor per day.{% endif %} {% if daily_cap %}Shared daily cap: {{ daily_cap }} attempts.{% endif %} Limits reset with the server and may be reached sooner across visitors.</p>
-                    <p class="creator-attribution">Built by Bill Klinten Guduru · <a href="https://klinteng.com/projects/project-her/">Engineering case study</a></p>
                     <!-- Technical note -->
                     <div class="d-flex align-items-center justify-content-between mt-3 text-muted" style="font-size:0.75rem;">
                         <span><i class="bi bi-gear-fill me-1"></i> Engine: <strong id="lblActiveEngine" class="text-light">Remotion React Compositor</strong></span>
@@ -639,19 +582,19 @@
             <!-- Right Column: Live Monitor & Video Output Panel -->
             <div class="col-lg-6">
                 <div class="pipeline-card" id="outputCard">
-
+                    
                     <!-- 1. Idle Standby State -->
                     <div id="stateIdle" class="idle-showcase my-auto">
                         <div class="idle-icon-ring">
                             <i class="bi bi-camera-reels"></i>
                         </div>
                         <h4 style="font-size:1.15rem; font-weight:700; margin-bottom:0.5rem;">
-                            Ready when you are
+                            Ready to Orchestrate
                         </h4>
                         <p class="text-secondary" style="font-size:0.88rem; max-width:380px; margin:0 auto 1.5rem;">
-                            Enter your idea, check the options, and select Generate. A video preview and download appear only after a successful job.
+                            Enter a topic or article on the left. The autonomous agent pipeline will generate scripts, visual assets, neural audio, and render via Remotion.
                         </p>
-
+                        
                         <div class="d-flex flex-wrap justify-content-center gap-2">
                             <span class="status-pill">
                                 <i class="bi bi-file-text"></i> Script Analysis
@@ -673,7 +616,7 @@
                         <div class="her-card-header mb-3">
                             <div class="her-card-title">
                                 <div class="spinner-border spinner-border-sm text-warning" role="status"></div>
-                                <span id="pipelineStatusText" role="status" aria-live="polite">Generating Video...</span>
+                                <span id="pipelineStatusText">Generating Video...</span>
                             </div>
                             <span id="elapsedTime" class="spec-badge">0.0s elapsed</span>
                         </div>
@@ -712,13 +655,8 @@
                         </div>
                     </div>
 
-                    <div id="stateFailed" class="creator-error" hidden tabindex="-1">
-                        <h3 id="failureTitle" class="h5">Generation could not finish</h3>
-                        <p id="failureMessage" role="alert"></p>
-                        <button type="button" class="btn btn-outline-light" onclick="resetToStudio();promptInput.focus()">Return to input</button>
-                    </div>
                     <!-- 3. Completed Video Showcase State (Hidden by default) -->
-                    <div id="stateCompleted" class="d-none" tabindex="-1">
+                    <div id="stateCompleted" class="d-none">
                         <div class="her-card-header mb-3">
                             <div class="her-card-title text-success">
                                 <i class="bi bi-check-circle-fill"></i> Video Render Complete
@@ -735,9 +673,9 @@
 
                         <!-- Metadata Card -->
                         <div class="mb-3">
-                            <h5 id="resultTitle" style="font-size:1.05rem; font-weight:700; margin-bottom:0.3rem;"></h5>
-                            <p id="resultHook" class="text-secondary" style="font-size:0.85rem; margin-bottom:0.75rem;"></p>
-
+                            <h5 id="resultTitle" style="font-size:1.05rem; font-weight:700; margin-bottom:0.3rem;">Video Title</h5>
+                            <p id="resultHook" class="text-secondary" style="font-size:0.85rem; margin-bottom:0.75rem;">Video hook synopsis</p>
+                            
                             <div class="d-flex flex-wrap gap-2 mb-3">
                                 <span class="spec-badge">
                                     <i class="bi bi-clock"></i> <strong id="metricDuration">--</strong>
@@ -749,17 +687,17 @@
                                     <i class="bi bi-lightning"></i> <strong id="metricRenderTime">--</strong>
                                 </span>
                                 <span class="spec-badge">
-                                    <i class="bi bi-play-circle"></i> <strong id="resultEngine">Video renderer</strong>
+                                    <i class="bi bi-play-circle"></i> <strong>Remotion Engine</strong>
                                 </span>
                             </div>
                         </div>
 
                         <!-- Action Buttons -->
                         <div class="d-flex flex-wrap gap-2">
-                            <a id="btnDownloadMp4" hidden download class="btn btn-sm btn-warning fw-semibold px-3 py-2 text-dark" style="background:var(--accent);">
+                            <a id="btnDownloadMp4" href="#" download class="btn btn-sm btn-warning fw-semibold px-3 py-2 text-dark" style="background:var(--accent);">
                                 <i class="bi bi-download me-1"></i> Download MP4
                             </a>
-                            <a id="btnDownloadSrt" download class="btn btn-sm btn-outline-secondary px-3 py-2 d-none">
+                            <a id="btnDownloadSrt" href="#" download class="btn btn-sm btn-outline-secondary px-3 py-2 d-none">
                                 <i class="bi bi-badge-cc me-1"></i> Subtitles (.srt)
                             </a>
                         </div>
@@ -803,10 +741,7 @@
             const icon = type === 'success' ? 'bi-check-circle-fill text-success' :
                          type === 'error' ? 'bi-exclamation-triangle-fill text-danger' :
                          'bi-info-circle-fill text-warning';
-            const symbol = document.createElement('i'); symbol.className = `bi ${icon}`;
-            const text = document.createElement('span'); text.textContent = message;
-            toast.setAttribute('role', type === 'error' ? 'alert' : 'status');
-            toast.append(symbol, text);
+            toast.innerHTML = `<i class="bi ${icon}"></i> <span>${message}</span>`;
             container.appendChild(toast);
             setTimeout(() => {
                 toast.style.opacity = '0';
@@ -820,16 +755,11 @@
             document.getElementById('stateIdle').classList.toggle('d-none', state !== 'idle');
             document.getElementById('stateProgress').classList.toggle('d-none', state !== 'progress');
             document.getElementById('stateCompleted').classList.toggle('d-none', state !== 'completed');
-            document.getElementById('stateFailed').hidden = !['failed','cancelled'].includes(state);
-            document.getElementById('outputCard').setAttribute('aria-busy', state === 'progress' ? 'true' : 'false');
         }
 
         function resetToStudio() {
             setUIState('idle');
             document.getElementById('btnGenerate').disabled = false;
-            document.getElementById('btnDownloadMp4').hidden = true;
-            document.getElementById('btnDownloadMp4').removeAttribute('href');
-            document.getElementById('videoFrameContainer').replaceChildren();
         }
 
         /* ── Elapsed Timer ── */
@@ -848,30 +778,9 @@
             if (timerInterval) clearInterval(timerInterval);
         }
 
-        function failJob(message, status = 'error') {
-            stopTimer();
-            activeNewsJob = null;
-            document.getElementById('cancelNews').hidden = true;
-            document.getElementById('btnGenerate').disabled = false;
-            document.getElementById('btnDownloadMp4').hidden = true;
-            document.getElementById('btnDownloadMp4').removeAttribute('href');
-            document.getElementById('failureTitle').textContent = status === 'cancelled' ? 'Generation cancelled' : 'Generation could not finish';
-            document.getElementById('failureMessage').textContent = message;
-            setUIState(status === 'cancelled' ? 'cancelled' : 'failed');
-            document.getElementById('stateFailed').focus();
-        }
         let activeNewsJob = null;
         async function cancelNewsJob() {
-            if (!activeNewsJob) return;
-            const button = document.getElementById('cancelNews');
-            button.disabled = true;
-            try {
-                const response = await fetch(`/api/news/cancel/${activeNewsJob}`,{method:'POST'});
-                const data = await response.json();
-                if (!response.ok || data.error) throw new Error(data.error || 'Cancellation request failed.');
-                document.getElementById('liveStageMessage').textContent = 'Cancellation requested; waiting for the worker to stop.';
-            } catch(error) { showToast(error.message, 'error'); }
-            finally { button.disabled = false; }
+            if(activeNewsJob) await fetch(`/api/news/cancel/${activeNewsJob}`,{method:"POST"});
         }
         function showNewsDetails(data) {
             const panel = document.getElementById('newsPreview');
@@ -910,33 +819,7 @@
                 return;
             }
 
-            const settings = {
-                ...STUDIO_DEFAULTS,
-                tone: document.getElementById('creatorTone')?.value || STUDIO_DEFAULTS.tone,
-                target_duration: Number(document.getElementById('creatorDuration')?.value || 0),
-                format: document.getElementById('creatorFormat')?.value || STUDIO_DEFAULTS.format,
-                visual_style: document.getElementById('creatorArt')?.value || STUDIO_DEFAULTS.visual_style,
-                content_mode: document.getElementById('creatorMode')?.value || STUDIO_DEFAULTS.content_mode,
-                renderer: document.getElementById('creatorRenderer')?.value || STUDIO_DEFAULTS.renderer,
-                visual_preset: document.getElementById('creatorPreset')?.value || STUDIO_DEFAULTS.visual_preset,
-                news_source_policy: document.getElementById('creatorSource')?.value || STUDIO_DEFAULTS.news_source_policy,
-                editorial_text: document.getElementById('creatorText')?.value || STUDIO_DEFAULTS.editorial_text,
-                editorial_assets: document.getElementById('creatorAssets')?.value || STUDIO_DEFAULTS.editorial_assets,
-                tts_provider: document.getElementById('creatorTts')?.value || STUDIO_DEFAULTS.tts_provider,
-                news_music: document.getElementById('creatorMusic')?.value === 'true',
-            };
-            const feedback = document.getElementById('creatorFeedback');
-            feedback.hidden = true;
-            let localAssets = null;
-            const registry = document.getElementById('creatorLocalAssets')?.value?.trim();
-            try { if (registry) localAssets = JSON.parse(registry); }
-            catch { feedback.textContent = 'Local asset registry must be valid JSON.'; feedback.hidden = false; return; }
-            if (settings.content_mode === 'news' && settings.visual_preset === 'reference_editorial' && (settings.renderer !== 'remotion' || settings.format !== 'vertical')) {
-                feedback.textContent = 'Reference editorial requires Remotion and vertical output. Choose the News cutout preset in Advanced for other formats/renderers.';
-                feedback.hidden = false; return;
-            }
-            const customized = localAssets !== null || Object.keys(STUDIO_DEFAULTS).some(key => settings[key] !== STUDIO_DEFAULTS[key]);
-            const contentMode = settings.content_mode;
+            const contentMode = STUDIO_DEFAULTS.content_mode;
 
             // Determine if input is URL or raw text
             const isUrl = /^https?:\/\//i.test(inputVal);
@@ -944,9 +827,8 @@
             const payload = {
                 url: isUrl ? inputVal : '',
                 text: isUrl ? '' : inputVal,
-                ...settings,
-                ui_profile: customized ? 'creator' : 'editorial_studio',
-                local_assets: localAssets,
+                ...STUDIO_DEFAULTS,
+                ui_profile: 'editorial_studio',
                 ai_images: true,
                 theme: 'claymorphism',      // claymorphism theme
                 captions: 'karaoke',        // karaoke highlight
@@ -969,18 +851,16 @@
                 deep_dive_text: '',
                 series_id: '',
                 episode_number: 0,
-                tts_provider: settings.tts_provider,
+                tts_provider: STUDIO_DEFAULTS.tts_provider,
                 llm_provider: '',
                 llm_model: ''
             };
 
-            document.getElementById('lblActiveEngine').textContent = settings.renderer === 'remotion' ? 'Remotion React Compositor' : 'MoviePy';
-            document.getElementById('resultEngine').textContent = settings.renderer === 'remotion' ? 'Remotion' : 'MoviePy';
             // Switch to progress UI
             setUIState('progress');
             document.getElementById('btnGenerate').disabled = true;
             document.getElementById('pipelineProgressBar').style.width = '0%';
-            document.getElementById('pipelineStatusText').textContent = 'Submitting job...';
+            document.getElementById('pipelineStatusText').textContent = 'Starting pipeline...';
             document.getElementById('liveStageMessage').textContent = 'Submitting request to Project HER orchestrator...';
 
             const stageList=document.getElementById('pipelineStagesList');
@@ -1007,16 +887,22 @@
                 });
 
                 const data = await resp.json();
-                if (data.error) { failJob(data.error, data.status); return; }
+                if (data.error) {
+                    stopTimer();
+                    showToast(data.error, 'error');
+                    resetToStudio();
+                    return;
+                }
 
                 const jobId = data.job_id;
-                if (!jobId || !/^[a-zA-Z0-9_-]+$/.test(jobId)) { failJob('The server did not return a valid job ID.'); return; }
                 activeNewsJob = contentMode === "news" ? jobId : null;
                 document.getElementById("cancelNews").hidden = !activeNewsJob;
                 connectSSE(jobId);
 
             } catch (err) {
-                failJob('Unable to submit the job. Check your connection and try again.');
+                stopTimer();
+                showToast(`Network error: ${err.message}`, 'error');
+                resetToStudio();
             }
         }
 
@@ -1030,7 +916,7 @@
                 document.getElementById('liveStageMessage').textContent = stage.message || stage.label;
 
                 // Overall progress calculation
-                const pct = Math.min(100, Math.max(0, ((stage.index - 1 + (stage.progress_pct || 0)) / (stage.total || 1)) * 100));
+                const pct = Math.min(100, Math.max(5, ((stage.index - 1 + (stage.progress_pct || 0)) / (stage.total || 6)) * 100));
                 document.getElementById('pipelineProgressBar').style.width = `${pct}%`;
 
                 // Update stage item in list
@@ -1060,7 +946,8 @@
 
                 if (res.error) {
                     if (res.status === 'needs_clarification') showNewsDetails(res);
-                    failJob(res.error, res.status);
+                    showToast(`Pipeline error: ${res.error}`, 'error');
+                    resetToStudio();
                     return;
                 }
 
@@ -1076,7 +963,8 @@
             function pollResult(jobId, attempts = 0) {
                 if (attempts > 120) { // 6 minutes without confirmation of an active job
                     stopTimer();
-                    failJob('Connection to this job was lost. Its completion has not been confirmed. Avoid submitting again until you have checked the service.');
+                    showToast('Video generation timed out. Please check output directory.', 'error');
+                    resetToStudio();
                     return;
                 }
                 fetch(`/api/result/${jobId}`)
@@ -1088,10 +976,11 @@
                         } else if (res && res.error) {
                             stopTimer();
                             if (res.status === 'needs_clarification') showNewsDetails(res);
-                    failJob(res.error, res.status);
+                    showToast(`Pipeline error: ${res.error}`, 'error');
+                            resetToStudio();
                         } else {
                             // Still running: update status text
-                            document.getElementById('pipelineStatusText').textContent = 'Job still running — waiting for stage updates';
+                            document.getElementById('pipelineStatusText').textContent = 'Rendering video composition...';
                             // A confirmed live worker may legitimately take
                             // longer than six minutes; only failed/unknown
                             // polls consume the connection retry budget.
@@ -1105,52 +994,59 @@
         }
 
         /* ── Display Result Video & Metadata ── */
-        function artifactUrl(value) {
-            if (typeof value !== 'string' || !value) return null;
-            try {
-                const url = new URL(value, location.origin);
-                return url.origin === location.origin && (url.pathname.startsWith('/output/') || url.pathname.startsWith('/api/download/')) ? url.href : null;
-            } catch { return null; }
-        }
         function displayResult(res) {
-            const videoUrl = artifactUrl(res.video_url);
-            if (res.error || res.success === false || !videoUrl) {
-                failJob('The job did not return a valid video artifact.'); return;
-            }
             if (res.news_details) showNewsDetails(res);
-            stopTimer();
-            activeNewsJob = null; document.getElementById('cancelNews').hidden = true;
-            const container = document.getElementById('videoFrameContainer');
-            const video = document.createElement('video');
-            video.id = 'resultVideoPlayer'; video.controls = true; video.playsInline = true;
-            video.preload = 'metadata'; video.src = videoUrl;
-            const poster = artifactUrl(res.thumbnail_url); if (poster) video.poster = poster;
-            video.addEventListener('error', () => failJob('The returned video could not be played. The artifact may be unavailable or invalid.'), {once:true});
-            container.replaceChildren(video);
-            document.getElementById('resultTitle').textContent = res.title || 'Generated video';
-            document.getElementById('resultHook').textContent = res.hook || '';
-            document.getElementById('metricDuration').textContent = Number(res.duration)>0 ? `${res.duration}s` : 'Duration not reported';
-            document.getElementById('metricResolution').textContent = res.resolution || 'Resolution not reported';
-            document.getElementById('metricRenderTime').textContent = Number(res.processing_time)>0 ? `${res.processing_time}s processing` : 'Processing time not reported';
-            const download = document.getElementById('btnDownloadMp4');
-            download.href = artifactUrl(res.download_url) || videoUrl;
-            download.download = (res.title || 'project-her').replace(/[^a-z0-9_-]/gi,'_') + '.mp4';
-            download.hidden = true;
-            const subtitles = document.getElementById('btnDownloadSrt');
-            const srtUrl = artifactUrl(res.srt_url);
-            subtitles.classList.toggle('d-none', !srtUrl);
-            if (srtUrl) subtitles.href = srtUrl; else subtitles.removeAttribute('href');
-            document.getElementById('pipelineStatusText').textContent = 'Checking video playback...';
-            video.addEventListener('loadedmetadata', () => {
-                if (!(Number.isFinite(video.duration) && video.duration > 0)) { failJob('The returned artifact has no playable video duration.'); return; }
-                download.hidden = false;
-                document.getElementById('pipelineProgressBar').style.width = '100%';
-                setUIState('completed');
-                document.getElementById('btnGenerate').disabled = false;
-                document.getElementById('stateCompleted').focus();
-            }, {once:true});
-        }
+            document.getElementById('pipelineProgressBar').style.width = '100%';
+            setUIState('completed');
 
+            // Video player
+            const container = document.getElementById('videoFrameContainer');
+            const videoUrl = encodeURI(res.video_url || (res.download_url ? res.download_url : ''));
+            const thumbUrl = res.thumbnail_url ? encodeURI(res.thumbnail_url) : '';
+            container.innerHTML = `
+                <div style="position:relative; width:100%; border-radius:var(--radius-md); overflow:hidden; background:#000;">
+                    <video id="resultVideoPlayer" controls autoplay playsinline preload="auto" poster="${thumbUrl}" src="${videoUrl}" style="width:100%;max-height:480px;display:block;object-fit:contain;background:#000;">
+                        Your browser does not support HTML5 video playback.
+                    </video>
+                </div>
+            `;
+            const vPlayer = document.getElementById('resultVideoPlayer');
+            if (vPlayer) {
+                vPlayer.load();
+                vPlayer.play().catch(e => {
+                    console.log('Autoplay deferred or awaiting interaction:', e);
+                    // Try muted autoplay if browser policy blocked unmuted playback
+                    vPlayer.muted = true;
+                    vPlayer.play().catch(() => {});
+                });
+            }
+
+            // Metadata
+            document.getElementById('resultTitle').textContent = res.title || 'Generated AI Video';
+            document.getElementById('resultHook').textContent = res.hook || 'Rendered via Remotion React Compositor';
+            document.getElementById('metricDuration').textContent = `${res.duration || 0}s`;
+            document.getElementById('metricResolution').textContent = res.resolution || '1080x1920';
+            document.getElementById('metricRenderTime').textContent = `${res.processing_time || 0}s render`;
+
+            // Download buttons
+            const btnMp4 = document.getElementById('btnDownloadMp4');
+            const downloadUrl = res.download_url || res.video_url;
+            btnMp4.href = downloadUrl;
+            const safeTitle = (res.title || 'project_her_video').replace(/[^a-z0-9_-]/gi, '_');
+            btnMp4.setAttribute('download', safeTitle + '.mp4');
+
+            const btnSrt = document.getElementById('btnDownloadSrt');
+            if (res.srt_url) {
+                btnSrt.href = res.srt_url;
+                btnSrt.setAttribute('download', safeTitle + '.srt');
+                btnSrt.classList.remove('d-none');
+            } else {
+                btnSrt.classList.add('d-none');
+            }
+
+            document.getElementById('btnGenerate').disabled = false;
+            showToast('AI Video generated successfully!', 'success');
+        }
     </script>
 
 </body>
