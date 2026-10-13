@@ -131,4 +131,19 @@ def render(m,output,cancel_event=None):
     output.with_name(output.stem+'-visual-quality.json').write_text(json.dumps(quality,indent=2))
     if not quality['passed']:raise NewsError('Encoded video failed duration/black-frame checks; see '+str(output.with_name(output.stem+'-visual-quality.json')))
     stats['visualQuality']=quality
+    if m.editorialStyleVersion=='reference-v2':
+        from .qa import activity
+        report=activity(output)
+        spans=[];start=None
+        for interval in report['intervals']:
+            if interval['meanDelta']<.9:
+                if start is None:start=interval['at']-.2
+            elif start is not None:
+                if interval['at']-.2-start>=2.4:spans.append({'start':round(start,2),'end':round(interval['at']-.2,2)})
+                start=None
+        if start is not None and expected-start>=2.4:spans.append({'start':round(start,2),'end':expected})
+        report['longLowActivitySpans']=spans
+        output.with_name(output.stem+'-activity.json').write_text(json.dumps(report,indent=2))
+        stats['activityReport']=str(output.with_name(output.stem+'-activity.json').resolve())
+        if spans:m.warnings.append('Encoded video contains long low-activity spans; review editorial-activity.json for intentional holds versus static storytelling.')
     return output,stats

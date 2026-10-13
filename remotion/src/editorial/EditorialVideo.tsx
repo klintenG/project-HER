@@ -6,18 +6,20 @@ import {clamp,stateAt} from './motion';
 
 const url=(s:string)=>staticFile(s);
 const color='#414249';
+// Label contexts only: historical quotations and narration are never censored.
+const cleanName=(text:string)=>text.replace(/(?:\s*\n\s*|\s+)(?:AI[- ]?generated(?: illustration)?|AI illustration|illustration|stock (?:image|photo)|generated image|concept art|visual)\s*$/i,'').trim();
 
 const PhraseBlock:React.FC<{layer:Layer;words:Map<string,Word>;frame:number}>=({layer,words,frame})=>{
   const p=layer.phrase!;
   // Keep every word in the final geometry from the first frame. Opacity alone
   // changes. Line breaks are measured with the same bundled font in Python.
   const common={fontFamily:'EditorialPoppins',fontWeight:p.weight,fontSize:p.size,lineHeight:1.19,color,textAlign:p.align} as const;
-  if(p.label)return <div style={{...common,whiteSpace:'pre-line'}}>{p.label}</div>;
+  if(p.label)return <div style={{...common,whiteSpace:'pre-line'}}>{cleanName(p.label)}</div>;
   const first=words.get(p.wordIds[0])!.start*30-p.anticipationFrames;
   return <div style={common}>{p.lines.map((line,n)=><div key={n} style={{whiteSpace:'nowrap',minHeight:p.size*1.19}}>{line.map((id,i)=>{
     const w=words.get(id)!;const onset=(p.mode==='phrase_reveal'||p.mode==='connector')?first:w.start*30-p.anticipationFrames;
-    const t=clamp((frame-onset+1)/3);
-    return <React.Fragment key={id}><span style={{display:'inline-block',opacity:t,fontWeight:p.emphasis.includes(id)?700:p.weight,transform:`translateY(${(1-t)*7}px)`}}>{w.text}</span>{i<line.length-1?' ':''}</React.Fragment>;
+    const t=clamp((frame-onset+1)/6);const eased=1-Math.pow(1-t,3);
+    return <span key={id} style={{display:'inline-block',opacity:t,fontWeight:p.emphasis.includes(id)?700:p.weight,transform:`translateY(${(1-eased)*18}px)`}}>{w.text}{i<line.length-1?'\u00a0':''}</span>;
   })}</div>)}</div>;
 };
 
@@ -31,10 +33,33 @@ const Box:React.FC<{angle:number}>=({angle})=><div style={{width:'100%',height:'
   </div>
 </div>;
 
+const SemanticRelation:React.FC<{timeline:Timeline;frame:number;words:Map<string,Word>}>=({timeline,frame,words})=>{
+  const beat=timeline.beats.find(b=>b.startFrame<=frame&&frame<b.endFrame);
+  if(!beat)return null;
+  const phrase=timeline.layers.find(l=>beat.layerIds.includes(l.id)&&l.role==='phrase')?.phrase;
+  const trigger=phrase?.wordIds.map(id=>words.get(id)!).find(w=>/pressure|intensif|sent|dispatch|fought|defeat|rivalr|fractur|weaken/i.test(w.text));
+  if(!trigger)return null;
+  const t=clamp((frame-trigger.start*30)/24),e=1-Math.pow(1-t,3);
+  const split=beat.template==='split-outcome'&&/rivalr|fractur|weaken/i.test(trigger.text);
+  if(beat.template!=='cause-effect'&&!split)return null;
+  // Abstract relationship diagrams, never geographic routes or battle evidence.
+  return <svg aria-label={split?'Symbolic alliance fracture':'Symbolic opposing pressure'} width={1080} height={1920} style={{position:'absolute',inset:0,opacity:t*.45,zIndex:1}}>
+    <defs><marker id="editorial-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#6a6a70"/></marker></defs>
+    {split?<>
+      <path d={`M 540 620 Q 540 650 ${540-250*e} 695`} fill="none" stroke="#6a6a70" strokeWidth={4} markerEnd="url(#editorial-arrow)"/>
+      <path d={`M 540 620 Q 540 650 ${540+250*e} 695`} fill="none" stroke="#6a6a70" strokeWidth={4} markerEnd="url(#editorial-arrow)"/>
+    </>:<>
+      <path d={`M 70 965 L ${70+100*e} 965`} fill="none" stroke="#6a6a70" strokeWidth={5} markerEnd="url(#editorial-arrow)"/>
+      <path d={`M 1010 965 L ${1010-100*e} 965`} fill="none" stroke="#6a6a70" strokeWidth={5} markerEnd="url(#editorial-arrow)"/>
+    </>}
+  </svg>;
+};
+
 export const EditorialVideo:React.FC<Timeline>=(props)=>{
   const m=useMemo(()=>validateTimeline(props),[props]);const frame=useCurrentFrame();
   const words=useMemo(()=>new Map(m.words.map(w=>[w.id,w])),[m]);
   const assets=useMemo(()=>new Map(m.assets.map(a=>[a.id,a])),[m]);
+  const reference=m.editorialStyleVersion==='reference-v2';
   const [handle]=useState(()=>delayRender('Loading deterministic editorial fonts'));
   useEffect(()=>{
     const fonts=[new FontFace('EditorialPoppins',`url("${url(m.fonts.semibold)}")`,{weight:'600'}),new FontFace('EditorialPoppins',`url("${url(m.fonts.bold)}")`,{weight:'700'})];
@@ -45,6 +70,12 @@ export const EditorialVideo:React.FC<Timeline>=(props)=>{
     if(frame<layer.startFrame||frame>=layer.endFrame)return null;
     // Complete captions replace editorial spoken text; identity labels remain.
     if(m.subtitleMode==='complete'&&layer.phrase?.wordIds.length)return null;
+    if(reference&&layer.parentId&&layer.phrase?.label){
+      const name=cleanName(layer.phrase.label).replace(/\s+/g,' ').toLowerCase();
+      const activeText=m.layers.filter(l=>l.role==='phrase'&&l.startFrame<=frame&&frame<l.endFrame)
+        .flatMap(l=>l.phrase?.wordIds.map(id=>words.get(id)!.text)||[]).join(' ').toLowerCase();
+      if(activeText.includes(name))return null;
+    }
     const s=stateAt(layer,m.events,frame),b=parentBounds?{...s.bounds,y:parentBounds.h+18,w:parentBounds.w}:s.bounds;
     const asset=s.assetId?assets.get(s.assetId):null;
     const style:React.CSSProperties={position:'absolute',left:b.x,top:b.y,width:b.w,height:b.h,zIndex:layer.z,
@@ -67,9 +98,10 @@ export const EditorialVideo:React.FC<Timeline>=(props)=>{
   const current=m.sections.find(s=>s.start*30<=frame&&s.end*30>frame);
   const captionWords=current?current.wordIds.map(id=>words.get(id)!):[];
   const active=Math.max(0,captionWords.reduce((last,w,i)=>w.start*30<=frame?i:last,-1));const chunk=captionWords.slice(Math.floor(active/6)*6,Math.floor(active/6)*6+6);
-  return <AbsoluteFill style={{background:'radial-gradient(ellipse 90% 50% at 50% 50%,#eeeef1 0%,#e2e0e5 35%,#b2b0b7 100%)',overflow:'hidden'}}>
+  return <AbsoluteFill style={{background:reference?'radial-gradient(ellipse at 50% 44%,#f1f0f2 0%,#dedde1 70%,#cbc9ce 100%)':'radial-gradient(ellipse 90% 50% at 50% 50%,#eeeef1 0%,#e2e0e5 35%,#b2b0b7 100%)',overflow:'hidden'}}>
     {m.audio.map((a,i)=><Sequence key={i} from={a.offsetFrames}><Audio src={url(a.path)} volume={a.gain}/></Sequence>)}
+    {reference&&m.subtitleMode!=='complete'&&<SemanticRelation timeline={m} frame={frame} words={words}/>}
     {m.layers.filter(l=>!l.parentId).map(layer=>draw(layer))}
-    {(m.subtitleMode==='complete'||m.narrationDriven)&&chunk.length>0&&<div style={{position:'absolute',left:90,top:m.narrationDriven?1480:360,width:900,color,fontFamily:'EditorialPoppins',fontSize:m.narrationDriven?48:60,fontWeight:600,textAlign:'center',lineHeight:1.3}}>{chunk.map((w,i)=><React.Fragment key={w.id}><span style={{fontWeight:m.narrationDriven&&w.start*30<=frame&&w.end*30>frame?700:600}}>{w.text}</span>{i<chunk.length-1?' ':''}</React.Fragment>)}</div>}
+    {(m.subtitleMode==='complete'||(m.narrationDriven&&!reference))&&chunk.length>0&&<div style={{position:'absolute',left:90,top:reference?1530:m.narrationDriven?1480:360,width:900,color,fontFamily:'EditorialPoppins',fontSize:m.narrationDriven?48:60,fontWeight:600,textAlign:'center',lineHeight:1.3}}>{chunk.map((w,i)=><React.Fragment key={w.id}><span style={{fontWeight:m.narrationDriven&&w.start*30<=frame&&w.end*30>frame?700:600}}>{w.text}</span>{i<chunk.length-1?' ':''}</React.Fragment>)}</div>}
   </AbsoluteFill>;
 };

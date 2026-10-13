@@ -205,7 +205,19 @@
             "location_transfer",
             "process",
             "connector",
-            "conclusion"
+            "conclusion",
+            "hero-object",
+            "incremental-claim",
+            "portrait-event",
+            "map-event",
+            "timeline-date",
+            "document-evidence",
+            "asset-handoff",
+            "location-change",
+            "cause-effect",
+            "split-outcome",
+            "typographic-breath",
+            "final-reveal"
           ],
           "title": "Template",
           "type": "string"
@@ -1043,6 +1055,15 @@
       "default": false,
       "title": "Narrationdriven",
       "type": "boolean"
+    },
+    "editorialStyleVersion": {
+      "default": "legacy",
+      "enum": [
+        "legacy",
+        "reference-v2"
+      ],
+      "title": "Editorialstyleversion",
+      "type": "string"
     },
     "warnings": {
       "items": {

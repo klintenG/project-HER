@@ -9,7 +9,9 @@ import re
 import shutil
 import subprocess
 import time
+import threading
 import uuid
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -35,6 +37,28 @@ def cancelled(event):
 
 
 class NewsReplicateTTS:
+    # Shared by News/editorial jobs in this app process, including both models.
+    _pacing_lock = threading.Lock()
+    _next_prediction_at = 0.0
+
+    def _wait(self, seconds):
+        cancelled(self.cancel_event)
+        if seconds>0:
+            if self.cancel_event is not None:self.cancel_event.wait(seconds)
+            else:time.sleep(seconds)
+        cancelled(self.cancel_event)
+
+    def _pace_prediction(self):
+        interval=config.NEWS_REPLICATE_MIN_INTERVAL
+        if interval<=0:return
+        while not NewsReplicateTTS._pacing_lock.acquire(timeout=.2):cancelled(self.cancel_event)
+        try:
+            delay=max(0,NewsReplicateTTS._next_prediction_at-time.monotonic())
+            if delay>0:logger.info('Replicate speech pacing; waiting %.1fs before the next prediction.',delay)
+            self._wait(delay)
+            NewsReplicateTTS._next_prediction_at=time.monotonic()+interval
+        finally:NewsReplicateTTS._pacing_lock.release()
+
     def __init__(self, voice=None, speed='+0%', language='en', cancel_event=None, model=None):
         self.model = model or config.NEWS_REPLICATE_TTS_MODEL
         if self.model not in VERSIONS:
@@ -62,8 +86,10 @@ class NewsReplicateTTS:
         self._session.headers.update({'Authorization':'Bearer '+token})
 
     def _request(self, method, url, **kwargs):
-        for attempt in range(3):
+        retries=config.NEWS_REPLICATE_RATE_LIMIT_RETRIES
+        for attempt in range(retries+1):
             cancelled(self.cancel_event)
+            if method=='POST' and url.endswith('/predictions'):self._pace_prediction()
             try:
                 response = self._session.request(method, url, timeout=(10,25), **kwargs)
             except requests.RequestException:
@@ -78,16 +104,20 @@ class NewsReplicateTTS:
                     wait = match.group(1) if match else 15
                 except (ValueError,AttributeError): wait = 15
             try: wait = max(1,math.ceil(float(wait)))+1
-            except (ValueError,TypeError,OverflowError): wait = 15
+            except (ValueError,TypeError,OverflowError):
+                try:wait=max(1,math.ceil(parsedate_to_datetime(str(wait)).timestamp()-time.time()))+1
+                except (ValueError,TypeError,OverflowError,AttributeError):wait=15
             response.close()
-            if attempt==2 or wait>45 or self._throttle_wait+wait>90:
-                raise NewsError('Replicate speech is rate-limited (HTTP 429); bounded wait exhausted, switching provider.')
+            if attempt==retries or self._throttle_wait+wait>config.NEWS_REPLICATE_RATE_LIMIT_WAIT:
+                raise NewsError('Replicate speech is rate-limited (HTTP 429); retry/wait budget exhausted. Wait before retrying or increase NEWS_REPLICATE_RATE_LIMIT_WAIT.')
             self._throttle_wait += wait
-            logger.warning('Replicate speech throttled (HTTP 429); waiting %ds before resubmitting the rejected request (%d/2).',wait,attempt+1)
-            if self.cancel_event is not None:
-                self.cancel_event.wait(wait)
-            else:
-                time.sleep(wait)
+            if config.NEWS_REPLICATE_MIN_INTERVAL>0:
+                while not NewsReplicateTTS._pacing_lock.acquire(timeout=.2):cancelled(self.cancel_event)
+                try:
+                    NewsReplicateTTS._next_prediction_at=max(NewsReplicateTTS._next_prediction_at,time.monotonic()+wait)
+                finally:NewsReplicateTTS._pacing_lock.release()
+            logger.warning('Replicate speech throttled (HTTP 429); waiting %ds before resubmitting the rejected request (%d/%d).',wait,attempt+1,retries)
+            self._wait(wait)
         if response.status_code not in (200,201,202):
             raise NewsError(f'Replicate speech request failed (HTTP {response.status_code}); check credits/model access.')
         try:
@@ -122,7 +152,7 @@ class NewsReplicateTTS:
                     return data
                 if status in ('failed','canceled'):
                     finished = True
-                    raise NewsError(f'Replicate speech prediction {status}; using the next configured provider.')
+                    raise NewsError(f'Replicate speech prediction {status}; no automatic paid retry.')
                 if time.monotonic() >= deadline:
                     raise NewsError('Replicate speech timed out; prediction cancellation requested.')
                 if self.cancel_event is not None:

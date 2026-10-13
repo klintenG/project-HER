@@ -126,7 +126,7 @@ class EditorialTests(unittest.TestCase):
             self.assertFalse(any(event.type=='transfer' and subject.id in event.targetIds for event in m.events))
             self.assertTrue(any(event.type=='settle' and subject.id in event.targetIds for event in m.events))
             label=next(layer for layer in m.layers if layer.id==subject.id+'-label')
-            self.assertEqual(label.phrase.label,'Researcher\nStock photo')
+            self.assertEqual(label.phrase.label,'Researcher')
             Timeline.model_validate(m.model_dump())
 
     def test_sample_offsets_do_not_accumulate_frame_rounding(self):

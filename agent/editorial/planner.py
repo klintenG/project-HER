@@ -229,9 +229,7 @@ def build(script,words,sections,entities,assets,audio_path,output,generation_id,
                 short_symbol={'Satellite network symbol':'Network symbol','Institution symbol':'Institution symbol','Person symbol':'Person symbol','Object symbol':'Object symbol','Document symbol':'Document symbol'}.get(a.subject,a.subject)
                 # Stock alt text is descriptive provenance, not a second entity
                 # name. A concise role label avoids duplicate/oversized labels.
-                role_label=short_symbol if a.role=='symbol' else 'Stock photo' if a.role=='photo' else 'AI illustration' if a.source.startswith('replicate:') else 'Illustration'
-                label_text=entity_lookup[eid].name if a.factual else entity_lookup[eid].name+'\n'+role_label
-                if template in ('process','document_photo') and not a.factual:label_text=role_label
+                label_text=entity_lookup[eid].name
                 label_text='\n'.join(label_lines(line,b.w+40) for line in label_text.split('\n'))
                 label=Layer(id=lid+'-label',role='label',entityId=eid,parentId=lid,anchor='entity',startFrame=onset,endFrame=end,
                     bounds=Bounds(x=0,y=b.h+18,w=b.w,h=150),z=20,phrase=Phrase(wordIds=[],lines=[],mode='entity_label',size=36,label=label_text))

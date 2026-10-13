@@ -38,7 +38,7 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
         tracker.start_stage(stage);check_configuration(renderer,video_format,subtitle_mode,asset_mode)
         llm=llm or NewsLLM();inp=analyze_input(text,source_policy,llm,diagnostics_path=out/'input_classification.json')
         begin('research');evidence,warnings=research(inp,llm)
-        begin('script');script=write_script(inp,evidence,llm,tone,language,target_duration or config.NEWS_DEFAULT_DURATION)
+        begin('script');script=write_script(inp,evidence,llm,tone,language,target_duration or config.NEWS_DEFAULT_DURATION,editorial=True)
         from agent.news_layout import validate_glyphs
         for sentence in script.sentences:validate_glyphs(sentence.text)
         for entity in script.entities:validate_glyphs(entity.name)

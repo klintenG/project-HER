@@ -12,6 +12,7 @@ from .models import Model, Beat, Layer, Bounds, Event, Phrase, Transition, frame
 
 
 class VisualSettings(Model):
+    editorialStyleVersion: Literal['legacy', 'reference-v2'] = 'legacy'
     narrationDrivenVisualsEnabled: bool = True
     maxSimultaneousSubjects: int = Field(default=3, ge=1, le=3)
     enableSubjectPersistence: bool = True
@@ -26,7 +27,7 @@ class VisualSettings(Model):
     @classmethod
     def configured(cls):
         import config
-        return cls.model_validate(config.NARRATION_VISUAL_SETTINGS)
+        return cls.model_validate({'editorialStyleVersion':config.EDITORIAL_STYLE_VERSION,**config.NARRATION_VISUAL_SETTINGS})
 
 
 class Cue(Model):
@@ -188,13 +189,38 @@ def compile_direction(m, script, direction, settings):
                 m['layers'].append(Layer(id='date-'+word.id,role='heading',startFrame=start,endFrame=end,
                     bounds=Bounds(x=105,y=400,w=870,h=180),z=30,
                     phrase=Phrase(wordIds=[word.id],lines=[[word.id]],mode='phrase_reveal',size=110,weight=700)))
+        # Key-phrase headlines: a 2-5 word verbatim span of the sentence is
+        # shown large (alternating position) while it is spoken.
+        from .planner import phrase_layout
+        from agent.news_models import NewsError
+        norm=lambda t:re.sub(r'[^\w]','',t.casefold())
+        taken=[(l.startFrame,l.endFrame) for l in m['layers']]
+        for n,sentence in enumerate(script.sentences):
+            headline=(getattr(sentence,'headline_text',None) or '').split()
+            sw=[w for w in m['words'] if w.sectionId==sentence.id]
+            if not 2<=len(headline)<=5 or not sw:continue
+            keys=[norm(w.text) for w in sw];want=[norm(h) for h in headline]
+            at=next((i for i in range(len(keys)-len(want)+1) if keys[i:i+len(want)]==want),None)
+            if at is None:continue
+            ids=[w.id for w in sw[at:at+len(want)]]
+            start=frames(sw[at].start);end=min(total,frames(sw[min(len(sw)-1,at+len(want))].end)+30)
+            if start>=end or any(start<b and a<end for a,b in taken):continue
+            box=Bounds(x=105,y=300 if n%2 else 430,w=870,h=200)
+            try:lines,px=phrase_layout(ids,m['words'],box.w,96,box.h)
+            except NewsError:continue
+            m['layers'].append(Layer(id='headline-'+sentence.id,role='heading',startFrame=start,endFrame=end,bounds=box,z=30,
+                phrase=Phrase(wordIds=ids,lines=lines,mode='phrase_reveal',size=px,weight=700)))
+            taken.append((start,end))
     m['transitions']=[];m['beats']=[]
     cues=direction.cues
     if not cues:
         m['beats']=[Beat(id='narration-only',startFrame=0,endFrame=total,template='connector',sectionIds=[s.id for s in m['sections']],layerIds=[l.id for l in m['layers']],purpose='Narration without concrete visual subjects')]
+        if settings.editorialStyleVersion=='reference-v2':
+            from .reference import choreograph
+            choreograph(m,script,settings)
         return
     capacity=min(settings.maxSimultaneousSubjects,max(len(c.secondaryEntityIds)+1 for c in cues))
-    active={}; records=[]; serial=0; scales={};current_bounds={}
+    active={}; records=[]; serial=0; scales={};current_bounds={};labelled=set()
     entity_kinds={e.id:e.kind for e in script.entities}
     entry=max(1,round(settings.entryDurationMs*30/1000))
     def event(kind,lid,start,end,**kwargs):
@@ -234,7 +260,8 @@ def compile_direction(m, script, direction, settings):
             layer=Layer(id=lid,role='subject' if asset.role=='portrait' else 'object',entityId=eid,assetId=asset.id,startFrame=onset,endFrame=total,bounds=box,shadow=True)
             label=Layer(id=lid+'-label',role='label',entityId=eid,parentId=lid,anchor='entity',startFrame=onset,endFrame=total,
                 bounds=Bounds(x=0,y=box.h+18,w=box.w,h=150),z=20,
-                phrase=Phrase(wordIds=[],lines=[],mode='entity_label',size=36,label=label_lines(entities[eid].name,box.w)+('' if asset.factual else '\nIllustration')))
+                    phrase=Phrase(wordIds=[],lines=[],mode='entity_label',size=36,label=label_lines(entities[eid].name,box.w)))
+            labelled.add(eid)
             m['layers'].extend([layer,label]);active[eid]=(layer,label,slot);enter.append(lid);scales[lid]=1;current_bounds[lid]=box
             if settings.enableContextualTransitions:
                 target=1.04 if eid==cue.primaryEntityId and len(desired)>1 else .94 if len(desired)>1 else 1
@@ -273,6 +300,9 @@ def compile_direction(m, script, direction, settings):
     m['events']=[e for e in m['events'] if e.startFrame<e.endFrame]
     m['diagnostics']['atomicStoryboard']={'timeUnit':'frames','fps':30,'beats':records}
     if any(r['readabilityWarning'] for r in records):m['warnings'].append('Rapid spoken cues retained at actual onset; inspect short beats in atomicStoryboard.')
+    if settings.editorialStyleVersion=='reference-v2':
+        from .reference import choreograph
+        choreograph(m,script,settings)
 
 
 def save_summary(timeline, output):

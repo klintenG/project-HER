@@ -1088,6 +1088,12 @@ NEWS_REFERENCE_CACHE = TEMP_DIR / "news_references"
 NEWS_IDENTITY_IMAGE_CACHE = TEMP_DIR / "news_identity_images"
 # News-only speech fallback: selected provider -> this model -> free Edge TTS.
 NEWS_REPLICATE_TTS_MODEL = os.getenv("NEWS_REPLICATE_TTS_MODEL", "jaaari/kokoro-82m")
+# Explicit Replicate selection keeps one voice/provider; other selections retain
+# their existing fallback chain. Pace uncached speech predictions across jobs.
+NEWS_REPLICATE_ONLY = os.getenv('NEWS_REPLICATE_ONLY', '1').lower() in ('1','true','yes')
+NEWS_REPLICATE_MIN_INTERVAL = max(0,min(60,float(os.getenv('NEWS_REPLICATE_MIN_INTERVAL', '12'))))
+NEWS_REPLICATE_RATE_LIMIT_RETRIES = max(0,min(20,int(os.getenv('NEWS_REPLICATE_RATE_LIMIT_RETRIES', '7'))))
+NEWS_REPLICATE_RATE_LIMIT_WAIT = max(0,min(1800,float(os.getenv('NEWS_REPLICATE_RATE_LIMIT_WAIT', '600'))))
 NEWS_TTS_CACHE = TEMP_DIR / "news_speech"
 NEWS_STYLE_SUFFIX = (
     "isolated editorial photographic archival collage illustration, restrained detail and natural color, "
@@ -1112,3 +1118,4 @@ NEWS_VERIFIED_ASSETS_JSON = os.getenv("NEWS_VERIFIED_ASSETS_JSON", "")
 # their existing behavior. JSON overrides are validated by VisualSettings.
 import json as _visual_json
 NARRATION_VISUAL_SETTINGS = _visual_json.loads(os.getenv('HER_NARRATION_VISUAL_SETTINGS', '{}'))
+EDITORIAL_STYLE_VERSION = os.getenv('HER_EDITORIAL_STYLE_VERSION', 'reference-v2')

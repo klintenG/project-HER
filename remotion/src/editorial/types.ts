@@ -31,7 +31,7 @@ export type Beat = {
   startFrame: number;
   endFrame: number;
   id: string;
-  template: "single_subject" | "comparison" | "person_context" | "object_location" | "document_photo" | "date_year" | "location_transfer" | "process" | "connector" | "conclusion";
+  template: "single_subject" | "comparison" | "person_context" | "object_location" | "document_photo" | "date_year" | "location_transfer" | "process" | "connector" | "conclusion" | "hero-object" | "incremental-claim" | "portrait-event" | "map-event" | "timeline-date" | "document-evidence" | "asset-handoff" | "location-change" | "cause-effect" | "split-outcome" | "typographic-breath" | "final-reveal";
   sectionIds: (string)[];
   layerIds: (string)[];
   purpose: string;
@@ -153,6 +153,7 @@ export type Timeline = {
   transitions: (Transition)[];
   subtitleMode: "editorial" | "complete";
   narrationDriven: boolean;
+  editorialStyleVersion: "legacy" | "reference-v2";
   warnings: (string)[];
   diagnostics: Record<string, unknown>;
 }

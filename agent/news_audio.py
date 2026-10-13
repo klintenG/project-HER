@@ -5,6 +5,8 @@ import logging
 import re
 import subprocess
 import uuid
+import tempfile
+import wave
 from pathlib import Path
 from types import SimpleNamespace
 from agent.news_models import Audio, Boundary, NewsError
@@ -66,7 +68,8 @@ def synthesize(script,output,provider,voice=None,speed='+0%',engine=None,pause=.
         raise NewsError('Unknown News speech provider.')
     providers=[provider]
     if provider in ('google_tts','elevenlabs'): providers.append('replicate')
-    if provider!='edge_tts': providers.append('edge_tts')
+    replicate_only=provider in ('replicate','chatterbox_turbo') and config.NEWS_REPLICATE_ONLY
+    if provider!='edge_tts' and not replicate_only: providers.append('edge_tts')
     failures=[]; root=Path(output); root.mkdir(parents=True,exist_ok=True)
     # Unique attempt folders prevent an earlier job's files from masking a provider failure.
     attempt_root=root/'narration_attempts'/uuid.uuid4().hex
@@ -108,36 +111,47 @@ def _synthesize_once(script,output,provider,engine,pause,cancel_event):
     clips_by_id={getattr(c,'key_point_index',getattr(c,'index',-1)):c for c in clips}
     if len(clips_by_id)!=len(clips) or set(clips_by_id)!=set(range(len(points))):
         raise NewsError('Speech provider did not return exactly one clip per News sentence.')
-    from moviepy import AudioFileClip, AudioClip, concatenate_audioclips
-    import numpy as np
-    opened=[]; combined=None; boundaries=[]; words=[]; cursor=0; methods=[]
+    # MP3 container durations include encoder padding and may differ from the
+    # decoder's sample count. Assigning that duration to a MoviePy reader makes
+    # concatenation read beyond its end. Decode once, then append exact PCM
+    # samples; sentence boundaries and native word offsets use this same clock.
+    boundaries=[];words=[];methods=[];cursor_samples=0
+    rate=44100;channels=2;sample_width=2
     audio_path=Path(output)/'news_narration.wav'
-    try:
-        for i,s in enumerate(script.sentences):
-            cancelled(cancel_event)
-            c=clips_by_id.get(i)
-            if c is None or not Path(c.audio_path).is_file(): raise NewsError(f'Missing narration clip for {s.id}')
-            duration=probe_duration(c.audio_path)
-            clip=AudioFileClip(str(c.audio_path)); clip.duration=duration; clip.end=duration; opened.append(clip)
-            boundaries.append(Boundary(sentence_id=s.id,text=s.text,start=cursor,end=cursor+duration))
-            reliable=provider in ('edge_tts','elevenlabs') and valid_words(getattr(c,'word_timings',[]),s.text,duration)
-            methods.append('native_words' if reliable else 'sentence_clips')
-            if reliable:
-                words.extend(Boundary(sentence_id=s.id,text=w.word,start=cursor+w.start,end=cursor+w.end) for w in c.word_timings)
-            cursor+=duration
-            if i+1<len(script.sentences) and pause:
-                silence=AudioClip(lambda t:np.zeros((len(t),2)) if isinstance(t,np.ndarray) else np.zeros(2),duration=pause,fps=44100)
-                opened.append(silence); cursor+=pause
-        combined=concatenate_audioclips(opened)
-        combined.write_audiofile(str(audio_path),fps=44100,codec='pcm_s16le',logger=None)
-    finally:
-        if combined: combined.close()
-        for clip in opened:
-            proc=getattr(getattr(clip,'reader',None),'proc',None)
-            clip.close()
-            if proc:
-                for stream in (proc.stdout,proc.stderr):
-                    if stream and not stream.closed: stream.close()
+    with tempfile.TemporaryDirectory(prefix='decoded-',dir=output) as temporary:
+        with wave.open(str(audio_path),'wb') as combined:
+            combined.setnchannels(channels);combined.setsampwidth(sample_width);combined.setframerate(rate)
+            for i,s in enumerate(script.sentences):
+                cancelled(cancel_event)
+                c=clips_by_id.get(i)
+                if c is None or not Path(c.audio_path).is_file():
+                    raise NewsError(f'Missing narration clip for {s.id}')
+                decoded=Path(temporary)/'clip.wav'
+                try:
+                    subprocess.run(['ffmpeg','-v','error','-xerror','-y','-i',str(c.audio_path),
+                        '-map','0:a:0','-vn','-ac',str(channels),'-ar',str(rate),'-c:a','pcm_s16le',str(decoded)],
+                        capture_output=True,check=True,timeout=60)
+                except subprocess.TimeoutExpired:
+                    raise NewsError(f'Audio decoding timed out for narration clip {s.id}.') from None
+                except subprocess.CalledProcessError as exc:
+                    raise NewsError(f'Audio decoding failed for narration clip {s.id} (FFmpeg exit {exc.returncode}).') from None
+                with wave.open(str(decoded),'rb') as clip:
+                    count=clip.getnframes();duration=count/rate;cursor=cursor_samples/rate
+                    if not 0<duration<1200:raise NewsError(f'Invalid decoded duration for narration clip {s.id}.')
+                    boundaries.append(Boundary(sentence_id=s.id,text=s.text,start=cursor,end=(cursor_samples+count)/rate))
+                    reliable=provider in ('edge_tts','elevenlabs') and valid_words(getattr(c,'word_timings',[]),s.text,duration)
+                    methods.append('native_words' if reliable else 'sentence_clips')
+                    if reliable:
+                        words.extend(Boundary(sentence_id=s.id,text=w.word,start=cursor+w.start,end=cursor+w.end) for w in c.word_timings)
+                    while True:
+                        data=clip.readframes(65536)
+                        if not data:break
+                        cancelled(cancel_event);combined.writeframesraw(data)
+                cursor_samples+=count
+                if i+1<len(script.sentences) and pause:
+                    silence_samples=round(pause*rate)
+                    combined.writeframesraw(bytes(silence_samples*channels*sample_width))
+                    cursor_samples+=silence_samples
     duration=probe_duration(audio_path)
     method=methods[0] if len(set(methods))==1 else 'mixed'
     return Audio(path=str(audio_path.resolve()),duration=duration,method=method,

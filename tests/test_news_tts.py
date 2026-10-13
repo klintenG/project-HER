@@ -1,5 +1,6 @@
 """Speech failures must recover without stale files, paid loops, or invented timing."""
 import io
+import subprocess
 import tempfile
 import threading
 import unittest
@@ -119,12 +120,54 @@ class NewsSpeechTests(unittest.TestCase):
                 synthesize(self.script,self.root,'typo')
         factory.assert_not_called()
 
+    def test_explicit_replicate_keeps_provider_when_retries_are_exhausted(self):
+        with patch.object(config,'NEWS_REPLICATE_ONLY',True),patch('agent.news_audio._make_engine') as factory:
+            with self.assertRaisesRegex(NewsError,'All News narration providers failed.*replicate'):
+                synthesize(self.script,self.root,'replicate',engine=FailingTTS())
+        factory.assert_not_called()
+
+    def test_replicate_fallback_can_be_enabled_explicitly(self):
+        with patch.object(config,'NEWS_REPLICATE_ONLY',False),patch('agent.news_audio._make_engine',return_value=FixtureTTS()) as factory:
+            audio=synthesize(self.script,self.root,'replicate',engine=FailingTTS())
+        self.assertEqual(audio.provider,'edge_tts');self.assertEqual(factory.call_args.args[0],'edge_tts')
+
+    def test_mp3_padding_uses_decoded_samples_for_long_narration(self):
+        # MP3 duration includes frame/encoder padding. The old MoviePy path
+        # overwrote its reader duration with this value and read past EOF.
+        source=self.root/'padded.mp3'
+        subprocess.run(['ffmpeg','-v','error','-y','-f','lavfi','-i',
+            'sine=frequency=440:sample_rate=24000:duration=0.234',
+            '-c:a','libmp3lame',str(source)],check=True,capture_output=True)
+        raw=subprocess.check_output(['ffmpeg','-v','error','-i',str(source),
+            '-ac','2','-ar','44100','-f','s16le','-'])
+        samples=len(raw)//4;decoded_duration=samples/44100
+        sentences=[self.script.sentences[0].model_copy(update={'id':f's{i}'}) for i in range(12)]
+        script=self.script.model_copy(update={'sentences':sentences,'narration':' '.join(s.text for s in sentences)})
+        engine=MagicMock()
+        engine.generate_narration.side_effect=lambda points,out:[SimpleNamespace(index=p.index,audio_path=source,duration=999,word_timings=[]) for p in points]
+        pause=.01371;pause_samples=round(pause*44100)
+        # Inject an overreported input duration to exercise the EOF regression
+        # regardless of this FFmpeg build's gapless-MP3 metadata behavior.
+        def metadata_duration(path):
+            return decoded_duration+.05 if Path(path)==source else probe_duration(path)
+        with patch('agent.news_audio.probe_duration',side_effect=metadata_duration),patch('agent.news_audio._make_engine') as fallback:
+            audio=synthesize(script,self.root/'assembled','edge_tts',engine=engine,pause=pause)
+        fallback.assert_not_called()
+        with wave.open(audio.path,'rb') as result:
+            self.assertEqual(result.getnframes(),12*samples+11*pause_samples)
+        self.assertAlmostEqual(audio.duration,(12*samples+11*pause_samples)/44100,places=5)
+        for i,boundary in enumerate(audio.phrases):
+            self.assertAlmostEqual(boundary.start,i*(samples+pause_samples)/44100,places=8)
+            self.assertAlmostEqual(boundary.end-boundary.start,decoded_duration,places=8)
+        self.assertFalse(list((self.root/'assembled').rglob('decoded-*')))
+
 
 class ReplicateSpeechTests(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
         self.root=Path(self.temp.name)
-        for name,value in [('REPLICATE_API_TOKEN','fixture-token'),('NEWS_TTS_CACHE',self.root/'cache')]:
+        for name,value in [('REPLICATE_API_TOKEN','fixture-token'),('NEWS_TTS_CACHE',self.root/'cache'),
+                           ('NEWS_REPLICATE_MIN_INTERVAL',0),('NEWS_REPLICATE_RATE_LIMIT_RETRIES',2),('NEWS_REPLICATE_RATE_LIMIT_WAIT',90)]:
             p=patch.object(config,name,value);p.start();self.addCleanup(p.stop)
         self.points=[SimpleNamespace(index=0,narration='Argentina won the World Cup.')]
 
@@ -237,6 +280,31 @@ class ReplicateSpeechTests(unittest.TestCase):
             with self.assertRaisesRegex(NewsError,'timed out'):
                 engine.generate_narration(self.points,self.root)
         request.assert_called_once();cancel.assert_called_once()
+
+    def test_prediction_pacing_is_shared_across_engine_instances(self):
+        first=self.engine();second=self.engine();now=[100.0]
+        def advance(seconds):now[0]+=seconds
+        with patch.object(config,'NEWS_REPLICATE_MIN_INTERVAL',12),patch.object(NewsReplicateTTS,'_next_prediction_at',0),patch('agent.news_tts.time.monotonic',side_effect=lambda:now[0]),patch('agent.news_tts.time.sleep',side_effect=advance) as sleep:
+            first._pace_prediction();second._pace_prediction();first._pace_prediction()
+        self.assertEqual([c.args[0] for c in sleep.call_args_list],[12,12])
+
+    def test_extended_cooldown_honors_server_reset_without_changing_provider(self):
+        engine=self.engine()
+        rejected=MagicMock(status_code=429,headers={'Retry-After':'120'})
+        accepted=MagicMock(status_code=201)
+        accepted.json.return_value={'id':'p123'}
+        with patch.object(config,'NEWS_REPLICATE_RATE_LIMIT_WAIT',600),patch.object(engine._session,'request',side_effect=[rejected,accepted]) as request,patch('agent.news_tts.time.sleep') as sleep:
+            self.assertEqual(engine._request('POST','https://api.replicate.com/v1/predictions')['id'],'p123')
+        sleep.assert_called_once_with(121);self.assertEqual(request.call_count,2)
+
+    def test_total_cooldown_budget_is_not_reset_between_sentences(self):
+        engine=self.engine()
+        engine._throttle_wait=89
+        rejected=MagicMock(status_code=429,headers={'Retry-After':'2'})
+        with patch.object(engine._session,'request',return_value=rejected) as request,patch('agent.news_tts.time.sleep') as sleep:
+            with self.assertRaisesRegex(NewsError,'budget exhausted'):
+                engine._request('POST','https://api.replicate.com/v1/predictions')
+        sleep.assert_not_called();request.assert_called_once()
 
 
 if __name__=='__main__': unittest.main()

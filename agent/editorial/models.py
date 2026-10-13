@@ -137,7 +137,7 @@ class Event(Interval):
     boundsTo: Optional[Bounds] = None
 
 
-Template = Literal['single_subject', 'comparison', 'person_context', 'object_location', 'document_photo', 'date_year', 'location_transfer', 'process', 'connector', 'conclusion']
+Template = Literal['single_subject', 'comparison', 'person_context', 'object_location', 'document_photo', 'date_year', 'location_transfer', 'process', 'connector', 'conclusion', 'hero-object', 'incremental-claim', 'portrait-event', 'map-event', 'timeline-date', 'document-evidence', 'asset-handoff', 'location-change', 'cause-effect', 'split-outcome', 'typographic-breath', 'final-reveal']
 
 
 class Transition(Interval):
@@ -184,6 +184,7 @@ class Timeline(Model):
     transitions: list[Transition]
     subtitleMode: Literal['editorial', 'complete'] = 'editorial'
     narrationDriven: bool = False
+    editorialStyleVersion: Literal['legacy', 'reference-v2'] = 'legacy'
     warnings: list[str] = Field(default_factory=list)
     diagnostics: dict = Field(default_factory=dict)
 

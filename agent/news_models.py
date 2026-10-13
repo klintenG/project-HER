@@ -106,6 +106,7 @@ class Sentence(Model):
     phrase: str = Field(min_length=1)
     role: Literal["hook", "context", "development", "meaning", "close"]
     emphasis: list[str] = Field(default_factory=list)
+    headline_text: Optional[str] = None
 
 
 class Script(Model):
