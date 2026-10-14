@@ -50,7 +50,7 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
     cannot establish that a constellation diagram is a terminal photograph.
     Local registry keys are canonical names; never arbitrary LLM paths.
     """
-    from agent.cutout_processor import CutoutProcessor
+    from agent.cutout_processor import CutoutProcessor, CutoutQualityError
     from agent.news_assets import subject_prompt,_generate
     from .images import EditorialImages
     from .people import People
@@ -75,21 +75,28 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
             # A fresh textual portrait description can override the supplied
             # face/clothing. Reference editing must preserve the photo itself.
             prompt='Edit the supplied photograph into one isolated paper-collage cutout. Preserve this exact person, face, expression, age, skin tone, hairstyle, facial hair, body proportions and original clothing with photographic detail. Change only the background to a flat contrasting mid-gray. Recompose with blank canvas margins: keep the entire available torso/body, all head/hair/hat and shoulders; leave at least 10 percent empty space above and on both sides. Do not copy a clipped input crop. Do not invent lower body, change clothing, beautify or replace the face, add people or depict an event. No text, border, watermark or baked shadow.'
-        key=hashlib.sha256(('editorial-cutout-v3|'+prompt+'|'+model+'|'+(digest(reference.path) if reference else '')).encode()).hexdigest()
+        key=hashlib.sha256(('editorial-cutout-v4|'+prompt+'|'+model+'|'+(digest(reference.path) if reference else '')).encode()).hexdigest()
         file_id=hashlib.sha256(e.id.encode()).hexdigest()[:20]
         cache=config.NEWS_IDENTITY_IMAGE_CACHE/key;raw=output/(file_id+'-generated.png');cut=output/(file_id+'-cutout.png')
         metadata=cache/'review.json';cached=cache/'image.png'
         feedback=[]
-        for attempt in range(config.NEWS_REAL_IMAGE_ATTEMPTS if reference else config.NEWS_ASSET_RETRIES):
+        use_cached=True
+        attempts=config.NEWS_REAL_IMAGE_ATTEMPTS if reference else config.NEWS_ASSET_RETRIES
+        for attempt in range(attempts+1):
             if cancel_event and cancel_event.is_set():raise NewsError('Editorial generation cancelled','cancelled')
+            raw=output/(file_id+f'-generated-{attempt+1}.png')
             try:
                 proof=None
-                if cached.is_file() and metadata.is_file():
+                if use_cached and cached.is_file() and metadata.is_file():
                     proof=json.loads(metadata.read_text())
                     if proof.get('sha256')!=digest(cached):raise NewsError('Cached illustration checksum changed.')
                     shutil.copyfile(cached,raw);provider='replicate:'+model
                 else:
-                    revised=prompt+(' Repair the previous attempt: '+'; '.join(feedback)[-1000:] if feedback else '')
+                    revised=(prompt if reference else subject_prompt(e,attempt)+' Preserve the available body, clothing, arms and torso and full silhouette; no surrounding objects.')
+                    revised+=' Framing is mandatory: subject centered, occupying at most 60 percent of canvas height and width; leave at least 20 percent empty margin on every side. Flat solid backdrop contrasting with the entire subject, no floor, shadows or scenery.'
+                    if attempt:
+                        revised+=' Create a fresh zoomed-out composition, smaller than the rejected image; do not repeat its crop.'
+                    revised+=(' Repair the previous attempt: '+'; '.join(feedback)[-1000:] if feedback else '')
                     provider=_generate(image_generator.real_subject(revised,raw,reference) if reference else image_generator.subject(revised,raw),cancel_event)
                 stats,method=processor.process(raw,cut,allow_group=e.is_group,allow_portrait_crop=e.kind=='person' and not e.is_group)
                 if reference and proof is None:
@@ -110,8 +117,14 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
             except NewsError as exc:
                 if exc.status=='cancelled':raise
                 feedback.append(str(exc))
+                # A rejected cache entry must not consume every retry with the same pixels.
+                use_cached=False
                 if record is not None:record.setdefault('errors',[]).append(str(exc));save_audit()
-                if attempt+1==(config.NEWS_REAL_IMAGE_ATTEMPTS if reference else config.NEWS_ASSET_RETRIES):raise
+                # Allow one final framing repair only for mask QA, never for
+                # provider/auth failures or an identity-review rejection.
+                if attempt+1>=attempts:
+                    if not (attempt+1==attempts and isinstance(exc,CutoutQualityError)):
+                        raise
     registry=json.loads(Path(local_registry).read_text()) if local_registry else {}
     old={a.entity_id:a for a in (existing or [])};assets=[];entities=[]
     for e in script.entities:

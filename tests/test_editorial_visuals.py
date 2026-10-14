@@ -80,6 +80,55 @@ class EditorialVisualTests(unittest.TestCase):
         self.assertEqual(len(audit['assets'][0]['rejectedAttempts']),2)
         self.assertEqual(audit['assets'][0]['route'],'unverified_identity_ai_illustration')
 
+    def test_cutout_retry_zooms_out_and_preserves_rejected_raw_attempt(self):
+        calls=[]
+        async def create(prompt,path):
+            calls.append(prompt)
+            image=subject_image('mira')
+            if len(calls)<=2:
+                from PIL import ImageDraw
+                ImageDraw.Draw(image).rectangle((0,180,200,300),fill='blue')
+            image.save(path);return 'fixture'
+        self.generator.subject.side_effect=create
+        script=story();script.entities[0].identity='fictional'
+        processor=CutoutProcessor(segmenter=lambda image,model:image)
+        _,assets=acquire(script,self.root/'retry',processor=processor,image_generator=self.generator)
+        self.assertEqual(len(calls),3)
+        self.assertIn('20 percent empty margin',calls[0])
+        self.assertIn('fresh zoomed-out composition',calls[1])
+        self.assertIn('Subject touches image edge',calls[1])
+        self.assertEqual(len(list((self.root/'retry').glob('*-generated-*.png'))),3)
+        self.assertTrue(assets[0].alpha)
+
+    def test_exhausted_cutouts_use_existing_generic_fallback_without_weakening_named_people(self):
+        from agent.cutout_processor import CutoutQualityError
+        script=story();script.entities[0]=Entity(id='person',name='Cup',kind='object',identity='generic',description='One ceramic cup')
+        processor=MagicMock();processor.process.side_effect=CutoutQualityError('Subject touches image edge')
+        diagnostics={}
+        _,assets=acquire(script,self.root/'symbol',processor=processor,image_generator=self.generator,diagnostics=diagnostics)
+        self.assertEqual(self.generator.subject.call_count,config.NEWS_ASSET_RETRIES+1)
+        self.assertEqual(assets[0].role,'symbol');self.assertFalse(assets[0].factual)
+        self.assertIn('does not establish the identity',assets[0].fallback)
+        self.assertEqual(diagnostics['assetAcquisition']['assets'][0]['route'],'disclosed_support_failure')
+        script.entities[0]=Entity(id='person',name='Historical Person',kind='person',identity='real',description='A portrait')
+        self.people.resolve.return_value={'kind':'historical','references':[]}
+        with self.assertRaises(CutoutQualityError):
+            acquire(script,self.root/'portrait',processor=processor,image_generator=self.generator,people=self.people)
+        self.assertFalse(list((self.root/'portrait').glob('*-symbol.svg')))
+
+    def test_rejected_cached_image_is_regenerated_instead_of_reused_each_retry(self):
+        from agent.cutout_processor import CutoutQualityError
+        script=story();script.entities[0].identity='fictional'
+        acquire(script,self.root/'cached-first',image_generator=self.generator)
+        processor=CutoutProcessor();calls=[]
+        def process(src,dest,**kwargs):
+            calls.append(str(src))
+            if len(calls)==1:raise CutoutQualityError('Cached mask now fails quality')
+            return processor.process(src,dest,**kwargs)
+        acquire(script,self.root/'cached-retry',image_generator=self.generator,processor=MagicMock(process=process))
+        self.assertEqual(len(calls),2)
+        self.assertEqual(self.generator.subject.call_count,2)
+
     def test_real_person_without_any_reference_does_not_claim_a_verified_ai_face(self):
         self.people.resolve.return_value={'kind':'real','sources':['https://public.example/biography'],'references':[]}
         _,assets=self.assets()

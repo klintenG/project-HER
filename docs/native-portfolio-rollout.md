@@ -94,3 +94,13 @@ cd /Users/klinten/Desktop/My-projects/project-HER
 To disable again, use `--disable`. The command uses the operator's authenticated gcloud account, modifies only this policy field and does not create jobs or clear existing counts. Re-enabling immediately enforces the original 2/network/day and 10/global/day against retained current-day counts. Targeted API suite: 23 passed, including disable/re-enable, unchanged concurrency and independent emergency pause.
 
 Live override deployment: build `b023c43c-e3d7-42e6-b275-2faf958e29b7`, ready revision `project-her-00015-ldq`. Actual GET config confirmed `enabled=true`, `daily_limits_disabled=true`, concurrency 1. Full Python suite: **233 passed**. No additional paid generation was submitted for this change.
+
+## Cutout framing recovery — 14 October 2026
+
+The reported cutout failure rejected an opaque provider image and an edge-touching segmented subject. Quality thresholds remain unchanged. Editorial generation now requests a centered subject occupying at most 60% of canvas width/height, with 20% empty margins, a contrasting flat backdrop and a fresh smaller composition on retries. Retry prompts use the attempt-specific subject instructions. Rejected illustration cache entries are bypassed on the next attempt; accepted cache entries still require checksums and mask QA. Each raw attempt is retained separately in job scratch for diagnosis.
+
+`CutoutQualityError` distinguishes unusable segmentation from provider/identity errors. One additional attempt beyond the configured count is allowed only after mask QA failure; existing per-job image-call budgets remain enforced. Provider/authentication and likeness failures do not gain extra retries. Existing disclosed contextual-symbol fallback remains unchanged; essential real people/groups still require usable assets and fail honestly if all attempts fail. Nothing accepts opaque or clipped images simply to complete a render.
+
+Full Python suite: **236 passed**. New regressions reproduce edge clipping twice before a successful third attempt, a rejected cached image followed by fresh generation, and exhausted generic versus essential named-person behavior. Existing group/identity/security tests pass. No additional paid generation was submitted; the visitor can retry their failed input after deployment and refresh.
+
+Cutout repair deployed: build `ca68d618-59d4-439d-b0ad-c9ebbde09bff`, revision `project-her-00016-cbd`; private storage/provider secrets/capacity are preserved. No portfolio publish is required for this backend-only repair.

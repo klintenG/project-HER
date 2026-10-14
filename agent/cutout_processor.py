@@ -11,6 +11,10 @@ from PIL import Image, ImageFilter, ImageOps
 import config
 from agent.news_models import NewsError
 
+class CutoutQualityError(NewsError):
+    """An image cannot safely be used as a transparent subject."""
+
+
 _SESSION_LOCK = threading.Lock()
 _SESSIONS = {}
 
@@ -118,7 +122,9 @@ class CutoutProcessor:
         cache=Path(config.NEWS_CUTOUT_CACHE)/f"{cache_key}.png"
         meta=cache.with_suffix('.json')
         if cache.exists() and meta.exists():
-            image=Image.open(cache).convert('RGBA'); stats=mask_statistics(image,allow_geometry=allow_geometry,allow_group=allow_group)
+            image=Image.open(cache).convert('RGBA')
+            try:stats=mask_statistics(image,allow_geometry=allow_geometry,allow_group=allow_group)
+            except NewsError as exc:raise CutoutQualityError(str(exc)) from exc
             dest.parent.mkdir(parents=True,exist_ok=True); image.save(dest)
             return stats,json.loads(meta.read_text())["segmentation"]
         candidates=[("provider_alpha",original)]
@@ -151,7 +157,7 @@ class CutoutProcessor:
                     return stats,method
                 except Exception as exc:
                     errors.append(f"{method}: {exc}")
-        raise NewsError("Cutout quality failed; regenerate isolated subject on a contrasting neutral background. "+"; ".join(errors))
+        raise CutoutQualityError("Cutout quality failed; regenerate isolated subject on a contrasting neutral background. "+"; ".join(errors))
 
 
 def portrait_fade(image):
