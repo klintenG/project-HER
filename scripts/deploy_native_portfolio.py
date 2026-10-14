@@ -37,7 +37,11 @@ def ensure_replicate_secret(account,source):
 
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--approve-cloud-changes',action='store_true');args=parser.parse_args()
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--approve-cloud-changes',action='store_true')
+    parser.add_argument('--clear-maintenance',action='store_true',help='Clear stale maintenance lock if previous deployment was interrupted')
+    parser.add_argument('--image',help='Deploy an existing container image directly without rebuilding from source')
+    args=parser.parse_args()
     print('Plan: Firestore (default) in us-central1; private bucket '+BUCKET+'; signing/operator secrets; scoped IAM; deploy project-her with native API + legacy lock, min/max instances 1, existing 2 CPU/4Gi, private output lifecycle, daily quota 10 / network identity 2.')
     print('Existing provider secrets/settings are preserved. One minimum instance changes idle billing. This does not publish the portfolio or submit a paid generation.')
     if not args.approve_cloud_changes:return
@@ -82,8 +86,9 @@ def main():
     import sys
     sys.path.insert(0,str(source))
     from utils.deployment_guard import DeploymentGuard
-    with DeploymentGuard(PROJECT):
-        deploy=run(['run','deploy',SERVICE,'--source='+str(source),'--region='+REGION,
+    target_deploy = ['--image='+args.image] if args.image else ['--source='+str(source)]
+    with DeploymentGuard(PROJECT, force_maintenance_clear=args.clear_maintenance):
+        deploy=run(['run','deploy',SERVICE,*target_deploy,'--region='+REGION,
             '--no-cpu-throttling','--min-instances=1','--max-instances=1','--concurrency=20','--cpu=2','--memory=4Gi','--timeout=3600',
             '--update-env-vars='+env,'--update-secrets=HER_PORTFOLIO_SIGNING_KEY=her-portfolio-signing-key:latest,HER_OPERATOR_KEY=her-portfolio-operator-key:latest,'+provider_binding])
     print('Cloud Run deployment completed. Next: check /api/portfolio/config, run one explicitly allowed smoke generation, then publish the reviewed portfolio changes.')

@@ -10,12 +10,13 @@ import requests
 
 
 class DeploymentGuard:
-    def __init__(self,project,*,session=None,token_provider=None,clock=time.monotonic,sleep=time.sleep,timeout=3000,legacy_pause=False):
+    def __init__(self,project,*,session=None,token_provider=None,clock=time.monotonic,sleep=time.sleep,timeout=3000,legacy_pause=False,force_maintenance_clear=False):
         self.session=session or requests.Session()
         self.token_provider=token_provider or (lambda:subprocess.check_output(['gcloud','auth','print-access-token'],text=True).strip())
         self.root=f'https://firestore.googleapis.com/v1/projects/{project}/databases/(default)/documents/her_portfolio/'
         self.clock=clock;self.sleep=sleep;self.timeout=timeout;self.owner=uuid.uuid4().hex
         self.token=None;self.token_time=0;self.legacy_pause=legacy_pause;self.prior_disabled=False
+        self.force_maintenance_clear=force_maintenance_clear
 
     def request(self,method,key,**kwargs):
         if not self.token or self.clock()-self.token_time>1800:
@@ -43,7 +44,9 @@ class DeploymentGuard:
     def __enter__(self):
         current=self.request('GET','policy')
         if current and current.get('fields',{}).get('maintenance',{}).get('booleanValue'):
-            raise RuntimeError('Another deployment is already maintaining the studio; no deployment started.')
+            if not self.force_maintenance_clear:
+                raise RuntimeError('Another deployment is already maintaining the studio; no deployment started. Use --clear-maintenance if a previous deployment was aborted.')
+            print('Overriding stale maintenance lock (--clear-maintenance specified).',flush=True)
         self.prior_disabled=bool(current and current.get('fields',{}).get('disabled',{}).get('booleanValue'))
         self.set_maintenance(True,current)
         print('New admissions paused for deployment; waiting for existing jobs.',flush=True)

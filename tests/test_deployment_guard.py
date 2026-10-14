@@ -46,6 +46,12 @@ class DeploymentGuardTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError,'Another deployment'):
             with self.guard():pass
         self.assertFalse(any(method=='PATCH' for method,_,_ in self.calls))
+    def test_force_maintenance_clear_overrides_stale_lock(self):
+        self.policy['fields']['maintenance']={'booleanValue':True}
+        self.states=['completed']
+        with self.guard(force_maintenance_clear=True):
+            self.assertTrue(self.policy['fields']['maintenance']['booleanValue'])
+        self.assertFalse(self.policy['fields']['maintenance']['booleanValue'])
     def test_transition_from_old_backend_uses_emergency_pause_and_restores_it(self):
         self.states=['completed']
         with self.guard(legacy_pause=True):self.assertTrue(self.policy['fields']['disabled']['booleanValue'])
