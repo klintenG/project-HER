@@ -144,6 +144,7 @@ class Runtime:
             # Global active slots must also survive UTC day rollover.
             slots=tx.get('active') or {'jobs':{}}
             policy=tx.get('policy') or {}
+            if policy.get('maintenance'):raise APIError('The video studio is being updated. Existing jobs continue; please try again after the update finishes.',503)
             if policy.get('disabled'):raise APIError('Public generation is temporarily paused. Previously generated examples remain available.',503)
             if previous:
                 if previous['payload_hash']!=payload_hash:raise APIError('Submission key already belongs to different input. Start a new submission.',409)
@@ -411,7 +412,7 @@ def install(app):
         rt.store.get('health')
         rt.media.exists({'key':'health-check','size':0,'content_type':'application/octet-stream'})
         policy=rt.store.get('policy') or {}
-        enabled=rt.enabled and min(rt.daily,rt.visitor,rt.concurrent)>0 and not policy.get('disabled')
+        enabled=rt.enabled and min(rt.daily,rt.visitor,rt.concurrent)>0 and not policy.get('disabled') and not policy.get('maintenance')
         return jsonify({'version':1,'enabled':enabled,'limits':{'input_characters':6000,'duration_seconds':90,'output_seconds':180,'daily_jobs':rt.daily,'visitor_daily_jobs':rt.visitor,'daily_limits_disabled':bool(policy.get('daily_limits_disabled')), 'concurrent_jobs':rt.concurrent,'output_hours':48},
             'options':{'tone':list(config.TONE_PRESETS),'visual_style':list(config.VISUAL_STYLES),
                        'format':['vertical','horizontal','square'],'renderer':['remotion','moviepy'],

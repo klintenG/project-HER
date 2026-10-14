@@ -129,6 +129,14 @@ class PortfolioAPITests(unittest.TestCase):
         other=result['video_url'].replace(jid,'a'*32);self.assertEqual(self.client.get(other).status_code,404)
         source.unlink();(self.rt.media.root/asset['key']).unlink()
         self.assertEqual(self.client.get(result['video_url']).status_code,410)
+    def test_deployment_maintenance_blocks_new_jobs_but_keeps_existing_access(self):
+        job=self.create().json;self.rt.store.set('policy',{'maintenance':True,'daily_limits_disabled':True})
+        caps=self.client.get('/api/portfolio/config',headers={'Origin':ORIGIN}).json
+        self.assertFalse(caps['enabled'])
+        response=self.create(key='new-during-maintenance-0001')
+        self.assertEqual(response.status_code,503);self.assertIn('being updated',response.json['error'])
+        self.assertEqual(self.client.get('/api/portfolio/jobs/'+job['job_id'],headers=self.headers(job)).status_code,200)
+
     def test_kill_switch_does_not_hide_existing_jobs(self):
         job=self.create().json;self.rt.store.set('policy',{'disabled':True})
         self.assertEqual(self.create(key='a-new-request-key-002').status_code,503)

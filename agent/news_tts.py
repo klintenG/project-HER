@@ -90,10 +90,20 @@ class NewsReplicateTTS:
         for attempt in range(retries+1):
             cancelled(self.cancel_event)
             if method=='POST' and url.endswith('/predictions'):self._pace_prediction()
-            try:
-                response = self._session.request(method, url, timeout=(10,25), **kwargs)
-            except requests.RequestException:
-                raise NewsError('Replicate speech connection failed; no automatic paid retry.') from None
+            for network_attempt in range(3):
+                try:
+                    response = self._session.request(method, url, timeout=(10,25), **kwargs)
+                except requests.RequestException as exc:
+                    # GET only observes an accepted prediction. ConnectTimeout
+                    # occurs before a POST reaches the provider; other POST
+                    # failures are ambiguous and must never create duplicates.
+                    safe_retry=method=='GET' or isinstance(exc,requests.ConnectTimeout)
+                    if safe_retry and network_attempt<2:
+                        self._wait(2**network_attempt);continue
+                    raise NewsError('Replicate speech connection failed; no duplicate prediction was submitted.') from None
+                if method=='GET' and response.status_code in (500,502,503,504) and network_attempt<2:
+                    response.close();self._wait(2**network_attempt);continue
+                break
             if response.status_code != 429: break
             # HTTP 429 means no prediction was accepted. Only this rejection is safe to resubmit.
             wait = response.headers.get('Retry-After')

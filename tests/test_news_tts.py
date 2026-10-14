@@ -245,6 +245,30 @@ class ReplicateSpeechTests(unittest.TestCase):
                 engine.generate_narration(self.points,self.root)
         self.assertIn('401',str(error.exception));self.assertNotIn('fixture-token',str(error.exception))
 
+    def test_read_polling_recovers_connection_and_server_errors_without_new_prediction(self):
+        import requests
+        engine=self.engine()
+        temporary=MagicMock(status_code=503)
+        response=MagicMock(status_code=200);response.json.return_value={'id':'p123','status':'succeeded'}
+        with patch.object(engine._session,'request',side_effect=[requests.ReadTimeout(),temporary,response]) as request,patch.object(engine,'_wait'):
+            row=engine._request('GET','https://api.replicate.com/v1/predictions/p123')
+        self.assertEqual(row['status'],'succeeded');self.assertEqual(request.call_count,3)
+        self.assertTrue(all(call.args[0]=='GET' for call in request.call_args_list))
+    def test_ambiguous_prediction_post_is_never_repeated(self):
+        import requests
+        engine=self.engine()
+        with patch.object(engine._session,'request',side_effect=requests.ReadTimeout()) as request,patch.object(engine,'_wait'):
+            with self.assertRaisesRegex(NewsError,'no duplicate prediction'):
+                engine._request('POST','https://api.replicate.com/v1/predictions')
+        request.assert_called_once()
+    def test_connect_timeout_can_recover_before_a_prediction_is_accepted(self):
+        import requests
+        engine=self.engine()
+        response=MagicMock(status_code=201);response.json.return_value={'id':'p123'}
+        with patch.object(engine._session,'request',side_effect=[requests.ConnectTimeout(),response]) as request,patch.object(engine,'_wait'):
+            self.assertEqual(engine._request('POST','https://api.replicate.com/v1/predictions')['id'],'p123')
+        self.assertEqual(request.call_count,2)
+
     def test_rejected_429_honors_reset_then_creates_only_one_prediction(self):
         engine=self.engine(model=KOKORO)
         rejected=MagicMock(status_code=429,headers={'Retry-After':'2'})

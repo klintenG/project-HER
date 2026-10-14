@@ -77,23 +77,33 @@ class Aligner:
         encoded=self.model.encode(pad_or_trim(features))
         # Whisper's speech text tokens conventionally begin with a space. Keep
         # that tokenizer context, while retaining original display spelling.
-        rows=self.model.find_alignment(self.tokenizer,[self.tokenizer.encode(' '+text.lstrip())],encoded,len(data)//160)[0]
-        # Merge subword punctuation/contractions by exact original whitespace tokens.
-        # No normalized display text is substituted into the plan.
-        compact=lambda v: re.sub(r'\s+','',v)
-        expected=text.split(); result=[]; index=0
-        for original in expected:
-            parts=[]; joined=''
-            while index<len(rows) and len(compact(joined))<len(compact(original)):
-                part=rows[index];parts.append(part);joined+=part['word'];index+=1
-            if compact(joined)!=compact(original) or not parts:
-                raise NewsError('Forced alignment token mismatch; revise the script or use native provider timing.')
-            voiced=[p for p in parts if p['end']>p['start']]
-            if not voiced: raise NewsError('Zero-duration aligned word: '+original)
-            result.append(dict(text=original,start=float(voiced[0]['start']),end=float(voiced[-1]['end']),
-                confidence=float(min(p['probability'] for p in voiced)),provenance='whisper_forced'))
-        if index!=len(rows): raise NewsError('Unconsumed alignment tokens')
-        return result
+        for width in (7,3,11):
+            rows=self.model.find_alignment(self.tokenizer,[self.tokenizer.encode(' '+text.lstrip())],encoded,len(data)//160,median_filter_width=width)[0]
+            try:return alignment_words(rows,text)
+            except NewsError as exc:
+                if not str(exc).startswith('Zero-duration aligned word:') or width==11:raise
+                # Recompute measured cross-attention/DTW with a different
+                # smoothing width. Never spread time evenly or invent onsets.
+                continue
+
+
+def alignment_words(rows,text):
+    # Merge subword punctuation/contractions by exact original whitespace tokens.
+    # No normalized display text is substituted into the plan.
+    compact=lambda v: re.sub(r'\s+','',v)
+    expected=text.split(); result=[]; index=0
+    for original in expected:
+        parts=[]; joined=''
+        while index<len(rows) and len(compact(joined))<len(compact(original)):
+            part=rows[index];parts.append(part);joined+=part['word'];index+=1
+        if compact(joined)!=compact(original) or not parts:
+            raise NewsError('Forced alignment token mismatch; revise the script or use native provider timing.')
+        voiced=[p for p in parts if p['end']>p['start']]
+        if not voiced: raise NewsError('Zero-duration aligned word: '+original)
+        result.append(dict(text=original,start=float(voiced[0]['start']),end=float(voiced[-1]['end']),
+            confidence=float(min(p['probability'] for p in voiced)),provenance='whisper_forced'))
+    if index!=len(rows): raise NewsError('Unconsumed alignment tokens')
+    return result
 
 
 def remap_words(rows,trim_start,offset,section_id):
@@ -126,7 +136,7 @@ def assemble(script,clips,output,language='en',native=None,gap=.12):
     aligner=None; words=[]; sections=[]; buffers=[]; offsets=[]; warnings=[]; cursor=0; rate=48000
     for i,(section,clip) in enumerate(zip(script.sentences,clips)):
         data=samples(clip)
-        key=hashlib.sha256((digest(clip)+section.text+'alignment-v3-'+os.getenv('HER_ALIGNMENT_MODEL','small')+'-faster-whisper-1.2.1-'+language).encode()).hexdigest()
+        key=hashlib.sha256((digest(clip)+section.text+'alignment-v4-'+os.getenv('HER_ALIGNMENT_MODEL','small')+'-faster-whisper-1.2.1-'+language).encode()).hexdigest()
         cache=output/(key+'.alignment.json')
         rows=native.get(section.id) if native else None
         if rows is None and cache.is_file():

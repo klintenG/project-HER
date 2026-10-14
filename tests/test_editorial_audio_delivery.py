@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 from types import SimpleNamespace
-from unittest.mock import patch
+from unittest.mock import patch,MagicMock
 
 import numpy as np
 
@@ -13,6 +13,36 @@ from agent.editorial.audio import normalize,write_wave,measure
 from agent.editorial.models import digest
 from agent.editorial.render import delivery_issues,finalize_audio
 from agent.news_models import NewsError
+
+
+class AlignmentRecoveryTests(unittest.TestCase):
+    def aligner(self,rows):
+        from agent.editorial.audio import Aligner
+        aligner=Aligner.__new__(Aligner);aligner.model=MagicMock();aligner.tokenizer=MagicMock()
+        aligner.model.find_alignment.side_effect=[[row] for row in rows]
+        return aligner
+    def test_zero_duration_word_recomputes_measured_alignment(self):
+        rejected=[{'word':' eliminate','start':.3,'end':.3,'probability':.8}]
+        accepted=[{'word':' eliminate','start':.2,'end':.6,'probability':.9}]
+        aligner=self.aligner([rejected,accepted])
+        with patch.dict('sys.modules',{'faster_whisper.audio':SimpleNamespace(pad_or_trim=lambda value:value)}):
+            rows=aligner.align(np.ones(16000,dtype=np.float32),'eliminate')
+        self.assertEqual(rows[0]['start'],.2);self.assertEqual(rows[0]['end'],.6)
+        self.assertEqual(rows[0]['provenance'],'whisper_forced')
+        self.assertEqual([c.kwargs['median_filter_width'] for c in aligner.model.find_alignment.call_args_list],[7,3])
+        self.assertEqual(aligner.model.encode.call_count,1)
+    def test_all_zero_alignments_fail_after_three_local_attempts(self):
+        rejected=[{'word':' eliminate','start':.3,'end':.3,'probability':.8}]
+        aligner=self.aligner([rejected,rejected,rejected])
+        with patch.dict('sys.modules',{'faster_whisper.audio':SimpleNamespace(pad_or_trim=lambda value:value)}):
+            with self.assertRaisesRegex(NewsError,'Zero-duration'):aligner.align(np.ones(16000,dtype=np.float32),'eliminate')
+        self.assertEqual(aligner.model.find_alignment.call_count,3)
+    def test_token_mismatch_is_not_replaced_with_estimated_timing(self):
+        rejected=[{'word':' different','start':.1,'end':.5,'probability':.8}]
+        aligner=self.aligner([rejected])
+        with patch.dict('sys.modules',{'faster_whisper.audio':SimpleNamespace(pad_or_trim=lambda value:value)}):
+            with self.assertRaisesRegex(NewsError,'token mismatch'):aligner.align(np.ones(16000,dtype=np.float32),'eliminate')
+        self.assertEqual(aligner.model.find_alignment.call_count,1)
 
 
 class AudioDeliveryTests(unittest.TestCase):
