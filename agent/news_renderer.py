@@ -9,6 +9,7 @@ import time
 from pathlib import Path
 from agent.news_models import Manifest, NewsError
 import config
+from utils.render_resources import remotion_concurrency
 
 
 def stage_remotion(manifest,output):
@@ -37,7 +38,7 @@ def render_remotion(manifest,path,cancel_event=None):
     root=config.BASE_DIR/'remotion'
     cli=root/'node_modules'/'.bin'/'remotion'
     if not cli.is_file(): raise NewsError('Run npm ci in remotion/ before selecting Remotion.')
-    process=subprocess.Popen([str(cli),'render','src/index.ts','ProjectHERNews',str(Path(path).resolve()),'--props',str(props),'--concurrency','2','--overwrite'],cwd=str(root),stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,start_new_session=os.name=='posix')
+    process=subprocess.Popen([str(cli),'render','src/index.ts','ProjectHERNews',str(Path(path).resolve()),'--props',str(props),'--concurrency',str(remotion_concurrency()),'--overwrite'],cwd=str(root),stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,start_new_session=os.name=='posix')
     started=time.monotonic()
     try:
         while True:

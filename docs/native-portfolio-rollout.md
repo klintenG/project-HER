@@ -1,80 +1,85 @@
-# Native Project HER rollout — current evidence
+# Native Project HER rollout — implementation and real test evidence
 
-Backend deployment is complete. Portfolio publication is blocked by missing GitHub credentials in this execution session. No paid smoke generation has been submitted. A reachable API/configuration is not claimed as proof of generation, playback or download.
+The native portfolio studio is published at **https://klinteng.com/projects/project-her/#studio**. Backend repairs are deployed on **project-her-00014-ddb**. Public creation is temporarily paused while approval is pending for one final controlled output test. Successful hosted MP4 playback/download has **not** been verified; no completed result or interactive-success claim is fabricated.
 
-## Implemented and committed
+## Changes and routes
 
-HER commit `458190b` on `new-enhancements`: scoped native Flask API, durable Firestore state/quotas, private Storage output, signed media delivery, exact alignment preparation, legacy operator authentication, SSRF/input limits, hard deadlines/cancellation, job-scoped scratch cleanup, deployment/smoke scripts, patched renderer dependencies and tests. Existing user changes in `de26b43` are preserved.
+Portfolio commit `36065b7` is on remote `main`; GitHub Pages deployment succeeded and normal visitor URLs serve the new native HTML/client/controller. The existing homepage/card remains familiar, with internal Try Project HER navigation. The existing `/projects/project-her/` route contains the studio, genuine previous example, pipeline and engineering disclosures. Playground links internally to that one studio. There is no iframe, external creation redirect or duplicate generator.
 
-Portfolio commit `36065b7` on `main` in `/Users/klinten/Desktop/My-projects/my-website`: existing homepage/card preserved with internal Try Project HER CTA, one native studio on `/projects/project-her/#studio`, actual typed adapter/lifecycle, supported Simple/Advanced controls, sample/engineering sections, and redundant Playground form consolidation. No iframe or fake output. The existing approved sample remains unchanged. `nativeIntegrationVerified` is false until the controlled production test succeeds.
+The static portfolio uses its existing HTML/CSS/JavaScript framework, with a JSDoc-typed adapter rather than introducing React/build infrastructure. Modified/new files are `index.html`, `projects/index.html`, `playground/index.html`, `projects/project-her/index.html`, `js/config.js`, `js/main.js`, `js/project-her-client.js`, `js/project-her-studio.js`, `css/project-her-studio.css`, browser tests and native API/schema/handoff docs. The approved previous sample is unchanged and clearly separate from current-session output. `nativeIntegrationVerified` remains false.
 
-Changed backend files: `.env.example`, `.gcloudignore`, `Dockerfile`, `agent/portfolio_api.py`, `agent/portfolio_store.py`, `requirements-portfolio.txt`, `scripts/deploy_native_portfolio.py`, `scripts/smoke_native_portfolio.py`, `scripts/submit_native_portfolio.mjs`, `tests/test_portfolio_api.py`, `tests/test_editorial_visuals.py`, `web_ui.py`, `remotion/package.json`, `remotion/package-lock.json`.
+HER implementation adds `agent/portfolio_api.py`, `agent/portfolio_store.py`, storage dependencies, deployment/explicit smoke tools and scoped API tests. `web_ui.py` installs native CORS/authentication and fixes legacy output traversal/basename fallback. Docker prepares exact alignment/browser dependencies; source upload excludes duplicated local caches. Renderer packages are consistently pinned to 4.0.535, with compatible transitive fixes; npm audit reported zero vulnerabilities.
 
-Portfolio file/route details and complete request schema are in its `docs/project-her-native-handoff.md`, `docs/project-her-native-api.md` and `docs/project-her-request.schema.json`.
+Follow-up repairs: mandatory Replicate credential readiness/provisioning; safe GET-only monitoring retries and token-on-stdin resume that never submits a job; native model-cache release before composition; `utils/render_resources.py` applies one-worker native concurrency across Editorial, News and Classic Remotion bridges. Standalone defaults remain unchanged. Prior user changes in `de26b43` are preserved.
 
-## Deployed infrastructure
+## Confirmed API contract
 
-Project `project-her-510715`, region `us-central1`, existing service `project-her`:
-
-- Ready revision `project-her-00012-phb`, 100% traffic.
-- 2 vCPU, 4Gi RAM, min/max instances 1, CPU throttling disabled, HTTP concurrency 20; native render admission concurrency 1.
-- Native daily admission limit 10; server-derived network identity limit 2. Trusted proxy hops remain 0; shared proxies may share the conservative limit. Admissions are not an exact currency budget and failures count.
-- Firestore `(default)` native regional database; `her_portfolio.delete_after` TTL is ACTIVE.
-- Private `project-her-510715-portfolio-output` bucket, uniform access and public-access prevention. Delete lifecycle only on `portfolio/` after two days; extra soft-delete retention disabled. Application access expires at 48 hours; physical lifecycle/TTL deletion is asynchronous.
-- Native signing/operator secrets in Secret Manager and scoped additional runtime IAM. Existing providers/settings preserved. Legacy generation/output requires operator Basic authentication.
-- Base build `785aef3c-1618-4086-bdfb-e2dbdb00614e` succeeded. Final secured image build `9720650c-5a5e-4c8d-8a86-427a05f4585d` succeeded, pinned to the immutable base and updated with native cleanup plus patched renderer lockfile. Full future source builds include all current source changes.
-
-Model/browser caches are excluded from source uploads; the Dockerfile downloads the exact alignment model during the build. Remotion packages are consistently pinned to 4.0.535, with compatible transitive fixes. npm audit reports zero vulnerabilities at verification time.
-
-## API contract
-
-Base `https://project-her-svnnlerw4q-uc.a.run.app/api/portfolio`:
+Base: `https://project-her-svnnlerw4q-uc.a.run.app/api/portfolio`.
 
 | Method/path | Contract |
 |---|---|
-| GET `/config` | Actual defaults/options/limits and readiness. |
-| POST `/jobs` | Allowed Origin, JSON and random `Idempotency-Key`; 202 job ID, scoped access token, expiry/status/cancel support. Same key/input recovers the same admission. |
-| GET `/submission` | Recover acknowledgement with the same unguessable idempotency key. |
-| GET `/jobs/<id>` | Scoped Bearer token; actual stored status/stage/result. |
-| GET `/jobs/<id>/events` | Authenticated streamed fetch; actual progress/done, polling fallback. |
-| POST `/jobs/<id>/cancel` | Authenticated News cancellation; Classic unsupported. |
-| GET/HEAD `/jobs/<id>/media/<kind>` | 30-minute scoped ticket, range/attachment support, renewable through authorized status. |
+| GET `/config` | Actual options/defaults/limits and enabled status; fail closed without secure storage, exact alignment, legacy lock or default Replicate credentials. |
+| POST `/jobs` | Allowed Origin, strict JSON and random `Idempotency-Key`; 202 `{job_id,access_token,expires_at,status,cancel_supported}`. Same key/input recovers the same admission. |
+| GET `/submission` | Recover an ambiguous acknowledgement using that same unguessable key. |
+| GET `/jobs/<id>` | Scoped Bearer access; real durable status/stage/result. Wrong/missing access is 404; expired access 410. |
+| GET `/jobs/<id>/events` | Authenticated streaming fetch; real progress/done, finite streams and polling fallback. |
+| POST `/jobs/<id>/cancel` | Scoped access and allowed Origin; News only, final cancellation confirmed separately. Classic unsupported. |
+| GET/HEAD `/jobs/<id>/media/<kind>` | Thirty-minute media-scoped ticket; byte ranges/attachment and renewal through authorized job status. |
 
-Default request: News, informative, vertical, auto duration 0, claymorphism general style (Classic only), Remotion/reference editorial, editorial phrases, automatic assets/sources, configured Replicate and no music. Inputs max 6000 characters/16000 request bytes, URL max 2048, target 0 or 15–90 seconds. Public News narration max 220 words before speech/assets; completed video max 180 seconds. See the portfolio schema for all supported options and compatibility constraints.
+Statuses are queued/running/completed/failed/cancelled. Stages expose actual name/label/status/elapsed, without fake percentages or provider logs. Completed title/duration/resolution/language/media appear only after private upload succeeds.
 
-## Verification
+Default request: News, informative/storytelling, vertical, auto duration 0, Remotion/reference editorial, progressive editorial phrases, automatic assets/sources, configured Replicate/Kokoro and no music. Claymorphism is the general Classic style; News has its own reference art direction. Inputs max 6000 characters/16000 request bytes; URL max 2048; target 0 or 15–90 seconds. News speech max 220 words before provider work; delivered video max 180 seconds. Classic uses its configured server narration and does not support News-only voice/music controls. The portfolio schema documents every option and compatibility rule.
 
-Passed locally: 227 Python tests including 19 native API/security/cleanup cases; 66 portfolio route/width checks; 13 intercepted studio scenarios at 320–1440px; typed client and Remotion TypeScript; JavaScript syntax; diff checks; five-frame 1080×1920 editorial render from existing assets without provider calls. Render color format remains compatible with the compositor. Fixtures do not prove hosted generation.
+## Production deployment
 
-Passed against final deployment: enabled configuration and Firestore/Storage access; allowed-origin CORS/preflight (200); foreign origin rejected (403); empty input rejected without creating a job (422); missing job capability rejected (404); legacy operator lock (401). Bucket controls, TTL and revision traffic/capacity checked independently.
+Project `project-her-510715`, region `us-central1`, existing service `project-her`:
 
-Not run: actual production UI job submission, completed hosted MP4, live job SSE, range/playback/download and public browser recovery. These require publication and the one controlled test. No new sample/result has been fabricated or published.
+- Current ready revision `project-her-00014-ddb`; capacity remains **2 CPU / 4Gi**, min/max instances 1, always-allocated CPU, HTTP concurrency 20. Native admission concurrency 1; native Remotion concurrency now 1.
+- Firestore regional `(default)` database; `her_portfolio.delete_after` TTL ACTIVE.
+- Private `project-her-510715-portfolio-output`, uniform access/public-access prevention; two-day lifecycle only on `portfolio/`, extra soft-delete retention disabled. App access expires at 48 hours; physical deletion is asynchronous.
+- Signing/operator secrets plus `her-provider-replicate-token` in Secret Manager; runtime access scoped to those secrets. Existing Gemini/provider settings preserved. Provider values never enter browser/source/log output.
+- Daily global budget 10 admissions; network identity 2/day; failed jobs count. Trusted proxy hops remain conservatively 0, so shared proxies can share a quota. Admissions are not an exact currency budget.
+- Native workers have heartbeat/lease, hard deadline, cancellation and owned scratch/staging cleanup. Interrupted paid work is failed rather than silently replayed.
 
-## Remaining steps
+Builds: base `785aef3c-1618-4086-bdfb-e2dbdb00614e`; renderer/cleanup `9720650c-5a5e-4c8d-8a86-427a05f4585d`; credential readiness `c503e205-93a6-469e-a9b1-38bfbbc5b9e5`; memory repair `78957d83-72f0-42cd-9477-f69373e8f261`. Follow-up images pin the immutable preceding image and reviewed changed files. Future full-source deployments use the checked-in Dockerfile, sources and lockfile.
 
-Publication attempt failed with `fatal: could not read Username for 'https://github.com': Device not configured`. GitHub CLI, an SSH identity and process GitHub tokens are not available. The cloud rollout approval remains valid; authentication is missing, not permission.
+## Real end-to-end evidence and failures
 
-1. From an authenticated terminal or VS Code, publish the prepared commit:
+Both tests were created by the **actual published studio Generate button**, using the supplied fictional red-cup/blue-bowl account, supplied-source policy and 15-second target. No additional job was submitted during read-only recovery.
 
-   ```sh
-   git -C /Users/klinten/Desktop/My-projects/my-website push origin main
-   ```
+1. `9105035229db4bc58b228da01a306079`: real queued/running/input/research/script progression and SSE checked. Failed before speech because Cloud Run lacked `REPLICATE_API_TOKEN`. Production browser restored this failure after refresh, showed the real error and adjustment action, hid completed player/download, and created zero new jobs. Gemini had temporary 503/high-demand fallback. Evidence: `output/native-portfolio-smoke/smoke.json`.
+2. `3744786da9ef44ada8a00e8e4be154d2`: real UI admission reached composition. A local monitor connection reset was recovered against the **same job**. Cloud Run reported **4,176 MiB used against a 4,096 MiB limit** at `2026-10-14T05:55:40.736171Z` (11:25:40 IST). The persisted job correctly became failed after the worker interruption; there is no completed MP4. Evidence: `output/native-portfolio-smoke-retest/smoke.json`.
 
-2. Verify GitHub Pages serves the actual `#studio` page and native client assets at klinteng.com. Do not submit while the old page is still deployed.
-3. From HER, run exactly one opted-in controlled generation through the published Generate button:
+Repair 1 securely deployed the existing local credential, verified free Replicate account authentication/model metadata access, and made missing default-provider configuration fail readiness before quota/provider work. Repair 2 releases completed ONNX segmentation sessions/native allocator memory before composition and reduces native Remotion concurrency without increasing billing capacity. Both are deployed. Successful real output verification remains pending, and admissions remain paused to prevent more failed paid work.
 
-   ```sh
-   .venv/bin/python scripts/smoke_native_portfolio.py --allow-paid-generation --browser-submit --browser-check ../my-website/tests/project-her-live.mjs
-   ```
+## Verification passed / not run
 
-   The supplied fictional cup/bowl input targets 15 seconds. Credentials travel only through captured subprocess memory; status/report logs contain no tokens. Monitor the same job, check real SSE, byte ranges, attachment/FFprobe, then restore/play/download identical bytes in production Chromium. Do not automatically resubmit after an ambiguous or failed paid attempt.
+- **232 Python tests passed**, including API security/state, provider readiness, cache release/concurrency, and recovery tests proving resume never POSTs a job even with creation flags.
+- **66 portfolio route/width checks** and **13 intercepted studio scenarios**, 320–1440px, keyboard/focus/overflow, refresh, error/quota/unavailable and SSE fallback: passed. These are fixtures, not hosted success.
+- Typed adapter, Remotion TypeScript, JS syntax/diff checks and a five-frame editorial render from existing assets: passed. No paid provider was called for that frame check; color format remains compatible with the compositor.
+- Final deployed prerequisite readiness, storage access, allowed-origin CORS, empty-input rejection (422), missing capability (404), foreign origin (403) and legacy lock (401): passed. TTL/bucket/capacity verified.
+- Actual UI submission, durable failed-job state, real status/SSE and first production failure/refresh UI: passed.
+- Successful hosted MP4, live playback/range/download/hash match and completed-job browser recovery: **not yet passed**. No complete-generation badge/claim is enabled.
+- No portfolio production build exists: GitHub Pages serves static files. Production ingress trust is intentionally conservative rather than guessed.
 
-4. Record actual evidence under `output/native-portfolio-smoke/`, update the portfolio handoff/status only after success, and publish the evidence/status follow-up. Do not publish scoped tokens, private output artifacts or rollback snapshots.
+## Exact remaining and future steps
 
-Future full backend rollout command, already approved for this implementation:
+An additional controlled generation requires approval because both prior authorizations were used and another run incurs new provider work. After approval, enable admissions using the durable policy switch, submit exactly one further UI smoke job and verify that same job:
+
+```sh
+PUPPETEER_MODULE=/Users/klinten/Desktop/My-projects/project-HER/temp/native-browser/node_modules/puppeteer-core/lib/esm/puppeteer/puppeteer-core.js \
+  .venv/bin/python scripts/smoke_native_portfolio.py --allow-paid-generation --browser-submit \
+  --browser-check ../my-website/tests/project-her-live.mjs --output output/native-portfolio-smoke-final
+```
+
+For a monitoring disconnect, **never rerun creation**. `--resume-ui-job <existing-id>` reads only that job's scoped token from stdin and performs status/SSE/media/browser checks, with GET-only retries. No access tokens are persisted in reports or printed.
+
+After real success, record actual file/FFprobe/hash/range/player/download evidence and update status/docs. GitHub CLI publication still has no credentials in this execution session, so the final reviewable portfolio follow-up must be pushed from the user's authenticated terminal/VS Code if that remains unchanged. Initial commit `36065b7` is already published; this authentication limit does not negate its deployment.
+
+Future full-source backend deployment:
 
 ```sh
 .venv/bin/python scripts/deploy_native_portfolio.py --approve-cloud-changes
 ```
 
-It preserves provider settings and enables private storage/legacy lock with the approved warm instance. The portfolio is static GitHub Pages and has no production build command. No additional infrastructure changes are needed for the pending test.
+The script now provisions/binds mandatory Replicate credentials securely from the existing secret or local configured value. It preserves service settings/providers, prepares model dependencies, enables the legacy lock/private storage and applies the approved warm instance. No secret, private snapshot, scoped ticket or generated visitor artifact should be published in git.

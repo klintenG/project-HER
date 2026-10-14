@@ -30,6 +30,7 @@ from pathlib import Path
 from typing import Optional
 
 import config
+from utils.render_resources import remotion_concurrency
 
 logger = logging.getLogger("remotion_renderer")
 
@@ -544,7 +545,7 @@ class RemotionRenderer:
             "ProjectHER",  # composition ID
             str(output_path),
             "--props", str(props_path),
-            "--concurrency", str(min(os.cpu_count() or 4, 8)),
+            "--concurrency", str(remotion_concurrency(min(os.cpu_count() or 4, 8))),
             "--image-format", "jpeg",
             "--jpeg-quality", "95",
             "--log", "verbose",

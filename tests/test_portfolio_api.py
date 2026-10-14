@@ -10,7 +10,8 @@ import config
 from pathlib import Path
 from unittest.mock import patch,MagicMock
 from flask import Flask
-from agent.portfolio_api import install,Runtime,CreateJob,APIError,terminate_worker,cleanup_cloud_job
+from agent.portfolio_api import install,Runtime,CreateJob,APIError,terminate_worker,cleanup_cloud_job,configured_runtime,release_cloud_models
+from utils.render_resources import remotion_concurrency
 from agent.portfolio_store import SQLiteStore,LocalMedia
 
 ORIGIN='https://klinteng.com'
@@ -156,5 +157,27 @@ class PortfolioAPITests(unittest.TestCase):
             owned.mkdir();(owned/'editorial_props.json').write_text(json.dumps({'generationId':'../'+neighbour.name}))
             cleanup_cloud_job(jid);self.assertTrue(neighbour.exists())
             with self.assertRaises(ValueError):cleanup_cloud_job('../other')
+
+    def test_cloud_readiness_requires_default_narration_credential(self):
+        env={'K_SERVICE':'project-her','HER_PORTFOLIO_SIGNING_KEY':'s'*48,
+             'HER_PORTFOLIO_BUCKET':'private-output','GOOGLE_CLOUD_PROJECT':'fixture',
+             'HER_PORTFOLIO_LOCK_LEGACY':'1'}
+        with patch.dict('os.environ',env),patch.object(config,'REPLICATE_API_TOKEN',''):
+            with self.assertRaises(APIError) as failure:configured_runtime()
+            self.assertEqual(failure.exception.status,503)
+            self.assertIn('Replicate narration',failure.exception.message)
+
+    def test_composition_releases_completed_segmentation_sessions(self):
+        module=MagicMock();module._SESSIONS={'completed-model':object()}
+        with patch.dict('sys.modules',{'agent.cutout_processor':module}):release_cloud_models()
+        self.assertEqual(module._SESSIONS,{})
+
+    def test_native_render_cap_preserves_standalone_defaults(self):
+        with patch.dict('os.environ',{},clear=True):
+            self.assertEqual(remotion_concurrency(),2)
+            self.assertEqual(remotion_concurrency(8),8)
+        with patch.dict('os.environ',{'HER_REMOTION_CONCURRENCY':'1'}):
+            self.assertEqual(remotion_concurrency(),1)
+            self.assertEqual(remotion_concurrency(8),1)
 
 if __name__=='__main__':unittest.main()

@@ -238,7 +238,11 @@ class Runtime:
         job=self.get_job(jid);cancel=DurableCancel(self,jid,job['deadline'])
         out=config.OUTPUT_DIR/('portfolio_'+jid);out.mkdir(parents=True,exist_ok=True)
         self.update(jid,status='running')
+        models_released=False
         def progress(stage):
+            nonlocal models_released
+            if os.getenv('K_SERVICE') and stage.name=='compose' and stage.status=='running' and not models_released:
+                release_cloud_models();models_released=True
             # Stage status comes from the real pipeline. No synthesized percent
             # or prompts, provider logs, private paths or transcript are exposed.
             self.update(jid,stage={'name':stage.name,'label':stage.label,'status':stage.status,'elapsed':round(stage.elapsed,1)})
@@ -301,6 +305,21 @@ class Runtime:
 def env_enabled(name):return os.getenv(name,'0').lower() in ('1','true','yes')
 
 
+def release_cloud_models():
+    """Cutouts/alignment are finished; release their native memory before Chrome."""
+    import gc
+    import sys
+    import ctypes
+    module=sys.modules.get('agent.cutout_processor')
+    if module is not None:getattr(module,'_SESSIONS',{}).clear()
+    gc.collect()
+    try:
+        trim=ctypes.CDLL(None).malloc_trim
+        trim.argtypes=[ctypes.c_size_t];trim.restype=ctypes.c_int;trim(0)
+    except (AttributeError,OSError):pass
+    logger.info('Portfolio inference caches released before composition.')
+
+
 def cleanup_cloud_job(jid):
     """Remove only this native job's private scratch files after its worker stops."""
     import shutil
@@ -322,6 +341,7 @@ def cloud_worker(jid,data):
     # Keep prompt/media caches private to the child. The supervising process
     # removes this workspace even after a hard timeout or cancellation.
     config.TEMP_DIR=config.TEMP_DIR/'portfolio-work'/jid
+    os.environ['HER_REMOTION_CONCURRENCY']='1'
     config.TEMP_DIR.mkdir(parents=True,exist_ok=True)
     for name,folder in (('CACHE_DIR','cache'),('NEWS_TTS_CACHE','speech'),
                         ('NEWS_REFERENCE_CACHE','references'),('NEWS_IDENTITY_IMAGE_CACHE','images'),
@@ -342,6 +362,8 @@ def configured_runtime():
         bucket=os.getenv('HER_PORTFOLIO_BUCKET');project=os.getenv('GOOGLE_CLOUD_PROJECT') or os.getenv('GCLOUD_PROJECT')
         if not bucket or not project:raise APIError('Native generation is unavailable until durable job and output storage is configured.',503)
         if not env_enabled('HER_PORTFOLIO_LOCK_LEGACY'):raise APIError('Public generation is unavailable until legacy endpoints are protected.',503)
+        if not config.REPLICATE_API_TOKEN:
+            raise APIError('Public generation is unavailable until Replicate narration is configured on the backend.',503)
         import importlib.util
         model=os.getenv('HER_ALIGNMENT_MODEL','small')
         cache=config.ASSETS_DIR/'alignment'/('models--Systran--faster-whisper-'+model)

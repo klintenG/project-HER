@@ -10,6 +10,7 @@ import logging
 import math
 import re
 import config
+from utils.render_resources import remotion_concurrency
 from agent.news_models import NewsError
 from .models import Timeline,digest
 from .audio import measure,normalize
@@ -105,7 +106,8 @@ def render(m,output,cancel_event=None):
     log=output.with_suffix('.render.log')
     with log.open('w') as handle:
         p=subprocess.Popen([str(cli),'render','src/index.ts','ProjectHEREditorial',str(intermediate.resolve()),'--props',str(props),
-            '--concurrency','2','--codec','h264','--crf','16','--pixel-format','yuv420p','--overwrite'],cwd=root,stdout=handle,stderr=subprocess.STDOUT,start_new_session=True)
+            '--concurrency',str(remotion_concurrency()),
+            '--codec','h264','--crf','16','--pixel-format','yuv420p','--overwrite'],cwd=root,stdout=handle,stderr=subprocess.STDOUT,start_new_session=True)
         deadline=time.monotonic()+1200
         while p.poll() is None:
             if (cancel_event and cancel_event.is_set()) or time.monotonic()>deadline:

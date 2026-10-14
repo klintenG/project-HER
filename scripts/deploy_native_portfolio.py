@@ -10,6 +10,7 @@ import secrets
 import subprocess
 import tempfile
 from pathlib import Path
+from dotenv import dotenv_values
 
 PROJECT='project-her-510715';REGION='us-central1';SERVICE='project-her'
 BUCKET=PROJECT+'-portfolio-output'
@@ -22,6 +23,17 @@ def run(args,*,data=None,allow_failure=False):
         # gcloud output may contain env values; don't echo a deployment export.
         raise RuntimeError('gcloud command failed: '+' '.join(args[:4])+' (exit '+str(result.returncode)+'). Review the command locally; secret values are not printed.')
     return result
+
+
+def ensure_replicate_secret(account,source):
+    name='her-provider-replicate-token'
+    current=run(['secrets','describe',name,'--format=value(name)'],allow_failure=True)
+    if current.returncode:
+        value=os.getenv('REPLICATE_API_TOKEN') or dotenv_values(Path(source)/'.env').get('REPLICATE_API_TOKEN','')
+        if not value:raise RuntimeError('Configure REPLICATE_API_TOKEN locally or provision her-provider-replicate-token before enabling public generation. No credential value was printed.')
+        run(['secrets','create',name,'--replication-policy=automatic','--data-file=-'],data=value)
+    run(['secrets','add-iam-policy-binding',name,'--member=serviceAccount:'+account,'--role=roles/secretmanager.secretAccessor'])
+    return 'REPLICATE_API_TOKEN='+name+':latest'
 
 
 def main():
@@ -60,6 +72,7 @@ def main():
         if current.returncode:
             run(['secrets','create',name,'--replication-policy=automatic','--data-file=-'],data=secrets.token_urlsafe(48))
         run(['secrets','add-iam-policy-binding',name,'--member=serviceAccount:'+account,'--role=roles/secretmanager.secretAccessor'])
+    provider_binding=ensure_replicate_secret(account,source)
     run(['firestore','fields','ttls','update','delete_after','--collection-group=her_portfolio','--database=(default)','--enable-ttl','--async'])
     values={'HER_PORTFOLIO_ENABLED':'1','HER_PORTFOLIO_LOCK_LEGACY':'1','HER_PORTFOLIO_BUCKET':BUCKET,
         'GOOGLE_CLOUD_PROJECT':PROJECT,'HER_PORTFOLIO_ORIGINS':'https://klinteng.com,https://www.klinteng.com',
@@ -68,7 +81,7 @@ def main():
     env='^~^'+'~'.join(k+'='+v for k,v in values.items())
     deploy=run(['run','deploy',SERVICE,'--source='+str(source),'--region='+REGION,
         '--no-cpu-throttling','--min-instances=1','--max-instances=1','--concurrency=20','--cpu=2','--memory=4Gi','--timeout=3600',
-        '--update-env-vars='+env,'--update-secrets=HER_PORTFOLIO_SIGNING_KEY=her-portfolio-signing-key:latest,HER_OPERATOR_KEY=her-portfolio-operator-key:latest'])
+        '--update-env-vars='+env,'--update-secrets=HER_PORTFOLIO_SIGNING_KEY=her-portfolio-signing-key:latest,HER_OPERATOR_KEY=her-portfolio-operator-key:latest,'+provider_binding])
     print('Cloud Run deployment completed. Next: check /api/portfolio/config, run one explicitly allowed smoke generation, then publish the reviewed portfolio changes.')
 
 if __name__=='__main__':main()
