@@ -27,7 +27,7 @@ class Word(Model):
     text: str
     start: float = Field(ge=0)
     end: float = Field(gt=0)
-    provenance: Literal['provider', 'whisper_forced', 'estimated_phrase']
+    provenance: Literal['provider', 'whisper_forced', 'whisper_transcribed', 'estimated_phrase']
     confidence: float = Field(ge=0, le=1)
 
 

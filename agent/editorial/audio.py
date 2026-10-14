@@ -81,10 +81,33 @@ class Aligner:
             rows=self.model.find_alignment(self.tokenizer,[self.tokenizer.encode(' '+text.lstrip())],encoded,len(data)//160,median_filter_width=width)[0]
             try:return alignment_words(rows,text)
             except NewsError as exc:
-                if not str(exc).startswith('Zero-duration aligned word:') or width==11:raise
+                if not str(exc).startswith('Zero-duration aligned word:'):raise
+                if width==11:return self.transcribed_alignment(data,text)
                 # Recompute measured cross-attention/DTW with a different
                 # smoothing width. Never spread time evenly or invent onsets.
                 continue
+
+
+    def transcribed_alignment(self,data,text):
+        # Spoken punctuation need not match the script's punctuation. Require
+        # every recognized lexical word in order, then restore display spelling.
+        segments,_=self.model.transcribe(data,language=self.tokenizer.language_code,beam_size=5,word_timestamps=True,vad_filter=False)
+        measured=[word for segment in segments for word in (segment.words or [])]
+        original=text.split()
+        canonical=lambda token:token.strip().casefold().replace('’',"'").strip('.,:;!?…“”"()')
+        if len(measured)!=len(original) or any(not canonical(token) or canonical(word.word)!=canonical(token) for word,token in zip(measured,original)):
+            raise NewsError('Zero-duration alignment could not be recovered: recognized speech does not exactly match the script.')
+        result=[];previous=0;duration=len(data)/16000
+        for word,token in zip(measured,original):
+            start=float(word.start);end=float(word.end);probability=float(word.probability)
+            if not (math.isfinite(start) and math.isfinite(end) and previous-.001<=start<end<=duration+.001 and .35<=probability<=1):
+                raise NewsError('Zero-duration alignment could not be recovered with reliable measured word timing.')
+            signal=data[max(0,int(start*16000)):min(len(data),math.ceil(end*16000))]
+            if not len(signal) or float(np.sqrt(np.mean(signal**2)))<1e-5:
+                raise NewsError('Zero-duration alignment recovery found a word without audible speech.')
+            result.append(dict(text=token,start=start,end=end,confidence=probability,provenance='whisper_transcribed'))
+            previous=end
+        return result
 
 
 def alignment_words(rows,text):
@@ -136,7 +159,7 @@ def assemble(script,clips,output,language='en',native=None,gap=.12):
     aligner=None; words=[]; sections=[]; buffers=[]; offsets=[]; warnings=[]; cursor=0; rate=48000
     for i,(section,clip) in enumerate(zip(script.sentences,clips)):
         data=samples(clip)
-        key=hashlib.sha256((digest(clip)+section.text+'alignment-v4-'+os.getenv('HER_ALIGNMENT_MODEL','small')+'-faster-whisper-1.2.1-'+language).encode()).hexdigest()
+        key=hashlib.sha256((digest(clip)+section.text+'alignment-v5-'+os.getenv('HER_ALIGNMENT_MODEL','small')+'-faster-whisper-1.2.1-'+language).encode()).hexdigest()
         cache=output/(key+'.alignment.json')
         rows=native.get(section.id) if native else None
         if rows is None and cache.is_file():
@@ -163,7 +186,7 @@ def assemble(script,clips,output,language='en',native=None,gap=.12):
                 tokens=section.text.split();duration=len(data)/rate
                 rows=[dict(text=t,start=j*duration/len(tokens),end=(j+1)*duration/len(tokens),confidence=0,provenance='estimated_phrase') for j,t in enumerate(tokens)]
                 warnings.append(section.id+': ESTIMATED phrase timing; word onsets are not measured and synchronization tolerance is not guaranteed. '+str(exc))
-        if rows and rows[0]['provenance']=='whisper_forced':rows=refine_silence_edges(rows,data)
+        if rows and rows[0]['provenance'] in ('whisper_forced','whisper_transcribed'):rows=refine_silence_edges(rows,data)
         if not rows: raise NewsError('Missing aligned words')
         # Inspect 10ms RMS bins only at the two clip edges. Preserve all internal
         # pauses. Keep 60ms handles around either signal OR alignment, whichever
@@ -190,8 +213,8 @@ def assemble(script,clips,output,language='en',native=None,gap=.12):
     raw=output/'assembled.wav';write_wave(raw,np.concatenate(buffers))
     aligned=output/'alignment.json'; aligned.write_text(json.dumps({'words':[w.model_dump() for w in words],'offsets':offsets,'warnings':warnings},indent=2))
     return raw,words,sections,{'offsets':offsets,'alignmentWarnings':warnings,'sampleRate':rate,
-        'confidenceMeaning':'Provider words: provider validated against script; forced words: Whisper token probability, not calibrated temporal accuracy. Edge refinements use the waveform.',
-        'alignmentVersion':'known-script-dtw-v3'}
+        'confidenceMeaning':'Provider words: provider validated against script; forced/transcribed words: Whisper token probability, not calibrated temporal accuracy; transcription recovery requires an exact lexical script match and audible word intervals. Edge refinements use the waveform.',
+        'alignmentVersion':'known-script-dtw-v5-exact-transcript-recovery'}
 
 
 def prepare_existing(script,audio,output,language='en'):

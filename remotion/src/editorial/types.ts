@@ -127,7 +127,7 @@ export type Word = {
   text: string;
   start: number;
   end: number;
-  provenance: "provider" | "whisper_forced" | "estimated_phrase";
+  provenance: "provider" | "whisper_forced" | "whisper_transcribed" | "estimated_phrase";
   confidence: number;
 }
 export type Timeline = {

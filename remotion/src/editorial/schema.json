@@ -896,6 +896,7 @@
           "enum": [
             "provider",
             "whisper_forced",
+            "whisper_transcribed",
             "estimated_phrase"
           ],
           "title": "Provenance",

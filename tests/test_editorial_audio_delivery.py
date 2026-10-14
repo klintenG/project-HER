@@ -20,6 +20,7 @@ class AlignmentRecoveryTests(unittest.TestCase):
         from agent.editorial.audio import Aligner
         aligner=Aligner.__new__(Aligner);aligner.model=MagicMock();aligner.tokenizer=MagicMock()
         aligner.model.find_alignment.side_effect=[[row] for row in rows]
+        aligner.model.transcribe.return_value=([],None)
         return aligner
     def test_zero_duration_word_recomputes_measured_alignment(self):
         rejected=[{'word':' eliminate','start':.3,'end':.3,'probability':.8}]
@@ -37,6 +38,20 @@ class AlignmentRecoveryTests(unittest.TestCase):
         with patch.dict('sys.modules',{'faster_whisper.audio':SimpleNamespace(pad_or_trim=lambda value:value)}):
             with self.assertRaisesRegex(NewsError,'Zero-duration'):aligner.align(np.ones(16000,dtype=np.float32),'eliminate')
         self.assertEqual(aligner.model.find_alignment.call_count,3)
+    def test_punctuation_zero_word_uses_exact_recognized_speech_and_restores_display(self):
+        rejected=[{'word':' eliminate:','start':.3,'end':.3,'probability':.8}]
+        aligner=self.aligner([rejected,rejected,rejected])
+        aligner.model.transcribe.return_value=([SimpleNamespace(words=[SimpleNamespace(word=' Eliminate.',start=.2,end=.6,probability=.99)])],None)
+        with patch.dict('sys.modules',{'faster_whisper.audio':SimpleNamespace(pad_or_trim=lambda value:value)}):
+            rows=aligner.align(np.ones(16000,dtype=np.float32),'eliminate:')
+        self.assertEqual(rows[0]['text'],'eliminate:');self.assertEqual(rows[0]['start'],.2)
+        self.assertEqual(rows[0]['provenance'],'whisper_transcribed')
+        self.assertEqual(aligner.model.transcribe.call_count,1)
+    def test_transcription_recovery_rejects_missing_words_and_silent_or_zero_spans(self):
+        for word,signal in [(SimpleNamespace(word='different',start=.2,end=.6,probability=.99),np.ones(16000)),(SimpleNamespace(word='eliminate',start=.3,end=.3,probability=.99),np.ones(16000)),(SimpleNamespace(word='eliminate',start=.2,end=.6,probability=.99),np.zeros(16000))]:
+            aligner=self.aligner([]);aligner.model.transcribe.return_value=([SimpleNamespace(words=[word])],None)
+            with self.assertRaises(NewsError):aligner.transcribed_alignment(signal,'eliminate')
+
     def test_token_mismatch_is_not_replaced_with_estimated_timing(self):
         rejected=[{'word':' different','start':.1,'end':.5,'probability':.8}]
         aligner=self.aligner([rejected])
