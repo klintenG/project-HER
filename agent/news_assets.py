@@ -26,9 +26,11 @@ def subject_prompt(entity, attempt=0):
     prompt=('Recognizable '+entity.name+'. ' if entity.identity in ('real','fictional') else 'One isolated ')+entity.description+'. '
     if entity.kind=='person':
         prompt+='Fully colored editorial illustration, natural skin tones, visible faces and recognizable anatomy, no black silhouettes. '
+    if entity.kind=='animal':
+        prompt+='One representative animal of the described species, natural colors, realistic recognizable anatomy, full head/neck/body/legs/feet visible. Use a single animal even when the species name is plural; no flock, no silhouette icon or abstract shape. '
     if entity.is_group and entity.identity!='real':
         prompt+='One compact group of three representative people, shoulders together, same scale and baseline, all heads and feet visible. '
-    if entity.identity=='real':
+    if entity.identity=='real' and entity.kind=='person':
         prompt+='Preserve the specific identity, recognizable facial features, age, proportions, and distinctive appearance. Do not replace with an anonymous lookalike or invent an event or action. '
     if 'football' in (entity.name+' '+entity.description).lower():
         prompt+='Association football (soccer): ordinary soccer shirts and shorts, no helmets, no shoulder pads, no American football uniforms. '

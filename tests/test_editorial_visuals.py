@@ -34,7 +34,8 @@ class EditorialVisualTests(unittest.TestCase):
         self.generator=MagicMock()
         async def create(prompt,path,reference=None):subject_image('mira').save(path);return 'replicate:black-forest-labs/flux-kontext-pro' if reference else 'replicate:black-forest-labs/flux-schnell'
         self.generator.subject=AsyncMock(side_effect=create);self.generator.real_subject=AsyncMock(side_effect=create)
-        self.review=MagicMock(return_value={'sameLikeness':True,'singlePerson':True,'bodyPreserved':True,'confidence':.94,'problems':[]})
+        self.review=MagicMock(return_value={'sameLikeness':True,'singlePerson':True,'bodyPreserved':True,'confidence':.94,'problems':[],'subjectMatch':True,'usable':True,'geometricPlaceholder':False,'contextAppropriate':True,'subjectConfidence':.95})
+        review_patch=patch('agent.editorial.vision.VisualReview',return_value=self.review);review_patch.start();self.patches.append(review_patch)
     def tearDown(self):
         for p in reversed(self.patches):p.stop()
         self.tmp.cleanup()
@@ -66,7 +67,7 @@ class EditorialVisualTests(unittest.TestCase):
         self.assertEqual(self.generator.real_subject.call_count,1);self.assertEqual(self.review.call_count,1)
 
     def test_wrong_likeness_gets_bounded_retries_then_disclosed_illustration(self):
-        self.review.return_value={'sameLikeness':False,'singlePerson':True,'bodyPreserved':True,'confidence':.2,'problems':['Wrong face']}
+        self.review.return_value={'sameLikeness':False,'singlePerson':True,'bodyPreserved':True,'confidence':.2,'problems':['Wrong face'],'subjectMatch':True,'usable':True,'geometricPlaceholder':False,'contextAppropriate':True,'subjectConfidence':.95}
         _,assets=self.assets(processor=self.failed_photo_processor())
         self.assertEqual(self.generator.real_subject.call_count,2)
         self.generator.subject.assert_called_once()
@@ -100,21 +101,68 @@ class EditorialVisualTests(unittest.TestCase):
         self.assertEqual(len(list((self.root/'retry').glob('*-generated-*.png'))),3)
         self.assertTrue(assets[0].alpha)
 
-    def test_exhausted_cutouts_use_existing_generic_fallback_without_weakening_named_people(self):
+    def test_exhausted_cutouts_fail_without_creating_geometric_placeholders(self):
         from agent.cutout_processor import CutoutQualityError
         script=story();script.entities[0]=Entity(id='person',name='Cup',kind='object',identity='generic',description='One ceramic cup')
         processor=MagicMock();processor.process.side_effect=CutoutQualityError('Subject touches image edge')
-        diagnostics={}
-        _,assets=acquire(script,self.root/'symbol',processor=processor,image_generator=self.generator,diagnostics=diagnostics)
-        self.assertEqual(self.generator.subject.call_count,config.NEWS_ASSET_RETRIES+1)
-        self.assertEqual(assets[0].role,'symbol');self.assertFalse(assets[0].factual)
-        self.assertIn('does not establish the identity',assets[0].fallback)
-        self.assertEqual(diagnostics['assetAcquisition']['assets'][0]['route'],'disclosed_support_failure')
-        script.entities[0]=Entity(id='person',name='Historical Person',kind='person',identity='real',description='A portrait')
-        self.people.resolve.return_value={'kind':'historical','references':[]}
         with self.assertRaises(CutoutQualityError):
-            acquire(script,self.root/'portrait',processor=processor,image_generator=self.generator,people=self.people)
-        self.assertFalse(list((self.root/'portrait').glob('*-symbol.svg')))
+            acquire(script,self.root/'failed',processor=processor,image_generator=self.generator)
+        self.assertEqual(self.generator.subject.call_count,config.NEWS_ASSET_RETRIES+1)
+        self.assertFalse(list((self.root/'failed').glob('*-symbol.svg')))
+
+    def test_missing_real_emu_photo_uses_reviewed_illustration_instead_of_cube(self):
+        text='In 1932, emus damaged Australian farms.'
+        script=Script(summary='Emu War',narration=text,entities=[Entity(id='emu',name='Emus',kind='animal',identity='real',description='Large Australian flightless birds with long necks and legs')],sentences=[Sentence(id='s1',text=text,phrase='Emus on farms',role='context',claim_ids=['c1'],entity_ids=['emu'])])
+        audit={}
+        with patch('agent.news_references.ReferencePhotos.find',return_value=[]):
+            _,assets=acquire(script,self.root/'emu',image_generator=self.generator,visual_review=self.review,diagnostics=audit)
+        self.assertEqual(len(assets),1);self.assertTrue(assets[0].alpha);self.assertFalse(assets[0].factual)
+        self.assertNotEqual(assets[0].preparation,'symbolic')
+        self.assertIn('AI contextual illustration',assets[0].fallback)
+        self.assertEqual(audit['assetAcquisition']['assets'][0]['route'],'contextual_ai_after_missing_reference')
+        prompt=self.generator.subject.call_args.args[0]
+        self.assertIn('1932',prompt);self.assertIn('single animal',prompt);self.assertIn('Never use a cube',prompt)
+        self.assertNotIn('recognizable facial features',prompt)
+        self.assertFalse(list((self.root/'emu').glob('*-symbol.svg')))
+
+    def test_transient_visual_review_rechecks_same_image_without_regeneration(self):
+        self.review.side_effect=[TimeoutError('Temporary vision connection'),copy.deepcopy(self.review.return_value)]
+        script=story();script.entities[0].identity='fictional'
+        _,assets=acquire(script,self.root/'review-recovery',image_generator=self.generator,visual_review=self.review)
+        self.generator.subject.assert_called_once();self.assertEqual(self.review.call_count,2)
+        self.assertTrue(assets[0].alpha)
+
+    def test_generated_geometric_or_unrelated_image_is_rejected_and_regenerated(self):
+        good=copy.deepcopy(self.review.return_value)
+        bad={**good,'subjectMatch':False,'geometricPlaceholder':True,'problems':['A cube is not an emu']}
+        self.review.side_effect=[bad,good]
+        script=story();script.entities[0]=Entity(id='person',name='Emu',kind='animal',identity='generic',description='One emu')
+        _,assets=acquire(script,self.root/'qa-retry',image_generator=self.generator,visual_review=self.review)
+        self.assertEqual(self.generator.subject.call_count,2)
+        self.assertIn('A cube is not an emu',self.generator.subject.call_args.args[0])
+        self.assertNotEqual(assets[0].preparation,'symbolic')
+        accepted=[json.loads(p.read_text()) for p in (self.root/'images').glob('*/review.json')]
+        self.assertEqual(len(accepted),1);self.assertFalse(accepted[0]['subjectReview']['geometricPlaceholder'])
+
+    def test_longer_visual_plan_can_acquire_more_than_eight_relevant_images(self):
+        from agent.editorial.images import EditorialImages
+        names=['Emu','Fence','Wheat','Farm','Soldier','Machine gun','Truck','Ammunition','Farmer','Field']
+        entities=[Entity(id='visual-'+str(i),name=name,kind='object',identity='generic',description='One '+name) for i,name in enumerate(names)]
+        script=story().model_copy(update={'entities':entities,'narration':'In 1932: '+', '.join(names)+'.'})
+        async def prediction(prompt,path,reference,tier):
+            subject_image('diamond').save(path);return 'fixture'
+        with patch.object(config,'REPLICATE_API_TOKEN','fixture'),patch.object(config,'EDITORIAL_MAX_SUPPORT_CALLS',24):
+            generator=EditorialImages();generator._prediction=AsyncMock(side_effect=prediction)
+            _,assets=acquire(script,self.root/'long-plan',image_generator=generator,visual_review=self.review)
+        self.assertEqual(generator.support_calls,10);self.assertEqual(len(assets),10)
+        self.assertTrue(all(a.preparation!='symbolic' and a.alpha for a in assets))
+
+    def test_missing_exact_asset_and_local_asset_do_not_get_placeholder_or_invented_map(self):
+        for mode,exact in [('local',None),('auto','map-required')]:
+            script=story();script.entities[0]=Entity(id='map',name='Australia map',kind='place',identity='real',description='Exact geographic borders',exact_asset=exact)
+            with self.assertRaisesRegex(NewsError,'No verified asset'):
+                acquire(script,self.root/mode,asset_mode=mode,image_generator=self.generator)
+        self.generator.subject.assert_not_called()
 
     def test_rejected_cached_image_is_regenerated_instead_of_reused_each_retry(self):
         from agent.cutout_processor import CutoutQualityError
@@ -133,7 +181,7 @@ class EditorialVisualTests(unittest.TestCase):
         self.people.resolve.return_value={'kind':'real','sources':['https://public.example/biography'],'references':[]}
         _,assets=self.assets()
         self.generator.real_subject.assert_not_called();self.generator.subject.assert_called_once()
-        self.review.assert_not_called()
+        self.assertFalse(any('Compare image 1' in c.args[0] for c in self.review.call_args_list))
         self.assertFalse(assets[0].factual)
         self.assertEqual(assets[0].fallback,'AI illustration; identity/likeness not verified')
         self.assertIn('Not a verified likeness',self.generator.subject.call_args.args[0])
@@ -141,7 +189,7 @@ class EditorialVisualTests(unittest.TestCase):
     def test_historical_person_without_photo_uses_direct_supporting_illustration(self):
         self.people.resolve.return_value={'kind':'historical','sources':['https://public.example/biography'],'references':[]}
         _,assets=self.assets()
-        self.generator.subject.assert_called_once();self.generator.real_subject.assert_not_called();self.review.assert_not_called()
+        self.generator.subject.assert_called_once();self.generator.real_subject.assert_not_called();self.assertFalse(any('Compare image 1' in c.args[0] for c in self.review.call_args_list))
         self.assertFalse(assets[0].factual);self.assertTrue(assets[0].alpha)
         self.assertIn('reconstruction',assets[0].fallback)
 
@@ -168,7 +216,7 @@ class EditorialVisualTests(unittest.TestCase):
                 record=diagnostics['assetAcquisition']['assets'][0]
                 self.assertEqual(record['route'],'representative_group_illustration')
                 self.assertEqual(record['depictionIdentity'],'generic')
-        self.people.resolve.assert_not_called();self.generator.real_subject.assert_not_called();self.review.assert_not_called()
+        self.people.resolve.assert_not_called();self.generator.real_subject.assert_not_called();self.assertFalse(any('Compare image 1' in c.args[0] for c in self.review.call_args_list))
         self.generator.subject.assert_called_once()  # Second request reuses the accepted cutout.
         prompt=self.generator.subject.call_args.args[0]
         self.assertIn('sixteenth century',prompt)

@@ -10,7 +10,7 @@ import config
 from pathlib import Path
 from unittest.mock import patch,MagicMock
 from flask import Flask
-from agent.portfolio_api import install,Runtime,CreateJob,APIError,terminate_worker,cleanup_cloud_job,configured_runtime,release_cloud_models
+from agent.portfolio_api import install,Runtime,CreateJob,APIError,terminate_worker,cleanup_cloud_job,configured_runtime,release_cloud_models,cloud_worker
 from utils.render_resources import remotion_concurrency
 from agent.portfolio_store import SQLiteStore,LocalMedia
 
@@ -163,6 +163,15 @@ class PortfolioAPITests(unittest.TestCase):
         with patch.dict('sys.modules',{'psutil':module}):terminate_worker(process)
         child.terminate.assert_called_once();process.terminate.assert_called_once()
         module.Process.return_value.children.assert_called_once_with(recursive=True)
+
+    def test_cloud_support_image_budget_covers_longer_plans_but_stays_bounded(self):
+        names=['TEMP_DIR','CACHE_DIR','NEWS_TTS_CACHE','NEWS_REFERENCE_CACHE','NEWS_IDENTITY_IMAGE_CACHE','NEWS_CUTOUT_CACHE','NARRATION_VISUAL_SETTINGS','NEWS_MAX_REAL_IMAGE_CALLS','EDITORIAL_MAX_SUPPORT_CALLS']
+        values={name:getattr(config,name) for name in names};values['TEMP_DIR']=self.root/'cloud';values['EDITORIAL_MAX_SUPPORT_CALLS']=48
+        with patch.multiple(config,**values),patch('agent.portfolio_api.configured_runtime') as runtime,patch.dict('os.environ',{},clear=False):
+            cloud_worker('a'*32,{'text':'An emu story.'})
+            self.assertEqual(config.EDITORIAL_MAX_SUPPORT_CALLS,24)
+            self.assertEqual(config.NEWS_MAX_REAL_IMAGE_CALLS,4)
+            runtime.return_value.execute.assert_called_once()
 
     def test_cloud_cleanup_removes_only_owned_job_workspaces(self):
         jid='a'*32;generation='editorial_'+'b'*32

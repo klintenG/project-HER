@@ -351,7 +351,7 @@ def cloud_worker(jid,data):
         getattr(config,name).mkdir(parents=True,exist_ok=True)
     config.NARRATION_VISUAL_SETTINGS={**config.NARRATION_VISUAL_SETTINGS,'allowPhraseTimingFallback':False}
     config.NEWS_MAX_REAL_IMAGE_CALLS=min(config.NEWS_MAX_REAL_IMAGE_CALLS,4)
-    config.EDITORIAL_MAX_SUPPORT_CALLS=min(config.EDITORIAL_MAX_SUPPORT_CALLS,8)
+    config.EDITORIAL_MAX_SUPPORT_CALLS=min(config.EDITORIAL_MAX_SUPPORT_CALLS,24)
     configured_runtime().execute(jid,CreateJob.model_validate(data))
 
 

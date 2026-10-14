@@ -21,6 +21,8 @@ from urllib3.util.retry import Retry
 def main():
     p=argparse.ArgumentParser();p.add_argument('--base',default='https://project-her-svnnlerw4q-uc.a.run.app/api/portfolio')
     p.add_argument('--allow-paid-generation',action='store_true');p.add_argument('--browser-check');p.add_argument('--browser-submit',action='store_true');p.add_argument('--resume-ui-job',help='Resume an existing UI smoke job; scoped token arrives on stdin. Never submits a job.');p.add_argument('--output',default='output/native-portfolio-smoke')
+    p.add_argument('--input-file',help='Approved test story file; never submits without --allow-paid-generation.')
+    p.add_argument('--target-duration',type=int,choices=[0,15,30,55,90],default=15)
     args=p.parse_args();base=args.base.rstrip('/');origin='https://klinteng.com'
     session=requests.Session();session.headers.update({'Origin':origin})
     retries=Retry(total=3,backoff_factor=1,status_forcelist=[502,503,504],allowed_methods=frozenset(['GET','HEAD','OPTIONS']))
@@ -31,7 +33,9 @@ def main():
     if not args.allow_paid_generation and not args.resume_ui_job:
         print('No job submitted. Add --allow-paid-generation for exactly one controlled provider-backed generation.');return
     text='Fictional demonstration: A red ceramic cup stands beside a blue ceramic bowl. The cup stays in place while attention shifts to the bowl.'
-    payload={'text':text,'news_source_policy':'supplied','target_duration':15}
+    if args.input_file:text=Path(args.input_file).read_text().strip()
+    if not text or len(text)>6000:raise RuntimeError('Controlled input must contain 1–6000 characters.')
+    payload={'text':text,'news_source_policy':'supplied','target_duration':args.target_duration}
     if args.resume_ui_job:
         token=sys.stdin.read().strip()
         if not re.fullmatch(r'[a-f0-9]{32}',args.resume_ui_job) or not re.fullmatch(r'[a-f0-9]{64}',token):raise RuntimeError('Resume requires a valid job ID and scoped token on stdin.')
