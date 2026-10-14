@@ -175,7 +175,7 @@ def _real_cutout(entity,output,processor,generator,source_basis,reference_provid
         raw=output/f'{file_id}-reference-{i+1}.image';cutout=output/f'{file_id}-reference-{i+1}.png'
         shutil.copy2(reference.path,raw)
         try:
-            stats,method=processor.process(raw,cutout,allow_group=entity.is_group,allow_portrait_crop=entity.is_portrait)
+            stats,method=processor.process(raw,cutout,allow_group=entity.is_group,allow_portrait_crop=entity.is_portrait,allow_bottom_crop=True)
             logger.info('News subject %s: actual reference photo (%s)',entity.name,reference.entity_url)
             return Asset(id='asset-'+entity.id,entity_id=entity.id,path=str(cutout.resolve()),raw_path=str(raw.resolve()),
                 prompt='Actual identity-linked reference photograph; background removed, no AI redraw.',provider='wikimedia_commons',
@@ -209,7 +209,7 @@ def _real_cutout(entity,output,processor,generator,source_basis,reference_provid
             else:
                 logger.info('News subject %s: %s | paid call %s/%s',entity.name,model,budget[0],config.NEWS_MAX_REAL_IMAGE_CALLS)
                 provider=_generate(generator.real_subject(prompt,raw,reference),cancel_event)
-            stats,method=processor.process(raw,cutout,allow_group=entity.is_group,allow_portrait_crop=entity.is_portrait)
+            stats,method=processor.process(raw,cutout,allow_group=entity.is_group,allow_portrait_crop=entity.is_portrait,allow_bottom_crop=True)
             cache.mkdir(parents=True,exist_ok=True)
             temporary=cache/(uuid.uuid4().hex+'.tmp');shutil.copy2(raw,temporary);temporary.replace(cache/'raw.image')
             return Asset(id='asset-'+entity.id,entity_id=entity.id,path=str(cutout.resolve()),raw_path=str(raw.resolve()),prompt=prompt,
@@ -255,7 +255,7 @@ def generate_cutouts(script,output,source_basis,generator=None,processor=None,ca
                 revised=subject_prompt(e,attempt)
                 raw=output/f'{key}-attempt-{attempt+1}-raw.png'
                 provider=_generate(generator.subject(revised,raw),cancel_event)
-                stats,method=processor.process(raw,cutout,allow_group=e.is_group,allow_portrait_crop=e.is_portrait)
+                stats,method=processor.process(raw,cutout,allow_group=e.is_group,allow_portrait_crop=e.is_portrait,allow_bottom_crop=True)
                 assets.append(Asset(id=f'asset-{e.id}',entity_id=e.id,path=str(cutout.resolve()),raw_path=str(raw.resolve()),prompt=revised,provider=provider,
                     source_basis=source_basis,segmentation=method,mask=stats,fallback='regenerated after mask QA failure' if attempt else None))
                 error=None; break

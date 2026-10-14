@@ -64,6 +64,32 @@ class GroupCutoutTests(unittest.TestCase):
             with self.subTest(image=image), self.assertRaisesRegex(NewsError, "detached"):
                 mask_statistics(image, allow_group=True)
 
+    def test_allow_bottom_crop_permits_grounded_subject_without_clipping_top_or_sides(self):
+        grounded = group_image()
+        ImageDraw.Draw(grounded).rectangle((100, 400, 400, 511), fill="#18305a")
+        with self.assertRaisesRegex(NewsError, "edge"):
+            mask_statistics(grounded, allow_group=True)
+        stats = mask_statistics(grounded, allow_group=True, allow_bottom_crop=True)
+        self.assertGreater(stats["coverage"], 0.05)
+        # Clipping top must still fail even with allow_bottom_crop
+        top_clipped = grounded.copy()
+        ImageDraw.Draw(top_clipped).rectangle((150, 0, 350, 50), fill="blue")
+        with self.assertRaisesRegex(NewsError, "edge"):
+            mask_statistics(top_clipped, allow_group=True, allow_bottom_crop=True)
+        # Clipping side in upper 55% must still fail even with allow_bottom_crop
+        side_clipped = grounded.copy()
+        ImageDraw.Draw(side_clipped).rectangle((0, 100, 50, 200), fill="blue")
+        with self.assertRaisesRegex(NewsError, "edge"):
+            mask_statistics(side_clipped, allow_group=True, allow_bottom_crop=True)
+
+    def test_stray_edge_noise_does_not_falsely_reject_subject(self):
+        image = group_image()
+        # Add 2 single-pixel noise points on the outer margin
+        image.putpixel((0, 0), (200, 200, 200, 100))
+        image.putpixel((511, 0), (200, 200, 200, 100))
+        stats = mask_statistics(image, allow_group=True)
+        self.assertGreater(stats["coverage"], 0.05)
+
     def test_group_cache_cannot_bypass_single_subject_validation(self):
         source = self.root / "group.png"
         group_image().save(source)

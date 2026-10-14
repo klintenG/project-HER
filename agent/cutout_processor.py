@@ -19,7 +19,7 @@ _SESSION_LOCK = threading.Lock()
 _SESSIONS = {}
 
 
-def mask_statistics(image, require_margin=True, allow_geometry=False, allow_group=False, allow_portrait_crop=False):
+def mask_statistics(image, require_margin=True, allow_geometry=False, allow_group=False, allow_portrait_crop=False, allow_bottom_crop=False):
     if image.mode != "RGBA":
         raise NewsError("Cutout must be RGBA.")
     a = np.asarray(image.getchannel("A"))
@@ -34,9 +34,14 @@ def mask_statistics(image, require_margin=True, allow_geometry=False, allow_grou
         # Actual head-and-shoulders photos are intentionally cropped at the torso.
         # Never permit clipped hair/head or side clipping in the upper 55%.
         inset=max(1,round(image.width*.018)); upper=fg[:round(image.height*.55)]
-        portrait_ok=(allow_portrait_crop and box[1]/image.height>=.018
-            and not upper[:,:inset].any() and not upper[:,-inset:].any())
-        if not portrait_ok:
+        top_clipped = fg[:inset, :].sum() > 4
+        upper_left_clipped = upper[:, :inset].sum() > 4
+        upper_right_clipped = upper[:, -inset:].sum() > 4
+        bottom_clipped = fg[-inset:, :].sum() > 4
+        allow_bottom = allow_portrait_crop or allow_bottom_crop
+        portrait_ok = (allow_bottom and not top_clipped and not upper_left_clipped and not upper_right_clipped)
+        noise_only = not (top_clipped or upper_left_clipped or upper_right_clipped or bottom_clipped)
+        if not (portrait_ok or noise_only):
             raise NewsError("Subject touches image edge; possible clipped head/limb/object.")
     if float((a<8).mean()) < .1:
         raise NewsError("No useful transparent background.")
@@ -109,7 +114,8 @@ class CutoutProcessor:
                 _SESSIONS[model] = new_session(model,providers=["CPUExecutionProvider"])
             return remove(image,session=_SESSIONS[model],alpha_matting=False)
 
-    def process(self,source,dest,allow_geometry=False,allow_group=False,allow_portrait_crop=False):
+    def process(self,source,dest,allow_geometry=False,allow_group=False,allow_portrait_crop=False,allow_bottom_crop=False):
+        allow_bottom = allow_portrait_crop or allow_bottom_crop
         source,dest = Path(source),Path(dest)
         data=source.read_bytes()
         if len(data)>30_000_000:
@@ -118,7 +124,7 @@ class CutoutProcessor:
             if im.width*im.height > 25_000_000:
                 raise NewsError("Generated image exceeds pixel limit.")
             original=ImageOps.exif_transpose(im).convert("RGBA")
-        cache_key=hashlib.sha256(data+(self.version+self.backend+str(self.models)+str(allow_geometry)+str(allow_group)+str(allow_portrait_crop)).encode()).hexdigest()
+        cache_key=hashlib.sha256(data+(self.version+self.backend+str(self.models)+str(allow_geometry)+str(allow_group)+str(allow_portrait_crop)+str(allow_bottom_crop)).encode()).hexdigest()
         cache=Path(config.NEWS_CUTOUT_CACHE)/f"{cache_key}.png"
         meta=cache.with_suffix('.json')
         if cache.exists() and meta.exists():
@@ -135,29 +141,54 @@ class CutoutProcessor:
                     candidates=[(f"{self.backend}:{model}",self.segment(original,model).convert("RGBA"))]
                 except Exception as exc:
                     errors.append(str(exc)); continue
-            for method,image in candidates:
-                try:
-                    # Validate source borders before cropping: adding padding cannot repair a clipped subject.
-                    mask_statistics(image,allow_geometry=allow_geometry,allow_group=allow_group,allow_portrait_crop=allow_portrait_crop)
-                    alpha=image.getchannel('A')
-                    # Tiny alpha dust is removed without eroding hair/fur or stripping white highlights.
-                    alpha=alpha.point(lambda x: 0 if x<5 else x)
-                    image.putalpha(alpha)
-                    bounds=alpha.point(lambda x:255 if x>10 else 0).getbbox()
-                    image=image.crop(bounds)
-                    pad=max(8,round(max(image.size)*.045))
-                    image=ImageOps.expand(image,border=pad,fill=(0,0,0,0))
-                    stats=mask_statistics(image,allow_geometry=allow_geometry,allow_group=allow_group)
-                    dest.parent.mkdir(parents=True,exist_ok=True); cache.parent.mkdir(parents=True,exist_ok=True)
-                    image.save(dest,format="PNG")
-                    temporary=cache.with_name(cache.stem+'-'+uuid.uuid4().hex+'.tmp')
-                    image.save(temporary,format="PNG"); temporary.replace(cache)
-                    metadata=meta.with_name(meta.stem+'-'+uuid.uuid4().hex+'.tmp')
-                    metadata.write_text(json.dumps({"segmentation":method,"mask":stats})); metadata.replace(meta)
-                    return stats,method
-                except Exception as exc:
-                    errors.append(f"{method}: {exc}")
+            for method,candidate_image in candidates:
+                variants = [candidate_image]
+                if method != "provider_alpha":
+                    variants.append(soft_edge_fade(candidate_image, fade_bottom=not allow_bottom))
+                for v_idx, image in enumerate(variants):
+                    try:
+                        # Validate source borders before cropping: adding padding cannot repair a clipped subject.
+                        mask_statistics(image,allow_geometry=allow_geometry,allow_group=allow_group,allow_portrait_crop=allow_portrait_crop,allow_bottom_crop=allow_bottom_crop)
+                        alpha=image.getchannel('A')
+                        # Tiny alpha dust is removed without eroding hair/fur or stripping white highlights.
+                        alpha=alpha.point(lambda x: 0 if x<5 else x)
+                        image.putalpha(alpha)
+                        bounds=alpha.point(lambda x:255 if x>10 else 0).getbbox()
+                        if not bounds:
+                            raise NewsError("No visible subject remained after background removal.")
+                        image=image.crop(bounds)
+                        pad=max(8,round(max(image.size)*.045))
+                        image=ImageOps.expand(image,border=pad,fill=(0,0,0,0))
+                        stats=mask_statistics(image,allow_geometry=allow_geometry,allow_group=allow_group)
+                        dest.parent.mkdir(parents=True,exist_ok=True); cache.parent.mkdir(parents=True,exist_ok=True)
+                        image.save(dest,format="PNG")
+                        temporary=cache.with_name(cache.stem+'-'+uuid.uuid4().hex+'.tmp')
+                        image.save(temporary,format="PNG"); temporary.replace(cache)
+                        metadata=meta.with_name(meta.stem+'-'+uuid.uuid4().hex+'.tmp')
+                        metadata.write_text(json.dumps({"segmentation":method,"mask":stats})); metadata.replace(meta)
+                        return stats,method
+                    except Exception as exc:
+                        if v_idx == len(variants) - 1:
+                            errors.append(f"{method}: {exc}")
         raise CutoutQualityError("Cutout quality failed; regenerate isolated subject on a contrasting neutral background. "+"; ".join(errors))
+
+
+def soft_edge_fade(image, inset_pct=0.025, fade_bottom=True):
+    image=image.copy().convert("RGBA")
+    a=np.asarray(image.getchannel('A'),dtype=float)
+    h,w=a.shape
+    iw=max(2,round(w*inset_pct))
+    ih=max(2,round(h*inset_pct))
+    rx=np.ones(w,dtype=float)
+    rx[:iw]=np.linspace(0,1,iw)
+    rx[-iw:]=np.linspace(1,0,iw)
+    ry=np.ones(h,dtype=float)
+    ry[:ih]=np.linspace(0,1,ih)
+    if fade_bottom:
+        ry[-ih:]=np.linspace(1,0,ih)
+    mask=ry[:,None]*rx[None,:]
+    image.putalpha(Image.fromarray((a*mask).astype('uint8')))
+    return image
 
 
 def portrait_fade(image):

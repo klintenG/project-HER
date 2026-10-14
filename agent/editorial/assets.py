@@ -109,7 +109,7 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                         revised+=' Create a fresh zoomed-out composition, smaller than the rejected image; do not repeat its crop.'
                     revised+=(' Repair the previous attempt: '+'; '.join(feedback)[-1000:] if feedback else '')
                     provider=_generate(image_generator.real_subject(revised,raw,reference) if reference else image_generator.subject(revised,raw),cancel_event)
-                stats,method=processor.process(raw,cut,allow_group=e.is_group,allow_portrait_crop=e.kind=='person' and not e.is_group)
+                stats,method=processor.process(raw,cut,allow_group=e.is_group,allow_portrait_crop=e.kind=='person' and not e.is_group,allow_bottom_crop=True)
                 if reference and proof is None:
                     check=review('Compare image 1 (identity-linked reference) and image 2 (generated cutout). Assess visual likeness only, not legal or biometric identity. Reject a different face, changed age/ethnicity, anonymous lookalike, extra people, distorted anatomy, missing torso/clothing that existed in the reference, or unusable cutout. Return {sameLikeness:boolean, singlePerson:boolean, bodyPreserved:boolean, confidence:number from 0 to 1, problems:[strings]}. Uncertainty must fail.',
                         {'subject':e.name,'referenceSource':reference.source_url},[reference.path,cut])
@@ -157,7 +157,7 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
             if not all(row.get(k) for k in required) or row['subject']!=e.name:raise NewsError('Local asset needs exact subject, role and provenance: '+e.name)
             path=row['path']
             if e.kind=='person':
-                cut=output/(file_id+'-local-cutout.png');processor.process(path,cut,allow_group=e.is_group,allow_portrait_crop=not e.is_group);path=cut
+                cut=output/(file_id+'-local-cutout.png');processor.process(path,cut,allow_group=e.is_group,allow_portrait_crop=not e.is_group,allow_bottom_crop=True);path=cut
             a=prepare(e,path,output,source=row['source'],license=row['license'],attribution=row['attribution'],role=row['role'])
         elif e.id in old and old[e.id].origin=='photo' and old[e.id].identity_verified and e.kind=='person':
             a0=old[e.id];a=prepare(e,a0.path,output,source=a0.source_url,license=a0.license,attribution=a0.attribution)
@@ -189,7 +189,7 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                 if r.license.startswith('Reference only'):continue
                 try:
                     cut=Path(output)/(file_id+'-cutout.png');cut.parent.mkdir(parents=True,exist_ok=True)
-                    processor.process(Path(r.path),cut,allow_portrait_crop=True)
+                    processor.process(Path(r.path),cut,allow_portrait_crop=True,allow_bottom_crop=True)
                     a=prepare(e,cut,output,source=r.source_url,license=r.license,attribution=r.attribution)
                     record['route']='reference_cutout';break
                 except NewsError as exc:record.setdefault('errors',[]).append(str(exc))
@@ -266,7 +266,7 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
             # used: a stock photograph illustrates a class, never a named entity.
             if row:
                 try:
-                    cut=output/(file_id+'-stock-cutout.png');processor.process(row.local_path,cut,allow_group=e.is_group,allow_portrait_crop=e.kind=='person')
+                    cut=output/(file_id+'-stock-cutout.png');processor.process(row.local_path,cut,allow_group=e.is_group,allow_portrait_crop=e.kind=='person',allow_bottom_crop=True)
                     a=prepare(e,cut,output,source=row.source_url,license='Pexels license',attribution=row.photographer+' / Pexels',role='portrait' if e.kind=='person' else 'object',factual=False)
                 except NewsError:a=generated(e,record=record)
             else:a=generated(e,record=record);record['route']='ai_after_missing_stock'
