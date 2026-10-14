@@ -79,3 +79,18 @@ Future full-source backend deployment:
 ```
 
 The script now provisions/binds mandatory Replicate credentials securely from the existing secret or local configured value. It preserves service settings/providers, prepares model dependencies, enables the legacy lock/private storage and applies the approved warm instance. No secret, private snapshot, scoped ticket or generated visitor artifact should be published in git.
+
+## Operator testing override — 14 October 2026
+
+At the user's explicit request, daily per-network and global generation limits are temporarily disabled via `her_portfolio/policy.daily_limits_disabled=true`. Admissions still record counters. One concurrent render, input/duration validation, scoped authorization and the independent emergency pause remain enforced. This override requires no frontend publication to unblock generation. The frontend follow-up reports testing mode accurately when published.
+
+Re-enable manually (no redeployment required):
+
+```sh
+cd /Users/klinten/Desktop/My-projects/project-HER
+.venv/bin/python scripts/set_native_daily_limits.py --enable
+```
+
+To disable again, use `--disable`. The command uses the operator's authenticated gcloud account, modifies only this policy field and does not create jobs or clear existing counts. Re-enabling immediately enforces the original 2/network/day and 10/global/day against retained current-day counts. Targeted API suite: 23 passed, including disable/re-enable, unchanged concurrency and independent emergency pause.
+
+Live override deployment: build `b023c43c-e3d7-42e6-b275-2faf958e29b7`, ready revision `project-her-00015-ldq`. Actual GET config confirmed `enabled=true`, `daily_limits_disabled=true`, concurrency 1. Full Python suite: **233 passed**. No additional paid generation was submitted for this change.

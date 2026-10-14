@@ -95,6 +95,21 @@ class PortfolioAPITests(unittest.TestCase):
         first=self.create().json;self.rt.update(first['job_id'],status='failed');self.rt.release(first['job_id'])
         response=self.client.post('/api/portfolio/jobs',json={'text':'A story'},headers={'Origin':ORIGIN,'Idempotency-Key':'different-request-key-02','X-Forwarded-For':'198.51.100.222'})
         self.assertEqual(response.status_code,429)
+    def test_daily_limits_can_be_disabled_and_reenabled_without_losing_counters(self):
+        self.rt.daily=1;self.rt.visitor=1
+        first=self.create().json;self.rt.update(first['job_id'],status='failed');self.rt.release(first['job_id'])
+        self.assertEqual(self.create(key='second-request-key-0002').status_code,429)
+        self.rt.store.set('policy',{'daily_limits_disabled':True})
+        caps=self.client.get('/api/portfolio/config',headers={'Origin':ORIGIN}).json
+        self.assertTrue(caps['limits']['daily_limits_disabled'])
+        second=self.create(key='second-request-key-0002');self.assertEqual(second.status_code,202)
+        self.assertEqual(self.create(key='third-request-key-00003').status_code,429)  # Concurrency remains enforced.
+        self.rt.update(second.json['job_id'],status='failed');self.rt.release(second.json['job_id'])
+        self.rt.store.set('policy',{'daily_limits_disabled':False})
+        self.assertEqual(self.create(key='third-request-key-00003').status_code,429)
+        self.rt.store.set('policy',{'daily_limits_disabled':True,'disabled':True})
+        self.assertEqual(self.create(key='third-request-key-00003').status_code,503)
+
     def test_expired_worker_is_failed_without_replaying_and_frees_slot(self):
         job=self.create().json
         data=self.rt.store.get('job:'+job['job_id']);data['deadline']=time.time()-1;self.rt.store.set('job:'+job['job_id'],data)

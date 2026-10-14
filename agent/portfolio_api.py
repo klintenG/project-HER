@@ -151,8 +151,8 @@ class Runtime:
                 raise APIError('This submission expired. Start a new submission.',410)
             slots['jobs']={j:d for j,d in slots['jobs'].items() if d>now}
             if len(slots['jobs'])>=self.concurrent:raise APIError('A video is already rendering. Please try again after it finishes.',429)
-            if quota['total']>=self.daily:raise APIError('The public daily generation budget has been reached. Please return tomorrow.',429)
-            if quota['visitors'].get(owner,0)>=self.visitor:raise APIError('Your daily generation limit has been reached. Please return tomorrow.',429)
+            if not policy.get('daily_limits_disabled') and quota['total']>=self.daily:raise APIError('The public daily generation budget has been reached. Please return tomorrow.',429)
+            if not policy.get('daily_limits_disabled') and quota['visitors'].get(owner,0)>=self.visitor:raise APIError('Your daily generation limit has been reached. Please return tomorrow.',429)
             deadline=now+self.timeout
             job={'job_id':jid,'status':'queued','created_at':now,'updated_at':now,'heartbeat_at':now,'deadline':deadline,'expires_at':now+48*3600,
                  'cancel_supported':data.content_mode=='news','cancel_requested':False,'stage':None,'result':None,'error':None}
@@ -410,8 +410,9 @@ def install(app):
         # Check actual durable-store access before enabling the Generate action.
         rt.store.get('health')
         rt.media.exists({'key':'health-check','size':0,'content_type':'application/octet-stream'})
-        enabled=rt.enabled and min(rt.daily,rt.visitor,rt.concurrent)>0 and not (rt.store.get('policy') or {}).get('disabled')
-        return jsonify({'version':1,'enabled':enabled,'limits':{'input_characters':6000,'duration_seconds':90,'output_seconds':180,'daily_jobs':rt.daily,'visitor_daily_jobs':rt.visitor,'concurrent_jobs':rt.concurrent,'output_hours':48},
+        policy=rt.store.get('policy') or {}
+        enabled=rt.enabled and min(rt.daily,rt.visitor,rt.concurrent)>0 and not policy.get('disabled')
+        return jsonify({'version':1,'enabled':enabled,'limits':{'input_characters':6000,'duration_seconds':90,'output_seconds':180,'daily_jobs':rt.daily,'visitor_daily_jobs':rt.visitor,'daily_limits_disabled':bool(policy.get('daily_limits_disabled')), 'concurrent_jobs':rt.concurrent,'output_hours':48},
             'options':{'tone':list(config.TONE_PRESETS),'visual_style':list(config.VISUAL_STYLES),
                        'format':['vertical','horizontal','square'],'renderer':['remotion','moviepy'],
                        'tts_provider':['replicate','edge_tts','google_tts','elevenlabs','chatterbox_turbo']},
