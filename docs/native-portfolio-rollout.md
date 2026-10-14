@@ -1,6 +1,6 @@
 # Native Project HER rollout — implementation and real test evidence
 
-The native portfolio studio is published at **https://klinteng.com/projects/project-her/#studio**. Backend repairs are deployed on **project-her-00014-ddb**. The additional user-approved controlled job completed successfully. The actual published portfolio restored it, played its private MP4 and downloaded identical bytes without leaving klinteng.com or submitting another job. Public creation is enabled with enforced quotas.
+The native portfolio studio is published at **https://klinteng.com/projects/project-her/#studio**. Backend repairs are deployed on **project-her-00017-8mn**; a fresh controlled production test on that revision passed. The additional user-approved controlled job completed successfully. The actual published portfolio restored it, played its private MP4 and downloaded identical bytes without leaving klinteng.com or submitting another job. Public creation is enabled with enforced quotas.
 
 ## Changes and routes
 
@@ -118,3 +118,16 @@ Zero-duration alignment now recomputes measured Whisper cross-attention/DTW at f
 Full Python suite: **248 passed**, including deployment drain/timeout/failure ownership, maintenance admission with existing-job access, same-prediction safe network recovery, ambiguous-POST no-duplicate protection, and bounded measured-alignment recovery. No new paid generation has yet been submitted for this reliability revision. This fixes identified causes and improves recovery; it cannot guarantee no provider outage, host restart, unacceptable image or missing speech in every future input.
 
 Reliability deployment: build `d1bb7748-01f0-432d-a11d-dd37463b5507`, ready revision `project-her-00017-8mn`. The guard paused admission, found zero unfinished jobs immediately before the revision switch, and cleared maintenance while preserving daily limits disabled. CPU/RAM/instance settings and provider secrets are unchanged.
+
+
+## Fresh approved production verification — revision 17
+
+The user explicitly approved exactly one additional generation to verify the reliability repairs. Job **`d221a507b3884e86967c01a7a36e9b51`** was created through the actual published klinteng.com Generate button, using the short supplied fictional red-cup/blue-bowl description and a 15-second target. No additional generation was created during monitoring or browser recovery.
+
+The real job **completed in 592.3 seconds**. Observed snapshots included input resolution, source extraction, script approval, narration/word alignment, visual asset preparation, rendering/mix checks and completed. No backend revision was changed while this job ran. No worker-stop, narration, zero-duration-alignment or cutout-quality failure terminated this run. This one short input does not establish reliability for every topic, portrait, article, provider load or host restart, and does not prove each recovery branch was exercised; dedicated regression tests cover those branches.
+
+Actual output: **22.848 seconds**, H.264/AAC, **1080×1920**, **2,321,732 bytes**. Range playback returned HTTP 206; attachment delivery and actual SSE endpoint checks passed. SHA-256: `3826ad1a0f5384c529461baebd78040c7e91bc65c7225d26535cc9d4e4823593`. Chromium restored the completed job on the actual production portfolio, played the private MP4 and downloaded identical bytes while remaining on klinteng.com and issuing **zero new POST /jobs requests**. Browser proof passed on its first attempt.
+
+Private ignored evidence: `output/native-reliability-smoke/smoke.json`, `output/native-reliability-smoke/generated.mp4`, `temp/native-reliability-smoke.log`, `temp/native-reliability-live/production.png`, and extracted frame `frame-8s.jpg`. The frame confirms a visible isolated asset; it is not a full semantic/visual synchronization audit. No scoped access token, signed media URL or generated visitor file is committed.
+
+All identified backend repairs remain deployed; daily limits remain disabled at the user's request, with one concurrent render enforced. No additional portfolio deployment is required for these backend repairs.
