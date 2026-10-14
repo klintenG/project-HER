@@ -1,12 +1,12 @@
 # Native Project HER rollout — implementation and real test evidence
 
-The native portfolio studio is published at **https://klinteng.com/projects/project-her/#studio**. Backend repairs are deployed on **project-her-00014-ddb**. Public creation is temporarily paused while approval is pending for one final controlled output test. Successful hosted MP4 playback/download has **not** been verified; no completed result or interactive-success claim is fabricated.
+The native portfolio studio is published at **https://klinteng.com/projects/project-her/#studio**. Backend repairs are deployed on **project-her-00014-ddb**. The additional user-approved controlled job completed successfully. The actual published portfolio restored it, played its private MP4 and downloaded identical bytes without leaving klinteng.com or submitting another job. Public creation is enabled with enforced quotas.
 
 ## Changes and routes
 
 Portfolio commit `36065b7` is on remote `main`; GitHub Pages deployment succeeded and normal visitor URLs serve the new native HTML/client/controller. The existing homepage/card remains familiar, with internal Try Project HER navigation. The existing `/projects/project-her/` route contains the studio, genuine previous example, pipeline and engineering disclosures. Playground links internally to that one studio. There is no iframe, external creation redirect or duplicate generator.
 
-The static portfolio uses its existing HTML/CSS/JavaScript framework, with a JSDoc-typed adapter rather than introducing React/build infrastructure. Modified/new files are `index.html`, `projects/index.html`, `playground/index.html`, `projects/project-her/index.html`, `js/config.js`, `js/main.js`, `js/project-her-client.js`, `js/project-her-studio.js`, `css/project-her-studio.css`, browser tests and native API/schema/handoff docs. The approved previous sample is unchanged and clearly separate from current-session output. `nativeIntegrationVerified` remains false.
+The static portfolio uses its existing HTML/CSS/JavaScript framework, with a JSDoc-typed adapter rather than introducing React/build infrastructure. Modified/new files are `index.html`, `projects/index.html`, `playground/index.html`, `projects/project-her/index.html`, `js/config.js`, `js/main.js`, `js/project-her-client.js`, `js/project-her-studio.js`, `css/project-her-studio.css`, browser tests and native API/schema/handoff docs. The approved previous sample is unchanged and clearly separate from current-session output. The final portfolio follow-up sets `nativeIntegrationVerified` true based on the real production proof below; its publication status is recorded separately.
 
 HER implementation adds `agent/portfolio_api.py`, `agent/portfolio_store.py`, storage dependencies, deployment/explicit smoke tools and scoped API tests. `web_ui.py` installs native CORS/authentication and fixes legacy output traversal/basename fallback. Docker prepares exact alignment/browser dependencies; source upload excludes duplicated local caches. Renderer packages are consistently pinned to 4.0.535, with compatible transitive fixes; npm audit reported zero vulnerabilities.
 
@@ -45,12 +45,16 @@ Builds: base `785aef3c-1618-4086-bdfb-e2dbdb00614e`; renderer/cleanup `9720650c-
 
 ## Real end-to-end evidence and failures
 
-Both tests were created by the **actual published studio Generate button**, using the supplied fictional red-cup/blue-bowl account, supplied-source policy and 15-second target. No additional job was submitted during read-only recovery.
+All three tests were created by the **actual published studio Generate button**, using the supplied fictional red-cup/blue-bowl account, supplied-source policy and 15-second target. No additional job was submitted during read-only recovery.
 
 1. `9105035229db4bc58b228da01a306079`: real queued/running/input/research/script progression and SSE checked. Failed before speech because Cloud Run lacked `REPLICATE_API_TOKEN`. Production browser restored this failure after refresh, showed the real error and adjustment action, hid completed player/download, and created zero new jobs. Gemini had temporary 503/high-demand fallback. Evidence: `output/native-portfolio-smoke/smoke.json`.
 2. `3744786da9ef44ada8a00e8e4be154d2`: real UI admission reached composition. A local monitor connection reset was recovered against the **same job**. Cloud Run reported **4,176 MiB used against a 4,096 MiB limit** at `2026-10-14T05:55:40.736171Z` (11:25:40 IST). The persisted job correctly became failed after the worker interruption; there is no completed MP4. Evidence: `output/native-portfolio-smoke-retest/smoke.json`.
 
-Repair 1 securely deployed the existing local credential, verified free Replicate account authentication/model metadata access, and made missing default-provider configuration fail readiness before quota/provider work. Repair 2 releases completed ONNX segmentation sessions/native allocator memory before composition and reduces native Remotion concurrency without increasing billing capacity. Both are deployed. Successful real output verification remains pending, and admissions remain paused to prevent more failed paid work.
+Repair 1 securely deployed the existing local credential, verified free Replicate account authentication/model metadata access, and made missing default-provider configuration fail readiness before quota/provider work. Repair 2 releases completed ONNX segmentation sessions/native allocator memory before composition and reduces native Remotion concurrency without increasing billing capacity. Both are deployed. The additional explicitly approved test below verified successful output; admissions are now enabled under the existing limits.
+
+3. `2529226b31c14ef48e2c8a3aae184a6e`: additional explicitly approved job created through the published studio on revision `project-her-00014-ddb`; completed in approximately 516 seconds. Observed durable snapshots: queued → running → script → narration/alignment → completed. Intermediate visual/render stages were not captured by this polling report and no progress is fabricated. The 15-second target produced an actual **25.749-second** H.264/AAC MP4, **1080×1920**, **2,727,367 bytes**. Actual byte-range HTTP 206 and attachment delivery passed. SHA-256: `899b3b0d2ec569340e6fbbc34168232bb6b0891c5e3c2942ced87c5c07b8580d`.
+
+The first completed-job browser check failed transiently; a read-only repeat against that **same job** passed. Production Chromium restored the real job from scoped tab storage, played the private MP4, downloaded a matching SHA-256 file, remained on klinteng.com and made **zero new job submissions**. Evidence: `output/native-portfolio-smoke-final/smoke.json`, `generated.mp4`, `temp/native-browser-final-proof.log`, `temp/native-live/production.png`. These private test assets are ignored in git; no credential or signed media link is included in this report.
 
 ## Verification passed / not run
 
@@ -59,22 +63,14 @@ Repair 1 securely deployed the existing local credential, verified free Replicat
 - Typed adapter, Remotion TypeScript, JS syntax/diff checks and a five-frame editorial render from existing assets: passed. No paid provider was called for that frame check; color format remains compatible with the compositor.
 - Final deployed prerequisite readiness, storage access, allowed-origin CORS, empty-input rejection (422), missing capability (404), foreign origin (403) and legacy lock (401): passed. TTL/bucket/capacity verified.
 - Actual UI submission, durable failed-job state, real status/SSE and first production failure/refresh UI: passed.
-- Successful hosted MP4, live playback/range/download/hash match and completed-job browser recovery: **not yet passed**. No complete-generation badge/claim is enabled.
+- Successful hosted MP4, live playback/range/download/hash match and completed-job browser recovery: **passed against the actual published site and same real job**, not fixtures.
 - No portfolio production build exists: GitHub Pages serves static files. Production ingress trust is intentionally conservative rather than guessed.
 
 ## Exact remaining and future steps
 
-An additional controlled generation requires approval because both prior authorizations were used and another run incurs new provider work. After approval, enable admissions using the durable policy switch, submit exactly one further UI smoke job and verify that same job:
+The approved rollout and the additional controlled output test are complete. Do not run another paid generation merely to verify documentation or publishing. For future monitoring, `--resume-ui-job <existing-id>` reads that job's scoped token from stdin and never creates another job. The scoped output expires 48 hours after admission; the genuine local evidence remains available.
 
-```sh
-PUPPETEER_MODULE=/Users/klinten/Desktop/My-projects/project-HER/temp/native-browser/node_modules/puppeteer-core/lib/esm/puppeteer/puppeteer-core.js \
-  .venv/bin/python scripts/smoke_native_portfolio.py --allow-paid-generation --browser-submit \
-  --browser-check ../my-website/tests/project-her-live.mjs --output output/native-portfolio-smoke-final
-```
-
-For a monitoring disconnect, **never rerun creation**. `--resume-ui-job <existing-id>` reads only that job's scoped token from stdin and performs status/SSE/media/browser checks, with GET-only retries. No access tokens are persisted in reports or printed.
-
-After real success, record actual file/FFprobe/hash/range/player/download evidence and update status/docs. GitHub CLI publication still has no credentials in this execution session, so the final reviewable portfolio follow-up must be pushed from the user's authenticated terminal/VS Code if that remains unchanged. Initial commit `36065b7` is already published; this authentication limit does not negate its deployment.
+The published initial portfolio commit is `36065b7`. Final proof/docs/status are prepared as a separate follow-up. Publish that follow-up through the existing `main` GitHub Pages flow after reviewing its diff; no backend redeployment is needed. GitHub authentication is not available to this execution session, so publication may require the user's authenticated terminal/VS Code. This affects the final documentation/status flag only: actual native generation/playback/download was already verified on the published initial studio.
 
 Future full-source backend deployment:
 
