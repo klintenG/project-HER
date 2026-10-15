@@ -1,3 +1,5 @@
+import {ProjectHERBrandingController,useBrandClosing} from './branding/Branding';
+import {classicFrames,screenFrames,config} from './branding/timing';
 /**
  * Project HER v2.0 – Main Video Composition
  * ==========================================
@@ -10,6 +12,10 @@ import {
   useCurrentFrame,
   useVideoConfig,
   AbsoluteFill,
+  OffthreadVideo,
+  Audio,
+  Freeze,
+  staticFile,
   Sequence,
   interpolate,
 } from "remotion";
@@ -55,9 +61,10 @@ const TransitionLayer: React.FC<TransitionLayerProps> = ({
 //  VIDEO COMPOSITION
 // ═══════════════════════════════════════════════════
 
-export const Video: React.FC<VideoProps> = (props) => {
+const StoryVideo: React.FC<VideoProps> = (props) => {
   const { fps, width, height } = useVideoConfig();
   const frame = useCurrentFrame();
+  const closing=useBrandClosing();
 
   const {
     title,
@@ -84,7 +91,7 @@ export const Video: React.FC<VideoProps> = (props) => {
     }> = [];
 
     screens.forEach((screen, i) => {
-      const durationFrames = Math.round(screen.duration * fps);
+      const durationFrames = screenFrames(screen, fps);
       const effects = screen.effects;
 
       // Variable transition duration based on emotion (enhanced pipeline)
@@ -107,9 +114,8 @@ export const Video: React.FC<VideoProps> = (props) => {
         ? getTransition(effects?.scene_transition || "crossfade", tFrames)
         : undefined;
 
-      // For the first scene, no overlap
-      const overlap = transitionIn ? transitionIn.durationInFrames : 0;
-      const startFrame = i === 0 ? 0 : currentFrame - overlap;
+      // Never overlap spoken audio. Extend only the outgoing visual hold.
+      const startFrame = i === 0 ? 0 : currentFrame;
 
       entries.push({
         screen,
@@ -127,7 +133,7 @@ export const Video: React.FC<VideoProps> = (props) => {
     }
 
     return { entries, totalFrames: currentFrame };
-  }, [screens, fps]);
+  }, [screens, fps, layoutMode, transitionFramesProp]);
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#000" }}>
@@ -139,11 +145,11 @@ export const Video: React.FC<VideoProps> = (props) => {
         const localFrame = frame - startFrame;
 
         // Skip scenes that aren't currently visible
-        if (localFrame < 0 || localFrame >= durationFrames) return null;
+        if (localFrame < 0 || localFrame >= durationFrames+(transitionOut?.durationInFrames??0)) return null;
 
         // Determine if we're in a transition zone
         const inTransitionIn = transitionIn && localFrame < transitionIn.durationInFrames;
-        const inTransitionOut = transitionOut && localFrame >= durationFrames - transitionOut.durationInFrames;
+        const inTransitionOut = transitionOut && localFrame >= durationFrames;
 
         // Build the scene content — do NOT pass sceneStartFrame for frame math
         // since Sequence already offsets useCurrentFrame() for children.
@@ -152,19 +158,19 @@ export const Video: React.FC<VideoProps> = (props) => {
             title={title}
             hook={hook}
             visualStyle={visualStyle}
-            brandText={brandText}
+            brandText={config(props.branding).enabled ? "" : brandText}
           />
         ) : screen.is_outro ? (
           <OutroScene
             cta={cta}
-            brandText={brandText}
+            brandText={config(props.branding).enabled ? "" : brandText}
             visualStyle={visualStyle}
           />
         ) : (
           <Scene
-            screen={screen}
+            screen={{...screen,duration:durationFrames/fps}}
             visualStyle={visualStyle}
-            brandText={brandText}
+            brandText={config(props.branding).enabled ? "" : brandText}
             watermark={watermark}
             sceneStartFrame={startFrame}
             layoutMode={layoutMode || "classic"}
@@ -172,7 +178,7 @@ export const Video: React.FC<VideoProps> = (props) => {
         );
 
         // Wrap in transition if needed
-        let rendered = sceneContent;
+        let rendered = <Freeze frame={durationFrames-1} active={localFrame>=durationFrames}>{sceneContent}</Freeze>;
 
         if (inTransitionIn && transitionIn) {
           rendered = (
@@ -188,7 +194,7 @@ export const Video: React.FC<VideoProps> = (props) => {
           rendered = (
             <TransitionLayer
               transition={transitionOut}
-              transitionFrame={localFrame - (durationFrames - transitionOut.durationInFrames)}
+              transitionFrame={localFrame - durationFrames}
               isEntering={false}
             >
               {rendered}
@@ -200,7 +206,7 @@ export const Video: React.FC<VideoProps> = (props) => {
           <Sequence
             key={i}
             from={startFrame}
-            durationInFrames={durationFrames}
+            durationInFrames={durationFrames+(transitionOut?.durationInFrames??0)}
             name={`Scene-${i}-${screen.scene_type}`}
           >
             {rendered}
@@ -208,12 +214,23 @@ export const Video: React.FC<VideoProps> = (props) => {
         );
       })}
 
+      {!closing && timeline.entries.map(({screen,startFrame,durationFrames},i)=>screen.audio_path ? <Sequence key={`audio-${i}`} from={startFrame} durationInFrames={durationFrames}><Audio src={staticFile(screen.audio_path)}/></Sequence> : null)}
+
       {/* Global anti-crop watermark — renders above all scenes/transitions */}
-      {watermark && (
+      {!config(props.branding).enabled && watermark && (
         <Watermark text={watermark} />
       )}
     </AbsoluteFill>
   );
 };
 
+export const Video: React.FC<VideoProps> = (props) => {
+ const branding=useMemo(()=>({deterministicSeed:props.title,contrast:(props.layout_mode==='fullbleed'||props.visual_style.bg_center_color.reduce((a,b)=>a+b,0)<384?'light':'dark') as 'light'|'dark',...props.branding}),[props.branding,props.title,props.layout_mode,props.visual_style]);
+ let cursor=0;
+ const windows=props.screens.map(s=>{const start=cursor;cursor+=screenFrames(s,props.fps);return {start:start+Math.round(props.fps*.6),end:cursor-Math.round(props.fps*.6)};});
+ const regions=props.layout_mode==='fullbleed'?[]:props.screens.map((s,i)=>({start:windows[i].start,end:windows[i].end,x:.05,y:s.narration_position==='top'?.11:.72,w:.9,h:.18}));
+ return <ProjectHERBrandingController storyFrames={classicFrames(props)} branding={branding} windows={windows} regions={regions}>{props.source_video?<EncodedStory src={props.source_video}/>:<StoryVideo {...props}/>}</ProjectHERBrandingController>;
+};
 export default Video;
+
+const EncodedStory:React.FC<{src:string}>=({src})=><OffthreadVideo src={staticFile(src)} muted={useBrandClosing()} style={{width:"100%",height:"100%",objectFit:"contain"}}/>;

@@ -1,3 +1,4 @@
+import {BrandingSchema} from './branding/timing';
 /**
  * Project HER v2.0 – Remotion Video Schema & Types
  * =================================================
@@ -98,6 +99,9 @@ export type VisualStyle = z.infer<typeof VisualStyleSchema>;
 
 // ── Complete Video Input Props ──
 export const VideoPropsSchema = z.object({
+  branding: BrandingSchema.optional(),
+  source_video:z.string().optional(),
+  source_duration_frames:z.number().int().positive().optional(),
   title: z.string(),
   hook: z.string().default(""),
   brand_text: z.string().default(""),

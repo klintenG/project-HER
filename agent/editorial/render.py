@@ -9,6 +9,7 @@ import time
 import logging
 import math
 import re
+from agent.branding import branding_settings, output_frames
 import config
 from utils.render_resources import remotion_concurrency
 from agent.news_models import NewsError
@@ -75,13 +76,13 @@ def finalize_audio(m,intermediate,output,cancel_event=None):
         # apad/atrim preserve the composition and intentional closing hold;
         # -c:v copy keeps every already-rendered frame unchanged.
         subprocess.run(['ffmpeg','-v','error','-y','-i',str(output),'-i',str(corrected),'-map','0:v:0','-map','1:a:0',
-            '-c:v','copy','-af',f'apad,atrim=duration={m.durationInFrames/m.fps}',
+            '-c:v','copy','-af',f'apad,atrim=duration={output_frames(m.durationInFrames,m.fps)/m.fps}',
             '-c:a','aac','-b:a','192k','-ar','48000','-ac','2','-movflags','+faststart',str(replacement)],capture_output=True,check=True,timeout=180)
         replacement.replace(output)
 
 
 def stage(timeline,output):
-    m=Timeline.model_validate(timeline.model_dump());props=m.model_dump()
+    m=Timeline.model_validate(timeline.model_dump());props=m.model_dump();props['branding']=branding_settings(m.generationId)
     if digest(m.fonts.semibold)+digest(m.fonts.bold)!=m.fonts.version:raise NewsError('Editorial font changed; rebuild measured phrase geometry before rendering.')
     stage=config.BASE_DIR/'remotion/public/editorial'/m.generationId;stage.mkdir(parents=True,exist_ok=True)
     def copy(source,name,sha=None):
@@ -125,7 +126,7 @@ def render(m,output,cancel_event=None):
     # Inspect the encoded deliverable, not just the requested composition.
     metadata=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-of','json',str(output)]))
     video_stream=next(s for s in metadata['streams'] if s['codec_type']=='video')
-    expected=m.durationInFrames/m.fps
+    expected=output_frames(m.durationInFrames,m.fps)/m.fps
     duration=float(video_stream.get('duration',0))
     scan=subprocess.run(['ffmpeg','-hide_banner','-i',str(output),'-vf','blackdetect=d=0.25:pix_th=0.05:pic_th=0.98','-an','-f','null','-'],capture_output=True,text=True,check=True,timeout=180)
     black=[{'start':float(a),'end':float(b),'duration':float(c)} for a,b,c in re.findall(r'black_start:([\d.]+) black_end:([\d.]+) black_duration:([\d.]+)',scan.stderr)]

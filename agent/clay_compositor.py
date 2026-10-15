@@ -234,6 +234,8 @@ class ClayCompositor:
 
         brand = brand_text or screenplay.brand_text or ""
         wm = watermark or config.WATERMARK_TEXT or ""
+        from agent.branding import branding_settings, brand_encoded_video
+        if branding_settings().get("enabled",True):brand,wm="",""
 
         # Build lookup maps
         image_map: dict[int, list[AIImageAsset]] = {}
@@ -366,11 +368,12 @@ class ClayCompositor:
         elapsed = time.time() - start_time
         logger.info("Video rendered in %.1fs: %s", elapsed, video_path)
 
+        branded_duration=brand_encoded_video(video_path,seed=screenplay.title)
         return {
             "video_path": video_path,
             "srt_path": srt_path,
             "thumbnail_path": thumb_path,
-            "duration": round(final_video.duration, 1),
+            "duration": branded_duration,
             "resolution": f"{self.W}x{self.H}",
             "format": f"{self.W}x{self.H}",
         }

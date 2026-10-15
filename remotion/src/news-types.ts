@@ -1,3 +1,4 @@
+import {BrandingSchema} from './branding/timing';
 /** Runtime Zod validation generated from the same field schema as Pydantic. */
 import {z} from 'zod';
 import {newsJSONSchema, Manifest} from './news-contract';
@@ -24,7 +25,7 @@ function build(s: any): z.ZodTypeAny {
   }
   return z.unknown();
 }
-export const NewsPropsSchema = build(newsJSONSchema) as z.AnyZodObject;
+export const NewsPropsSchema = (build(newsJSONSchema) as z.AnyZodObject).extend({branding:BrandingSchema.optional()});
 export const NewsManifestSchema = (NewsPropsSchema as unknown as z.ZodType<Manifest>).superRefine((m,ctx)=>{
   const fail=(message:string)=>ctx.addIssue({code:z.ZodIssueCode.custom,message});
   const claims=new Set(m.evidence.claims.map(c=>c.id)); const sources=new Map(m.evidence.sources.map(s=>[s.id,s]));

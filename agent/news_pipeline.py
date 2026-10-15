@@ -1,5 +1,6 @@
 """Integrated additive News orchestration; no daily publication or global mutation."""
 from __future__ import annotations
+from agent.branding import output_frames
 import math
 import logging
 import time
@@ -122,7 +123,7 @@ def run_news(text,*,output_dir=None,source_policy='auto',tone='informative',lang
         manifest.outputs={'video':str(video.resolve()),'srt':str(srt.resolve()),'thumbnail':str(thumb.resolve()),'image_credits':str(credits.resolve()),'description':'Identity reference photos and/or AI editorial illustrations; not claimed to depict the narrated event. Image credits: '+str(credits.resolve())+'. Sources: '+'; '.join(s.url or s.title for s in evidence.sources)}
         manifest_path.write_text(manifest.model_dump_json(indent=2))
         (output/'news_failure.json').unlink(missing_ok=True)
-        return PipelineResult(success=True,video_path=video,srt_path=srt,thumbnail_path=thumb,duration=manifest.duration_frames/fps,resolution=f'{width}x{height}',video_format=video_format,title=script.summary,key_point_count=len(beats),processing_time=time.monotonic()-start,content_type='news',theme='news_editorial_cutout',caption_style='news_phrases',hook=script.sentences[0].text,news_details={'status':'ready','input':inp.model_dump(),'sources':[{'id':s.id,'title':s.title,'url':s.url} for s in evidence.sources],'images':images,'narration':{'provider':audio.provider,'model':audio.model,'fallbacks':audio.fallbacks},'warnings':warnings,'manifest':str(manifest_path.resolve())})
+        return PipelineResult(success=True,video_path=video,srt_path=srt,thumbnail_path=thumb,duration=output_frames(manifest.duration_frames,fps)/fps,resolution=f'{width}x{height}',video_format=video_format,title=script.summary,key_point_count=len(beats),processing_time=time.monotonic()-start,content_type='news',theme='news_editorial_cutout',caption_style='news_phrases',hook=script.sentences[0].text,news_details={'status':'ready','input':inp.model_dump(),'sources':[{'id':s.id,'title':s.title,'url':s.url} for s in evidence.sources],'images':images,'narration':{'provider':audio.provider,'model':audio.model,'fallbacks':audio.fallbacks},'warnings':warnings,'manifest':str(manifest_path.resolve())})
     except Exception as exc:
         if not isinstance(exc,NewsError):
             logger.exception('News generation %s failed at stage=%s: %s (output: %s)',generation,stage,exc,output)

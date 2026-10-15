@@ -56,6 +56,9 @@ RUN cd /app/remotion && npm ci --include=dev
 # Copy application code
 COPY --chown=appuser:appuser . .
 
+# Brand fonts are required even when .gcloudignore excludes staged public assets.
+RUN mkdir -p remotion/public/branding && cp assets/fonts/news/Poppins-*.ttf remotion/public/branding/
+
 # Ensure runtime directories exist with appuser permissions
 RUN mkdir -p output temp assets/fonts assets/music assets/sfx \
              remotion/public/audio remotion/public/images \

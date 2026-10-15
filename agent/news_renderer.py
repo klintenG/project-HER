@@ -8,6 +8,7 @@ import signal
 import time
 from pathlib import Path
 from agent.news_models import Manifest, NewsError
+from agent.branding import branding_settings
 import config
 from utils.render_resources import remotion_concurrency
 
@@ -18,6 +19,7 @@ def stage_remotion(manifest,output):
     stage=root/'public'/'news'/manifest.generation_id
     stage.mkdir(parents=True,exist_ok=True)
     props=manifest.model_dump()
+    props['branding']=branding_settings(manifest.generation_id)
     def copy(path,name):
         source=Path(path)
         if not source.is_file(): raise NewsError('Missing News render asset: '+name)

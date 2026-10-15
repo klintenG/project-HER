@@ -19,6 +19,7 @@ Usage (from orchestrator):
 
 from __future__ import annotations
 
+import math
 import json
 import logging
 import os
@@ -29,6 +30,7 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Optional
 
+from agent.branding import branding_settings, outro_frames, screen_frames
 import config
 from utils.render_resources import remotion_concurrency
 
@@ -129,7 +131,7 @@ class RemotionRenderer:
         self._invoke_remotion(props_path, output_path)
 
         elapsed = time.time() - start_time
-        total_duration = sum(s.get("duration", 0) for s in props["screens"])
+        total_duration = sum(screen_frames(s,self.FPS) for s in props["screens"])/self.FPS + outro_frames(self.FPS,props.get("branding"))/self.FPS
         logger.info("Remotion render complete in %.1fs → %s", elapsed, output_path)
 
         # Step 5: Cleanup staged assets from remotion/public/ to save disk
@@ -226,7 +228,7 @@ class RemotionRenderer:
             for screen in props.get("screens", []):
                 word_timings = screen.get("word_timings", [])
                 if not word_timings:
-                    time_offset += screen.get("duration", 0)
+                    time_offset += screen_frames(screen,props.get("fps",self.FPS))/props.get("fps",self.FPS)
                     continue
 
                 # Group words into subtitle blocks (~8 words or natural breaks)
@@ -256,7 +258,7 @@ class RemotionRenderer:
                         "text": " ".join(w["word"] for w in block_words),
                     })
 
-                time_offset += screen.get("duration", 0)
+                time_offset += screen_frames(screen,props.get("fps",self.FPS))/props.get("fps",self.FPS)
 
             if not all_entries:
                 logger.info("No word timings available — SRT not generated")
@@ -500,6 +502,7 @@ class RemotionRenderer:
             "hook": screenplay.hook or "",
             "brand_text": brand_text,
             "watermark": watermark,
+            "branding": branding_settings(screenplay.title),
             "mood": screenplay.mood or "neutral",
             "content_mode": screenplay.content_mode or "article",
             "screens": screens,

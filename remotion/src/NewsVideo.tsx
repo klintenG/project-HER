@@ -1,3 +1,5 @@
+import {ProjectHERBrandingController,useBrandClosing} from './branding/Branding';
+import {BrandingInput,config} from './branding/timing';
 import React, {useEffect, useState} from 'react';
 import {AbsoluteFill, Audio, Img, staticFile, useCurrentFrame, delayRender, continueRender, cancelRender} from 'remotion';
 import {NewsManifestSchema, validateNewsManifest, Manifest, Beat, Layer, Text} from './news-types';
@@ -29,8 +31,8 @@ const Cutout:React.FC<{layer:Layer;beat:Beat;previous?:Beat;following?:Beat;fram
   </div>;
 };
 
-export const NewsVideo:React.FC<Manifest>=(props)=>{
-  const m=NewsManifestSchema.parse(props); const frame=useCurrentFrame();
+const NewsStory:React.FC<Manifest & {branding?:BrandingInput}>=(props)=>{
+  const closing=useBrandClosing();const m=NewsManifestSchema.parse(props); const frame=useCurrentFrame();
   const [handle]=useState(()=>delayRender('Loading bundled News fonts'));
   useEffect(()=>{
     const fonts=[new FontFace('NewsPoppins',`url("${assetURL(m.theme.font_semibold)}")`,{weight:'600'}),new FontFace('NewsPoppins',`url("${assetURL(m.theme.font_bold)}")`,{weight:'700'})];
@@ -39,12 +41,14 @@ export const NewsVideo:React.FC<Manifest>=(props)=>{
   },[handle,m.theme.font_semibold,m.theme.font_bold]);
   const index=m.beats.findIndex(b=>b.start<=frame&&frame<b.end); const beat=m.beats[index];
   return <AbsoluteFill style={{background:'radial-gradient(ellipse at 50% 48%,#FAF9F6,#F2F0EC 75%,#EDEBE6)',overflow:'hidden'}}>
-    <Audio src={assetURL(m.audio.path)}/>
+    {!closing&&<Audio src={assetURL(m.audio.path)}/>}
     {/* Foreground mask is a final safeguard; geometry is already measured and inset. */}
     <AbsoluteFill style={{clipPath:'inset(20% 8% 15% 8%)'}}>
       {beat?.layers?.map(l=><Cutout key={l.id} layer={l} beat={beat} previous={m.beats[index-1]} following={m.beats[index+1]} frame={frame} m={m}/>)}
-      <AbsoluteFill style={{zIndex:20}}>{beat?.texts.map(t=><NewsText key={t.id} text={t} frame={frame} end={beat.end} m={m}/>)}</AbsoluteFill>
-      {m.theme.branding&&<div style={{position:'absolute',top:m.height*.203,left:m.width*.15,width:m.width*.7,textAlign:'center',fontFamily:'NewsPoppins',fontWeight:600,fontSize:Math.min(m.width,m.height)*.014,color:m.theme.secondary,zIndex:30}}>{m.theme.branding}</div>}
+      <AbsoluteFill style={{zIndex:20}}>{!closing&&beat?.texts.map(t=><NewsText key={t.id} text={t} frame={frame} end={beat.end} m={m}/>)}</AbsoluteFill>
+      {!config(props.branding).enabled&&m.theme.branding&&<div style={{position:'absolute',top:m.height*.203,left:m.width*.15,width:m.width*.7,textAlign:'center',fontFamily:'NewsPoppins',fontWeight:600,fontSize:Math.min(m.width,m.height)*.014,color:m.theme.secondary,zIndex:30}}>{m.theme.branding}</div>}
     </AbsoluteFill>
   </AbsoluteFill>;
 };
+
+export const NewsVideo:React.FC<Manifest & {branding?:BrandingInput}>=(props)=><ProjectHERBrandingController storyFrames={props.duration_frames} branding={props.branding} regions={props.beats.flatMap(b=>[...b.texts.map(t=>({start:b.start,end:b.end,...t.rect})),...(b.layers??[]).filter(l=>l.portrait_fade).map(l=>({start:b.start,end:b.end,...l.rect,h:l.rect.h*.35}))])} windows={props.beats.map(b=>({start:b.start+15,end:b.end-15}))}><NewsStory {...props}/></ProjectHERBrandingController>;

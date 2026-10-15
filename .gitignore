@@ -47,3 +47,5 @@ remotion/public/editorial/
 
 # Local Chromium downloaded by render verification.
 .remotion/
+
+remotion/public/branding-renders/

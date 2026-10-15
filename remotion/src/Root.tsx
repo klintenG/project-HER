@@ -1,3 +1,4 @@
+import {classicFrames,outroFrames,BrandingInput} from './branding/timing';
 /**
  * Project HER v2.0 – Root Composition
  * =====================================
@@ -85,14 +86,10 @@ export const RemotionRoot: React.FC = () => {
           scene_silence_ms: 0,
         }}
         calculateMetadata={async ({ props }) => {
-          // Calculate total duration from all screens
-          const totalSeconds = props.screens.reduce(
-            (sum: number, s: { duration: number }) => sum + s.duration,
-            0,
-          );
+          // Audio, subtitles and visuals share frame-aligned story boundaries.
           const fps = props.fps || 30;
           return {
-            durationInFrames: Math.ceil(totalSeconds * fps),
+            durationInFrames: classicFrames(props) + outroFrames(fps,props.branding),
             fps,
             width: props.width || 1080,
             height: props.height || 1920,
@@ -102,11 +99,11 @@ export const RemotionRoot: React.FC = () => {
 
       <Composition id="ProjectHERNews" component={NewsVideo} schema={NewsPropsSchema}
         defaultProps={newsDefaults} durationInFrames={90} fps={30} width={1080} height={1920}
-        calculateMetadata={async ({props})=>{const m=await validateNewsManifest(props);return {durationInFrames:m.duration_frames,fps:m.fps,width:m.width,height:m.height};}}/>
+        calculateMetadata={async ({props})=>{const m=await validateNewsManifest(props);return {durationInFrames:m.duration_frames+outroFrames(m.fps,props.branding),fps:m.fps,width:m.width,height:m.height};}}/>
 
       <Composition id="ProjectHEREditorial" component={EditorialVideo}
-        defaultProps={editorialDefaults as unknown as EditorialTimeline} durationInFrames={360} fps={30} width={1080} height={1920}
-        calculateMetadata={async ({props})=>{const m=await validateTimelineHash(props);return {durationInFrames:m.durationInFrames,fps:m.fps,width:m.width,height:m.height};}}/>
+        defaultProps={editorialDefaults as unknown as EditorialTimeline & {branding?:BrandingInput}} durationInFrames={360} fps={30} width={1080} height={1920}
+        calculateMetadata={async ({props})=>{const {branding,...story}=props;const m=await validateTimelineHash(story);return {durationInFrames:m.durationInFrames+outroFrames(m.fps,branding),fps:m.fps,width:m.width,height:m.height};}}/>
 
       {/* Effect Preview – short clips for Remotion Studio */}
       <Composition

@@ -90,7 +90,8 @@ class NewsFrames:
                     draw.text((x,y),word,font=fonts[weight],fill=(80,80,80,round(255*opacity)),anchor='la',stroke_width=0)
                     x+=length; index+=1
                 y+=size*1.12
-        if m.theme.branding:
+        from agent.branding import branding_settings
+        if m.theme.branding and not branding_settings().get("enabled",True):
             font=ImageFont.truetype(self.fonts[600],max(10,round(min(self.width,self.height)*.014)))
             draw.text((self.width*.5,self.height*.203),m.theme.branding,font=font,fill=(104,104,104,180),anchor='mt')
         # Final exact 20%/15% mask; templates keep visual content away from this boundary.
@@ -113,4 +114,6 @@ def render_moviepy(manifest,path,bitrate='5000k',cancel_event=None):
         clip.write_videofile(str(path),fps=manifest.fps,codec='libx264',audio_codec='aac',bitrate=bitrate,threads=2,logger=None)
     finally:
         clip.close(); audio.close()
+    from agent.branding import brand_encoded_video
+    brand_encoded_video(path,seed=manifest.generation_id,cancel_event=cancel_event)
     return Path(path)

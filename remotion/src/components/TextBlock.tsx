@@ -244,7 +244,7 @@ export const TextBlock: React.FC<TextBlockProps> = ({
     right: isFullBleed ? 32 : 40,
     zIndex: 20,
     ...(screen.narration_position === "top"
-      ? { top: isFullBleed ? 120 : 160 }
+      ? { top: isFullBleed ? 220 : 220 }
       : screen.narration_position === "bottom"
         ? { bottom: isFullBleed ? 140 : 180 }
         : { bottom: isFullBleed ? 140 : 180 }),

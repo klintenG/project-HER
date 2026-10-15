@@ -1,3 +1,5 @@
+import {ProjectHERBrandingController,useBrandClosing} from '../branding/Branding';
+import {BrandingInput} from '../branding/timing';
 import React,{useEffect,useMemo,useState} from 'react';
 import {AbsoluteFill,Audio,Sequence,Img,staticFile,useCurrentFrame,delayRender,continueRender,cancelRender} from 'remotion';
 import {Timeline,Layer,Word,Bounds} from './types';
@@ -55,8 +57,8 @@ const SemanticRelation:React.FC<{timeline:Timeline;frame:number;words:Map<string
   </svg>;
 };
 
-export const EditorialVideo:React.FC<Timeline>=(props)=>{
-  const m=useMemo(()=>validateTimeline(props),[props]);const frame=useCurrentFrame();
+const EditorialStory:React.FC<Timeline>=(props)=>{
+  const closing=useBrandClosing();const m=useMemo(()=>validateTimeline(props),[props]);const frame=useCurrentFrame();
   const words=useMemo(()=>new Map(m.words.map(w=>[w.id,w])),[m]);
   const assets=useMemo(()=>new Map(m.assets.map(a=>[a.id,a])),[m]);
   const reference=m.editorialStyleVersion==='reference-v2';
@@ -69,7 +71,7 @@ export const EditorialVideo:React.FC<Timeline>=(props)=>{
   const draw=(layer:Layer,parentBounds?:Bounds):React.ReactNode=>{
     if(frame<layer.startFrame||frame>=layer.endFrame)return null;
     // Complete captions replace editorial spoken text; identity labels remain.
-    if(m.subtitleMode==='complete'&&layer.phrase?.wordIds.length)return null;
+    if((closing||m.subtitleMode==='complete')&&layer.phrase?.wordIds.length)return null;
     if(reference&&layer.parentId&&layer.phrase?.label){
       const name=cleanName(layer.phrase.label).replace(/\s+/g,' ').toLowerCase();
       const activeText=m.layers.filter(l=>l.role==='phrase'&&l.startFrame<=frame&&frame<l.endFrame)
@@ -99,9 +101,11 @@ export const EditorialVideo:React.FC<Timeline>=(props)=>{
   const captionWords=current?current.wordIds.map(id=>words.get(id)!):[];
   const active=Math.max(0,captionWords.reduce((last,w,i)=>w.start*30<=frame?i:last,-1));const chunk=captionWords.slice(Math.floor(active/6)*6,Math.floor(active/6)*6+6);
   return <AbsoluteFill style={{background:reference?'radial-gradient(ellipse at 50% 44%,#f1f0f2 0%,#dedde1 70%,#cbc9ce 100%)':'radial-gradient(ellipse 90% 50% at 50% 50%,#eeeef1 0%,#e2e0e5 35%,#b2b0b7 100%)',overflow:'hidden'}}>
-    {m.audio.map((a,i)=><Sequence key={i} from={a.offsetFrames}><Audio src={url(a.path)} volume={a.gain}/></Sequence>)}
+    {!closing&&m.audio.map((a,i)=><Sequence key={i} from={a.offsetFrames}><Audio src={url(a.path)} volume={a.gain}/></Sequence>)}
     {reference&&m.subtitleMode!=='complete'&&<SemanticRelation timeline={m} frame={frame} words={words}/>}
     {m.layers.filter(l=>!l.parentId).map(layer=>draw(layer))}
-    {(m.subtitleMode==='complete'||(m.narrationDriven&&!reference))&&chunk.length>0&&<div style={{position:'absolute',left:90,top:reference?1530:m.narrationDriven?1480:360,width:900,color,fontFamily:'EditorialPoppins',fontSize:m.narrationDriven?48:60,fontWeight:600,textAlign:'center',lineHeight:1.3}}>{chunk.map((w,i)=><React.Fragment key={w.id}><span style={{fontWeight:m.narrationDriven&&w.start*30<=frame&&w.end*30>frame?700:600}}>{w.text}</span>{i<chunk.length-1?' ':''}</React.Fragment>)}</div>}
+    {!closing&&(m.subtitleMode==='complete'||(m.narrationDriven&&!reference))&&chunk.length>0&&<div style={{position:'absolute',left:90,top:reference?1530:m.narrationDriven?1480:360,width:900,color,fontFamily:'EditorialPoppins',fontSize:m.narrationDriven?48:60,fontWeight:600,textAlign:'center',lineHeight:1.3}}>{chunk.map((w,i)=><React.Fragment key={w.id}><span style={{fontWeight:m.narrationDriven&&w.start*30<=frame&&w.end*30>frame?700:600}}>{w.text}</span>{i<chunk.length-1?' ':''}</React.Fragment>)}</div>}
   </AbsoluteFill>;
 };
+
+export const EditorialVideo:React.FC<Timeline & {branding?:BrandingInput}>=({branding,...story})=><ProjectHERBrandingController storyFrames={story.durationInFrames} branding={branding} regions={story.layers.filter(l=>l.phrase||l.role==="document"||story.assets.find(a=>a.id===l.assetId)?.role==="portrait").map(l=>({start:l.startFrame,end:l.endFrame,x:l.bounds.x/story.width,y:l.bounds.y/story.height,w:l.bounds.w/story.width,h:l.bounds.h/story.height*(l.role==="subject"?.35:1)}))} windows={story.beats.filter(b=>b.template!=="final-reveal").map(b=>({start:b.startFrame+15,end:b.endFrame-15}))}><EditorialStory {...story}/></ProjectHERBrandingController>;

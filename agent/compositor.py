@@ -273,6 +273,9 @@ class VideoCompositor:
 
         total_duration = sum(n.duration for n in narrations) + hook_duration + outro_duration
 
+        from agent.branding import brand_encoded_video
+        total_duration = brand_encoded_video(output_path,seed=title)
+
         result = {
             "video_path": output_path,
             "srt_path": srt_path,
@@ -2256,6 +2259,8 @@ class VideoCompositor:
         Create a semi-transparent watermark clip (text or image).
         Returns None if no watermark is configured.
         """
+        from agent.branding import branding_settings
+        if branding_settings().get("enabled",True):return None
         wm_text = config.WATERMARK_TEXT
         wm_image = config.WATERMARK_IMAGE
         opacity = config.WATERMARK_OPACITY

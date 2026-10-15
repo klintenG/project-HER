@@ -1,3 +1,4 @@
+import {useBrandClosing} from '../branding/Branding';
 /**
  * Project HER v2.0 – Scene Component
  * ====================================
@@ -114,6 +115,7 @@ export const Scene: React.FC<SceneProps> = ({
 }) => {
   const frame = useCurrentFrame();
   const { fps, width, height } = useVideoConfig();
+  const closing=useBrandClosing();
   const effects = screen.effects || DEFAULT_EFFECTS;
   const sceneDurationFrames = Math.round(screen.duration * fps);
 
@@ -178,7 +180,7 @@ export const Scene: React.FC<SceneProps> = ({
       )}
 
       {/* Layer 2: Text — Kinetic typography in fullbleed, classic TextBlock otherwise */}
-      {isFullBleed ? (
+      {!closing && (isFullBleed ? (
         <KineticTextBlock
           screen={screen}
           effects={effects}
@@ -196,7 +198,7 @@ export const Scene: React.FC<SceneProps> = ({
           sceneDurationFrames={sceneDurationFrames}
           layoutMode={layoutMode}
         />
-      )}
+      ))}
 
       {/* Layer 3: Overlay effects */}
       {/* In fullbleed mode, skip overlays that use blend modes (grain, scan-lines, etc.)
@@ -222,10 +224,7 @@ export const Scene: React.FC<SceneProps> = ({
         />
       )}
 
-      {/* Layer 5: Audio */}
-      {screen.audio_path && (
-        <Audio src={staticFile(screen.audio_path)} />
-      )}
+      {/* Narration is sequenced globally so frozen outgoing visuals stay silent. */}
     </AbsoluteFill>
   );
 };
