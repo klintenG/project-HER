@@ -63,6 +63,42 @@ class NewsTests(unittest.TestCase):
         script=write_script(inp,ev,FixtureLLM())
         self.assertNotIn('hospital',script.narration);self.assertNotIn('rescued',script.narration);self.assertIn('no measurement',script.narration)
 
+    def test_mythological_story_is_supplied_and_skips_online_search(self):
+        story = "What if I told you that one man was so clever he tricked Death itself? His name was Sisyphus. According to Greek mythology, Sisyphus was a cunning king who angered Zeus. So Zeus sent Thanatos, the god of Death, to take him to the underworld. But Sisyphus tricked Thanatos into putting on magical chains."
+        llm = MagicMock()
+        llm.side_effect = [
+            {'subject': 'The myth of Sisyphus', 'event_date': None, 'entities': ['Sisyphus', 'Zeus', 'Thanatos'], 'places': ['Underworld'], 'kind': 'topic_query', 'basis': 'fictional', 'assumptions': [], 'clarification': None, 'choices': []},
+            {'claims': [{'id': 'c1', 'source_ids': ['input'], 'text': 'Sisyphus was a cunning king in Greek mythology.', 'passage_ids': {'input': ['input:p1']}}], 'conflicts': [], 'unresolved': [], 'event_choices': []}
+        ]
+        inp = analyze_input(story, 'auto', llm)
+        self.assertEqual(inp.kind, 'supplied_account')
+        self.assertEqual(inp.basis, 'fictional')
+        search = MagicMock()
+        ev, w = research(inp, llm, search)
+        search.search.assert_not_called()
+        self.assertEqual(ev.sources[0].id, 'input')
+        self.assertEqual(ev.sources[0].title, 'User-supplied story')
+        self.assertEqual(ev.verification, 'fictional')
+
+    def test_auto_topic_fallback_synthesizes_knowledge_when_search_fails(self):
+        topic = "Quantum Computing Breakthroughs"
+        def llm_responder(instruction, payload):
+            if "factual reference background account" in instruction:
+                return "Quantum computing has achieved significant breakthroughs in 2026. Researchers demonstrated fault-tolerant logical qubits with error correction rates exceeding previous thresholds in major laboratories."
+            elif instruction.startswith("Extract"):
+                src = payload["sources"][0]
+                return {"claims": [{"id": "c1", "source_ids": [src["id"]], "text": "Quantum computing has achieved breakthroughs in 2026.", "passage_ids": {src["id"]: [src["passages"][0]["id"]]}}], "conflicts": [], "unresolved": [], "event_choices": []}
+            return {'subject': topic, 'event_date': None, 'entities': [], 'places': [], 'kind': 'topic_query', 'basis': 'reported', 'assumptions': [], 'clarification': None, 'choices': []}
+        llm = MagicMock(side_effect=llm_responder)
+        inp = analyze_input(topic, 'auto', llm)
+        search = MagicMock()
+        search.search.side_effect = NewsError("SERPER_API_KEY missing")
+        ev, w = research(inp, llm, search)
+        self.assertEqual(ev.sources[0].id, 'input')
+        self.assertEqual(ev.sources[0].title, topic)
+        self.assertTrue(any("synthesized" in warning or "Web search unavailable" in warning for warning in w))
+        self.assertEqual(len(ev.claims), 1)
+
     def test_vague_topic_unavailable_is_actionable(self):
         inp=analyze_input('A new space discovery','online',FixtureLLM())
         search=MagicMock();search.search.side_effect=NewsError('Search unavailable')
