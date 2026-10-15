@@ -195,6 +195,33 @@ class ReplicateSpeechTests(unittest.TestCase):
             faster.generate_narration(self.points,self.root/'faster')
         self.assertEqual(predict.call_args.args[0]['speed'],1.2)
 
+    def test_long_narration_overlaps_only_two_paced_predictions_and_preserves_order(self):
+        engine=self.engine(model=KOKORO)
+        points=[SimpleNamespace(index=i,narration=f'Sentence {i} is spoken.') for i in range(5)]
+        barrier=threading.Barrier(2,timeout=3)
+        lock=threading.Lock();active=[0];maximum=[0];calls=[]
+        def predict(_engine,inputs):
+            with lock:
+                active[0]+=1;maximum[0]=max(maximum[0],active[0]);calls.append(inputs['text'])
+                first_two=len(calls)<=2
+            if first_two:barrier.wait()
+            with lock:active[0]-=1
+            return wav_bytes()
+        with patch.object(config,'NEWS_REPLICATE_TTS_WORKERS',2),patch.object(NewsReplicateTTS,'_predict',predict):
+            clips=engine.generate_narration(points,self.root/'parallel')
+        self.assertEqual(maximum[0],2)
+        self.assertEqual(len(calls),5)
+        self.assertEqual([c.index for c in clips],list(range(5)))
+        self.assertTrue(all(Path(c.audio_path).is_file() and c.duration==.5 for c in clips))
+
+    def test_repeated_sentences_share_one_prediction_in_parallel_job(self):
+        engine=self.engine(model=KOKORO)
+        points=[SimpleNamespace(index=i,narration='Repeated sentence.' if i in (0,3) else f'Unique sentence {i}.') for i in range(5)]
+        with patch.object(config,'NEWS_REPLICATE_TTS_WORKERS',2),patch.object(NewsReplicateTTS,'_predict',return_value=wav_bytes()) as predict:
+            clips=engine.generate_narration(points,self.root/'repeated')
+        self.assertEqual(predict.call_count,4)
+        self.assertEqual(Path(clips[0].audio_path).read_bytes(),Path(clips[3].audio_path).read_bytes())
+
     def test_corrupted_cache_is_regenerated(self):
         engine=self.engine(model=KOKORO)
         with patch.object(engine,'_predict',return_value=wav_bytes()) as predict:

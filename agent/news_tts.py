@@ -11,6 +11,7 @@ import subprocess
 import time
 import threading
 import uuid
+from concurrent.futures import ThreadPoolExecutor
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 from types import SimpleNamespace
@@ -187,32 +188,59 @@ class NewsReplicateTTS:
             raise NewsError('Chatterbox Turbo allows at most 500 characters per News sentence; use Kokoro or Edge.')
         output_dir = Path(output_dir)/'audio'; output_dir.mkdir(parents=True,exist_ok=True)
         cache = Path(config.NEWS_TTS_CACHE); cache.mkdir(parents=True,exist_ok=True)
-        clips = []
+        jobs=[];unique={}
         for point in points:
+            inputs={'text':point.narration,'voice':self.voice}
+            if self.model==KOKORO:inputs['speed']=self.speed
+            # Cache keys and final clip order are unchanged. Identical sentences
+            # share one prediction, including when they occur in the same job.
+            key=hashlib.sha256(json.dumps({'version':VERSIONS[self.model],'input':inputs,'adapter':1},sort_keys=True).encode()).hexdigest()
+            cached=cache/(key+'.wav')
+            jobs.append((point,key,cached))
+            unique.setdefault(key,(point,inputs,cached))
+
+        def prepare_one(job,isolated=False):
+            point,inputs,cached=job
             cancelled(self.cancel_event)
-            inputs = {'text':point.narration, 'voice':self.voice}
-            if self.model == KOKORO: inputs['speed'] = self.speed
-            # Turbo has no speed parameter. Its actual natural duration is used by the timeline.
-            key = hashlib.sha256(json.dumps({'version':VERSIONS[self.model],'input':inputs,'adapter':1},sort_keys=True).encode()).hexdigest()
-            cached = cache/(key+'.wav'); path = output_dir/f'narration_{point.index}.wav'
-            duration = None
+            duration=None
             if cached.is_file():
-                try: duration = probe_duration(cached)
-                except (OSError,ValueError,subprocess.SubprocessError): pass
-            if duration is None:
-                logger.info('Replicate speech | model=%s | sentence=%s | chars=%d | cache=miss',self.model,point.index,len(point.narration))
-                raw = output_dir/f'{point.index}-{uuid.uuid4().hex}.raw'
-                temporary = cache/f'{key}-{uuid.uuid4().hex}.wav'
-                try:
-                    raw.write_bytes(self._predict(inputs))
-                    subprocess.run(['ffmpeg','-v','error','-y','-i',str(raw),'-vn','-ac','1','-ar','24000','-c:a','pcm_s16le',str(temporary)],capture_output=True,check=True,timeout=30)
-                    duration = probe_duration(temporary)
-                    cancelled(self.cancel_event)
-                    temporary.replace(cached)
-                finally:
-                    raw.unlink(missing_ok=True); temporary.unlink(missing_ok=True)
-            else:
+                try:duration=probe_duration(cached)
+                except (OSError,ValueError,subprocess.SubprocessError):pass
+            if duration is not None:
                 logger.info('Replicate speech | model=%s | sentence=%s | cache=hit',self.model,point.index)
+                return duration
+            logger.info('Replicate speech | model=%s | sentence=%s | chars=%d | cache=miss',self.model,point.index,len(point.narration))
+            raw=output_dir/f'{point.index}-{uuid.uuid4().hex}.raw'
+            temporary=cache/f'{cached.stem}-{uuid.uuid4().hex}.wav'
+            worker=None
+            try:
+                if isolated:
+                    worker=NewsReplicateTTS(self.voice,f'{round((self.speed-1)*100):+d}%',self.language,self.cancel_event,self.model)
+                raw.write_bytes((worker or self)._predict(inputs))
+                subprocess.run(['ffmpeg','-v','error','-y','-i',str(raw),'-vn','-ac','1','-ar','24000','-c:a','pcm_s16le',str(temporary)],capture_output=True,check=True,timeout=30)
+                duration=probe_duration(temporary)
+                cancelled(self.cancel_event)
+                temporary.replace(cached)
+                return duration
+            finally:
+                if worker is not None:worker._session.close()
+                raw.unlink(missing_ok=True);temporary.unlink(missing_ok=True)
+
+        work=list(unique.items())
+        parallel=config.NEWS_REPLICATE_TTS_WORKERS>1 and len(work)>=4
+        if parallel:
+            # Two independent HTTP sessions overlap remote prediction time.
+            # The class-wide 12-second admission pacing still applies to every
+            # uncached POST, so this does not burst the provider or change voice.
+            with ThreadPoolExecutor(max_workers=config.NEWS_REPLICATE_TTS_WORKERS) as pool:
+                durations=list(pool.map(lambda item:prepare_one(item[1],True),work))
+        else:
+            durations=[prepare_one(item[1]) for item in work]
+        by_key={key:duration for (key,_),duration in zip(work,durations)}
+        clips=[]
+        for point,key,cached in jobs:
+            cancelled(self.cancel_event)
+            path=output_dir/f'narration_{point.index}.wav'
             shutil.copyfile(cached,path)
-            clips.append(SimpleNamespace(index=point.index,audio_path=path,duration=duration,word_timings=[]))
+            clips.append(SimpleNamespace(index=point.index,audio_path=path,duration=by_key[key],word_timings=[]))
         return clips

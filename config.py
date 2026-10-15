@@ -1092,6 +1092,7 @@ NEWS_REPLICATE_TTS_MODEL = os.getenv("NEWS_REPLICATE_TTS_MODEL", "jaaari/kokoro-
 # their existing fallback chain. Pace uncached speech predictions across jobs.
 NEWS_REPLICATE_ONLY = os.getenv('NEWS_REPLICATE_ONLY', '1').lower() in ('1','true','yes')
 NEWS_REPLICATE_MIN_INTERVAL = max(0,min(60,float(os.getenv('NEWS_REPLICATE_MIN_INTERVAL', '12'))))
+NEWS_REPLICATE_TTS_WORKERS = max(1,min(2,int(os.getenv('NEWS_REPLICATE_TTS_WORKERS','2'))))
 NEWS_REPLICATE_RATE_LIMIT_RETRIES = max(0,min(20,int(os.getenv('NEWS_REPLICATE_RATE_LIMIT_RETRIES', '7'))))
 NEWS_REPLICATE_RATE_LIMIT_WAIT = max(0,min(1800,float(os.getenv('NEWS_REPLICATE_RATE_LIMIT_WAIT', '600'))))
 NEWS_TTS_CACHE = TEMP_DIR / "news_speech"

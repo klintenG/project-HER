@@ -4,6 +4,8 @@ from agent.branding import output_frames
 import json
 import time
 import uuid
+import threading
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import config
 from agent.news_models import NewsError
@@ -13,7 +15,36 @@ from .assets import acquire
 from .planner import build,semantic_plan
 from .render import render
 
-STAGES=[('resolve','Resolving input'),('research','Extracting source evidence'),('script','Approving script'),('narrate','Narration and word alignment'),('cutouts','Preparing entity assets'),('timeline','Planning editorial beats'),('compose','Rendering and measuring mix')]
+STAGES=[('resolve','Resolving input'),('research','Extracting source evidence'),('script','Approving script'),('media','Generating narration and cutouts'),('timeline','Planning editorial beats'),('compose','Rendering and measuring mix')]
+
+
+def prepare_parallel_media(speech,visuals,cancel_event=None,on_speech_ready=None,diagnostics=None):
+    """Overlap remote media work; return only after all cutout processing ends."""
+    abandon_assets=threading.Event()
+    class AssetCancellation:
+        def is_set(self):return abandon_assets.is_set() or (cancel_event is not None and cancel_event.is_set())
+    marks={};started=time.monotonic()
+    def timed_visuals():
+        marks['visualStart']=time.monotonic()
+        try:return visuals(AssetCancellation())
+        finally:marks['visualEnd']=time.monotonic()
+    with ThreadPoolExecutor(max_workers=1) as asset_pool:
+        asset_future=asset_pool.submit(timed_visuals)
+        try:
+            marks['speechStart']=time.monotonic()
+            audio=speech()
+            marks['speechEnd']=time.monotonic()
+            if on_speech_ready:on_speech_ready()
+            assets=asset_future.result()
+            if diagnostics is not None:
+                diagnostics.update(wallSeconds=round(time.monotonic()-started,3),
+                    speechSeconds=round(marks['speechEnd']-marks['speechStart'],3),
+                    cutoutsSeconds=round(marks['visualEnd']-marks['visualStart'],3),
+                    overlapSeconds=round(max(0,min(marks['speechEnd'],marks['visualEnd'])-max(marks['speechStart'],marks['visualStart'])),3))
+            return audio,assets
+        except Exception:
+            abandon_assets.set()
+            raise
 
 def check_configuration(renderer,video_format,subtitle_mode,asset_mode):
     if renderer!='remotion':raise NewsError('reference_editorial requires Remotion; MoviePy cannot render its persistent layers and events.')
@@ -50,11 +81,21 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
         # retain the script plan instead of adding unregistered illustrations.
         script,cues=plan_visuals(script,evidence,None if asset_mode=='local' else llm,visual_diagnostics)
         (out/'visual_plan.json').write_text(json.dumps({'script':script.model_dump(),'sections':cues,'diagnostics':visual_diagnostics},ensure_ascii=False,indent=2))
-        begin('narrate','Generating speech, aligning exact script and removing redundant clip padding')
-        narration_settings={}
-        audio=synthesize(script,out,tts_provider or config.TTS_PROVIDER,voice,speed,tts_engine,pause=0,language=language,cancel_event=cancel_event,diagnostic_sink=narration_settings)
+        begin('media','Generating narration and sourcing cutouts together')
+        narration_settings={};asset_diagnostics={};media_timings={}
+        # Remote speech and cutout sourcing are independent after the approved
+        # visual script. Finish cutouts before loading Whisper for alignment so
+        # the 4 GiB production worker never holds both inference models.
+        speech=lambda:synthesize(script,out,tts_provider or config.TTS_PROVIDER,voice,speed,tts_engine,pause=0,language=language,cancel_event=cancel_event,diagnostic_sink=narration_settings)
+        visuals=lambda visual_cancel:acquire(script,out/'assets',local_registry=local_assets,asset_mode=asset_mode,llm=llm,
+            cancel_event=visual_cancel,image_generator=image_generator,processor=processor,evidence=evidence,diagnostics=asset_diagnostics)
+        audio,(entities,assets)=prepare_parallel_media(speech,visuals,cancel_event,
+            lambda:tracker.update_stage('media',progress=.5,detail='Speech ready; completing visual cutouts'),media_timings)
+        cancelled(cancel_event)
+        tracker.update_stage('media',progress=.75,detail='Aligning approved narration to audio')
         code=LANGUAGES.get(language.lower(),language.lower()).split('-')[0]
         raw,words,sections,diagnostics=prepare_existing(script,audio,out/'audio',code)
+        diagnostics.update(asset_diagnostics,mediaTimings=media_timings)
         diagnostics.update(visual_diagnostics)
         from .director import VisualSettings,direct,save_summary
         visual_settings=VisualSettings.configured()
@@ -72,8 +113,6 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
             mix_source=Path(mixed.path);diagnostics['music']={'enabled':True,'source':str(music_path or 'existing procedural music engine'),'ducking':True}
         else:diagnostics['music']={'enabled':False}
         mix=out/'master.wav';diagnostics['loudness']=normalize(mix_source,mix)
-        begin('cutouts','Finding portraits, checking generated likenesses and preparing contextual cutouts')
-        entities,assets=acquire(script,out/'assets',local_registry=local_assets,asset_mode=asset_mode,llm=llm,cancel_event=cancel_event,image_generator=image_generator,processor=processor,evidence=evidence,diagnostics=diagnostics)
         begin('timeline','Aligning semantic beats to the final master track')
         # The atomic director already owns layout intent. Keep the legacy plan
         # for inspection without a redundant LLM layout request in this mode.

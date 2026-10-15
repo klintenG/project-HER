@@ -5,6 +5,8 @@ import json
 import math
 import subprocess
 import tempfile
+import threading
+import time
 import unittest
 from pathlib import Path
 from types import SimpleNamespace
@@ -28,6 +30,37 @@ def semantic_script():
 
 
 class EditorialTests(unittest.TestCase):
+    def test_remote_speech_and_visual_sourcing_overlap_without_changing_results(self):
+        from agent.editorial.pipeline import prepare_parallel_media
+        visual_started=threading.Event();speech_started=threading.Event()
+        def visuals(cancel):
+            visual_started.set()
+            self.assertTrue(speech_started.wait(2))
+            self.assertFalse(cancel.is_set())
+            return ('verified-cutout',)
+        def speech():
+            speech_started.set()
+            self.assertTrue(visual_started.wait(2))
+            return 'approved-audio'
+        timings={}
+        self.assertEqual(prepare_parallel_media(speech,visuals,diagnostics=timings),('approved-audio',('verified-cutout',)))
+        self.assertGreaterEqual(timings['overlapSeconds'],0)
+        self.assertIn('cutoutsSeconds',timings)
+
+    def test_speech_failure_cancels_unfinished_visual_work(self):
+        from agent.editorial.pipeline import prepare_parallel_media
+        started=threading.Event();stopped=threading.Event()
+        def visuals(cancel):
+            started.set()
+            while not cancel.is_set():time.sleep(.01)
+            stopped.set()
+        def speech():
+            self.assertTrue(started.wait(2))
+            raise NewsError('Speech unavailable')
+        with self.assertRaisesRegex(NewsError,'Speech unavailable'):
+            prepare_parallel_media(speech,visuals)
+        self.assertTrue(stopped.is_set())
+
     def test_semantic_emphasis_resolves_original_tokens_and_phrases(self):
         from agent.editorial.planner import semantic_plan,spoken_emphasis
         script=semantic_script();diagnostics={}
