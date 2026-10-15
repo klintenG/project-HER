@@ -101,12 +101,12 @@ class EditorialVisualTests(unittest.TestCase):
         self.assertEqual(len(list((self.root/'retry').glob('*-generated-*.png'))),3)
         self.assertTrue(assets[0].alpha)
 
-    def test_exhausted_cutouts_fail_without_creating_geometric_placeholders(self):
+    def test_exhausted_cutouts_use_subject_label_without_geometric_placeholder(self):
         from agent.cutout_processor import CutoutQualityError
         script=story();script.entities[0]=Entity(id='person',name='Cup',kind='object',identity='generic',description='One ceramic cup')
         processor=MagicMock();processor.process.side_effect=CutoutQualityError('Subject touches image edge')
-        with self.assertRaises(CutoutQualityError):
-            acquire(script,self.root/'failed',processor=processor,image_generator=self.generator)
+        _,assets=acquire(script,self.root/'failed',processor=processor,image_generator=self.generator)
+        self.assertIn('Subject name only',assets[0].fallback)
         self.assertEqual(self.generator.subject.call_count,config.NEWS_ASSET_RETRIES+1)
         self.assertFalse(list((self.root/'failed').glob('*-symbol.svg')))
 
@@ -143,6 +143,35 @@ class EditorialVisualTests(unittest.TestCase):
         self.assertNotEqual(assets[0].preparation,'symbolic')
         accepted=[json.loads(p.read_text()) for p in (self.root/'images').glob('*/review.json')]
         self.assertEqual(len(accepted),1);self.assertFalse(accepted[0]['subjectReview']['geometricPlaceholder'])
+
+    def test_plausible_ai_illustration_survives_uncertain_review(self):
+        uncertain={**self.review.return_value,'subjectConfidence':.3,'contextAppropriate':False,'problems':['Exact historical details uncertain']}
+        self.review.return_value=uncertain
+        script=story();script.entities[0]=Entity(id='emu',name='Emu',kind='animal',identity='real',description='Large Australian flightless bird')
+        with patch('agent.news_references.ReferencePhotos.find',return_value=[]):
+            _,assets=acquire(script,self.root/'uncertain',image_generator=self.generator,visual_review=self.review)
+        self.assertEqual(len(assets),1)
+        self.assertFalse(assets[0].factual)
+        self.assertIn('not verified',assets[0].fallback)
+        self.assertNotEqual(assets[0].preparation,'symbolic')
+
+    def test_rejected_ai_subject_uses_final_labelled_rescue(self):
+        self.review.return_value={**self.review.return_value,'subjectMatch':False,'geometricPlaceholder':True,'problems':['Unrelated box']}
+        script=story();script.entities[0]=Entity(id='emu',name='Emu',kind='animal',identity='generic',description='Large Australian flightless bird')
+        _,assets=acquire(script,self.root/'rescue',image_generator=self.generator,visual_review=self.review)
+        self.assertEqual(len(assets),1)
+        self.assertFalse(assets[0].factual)
+        self.assertIn('Approximate AI illustration',assets[0].fallback)
+        self.assertGreaterEqual(self.generator.subject.call_count,config.NEWS_ASSET_RETRIES+1)
+        self.assertTrue(list((self.root/'rescue').glob('*-rescue.png')))
+
+    def test_review_outage_uses_generated_asset_without_fake_identity(self):
+        self.review.side_effect=TimeoutError('vision offline')
+        script=story();script.entities[0]=Entity(id='emu',name='Emu',kind='animal',identity='generic',description='Large Australian flightless bird')
+        _,assets=acquire(script,self.root/'review-outage',image_generator=self.generator,visual_review=self.review)
+        self.assertEqual(len(assets),1)
+        self.assertFalse(assets[0].factual)
+        self.assertIn('not independently verified',assets[0].fallback)
 
     def test_longer_visual_plan_can_acquire_more_than_eight_relevant_images(self):
         from agent.editorial.images import EditorialImages
@@ -256,11 +285,11 @@ class EditorialVisualTests(unittest.TestCase):
         self.assertTrue(assets[0].alpha);self.assertTrue(assets[0].factual)
         self.people.resolve.assert_not_called();self.generator.subject.assert_not_called()
 
-    def test_group_generation_failure_is_not_replaced_with_a_profile_symbol(self):
+    def test_group_generation_failure_uses_subject_label_not_profile_symbol(self):
         script=story();script.entities[0]=Entity(id='person',name='Portuguese forces',kind='person',identity='real',description='A group of soldiers')
         self.generator.subject.side_effect=NewsError('Image provider unavailable')
-        with self.assertRaisesRegex(NewsError,'Image provider unavailable'):
-            acquire(script,self.root/'failed-group',people=self.people,image_generator=self.generator)
+        _,assets=acquire(script,self.root/'failed-group',people=self.people,image_generator=self.generator)
+        self.assertIn('Subject name only',assets[0].fallback)
         self.people.resolve.assert_not_called();self.generator.real_subject.assert_not_called()
         self.assertFalse(list((self.root/'failed-group').glob('*-symbol.svg')))
 

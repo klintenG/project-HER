@@ -317,3 +317,5 @@ output/video_20260219_155311/
 ## License
 
 Private project. All rights reserved.
+
+ProjectHER video branding, review evidence, configuration, renderer trade-offs, and manual deployment commands are documented in [BRANDING_IMPLEMENTATION.md](BRANDING_IMPLEMENTATION.md).

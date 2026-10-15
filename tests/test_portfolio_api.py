@@ -9,6 +9,7 @@ import unittest
 import config
 from pathlib import Path
 from unittest.mock import patch,MagicMock
+from types import SimpleNamespace
 from flask import Flask
 from agent.portfolio_api import install,Runtime,CreateJob,APIError,terminate_worker,cleanup_cloud_job,configured_runtime,release_cloud_models,cloud_worker
 from utils.render_resources import remotion_concurrency
@@ -73,6 +74,19 @@ class PortfolioAPITests(unittest.TestCase):
         response=self.client.get('/api/portfolio/jobs/'+jid+'/events',headers=self.headers(job))
         self.assertIn(b'event: done',response.data);self.assertIn(b'Speech provider unavailable',response.data)
         self.assertNotIn(b'progress_pct',response.data)
+    def test_stage_history_is_durable_and_terminal_stage_is_finalized(self):
+        job=self.create().json;jid=job['job_id']
+        stage=lambda name,status:SimpleNamespace(name=name,label=name.title(),status=status,elapsed=2.1)
+        self.rt.update_stage(jid,stage('resolve','running'))
+        self.rt.update_stage(jid,stage('resolve','completed'))
+        self.rt.update_stage(jid,stage('research','running'))
+        self.app.extensions['her_portfolio']=Runtime(SQLiteStore(self.root/'state.db'),self.rt.media,'s'*48,executor=lambda *args:None)
+        state=self.client.get('/api/portfolio/jobs/'+jid,headers=self.headers(job)).json
+        self.assertEqual([row['status'] for row in state['stages']],['completed','running'])
+        self.app.extensions['her_portfolio'].update(jid,status='failed',stage=None,error='fixture')
+        state=self.client.get('/api/portfolio/jobs/'+jid,headers=self.headers(job)).json
+        self.assertEqual([row['status'] for row in state['stages']],['completed','failed'])
+
     def test_news_cancellation_is_requested_not_fabricated_as_completed(self):
         job=self.create().json
         response=self.client.post('/api/portfolio/jobs/'+job['job_id']+'/cancel',headers=self.headers(job))

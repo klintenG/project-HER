@@ -21,13 +21,13 @@ export const ProjectHERMadeWithCredit:React.FC<{event:Event;frame:number;color:s
 export const ProjectHERProtectiveOverlay:React.FC<{event:Event;frame:number;color:string;regions:ProtectedRegion[]}>=({event,frame,color,regions})=>{
  const {width,height}=useVideoConfig();const drift=16*clamp((frame-event.start)/Math.max(1,event.end-event.start));
  const mask=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}"><rect width="100%" height="100%" fill="white"/>${regions.filter(r=>r.start<=frame&&frame<r.end).map(r=>`<rect x="${r.x*width}" y="${r.y*height}" width="${r.w*width}" height="${r.h*height}" rx="12" fill="black"/>`).join('')}</svg>`;
- return <AbsoluteFill style={{maskImage:`url("data:image/svg+xml,${encodeURIComponent(mask)}")`,maskSize:'100% 100%'}}><div style={{position:'absolute',left:width*.5+drift,top:height*(event.anchor?.58:.46),transform:'translate(-50%,-50%) rotate(-32deg)',opacity:envelope(event,frame)*event.opacity}}><ProjectHERBrandMark width={Math.min(width*.9,height*.68)} color={color} accent={color} tagline={false}/></div></AbsoluteFill>;
+ return <AbsoluteFill style={{maskImage:`url("data:image/svg+xml,${encodeURIComponent(mask)}")`,maskSize:'100% 100%',maskMode:'luminance'}}><div style={{position:'absolute',left:width*.5+drift,top:height*(event.anchor?.58:.46),transform:'translate(-50%,-50%) rotate(-32deg)',opacity:envelope(event,frame)*event.opacity}}><ProjectHERBrandMark width={Math.min(width*.9,height*.68)} color={color} accent={color} tagline={false}/></div></AbsoluteFill>;
 };
 export const ProjectHERBrandingController:React.FC<{storyFrames:number;branding?:BrandingInput;windows?:QuietWindow[];regions?:ProtectedRegion[];children:React.ReactNode}>=({storyFrames,branding,windows,regions=[],children})=>{
  const frame=useCurrentFrame(),{width,height,fps}=useVideoConfig(),c=config(branding);
  const events=useMemo(()=>schedule(storyFrames,fps,branding,windows),[storyFrames,fps,branding,windows]);
  const [handle]=useState(()=>delayRender('ProjectHER bundled brand typography'));
- useEffect(()=>{const fonts=[500,700].map(weight=>new FontFace('ProjectHERBrand',`url("${staticFile('branding/Poppins-'+(weight===500?'Medium':'Bold')+'.ttf')}")`,{weight:String(weight)}));Promise.all(fonts.map(f=>f.load())).then(fs=>{fs.forEach(f=>document.fonts.add(f));continueRender(handle);}).catch(cancelRender);return()=>fonts.forEach(f=>document.fonts.delete(f));},[handle]);
+ useEffect(()=>{if(!c.enabled){continueRender(handle);return;}const fonts=[500,700].map(weight=>new FontFace('ProjectHERBrand',`url("${staticFile('branding/Poppins-'+(weight===500?'Medium':'Bold')+'.ttf')}")`,{weight:String(weight)}));Promise.all(fonts.map(f=>f.load())).then(fs=>{fs.forEach(f=>document.fonts.add(f));continueRender(handle);}).catch(cancelRender);return()=>fonts.forEach(f=>document.fonts.delete(f));},[handle,c.enabled]);
  if(!c.enabled)return <>{children}</>;
  const closing=c.outro.enabled&&frame>=storyFrames,t=(frame-storyFrames)/fps,motion=smooth(t/.8),bg=smooth((t-.1)/.95);
  const s=Math.min(width,height)/1080,corner=220*s,size=corner*(1+1.3*motion);

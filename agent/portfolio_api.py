@@ -129,7 +129,23 @@ class Runtime:
             if not job:return None
             # A late worker cannot overwrite a recorded timeout or cancellation.
             if job['status'] in TERMINAL:return job
+            if fields.get('status') in TERMINAL:
+                history=job.get('stages') or []
+                if history and history[-1]['status']=='running':
+                    history[-1]={**history[-1],'status':'completed' if fields['status']=='completed' else 'failed'}
+                    job['stages']=history
             job.update(fields,updated_at=time.time());tx.set('job:'+jid,job);return job
+        return self.store.atomic(change)
+    def update_stage(self,jid,stage):
+        def change(tx):
+            job=tx.get('job:'+jid)
+            if not job or job['status'] in TERMINAL:return job
+            current={'name':stage.name,'label':stage.label,'status':stage.status,'elapsed':round(stage.elapsed,1)}
+            history=job.get('stages') or []
+            history=[item for item in history if item['name']!=stage.name]+[current]
+            job.update(stage=current,stages=history,updated_at=time.time())
+            tx.set('job:'+jid,job)
+            return job
         return self.store.atomic(change)
     def reserve(self,data,identity,key):
         if not self.enabled or min(self.daily,self.visitor,self.concurrent)<=0:raise APIError('Public generation is temporarily unavailable. Previously generated examples remain available.',503)
@@ -156,7 +172,7 @@ class Runtime:
             if not policy.get('daily_limits_disabled') and quota['visitors'].get(owner,0)>=self.visitor:raise APIError('Your daily generation limit has been reached. Please return tomorrow.',429)
             deadline=now+self.timeout
             job={'job_id':jid,'status':'queued','created_at':now,'updated_at':now,'heartbeat_at':now,'deadline':deadline,'expires_at':now+48*3600,
-                 'cancel_supported':data.content_mode=='news','cancel_requested':False,'stage':None,'result':None,'error':None}
+                 'cancel_supported':data.content_mode=='news','cancel_requested':False,'stage':None,'stages':[],'result':None,'error':None}
             quota['total']+=1;quota['visitors'][owner]=quota['visitors'].get(owner,0)+1
             slots['jobs'][jid]=min(deadline,now+120);slots['expires_at']=now+7*86400
             tx.set('quota:'+day,quota);tx.set('active',slots);tx.set('job:'+jid,job)
@@ -234,7 +250,7 @@ class Runtime:
                 path=f'{PREFIX}/jobs/{job["job_id"]}/media/{kind}?ticket={ticket}'
                 result[kind+'_url']=path
                 if kind=='video':result['download_url']=path+'&download=1'
-        return {k:job[k] for k in ('job_id','status','created_at','updated_at','expires_at','cancel_supported','cancel_requested','stage','error')}|{'result':result}
+        return {k:(job.get(k,[]) if k=='stages' else job[k]) for k in ('job_id','status','created_at','updated_at','expires_at','cancel_supported','cancel_requested','stage','stages','error')}|{'result':result}
     def execute(self,jid,data):
         job=self.get_job(jid);cancel=DurableCancel(self,jid,job['deadline'])
         out=config.OUTPUT_DIR/('portfolio_'+jid);out.mkdir(parents=True,exist_ok=True)
@@ -246,7 +262,7 @@ class Runtime:
                 release_cloud_models();models_released=True
             # Stage status comes from the real pipeline. No synthesized percent
             # or prompts, provider logs, private paths or transcript are exposed.
-            self.update(jid,stage={'name':stage.name,'label':stage.label,'status':stage.status,'elapsed':round(stage.elapsed,1)})
+            self.update_stage(jid,stage)
         try:
             if cancel.is_set():raise NewsError('Generation cancelled.','cancelled')
             source='\n'.join(s for s in (data.url,data.text) if s)
