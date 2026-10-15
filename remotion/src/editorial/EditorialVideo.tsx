@@ -72,12 +72,6 @@ const EditorialStory:React.FC<Timeline>=(props)=>{
     if(frame<layer.startFrame||frame>=layer.endFrame)return null;
     // Complete captions replace editorial spoken text; identity labels remain.
     if((closing||m.subtitleMode==='complete')&&layer.phrase?.wordIds.length)return null;
-    if(reference&&layer.parentId&&layer.phrase?.label){
-      const name=cleanName(layer.phrase.label).replace(/\s+/g,' ').toLowerCase();
-      const activeText=m.layers.filter(l=>l.role==='phrase'&&l.startFrame<=frame&&frame<l.endFrame)
-        .flatMap(l=>l.phrase?.wordIds.map(id=>words.get(id)!.text)||[]).join(' ').toLowerCase();
-      if(activeText.includes(name))return null;
-    }
     const s=stateAt(layer,m.events,frame),b=parentBounds?{...s.bounds,y:parentBounds.h+18,w:parentBounds.w}:s.bounds;
     const asset=s.assetId?assets.get(s.assetId):null;
     const style:React.CSSProperties={position:'absolute',left:b.x,top:b.y,width:b.w,height:b.h,zIndex:layer.z,
@@ -108,4 +102,4 @@ const EditorialStory:React.FC<Timeline>=(props)=>{
   </AbsoluteFill>;
 };
 
-export const EditorialVideo:React.FC<Timeline & {branding?:BrandingInput}>=({branding,...story})=><ProjectHERBrandingController storyFrames={story.durationInFrames} branding={branding} regions={story.layers.filter(l=>l.phrase||l.role==="document"||story.assets.find(a=>a.id===l.assetId)?.role==="portrait").map(l=>({start:l.startFrame,end:l.endFrame,x:l.bounds.x/story.width,y:l.bounds.y/story.height,w:l.bounds.w/story.width,h:l.bounds.h/story.height*(l.role==="subject"?.35:1)}))} windows={story.beats.filter(b=>b.template!=="final-reveal").map(b=>({start:b.startFrame+15,end:b.endFrame-15}))}><EditorialStory {...story}/></ProjectHERBrandingController>;
+export const EditorialVideo:React.FC<Timeline & {branding?:BrandingInput}>=({branding,...story})=><ProjectHERBrandingController storyFrames={story.durationInFrames} branding={branding} regions={story.layers.filter(l=>l.phrase&&!l.parentId).map(l=>({start:l.startFrame,end:l.endFrame,x:l.bounds.x/story.width,y:l.bounds.y/story.height,w:l.bounds.w/story.width,h:l.bounds.h/story.height}))} windows={story.beats.filter(b=>b.template!=="final-reveal").map(b=>({start:b.startFrame+15,end:b.endFrame-15}))}><EditorialStory {...story}/></ProjectHERBrandingController>;

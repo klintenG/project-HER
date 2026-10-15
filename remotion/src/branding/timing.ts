@@ -6,7 +6,7 @@ export const BrandingSchema=z.object({
   creditWindowStrategy:z.literal('midTimeline').default('midTimeline'),
   protectiveOverlayEnabled:z.boolean().default(true),protectiveOverlayOccurrences:z.number().int().min(0).max(6).default(2),
   protectiveOverlayHoldSeconds:z.number().min(3).max(5).default(4),
-  protectiveOverlayOpacityRange:z.tuple([z.number().min(.08).max(.14),z.number().min(.08).max(.14)]).default([.08,.12]),
+  protectiveOverlayOpacityRange:z.tuple([z.number().min(.05).max(.14),z.number().min(.05).max(.14)]).default([.064,.096]),
   deterministicSeed:z.string().default('projecther'),contrast:z.enum(['dark','light']).default('dark'),
   creditBottomRatio:z.number().min(.04).max(.3).default(.09),
   outro:z.object({enabled:z.boolean().default(true),durationSeconds:z.number().min(2).max(3).default(2.7),theme:z.enum(['midnightNavy','ivory','softBlur']).default('midnightNavy')}).default({}),

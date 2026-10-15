@@ -336,6 +336,28 @@ class EditorialVisualTests(unittest.TestCase):
         self.assertEqual(cues[0]['cues'],[{'entityId':'person','anchor':'Example Person'}])
         self.assertEqual(planned.sentences[0].entity_ids,['person'])
 
+    def test_opening_gets_story_subject_when_planner_leaves_it_text_only(self):
+        sentence=Sentence(id='s1',text='A boulder kept falling back down the hill.',phrase='The boulder fell',claim_ids=['c1'],entity_ids=[],role='hook')
+        later=Sentence(id='s2',text='Sisyphus had to push it again.',phrase='Push it again',claim_ids=['c1'],entity_ids=['sisyphus'],role='development')
+        figure=Entity(id='sisyphus',name='Sisyphus',kind='person',identity='fictional',description='Full-body Greek myth figure')
+        script=Script(summary='Myth',narration=sentence.text+' '+later.text,sentences=[sentence,later],entities=[figure])
+        planned,rows=plan_visuals(script)
+        self.assertEqual(planned.sentences[0].entity_ids,['sisyphus'])
+        self.assertEqual(rows[0]['cues'],[{'entityId':'sisyphus','anchor':'A'}])
+
+    def test_action_variant_does_not_restore_old_portrait_alongside_it(self):
+        from agent.editorial.visuals import restore_named_cues
+        person=Entity(id='sisyphus',name='Sisyphus',kind='person',identity='fictional',description='Standing figure')
+        action=Entity(id='sisyphus_boulder',name='Sisyphus',kind='person',identity='fictional',description='Same figure pushing a boulder')
+        first=Sentence(id='s1',text='Sisyphus faced a punishment.',phrase='A punishment',claim_ids=['c1'],entity_ids=['sisyphus'],role='hook')
+        second=Sentence(id='s2',text='Sisyphus rolled the boulder uphill.',phrase='Boulder uphill',claim_ids=['c1'],entity_ids=['sisyphus_boulder'],role='development')
+        script=Script(summary='Myth',narration=first.text+' '+second.text,sentences=[first,second],entities=[person,action])
+        rows=[{'sectionId':'s1','cues':[{'entityId':'sisyphus','anchor':'Sisyphus'}]},
+              {'sectionId':'s2','cues':[{'entityId':'sisyphus_boulder','anchor':'rolled the boulder'}]}]
+        planned,cues=restore_named_cues(script,rows)
+        self.assertEqual(planned.sentences[1].entity_ids,['sisyphus_boulder'])
+        self.assertEqual(cues[1]['cues'],rows[1]['cues'])
+
     def test_historical_identity_requires_actual_source_death_passage(self):
         source=Source(id='bio',title='Biography',text='Example Person was executed in 1931.',retrieved_at='2026-10-12',url='https://public.example/biography')
         evidence=Evidence(sources=[source],claims=[Claim(id='c1',text=source.text,source_ids=['bio'],excerpts={'bio':source.text})],verification='single_source')
@@ -394,6 +416,8 @@ class EditorialVisualTests(unittest.TestCase):
             self.assertEqual(layer.mask,'none')
         person=next(l for l in m.layers if l.id=='entity-person')
         self.assertEqual(person.mask,'none')
+        self.assertEqual(person.startFrame,0)
+        self.assertEqual(next(l for l in m.layers if l.id=='entity-person-label').startFrame,0)
         self.assertGreater(next(l for l in m.layers if l.id=='entity-coffee').startFrame,next(l for l in m.layers if l.id=='entity-lunch').startFrame)
 
     def test_replicate_tiers_are_explicit_and_global_preferences_are_unchanged(self):

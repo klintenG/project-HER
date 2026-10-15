@@ -6,7 +6,7 @@ Implements `ProjectHER_Complete_Branding_Package/ProjectHER_Combined_Codex_Maste
 
 - One shared controller above all scenes displays `projectHER` from frame zero. At 1080 × 1920 its width is 220 px, top inset 105 px, and right inset 75 px. Dimensions scale with the shorter canvas edge. The tagline is suppressed on small canvases when unreadable.
 - A single midpoint credit has 0.45-second entry/exit and a four-second fully visible hold. The center of its interval stays within 45–55% of story duration. Scene interiors are preferred over transition boundaries. Thin side rules expand/retract and the line moves 18 scaled pixels with smooth easing.
-- Two diagonal overlays are the normal default from 30 seconds onward. Each has 0.5-second fades and a four-second hold, −32° rotation, seeded opacity in 8–12%, and 16 px drift. Fixed anchors alternate; there is no per-frame randomness. Text/document rectangles and approximate portrait-head regions are protected where structured scene geometry exists.
+- Two diagonal overlays are the normal default from 30 seconds onward. Each has 0.5-second fades and a four-second hold, −32° rotation, seeded opacity in 6.4–9.6%, and 16 px drift. Fixed anchors alternate; there is no per-frame randomness. The overlay sits above all cutout images; only text rectangles are masked for readability.
 - The credit is reserved first. Overlay intervals must remain outside it and outside each other, with at least 1.75 seconds between complete fade intervals. Two seconds at the beginning/end of the story are reserved. Credit positioning checks protected text regions for a stable free row across its entire appearance.
 - Clips below 15 seconds use only corner branding and the signature. At 15–30 seconds, one credit is preferred; an overlay can replace it if credit is disabled. At 30 seconds and above, default settings schedule the full set. Tight custom schedules omit events that cannot fit rather than shorten their holds or overlap them.
 - The default closing adds 81 frames at 30 FPS (2.7 seconds). A single logo moves to center over 0.8 seconds, grows to 506 px at portrait baseline, and stays there. Story visuals blur/crossfade from 0.10–1.05 seconds; a gold rule reveals from 0.65–1.20 seconds. Navy is the default; ivory and soft-blur variants are configurable.
@@ -41,7 +41,7 @@ All production bridges stage a `branding` object. Python generation reads option
     "protectiveOverlayEnabled": true,
     "protectiveOverlayOccurrences": 2,
     "protectiveOverlayHoldSeconds": 4,
-    "protectiveOverlayOpacityRange": [0.08, 0.12],
+    "protectiveOverlayOpacityRange": [0.064, 0.096],
     "deterministicSeed": "saved-render-id",
     "contrast": "dark",
     "creditBottomRatio": 0.09,
@@ -106,7 +106,7 @@ The review command uses an existing staged local story. For another machine, fir
 
 MoviePy retains its existing story generation and uses the shared Remotion composition for the branding finish. This adds a second encoding pass and requires the repository's Node/Chromium dependencies even when the story renderer is MoviePy. A failed finish preserves the original file and raises an explicit error; it does not silently deliver an unbranded replacement. Baked captions/faces in an encoded source have no semantic geometry, so native mask/clearance behavior is available most precisely in the structured Remotion pipelines. Existing baked captions can remain in the last-frame memory until it crossfades away. For visually dense custom footage, review and set contrast/credit placement explicitly.
 
-Structured face protection uses portrait bounds, not face detection. Arbitrary footage still needs visual review. News/Editorial scene contracts are unchanged; the Editorial preset continues to support its existing portrait format only. Branding itself supports portrait, landscape, and square.
+The structured News and Editorial overlays now cross cutout images; their masks reserve only displayed text. Arbitrary footage still needs visual review for contrast and readability. News/Editorial scene contracts are unchanged; the Editorial preset continues to support its existing portrait format only. Branding itself supports portrait, landscape, and square.
 
 No live cloud render or deployment was performed. Local and cloud use the same composition entry point and packaged fonts, but the deployed environment has not been exercised. The installed Remotion CLI emits a pre-existing Zod-version advisory; the current typechecks, compositions, and encoded exports pass without changing the repository's schema dependency.
 

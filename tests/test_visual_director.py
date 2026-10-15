@@ -46,6 +46,18 @@ class DirectorTests(unittest.TestCase):
             onset=next(w.start for w in m.words if w.text==word)
             self.assertLessEqual(abs(layer.startFrame/30-onset),1/30)
         self.assertEqual(len([l for l in m.layers if l.assetId and l.endFrame==m.durationInFrames]),3)
+
+    def test_opening_cutout_and_its_label_are_visible_before_late_name(self):
+        text='At the summit, Mira pushed the boulder.'
+        person=Entity(id='mira',name='Mira',kind='person',identity='fictional',description='Full-body figure pushing a boulder')
+        script=Script(summary='Action opening',narration=text,sentences=[Sentence(id='s1',text=text,phrase='At the summit',role='hook',claim_ids=['c1'],entity_ids=['mira'])],entities=[person])
+        m=self.timeline(script)
+        cutout=next(l for l in m.layers if l.assetId)
+        label=next(l for l in m.layers if l.parentId==cutout.id)
+        self.assertEqual(cutout.startFrame,0)
+        self.assertEqual(label.startFrame,0)
+        self.assertGreater(next(w.start for w in m.words if w.text=='Mira'),0)
+        self.assertEqual(next(e.opacityFrom for e in m.events if e.type=='settle' and cutout.id in e.targetIds),1)
     def test_persistence_across_sections_uses_one_asset_and_layer(self):
         s=self.script.model_copy(deep=True)
         second=Sentence(id='s2',text='The diamond remained beside the microscope.',phrase='The diamond remains',role='development',claim_ids=['c2'],entity_ids=['diamond','microscope'])

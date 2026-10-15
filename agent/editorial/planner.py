@@ -225,12 +225,13 @@ def build(script,words,sections,entities,assets,audio_path,output,generation_id,
                     if index is None:raise NewsError('Visual cue is absent from aligned narration: '+anchor)
                     onset=max(start,frames(sw[index].start)-2)
                 else:onset=0 if i==0 and j==0 else min(end-13,max(start,onset))
+                if i==0 and j==0:onset=0
                 layer=Layer(id=lid,role='subject' if a.role=='portrait' else 'object',entityId=eid,assetId=a.id,startFrame=onset,endFrame=end,bounds=b,
                     mask='none',shadow=True,
                     opacity=.18 if template in ('person_context','object_location') and j>0 else 1,z=1 if template in ('person_context','object_location') and j>0 else 10)
                 layers.append(layer);layer_registry[lid]=layer
                 # Intro is present at frame zero; subsequent introductions settle.
-                event('settle',[lid],onset,min(end,onset+12),scaleFrom=1.16,scaleTo=1,opacityFrom=1 if onset<6 else 0,dy=20)
+                event('settle',[lid],onset,min(end,onset+12),scaleFrom=1.16,scaleTo=1,opacityFrom=1 if i==0 else .9,dy=20)
                 short_symbol={'Satellite network symbol':'Network symbol','Institution symbol':'Institution symbol','Person symbol':'Person symbol','Object symbol':'Object symbol','Document symbol':'Document symbol'}.get(a.subject,a.subject)
                 # Stock alt text is descriptive provenance, not a second entity
                 # name. A concise role label avoids duplicate/oversized labels.

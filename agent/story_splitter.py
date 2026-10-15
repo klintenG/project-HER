@@ -286,9 +286,9 @@ class StorySplitter:
         human_voice = (
             "VOICE & PERSONALITY: "
             "Write every narration line exactly how a sharp, curious friend would TELL this story out loud — not how a journalist would write it. "
-            "Use contractions (don't, it's, they'd). Use filler beats that real people say: 'So here's the thing…', 'And honestly?', 'Which… yeah.', 'Okay wait—'. "
-            "Vary your rhythm: a long sentence, then a short punch. A question, then a blunt answer. "
-            "React to the material — if something is wild, SAY it's wild ('That's… kind of insane.'). "
+            "Use contractions when they sound natural. Choose concrete verbs and details over filler reactions or rehearsed banter. "
+            "Vary your rhythm as the material calls for it; allow an important fact to land without a forced question or punch line. "
+            "React only when the source warrants it, in words a thoughtful person would actually say. "
             "Never sound like a textbook, a press release, or a corporate script. Sound like a person who just found out something fascinating and can't wait to tell someone. "
             "You always respond with valid JSON only, no markdown, no extra text."
         )
@@ -440,29 +440,17 @@ HUMAN NARRATION STYLE — THE MOST IMPORTANT SECTION
 
 Every "text" field is what will be SPOKEN ALOUD. Write it exactly like a person talks:
 
-✓ Use contractions always: "it's", "didn't", "they're", "wouldn't", "here's"
-✓ Use casual transitions real people say:
-  - "So here's the thing…"
-  - "And honestly? Nobody expected what happened next."
-  - "Okay, but wait—"
-  - "Now, this is where it gets interesting."
-  - "Which… yeah. That's a lot."
-  - "And I mean—"
-✓ React to the material like a human would:
-  - "That's actually kind of wild when you think about it."
-  - "Crazy, right?"
-  - "I know — it sounds impossible."
-✓ Use rhythm: long sentence, then a SHORT punch. Then a question.
-  Example: "For over two hundred years, this diamond passed through the hands of emperors,
-  warlords, and colonial governors. And nobody questioned it. Not once."
-✓ Use "you" to pull the viewer in: "You'd think someone would've noticed, right?"
-✓ Use sentence fragments for emphasis: "Gone. Just like that." / "Every. Single. One."
-✓ Add micro-pauses with em dashes and ellipses: "And then — silence."
+✓ Open with a concrete image or consequential moment from this specific story.
+✓ Use contractions when natural, and vary sentence lengths as a speaker would.
+✓ Explain what happened and why it matters through sourced details, not rehearsed reactions.
+✓ Let a consequential action or reversal have its own beat and matching image.
+✓ End on the outcome or a specific final detail; do not force a lesson, teaser or slogan.
 
 ✗ NEVER write like a textbook: "The significance of this event cannot be overstated."
 ✗ NEVER write like a press release: "This groundbreaking development represents…"
 ✗ NEVER write clinical summaries: "The article discusses the impact of…"
 ✗ NEVER use formal connectors: "Furthermore", "Moreover", "Additionally", "In conclusion"
+✗ NEVER use filler such as "So here's the thing", "Crazy, right?", "what happened next", "little did they know" or "changed everything".
 ✗ NEVER start a sentence with "This" referring to an abstract concept.
 ✗ NEVER use passive voice when active is possible.
 
@@ -520,9 +508,9 @@ For EVERY screen, split the text into TWO lines:
   - "subject_text": The key reveal in bold ("the Maratha rulers", "the Kohinoor", "in Bangladesh")
 
 HOOK ENGINEERING (CRITICAL):
-- The hook MUST start MID-THOUGHT. Never start with "Did you know" or "Hey guys".
-- Examples: "...and that's why nobody talks about this." / "They found it buried under..."
-- It creates an instant knowledge gap.
+- Begin with the specific consequential action or detail that this source actually supports.
+- The opening image must show that action or its concrete subject immediately, without a text-only card.
+- Do not start mid-thought with an artificial ellipsis or promise a later reveal.
 
 NARRATIVE ARC — DELAYED REVEAL:
 - Save the MOST interesting fact for the LAST 2-3 screens.
@@ -1325,19 +1313,12 @@ Return ONLY valid JSON. No markdown code fences. No extra text."""
         for i, sent in enumerate(sentences):
             if not sent.strip():
                 continue
-            # Heuristic: short abstract sentences → text_only
-            words = sent.split()
-            has_noun = any(
-                w[0].isupper() and i > 0 for i, w in enumerate(words)
-            )
-            visual_type = "image" if (has_noun and len(words) > 4) else "text_only"
-
             screens.append(ScreenSegment(
                 index=i,
                 text=sent.strip(),
                 duration=config.CLAY_SCREEN_DEFAULT_DURATION,
-                visual_type=visual_type,
-                image_prompt=sent.strip() if visual_type == "image" else "",
+                visual_type="image",
+                image_prompt=sent.strip(),
                 image_subject="",
                 emphasis_words=[],
                 emotion="neutral",

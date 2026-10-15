@@ -51,4 +51,4 @@ const NewsStory:React.FC<Manifest & {branding?:BrandingInput}>=(props)=>{
   </AbsoluteFill>;
 };
 
-export const NewsVideo:React.FC<Manifest & {branding?:BrandingInput}>=(props)=><ProjectHERBrandingController storyFrames={props.duration_frames} branding={props.branding} regions={props.beats.flatMap(b=>[...b.texts.map(t=>({start:b.start,end:b.end,...t.rect})),...(b.layers??[]).filter(l=>l.portrait_fade).map(l=>({start:b.start,end:b.end,...l.rect,h:l.rect.h*.35}))])} windows={props.beats.map(b=>({start:b.start+15,end:b.end-15}))}><NewsStory {...props}/></ProjectHERBrandingController>;
+export const NewsVideo:React.FC<Manifest & {branding?:BrandingInput}>=(props)=><ProjectHERBrandingController storyFrames={props.duration_frames} branding={props.branding} regions={props.beats.flatMap(b=>b.texts.map(t=>({start:b.start,end:b.end,...t.rect})))} windows={props.beats.map(b=>({start:b.start+15,end:b.end-15}))}><NewsStory {...props}/></ProjectHERBrandingController>;

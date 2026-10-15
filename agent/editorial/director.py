@@ -243,6 +243,10 @@ def compile_direction(m, script, direction, settings):
         if selected and selected[-1][1]==onset:selected[-1]=(cue,onset)
         else:selected.append((cue,onset))
     for i,(cue,onset) in enumerate(selected):
+        spoken_onset=onset
+        # The first supported image is part of the opening composition. Its
+        # semantic cue still points to the exact spoken word for diagnostics.
+        if i==0:onset=0
         end=selected[i+1][1] if i+1<len(selected) else total
         desired=list(dict.fromkeys([cue.primaryEntityId,*cue.secondaryEntityIds]))[:capacity]
         if not settings.enableSubjectPersistence:
@@ -265,7 +269,7 @@ def compile_direction(m, script, direction, settings):
             m['layers'].extend([layer,label]);active[eid]=(layer,label,slot);enter.append(lid);scales[lid]=1;current_bounds[lid]=box
             if settings.enableContextualTransitions:
                 target=1.04 if eid==cue.primaryEntityId and len(desired)>1 else .94 if len(desired)>1 else 1
-                event('settle',lid,onset,min(end,onset+entry),opacityFrom=.35,scaleFrom=target*.97,scaleTo=target,dy=12)
+                event('settle',lid,onset,min(end,onset+entry),opacityFrom=1 if i==0 else .9,scaleFrom=target*.97,scaleTo=target,dy=12)
                 scales[lid]=target
         for eid,(layer,label,slot) in active.items():
             bounds=target_bounds[eid]
@@ -289,7 +293,7 @@ def compile_direction(m, script, direction, settings):
         spans=list(re.finditer(r'\S+',sentence.text))
         char_start=script_offsets[cue.sectionId]+spans[cue.startWord].start()
         char_end=script_offsets[cue.sectionId]+spans[cue.endWord-1].end()
-        sync_error=abs(onset/30-words[cue.sectionId][cue.startWord].start)*1000
+        sync_error=abs(spoken_onset/30-words[cue.sectionId][cue.startWord].start)*1000
         if sync_error>max(settings.syncToleranceMs,1000/30):
             raise ValueError('Cue exceeds configured synchronization tolerance')
         records.append({'id':beat_id,**cue.model_dump(),'scriptSpan':[char_start,char_end],'startFrame':onset,'endFrame':end,'triggerWordIds':[w.id for w in words[cue.sectionId][cue.startWord:cue.endWord]],
