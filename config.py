@@ -1120,3 +1120,5 @@ NEWS_VERIFIED_ASSETS_JSON = os.getenv("NEWS_VERIFIED_ASSETS_JSON", "")
 import json as _visual_json
 NARRATION_VISUAL_SETTINGS = _visual_json.loads(os.getenv('HER_NARRATION_VISUAL_SETTINGS', '{}'))
 EDITORIAL_STYLE_VERSION = os.getenv('HER_EDITORIAL_STYLE_VERSION', 'reference-v2')
+NARRATIVE_VISUAL_PLANNER_V2 = os.getenv('HER_NARRATIVE_VISUAL_PLANNER_V2', '1').lower() in ('1','true','yes')
+PARALLEL_ASSET_PIPELINE_V2 = os.getenv('HER_PARALLEL_ASSET_PIPELINE_V2', '1').lower() in ('1','true','yes')

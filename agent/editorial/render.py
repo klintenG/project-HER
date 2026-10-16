@@ -101,6 +101,7 @@ def stage(timeline,output):
 
 
 def render(m,output,cancel_event=None):
+    timings={};render_started=time.monotonic()
     output=Path(output);output.parent.mkdir(parents=True,exist_ok=True)
     props=stage(m,output.parent);root=config.BASE_DIR/'remotion';cli=root/'node_modules/.bin/remotion'
     intermediate=output.with_name(output.stem+'-remotion.mp4')
@@ -115,14 +116,19 @@ def render(m,output,cancel_event=None):
                 os.killpg(p.pid,signal.SIGTERM);p.wait(timeout=10);raise NewsError('Editorial render cancelled or timed out; see '+str(log))
             time.sleep(.2)
     if p.returncode:raise NewsError('Editorial Remotion failed: '+log.read_text()[-2500:])
+    timings['remotionSeconds']=round(time.monotonic()-render_started,3)
     # Remotion 4.0.242 emits full-range BT.470bg here. Explicit conversion, not
     # merely relabeling metadata, keeps the stage neutral and exports limited 709.
+    encode_started=time.monotonic()
     subprocess.run(['ffmpeg','-v','error','-y','-i',str(intermediate),'-vf',
         'scale=in_range=pc:out_range=tv:in_color_matrix=bt601:out_color_matrix=bt709,format=yuv420p','-c:v','libx264','-crf','17','-preset','medium',
         '-x264-params','colorprim=bt709:transfer=bt709:colormatrix=bt709:range=tv',
         '-color_range','tv','-colorspace','bt709','-color_primaries','bt709','-color_trc','bt709',
         '-c:a','aac','-b:a','192k','-ar','48000','-ac','2','-movflags','+faststart',str(output)],capture_output=True,check=True,timeout=240)
+    timings['ffmpegEncodeSeconds']=round(time.monotonic()-encode_started,3)
+    delivery_started=time.monotonic()
     stats=finalize_audio(m,intermediate,output,cancel_event)
+    timings['audioDeliverySeconds']=round(time.monotonic()-delivery_started,3)
     # Inspect the encoded deliverable, not just the requested composition.
     metadata=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-of','json',str(output)]))
     video_stream=next(s for s in metadata['streams'] if s['codec_type']=='video')
@@ -149,4 +155,6 @@ def render(m,output,cancel_event=None):
         output.with_name(output.stem+'-activity.json').write_text(json.dumps(report,indent=2))
         stats['activityReport']=str(output.with_name(output.stem+'-activity.json').resolve())
         if spans:m.warnings.append('Encoded video contains long low-activity spans; review editorial-activity.json for intentional holds versus static storytelling.')
+    timings['renderAndQualitySeconds']=round(time.monotonic()-render_started,3)
+    stats['stageTimings']=timings
     return output,stats

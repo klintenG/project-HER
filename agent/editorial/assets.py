@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import shutil
+import time
 from pathlib import Path
 from PIL import Image, ImageOps
 from agent.news_models import NewsError
@@ -97,17 +98,22 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                 if attempt==1:raise NewsError('Visual review is temporarily unavailable; no placeholder image was accepted.') from None
                 # Recheck the same picture; never generate another image just
                 # because its validation request lost its connection.
-    def generated(e,reference=None,record=None):
+    def generated(e,reference=None,record=None,identity_asset=None):
         nonlocal image_generator
         image_generator=image_generator or EditorialImages()
-        prompt=subject_prompt(e)+' Preserve the available body, clothing, arms and torso; do not crop to a floating head. No surrounding background objects. Zoom out so the subject occupies at most 70 percent of image height. Leave at least 10 percent blank space above the entire head, hat or hair, and 10 percent on each side. Never clip a hat, head, shoulder, hand or foot.'
-        model=config.NEWS_REFERENCE_IMAGE_MODEL if reference else config.EDITORIAL_SUPPORT_IMAGE_MODEL
+        action_cutout=e.id.startswith('action-') and e.description.startswith('Action-specific editorial interaction cutout.')
+        prompt=(e.description if action_cutout else subject_prompt(e))+' Preserve the available body, clothing, arms and torso; do not crop to a floating head. No surrounding background objects. Zoom out so the subject occupies at most 70 percent of image height. Leave at least 10 percent blank space above the entire head, hat or hair, and 10 percent on each side. Never clip a hat, head, shoulder, hand or foot.'
+        model=config.NEWS_REFERENCE_IMAGE_MODEL if reference or identity_asset else config.EDITORIAL_SUPPORT_IMAGE_MODEL
         if reference:
             # A fresh textual portrait description can override the supplied
             # face/clothing. Reference editing must preserve the photo itself.
             prompt='Edit the supplied photograph into one isolated paper-collage cutout. Preserve this exact person, face, expression, age, skin tone, hairstyle, facial hair, body proportions and original clothing with photographic detail. Change only the background to a flat contrasting mid-gray. Recompose with blank canvas margins: keep the entire available torso/body, all head/hair/hat and shoulders; leave at least 10 percent empty space above and on both sides. Do not copy a clipped input crop. Do not invent lower body, change clothing, beautify or replace the face, add people or depict an event. No text, border, watermark or baked shadow.'
-        prompt+=' Story context, for period, location and appearance only: '+script.narration+' Show only the requested subject, not additional story characters or a composite scene. Use the era described; do not replace historical equipment with modern weapons or vehicles. Never use a cube, square, box icon, silhouette icon or geometric placeholder to represent a missing subject.'
-        key=hashlib.sha256(('editorial-cutout-v5|'+prompt+'|'+model+'|'+(digest(reference.path) if reference else '')).encode()).hexdigest()
+        prompt+=' Story context, for period, location and appearance only: '+script.narration
+        prompt+=(' The requested subject is one isolated interaction cutout; include only the actor and the explicitly narrated contact/prop within that cutout. Show the action clearly, not a standing portrait.' if action_cutout else ' Show only the requested subject, not additional story characters or a composite scene.')
+        prompt+=' Use the era described; do not replace historical equipment with modern weapons or vehicles. Never use a cube, square, box icon, silhouette icon or geometric placeholder to represent a missing subject.'
+        if identity_asset:
+            prompt+=' Match the supplied established character reference: preserve fur/skin color, face, hair, clothing, silhouette and accessories while changing the pose to show the narrated action.'
+        key=hashlib.sha256(('editorial-cutout-v6|'+prompt+'|'+model+'|'+(digest(reference.path) if reference else digest(identity_asset.path) if identity_asset else '')).encode()).hexdigest()
         file_id=hashlib.sha256(e.id.encode()).hexdigest()[:20]
         cache=config.NEWS_IDENTITY_IMAGE_CACHE/key;raw=output/(file_id+'-generated.png');cut=output/(file_id+'-cutout.png')
         metadata=cache/'review.json';cached=cache/'image.png'
@@ -124,7 +130,9 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                     proof=json.loads(metadata.read_text())
                     if proof.get('sha256')!=digest(cached):raise NewsError('Cached illustration checksum changed.')
                     shutil.copyfile(cached,raw);provider='replicate:'+model
+                    if record is not None:record['cacheHit']=True
                 else:
+                    if record is not None:record['cacheHit']=False
                     revised=prompt
                     if not reference and attempt:
                         revised+=' '+subject_prompt(e,attempt)
@@ -132,7 +140,8 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                     if attempt:
                         revised+=' Create a fresh zoomed-out composition, smaller than the rejected image; do not repeat its crop.'
                     revised+=(' Repair the previous attempt: '+'; '.join(feedback)[-1000:] if feedback else '')
-                    provider=_generate(image_generator.real_subject(revised,raw,reference) if reference else image_generator.subject(revised,raw),cancel_event)
+                    conditioning=reference or (type('IdentityCutout',(),{'path':identity_asset.path})() if identity_asset else None)
+                    provider=_generate(image_generator.real_subject(revised,raw,conditioning) if conditioning else image_generator.subject(revised,raw),cancel_event)
                 stats,method=processor.process(raw,cut,allow_group=e.is_group,allow_portrait_crop=e.kind=='person' and not e.is_group,allow_bottom_crop=True)
                 if reference and proof is None:
                     check=review('Compare image 1 (identity-linked reference) and image 2 (generated cutout). Assess visual likeness only, not legal or biometric identity. Reject a different face, changed age/ethnicity, anonymous lookalike, extra people, distorted anatomy, missing torso/clothing that existed in the reference, or unusable cutout. Return {sameLikeness:boolean, singlePerson:boolean, bodyPreserved:boolean, confidence:number from 0 to 1, problems:[strings]}. Uncertainty must fail.',
@@ -156,6 +165,22 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                         if isinstance(check,dict):feedback.extend(str(p) for p in check.get('problems',[]))
                         raise NewsError('Generated visual does not match '+e.name+'; a geometric placeholder or unrelated image will not be used.')
                     proof={'identityVerified':False,'depiction':'illustration','subjectReview':check}
+                if action_cutout and (proof is None or not proof.get('actionReview')):
+                    action_check=review('Check only the depicted physical action in this editorial cutout. Return {actionVisible:boolean, contactVisible:boolean, portraitOnly:boolean, problems:[strings]}. Require the pose, object direction and any narrated contact to be visually legible without captions. A standing portrait or separate floating subjects fail. Do not require gore or a documentary photograph.',
+                        {'requiredAction':e.description,'spokenSentence':next((s.text for s in script.sentences if e.id in s.entity_ids),'')},[cut])
+                    if not isinstance(action_check,dict) or action_check.get('actionVisible') is not True or action_check.get('contactVisible') is not True or action_check.get('portraitOnly') is not False:
+                        if record is not None:record.setdefault('rejectedAttempts',[]).append({'attempt':attempt+1,'actionReview':action_check})
+                        if isinstance(action_check,dict):feedback.extend(str(p) for p in action_check.get('problems',[]))
+                        raise NewsError('Action cutout does not depict the narrated physical relationship for '+e.name+'.')
+                    proof['actionReview']=action_check
+                if identity_asset and (proof is None or not proof.get('continuityReview')):
+                    continuity=review('Compare image 1, the established illustrated character, with image 2, its action cutout. Return {recognizable:boolean, sameClothingOrFur:boolean, problems:[strings]}. Allow pose and expression changes; reject a different character, fur palette, costume or face. Treat these as illustrations, not biometric identity claims.',
+                        {'subject':e.name},[identity_asset.path,cut])
+                    if not isinstance(continuity,dict) or continuity.get('recognizable') is not True or continuity.get('sameClothingOrFur') is not True:
+                        if record is not None:record.setdefault('rejectedAttempts',[]).append({'attempt':attempt+1,'continuityReview':continuity})
+                        if isinstance(continuity,dict):feedback.extend(str(p) for p in continuity.get('problems',[]))
+                        raise NewsError('Action cutout changed the established character appearance for '+e.name+'.')
+                    proof['continuityReview']=continuity
                 proof=proof or {'identityVerified':False,'depiction':'illustration'}
                 proof.update(sha256=digest(raw),model=model,segmentation=method,mask=stats)
                 cache.mkdir(parents=True,exist_ok=True);shutil.copyfile(raw,cached);metadata.write_text(json.dumps(proof,indent=2))
@@ -171,6 +196,9 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                 # Allow one final framing repair only for mask QA, never for
                 # provider/auth failures or an identity-review rejection.
                 if attempt+1>=attempts:
+                    if action_cutout:
+                        record and record.update(route='degraded_action_label',reviewWarning='No candidate passed action visibility review.')
+                        return label_fallback(e,output,'Narrated physical action could not be verified in an illustration.')
                     if not reference and best_unverified and best_unverified[0].is_file():
                         candidate,provider,check=best_unverified
                         record and record.update(route='review_uncertain_ai_illustration',reviewWarning='Subject was plausible but visual review did not meet the normal threshold.')
@@ -203,10 +231,12 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
     registry=json.loads(Path(local_registry).read_text()) if local_registry else {}
     old={a.entity_id:a for a in (existing or [])};assets=[];entities=[]
     for e in script.entities:
+        asset_started=time.monotonic()
         if cancel_event and cancel_event.is_set():raise NewsError('Editorial generation cancelled','cancelled')
         record={'entityId':e.id,'name':e.name,'identity':e.identity};audit['assets'].append(record);save_audit()
         file_id=hashlib.sha256(e.id.encode()).hexdigest()[:20]
-        row=registry.get(e.name)
+        action_entity=e.id.startswith('action-') and e.description.startswith('Action-specific editorial interaction cutout.')
+        row=registry.get(e.id) if action_entity else registry.get(e.name)
         if row:
             required=('path','subject','source','license','attribution','role')
             if not all(row.get(k) for k in required) or row['subject']!=e.name:raise NewsError('Local asset needs exact subject, role and provenance: '+e.name)
@@ -230,6 +260,13 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
             if a.source!='Project HER subject label':a=a.model_copy(update={'fallback':'AI representative group illustration; not actual members or documentary evidence'})
             record['depictionIdentity']='generic'
             if a.source!='Project HER subject label':record['route']='representative_group_illustration'
+        elif action_entity and asset_mode=='local':
+            a=label_fallback(e,output,'No distinct action asset was supplied under '+e.id+'.')
+            record['route']='degraded_missing_local_action'
+        elif action_entity and asset_mode in ('auto','ai'):
+            master=next((prior for prior in assets if prior.subject.casefold()==e.name.casefold() and prior.source!='Project HER subject label'),None)
+            a=generated(e,record=record,identity_asset=master)
+            if a.source!='Project HER subject label':record['route']='narrative_action_cutout'
         elif e.identity=='real' and e.kind=='person' and not existing and asset_mode!='local':
             try:identity=people.resolve(e,evidence,llm,diagnostics=record)
             except Exception as exc:
@@ -341,6 +378,7 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
             raise NewsError('No verified asset for '+e.name+'. Supply the required local/exact asset; a geometric placeholder will not be rendered.')
         if a.preparation=='symbolic':
             raise NewsError('Missing visual for '+e.name+'; geometric placeholder assets cannot be rendered.')
-        record.update(assetId=a.id,alpha=a.alpha,source=a.source,depiction=a.fallback);save_audit()
+        record.update(assetId=a.id,alpha=a.alpha,source=a.source,depiction=a.fallback,
+                      durationSeconds=round(time.monotonic()-asset_started,3),bytes=Path(a.path).stat().st_size);save_audit()
         assets.append(a);entities.append(Entity(id=e.id,name=e.name,identity=e.identity,assetIds=[a.id],source=a.source))
     return entities,assets

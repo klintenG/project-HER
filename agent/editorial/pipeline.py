@@ -76,30 +76,45 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
         for entity in script.entities:validate_glyphs(entity.name)
         (out/'news_preview.json').write_text(json.dumps({'input':inp.model_dump(),'evidence':evidence.model_dump(),'script':script.model_dump(),'warnings':warnings},ensure_ascii=False,indent=2))
         from .visuals import plan_visuals
+        narration_settings={};asset_diagnostics={};media_timings={}
+        approved_script=script
+        def speech():
+            speech_started=time.monotonic()
+            try:return synthesize(approved_script,out,tts_provider or config.TTS_PROVIDER,voice,speed,tts_engine,pause=0,language=language,cancel_event=cancel_event,diagnostic_sink=narration_settings)
+            finally:media_timings['actualSpeechSeconds']=round(time.monotonic()-speech_started,3)
+        # The approved narration is immutable under visual planning. Start TTS
+        # while the optional visual LLM decides which cutouts are needed.
+        speech_pool=ThreadPoolExecutor(max_workers=1) if config.PARALLEL_ASSET_PIPELINE_V2 else None
+        speech_future=speech_pool.submit(speech) if speech_pool else None
         visual_diagnostics={}
         # Local registries intentionally specify every supplied subject; they
         # retain the script plan instead of adding unregistered illustrations.
+        visual_started=time.monotonic()
         script,cues=plan_visuals(script,evidence,None if asset_mode=='local' else llm,visual_diagnostics)
+        timings['semantic_beat_planning']=round(time.monotonic()-visual_started,3)
         (out/'visual_plan.json').write_text(json.dumps({'script':script.model_dump(),'sections':cues,'diagnostics':visual_diagnostics},ensure_ascii=False,indent=2))
         begin('media','Generating narration and sourcing cutouts together')
-        narration_settings={};asset_diagnostics={};media_timings={}
         # Remote speech and cutout sourcing are independent after the approved
         # visual script. Finish cutouts before loading Whisper for alignment so
         # the 4 GiB production worker never holds both inference models.
-        speech=lambda:synthesize(script,out,tts_provider or config.TTS_PROVIDER,voice,speed,tts_engine,pause=0,language=language,cancel_event=cancel_event,diagnostic_sink=narration_settings)
         visuals=lambda visual_cancel:acquire(script,out/'assets',local_registry=local_assets,asset_mode=asset_mode,llm=llm,
             cancel_event=visual_cancel,image_generator=image_generator,processor=processor,evidence=evidence,diagnostics=asset_diagnostics)
-        audio,(entities,assets)=prepare_parallel_media(speech,visuals,cancel_event,
+        audio,(entities,assets)=prepare_parallel_media((lambda:speech_future.result()) if speech_future else speech,visuals,cancel_event,
             lambda:tracker.update_stage('media',progress=.5,detail='Speech ready; completing visual cutouts'),media_timings)
+        if speech_pool:speech_pool.shutdown(wait=True);speech_pool=None
         cancelled(cancel_event)
         tracker.update_stage('media',progress=.75,detail='Aligning approved narration to audio')
         code=LANGUAGES.get(language.lower(),language.lower()).split('-')[0]
+        align_started=time.monotonic()
         raw,words,sections,diagnostics=prepare_existing(script,audio,out/'audio',code)
+        timings['word_forced_alignment']=round(time.monotonic()-align_started,3)
         diagnostics.update(asset_diagnostics,mediaTimings=media_timings)
         diagnostics.update(visual_diagnostics)
         from .director import VisualSettings,direct,save_summary
         visual_settings=VisualSettings.configured()
+        direction_started=time.monotonic()
         direction=direct(script,words,cues,None if asset_mode=='local' else llm,visual_settings,diagnostics) if visual_settings.narrationDrivenVisualsEnabled else None
+        timings['scene_planning_and_layout']=round(time.monotonic()-direction_started,3)
         if direction is not None:
             (out/'visual_direction.json').write_text(direction.model_dump_json(indent=2))
         cancelled(cancel_event)
@@ -125,10 +140,13 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
         m.warnings=list(dict.fromkeys(m.warnings))
         if visual_settings.diagnosticMode:save_summary(m,out)
         subtitles(words,out/'subtitles');begin('compose')
+        render_started=time.monotonic()
         video,stats=render(m,out/'editorial.mp4',cancel_event)
+        timings['Remotion_and_FFmpeg']=round(time.monotonic()-render_started,3)
         thumb=out/'thumbnail.jpg';run(['ffmpeg','-v','error','-y','-ss','1','-i',str(video),'-frames:v','1',str(thumb)])
         tracker.complete_stage(stage);timings[stage]=round(time.monotonic()-phase,3)
-        m.diagnostics.update(stageTimings=timings,finalAudio=stats,outputs={'video':str(video.resolve()),'srt':str((out/'subtitles.srt').resolve()),'vtt':str((out/'subtitles.vtt').resolve())})
+        timings['end_to_end']=round(time.monotonic()-started,3)
+        m.diagnostics.update(stageTimings=timings,criticalPathSeconds=timings['end_to_end'],finalAudio=stats,outputs={'video':str(video.resolve()),'srt':str((out/'subtitles.srt').resolve()),'vtt':str((out/'subtitles.vtt').resolve())})
         manifest=out/'editorial_manifest.json';manifest.write_text(m.model_dump_json(indent=2))
         (out/'image_credits.txt').write_text('\n\n'.join(f'{a.subject}\n{a.attribution}\n{a.source}\n{a.fallback or ""}' for a in assets))
         return PipelineResult(success=True,video_path=video,srt_path=out/'subtitles.srt',thumbnail_path=thumb,duration=output_frames(m.durationInFrames,30)/30,resolution='1080x1920',video_format='vertical',title=script.summary,key_point_count=len(m.beats),processing_time=time.monotonic()-started,content_type='news',theme='reference_editorial',caption_style=subtitle_mode,hook=script.sentences[0].text,
@@ -137,6 +155,7 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
                     'likeness_reviewed':any(r.get('assetId')==a.id and bool(r.get('generation',{}).get('visualReview')) for r in diagnostics['assetAcquisition']['assets'])} for a in assets],
                 'narration':{'provider':audio.provider,'model':audio.model,'fallbacks':audio.fallbacks},'warnings':m.warnings,'audio':stats})
     except Exception as exc:
+        if 'speech_pool' in locals() and speech_pool:speech_pool.shutdown(wait=False,cancel_futures=True)
         tracker.fail_stage(stage,str(exc));details=exc.response() if isinstance(exc,NewsError) else {'status':'error','error':str(exc)}
         (out/'editorial_failure.json').write_text(json.dumps({'stage':stage,**details},indent=2))
         return PipelineResult(errors=[str(exc)],content_type='news',processing_time=time.monotonic()-started,news_details=details)
