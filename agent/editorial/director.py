@@ -5,6 +5,7 @@ half-open word indexes, converted to frames exactly once against final audio.
 """
 from __future__ import annotations
 import json
+import re
 from pathlib import Path
 from typing import Literal
 from pydantic import Field, model_validator
@@ -160,17 +161,49 @@ def direct(script, words, visual_cues=None, llm=None, settings=None, diagnostics
     return result
 
 
+def should_render_label(entity) -> bool:
+    if not entity:
+        return False
+    # Scene action cutouts and composite event illustrations should never have clutter labels
+    if entity.id.startswith('scene-') or entity.id.startswith('action-'):
+        return False
+    name = (entity.name or '').strip()
+    if not name or len(name) > 30:
+        return False
+    lower = name.lower()
+    # Remove long generic labels such as "A pair of wooden dance clappers" and "A stone statue of a hand."
+    if re.match(r'^(a|an|the)\s+(pair|set|collection|pile|statue|piece|group|handful|stack|stone|wooden)\b', lower):
+        return False
+    if re.match(r'^(a|an|the)\b', lower) and len(name.split()) > 2:
+        return False
+    if len(name.split()) > 4:
+        return False
+    if getattr(entity, 'kind', None) == 'person':
+        return True
+    if getattr(entity, 'kind', None) == 'object' and (getattr(entity, 'identity', None) == 'generic' or len(name.split()) > 2):
+        return False
+    if getattr(entity, 'kind', None) in ('place', 'building', 'symbol'):
+        return len(name.split()) <= 3
+    return len(name.split()) <= 3
+
+
 def composition_bounds(ids, relationship, entity_kinds):
     """Relationship-specific geometry inside the shared caption safe area."""
+    # Prominent hero cutout for single visual: 720x720 placed prominently
     if len(ids)==1:
-        return {ids[0]:Bounds(x=260 if relationship=='event' else 320,y=680,w=560 if relationship=='event' else 440,h=440)}
+        return {ids[0]:Bounds(x=150 if relationship=='event' else 180,y=560 if relationship=='event' else 580,w=780 if relationship=='event' else 720,h=740 if relationship=='event' else 720)}
+    # Hierarchical composition for 3 visuals: hero cutout is prominent and elevated, 2 supporting are smaller/flanked
     if len(ids)==3:
-        return {eid:Bounds(x=90+i*310,y=740,w=280,h=340) for i,eid in enumerate(ids)}
+        return {
+            ids[0]: Bounds(x=340, y=580, w=400, h=520),
+            ids[1]: Bounds(x=70,  y=700, w=300, h=400),
+            ids[2]: Bounds(x=710, y=700, w=300, h=400),
+        }
     if relationship in ('person_object','ownership') and {entity_kinds[e] for e in ids}=={'person','object'}:
-        return {eid:Bounds(x=110,y=680,w=410,h=440) if entity_kinds[eid]=='person' else Bounds(x=620,y=790,w=320,h=310) for eid in ids}
+        return {eid:Bounds(x=100,y=580,w=480,h=600) if entity_kinds[eid]=='person' else Bounds(x=610,y=720,w=380,h=420) for eid in ids}
     if relationship in ('location','movement') and sum(entity_kinds[e]=='place' for e in ids)==1:
-        return {eid:Bounds(x=550,y=680,w=420,h=440) if entity_kinds[eid]=='place' else Bounds(x=120,y=790,w=330,h=310) for eid in ids}
-    return {eid:Bounds(x=110+i*455,y=710,w=380,h=380) for i,eid in enumerate(ids)}
+        return {eid:Bounds(x=520,y=580,w=480,h=600) if entity_kinds[eid]=='place' else Bounds(x=100,y=720,w=380,h=420) for eid in ids}
+    return {eid:Bounds(x=90+i*460,y=620,w=440,h=560) for i,eid in enumerate(ids)}
 
 
 def compile_direction(m, script, direction, settings):
@@ -235,7 +268,9 @@ def compile_direction(m, script, direction, settings):
         if start<end:m['events'].append(Event(id='director-event-'+str(len(m['events'])),type=kind,targetIds=[lid],startFrame=start,endFrame=end,**kwargs))
     def close(eid,end):
         layer,label,slot=active.pop(eid)
-        layer.endFrame=end;label.endFrame=end
+        layer.endFrame=end
+        if label is not None:
+            label.endFrame=end
         for ev in m['events']:
             if layer.id in ev.targetIds:ev.endFrame=min(ev.endFrame,end)
         if settings.enableContextualTransitions:
@@ -270,11 +305,15 @@ def compile_direction(m, script, direction, settings):
             slot=ordered.index(eid)
             asset=assets[eid];box=target_bounds[eid];lid=f'directed-{serial}';serial+=1
             layer=Layer(id=lid,role='subject' if asset.role=='portrait' else 'object',entityId=eid,assetId=asset.id,startFrame=onset,endFrame=total,bounds=box,shadow=True)
-            label=Layer(id=lid+'-label',role='label',entityId=eid,parentId=lid,anchor='entity',startFrame=onset,endFrame=total,
-                bounds=Bounds(x=0,y=box.h+18,w=box.w,h=150),z=20,
-                    phrase=Phrase(wordIds=[],lines=[],mode='entity_label',size=36,label=label_lines(entities[eid].name,box.w)))
-            labelled.add(eid)
-            m['layers'].extend([layer,label]);active[eid]=(layer,label,slot);enter.append(lid);scales[lid]=1;current_bounds[lid]=box
+            ent=entities[eid]
+            label=None
+            if should_render_label(ent):
+                label=Layer(id=lid+'-label',role='label',entityId=eid,parentId=lid,anchor='entity',startFrame=onset,endFrame=total,
+                    bounds=Bounds(x=0,y=box.h+18,w=box.w,h=150),z=20,
+                        phrase=Phrase(wordIds=[],lines=[],mode='entity_label',size=36,label=label_lines(ent.name,box.w)))
+                labelled.add(eid)
+                m['layers'].append(label)
+            m['layers'].append(layer);active[eid]=(layer,label,slot);enter.append(lid);scales[lid]=1;current_bounds[lid]=box
             if settings.enableContextualTransitions:
                 target=1.04 if eid==cue.primaryEntityId and len(desired)>1 else .94 if len(desired)>1 else 1
                 event('settle',lid,onset,min(end,onset+entry),opacityFrom=1 if i==0 else .9,scaleFrom=target*.97,scaleTo=target,dy=12)
@@ -307,7 +346,7 @@ def compile_direction(m, script, direction, settings):
                     event('emphasis',primary.id,onset,min(end,onset+entry),scaleFrom=scales[primary.id],scaleTo=boosted)
                 scales[primary.id]=boosted
         template={'focus':'single_subject','comparison':'comparison','person_object':'person_context','location':'object_location','movement':'location_transfer','ownership':'person_context','event':'document_photo','chronology':'date_year'}[cue.relationship]
-        lids=[v[0].id for v in active.values()]+[v[1].id for v in active.values()]
+        lids=[v[0].id for v in active.values()]+[v[1].id for v in active.values() if v[1] is not None]
         beat_start=0 if i==0 else onset
         text_ids=[l.id for l in m['layers'] if not l.entityId and l.startFrame<end and l.endFrame>beat_start]
         beat_id=f'atomic-{i}'

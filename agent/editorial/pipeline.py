@@ -156,6 +156,8 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
         m.warnings.extend(warnings+diagnostics.get('alignmentWarnings',[])+diagnostics.get('semanticPlan',{}).get('warnings',[])+diagnostics.get('visualPlan',{}).get('warnings',[]))
         if diagnostics.get('narrativeQuality',{}).get('degradedBeats'):
             m.warnings.append('Some required action visuals are degraded; review narrative_beat_plan.json before publishing.')
+        if diagnostics.get('sentenceQuality',{}).get('degraded_sentences') or (diagnostics.get('sentenceQuality') and not diagnostics['sentenceQuality'].get('fullyCompliant',True)):
+            m.warnings.append('Some sentence visuals used graceful fallback; video completed with degraded visual flags.')
         if target_duration and abs(m.durationInFrames/30-target_duration)>max(5,target_duration*.2):m.warnings.append('Actual speech duration differs from target; no padding added.')
         if brand_text:m.warnings.append('Brand text is omitted by this minimalist preset.')
         m.warnings=list(dict.fromkeys(m.warnings))

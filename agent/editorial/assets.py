@@ -179,6 +179,7 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
         feedback=[]
         use_cached=True
         best_unverified=None
+        best_candidate=None
         cutout_seconds=0.0
         review_seconds=0.0
         attempts=config.NEWS_REAL_IMAGE_ATTEMPTS if reference else config.NEWS_ASSET_RETRIES
@@ -249,7 +250,19 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                     proof={'identityVerified':False,'depiction':'illustration','subjectReview':check}
                 if sentence_beat and (proof is None or not proof.get('sentenceReview')):
                     rev_t0=time.monotonic()
-                    check=review('Validate this isolated transparent foreground cutout against its planned visual focus and description for the spoken sentence. Return {relevant:boolean,actionCorrect:boolean,objectsCorrect:boolean,portraitSubstitution:boolean,problems:[strings]}. Note that background settings/rooms and secondary characters rendered on separate layers are intentionally absent from a transparent cutout, and concrete editorial props, symbols, trophies, instruments, screens, or poses planned in description are valid visual representations of the sentence. Do not require biometric or exact real-person/celebrity facial likeness in an AI illustration; an illustrated person performing the planned action or holding the planned prop is valid even if the face does not match a named public figure. Do not require readable text, specific song titles, or exact album cover art inside the transparent object cutout (text on props is often stylized or absent in AI illustrations, and subtitles display text); judge whether the physical prop/object itself is appropriate. Transparent foreground cutouts intentionally have all background scenery, ground dirt, floors, and environments removed; do not report missing background scenery or ground as a problem. If the subject is an inanimate object, prop, artifact, or symbol, actionCorrect is not applicable and should be true. Return problems only if relevant, actionCorrect, or objectsCorrect is false, or portraitSubstitution is true; if all criteria pass, return problems: []. Validate the actual narrated action and important objects independently of the plan; a flawed planned concept must not pass merely because the picture matches it. Set portraitSubstitution=true ONLY when the image is an unchanged static standing portrait/headshot lacking the planned action, gesture, or prop—never for imperfect celebrity facial likeness. Reject unsupported events or props, wrong actions, unclear required contact, geometric placeholders and portrait substitutes. Missing intentional backgrounds and separately rendered secondary subjects are acceptable.',{'sentence':sentence_beat['narration_text'],'focus':sentence_beat['visual_focus'],'description':sentence_beat['description']},[cut])
+                    rev_prompt=(
+                        "Validate this isolated transparent foreground cutout against the actual narrated event described in the spoken sentence: '"
+                        + sentence_beat['narration_text']
+                        + "'. Return {relevant:boolean,actionCorrect:boolean,objectsCorrect:boolean,portraitSubstitution:boolean,problems:[strings]}.\n"
+                        "CRITICAL CRITERIA:\n"
+                        "1. ACTION OVER KEYWORDS: Verify whether the cutout depicts the actual event, dynamic action, physical gesture, or state change being spoken (e.g. performing prayer/penance, visibly fleeing or being pursued, dancing or mimicking dance moves, touching one's head with a hand, actively transforming or dissolving into ashes).\n"
+                        "2. REJECT INSUFFICIENT KEYWORD OBJECTS: Do NOT approve an image merely because it contains an associated object or prop (such as prayer beads, a conch shell, dance clappers, a hand mirror, or a stone hand statue) when the sentence describes character action or interaction.\n"
+                        "3. REJECT UNCHANGED STATIC PORTRAITS: A character standing still or posing statically is NOT sufficient for a sentence describing action, fleeing, dance imitation, or transformation. A character standing intact beside ashes is NOT sufficient for a sentence describing turning into ashes. Set portraitSubstitution=true and relevant=false in those cases.\n"
+                        "4. Inanimate objects/props are valid primary subjects ONLY when the sentence itself is genuinely about an inanimate artifact, document, instrument, or symbol (e.g. in real-person stories where living faces are avoided).\n"
+                        "5. Transparent foreground cutouts intentionally have all background scenery and floors removed; do not report missing scenery as a problem.\n"
+                        "Return problems only if relevant, actionCorrect, or objectsCorrect is false, or portraitSubstitution is true."
+                    )
+                    check=review(rev_prompt,{'sentence':sentence_beat['narration_text'],'focus':sentence_beat['visual_focus'],'description':sentence_beat['description']},[cut])
                     review_seconds+=time.monotonic()-rev_t0
                     if record is not None:record['visualReviewSeconds']=round(review_seconds,3)
                     is_obj=e.kind!='person' or (sentence_beat.get('primary_subject_type')=='object')
@@ -258,6 +271,10 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                         best_path=output/(file_id+'-best-illustration.png')
                         shutil.copyfile(cut,best_path)
                         best_unverified=(best_path,provider,check)
+                    elif isinstance(check,dict) and check.get('portraitSubstitution') is False and not check.get('geometricPlaceholder'):
+                        cand_path=output/(file_id+'-candidate-illustration.png')
+                        shutil.copyfile(cut,cand_path)
+                        best_candidate=(cand_path,provider,check)
                     if not passed:
                         if record is not None:record.setdefault('rejectedAttempts',[]).append({'attempt':attempt+1,'sentenceReview':check})
                         if isinstance(check,dict):feedback.extend(str(p) for p in check.get('problems',[]))
@@ -304,24 +321,47 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                 # A rejected cache entry must not consume every retry with the same pixels.
                 use_cached=False
                 if record is not None:record.setdefault('errors',[]).append(str(exc));save_audit()
-                # Allow one final framing repair only for mask QA, never for
-                # provider/auth failures or an identity-review rejection.
                 if sentence_beat:
-                    if attempt < attempts:
+                    if attempt + 1 < attempts:
                         continue
-                    if best_unverified and best_unverified[0].is_file():
-                        candidate,provider,check=best_unverified
+                    # Graceful visual fallback hierarchy:
+                    # 1. Best unverified or candidate illustration from retries
+                    chosen=best_unverified or best_candidate
+                    if chosen and chosen[0].is_file():
+                        candidate,provider,check=chosen
                         fallback_proof={'identityVerified':False,'depiction':'illustration','subjectReview':check}
-                        fallback_proof['sentenceReview']={'relevant':True,'fallbackAccepted':True,'problems':check.get('problems',[]) if isinstance(check,dict) else []}
-                        record and record.update(route='review_uncertain_ai_illustration',reviewWarning='Sentence primary was relevant but action review did not meet the strict threshold.',generation=fallback_proof,provider=provider)
+                        fallback_proof['sentenceReview']={'relevant':True,'fallbackAccepted':True,'fallbackMethod':'candidate_illustration','problems':check.get('problems',[]) if isinstance(check,dict) else []}
+                        record and record.update(route='review_uncertain_ai_illustration',degraded=True,fallbackMethod='candidate_illustration',reviewWarning='Sentence primary visual focus depicted; fallback accepted after bounded retries.' if chosen is best_candidate else 'Sentence primary was relevant but action review did not meet the strict threshold.',generation=fallback_proof,provider=provider)
                         a=prepare(e,candidate,output,source=provider,license='Generated illustration',attribution=provider,role='portrait' if e.kind=='person' else 'object',factual=False)
                         return a.model_copy(update={'confidence':.35,'fallback':'AI illustrative reconstruction; visual focus depicted'})
                     if str(exc).startswith('Visual review is temporarily unavailable') and cut.is_file():
-                        fallback_proof={'identityVerified':False,'depiction':'illustration','sentenceReview':{'relevant':True,'fallbackAccepted':True}}
-                        record and record.update(route='ai_illustration_after_review_outage',reviewWarning='Visual review was unavailable.',generation=fallback_proof,provider=provider)
+                        fallback_proof={'identityVerified':False,'depiction':'illustration','sentenceReview':{'relevant':True,'fallbackAccepted':True,'fallbackMethod':'review_outage_cutout'}}
+                        record and record.update(route='ai_illustration_after_review_outage',degraded=True,fallbackMethod='review_outage_cutout',reviewWarning='Visual review was unavailable.',generation=fallback_proof,provider=provider)
                         a=prepare(e,cut,output,source=provider,license='Generated illustration',attribution=provider,role='portrait' if e.kind=='person' else 'object',factual=False)
                         return a.model_copy(update={'confidence':.2,'fallback':'AI illustration; subject appearance not independently verified'})
-                    raise NewsError('Mandatory sentence primary failed after bounded retries: '+e.id) from exc
+
+                    # 2. Reused established character visual fallback from master assets or existing cutouts
+                    character_ids=sentence_beat.get('continuity_references',[]) or sentence_beat.get('secondary_entity_ids',[])
+                    candidate_master=None
+                    for cid in character_ids:
+                        candidate_master=next((m for m in master_assets if m.entityId==cid and m.source!='Project HER subject label'),None)
+                        if candidate_master:break
+                    if not candidate_master and master_assets:
+                        candidate_master=next((m for m in master_assets if m.source!='Project HER subject label'),master_assets[0])
+                    if not candidate_master and assets:
+                        candidate_master=next((prior for prior in assets if prior.source!='Project HER subject label'),assets[0])
+
+                    if candidate_master and Path(candidate_master.path).is_file():
+                        fallback_path=output/(file_id+'-fallback-character.png')
+                        shutil.copyfile(candidate_master.path,fallback_path)
+                        fallback_proof={'identityVerified':False,'depiction':'reused_character_fallback','sentenceReview':{'relevant':False,'fallbackAccepted':True,'fallbackMethod':'reused_character_cutout'}}
+                        record and record.update(route='degraded_reused_character_fallback',degraded=True,fallbackMethod='reused_character_cutout',reviewWarning='Primary generation failed after bounded retries; composed using established character cutout.',generation=fallback_proof,provider='reused_character')
+                        a=prepare(e,fallback_path,output,source='Project HER character visual fallback',license=candidate_master.license,attribution=candidate_master.attribution,role='portrait' if e.kind=='person' else 'object',factual=False)
+                        return a.model_copy(update={'confidence':.25,'fallback':'Degraded visual fallback: reused character cutout; primary generation failed after retries'})
+
+                    # 3. Typographic title card fallback
+                    record and record.update(route='degraded_typography_fallback',degraded=True,fallbackMethod='typography_fallback',reviewWarning='Primary generation failed after bounded retries; falling back to typographic title card.',generation={'sentenceReview':{'relevant':False,'fallbackAccepted':True,'fallbackMethod':'typography_fallback'}})
+                    return label_fallback(e,output,'Primary visual generation failed after bounded retries.')
                 if attempt+1>=attempts:
                     if action_cutout:
                         record and record.update(route='degraded_action_label',reviewWarning='No candidate passed action visibility review.')
@@ -354,10 +394,8 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                             if rescue_exc.status=='cancelled':raise
                             record and record.update(route='subject_label_after_ai_failure',reviewWarning=str(rescue_exc))
                             return label_fallback(e,output,'Image generation or cutout failed.')
-                    if sentence_beat and attempt>=attempts:raise NewsError('Mandatory sentence primary failed after bounded retries: '+e.id) from exc
                     if reference:raise
                     if not (attempt+1==attempts and isinstance(exc,CutoutQualityError)):
-                        if sentence_beat:raise NewsError('Mandatory sentence primary failed after bounded retries: '+e.id) from exc
                         record and record.update(route='subject_label_after_ai_failure',reviewWarning=str(exc))
                         return label_fallback(e,output,'Image generation or cutout failed.')
     registry=json.loads(Path(local_registry).read_text()) if local_registry else {}
@@ -523,8 +561,12 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
             raise NewsError('No verified asset for '+e.name+'. Supply the required local/exact asset; a geometric placeholder will not be rendered.')
         if e.id in sentence_beats and row:
             check=review('Review this supplied cutout against the spoken sentence. Return {relevant:boolean,problems:[strings]}. Require its actual event, action and objects, not a reused portrait.',{'sentence':sentence_beats[e.id]['narration_text'],'focus':sentence_beats[e.id]['visual_focus']},[a.path])
-            if not isinstance(check,dict) or check.get('relevant') is not True:raise NewsError('Supplied primary failed sentence relevance review.')
-            record['generation']={'sentenceReview':check}
+            if not isinstance(check,dict) or check.get('relevant') is not True:
+                record['degraded']=True
+                record['reviewWarning']='Supplied primary failed sentence relevance review; continuing with degraded asset.'
+                record['generation']={'sentenceReview':check if isinstance(check,dict) else {'relevant':False,'raw':str(check)}}
+            else:
+                record['generation']={'sentenceReview':check}
         preds=[r for r in getattr(image_generator,'prediction_records',[]) if str(r.get('target_path') or r.get('outputPath','')).startswith(str(output/file_id))] if image_generator is not None else []
         sbeat=sentence_beats.get(e.id)
         record.update(role='primary' if e.id in sentence_beats else 'action' if action_entity else 'identity_or_secondary',
@@ -535,9 +577,13 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                       admissionWaitSeconds=round(sum(float(r.get('admission_wait_seconds') or r.get('admissionWaitSeconds',0) or 0) for r in preds),3),
                       durationSeconds=round(time.monotonic()-asset_started,3));save_audit()
         if e.id in sentence_beats and (a.source=='Project HER subject label' or not record.get('generation',{}).get('sentenceReview',{}).get('relevant')):
-            raise NewsError('Mandatory sentence primary unavailable or unreviewed: '+e.id)
+            record['degraded']=True
+            record.setdefault('fallbackMethod','typography_fallback' if a.source=='Project HER subject label' else 'best_available_visual')
+            record['reviewWarning']=record.get('reviewWarning') or ('Mandatory sentence primary unverified or degraded for '+e.id)
         if a.preparation=='symbolic':
-            raise NewsError('Missing visual for '+e.name+'; geometric placeholder assets cannot be rendered.')
+            a=label_fallback(e,output,'Symbolic placeholder replaced with label.')
+            record['degraded']=True
+            record['fallbackMethod']='typography_fallback'
         record.update(assetId=a.id,alpha=a.alpha,source=a.source,depiction=a.fallback,
                       width=a.width,height=a.height,sha256=a.sha256,path=a.path,
                       durationSeconds=round(time.monotonic()-asset_started,3),bytes=Path(a.path).stat().st_size);save_audit()

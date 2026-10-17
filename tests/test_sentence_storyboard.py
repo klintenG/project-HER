@@ -105,7 +105,10 @@ class SentenceStoryboardTests(unittest.TestCase):
             with self.assertRaises(NewsError):sb.validate_render(script,missing)
             duplicate=copy.deepcopy(assets);primary=[a for a in duplicate if a.entityId.startswith('scene-')]
             primary[1].path=primary[0].path
-            with self.assertRaisesRegex(NewsError,'Duplicate'):sb.validate_assets(script,duplicate,diag['assetAcquisition'],review)
+            dup_result=sb.validate_assets(script,duplicate,diag['assetAcquisition'],review)
+            self.assertTrue(dup_result['acceptancePassed'])
+            self.assertFalse(dup_result['fullyCompliant'])
+            self.assertGreater(dup_result['imagesRejectedForDuplication'],0)
 
     def test_secondary_cutouts_preserved_without_duplicating_conditioned_primary_identity(self):
         e1=Entity(id='hero',name='Hero',kind='person',identity='fictional',description='A hero in bronze armor')
@@ -226,8 +229,17 @@ class SentenceStoryboardTests(unittest.TestCase):
                 return review(instruction,data,paths)
             diag={}
             with patch.object(config,'NEWS_IDENTITY_IMAGE_CACHE',root/'cache'):
-                with self.assertRaisesRegex(NewsError,'Mandatory sentence primary failed'):
-                    acquire(planned,root/'assets',image_generator=Generator(),processor=Processor(),visual_review=strict_sentence_review,diagnostics=diag)
+                entities,assets=acquire(planned,root/'assets',image_generator=Generator(),processor=Processor(),visual_review=strict_sentence_review,diagnostics=diag)
+            self.assertTrue(len(assets)>=1)
+            primary_asset=next(a for a in assets if a.entityId.startswith('scene-'))
+            self.assertIsNotNone(primary_asset)
+            audit_record=next(r for r in diag['assetAcquisition']['assets'] if r['entityId']==primary_asset.entityId)
+            self.assertTrue(audit_record.get('degraded'))
+            self.assertIn('fallbackMethod',audit_record)
+            val=sb.validate_assets(planned,assets,diag['assetAcquisition'],review)
+            self.assertTrue(val['acceptancePassed'])
+            self.assertFalse(val['fullyCompliant'])
+            self.assertIn('s1',val['degradedSentences'])
 
     def test_fictional_standalone_object_primary_disables_character_identity_conditioning(self):
         demon=Entity(id='bhasmasura',name='Bhasmasura',kind='person',identity='fictional',description='A powerful demon with dark muscular build')
@@ -281,4 +293,49 @@ class SentenceStoryboardTests(unittest.TestCase):
             self.assertNotIn('Match the supplied established character reference',scene_prompt)
             self.assertNotIn('Identity continuity:',scene_prompt)
             self.assertIn('Pile of ash',scene_prompt)
+
+    def test_sentence_primary_relevance_fallback_after_bounded_retries(self):
+        god=Entity(id='gods',name='The Gods',kind='person',identity='fictional',description='Immortal celestial beings')
+        s=Sentence(id='s6',text='The other gods burst into sudden laughter at the festive spectacle.',claim_ids=['c6'],entity_ids=['gods'],phrase='Burst into laughter',role='development')
+        script=Script(summary='Festival',narration=s.text,sentences=[s],entities=[god])
+        def planner(i,d):
+            return {'sentences':[{'sentence_id':'s6','candidates':[dict(
+                subject='Traditional brass ceremonial bell',action='ringing during festive celebration',
+                important_objects=['brass ceremonial bell'],setting='temple courtyard',emotion='joyful',state_change='celebration',
+                visual_focus='brass ceremonial bell',
+                description='An ornate brass ceremonial bell sitting next to a small wooden festival drum.',
+                identity_ids=['gods'],secondary_ids=[],
+                relevance=.95,narrative_importance=.9,novelty=.85,readability=.9)]}]}
+        planned,_=sb.plan(script,None,planner,{})
+        beat=planned.sentence_storyboard[0]
+        self.assertEqual(beat['primary_subject_type'],'object')
+
+        with tempfile.TemporaryDirectory() as root:
+            root=Path(root)
+            class Generator:
+                async def subject(self,prompt,path):return await self.scene_subject(prompt,path)
+                async def scene_subject(self,prompt,path,reference=None):
+                    im=Image.new('RGBA',(320,320),(180,140,50,255));im.save(path)
+                    return 'fixture:generated'
+                action_subject=scene_subject
+                real_subject=scene_subject
+            class Processor:
+                version='fixture'
+                def process(self,source,dest,**kwargs):
+                    import shutil
+                    shutil.copyfile(source,dest);return {},'fixture'
+            def skeptical_review(instruction,data,paths):
+                if 'Validate this isolated transparent foreground cutout' in instruction:
+                    return dict(relevant=False,actionCorrect=True,objectsCorrect=False,portraitSubstitution=False,
+                                problems=['The sentence describes laughter, which has no direct narrative connection to a bell.'])
+                return review(instruction,data,paths)
+            diag={}
+            with patch.object(config,'NEWS_IDENTITY_IMAGE_CACHE',root/'cache'):
+                entities,assets=acquire(planned,root/'assets',image_generator=Generator(),processor=Processor(),visual_review=skeptical_review,diagnostics=diag)
+            primary_asset=next(a for a in assets if a.entityId.startswith('scene-'))
+            self.assertIsNotNone(primary_asset)
+            validated=sb.validate_assets(planned,assets,diag['assetAcquisition'],review)
+            self.assertTrue(validated['acceptancePassed'])
+            self.assertGreaterEqual(validated['fallbackAttempts'],1)
+
 

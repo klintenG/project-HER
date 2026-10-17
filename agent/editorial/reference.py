@@ -60,21 +60,26 @@ def layout(kind, visuals, assets):
     lower=Bounds(x=90,y=1360,w=900,h=250)
     if not visuals:return Bounds(x=90,y=620,w=900,h=580),{}
     if kind=='portrait-event' and len(visuals)==1:
-        return Bounds(x=85,y=660,w=405,h=500),{visuals[0].id:Bounds(x=555,y=650,w=430,h=530)}
+        return Bounds(x=85,y=660,w=405,h=500),{visuals[0].id:Bounds(x=520,y=600,w=470,h=600)}
     if kind=='timeline-date' and len(visuals)<=2:
-        return top,{v.id:Bounds(x=170+i*490 if len(visuals)>1 else 265,y=850,w=350 if len(visuals)>1 else 550,h=410) for i,v in enumerate(visuals)}
+        return top,{v.id:Bounds(x=120+i*460 if len(visuals)>1 else 180,y=720,w=420 if len(visuals)>1 else 720,h=520 if len(visuals)>1 else 660) for i,v in enumerate(visuals)}
     if len(visuals)==1:
         v=visuals[0]
-        if kind=='document-evidence':return top,{v.id:Bounds(x=145,y=720,w=790,h=510)}
-        if kind=='final-reveal':return lower,{v.id:Bounds(x=225,y=530,w=630,h=660)}
-        if kind=='asset-handoff':return lower,{v.id:Bounds(x=205,y=560,w=670,h=620)}
-        if kind in ('map-event','location-change'):return top,{v.id:Bounds(x=120,y=670,w=840,h=540)}
-        return top,{v.id:Bounds(x=200,y=680,w=680,h=580)}
+        if kind=='document-evidence':return top,{v.id:Bounds(x=140,y=660,w=800,h=640)}
+        if kind=='final-reveal':return lower,{v.id:Bounds(x=160,y=520,w=760,h=760)}
+        if kind=='asset-handoff':return lower,{v.id:Bounds(x=160,y=540,w=760,h=740)}
+        if kind in ('map-event','location-change'):return top,{v.id:Bounds(x=110,y=640,w=860,h=660)}
+        return top,{v.id:Bounds(x=160,y=600,w=760,h=720)}
     if len(visuals)==3:
-        return top,{v.id:Bounds(x=85+i*310,y=760,w=290,h=420) for i,v in enumerate(visuals)}
+        # Hierarchical composition: prominent hero cutout, two smaller flanked cutouts
+        return top,{
+            visuals[0].id: Bounds(x=340, y=600, w=400, h=520),
+            visuals[1].id: Bounds(x=70,  y=720, w=300, h=420),
+            visuals[2].id: Bounds(x=710, y=720, w=300, h=420),
+        }
     if kind in ('map-event','location-change'):
-        return top,{v.id:Bounds(x=110 if i==0 else 570,y=780 if i==0 else 670,w=380 if i==0 else 410,h=350 if i==0 else 530) for i,v in enumerate(visuals)}
-    return lower if kind=='split-outcome' else top,{v.id:Bounds(x=90+i*470,y=650 if kind=='split-outcome' else 760,w=430,h=520) for i,v in enumerate(visuals)}
+        return top,{visuals[0].id:Bounds(x=100,y=720,w=400,h=480),visuals[1].id:Bounds(x=540,y=620,w=460,h=580)}
+    return lower if kind=='split-outcome' else top,{visuals[0].id:Bounds(x=80,y=600 if kind=='split-outcome' else 640,w=460,h=580),visuals[1].id:Bounds(x=540,y=640 if kind=='split-outcome' else 700,w=460,h=540)}
 
 
 def choreograph(m,script,settings):
@@ -142,10 +147,17 @@ def choreograph(m,script,settings):
                       'readabilityWarning':(end-start)/30<.7})
     # Names remain optional identification. Source type, licenses, reconstruction
     # notices and all original asset fields remain in the manifest/credits.
+    from .director import should_render_label
     for label in [l for l in m['layers'] if l.parentId]:
-        parent=next(v for v in visuals if v.id==label.parentId)
+        parent=next((v for v in visuals if v.id==label.parentId),None)
+        if not parent:continue
+        entity=next((e for e in m['entities'] if e.id==label.entityId),None)
+        if not should_render_label(entity):
+            m['layers']=[l for l in m['layers'] if l.id!=label.id]
+            for beat in m['beats']:beat.layerIds=[lid for lid in beat.layerIds if lid!=label.id]
+            continue
         min_width=min([parent.bounds.w,*[e.boundsTo.w for e in m['events'] if e.type=='reframe' and parent.id in e.targetIds]])
-        label.phrase.label=label_lines(next(e.name for e in m['entities'] if e.id==label.entityId),min_width)
+        label.phrase.label=label_lines(entity.name,min_width)
         label.bounds=Bounds(x=0,y=0,w=min_width,h=150)
     if not settings.enableEditorialText:
         text_ids={l.id for l in m['layers'] if l.role=='phrase'}

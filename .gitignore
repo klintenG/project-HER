@@ -49,3 +49,6 @@ remotion/public/editorial/
 .remotion/
 
 remotion/public/branding-renders/
+
+# Diagnostic run outputs
+diagnostics/

@@ -317,7 +317,6 @@ A factual first-person/local account, story, myth, legend, fable, fictional narr
                 result.basis='reported'
             if policy=='supplied' or result.kind=='supplied_account':
                 if result.basis!='fictional':result.basis='user_supplied'
-                result.assumptions=[]
             if not result.subject.strip():raise ValueError('subject must identify the supplied event, rather than an empty string.')
             record.update(status='accepted',resolvedKind=result.kind,resolvedBasis=result.basis)
             audit['status']='ready';save_audit()
