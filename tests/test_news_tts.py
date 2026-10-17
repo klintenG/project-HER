@@ -335,7 +335,7 @@ class ReplicateSpeechTests(unittest.TestCase):
     def test_prediction_pacing_is_shared_across_engine_instances(self):
         first=self.engine();second=self.engine();now=[100.0]
         def advance(seconds):now[0]+=seconds
-        with patch.object(config,'NEWS_REPLICATE_MIN_INTERVAL',12),patch.object(NewsReplicateTTS,'_next_prediction_at',0),patch('agent.news_tts.time.monotonic',side_effect=lambda:now[0]),patch('agent.news_tts.time.sleep',side_effect=advance) as sleep:
+        with patch('utils.provider_admission.ProviderAdmission.wait_sync',return_value=0),patch.object(config,'NEWS_REPLICATE_MIN_INTERVAL',12),patch.object(NewsReplicateTTS,'_next_prediction_at',0),patch('agent.news_tts.time.monotonic',side_effect=lambda:now[0]),patch('agent.news_tts.time.sleep',side_effect=advance) as sleep:
             first._pace_prediction();second._pace_prediction();first._pace_prediction()
         self.assertEqual([c.args[0] for c in sleep.call_args_list],[12,12])
 

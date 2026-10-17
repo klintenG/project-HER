@@ -100,16 +100,18 @@ def stage(timeline,output):
     return path.resolve()
 
 
-def render(m,output,cancel_event=None):
+def render(m,output,cancel_event=None,trace=None):
     timings={};render_started=time.monotonic()
     output=Path(output);output.parent.mkdir(parents=True,exist_ok=True)
-    props=stage(m,output.parent);root=config.BASE_DIR/'remotion';cli=root/'node_modules/.bin/remotion'
+    props=trace.call('asset_upload_or_download',stage,m,output.parent) if trace else stage(m,output.parent);root=config.BASE_DIR/'remotion';cli=root/'node_modules/.bin/remotion'
     intermediate=output.with_name(output.stem+'-remotion.mp4')
     log=output.with_suffix('.render.log')
-    with log.open('w') as handle:
+    color_options=['--color-space','bt709','--image-format','png'] if config.EDITORIAL_DIRECT_BT709 else []
+    from contextlib import nullcontext
+    with (trace.span('Remotion_or_other_render') if trace else nullcontext()), log.open('w') as handle:
         p=subprocess.Popen([str(cli),'render','src/index.ts','ProjectHEREditorial',str(intermediate.resolve()),'--props',str(props),
             '--concurrency',str(remotion_concurrency()),
-            '--codec','h264','--crf','16','--pixel-format','yuv420p','--overwrite'],cwd=root,stdout=handle,stderr=subprocess.STDOUT,start_new_session=True)
+            '--codec','h264','--crf','16','--pixel-format','yuv420p','--overwrite',*color_options],cwd=root,stdout=handle,stderr=subprocess.STDOUT,start_new_session=True)
         deadline=time.monotonic()+1200
         while p.poll() is None:
             if (cancel_event and cancel_event.is_set()) or time.monotonic()>deadline:
@@ -120,12 +122,25 @@ def render(m,output,cancel_event=None):
     # Remotion 4.0.242 emits full-range BT.470bg here. Explicit conversion, not
     # merely relabeling metadata, keeps the stage neutral and exports limited 709.
     encode_started=time.monotonic()
-    subprocess.run(['ffmpeg','-v','error','-y','-i',str(intermediate),'-vf',
+    encode_span=trace.span('FFmpeg_encode_and_mux') if trace else nullcontext()
+    with encode_span:
+        if config.EDITORIAL_DIRECT_BT709:
+            # A metadata gate precedes stream copy. Never silently relabel a
+            # 601 render as 709, nor drop an existing soundtrack/offset.
+            metadata=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-of','json',str(intermediate)]))
+            stream=next(s for s in metadata['streams'] if s['codec_type']=='video')
+            if any(stream.get(k)!='bt709' for k in ('color_space','color_transfer','color_primaries')) or stream.get('pix_fmt')!='yuv420p':
+                raise NewsError('Direct BT.709 render failed metadata validation; disable HER_EDITORIAL_DIRECT_BT709 for rollback.')
+            subprocess.run(['ffmpeg','-v','error','-y','-i',str(intermediate),'-c:v','copy','-c:a','aac',
+                '-b:a','192k','-ar','48000','-ac','2','-movflags','+faststart',str(output)],capture_output=True,check=True,timeout=240)
+        else:
+            subprocess.run(['ffmpeg','-v','error','-y','-i',str(intermediate),'-vf',
         'scale=in_range=pc:out_range=tv:in_color_matrix=bt601:out_color_matrix=bt709,format=yuv420p','-c:v','libx264','-crf','17','-preset','medium',
         '-x264-params','colorprim=bt709:transfer=bt709:colormatrix=bt709:range=tv',
         '-color_range','tv','-colorspace','bt709','-color_primaries','bt709','-color_trc','bt709',
         '-c:a','aac','-b:a','192k','-ar','48000','-ac','2','-movflags','+faststart',str(output)],capture_output=True,check=True,timeout=240)
     timings['ffmpegEncodeSeconds']=round(time.monotonic()-encode_started,3)
+    timings['videoEncodePasses']=1 if config.EDITORIAL_DIRECT_BT709 else 2
     delivery_started=time.monotonic()
     stats=finalize_audio(m,intermediate,output,cancel_event)
     timings['audioDeliverySeconds']=round(time.monotonic()-delivery_started,3)

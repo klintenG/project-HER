@@ -2,6 +2,7 @@
 import copy
 import unittest
 from unittest.mock import MagicMock
+import requests
 from utils.deployment_guard import DeploymentGuard
 
 
@@ -56,6 +57,41 @@ class DeploymentGuardTests(unittest.TestCase):
         self.states=['completed']
         with self.guard(legacy_pause=True):self.assertTrue(self.policy['fields']['disabled']['booleanValue'])
         self.assertFalse(self.policy['fields']['disabled']['booleanValue'])
+
+    def test_transient_firestore_read_timeout_retries_without_repeating_write(self):
+        original=self.session.request.side_effect;calls=[0]
+        def flaky(method,url,**kwargs):
+            if method=='GET' and calls[0]==0:
+                calls[0]+=1;raise requests.ReadTimeout('temporary')
+            return original(method,url,**kwargs)
+        self.session.request.side_effect=flaky;self.states=['completed']
+        with self.guard():pass
+        self.assertEqual(calls[0],1)
+        self.assertFalse(self.policy['fields']['maintenance']['booleanValue'])
+
+    def test_cleanup_timeout_preserves_original_deploy_failure(self):
+        self.states=['completed'];original=self.session.request.side_effect
+        def cleanup_fails(method,url,**kwargs):
+            if getattr(self,'fail_cleanup',False) and method=='GET' and url.endswith('/policy'):
+                raise requests.ReadTimeout('temporary')
+            return original(method,url,**kwargs)
+        self.session.request.side_effect=cleanup_fails
+        with self.assertRaisesRegex(RuntimeError,'build failed'):
+            with self.guard():
+                self.fail_cleanup=True
+                raise RuntimeError('build failed')
+
+    def test_cleanup_patch_timeout_rechecks_owner_then_retries(self):
+        self.states=['completed'];original=self.session.request.side_effect;patches=[0]
+        def flaky(method,url,**kwargs):
+            if method=='PATCH' and url.endswith('/policy') and not kwargs['json']['fields']['maintenance']['booleanValue']:
+                patches[0]+=1
+                if patches[0]==1:raise requests.ReadTimeout('temporary')
+            return original(method,url,**kwargs)
+        self.session.request.side_effect=flaky
+        with self.guard():pass
+        self.assertEqual(patches[0],2)
+        self.assertFalse(self.policy['fields']['maintenance']['booleanValue'])
 
 
 if __name__=='__main__':unittest.main()

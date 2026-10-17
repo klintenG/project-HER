@@ -26,7 +26,8 @@ def story():
 class EditorialVisualTests(unittest.TestCase):
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name)
-        self.patches=[patch.object(config,'NEWS_IDENTITY_IMAGE_CACHE',self.root/'images'),patch.object(config,'NEWS_CUTOUT_CACHE',self.root/'cutouts')]
+        self.patches=[patch.object(config,'NEWS_IDENTITY_IMAGE_CACHE',self.root/'images'),patch.object(config,'NEWS_CUTOUT_CACHE',self.root/'cutouts'),
+                      patch('utils.provider_admission.ProviderAdmission.wait',new_callable=AsyncMock)]
         for p in self.patches:p.start()
         self.image=self.root/'reference.png';subject_image('mira').save(self.image)
         self.reference=ReferencePhoto(str(self.image),'https://commons.wikimedia.org/wiki/File:Portrait.png','Public domain','Fixture artist','https://www.wikidata.org/wiki/Q123')
@@ -342,8 +343,9 @@ class EditorialVisualTests(unittest.TestCase):
         figure=Entity(id='sisyphus',name='Sisyphus',kind='person',identity='fictional',description='Full-body Greek myth figure')
         script=Script(summary='Myth',narration=sentence.text+' '+later.text,sentences=[sentence,later],entities=[figure])
         planned,rows=plan_visuals(script)
-        self.assertEqual(planned.sentences[0].entity_ids,['sisyphus'])
-        self.assertEqual(rows[0]['cues'],[{'entityId':'sisyphus','anchor':'A'}])
+        self.assertTrue(planned.sentences[0].entity_ids[0].startswith('action-'))
+        self.assertEqual(rows[0]['cues'][0]['anchor'],'falling')
+        self.assertEqual(planned.narrative_plan.beats[0].verb,'downhill_return')
 
     def test_action_variant_does_not_restore_old_portrait_alongside_it(self):
         from agent.editorial.visuals import restore_named_cues
@@ -437,6 +439,38 @@ class EditorialVisualTests(unittest.TestCase):
             self.assertIn('flux-kontext-pro',premium.args[0]);self.assertTrue(premium.kwargs['json']['input']['input_image'].startswith('data:image/jpeg;base64,'))
             self.assertEqual(generator.support_calls,1);self.assertEqual(generator.real_calls,1)
         self.assertEqual(config.REPLICATE_USE_SCHNELL,old)
+
+    def test_action_model_has_multiple_references_and_no_hidden_fallback(self):
+        import asyncio
+        from agent.editorial.images import EditorialImages
+        response=MagicMock(status_code=201);response.json.return_value={'id':'fixture1','status':'succeeded','output':['https://public.example/image.png']}
+        client=MagicMock();client.post=AsyncMock(return_value=response)
+        context=MagicMock();context.__aenter__=AsyncMock(return_value=client);context.__aexit__=AsyncMock(return_value=False)
+        reference=type('References',(),{'path':self.image,'paths':[self.image,self.image]})()
+        with patch.object(config,'REPLICATE_API_TOKEN','fixture-token'),patch.object(config,'EDITORIAL_ACTION_IMAGE_MODEL','google/nano-banana-pro'),patch('httpx.AsyncClient',return_value=context),patch('agent.news_research.fetch',return_value=(self.image.read_bytes(),'https://public.example/image.png')):
+            generator=EditorialImages()
+            asyncio.run(generator.action_subject('Exact contact',self.root/'action.png',reference))
+        request=client.post.call_args
+        self.assertIn('google/nano-banana-pro',request.args[0])
+        payload=request.kwargs['json']['input']
+        self.assertEqual(len(payload['image_input']),2)
+        self.assertEqual(payload['resolution'],'2K')
+        self.assertFalse(payload['allow_fallback_model'])
+        self.assertNotIn('input_image',payload)
+        self.assertEqual(generator.real_calls,1)
+
+    def test_billing_failure_stops_further_job_predictions(self):
+        import asyncio
+        from agent.editorial.images import EditorialImages
+        response=MagicMock(status_code=402)
+        client=MagicMock();client.post=AsyncMock(return_value=response)
+        context=MagicMock();context.__aenter__=AsyncMock(return_value=client);context.__aexit__=AsyncMock(return_value=False)
+        with patch.object(config,'REPLICATE_API_TOKEN','fixture-token'),patch('httpx.AsyncClient',return_value=context):
+            generator=EditorialImages()
+            for index in range(2):
+                with self.assertRaisesRegex(NewsError,'HTTP 402'):
+                    asyncio.run(generator.subject('Cup',self.root/('cup'+str(index)+'.png')))
+        self.assertEqual(client.post.await_count,1)
 
     def test_supporting_call_cap_is_enforced_before_another_prediction(self):
         import asyncio

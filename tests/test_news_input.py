@@ -199,5 +199,27 @@ class NewsInputTests(unittest.TestCase):
             failure=json.loads((Path(tmp)/'editorial_failure.json').read_text())
             self.assertEqual(failure['stage'],'resolve')
 
+    def test_user_supplied_story_never_raises_reverse_clarification_question(self):
+        story = (
+            "What happens when two of the biggest rappers in the world go to war? "
+            "In March 2024, Kendrick Lamar ignited a massive controversy with his verse on Like That, "
+            "rejecting the idea that Drake, J. Cole, and he were rap's Big Three. "
+            "A song created to destroy a rival became a global anthem, winning five Grammy Awards."
+        )
+        question = "The input states 'Not Like Us' won five Grammy Awards; would you like me to verify the specific award count and categories won by this track?"
+        for policy in ('auto', 'supplied'):
+            with self.subTest(policy=policy):
+                llm = MagicMock(return_value=self.classification(
+                    subject='Kendrick Lamar and Drake rivalry',
+                    kind='supplied_account',
+                    basis='user_supplied',
+                    clarification=question
+                ))
+                inp = analyze_input(story, policy, llm)
+                self.assertEqual(inp.kind, 'supplied_account')
+                self.assertEqual(inp.basis, 'user_supplied')
+                self.assertTrue(any(question in item for item in inp.assumptions))
+
 
 if __name__=='__main__':unittest.main()
+

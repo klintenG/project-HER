@@ -93,11 +93,12 @@ def mask_statistics(image, require_margin=True, allow_geometry=False, allow_grou
 
 
 class CutoutProcessor:
-    version = "news-cutout-1.5-rembg-2.0.57"
+    version = "news-cutout-1.6-rembg-2.0.57"
     def __init__(self, backend=None, models=None, segmenter=None):
         self.backend = backend or config.NEWS_CUTOUT_BACKEND
         self.models = models or config.NEWS_CUTOUT_MODELS
         self.segmenter = segmenter
+        self._adapter_cache_version = uuid.uuid4().hex if segmenter else 'native'
 
     def segment(self,image,model):
         if self.segmenter:
@@ -124,7 +125,7 @@ class CutoutProcessor:
             if im.width*im.height > 25_000_000:
                 raise NewsError("Generated image exceeds pixel limit.")
             original=ImageOps.exif_transpose(im).convert("RGBA")
-        cache_key=hashlib.sha256(data+(self.version+self.backend+str(self.models)+str(allow_geometry)+str(allow_group)+str(allow_portrait_crop)+str(allow_bottom_crop)).encode()).hexdigest()
+        cache_key=hashlib.sha256(data+(self.version+self.backend+str(self.models)+str(allow_geometry)+str(allow_group)+str(allow_portrait_crop)+str(allow_bottom_crop)+str(getattr(config,'CUTOUT_MATTE_REPAIR',False))+self._adapter_cache_version).encode()).hexdigest()
         cache=Path(config.NEWS_CUTOUT_CACHE)/f"{cache_key}.png"
         meta=cache.with_suffix('.json')
         if cache.exists() and meta.exists():
@@ -145,6 +146,8 @@ class CutoutProcessor:
                 variants = [candidate_image]
                 if method != "provider_alpha":
                     variants.append(soft_edge_fade(candidate_image, fade_bottom=not allow_bottom))
+                    if getattr(config,'CUTOUT_MATTE_REPAIR',False):
+                        variants.append(soft_edge_fade(consolidate_diffuse_alpha(candidate_image, source=original, allow_group=allow_group), fade_bottom=not allow_bottom))
                 for v_idx, image in enumerate(variants):
                     try:
                         # Validate source borders before cropping: adding padding cannot repair a clipped subject.
@@ -188,6 +191,29 @@ def soft_edge_fade(image, inset_pct=0.025, fade_bottom=True):
         ry[-ih:]=np.linspace(1,0,ih)
     mask=ry[:,None]*rx[None,:]
     image.putalpha(Image.fromarray((a*mask).astype('uint8')))
+    return image
+
+
+def consolidate_diffuse_alpha(image, source=None, allow_group=False):
+    """Opt-in recovery for diffuse masks; preserve holes and original RGB.
+
+    Never reveal RGB from an already premultiplied transparent image: doing so
+    turns white ribbons black. Border/clipping QA still runs after recovery.
+    """
+    from scipy.ndimage import label
+    image=image.copy().convert("RGBA")
+    a=np.asarray(image.getchannel('A'),dtype=float)
+    labeled,num=label(a>12)
+    if num>0:
+        counts=np.bincount(labeled.ravel())[1:]
+        top_count=int(counts.max())
+        keep={i+1 for i,c in enumerate(counts) if c==top_count or (allow_group and c>=top_count*.12)}
+        core=np.isin(labeled,list(keep))
+        a=np.where(core,np.maximum(a,240.0),0.0)
+    if source is not None:
+        if source.size!=image.size:raise NewsError("Matte repair source size mismatch")
+        image=source.convert("RGBA").copy()
+    image.putalpha(Image.fromarray(np.clip(a,0,255).astype('uint8')))
     return image
 
 

@@ -295,7 +295,7 @@ class EditorialTests(unittest.TestCase):
                 p=root/(e.id+'.png');subject_image(e.id).save(p)
                 registry[e.name]={'path':str(p),'subject':e.name,'source':'offline fixture artwork','license':'test artwork','attribution':'test fixture','role':'portrait' if e.kind=='person' else 'object'}
             reg=root/'registry.json';reg.write_text(json.dumps(registry))
-            def renderer(m,path,event=None):
+            def renderer(m,path,event=None,trace=None):
                 Timeline.model_validate(m.model_dump());stage(m,root)
                 return path,{'integratedLUFS':-15,'truePeakDBTP':-1.5}
             with patch('agent.editorial.pipeline.render',side_effect=renderer),patch('agent.editorial.pipeline.run'):

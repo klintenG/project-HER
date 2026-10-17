@@ -19,11 +19,19 @@ class DeploymentGuard:
         self.force_maintenance_clear=force_maintenance_clear
 
     def request(self,method,key,**kwargs):
-        if not self.token or self.clock()-self.token_time>1800:
-            self.token=self.token_provider();self.token_time=self.clock()
-        response=self.session.request(method,self.root+key,headers={'Authorization':'Bearer '+self.token},timeout=30,**kwargs)
-        if method=='GET' and response.status_code==404:return None
-        response.raise_for_status();return response.json()
+        # GETs are safe to repeat. A timed-out PATCH may already have applied,
+        # so leave writes to the caller's owner/updateTime checks.
+        attempts=3 if method=='GET' else 1
+        for attempt in range(attempts):
+            if not self.token or self.clock()-self.token_time>1800:
+                self.token=self.token_provider();self.token_time=self.clock()
+            try:
+                response=self.session.request(method,self.root+key,headers={'Authorization':'Bearer '+self.token},timeout=(10,30),**kwargs)
+                if method=='GET' and response.status_code==404:return None
+                response.raise_for_status();return response.json()
+            except (requests.Timeout,requests.ConnectionError):
+                if attempt+1==attempts:raise
+                self.sleep(attempt+1)
 
     def set_maintenance(self,enabled,current):
         params=[('updateMask.fieldPaths','maintenance'),('updateMask.fieldPaths','maintenance_owner')]
@@ -36,10 +44,19 @@ class DeploymentGuard:
         return self.request('PATCH','policy',params=params,json={'fields':fields})
 
     def reopen(self):
-        current=self.request('GET','policy')
-        if current and current['fields'].get('maintenance_owner',{}).get('stringValue')==self.owner:
-            self.set_maintenance(False,current)
-            print('Deployment maintenance cleared; prior daily/emergency settings preserved.',flush=True)
+        for attempt in range(3):
+            current=self.request('GET','policy')
+            if not current or current['fields'].get('maintenance_owner',{}).get('stringValue')!=self.owner:
+                return
+            try:
+                self.set_maintenance(False,current)
+                print('Deployment maintenance cleared; prior daily/emergency settings preserved.',flush=True)
+                return
+            except (requests.Timeout,requests.ConnectionError):
+                # A timed-out conditional PATCH may have succeeded. Re-read
+                # owner/updateTime before another attempt; never replay blind.
+                if attempt==2:raise
+                self.sleep(attempt+1)
 
     def __enter__(self):
         current=self.request('GET','policy')
@@ -65,7 +82,14 @@ class DeploymentGuard:
                 if self.clock()>=end:raise RuntimeError('Existing jobs have not finished; deployment aborted without stopping them.')
                 self.sleep(5)
         except BaseException:
-            self.reopen();raise
+            try:self.reopen()
+            except Exception as cleanup_error:
+                print('WARNING: Could not verify that deployment maintenance was cleared ('+type(cleanup_error).__name__+'). Check the Firestore policy before accepting new jobs.',flush=True)
+            raise
 
-    def __exit__(self,*args):
-        self.reopen()
+    def __exit__(self,exc_type,exc_value,traceback):
+        try:self.reopen()
+        except Exception as cleanup_error:
+            if exc_type is None:raise
+            print('WARNING: Deployment failed and maintenance cleanup could not be verified ('+type(cleanup_error).__name__+'). Check the Firestore policy before accepting new jobs.',flush=True)
+        return False

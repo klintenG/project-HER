@@ -1,0 +1,75 @@
+{
+  "summary": "Fenrir recorded-narration regression",
+  "transcription_corrections": {
+    "Tir": "Tyr",
+    "Tir's": "Tyr's",
+    "Ragnarurk": "Ragnarok"
+  },
+  "entities": [
+    {
+      "id": "fenrir",
+      "name": "Fenrir",
+      "kind": "animal",
+      "identity": "fictional",
+      "description": "Large charcoal gray wolf, silver muzzle, golden eyes, thick gray mane, full body",
+      "aliases": [
+        "wolf",
+        "beast"
+      ],
+      "frame_time": 2,
+      "crop": [
+        245,
+        650,
+        830,
+        1270
+      ]
+    },
+    {
+      "id": "odin",
+      "name": "Odin",
+      "kind": "person",
+      "identity": "fictional",
+      "description": "Older Norse god, long gray beard, black eye patch, black cloak and blue armor, gold horned crown",
+      "frame_time": 9,
+      "crop": [
+        590,
+        720,
+        965,
+        1290
+      ]
+    },
+    {
+      "id": "tyr",
+      "name": "Tyr",
+      "kind": "person",
+      "identity": "fictional",
+      "description": "Brown bearded Norse warrior in brown leather tunic with fur shoulders, gray horned helmet, dark trousers and brown leather boots",
+      "frame_time": 32,
+      "crop": [
+        640,
+        720,
+        920,
+        1290
+      ]
+    },
+    {
+      "id": "ribbon",
+      "name": "Magical Ribbon",
+      "kind": "object",
+      "identity": "generic",
+      "description": "White ivory silk magical binding ribbon",
+      "aliases": [
+        "ribbon"
+      ],
+      "frame_time": 20,
+      "crop": [
+        300,
+        740,
+        910,
+        1150
+      ],
+      "opaque_matte_recovery": true
+    }
+  ],
+  "preserve_branded_duration": true
+}

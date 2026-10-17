@@ -254,6 +254,9 @@ class Runtime:
     def execute(self,jid,data):
         job=self.get_job(jid);cancel=DurableCancel(self,jid,job['deadline'])
         out=config.OUTPUT_DIR/('portfolio_'+jid);out.mkdir(parents=True,exist_ok=True)
+        from utils.job_trace import JobTrace
+        trace=JobTrace(out/'portfolio_trace.json',jid);trace.queue_wait(job['created_at'])
+        execution=trace.span('worker_end_to_end');execution.__enter__();trace_error=None
         self.update(jid,status='running')
         models_released=False
         def progress(stage):
@@ -298,25 +301,30 @@ class Runtime:
                 raise NewsError('; '.join(result.errors) or 'Generation failed.',result.news_details.get('status','error') if result.news_details else 'error')
             if not 0<result.duration<=180:raise NewsError('The output exceeded the public demo duration limit. Shorten the input and create another video.')
             assets={}
-            assets['video']=self.media.upload(result.video_path,f'portfolio/{jid}/video.mp4','video/mp4')
+            assets['video']=trace.call('result_upload',self.media.upload,result.video_path,f'portfolio/{jid}/video.mp4','video/mp4')
             if result.thumbnail_path and Path(result.thumbnail_path).is_file():
-                assets['poster']=self.media.upload(result.thumbnail_path,f'portfolio/{jid}/poster.jpg','image/jpeg')
+                assets['poster']=trace.call('result_upload',self.media.upload,result.thumbnail_path,f'portfolio/{jid}/poster.jpg','image/jpeg')
             if result.srt_path and Path(result.srt_path).is_file():
                 vtt=out/'captions.vtt'
                 captions=re.sub(r'(\d{2}:\d{2}:\d{2}),(\d{3})',r'\1.\2',Path(result.srt_path).read_text())
                 vtt.write_text('WEBVTT\n\n'+captions)
-                assets['captions']=self.media.upload(vtt,f'portfolio/{jid}/captions.vtt','text/vtt')
+                assets['captions']=trace.call('result_upload',self.media.upload,vtt,f'portfolio/{jid}/captions.vtt','text/vtt')
             if cancel.is_set():raise NewsError('Generation cancelled.','cancelled')
-            self.update(jid,status='completed',result={'title':result.title,'duration':result.duration,'resolution':result.resolution,'language':data.language,'assets':assets},stage=None)
+            quality=(result.news_details or {}).get('narrative_quality')
+            self.update(jid,status='completed',result={'title':result.title,'duration':result.duration,'resolution':result.resolution,'language':data.language,'assets':assets,
+                'visual_review_required':bool(quality and not quality.get('acceptancePassed'))},stage=None)
             logger.info('Portfolio job %s completed; duration=%.2f',jid,result.duration)
         except Exception as exc:
+            trace_error=exc
             current=self.store.get('job:'+jid) or {}
             is_cancelled=current.get('cancel_requested') and data.content_mode=='news'
             message='Generation cancelled.' if is_cancelled else safe_message(exc) if isinstance(exc,NewsError) else 'Generation failed. Please adjust the input and retry. No automatic paid retry was made.'
             if time.time()>job['deadline']:message='Generation exceeded its deadline. No automatic paid retry was made.'
             self.update(jid,status='cancelled' if is_cancelled else 'failed',error=message,stage=None)
             logger.warning('Portfolio job %s ended | type=%s | cancelled=%s',jid,type(exc).__name__,is_cancelled)
-        finally:self.release(jid)
+        finally:
+            execution.__exit__(type(trace_error) if trace_error else None,trace_error,trace_error.__traceback__ if trace_error else None)
+            self.release(jid)
 
 
 def env_enabled(name):return os.getenv(name,'0').lower() in ('1','true','yes')

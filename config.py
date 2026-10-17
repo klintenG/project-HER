@@ -1108,6 +1108,7 @@ NEWS_POLLINATIONS_MODEL = os.getenv("NEWS_POLLINATIONS_MODEL", "black-forest-lab
 NEWS_HF_PROVIDER = os.getenv("NEWS_HF_PROVIDER", "auto")
 EDITORIAL_VISION_MODEL = os.getenv("EDITORIAL_VISION_MODEL", GEMINI_MODEL)
 EDITORIAL_SUPPORT_IMAGE_MODEL = os.getenv("EDITORIAL_SUPPORT_IMAGE_MODEL", "black-forest-labs/flux-schnell")
+EDITORIAL_ACTION_IMAGE_MODEL = os.getenv("EDITORIAL_ACTION_IMAGE_MODEL", "black-forest-labs/flux-kontext-pro")
 EDITORIAL_MAX_SUPPORT_CALLS = max(1,min(48,int(os.getenv("EDITORIAL_MAX_SUPPORT_CALLS", "24"))))
 
 NEWS_MUSIC = os.getenv("NEWS_MUSIC", "0").lower() in ("1", "true", "yes")
@@ -1122,3 +1123,12 @@ NARRATION_VISUAL_SETTINGS = _visual_json.loads(os.getenv('HER_NARRATION_VISUAL_S
 EDITORIAL_STYLE_VERSION = os.getenv('HER_EDITORIAL_STYLE_VERSION', 'reference-v2')
 NARRATIVE_VISUAL_PLANNER_V2 = os.getenv('HER_NARRATIVE_VISUAL_PLANNER_V2', '1').lower() in ('1','true','yes')
 PARALLEL_ASSET_PIPELINE_V2 = os.getenv('HER_PARALLEL_ASSET_PIPELINE_V2', '1').lower() in ('1','true','yes')
+ACTION_ASSETS_V2 = os.getenv('HER_ACTION_ASSETS_V2', '1').lower() in ('1','true','yes')
+EDITORIAL_ACTION_WORKERS = max(1,min(2,int(os.getenv('HER_EDITORIAL_ACTION_WORKERS','2'))))
+EDITORIAL_IMAGE_MIN_INTERVAL = max(0,min(12,float(os.getenv('HER_EDITORIAL_IMAGE_MIN_INTERVAL','1'))))
+EDITORIAL_IMAGE_TIMEOUT = max(30,min(240,int(os.getenv('HER_EDITORIAL_IMAGE_TIMEOUT','180'))))
+# Canary only until export comparisons pass on the target renderer/runtime.
+EDITORIAL_DIRECT_BT709 = os.getenv('HER_EDITORIAL_DIRECT_BT709','0').lower() in ('1','true','yes')
+
+# Experimental diffuse matte recovery; kept off until individual assets pass review.
+CUTOUT_MATTE_REPAIR = os.getenv('HER_CUTOUT_MATTE_REPAIR','0').lower() in ('1','true','yes')

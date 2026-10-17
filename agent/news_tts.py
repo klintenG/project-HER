@@ -59,6 +59,7 @@ class NewsReplicateTTS:
             self._wait(delay)
             NewsReplicateTTS._next_prediction_at=time.monotonic()+interval
         finally:NewsReplicateTTS._pacing_lock.release()
+        self._shared_admission.wait_sync(self._wait)
 
     def __init__(self, voice=None, speed='+0%', language='en', cancel_event=None, model=None):
         self.model = model or config.NEWS_REPLICATE_TTS_MODEL
@@ -85,6 +86,8 @@ class NewsReplicateTTS:
         self._throttle_wait = 0
         self._session = requests.Session()
         self._session.headers.update({'Authorization':'Bearer '+token})
+        from utils.provider_admission import ProviderAdmission
+        self._shared_admission=ProviderAdmission(token,max(config.NEWS_REPLICATE_MIN_INTERVAL,config.EDITORIAL_IMAGE_MIN_INTERVAL))
 
     def _request(self, method, url, **kwargs):
         retries=config.NEWS_REPLICATE_RATE_LIMIT_RETRIES
@@ -122,6 +125,7 @@ class NewsReplicateTTS:
             if attempt==retries or self._throttle_wait+wait>config.NEWS_REPLICATE_RATE_LIMIT_WAIT:
                 raise NewsError('Replicate speech is rate-limited (HTTP 429); retry/wait budget exhausted. Wait before retrying or increase NEWS_REPLICATE_RATE_LIMIT_WAIT.')
             self._throttle_wait += wait
+            self._shared_admission.throttled(wait)
             if config.NEWS_REPLICATE_MIN_INTERVAL>0:
                 while not NewsReplicateTTS._pacing_lock.acquire(timeout=.2):cancelled(self.cancel_event)
                 try:

@@ -2,6 +2,7 @@
 import argparse
 import subprocess
 import requests
+import time
 
 
 def main():
@@ -13,12 +14,21 @@ def main():
     url = f'https://firestore.googleapis.com/v1/projects/{args.project}/databases/(default)/documents/her_portfolio/policy'
     headers = {'Authorization': 'Bearer ' + token}
 
-    current = requests.get(url, headers=headers, timeout=30).json()
+    current = None
+    for attempt in range(3):
+        try:
+            response = requests.get(url, headers=headers, timeout=(10, 30))
+            response.raise_for_status()
+            current = response.json()
+            break
+        except (requests.Timeout, requests.ConnectionError):
+            if attempt == 2: raise
+            time.sleep(attempt + 1)
     fields = current.get('fields', {})
     is_maintenance = fields.get('maintenance', {}).get('booleanValue', False)
     owner = fields.get('maintenance_owner', {}).get('stringValue', '')
 
-    print(f"Current maintenance state: {is_maintenance} (owner: '{owner}')")
+    print(f'Current maintenance state: {is_maintenance} (owner present: {bool(owner)})')
     if not is_maintenance:
         print("Maintenance is already False. No changes needed.")
         return
@@ -28,10 +38,13 @@ def main():
         'maintenance': {'booleanValue': False},
         'maintenance_owner': {'stringValue': ''}
     }
-    response = requests.patch(url, headers=headers, params=params, json={'fields': update_fields}, timeout=30)
+    params.append(('currentDocument.updateTime', current['updateTime']))
+    response = requests.patch(url, headers=headers, params=params, json={'fields': update_fields}, timeout=(10, 30))
     response.raise_for_status()
 
-    check = requests.get(url, headers=headers, timeout=30).json()
+    check_response = requests.get(url, headers=headers, timeout=(10, 30))
+    check_response.raise_for_status()
+    check = check_response.json()
     assert check['fields']['maintenance']['booleanValue'] is False
     print("Deployment maintenance lock cleared successfully. The studio is reopened for admissions and deployments.")
 
