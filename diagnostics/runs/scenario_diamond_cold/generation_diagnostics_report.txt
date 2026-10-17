@@ -1,0 +1,116 @@
+========================================================================
+PROJECTHER GENERATION DIAGNOSTIC REPORT
+========================================================================
+
+## A. Generation Summary
+Job ID: scenario_diamond_cold
+Environment: local (service=local_process, revision=local)
+Video Mode: reference_editorial
+Total Generation Time: 0.190 s (measured covered wall: 0.190 s, unattributed: 0.000 s)
+Final Video Duration: 13.833 s
+Resolution / FPS: 1080x1920 @ 30 fps
+Narration Sentences: 5
+Unique Primary Images: 5 (Rendered in video: 5)
+Generated / Acquired Images: 7
+Reused Secondary Images: 1
+Sentence-Primary Invariant (distinct >= sentences): True
+Output Size: N/A bytes
+Result: completed
+
+## B. Stage Duration Breakdown (Inclusive Spans; Parallel Stages Overlap)
+Stage                                | Duration (s) |  % Wall | Status     | Metadata
+------------------------------------------------------------------------------------------------
+total_generation                     |        0.190 |  100.0% | succeeded  | {}
+input_validation_and_normalization   |        0.000 |    0.2% | succeeded  | {}
+source_retrieval_and_fact_extraction |        0.006 |    3.4% | succeeded  | {}
+script_generation_and_verification   |        0.006 |    3.4% | succeeded  | {}
+parallel_media_stage                 |        0.123 |   64.4% | succeeded  | {}
+tts_generation_and_alignment         |        0.045 |   23.6% | succeeded  | {}
+semantic_beat_planning               |        0.001 |    0.5% | succeeded  | {}
+cutout_acquisition_and_matting       |        0.075 |   39.5% | succeeded  | {}
+entity_identity_asset_generation     |        0.007 |    3.8% | succeeded  | {"asset_key": "81c9d6128b5fcd7b"}
+image_provider_wait                  |        0.002 |    1.2% | succeeded  | {"entity_id": "diamond", "model": "black-forest-labs/flux-schnell", "attempt": 1}
+background_removal_and_alpha         |        0.001 |    0.3% | succeeded  | {}
+image_task                           |        0.022 |   11.7% | succeeded  | {"entity_id": "scene-615499394d495610", "queue_wait_seconds": 3.3e-05}
+entity_identity_asset_generation     |        0.008 |    4.4% | succeeded  | {"asset_key": "7ca0d7019158ccd9"}
+new_action_asset_generation          |        0.021 |   11.2% | succeeded  | {"asset_key": "94148a6bc1097dcb"}
+image_provider_wait                  |        0.002 |    1.0% | succeeded  | {"entity_id": "chest", "model": "black-forest-labs/flux-schnell", "attempt": 1}
+background_removal_and_alpha         |        0.001 |    0.7% | succeeded  | {}
+image_task                           |        0.020 |   10.6% | succeeded  | {"entity_id": "scene-ec6d4cd235676171", "queue_wait_seconds": 0.008913}
+new_action_asset_generation          |        0.019 |   10.1% | succeeded  | {"asset_key": "c57e7449deda49fc"}
+image_provider_wait                  |        0.002 |    1.2% | succeeded  | {"entity_id": "scene-615499394d495610", "model": "black-forest-labs/flux-kontext-pro", "attempt": 1}
+background_removal_and_alpha         |        0.001 |    0.3% | succeeded  | {}
+image_task                           |        0.020 |   10.5% | succeeded  | {"entity_id": "scene-1988e0412495ffe3", "queue_wait_seconds": 0.022537}
+new_action_asset_generation          |        0.019 |   10.1% | succeeded  | {"asset_key": "da9bcd4c6648098e"}
+image_provider_wait                  |        0.002 |    0.9% | succeeded  | {"entity_id": "scene-ec6d4cd235676171", "model": "black-forest-labs/flux-kontext-pro", "attempt": 1}
+background_removal_and_alpha         |        0.001 |    0.3% | succeeded  | {}
+image_task                           |        0.020 |   10.6% | succeeded  | {"entity_id": "scene-3cece34b2f9f81be", "queue_wait_seconds": 0.029376}
+new_action_asset_generation          |        0.019 |   10.2% | succeeded  | {"asset_key": "9ea267dbc1e698ff"}
+image_provider_wait                  |        0.002 |    1.0% | succeeded  | {"entity_id": "scene-1988e0412495ffe3", "model": "black-forest-labs/flux-kontext-pro", "attempt": 1}
+background_removal_and_alpha         |        0.001 |    0.3% | succeeded  | {}
+image_task                           |        0.021 |   10.9% | succeeded  | {"entity_id": "scene-9418232ce4b5acd0", "queue_wait_seconds": 0.042866}
+image_provider_wait                  |        0.002 |    1.1% | succeeded  | {"entity_id": "scene-3cece34b2f9f81be", "model": "black-forest-labs/flux-kontext-pro", "attempt": 1}
+new_action_asset_generation          |        0.020 |   10.4% | succeeded  | {"asset_key": "b651b33dc8dbf553"}
+background_removal_and_alpha         |        0.001 |    0.3% | succeeded  | {}
+image_provider_wait                  |        0.002 |    1.0% | succeeded  | {"entity_id": "scene-9418232ce4b5acd0", "model": "black-forest-labs/flux-kontext-pro", "attempt": 1}
+background_removal_and_alpha         |        0.001 |    0.3% | succeeded  | {}
+visual_direction_compilation         |        0.032 |   16.9% | succeeded  | {}
+video_composition_and_encoding       |        0.013 |    6.7% | succeeded  | {}
+render_quality_assurance             |        0.007 |    3.5% | succeeded  | {}
+
+## C. Individual Image-Generation Times
+ # | Sentence       | Entity ID                | Role       | Queue(s) |   API(s) |  Proc(s) | Total(s) | Tries | Cache | Route
+----------------------------------------------------------------------------------------------------------------------------
+ 1 | shared_identity | diamond                  | identity_o |    0.000 |    0.002 |    0.005 |    0.007 |     1 | False | supporting_illustration
+ 2 | shared_identity | chest                    | identity_o |    0.000 |    0.002 |    0.005 |    0.007 |     1 | False | supporting_illustration
+ 3 | s0             | scene-615499394d495610   | primary    |    0.000 |    0.002 |    0.018 |    0.020 |     1 | False | narrative_action_cutout
+ 4 | s1             | scene-ec6d4cd235676171   | primary    |    0.009 |    0.002 |    0.016 |    0.018 |     1 | False | narrative_action_cutout
+ 5 | s2             | scene-1988e0412495ffe3   | primary    |    0.022 |    0.002 |    0.016 |    0.018 |     1 | False | narrative_action_cutout
+ 6 | s3             | scene-3cece34b2f9f81be   | primary    |    0.029 |    0.002 |    0.017 |    0.019 |     1 | False | narrative_action_cutout
+ 7 | s4             | scene-9418232ce4b5acd0   | primary    |    0.043 |    0.002 |    0.017 |    0.019 |     1 | False | narrative_action_cutout
+Slowest image tasks: scene-615499394d495610 (0.020s, tries=1), scene-3cece34b2f9f81be (0.019s, tries=1), scene-9418232ce4b5acd0 (0.019s, tries=1)
+
+## D. Concurrency Analysis
+Total image tasks: 7
+Peak concurrent image provider requests: 1
+Average active image provider concurrency: 1.0
+Configured action workers: 2
+TTS and visual sourcing overlap: 0.000 s (speech=None s, cutouts=None s)
+Sequential unattributed gap time: 0.000 s
+Admission pacing wait (accumulated): 0.000 s
+Rate-limited responses (HTTP 429): 0 (backoff=0 s)
+Background removal total CPU work: 0.005 s across 7 cutout(s)
+
+## E. Critical Path
+total_generation (0.19s)
+
+## F. Bottleneck Ranking
+Rank | Operation / Stage                  | Duration(s) |  % Wall | Category   | Evidence & Optimization Opportunity
+------------------------------------------------------------------------------------------------------------------------
+   1 | new_action_asset_generation        |       0.021 |   11.2% | provider   | 5 span(s), max=0.021s, accumulated=0.099s -> Bounded parallel scene generation with adaptive Replicate admission pacing
+   2 | entity_identity_asset_generation   |       0.016 |    8.2% | provider   | 2 span(s), max=0.008s, accumulated=0.016s -> Cache recurring character identity boards across retries
+   3 | image_provider_wait (accumulated)  |       0.014 |    7.4% | provider   | 7 provider call(s), peak_concurrency=1, admission_wait=0.00s -> Overlap independent scene-primary predictions across worker threads while respecting rate limits
+   4 | background_removal_and_alpha       |       0.005 |    2.5% | compute    | 7 span(s), max=0.001s, accumulated=0.005s -> Reuse warm ONNX rembg session and run cutout trimming as each image completes
+   5 | semantic_beat_planning             |       0.001 |    0.5% | provider   | 1 span(s), max=0.001s, accumulated=0.001s -> Single-pass structured storyboard generation with strict schema validation
+
+## G. Errors and Retries (Sanitized)
+None recorded.
+Provider counters: {}
+
+## H. Scene-Level Visual Quality Report
+ # | Sentence ID    | Primary Asset ID             | Distinct | Rendered | Window (s)      | Secondary IDs
+---------------------------------------------------------------------------------------------------------
+ 1 | s0             | asset-scene-615499394d495610 | True     | passed   | 0.00-2.56       | chest
+ 2 | s1             | asset-scene-ec6d4cd235676171 | True     | passed   | 2.56-5.44       | chest
+ 3 | s2             | asset-scene-1988e0412495ffe3 | True     | passed   | 5.44-8.00       | chest
+ 4 | s3             | asset-scene-3cece34b2f9f81be | True     | passed   | 8.00-10.56      | chest
+ 5 | s4             | asset-scene-9418232ce4b5acd0 | True     | passed   | 10.56-13.12     | chest
+
+## I. Recommended Next Investigation
+- Remotion output is currently re-encoded by FFmpeg for BT.601->BT.709 color conversion (2 encode passes). Validate HER_EDITORIAL_DIRECT_BT709=1 on target runtime to use -c:v copy.
+
+## J. Measurement Limitations
+- Browser timings unavailable unless submitted by the client.
+- Cold-start/cache comparison requires separate controlled runs; process peak RSS includes earlier jobs.
+- Overlapping durations must not be summed. Span nesting expresses dependencies, not a proven critical-path DAG.
+- Report serialization and report upload occur after the measured worker interval.

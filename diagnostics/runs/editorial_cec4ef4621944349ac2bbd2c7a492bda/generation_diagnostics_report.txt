@@ -1,0 +1,86 @@
+========================================================================
+PROJECTHER GENERATION DIAGNOSTIC REPORT
+========================================================================
+
+## A. Generation Summary
+Job ID: editorial_cec4ef4621944349ac2bbd2c7a492bda
+Environment: local (service=local_process, revision=local)
+Video Mode: reference_editorial
+Total Generation Time: 1.242 s (measured covered wall: 1.183 s, unattributed: 0.059 s)
+Final Video Duration: 12.367 s
+Resolution / FPS: 1080x1920 @ 30 fps
+Narration Sentences: 4
+Unique Primary Images: 0 (Rendered in video: 0)
+Generated / Acquired Images: 3
+Reused Secondary Images: 0
+Sentence-Primary Invariant (distinct >= sentences): False
+Output Size: N/A bytes
+Result: succeeded
+
+## B. Stage Duration Breakdown (Inclusive Spans; Parallel Stages Overlap)
+Stage                                | Duration (s) |  % Wall | Status     | Metadata
+------------------------------------------------------------------------------------------------
+end_to_end                           |        1.242 |  100.0% | succeeded  | {}
+input_fetch_and_extract              |        0.001 |    0.1% | succeeded  | {}
+research                             |        0.000 |    0.0% | succeeded  | {}
+research_or_script_generation        |        0.001 |    0.1% | succeeded  | {}
+TTS_generation                       |        0.162 |   13.1% | succeeded  | {}
+semantic_beat_planning               |        0.001 |    0.1% | succeeded  | {}
+entity_identity_asset_generation     |        0.041 |    3.3% | succeeded  | {"asset_key": "3c38aafb0579dafe"}
+entity_identity_asset_generation     |        0.008 |    0.7% | succeeded  | {"asset_key": "81c9d6128b5fcd7b"}
+entity_identity_asset_generation     |        0.010 |    0.8% | succeeded  | {"asset_key": "0f09538d0ea075ee"}
+word_forced_alignment                |        0.333 |   26.9% | succeeded  | {}
+audio_normalization                  |        0.676 |   54.5% | succeeded  | {}
+timeline_planning                    |        0.001 |    0.0% | succeeded  | {}
+render_and_delivery                  |        0.007 |    0.5% | succeeded  | {}
+
+## C. Individual Image-Generation Times
+ # | Sentence       | Entity ID                | Role       | Queue(s) |   API(s) |  Proc(s) | Total(s) | Tries | Cache | Route
+----------------------------------------------------------------------------------------------------------------------------
+ 1 | shared_identity | mira                     | identity_o |    0.000 |    0.000 |    0.041 |    0.041 |     1 | False | ready
+ 2 | shared_identity | diamond                  | identity_o |    0.000 |    0.000 |    0.008 |    0.008 |     1 | False | ready
+ 3 | shared_identity | microscope               | identity_o |    0.000 |    0.000 |    0.010 |    0.010 |     1 | False | ready
+Slowest image tasks: mira (0.041s, tries=1), microscope (0.010s, tries=1), diamond (0.008s, tries=1)
+
+## D. Concurrency Analysis
+Total image tasks: 3
+Peak concurrent image provider requests: 0
+Average active image provider concurrency: 0.0
+Configured action workers: 2
+TTS and visual sourcing overlap: 0.062 s (speech=0.161 s, cutouts=0.062 s)
+Sequential unattributed gap time: 0.058 s
+Admission pacing wait (accumulated): 0.000 s
+Rate-limited responses (HTTP 429): 0 (backoff=0 s)
+Background removal total CPU work: 0.000 s across 0 cutout(s)
+
+## E. Critical Path
+input_fetch_and_extract (0.00s) -> research_or_script_generation (0.00s) -> TTS_generation (0.16s) -> word_forced_alignment (0.33s) -> audio_normalization (0.68s) -> timeline_planning (0.00s) -> render_and_delivery (0.01s)
+
+## F. Bottleneck Ranking
+Rank | Operation / Stage                  | Duration(s) |  % Wall | Category   | Evidence & Optimization Opportunity
+------------------------------------------------------------------------------------------------------------------------
+   1 | word_forced_alignment              |       0.334 |   26.9% | compute    | 1 span(s), max=0.333s, accumulated=0.333s -> Use provider word timestamps when available or pre-bundled faster-whisper small model
+   2 | TTS_generation                     |       0.162 |   13.1% | provider   | 1 span(s), max=0.162s, accumulated=0.162s -> Overlap TTS with visual planning/sourcing and reduce inter-request pacing when account tier allows
+   3 | entity_identity_asset_generation   |       0.060 |    4.8% | provider   | 3 span(s), max=0.041s, accumulated=0.060s -> Cache recurring character identity boards across retries
+   4 | render_and_delivery                |       0.007 |    0.5% | compute    | 1 span(s), max=0.007s, accumulated=0.007s -> Enable direct BT.709 output in Remotion to eliminate second FFmpeg libx264 re-encode pass
+   5 | input_fetch_and_extract            |       0.001 |    0.1% | network    | 1 span(s), max=0.001s, accumulated=0.001s -> Cache fetched source text or streamline input classification
+   6 | research_or_script_generation      |       0.001 |    0.1% | provider   | 1 span(s), max=0.001s, accumulated=0.001s -> Reduce LLM repair iterations and token output size
+   7 | semantic_beat_planning             |       0.001 |    0.1% | provider   | 1 span(s), max=0.001s, accumulated=0.001s -> Single-pass structured storyboard generation with strict schema validation
+   8 | research                           |       0.001 |    0.0% | network    | 1 span(s), max=0.000s, accumulated=0.000s -> Bound web search pages and HTTP timeouts
+
+## G. Errors and Retries (Sanitized)
+None recorded.
+Provider counters: {}
+
+## H. Scene-Level Visual Quality Report
+ # | Sentence ID    | Primary Asset ID             | Distinct | Rendered | Window (s)      | Secondary IDs
+---------------------------------------------------------------------------------------------------------
+
+## I. Recommended Next Investigation
+- Remotion output is currently re-encoded by FFmpeg for BT.601->BT.709 color conversion (2 encode passes). Validate HER_EDITORIAL_DIRECT_BT709=1 on target runtime to use -c:v copy.
+
+## J. Measurement Limitations
+- Browser timings unavailable unless submitted by the client.
+- Cold-start/cache comparison requires separate controlled runs; process peak RSS includes earlier jobs.
+- Overlapping durations must not be summed. Span nesting expresses dependencies, not a proven critical-path DAG.
+- Report serialization and report upload occur after the measured worker interval.

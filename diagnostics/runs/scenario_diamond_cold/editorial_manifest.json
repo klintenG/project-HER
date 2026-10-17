@@ -1,0 +1,2387 @@
+{
+  "schemaVersion": "2.0",
+  "preset": "reference_editorial",
+  "contentMode": "news",
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "durationInFrames": 415,
+  "generationId": "scenario_diamond_cold",
+  "script": "A sacred blue diamond was mined in Golconda. A French merchant smuggled the rough gem to Paris. King Louis wore the recut jewel at court. Thieves seized the royal treasury during the revolution. The cursed stone finally entered a museum vault.",
+  "scriptHash": "bd65159b4119375d884c033210e617f3fa0d5faf7032bad9fcb19d0f50d9753a",
+  "fonts": {
+    "semibold": "/Users/klinten/Desktop/My-projects/project-HER/assets/fonts/news/Poppins-SemiBold.ttf",
+    "bold": "/Users/klinten/Desktop/My-projects/project-HER/assets/fonts/news/Poppins-Bold.ttf",
+    "version": "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c"
+  },
+  "audio": [
+    {
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_cold/master.wav",
+      "offsetFrames": 0,
+      "duration": 13.22,
+      "kind": "master",
+      "gain": 1.0,
+      "sha256": "727fd6089e6b61d44b11efcb608c6efd55c392438bfa93e0c34645752bff7940"
+    }
+  ],
+  "words": [
+    {
+      "id": "w0",
+      "sectionId": "s0",
+      "text": "A",
+      "start": 0.0,
+      "end": 0.32,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w1",
+      "sectionId": "s0",
+      "text": "sacred",
+      "start": 0.32,
+      "end": 0.64,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w2",
+      "sectionId": "s0",
+      "text": "blue",
+      "start": 0.64,
+      "end": 0.96,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w3",
+      "sectionId": "s0",
+      "text": "diamond",
+      "start": 0.96,
+      "end": 1.28,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w4",
+      "sectionId": "s0",
+      "text": "was",
+      "start": 1.28,
+      "end": 1.6,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w5",
+      "sectionId": "s0",
+      "text": "mined",
+      "start": 1.6,
+      "end": 1.92,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w6",
+      "sectionId": "s0",
+      "text": "in",
+      "start": 1.92,
+      "end": 2.24,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w7",
+      "sectionId": "s0",
+      "text": "Golconda.",
+      "start": 2.24,
+      "end": 2.56,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w8",
+      "sectionId": "s1",
+      "text": "A",
+      "start": 2.56,
+      "end": 2.88,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w9",
+      "sectionId": "s1",
+      "text": "French",
+      "start": 2.88,
+      "end": 3.2,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w10",
+      "sectionId": "s1",
+      "text": "merchant",
+      "start": 3.2,
+      "end": 3.52,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w11",
+      "sectionId": "s1",
+      "text": "smuggled",
+      "start": 3.52,
+      "end": 3.84,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w12",
+      "sectionId": "s1",
+      "text": "the",
+      "start": 3.84,
+      "end": 4.16,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w13",
+      "sectionId": "s1",
+      "text": "rough",
+      "start": 4.16,
+      "end": 4.48,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w14",
+      "sectionId": "s1",
+      "text": "gem",
+      "start": 4.48,
+      "end": 4.8,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w15",
+      "sectionId": "s1",
+      "text": "to",
+      "start": 4.8,
+      "end": 5.12,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w16",
+      "sectionId": "s1",
+      "text": "Paris.",
+      "start": 5.12,
+      "end": 5.44,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w17",
+      "sectionId": "s2",
+      "text": "King",
+      "start": 5.44,
+      "end": 5.76,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w18",
+      "sectionId": "s2",
+      "text": "Louis",
+      "start": 5.76,
+      "end": 6.08,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w19",
+      "sectionId": "s2",
+      "text": "wore",
+      "start": 6.08,
+      "end": 6.4,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w20",
+      "sectionId": "s2",
+      "text": "the",
+      "start": 6.4,
+      "end": 6.72,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w21",
+      "sectionId": "s2",
+      "text": "recut",
+      "start": 6.72,
+      "end": 7.04,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w22",
+      "sectionId": "s2",
+      "text": "jewel",
+      "start": 7.04,
+      "end": 7.36,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w23",
+      "sectionId": "s2",
+      "text": "at",
+      "start": 7.36,
+      "end": 7.68,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w24",
+      "sectionId": "s2",
+      "text": "court.",
+      "start": 7.68,
+      "end": 8.0,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w25",
+      "sectionId": "s3",
+      "text": "Thieves",
+      "start": 8.0,
+      "end": 8.32,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w26",
+      "sectionId": "s3",
+      "text": "seized",
+      "start": 8.32,
+      "end": 8.64,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w27",
+      "sectionId": "s3",
+      "text": "the",
+      "start": 8.64,
+      "end": 8.96,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w28",
+      "sectionId": "s3",
+      "text": "royal",
+      "start": 8.96,
+      "end": 9.28,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w29",
+      "sectionId": "s3",
+      "text": "treasury",
+      "start": 9.28,
+      "end": 9.6,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w30",
+      "sectionId": "s3",
+      "text": "during",
+      "start": 9.6,
+      "end": 9.92,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w31",
+      "sectionId": "s3",
+      "text": "the",
+      "start": 9.92,
+      "end": 10.24,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w32",
+      "sectionId": "s3",
+      "text": "revolution.",
+      "start": 10.24,
+      "end": 10.56,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w33",
+      "sectionId": "s4",
+      "text": "The",
+      "start": 10.56,
+      "end": 10.88,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w34",
+      "sectionId": "s4",
+      "text": "cursed",
+      "start": 10.88,
+      "end": 11.2,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w35",
+      "sectionId": "s4",
+      "text": "stone",
+      "start": 11.2,
+      "end": 11.52,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w36",
+      "sectionId": "s4",
+      "text": "finally",
+      "start": 11.52,
+      "end": 11.84,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w37",
+      "sectionId": "s4",
+      "text": "entered",
+      "start": 11.84,
+      "end": 12.16,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w38",
+      "sectionId": "s4",
+      "text": "a",
+      "start": 12.16,
+      "end": 12.48,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w39",
+      "sectionId": "s4",
+      "text": "museum",
+      "start": 12.48,
+      "end": 12.8,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w40",
+      "sectionId": "s4",
+      "text": "vault.",
+      "start": 12.8,
+      "end": 13.12,
+      "provenance": "provider",
+      "confidence": 1.0
+    }
+  ],
+  "sections": [
+    {
+      "id": "s0",
+      "text": "A sacred blue diamond was mined in Golconda.",
+      "start": 0.0,
+      "end": 2.56,
+      "wordIds": [
+        "w0",
+        "w1",
+        "w2",
+        "w3",
+        "w4",
+        "w5",
+        "w6",
+        "w7"
+      ],
+      "sourceIds": []
+    },
+    {
+      "id": "s1",
+      "text": "A French merchant smuggled the rough gem to Paris.",
+      "start": 2.56,
+      "end": 5.44,
+      "wordIds": [
+        "w8",
+        "w9",
+        "w10",
+        "w11",
+        "w12",
+        "w13",
+        "w14",
+        "w15",
+        "w16"
+      ],
+      "sourceIds": []
+    },
+    {
+      "id": "s2",
+      "text": "King Louis wore the recut jewel at court.",
+      "start": 5.44,
+      "end": 8.0,
+      "wordIds": [
+        "w17",
+        "w18",
+        "w19",
+        "w20",
+        "w21",
+        "w22",
+        "w23",
+        "w24"
+      ],
+      "sourceIds": []
+    },
+    {
+      "id": "s3",
+      "text": "Thieves seized the royal treasury during the revolution.",
+      "start": 8.0,
+      "end": 10.56,
+      "wordIds": [
+        "w25",
+        "w26",
+        "w27",
+        "w28",
+        "w29",
+        "w30",
+        "w31",
+        "w32"
+      ],
+      "sourceIds": []
+    },
+    {
+      "id": "s4",
+      "text": "The cursed stone finally entered a museum vault.",
+      "start": 10.56,
+      "end": 13.12,
+      "wordIds": [
+        "w33",
+        "w34",
+        "w35",
+        "w36",
+        "w37",
+        "w38",
+        "w39",
+        "w40"
+      ],
+      "sourceIds": []
+    }
+  ],
+  "entities": [
+    {
+      "id": "chest",
+      "name": "Royal Reliquary",
+      "identity": "generic",
+      "assetIds": [
+        "asset-chest"
+      ],
+      "source": "replicate:flux-1.1-pro"
+    },
+    {
+      "id": "scene-615499394d495610",
+      "name": "Golconda Blue Diamond in beat s0",
+      "identity": "generic",
+      "assetIds": [
+        "asset-scene-615499394d495610"
+      ],
+      "source": "replicate:flux-kontext-pro"
+    },
+    {
+      "id": "scene-ec6d4cd235676171",
+      "name": "Golconda Blue Diamond in beat s1",
+      "identity": "generic",
+      "assetIds": [
+        "asset-scene-ec6d4cd235676171"
+      ],
+      "source": "replicate:flux-kontext-pro"
+    },
+    {
+      "id": "scene-1988e0412495ffe3",
+      "name": "Golconda Blue Diamond in beat s2",
+      "identity": "generic",
+      "assetIds": [
+        "asset-scene-1988e0412495ffe3"
+      ],
+      "source": "replicate:flux-kontext-pro"
+    },
+    {
+      "id": "scene-3cece34b2f9f81be",
+      "name": "Golconda Blue Diamond in beat s3",
+      "identity": "generic",
+      "assetIds": [
+        "asset-scene-3cece34b2f9f81be"
+      ],
+      "source": "replicate:flux-kontext-pro"
+    },
+    {
+      "id": "scene-9418232ce4b5acd0",
+      "name": "Golconda Blue Diamond in beat s4",
+      "identity": "generic",
+      "assetIds": [
+        "asset-scene-9418232ce4b5acd0"
+      ],
+      "source": "replicate:flux-kontext-pro"
+    }
+  ],
+  "assets": [
+    {
+      "id": "asset-chest",
+      "entityId": "chest",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_cold/assets/8f35ad7c48a184fcb3f8.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_cold/assets/7ca0d7019158ccd92de4-cutout.png",
+      "role": "object",
+      "subject": "Royal Reliquary",
+      "source": "replicate:flux-1.1-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-1.1-pro",
+      "width": 291,
+      "height": 261,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "0523815aeb445116af7de6085d3f95ac71d8b96b10dcab87ff276241914ef204"
+    },
+    {
+      "id": "asset-scene-615499394d495610",
+      "entityId": "scene-615499394d495610",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_cold/assets/ec483f333c466d1989f1.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_cold/assets/94148a6bc1097dcb2b8d-cutout.png",
+      "role": "object",
+      "subject": "Golconda Blue Diamond in beat s0",
+      "source": "replicate:flux-kontext-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-kontext-pro",
+      "width": 301,
+      "height": 301,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "f620272520f2cd492a03ddaf2efa912b3890b588c5fd8b5fae7b9f5976d8c6bd"
+    },
+    {
+      "id": "asset-scene-ec6d4cd235676171",
+      "entityId": "scene-ec6d4cd235676171",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_cold/assets/03a21ae44e40fdbb214e.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_cold/assets/c57e7449deda49fcfcca-cutout.png",
+      "role": "object",
+      "subject": "Golconda Blue Diamond in beat s1",
+      "source": "replicate:flux-kontext-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-kontext-pro",
+      "width": 291,
+      "height": 281,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "2651a598dd74ad9562e75bf0b62ff2ea92bdabda1cc4be5e34a1ff0ed088603e"
+    },
+    {
+      "id": "asset-scene-1988e0412495ffe3",
+      "entityId": "scene-1988e0412495ffe3",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_cold/assets/7c01e31e3ca98c6e19ae.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_cold/assets/da9bcd4c6648098e0c70-cutout.png",
+      "role": "object",
+      "subject": "Golconda Blue Diamond in beat s2",
+      "source": "replicate:flux-kontext-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-kontext-pro",
+      "width": 291,
+      "height": 281,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "eb7a915f777686a89304a0e18c188f19d193f49fbeff5bf405e47d5c05638281"
+    },
+    {
+      "id": "asset-scene-3cece34b2f9f81be",
+      "entityId": "scene-3cece34b2f9f81be",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_cold/assets/1a6d4180f0f8da5dc018.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_cold/assets/9ea267dbc1e698ff4d26-cutout.png",
+      "role": "object",
+      "subject": "Golconda Blue Diamond in beat s3",
+      "source": "replicate:flux-kontext-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-kontext-pro",
+      "width": 291,
+      "height": 261,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "c56daf90c2956be5f201bae93117fbc8df9be66523abd413bb7066f899bac79f"
+    },
+    {
+      "id": "asset-scene-9418232ce4b5acd0",
+      "entityId": "scene-9418232ce4b5acd0",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_cold/assets/347e5601ec8a63673958.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_cold/assets/b651b33dc8dbf5530de0-cutout.png",
+      "role": "object",
+      "subject": "Golconda Blue Diamond in beat s4",
+      "source": "replicate:flux-kontext-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-kontext-pro",
+      "width": 291,
+      "height": 261,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "8ac10833fc4f5f2abbd3f03960c47ce6ee0e38b8ed53efbcdbda340c16bd8994"
+    }
+  ],
+  "layers": [
+    {
+      "startFrame": 0,
+      "endFrame": 77,
+      "id": "directed-0",
+      "role": "object",
+      "entityId": "scene-615499394d495610",
+      "assetId": "asset-scene-615499394d495610",
+      "parentId": null,
+      "bounds": {
+        "x": 110.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 0,
+      "endFrame": 77,
+      "id": "directed-0-label",
+      "role": "label",
+      "entityId": "scene-615499394d495610",
+      "assetId": null,
+      "parentId": "directed-0",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "Golconda Blue\nDiamond in beat s0",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 0,
+      "endFrame": 415,
+      "id": "directed-1",
+      "role": "object",
+      "entityId": "chest",
+      "assetId": "asset-chest",
+      "parentId": null,
+      "bounds": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 0,
+      "endFrame": 415,
+      "id": "directed-1-label",
+      "role": "label",
+      "entityId": "chest",
+      "assetId": null,
+      "parentId": "directed-1",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "Royal Reliquary",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 77,
+      "endFrame": 163,
+      "id": "directed-2",
+      "role": "object",
+      "entityId": "scene-ec6d4cd235676171",
+      "assetId": "asset-scene-ec6d4cd235676171",
+      "parentId": null,
+      "bounds": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 77,
+      "endFrame": 163,
+      "id": "directed-2-label",
+      "role": "label",
+      "entityId": "scene-ec6d4cd235676171",
+      "assetId": null,
+      "parentId": "directed-2",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "Golconda Blue\nDiamond in beat s1",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 163,
+      "endFrame": 240,
+      "id": "directed-3",
+      "role": "object",
+      "entityId": "scene-1988e0412495ffe3",
+      "assetId": "asset-scene-1988e0412495ffe3",
+      "parentId": null,
+      "bounds": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 163,
+      "endFrame": 240,
+      "id": "directed-3-label",
+      "role": "label",
+      "entityId": "scene-1988e0412495ffe3",
+      "assetId": null,
+      "parentId": "directed-3",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "Golconda Blue\nDiamond in beat s2",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 240,
+      "endFrame": 317,
+      "id": "directed-4",
+      "role": "object",
+      "entityId": "scene-3cece34b2f9f81be",
+      "assetId": "asset-scene-3cece34b2f9f81be",
+      "parentId": null,
+      "bounds": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 240,
+      "endFrame": 317,
+      "id": "directed-4-label",
+      "role": "label",
+      "entityId": "scene-3cece34b2f9f81be",
+      "assetId": null,
+      "parentId": "directed-4",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "Golconda Blue\nDiamond in beat s3",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 317,
+      "endFrame": 415,
+      "id": "directed-5",
+      "role": "object",
+      "entityId": "scene-9418232ce4b5acd0",
+      "assetId": "asset-scene-9418232ce4b5acd0",
+      "parentId": null,
+      "bounds": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 317,
+      "endFrame": 415,
+      "id": "directed-5-label",
+      "role": "label",
+      "entityId": "scene-9418232ce4b5acd0",
+      "assetId": null,
+      "parentId": "directed-5",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "Golconda Blue\nDiamond in beat s4",
+        "anticipationFrames": 0
+      },
+      "value": null
+    }
+  ],
+  "beats": [
+    {
+      "startFrame": 0,
+      "endFrame": 77,
+      "id": "atomic-0",
+      "template": "document_photo",
+      "sectionIds": [
+        "s0"
+      ],
+      "layerIds": [
+        "directed-0",
+        "directed-1",
+        "directed-0-label",
+        "directed-1-label"
+      ],
+      "purpose": "A sacred blue diamond was mined in Golconda."
+    },
+    {
+      "startFrame": 77,
+      "endFrame": 163,
+      "id": "atomic-1",
+      "template": "document_photo",
+      "sectionIds": [
+        "s1"
+      ],
+      "layerIds": [
+        "directed-1",
+        "directed-2",
+        "directed-1-label",
+        "directed-2-label"
+      ],
+      "purpose": "A French merchant smuggled the rough gem to Paris."
+    },
+    {
+      "startFrame": 163,
+      "endFrame": 240,
+      "id": "atomic-2",
+      "template": "document_photo",
+      "sectionIds": [
+        "s2"
+      ],
+      "layerIds": [
+        "directed-1",
+        "directed-3",
+        "directed-1-label",
+        "directed-3-label"
+      ],
+      "purpose": "King Louis wore the recut jewel at court."
+    },
+    {
+      "startFrame": 240,
+      "endFrame": 317,
+      "id": "atomic-3",
+      "template": "document_photo",
+      "sectionIds": [
+        "s3"
+      ],
+      "layerIds": [
+        "directed-1",
+        "directed-4",
+        "directed-1-label",
+        "directed-4-label"
+      ],
+      "purpose": "Thieves seized the royal treasury during the revolution."
+    },
+    {
+      "startFrame": 317,
+      "endFrame": 415,
+      "id": "atomic-4",
+      "template": "document_photo",
+      "sectionIds": [
+        "s4"
+      ],
+      "layerIds": [
+        "directed-1",
+        "directed-5",
+        "directed-1-label",
+        "directed-5-label"
+      ],
+      "purpose": "The cursed stone finally entered a museum vault."
+    }
+  ],
+  "events": [
+    {
+      "startFrame": 0,
+      "endFrame": 8,
+      "id": "director-event-0",
+      "type": "settle",
+      "targetIds": [
+        "directed-0"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 1.0088,
+      "scaleTo": 1.04,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 0,
+      "endFrame": 8,
+      "id": "director-event-1",
+      "type": "settle",
+      "targetIds": [
+        "directed-1"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 0.9117999999999999,
+      "scaleTo": 0.94,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 72,
+      "endFrame": 77,
+      "id": "director-event-2",
+      "type": "fade",
+      "targetIds": [
+        "directed-0"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 0.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 77,
+      "endFrame": 85,
+      "id": "director-event-3",
+      "type": "settle",
+      "targetIds": [
+        "directed-2"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 1.0088,
+      "scaleTo": 1.04,
+      "secondaryScale": 0.78,
+      "opacityFrom": 0.9,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 77,
+      "endFrame": 83,
+      "id": "director-event-4",
+      "type": "reframe",
+      "targetIds": [
+        "directed-1"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "boundsTo": {
+        "x": 110.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      }
+    },
+    {
+      "startFrame": 158,
+      "endFrame": 163,
+      "id": "director-event-5",
+      "type": "fade",
+      "targetIds": [
+        "directed-2"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 0.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 163,
+      "endFrame": 171,
+      "id": "director-event-6",
+      "type": "settle",
+      "targetIds": [
+        "directed-3"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 1.0088,
+      "scaleTo": 1.04,
+      "secondaryScale": 0.78,
+      "opacityFrom": 0.9,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 235,
+      "endFrame": 240,
+      "id": "director-event-7",
+      "type": "fade",
+      "targetIds": [
+        "directed-3"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 0.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 240,
+      "endFrame": 248,
+      "id": "director-event-8",
+      "type": "settle",
+      "targetIds": [
+        "directed-4"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 1.0088,
+      "scaleTo": 1.04,
+      "secondaryScale": 0.78,
+      "opacityFrom": 0.9,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 312,
+      "endFrame": 317,
+      "id": "director-event-9",
+      "type": "fade",
+      "targetIds": [
+        "directed-4"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 0.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 317,
+      "endFrame": 325,
+      "id": "director-event-10",
+      "type": "settle",
+      "targetIds": [
+        "directed-5"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 1.0088,
+      "scaleTo": 1.04,
+      "secondaryScale": 0.78,
+      "opacityFrom": 0.9,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    }
+  ],
+  "transitions": [
+    {
+      "startFrame": 0,
+      "endFrame": 8,
+      "kind": "settle",
+      "persist": [],
+      "enter": [
+        "directed-0",
+        "directed-1"
+      ],
+      "leave": []
+    },
+    {
+      "startFrame": 77,
+      "endFrame": 85,
+      "kind": "settle",
+      "persist": [
+        "directed-1"
+      ],
+      "enter": [
+        "directed-2"
+      ],
+      "leave": [
+        "directed-0"
+      ]
+    },
+    {
+      "startFrame": 163,
+      "endFrame": 171,
+      "kind": "settle",
+      "persist": [
+        "directed-1"
+      ],
+      "enter": [
+        "directed-3"
+      ],
+      "leave": [
+        "directed-2"
+      ]
+    },
+    {
+      "startFrame": 240,
+      "endFrame": 248,
+      "kind": "settle",
+      "persist": [
+        "directed-1"
+      ],
+      "enter": [
+        "directed-4"
+      ],
+      "leave": [
+        "directed-3"
+      ]
+    },
+    {
+      "startFrame": 317,
+      "endFrame": 325,
+      "kind": "settle",
+      "persist": [
+        "directed-1"
+      ],
+      "enter": [
+        "directed-5"
+      ],
+      "leave": [
+        "directed-4"
+      ]
+    }
+  ],
+  "subtitleMode": "editorial",
+  "narrationDriven": true,
+  "editorialStyleVersion": "legacy",
+  "warnings": [
+    "AI illustrative reconstruction; not documentary evidence"
+  ],
+  "diagnostics": {
+    "sentenceStoryboard": {
+      "sentences": 5,
+      "plannedPrimaries": 5,
+      "repairAttempts": 0
+    },
+    "assetAcquisition": {
+      "mode": "auto",
+      "assets": [
+        {
+          "entityId": "diamond",
+          "name": "Golconda Blue Diamond",
+          "identity": "generic",
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "6bd11e20f5f7900a1cb8749c8629f03bf973fadde44f91fad2437ad0df591ba0",
+            "model": "black-forest-labs/flux-schnell",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-1.1-pro",
+          "route": "supporting_illustration",
+          "assetId": "asset-diamond",
+          "alpha": true,
+          "source": "replicate:flux-1.1-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 301,
+          "height": 301,
+          "role": "identity_or_secondary",
+          "durationSeconds": 0.007,
+          "bytes": 2509
+        },
+        {
+          "entityId": "chest",
+          "name": "Royal Reliquary",
+          "identity": "generic",
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "0bfeaeede62ee29793f80a9b4a0c41f9798f35c8f86fa2e53517765752e1c9dd",
+            "model": "black-forest-labs/flux-schnell",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-1.1-pro",
+          "route": "supporting_illustration",
+          "assetId": "asset-chest",
+          "alpha": true,
+          "source": "replicate:flux-1.1-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 291,
+          "height": 261,
+          "role": "identity_or_secondary",
+          "durationSeconds": 0.007,
+          "bytes": 1428
+        },
+        {
+          "entityId": "scene-615499394d495610",
+          "name": "Golconda Blue Diamond in beat s0",
+          "identity": "generic",
+          "identityReferences": [
+            "diamond"
+          ],
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sentenceReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "continuityReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "fbcb6b421f092b003ebe58bdbb40e030a8f31fd4c27e210afc69f530514bda48",
+            "model": "black-forest-labs/flux-kontext-pro",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-kontext-pro",
+          "route": "narrative_action_cutout",
+          "assetId": "asset-scene-615499394d495610",
+          "alpha": true,
+          "source": "replicate:flux-kontext-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 301,
+          "height": 301,
+          "role": "primary",
+          "durationSeconds": 0.02,
+          "bytes": 1833
+        },
+        {
+          "entityId": "scene-ec6d4cd235676171",
+          "name": "Golconda Blue Diamond in beat s1",
+          "identity": "generic",
+          "identityReferences": [
+            "diamond"
+          ],
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sentenceReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "continuityReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "476b212c9b4dc8b7c3c70a30e816928547d7455fc1fadb23bf0f3feb84b0dac5",
+            "model": "black-forest-labs/flux-kontext-pro",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-kontext-pro",
+          "route": "narrative_action_cutout",
+          "assetId": "asset-scene-ec6d4cd235676171",
+          "alpha": true,
+          "source": "replicate:flux-kontext-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 291,
+          "height": 281,
+          "role": "primary",
+          "durationSeconds": 0.018,
+          "bytes": 1702
+        },
+        {
+          "entityId": "scene-1988e0412495ffe3",
+          "name": "Golconda Blue Diamond in beat s2",
+          "identity": "generic",
+          "identityReferences": [
+            "diamond"
+          ],
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sentenceReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "continuityReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "13503aec7a2ce193d0a501906c5261a1e1d167dd9108fc8abb2371b657a2011b",
+            "model": "black-forest-labs/flux-kontext-pro",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-kontext-pro",
+          "route": "narrative_action_cutout",
+          "assetId": "asset-scene-1988e0412495ffe3",
+          "alpha": true,
+          "source": "replicate:flux-kontext-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 291,
+          "height": 281,
+          "role": "primary",
+          "durationSeconds": 0.018,
+          "bytes": 1702
+        },
+        {
+          "entityId": "scene-3cece34b2f9f81be",
+          "name": "Golconda Blue Diamond in beat s3",
+          "identity": "generic",
+          "identityReferences": [
+            "diamond"
+          ],
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sentenceReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "continuityReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "788a7e816cfe72d9f7663799dc6668624306b33b0d3723cb42bfaf578cf726fa",
+            "model": "black-forest-labs/flux-kontext-pro",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-kontext-pro",
+          "route": "narrative_action_cutout",
+          "assetId": "asset-scene-3cece34b2f9f81be",
+          "alpha": true,
+          "source": "replicate:flux-kontext-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 291,
+          "height": 261,
+          "role": "primary",
+          "durationSeconds": 0.019,
+          "bytes": 1429
+        },
+        {
+          "entityId": "scene-9418232ce4b5acd0",
+          "name": "Golconda Blue Diamond in beat s4",
+          "identity": "generic",
+          "identityReferences": [
+            "diamond"
+          ],
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sentenceReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "continuityReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "c7d0ef8fff08f3aa5a34387ae2025b32806a1b4521a28073620eeb3de0de2c7a",
+            "model": "black-forest-labs/flux-kontext-pro",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-kontext-pro",
+          "route": "narrative_action_cutout",
+          "assetId": "asset-scene-9418232ce4b5acd0",
+          "alpha": true,
+          "source": "replicate:flux-kontext-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 291,
+          "height": 261,
+          "role": "primary",
+          "durationSeconds": 0.019,
+          "bytes": 1424
+        }
+      ],
+      "actionWorkers": 2
+    },
+    "atomicStoryboard": {
+      "timeUnit": "frames",
+      "fps": 30,
+      "beats": [
+        {
+          "id": "atomic-0",
+          "sectionId": "s0",
+          "startWord": 0,
+          "endWord": 8,
+          "phrase": "A sacred blue diamond was mined in Golconda.",
+          "primaryEntityId": "scene-615499394d495610",
+          "secondaryEntityIds": [
+            "chest"
+          ],
+          "relationship": "event",
+          "action": "introduce",
+          "importance": 1,
+          "confidence": 1,
+          "scriptSpan": [
+            0,
+            44
+          ],
+          "startFrame": 0,
+          "endFrame": 77,
+          "triggerWordIds": [
+            "w0",
+            "w1",
+            "w2",
+            "w3",
+            "w4",
+            "w5",
+            "w6",
+            "w7"
+          ],
+          "frameQuantizationErrorMs": 0.0,
+          "timingProvenance": "provider",
+          "assetIds": [
+            "asset-scene-615499394d495610",
+            "asset-chest"
+          ],
+          "activeLayers": [
+            "directed-0",
+            "directed-1",
+            "directed-0-label",
+            "directed-1-label"
+          ],
+          "persistentLayers": [],
+          "entityStates": [
+            {
+              "entityId": "scene-615499394d495610",
+              "assetId": "asset-scene-615499394d495610",
+              "layerId": "directed-0",
+              "state": "PRIMARY",
+              "bounds": {
+                "x": 110.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 1.04
+            },
+            {
+              "entityId": "chest",
+              "assetId": "asset-chest",
+              "layerId": "directed-1",
+              "state": "SECONDARY",
+              "bounds": {
+                "x": 565.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 0.94
+            }
+          ],
+          "readabilityWarning": false
+        },
+        {
+          "id": "atomic-1",
+          "sectionId": "s1",
+          "startWord": 0,
+          "endWord": 9,
+          "phrase": "A French merchant smuggled the rough gem to Paris.",
+          "primaryEntityId": "scene-ec6d4cd235676171",
+          "secondaryEntityIds": [
+            "chest"
+          ],
+          "relationship": "event",
+          "action": "introduce",
+          "importance": 1,
+          "confidence": 1,
+          "scriptSpan": [
+            45,
+            95
+          ],
+          "startFrame": 77,
+          "endFrame": 163,
+          "triggerWordIds": [
+            "w8",
+            "w9",
+            "w10",
+            "w11",
+            "w12",
+            "w13",
+            "w14",
+            "w15",
+            "w16"
+          ],
+          "frameQuantizationErrorMs": 6.667,
+          "timingProvenance": "provider",
+          "assetIds": [
+            "asset-scene-ec6d4cd235676171",
+            "asset-chest"
+          ],
+          "activeLayers": [
+            "directed-1",
+            "directed-2",
+            "directed-1-label",
+            "directed-2-label"
+          ],
+          "persistentLayers": [
+            "directed-1"
+          ],
+          "entityStates": [
+            {
+              "entityId": "chest",
+              "assetId": "asset-chest",
+              "layerId": "directed-1",
+              "state": "SECONDARY",
+              "bounds": {
+                "x": 110.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 0.94
+            },
+            {
+              "entityId": "scene-ec6d4cd235676171",
+              "assetId": "asset-scene-ec6d4cd235676171",
+              "layerId": "directed-2",
+              "state": "PRIMARY",
+              "bounds": {
+                "x": 565.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 1.04
+            }
+          ],
+          "readabilityWarning": false
+        },
+        {
+          "id": "atomic-2",
+          "sectionId": "s2",
+          "startWord": 0,
+          "endWord": 8,
+          "phrase": "King Louis wore the recut jewel at court.",
+          "primaryEntityId": "scene-1988e0412495ffe3",
+          "secondaryEntityIds": [
+            "chest"
+          ],
+          "relationship": "event",
+          "action": "introduce",
+          "importance": 1,
+          "confidence": 1,
+          "scriptSpan": [
+            96,
+            137
+          ],
+          "startFrame": 163,
+          "endFrame": 240,
+          "triggerWordIds": [
+            "w17",
+            "w18",
+            "w19",
+            "w20",
+            "w21",
+            "w22",
+            "w23",
+            "w24"
+          ],
+          "frameQuantizationErrorMs": 6.667,
+          "timingProvenance": "provider",
+          "assetIds": [
+            "asset-scene-1988e0412495ffe3",
+            "asset-chest"
+          ],
+          "activeLayers": [
+            "directed-1",
+            "directed-3",
+            "directed-1-label",
+            "directed-3-label"
+          ],
+          "persistentLayers": [
+            "directed-1"
+          ],
+          "entityStates": [
+            {
+              "entityId": "chest",
+              "assetId": "asset-chest",
+              "layerId": "directed-1",
+              "state": "SECONDARY",
+              "bounds": {
+                "x": 110.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 0.94
+            },
+            {
+              "entityId": "scene-1988e0412495ffe3",
+              "assetId": "asset-scene-1988e0412495ffe3",
+              "layerId": "directed-3",
+              "state": "PRIMARY",
+              "bounds": {
+                "x": 565.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 1.04
+            }
+          ],
+          "readabilityWarning": false
+        },
+        {
+          "id": "atomic-3",
+          "sectionId": "s3",
+          "startWord": 0,
+          "endWord": 8,
+          "phrase": "Thieves seized the royal treasury during the revolution.",
+          "primaryEntityId": "scene-3cece34b2f9f81be",
+          "secondaryEntityIds": [
+            "chest"
+          ],
+          "relationship": "event",
+          "action": "introduce",
+          "importance": 1,
+          "confidence": 1,
+          "scriptSpan": [
+            138,
+            194
+          ],
+          "startFrame": 240,
+          "endFrame": 317,
+          "triggerWordIds": [
+            "w25",
+            "w26",
+            "w27",
+            "w28",
+            "w29",
+            "w30",
+            "w31",
+            "w32"
+          ],
+          "frameQuantizationErrorMs": 0.0,
+          "timingProvenance": "provider",
+          "assetIds": [
+            "asset-scene-3cece34b2f9f81be",
+            "asset-chest"
+          ],
+          "activeLayers": [
+            "directed-1",
+            "directed-4",
+            "directed-1-label",
+            "directed-4-label"
+          ],
+          "persistentLayers": [
+            "directed-1"
+          ],
+          "entityStates": [
+            {
+              "entityId": "chest",
+              "assetId": "asset-chest",
+              "layerId": "directed-1",
+              "state": "SECONDARY",
+              "bounds": {
+                "x": 110.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 0.94
+            },
+            {
+              "entityId": "scene-3cece34b2f9f81be",
+              "assetId": "asset-scene-3cece34b2f9f81be",
+              "layerId": "directed-4",
+              "state": "PRIMARY",
+              "bounds": {
+                "x": 565.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 1.04
+            }
+          ],
+          "readabilityWarning": false
+        },
+        {
+          "id": "atomic-4",
+          "sectionId": "s4",
+          "startWord": 0,
+          "endWord": 8,
+          "phrase": "The cursed stone finally entered a museum vault.",
+          "primaryEntityId": "scene-9418232ce4b5acd0",
+          "secondaryEntityIds": [
+            "chest"
+          ],
+          "relationship": "event",
+          "action": "introduce",
+          "importance": 1,
+          "confidence": 1,
+          "scriptSpan": [
+            195,
+            243
+          ],
+          "startFrame": 317,
+          "endFrame": 415,
+          "triggerWordIds": [
+            "w33",
+            "w34",
+            "w35",
+            "w36",
+            "w37",
+            "w38",
+            "w39",
+            "w40"
+          ],
+          "frameQuantizationErrorMs": 6.667,
+          "timingProvenance": "provider",
+          "assetIds": [
+            "asset-scene-9418232ce4b5acd0",
+            "asset-chest"
+          ],
+          "activeLayers": [
+            "directed-1",
+            "directed-5",
+            "directed-1-label",
+            "directed-5-label"
+          ],
+          "persistentLayers": [
+            "directed-1"
+          ],
+          "entityStates": [
+            {
+              "entityId": "chest",
+              "assetId": "asset-chest",
+              "layerId": "directed-1",
+              "state": "SECONDARY",
+              "bounds": {
+                "x": 110.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 0.94
+            },
+            {
+              "entityId": "scene-9418232ce4b5acd0",
+              "assetId": "asset-scene-9418232ce4b5acd0",
+              "layerId": "directed-5",
+              "state": "PRIMARY",
+              "bounds": {
+                "x": 565.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 1.04
+            }
+          ],
+          "readabilityWarning": false
+        }
+      ]
+    },
+    "sentenceQuality": {
+      "narrationSentences": 5,
+      "storyboardVisualBeats": 5,
+      "primaryAssetsPlanned": 5,
+      "primaryAssetsGenerated": 5,
+      "distinctPrimaryVisuals": 5,
+      "reusedSecondaryAssets": 1,
+      "sentencesWithoutDistinctPrimary": 0,
+      "imagesRejectedForDuplication": 0,
+      "imageGenerationFailures": 0,
+      "fallbackAttempts": 0,
+      "sceneRelevanceFailures": 0,
+      "missingMappings": 0,
+      "acceptancePassed": true,
+      "primaryAssetsInRender": 5,
+      "missingRenderMappings": 0
+    },
+    "sentenceVisualMetrics": {
+      "narrationSentences": 5,
+      "storyboardVisualBeats": 5,
+      "primaryAssetsPlanned": 5,
+      "primaryAssetsGenerated": 5,
+      "distinctPrimaryVisuals": 5,
+      "reusedSecondaryAssets": 1,
+      "sentencesWithoutDistinctPrimary": 0,
+      "imagesRejectedForDuplication": 0,
+      "imageGenerationFailures": 0,
+      "fallbackAttempts": 0,
+      "sceneRelevanceFailures": 0,
+      "missingMappings": 0,
+      "acceptancePassed": true,
+      "primaryAssetsInRender": 5,
+      "missingRenderMappings": 0
+    }
+  }
+}

@@ -1,0 +1,892 @@
+{
+  "schema_version": "generation-diagnostics-v3",
+  "trace_provenance": "genuine_live_trace",
+  "job_id": "editorial_d39657782dad4d2d96ad953cc76e7775",
+  "outcome": "completed_legacy_baseline",
+  "start_utc": "2026-10-17T08:22:27.997772+00:00",
+  "finish_utc": "2026-10-17T08:31:06.784572+00:00",
+  "total_elapsed_seconds": 518.784739,
+  "measured_wall_seconds": 500.851197,
+  "unattributed_wall_seconds": 17.933542,
+  "peak_image_provider_concurrency": 1,
+  "runtime": [
+    {
+      "host_cpu_count": 10
+    }
+  ],
+  "infrastructure": {
+    "environment": "local",
+    "python_version": "3.9.6",
+    "service": "local_process",
+    "revision": "local",
+    "commit": "working_tree",
+    "region": "unspecified",
+    "configured_action_workers": 3,
+    "configured_remotion_concurrency": "default",
+    "process_peak_rss_native_units": 49610752,
+    "trace_runtimes": [
+      {
+        "host_cpu_count": 10
+      }
+    ]
+  },
+  "process_peak_rss_native_units": 49610752,
+  "revision": null,
+  "commit": null,
+  "video_mode": "reference_editorial",
+  "actual_video_seconds": 66.6,
+  "resolution": [
+    1080,
+    1920
+  ],
+  "fps": 30,
+  "output_size_bytes": 7291895,
+  "visual_metrics": {
+    "sentences": 9,
+    "storyboard_visual_beats": 0,
+    "planned_primaries": 0,
+    "generated_assets": 3,
+    "distinct_primaries": 3,
+    "reused_secondary_assets": 0,
+    "rendered_primaries": 3,
+    "sentences_without_distinct_primary": 6,
+    "images_rejected_for_duplication": 0,
+    "image_generation_failures": 11,
+    "fallback_attempts": 0,
+    "scene_relevance_failures": 0,
+    "invariant_planned_ge_sentences": false,
+    "invariant_distinct_ge_sentences": false,
+    "invariant_rendered_eq_sentences": false,
+    "acceptance_passed": false
+  },
+  "scene_report": [],
+  "stage_timings": {
+    "resolve": 31.851,
+    "research": 31.887,
+    "script": 17.752,
+    "semantic_beat_planning": 17.258,
+    "word_forced_alignment": 10.929,
+    "scene_planning_and_layout": 13.232,
+    "media": 369.035,
+    "timeline": 0.157,
+    "Remotion_and_FFmpeg": 68.035,
+    "compose": 68.101,
+    "end_to_end": 518.783
+  },
+  "concurrency_analysis": {
+    "total_image_tasks": 3,
+    "total_provider_wait_spans": 7,
+    "peak_image_provider_concurrency": 1,
+    "average_active_image_concurrency": 1.0,
+    "configured_action_workers": 2,
+    "tts_visual_overlap_seconds": 110.667,
+    "speech_wall_seconds": 110.667,
+    "cutouts_wall_seconds": 323.204,
+    "alignment_seconds": 10.929,
+    "serial_gap_seconds": 17.8638,
+    "admission_wait_seconds": 11.5383,
+    "rate_limit_responses": 0,
+    "rate_limit_backoff_seconds": 0,
+    "background_removal_total_seconds": 10.0619
+  },
+  "tts_telemetry": [],
+  "prediction_records": [],
+  "critical_path": [
+    {
+      "stage": "input_fetch_and_extract",
+      "duration_seconds": 31.8497,
+      "effective_advance_seconds": 31.8497,
+      "status": "succeeded"
+    },
+    {
+      "stage": "research",
+      "duration_seconds": 31.884,
+      "effective_advance_seconds": 31.884,
+      "status": "succeeded"
+    },
+    {
+      "stage": "research_or_script_generation",
+      "duration_seconds": 17.6948,
+      "effective_advance_seconds": 17.6948,
+      "status": "succeeded"
+    },
+    {
+      "stage": "semantic_beat_planning",
+      "duration_seconds": 17.2564,
+      "effective_advance_seconds": 17.2564,
+      "status": "succeeded"
+    },
+    {
+      "stage": "TTS_generation",
+      "duration_seconds": 110.6664,
+      "effective_advance_seconds": 93.4108,
+      "status": "succeeded"
+    },
+    {
+      "stage": "entity_identity_asset_generation",
+      "duration_seconds": 96.9714,
+      "effective_advance_seconds": 3.5749,
+      "status": "succeeded"
+    },
+    {
+      "stage": "entity_identity_asset_generation",
+      "duration_seconds": 72.2539,
+      "effective_advance_seconds": 72.2541,
+      "status": "succeeded"
+    },
+    {
+      "stage": "entity_identity_asset_generation",
+      "duration_seconds": 153.9668,
+      "effective_advance_seconds": 153.9673,
+      "status": "succeeded"
+    },
+    {
+      "stage": "word_forced_alignment",
+      "duration_seconds": 10.927,
+      "effective_advance_seconds": 10.927,
+      "status": "succeeded"
+    },
+    {
+      "stage": "render_and_delivery",
+      "duration_seconds": 68.0338,
+      "effective_advance_seconds": 68.034,
+      "status": "succeeded"
+    }
+  ],
+  "bottleneck_ranking": [
+    {
+      "operation": "entity_identity_asset_generation",
+      "duration_seconds": 153.9668,
+      "percent_of_wall_time": 29.7,
+      "cause_category": "provider",
+      "evidence": "3 span(s), max=153.967s, accumulated=323.192s",
+      "optimization_opportunity": "Acquire identity references in parallel or reuse supporting cutouts",
+      "confidence": "high"
+    },
+    {
+      "operation": "TTS_generation",
+      "duration_seconds": 110.6664,
+      "percent_of_wall_time": 21.3,
+      "cause_category": "provider",
+      "evidence": "1 span(s), max=110.666s, accumulated=110.666s",
+      "optimization_opportunity": "Overlap TTS with visual planning/sourcing and use dedicated TTS admission scope",
+      "confidence": "high"
+    },
+    {
+      "operation": "image_provider_wait (accumulated)",
+      "duration_seconds": 72.8646,
+      "percent_of_wall_time": 14.0,
+      "cause_category": "provider",
+      "evidence": "7 provider call(s), peak_concurrency=1, admission_wait=11.53s",
+      "optimization_opportunity": "Overlap independent scene-primary predictions across worker threads while respecting rate limits",
+      "confidence": "high"
+    },
+    {
+      "operation": "render_and_delivery",
+      "duration_seconds": 68.0338,
+      "percent_of_wall_time": 13.1,
+      "cause_category": "compute",
+      "evidence": "1 span(s), max=68.034s, accumulated=68.034s",
+      "optimization_opportunity": "Use hardware-tuned Remotion concurrency and single-pass audio measurement",
+      "confidence": "high"
+    },
+    {
+      "operation": "research",
+      "duration_seconds": 31.884,
+      "percent_of_wall_time": 6.1,
+      "cause_category": "network",
+      "evidence": "1 span(s), max=31.884s, accumulated=31.884s",
+      "optimization_opportunity": "Bound web search pages and HTTP timeouts",
+      "confidence": "high"
+    },
+    {
+      "operation": "input_fetch_and_extract",
+      "duration_seconds": 31.8497,
+      "percent_of_wall_time": 6.1,
+      "cause_category": "network",
+      "evidence": "1 span(s), max=31.850s, accumulated=31.850s",
+      "optimization_opportunity": "Cache fetched source text or streamline input classification",
+      "confidence": "high"
+    },
+    {
+      "operation": "research_or_script_generation",
+      "duration_seconds": 17.6948,
+      "percent_of_wall_time": 3.4,
+      "cause_category": "provider",
+      "evidence": "1 span(s), max=17.695s, accumulated=17.695s",
+      "optimization_opportunity": "Reduce LLM repair iterations and token output size",
+      "confidence": "high"
+    },
+    {
+      "operation": "semantic_beat_planning",
+      "duration_seconds": 17.2564,
+      "percent_of_wall_time": 3.3,
+      "cause_category": "provider",
+      "evidence": "1 span(s), max=17.256s, accumulated=17.256s",
+      "optimization_opportunity": "Single-pass structured storyboard generation with strict schema validation",
+      "confidence": "high"
+    },
+    {
+      "operation": "word_forced_alignment",
+      "duration_seconds": 10.927,
+      "percent_of_wall_time": 2.1,
+      "cause_category": "compute",
+      "evidence": "1 span(s), max=10.927s, accumulated=10.927s",
+      "optimization_opportunity": "Persist forced-alignment cache across runs and downsample in-memory",
+      "confidence": "high"
+    },
+    {
+      "operation": "background_removal_and_alpha",
+      "duration_seconds": 10.0619,
+      "percent_of_wall_time": 1.9,
+      "cause_category": "compute",
+      "evidence": "7 span(s), max=1.732s, accumulated=10.062s",
+      "optimization_opportunity": "Reuse warm ONNX rembg session and run cutout trimming as each image completes",
+      "confidence": "high"
+    }
+  ],
+  "rendering": {
+    "renderer": "remotion",
+    "frames": 1998,
+    "fps": 30,
+    "resolution": [
+      1080,
+      1920
+    ],
+    "asset_staging_seconds": null,
+    "remotion_render_seconds": 54.845,
+    "remotion_concurrency": null,
+    "ffmpeg_encode_seconds": 9.179,
+    "audio_delivery_seconds": 2.333,
+    "visual_quality_scan_seconds": null,
+    "total_render_and_qa_seconds": 68.033,
+    "video_encode_passes": 2,
+    "average_fps_throughput": 36.43,
+    "output_size_bytes": 7291895
+  },
+  "images": [
+    {
+      "task_index": 1,
+      "entityId": "kendrick",
+      "assetId": "asset-kendrick",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "primary_subject_type": null,
+      "visual_concept": "Kendrick Lamar",
+      "provider": "replicate:black-forest-labs/flux-kontext-pro",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.0,
+      "admission_wait_seconds": 0.0,
+      "api_duration_seconds": 0.0,
+      "cutout_processing_seconds": 0.0,
+      "visual_review_seconds": 0.0,
+      "processing_and_review_seconds": 96.97,
+      "durationSeconds": 96.97,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 1,
+      "cacheHit": false,
+      "route": "premium_reference_illustration",
+      "identityReferences": [],
+      "dimensions": [
+        null,
+        null
+      ],
+      "bytes": 1315573,
+      "sha256": "c6d64c776c1b0f22abff746c8c30647fa4271e9d294aa6d0c495445a68a7742a",
+      "displayed_in_render": true,
+      "origin": "generated",
+      "prediction_records": []
+    },
+    {
+      "task_index": 2,
+      "entityId": "drake",
+      "assetId": "asset-drake",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "primary_subject_type": null,
+      "visual_concept": "Drake",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.0,
+      "admission_wait_seconds": 0.0,
+      "api_duration_seconds": 0.0,
+      "cutout_processing_seconds": 0.0,
+      "visual_review_seconds": 0.0,
+      "processing_and_review_seconds": 72.253,
+      "durationSeconds": 72.253,
+      "attempts": 3,
+      "rejected_attempts": 2,
+      "recorded_errors": 5,
+      "cacheHit": false,
+      "route": "unverified_identity_ai_illustration",
+      "identityReferences": [],
+      "dimensions": [
+        null,
+        null
+      ],
+      "bytes": 426598,
+      "sha256": "98bd3431cbbb607690db4ea620f5a1b36a87e97302504bc5e48e3d2527083ec4",
+      "displayed_in_render": true,
+      "origin": "generated",
+      "prediction_records": []
+    },
+    {
+      "task_index": 3,
+      "entityId": "jcole",
+      "assetId": "asset-jcole",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "primary_subject_type": null,
+      "visual_concept": "J. Cole",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.0,
+      "admission_wait_seconds": 0.0,
+      "api_duration_seconds": 0.0,
+      "cutout_processing_seconds": 0.0,
+      "visual_review_seconds": 0.0,
+      "processing_and_review_seconds": 153.966,
+      "durationSeconds": 153.966,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 5,
+      "cacheHit": false,
+      "route": "unverified_identity_ai_illustration",
+      "identityReferences": [],
+      "dimensions": [
+        null,
+        null
+      ],
+      "bytes": 388777,
+      "sha256": "68778250c0029da196b5afb00366944b21b2fe91e5fe4d17b0ebb95f275832a1",
+      "displayed_in_render": true,
+      "origin": "generated",
+      "prediction_records": []
+    }
+  ],
+  "provider_metrics": {
+    "createRequests": 7,
+    "acceptedPredictions": 7,
+    "rateLimitResponses": 0,
+    "backoffSeconds": 0,
+    "pollRetries": 0,
+    "admissionWaitSeconds": 11.538300583000023
+  },
+  "errors_and_retries": [
+    {
+      "source": "span",
+      "name": "background_removal_and_alpha",
+      "error_type": "CutoutQualityError",
+      "attempt": 1
+    },
+    {
+      "source": "span",
+      "name": "background_removal_and_alpha",
+      "error_type": "CutoutQualityError",
+      "attempt": 1
+    },
+    {
+      "source": "image_asset",
+      "entity_id": "kendrick",
+      "sentence_id": "shared_identity",
+      "rejected_attempts": 0,
+      "recorded_errors": 1,
+      "route": "premium_reference_illustration"
+    },
+    {
+      "source": "image_asset",
+      "entity_id": "drake",
+      "sentence_id": "shared_identity",
+      "rejected_attempts": 2,
+      "recorded_errors": 5,
+      "route": "unverified_identity_ai_illustration"
+    },
+    {
+      "source": "image_asset",
+      "entity_id": "jcole",
+      "sentence_id": "shared_identity",
+      "rejected_attempts": 0,
+      "recorded_errors": 5,
+      "route": "unverified_identity_ai_illustration"
+    }
+  ],
+  "recommended_next_investigation": [
+    "Remotion output is re-encoded by FFmpeg for BT.601->BT.709 color conversion (2 encode passes). Validate HER_EDITORIAL_DIRECT_BT709=1 on target runtime to use -c:v copy.",
+    "Multimodal visual review rejected one or more initial image candidates, triggering regeneration retries. Inspect scene_report and image rejected_attempts."
+  ],
+  "spans": [
+    {
+      "id": "c1a579138ec84c0a9fff01e95f1a61d4",
+      "name": "end_to_end",
+      "start_utc": "2026-10-17T08:22:27.997772+00:00",
+      "start_offset_seconds": 0.00026629200000627407,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": null,
+      "end_utc": "2026-10-17T08:31:06.784572+00:00",
+      "end_offset_seconds": 518.7850055,
+      "duration_seconds": 518.784739208,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "8fa415810e504b8faac734a226f3eddf",
+      "name": "input_fetch_and_extract",
+      "start_utc": "2026-10-17T08:22:27.998093+00:00",
+      "start_offset_seconds": 0.0005815420000061522,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c1a579138ec84c0a9fff01e95f1a61d4",
+      "end_utc": "2026-10-17T08:22:59.847823+00:00",
+      "end_offset_seconds": 31.850240707999987,
+      "duration_seconds": 31.84965916599998,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "f3334ea3aff84f40bd0896d596af4285",
+      "name": "research",
+      "start_utc": "2026-10-17T08:22:59.849294+00:00",
+      "start_offset_seconds": 31.85168775000001,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c1a579138ec84c0a9fff01e95f1a61d4",
+      "end_utc": "2026-10-17T08:23:31.733316+00:00",
+      "end_offset_seconds": 63.735643499999995,
+      "duration_seconds": 31.883955749999984,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "20026512073d49c5b22254b8117223b6",
+      "name": "research_or_script_generation",
+      "start_utc": "2026-10-17T08:23:31.736270+00:00",
+      "start_offset_seconds": 63.73857149999999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c1a579138ec84c0a9fff01e95f1a61d4",
+      "end_utc": "2026-10-17T08:23:49.431058+00:00",
+      "end_offset_seconds": 81.433344792,
+      "duration_seconds": 17.694773292000008,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "fa1664e3b20048da97a3174cbfb593a5",
+      "name": "semantic_beat_planning",
+      "start_utc": "2026-10-17T08:23:49.488065+00:00",
+      "start_offset_seconds": 81.4903015,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c1a579138ec84c0a9fff01e95f1a61d4",
+      "end_utc": "2026-10-17T08:24:06.744482+00:00",
+      "end_offset_seconds": 98.746697167,
+      "duration_seconds": 17.256395666999992,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "d4068a8eb6ba4c8b8f3e4ab22552b79e",
+      "name": "TTS_generation",
+      "start_utc": "2026-10-17T08:23:49.488098+00:00",
+      "start_offset_seconds": 81.49033066700001,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c1a579138ec84c0a9fff01e95f1a61d4",
+      "end_utc": "2026-10-17T08:25:40.155280+00:00",
+      "end_offset_seconds": 192.15676912499998,
+      "duration_seconds": 110.66643845799997,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "4179e495b7094bb9a3478cea0b4faed4",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T08:24:06.758055+00:00",
+      "start_offset_seconds": 98.760246375,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "260670134225f2a2"
+      },
+      "parent_span_id": "c1a579138ec84c0a9fff01e95f1a61d4",
+      "end_utc": "2026-10-17T08:25:43.730202+00:00",
+      "end_offset_seconds": 195.7316745,
+      "duration_seconds": 96.971428125,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "ffe6990a2f2f4bc69da3cbd6bcd34299",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T08:24:39.109348+00:00",
+      "start_offset_seconds": 131.11113895800003,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "4179e495b7094bb9a3478cea0b4faed4",
+      "end_utc": "2026-10-17T08:24:58.638180+00:00",
+      "end_offset_seconds": 150.639908042,
+      "duration_seconds": 19.528769083999975,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "5a9a117ac2df4c3891d4bbb443050ef6",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T08:24:39.165445+00:00",
+      "start_offset_seconds": 131.16724712500002,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "ffe6990a2f2f4bc69da3cbd6bcd34299",
+      "end_utc": "2026-10-17T08:24:49.518548+00:00",
+      "end_offset_seconds": 141.52029433299998,
+      "duration_seconds": 10.353047207999964,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "34dc267362924481848f214f75f24e8c",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T08:24:58.639849+00:00",
+      "start_offset_seconds": 150.64149620799998,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "4179e495b7094bb9a3478cea0b4faed4",
+      "end_utc": "2026-10-17T08:25:00.250770+00:00",
+      "end_offset_seconds": 152.25240991700002,
+      "duration_seconds": 1.6109137090000445,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "a0a86251d71943f19cc62ad0d6422479",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T08:25:43.730580+00:00",
+      "start_offset_seconds": 195.73204766699996,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "54444aa7bc07ccec"
+      },
+      "parent_span_id": "c1a579138ec84c0a9fff01e95f1a61d4",
+      "end_utc": "2026-10-17T08:26:55.984671+00:00",
+      "end_offset_seconds": 267.985907292,
+      "duration_seconds": 72.25385962500002,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "c5cb8e1f24334b5f88aff99c90bb0c55",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T08:25:58.009240+00:00",
+      "start_offset_seconds": 210.01066591699998,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "a0a86251d71943f19cc62ad0d6422479",
+      "end_utc": "2026-10-17T08:26:09.301027+00:00",
+      "end_offset_seconds": 221.30246179199997,
+      "duration_seconds": 11.291795874999991,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "12b1d685e15f43c3b9ffb18af5b10b70",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T08:25:58.023978+00:00",
+      "start_offset_seconds": 210.0253995,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c5cb8e1f24334b5f88aff99c90bb0c55",
+      "end_utc": "2026-10-17T08:25:58.024660+00:00",
+      "end_offset_seconds": 210.026081708,
+      "duration_seconds": 0.0006822080000006281,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "d8bfbf5a963747d690ab2cdf2d5a1d0f",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T08:26:09.302806+00:00",
+      "start_offset_seconds": 221.30419799999999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "a0a86251d71943f19cc62ad0d6422479",
+      "end_utc": "2026-10-17T08:26:10.935973+00:00",
+      "end_offset_seconds": 222.93735533299997,
+      "duration_seconds": 1.6331573329999856,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "5b5a708ad9ba4143840fdc12b297199b",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T08:26:26.482780+00:00",
+      "start_offset_seconds": 238.484132042,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "a0a86251d71943f19cc62ad0d6422479",
+      "end_utc": "2026-10-17T08:26:37.575364+00:00",
+      "end_offset_seconds": 249.576678667,
+      "duration_seconds": 11.092546625000011,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "d640570ea1c049ea91f415a39eaff75a",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T08:26:26.515367+00:00",
+      "start_offset_seconds": 238.516706333,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "5b5a708ad9ba4143840fdc12b297199b",
+      "end_utc": "2026-10-17T08:26:26.516665+00:00",
+      "end_offset_seconds": 238.517994875,
+      "duration_seconds": 0.0012885419999975056,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "93e7f4de53b6459285f6e2fc499a47ca",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T08:26:37.577414+00:00",
+      "start_offset_seconds": 249.578713333,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "a0a86251d71943f19cc62ad0d6422479",
+      "end_utc": "2026-10-17T08:26:39.309786+00:00",
+      "end_offset_seconds": 251.311077833,
+      "duration_seconds": 1.732364500000017,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "365cc6dec60342e9a3d323a827ede3eb",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T08:26:44.080855+00:00",
+      "start_offset_seconds": 256.082146417,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "a0a86251d71943f19cc62ad0d6422479",
+      "end_utc": "2026-10-17T08:26:48.739830+00:00",
+      "end_offset_seconds": 260.741102667,
+      "duration_seconds": 4.658956250000017,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "a37a153767454defaf2d248525e514de",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T08:26:44.089144+00:00",
+      "start_offset_seconds": 256.090427708,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "365cc6dec60342e9a3d323a827ede3eb",
+      "end_utc": "2026-10-17T08:26:44.090981+00:00",
+      "end_offset_seconds": 256.092260625,
+      "duration_seconds": 0.0018329170000015438,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "8135dc18c38b441e9b94d51d420cc38c",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T08:26:48.741469+00:00",
+      "start_offset_seconds": 260.742731542,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "a0a86251d71943f19cc62ad0d6422479",
+      "end_utc": "2026-10-17T08:26:50.175809+00:00",
+      "end_offset_seconds": 262.17706466699997,
+      "duration_seconds": 1.4343331249999665,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "124d3157c07d470193da57b4fbf6435c",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T08:26:55.985080+00:00",
+      "start_offset_seconds": 267.986313167,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "ea1f33324cc5c887"
+      },
+      "parent_span_id": "c1a579138ec84c0a9fff01e95f1a61d4",
+      "end_utc": "2026-10-17T08:29:29.952357+00:00",
+      "end_offset_seconds": 421.953101,
+      "duration_seconds": 153.966787833,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "5a584d8a73484d188df46bdc9b869406",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T08:27:47.000053+00:00",
+      "start_offset_seconds": 319.001132042,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "124d3157c07d470193da57b4fbf6435c",
+      "end_utc": "2026-10-17T08:27:58.175035+00:00",
+      "end_offset_seconds": 330.176093917,
+      "duration_seconds": 11.174961875000008,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "5aba5523c5884251943017a644613c12",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T08:27:47.014339+00:00",
+      "start_offset_seconds": 319.015409708,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "5a584d8a73484d188df46bdc9b869406",
+      "end_utc": "2026-10-17T08:27:47.015709+00:00",
+      "end_offset_seconds": 319.01677774999996,
+      "duration_seconds": 0.0013680419999673177,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e98165bb19a140f4a74025cc010d1d5c",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T08:27:58.177420+00:00",
+      "start_offset_seconds": 330.17846416699996,
+      "status": "failed",
+      "metadata": {},
+      "parent_span_id": "124d3157c07d470193da57b4fbf6435c",
+      "error_type": "CutoutQualityError",
+      "end_utc": "2026-10-17T08:27:59.297034+00:00",
+      "end_offset_seconds": 331.29806874999997,
+      "duration_seconds": 1.1196045830000116,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "ff80898ba4904f1abaa8000255e14582",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T08:27:59.298190+00:00",
+      "start_offset_seconds": 331.299218833,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "124d3157c07d470193da57b4fbf6435c",
+      "end_utc": "2026-10-17T08:28:09.022148+00:00",
+      "end_offset_seconds": 341.023165583,
+      "duration_seconds": 9.723946749999982,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "a696414daea143a08699e7fb6c7fb249",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T08:27:59.312779+00:00",
+      "start_offset_seconds": 331.313809708,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "ff80898ba4904f1abaa8000255e14582",
+      "end_utc": "2026-10-17T08:27:59.313540+00:00",
+      "end_offset_seconds": 331.31456925,
+      "duration_seconds": 0.0007595419999688602,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "bbd53fa038b244599697067fd7c94db6",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T08:28:09.024352+00:00",
+      "start_offset_seconds": 341.025358542,
+      "status": "failed",
+      "metadata": {},
+      "parent_span_id": "124d3157c07d470193da57b4fbf6435c",
+      "error_type": "CutoutQualityError",
+      "end_utc": "2026-10-17T08:28:10.141501+00:00",
+      "end_offset_seconds": 342.14250008299996,
+      "duration_seconds": 1.1171415409999668,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "f8072a00277344c2a015bff36104942d",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T08:28:10.142861+00:00",
+      "start_offset_seconds": 342.143855042,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "124d3157c07d470193da57b4fbf6435c",
+      "end_utc": "2026-10-17T08:28:15.536475+00:00",
+      "end_offset_seconds": 347.53747379199996,
+      "duration_seconds": 5.393618749999973,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "39e5ef9be22047ff91ebc5086dc87447",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T08:28:10.146794+00:00",
+      "start_offset_seconds": 342.147788167,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "f8072a00277344c2a015bff36104942d",
+      "end_utc": "2026-10-17T08:28:11.316961+00:00",
+      "end_offset_seconds": 343.31797812499997,
+      "duration_seconds": 1.1701899579999804,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "5945f2e3b06d40cbb8fc617ac0d719e9",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T08:28:15.538990+00:00",
+      "start_offset_seconds": 347.539974333,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "124d3157c07d470193da57b4fbf6435c",
+      "end_utc": "2026-10-17T08:28:16.953346+00:00",
+      "end_offset_seconds": 348.954322625,
+      "duration_seconds": 1.4143482919999997,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "5b90b7486f114e8dbf3a3d3a32b46071",
+      "name": "word_forced_alignment",
+      "start_utc": "2026-10-17T08:29:29.953911+00:00",
+      "start_offset_seconds": 421.95464891699993,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c1a579138ec84c0a9fff01e95f1a61d4",
+      "end_utc": "2026-10-17T08:29:40.880952+00:00",
+      "end_offset_seconds": 432.88167333300004,
+      "duration_seconds": 10.927024416000108,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "7e48f287e17c4c5f854bea24ce4284bb",
+      "name": "render_and_delivery",
+      "start_utc": "2026-10-17T08:29:58.681171+00:00",
+      "start_offset_seconds": 450.681824792,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c1a579138ec84c0a9fff01e95f1a61d4",
+      "end_utc": "2026-10-17T08:31:06.715155+00:00",
+      "end_offset_seconds": 518.715588958,
+      "duration_seconds": 68.03376416600003,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "ec41986360b74d188317d5d918fae449",
+      "name": "asset_upload_or_download",
+      "start_utc": "2026-10-17T08:29:58.681757+00:00",
+      "start_offset_seconds": 450.682401125,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "7e48f287e17c4c5f854bea24ce4284bb",
+      "end_utc": "2026-10-17T08:29:58.702323+00:00",
+      "end_offset_seconds": 450.702970375,
+      "duration_seconds": 0.0205692499999941,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "27441ba7a6ba4f0a83e27477e35b22bf",
+      "name": "Remotion_or_other_render",
+      "start_utc": "2026-10-17T08:29:58.702983+00:00",
+      "start_offset_seconds": 450.70362637499994,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "7e48f287e17c4c5f854bea24ce4284bb",
+      "end_utc": "2026-10-17T08:30:53.525008+00:00",
+      "end_offset_seconds": 505.52553579199997,
+      "duration_seconds": 54.82190941700003,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "96d2235d46e745db9f2ed93b8de4d7f9",
+      "name": "FFmpeg_encode_and_mux",
+      "start_utc": "2026-10-17T08:30:53.527123+00:00",
+      "start_offset_seconds": 505.527591125,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "7e48f287e17c4c5f854bea24ce4284bb",
+      "end_utc": "2026-10-17T08:31:02.704172+00:00",
+      "end_offset_seconds": 514.7046589580001,
+      "duration_seconds": 9.17706783300008,
+      "trace_file": "job_trace.json"
+    }
+  ],
+  "limitations": [
+    "Browser timings unavailable unless submitted by the client.",
+    "Cold-start/cache comparison requires separate controlled runs; process peak RSS includes earlier jobs.",
+    "Overlapping durations must not be summed. Span nesting expresses dependencies, not a proven critical-path DAG.",
+    "Report serialization and report upload occur after the measured worker interval."
+  ]
+}

@@ -1,0 +1,2151 @@
+{
+  "schema_version": "generation-diagnostics-v3",
+  "trace_provenance": "genuine_live_trace",
+  "job_id": "editorial_3ba96339014c443c9e28d6d355491d6e",
+  "outcome": "failed",
+  "start_utc": "2026-10-17T12:41:10.954309+00:00",
+  "finish_utc": "2026-10-17T12:44:29.389760+00:00",
+  "total_elapsed_seconds": 198.435451,
+  "measured_wall_seconds": 198.234539,
+  "unattributed_wall_seconds": 0.200912,
+  "peak_image_provider_concurrency": 3,
+  "runtime": [
+    {
+      "host_cpu_count": 10
+    }
+  ],
+  "infrastructure": {
+    "environment": "local",
+    "python_version": "3.9.6",
+    "service": "local_process",
+    "revision": "local",
+    "commit": "working_tree",
+    "region": "unspecified",
+    "configured_action_workers": 3,
+    "configured_remotion_concurrency": "default",
+    "process_peak_rss_native_units": 1487732736,
+    "trace_runtimes": [
+      {
+        "host_cpu_count": 10
+      }
+    ]
+  },
+  "process_peak_rss_native_units": 1487732736,
+  "revision": null,
+  "commit": null,
+  "video_mode": "reference_editorial",
+  "actual_video_seconds": null,
+  "resolution": [
+    null,
+    null
+  ],
+  "fps": null,
+  "output_size_bytes": null,
+  "visual_metrics": {
+    "sentences": 9,
+    "storyboard_visual_beats": 9,
+    "planned_primaries": 9,
+    "generated_assets": 10,
+    "distinct_primaries": 0,
+    "reused_secondary_assets": 2,
+    "rendered_primaries": 0,
+    "sentences_without_distinct_primary": 9,
+    "images_rejected_for_duplication": 0,
+    "image_generation_failures": 11,
+    "fallback_attempts": 0,
+    "scene_relevance_failures": 0,
+    "invariant_planned_ge_sentences": true,
+    "invariant_distinct_ge_sentences": false,
+    "invariant_rendered_eq_sentences": false,
+    "acceptance_passed": false
+  },
+  "scene_report": [
+    {
+      "sentence_number": 1,
+      "sentence_id": "s1",
+      "narration_text": "In March 2024, Kendrick Lamar ignited a massive controversy by rejecting the 'Big Three' rap classification.",
+      "visual_focus": "Kendrick Lamar's hand gesture",
+      "main_action": "gesturing dismissively with his hand while speaking into a studio microphone",
+      "important_object": "studio microphone",
+      "primary_subject_type": "object",
+      "primary_entity_id": "scene-e5c83095c0784aff",
+      "primary_asset_id": null,
+      "primary_asset_sha256": null,
+      "primary_asset_origin": null,
+      "primary_asset_is_distinct": false,
+      "perceptual_dhash": null,
+      "reused_character_ids": [
+        "kendrick_lamar"
+      ],
+      "secondary_entity_ids": [
+        "kendrick_lamar"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": null,
+      "end_time": null,
+      "start_frame": null,
+      "end_frame": null,
+      "representative_midpoint_seconds": null,
+      "representative_midpoint_frame": null,
+      "rendered_layer_id": null,
+      "rendered_bounds": null,
+      "asset_generation_status": "planned",
+      "asset_relevance_status": "pending",
+      "asset_status": "pending",
+      "render_visibility": "pending"
+    },
+    {
+      "sentence_number": 2,
+      "sentence_id": "s2",
+      "narration_text": "Kendrick Lamar asserted there was only one king, prompting Drake to fire back with the track Push Ups.",
+      "visual_focus": "Drake's hands on the laptop",
+      "main_action": "typing on a laptop keyboard to release a track",
+      "important_object": "laptop",
+      "primary_subject_type": "object",
+      "primary_entity_id": "scene-28854a24db7379cf",
+      "primary_asset_id": null,
+      "primary_asset_sha256": null,
+      "primary_asset_origin": null,
+      "primary_asset_is_distinct": false,
+      "perceptual_dhash": null,
+      "reused_character_ids": [
+        "drake"
+      ],
+      "secondary_entity_ids": [
+        "kendrick_lamar"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": null,
+      "end_time": null,
+      "start_frame": null,
+      "end_frame": null,
+      "representative_midpoint_seconds": null,
+      "representative_midpoint_frame": null,
+      "rendered_layer_id": null,
+      "rendered_bounds": null,
+      "asset_generation_status": "planned",
+      "asset_relevance_status": "pending",
+      "asset_status": "pending",
+      "render_visibility": "pending"
+    },
+    {
+      "sentence_number": 3,
+      "sentence_id": "s3",
+      "narration_text": "Kendrick Lamar then unleashed the six-minute diss track Euphoria to attack his rival.",
+      "visual_focus": "Kendrick Lamar's hand on the mixing fader",
+      "main_action": "adjusting audio mixing faders on a soundboard",
+      "important_object": "soundboard",
+      "primary_subject_type": "object",
+      "primary_entity_id": "scene-8f6b8c097bbbc2fc",
+      "primary_asset_id": null,
+      "primary_asset_sha256": null,
+      "primary_asset_origin": null,
+      "primary_asset_is_distinct": false,
+      "perceptual_dhash": null,
+      "reused_character_ids": [
+        "kendrick_lamar"
+      ],
+      "secondary_entity_ids": [
+        "drake"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": null,
+      "end_time": null,
+      "start_frame": null,
+      "end_frame": null,
+      "representative_midpoint_seconds": null,
+      "representative_midpoint_frame": null,
+      "rendered_layer_id": null,
+      "rendered_bounds": null,
+      "asset_generation_status": "planned",
+      "asset_relevance_status": "pending",
+      "asset_status": "pending",
+      "render_visibility": "pending"
+    },
+    {
+      "sentence_number": 4,
+      "sentence_id": "s4",
+      "narration_text": "The conflict turned personal when Drake released Family Matters, making explosive allegations about Kendrick's private life.",
+      "visual_focus": "the smartphone screen",
+      "main_action": "holding a smartphone displaying a social media post",
+      "important_object": "smartphone",
+      "primary_subject_type": "object",
+      "primary_entity_id": "scene-376190e4a649a557",
+      "primary_asset_id": null,
+      "primary_asset_sha256": null,
+      "primary_asset_origin": null,
+      "primary_asset_is_distinct": false,
+      "perceptual_dhash": null,
+      "reused_character_ids": [
+        "drake"
+      ],
+      "secondary_entity_ids": [
+        "kendrick_lamar"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": null,
+      "end_time": null,
+      "start_frame": null,
+      "end_frame": null,
+      "representative_midpoint_seconds": null,
+      "representative_midpoint_frame": null,
+      "rendered_layer_id": null,
+      "rendered_bounds": null,
+      "asset_generation_status": "planned",
+      "asset_relevance_status": "pending",
+      "asset_status": "pending",
+      "render_visibility": "pending"
+    },
+    {
+      "sentence_number": 5,
+      "sentence_id": "s5",
+      "narration_text": "Less than an hour later, Kendrick Lamar shocked listeners with Meet the Grahams, firing back with disturbing claims.",
+      "visual_focus": "the waveform on the monitor",
+      "main_action": "staring intensely at a computer monitor showing a waveform",
+      "important_object": "computer monitor",
+      "primary_subject_type": "object",
+      "primary_entity_id": "scene-065399783b4e2d3f",
+      "primary_asset_id": null,
+      "primary_asset_sha256": null,
+      "primary_asset_origin": null,
+      "primary_asset_is_distinct": false,
+      "perceptual_dhash": null,
+      "reused_character_ids": [
+        "kendrick_lamar"
+      ],
+      "secondary_entity_ids": [
+        "drake"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": null,
+      "end_time": null,
+      "start_frame": null,
+      "end_frame": null,
+      "representative_midpoint_seconds": null,
+      "representative_midpoint_frame": null,
+      "rendered_layer_id": null,
+      "rendered_bounds": null,
+      "asset_generation_status": "planned",
+      "asset_relevance_status": "pending",
+      "asset_status": "pending",
+      "render_visibility": "pending"
+    },
+    {
+      "sentence_number": 6,
+      "sentence_id": "s6",
+      "narration_text": "On May 4, Kendrick Lamar dropped the devastating track Not Like Us, accusing Drake of serious misconduct.",
+      "visual_focus": "the 'publish' button",
+      "main_action": "pressing a 'publish' button on a digital interface",
+      "important_object": "digital interface",
+      "primary_subject_type": "object",
+      "primary_entity_id": "scene-08b712e67e3ce1a0",
+      "primary_asset_id": null,
+      "primary_asset_sha256": null,
+      "primary_asset_origin": null,
+      "primary_asset_is_distinct": false,
+      "perceptual_dhash": null,
+      "reused_character_ids": [
+        "kendrick_lamar"
+      ],
+      "secondary_entity_ids": [
+        "drake"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": null,
+      "end_time": null,
+      "start_frame": null,
+      "end_frame": null,
+      "representative_midpoint_seconds": null,
+      "representative_midpoint_frame": null,
+      "rendered_layer_id": null,
+      "rendered_bounds": null,
+      "asset_generation_status": "planned",
+      "asset_relevance_status": "pending",
+      "asset_status": "pending",
+      "render_visibility": "pending"
+    },
+    {
+      "sentence_number": 7,
+      "sentence_id": "s7",
+      "narration_text": "Although Drake denied these allegations, the song exploded across the internet as a global anthem.",
+      "visual_focus": "Drake's face",
+      "main_action": "shaking his head while looking at a tablet",
+      "important_object": "tablet",
+      "primary_subject_type": "object",
+      "primary_entity_id": "scene-df162c1433d99a41",
+      "primary_asset_id": null,
+      "primary_asset_sha256": null,
+      "primary_asset_origin": null,
+      "primary_asset_is_distinct": false,
+      "perceptual_dhash": null,
+      "reused_character_ids": [
+        "drake"
+      ],
+      "secondary_entity_ids": [
+        "drake"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": null,
+      "end_time": null,
+      "start_frame": null,
+      "end_frame": null,
+      "representative_midpoint_seconds": null,
+      "representative_midpoint_frame": null,
+      "rendered_layer_id": null,
+      "rendered_bounds": null,
+      "asset_generation_status": "planned",
+      "asset_relevance_status": "pending",
+      "asset_status": "pending",
+      "render_visibility": "pending"
+    },
+    {
+      "sentence_number": 8,
+      "sentence_id": "s8",
+      "narration_text": "This battle for the rap throne ultimately became one of hip-hop's most unforgettable rivalries.",
+      "visual_focus": "Kendrick Lamar on stage",
+      "main_action": "standing on a stage with a microphone",
+      "important_object": "microphone",
+      "primary_subject_type": "object",
+      "primary_entity_id": "scene-e6371dc33cb94586",
+      "primary_asset_id": null,
+      "primary_asset_sha256": null,
+      "primary_asset_origin": null,
+      "primary_asset_is_distinct": false,
+      "perceptual_dhash": null,
+      "reused_character_ids": [
+        "kendrick_lamar"
+      ],
+      "secondary_entity_ids": [
+        "drake"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": null,
+      "end_time": null,
+      "start_frame": null,
+      "end_frame": null,
+      "representative_midpoint_seconds": null,
+      "representative_midpoint_frame": null,
+      "rendered_layer_id": null,
+      "rendered_bounds": null,
+      "asset_generation_status": "planned",
+      "asset_relevance_status": "pending",
+      "asset_status": "pending",
+      "render_visibility": "pending"
+    },
+    {
+      "sentence_number": 9,
+      "sentence_id": "s9",
+      "narration_text": "According to the supplied account, the song Not Like Us achieved significant recognition, winning five Grammy Awards.",
+      "visual_focus": "the golden gramophone",
+      "main_action": "resting on a velvet display stand",
+      "important_object": "Grammy Award",
+      "primary_subject_type": "object",
+      "primary_entity_id": "scene-d8a8a4a25d167041",
+      "primary_asset_id": null,
+      "primary_asset_sha256": null,
+      "primary_asset_origin": null,
+      "primary_asset_is_distinct": false,
+      "perceptual_dhash": null,
+      "reused_character_ids": [
+        "grammy_award"
+      ],
+      "secondary_entity_ids": [],
+      "composition_type": "layered_cutout",
+      "start_time": null,
+      "end_time": null,
+      "start_frame": null,
+      "end_frame": null,
+      "representative_midpoint_seconds": null,
+      "representative_midpoint_frame": null,
+      "rendered_layer_id": null,
+      "rendered_bounds": null,
+      "asset_generation_status": "planned",
+      "asset_relevance_status": "pending",
+      "asset_status": "pending",
+      "render_visibility": "pending"
+    }
+  ],
+  "stage_timings": {},
+  "concurrency_analysis": {
+    "total_image_tasks": 10,
+    "total_provider_wait_spans": 15,
+    "peak_image_provider_concurrency": 3,
+    "average_active_image_concurrency": 1.881,
+    "configured_action_workers": 3,
+    "tts_visual_overlap_seconds": 164.409,
+    "speech_wall_seconds": 164.407,
+    "cutouts_wall_seconds": 168.563,
+    "alignment_seconds": null,
+    "serial_gap_seconds": 0.0567,
+    "admission_wait_seconds": 76.4828,
+    "rate_limit_responses": 0,
+    "rate_limit_backoff_seconds": 0,
+    "background_removal_total_seconds": 18.8446
+  },
+  "tts_telemetry": [],
+  "prediction_records": [],
+  "critical_path": [
+    {
+      "stage": "input_fetch_and_extract",
+      "duration_seconds": 2.6648,
+      "effective_advance_seconds": 2.6648,
+      "status": "succeeded"
+    },
+    {
+      "stage": "research",
+      "duration_seconds": 2.7957,
+      "effective_advance_seconds": 2.7957,
+      "status": "succeeded"
+    },
+    {
+      "stage": "research_or_script_generation",
+      "duration_seconds": 24.2103,
+      "effective_advance_seconds": 24.2104,
+      "status": "succeeded"
+    },
+    {
+      "stage": "narration_segmentation",
+      "duration_seconds": 0.0011,
+      "effective_advance_seconds": 0.0011,
+      "status": "succeeded"
+    },
+    {
+      "stage": "semantic_beat_planning",
+      "duration_seconds": 5.6695,
+      "effective_advance_seconds": 5.6695,
+      "status": "succeeded"
+    },
+    {
+      "stage": "TTS_generation",
+      "duration_seconds": 164.407,
+      "effective_advance_seconds": 158.7391,
+      "status": "failed"
+    },
+    {
+      "stage": "new_action_asset_generation",
+      "duration_seconds": 23.147,
+      "effective_advance_seconds": 0.1692,
+      "status": "failed"
+    },
+    {
+      "stage": "new_action_asset_generation",
+      "duration_seconds": 24.9524,
+      "effective_advance_seconds": 3.982,
+      "status": "failed"
+    }
+  ],
+  "bottleneck_ranking": [
+    {
+      "operation": "image_provider_wait (accumulated)",
+      "duration_seconds": 253.657,
+      "percent_of_wall_time": 100.0,
+      "cause_category": "provider",
+      "evidence": "15 provider call(s), peak_concurrency=3, admission_wait=76.48s",
+      "optimization_opportunity": "Overlap independent scene-primary predictions across worker threads while respecting rate limits",
+      "confidence": "high"
+    },
+    {
+      "operation": "TTS_generation",
+      "duration_seconds": 164.407,
+      "percent_of_wall_time": 82.9,
+      "cause_category": "provider",
+      "evidence": "1 span(s), max=164.407s, accumulated=164.407s",
+      "optimization_opportunity": "Overlap TTS with visual planning/sourcing and use dedicated TTS admission scope",
+      "confidence": "high"
+    },
+    {
+      "operation": "new_action_asset_generation",
+      "duration_seconds": 100.8681,
+      "percent_of_wall_time": 50.8,
+      "cause_category": "provider",
+      "evidence": "9 span(s), max=100.868s, accumulated=347.092s",
+      "optimization_opportunity": "Bounded parallel scene generation with adaptive Replicate admission pacing",
+      "confidence": "high"
+    },
+    {
+      "operation": "entity_identity_asset_generation",
+      "duration_seconds": 44.5052,
+      "percent_of_wall_time": 22.4,
+      "cause_category": "provider",
+      "evidence": "3 span(s), max=44.505s, accumulated=77.823s",
+      "optimization_opportunity": "Acquire identity references in parallel or reuse supporting cutouts",
+      "confidence": "high"
+    },
+    {
+      "operation": "research_or_script_generation",
+      "duration_seconds": 24.2103,
+      "percent_of_wall_time": 12.2,
+      "cause_category": "provider",
+      "evidence": "1 span(s), max=24.210s, accumulated=24.210s",
+      "optimization_opportunity": "Reduce LLM repair iterations and token output size",
+      "confidence": "high"
+    },
+    {
+      "operation": "background_removal_and_alpha",
+      "duration_seconds": 18.8446,
+      "percent_of_wall_time": 9.5,
+      "cause_category": "compute",
+      "evidence": "12 span(s), max=1.878s, accumulated=18.845s",
+      "optimization_opportunity": "Reuse warm ONNX rembg session and run cutout trimming as each image completes",
+      "confidence": "high"
+    },
+    {
+      "operation": "semantic_beat_planning",
+      "duration_seconds": 5.6695,
+      "percent_of_wall_time": 2.9,
+      "cause_category": "provider",
+      "evidence": "1 span(s), max=5.670s, accumulated=5.670s",
+      "optimization_opportunity": "Single-pass structured storyboard generation with strict schema validation",
+      "confidence": "high"
+    },
+    {
+      "operation": "research",
+      "duration_seconds": 2.7957,
+      "percent_of_wall_time": 1.4,
+      "cause_category": "network",
+      "evidence": "1 span(s), max=2.796s, accumulated=2.796s",
+      "optimization_opportunity": "Bound web search pages and HTTP timeouts",
+      "confidence": "high"
+    },
+    {
+      "operation": "input_fetch_and_extract",
+      "duration_seconds": 2.6648,
+      "percent_of_wall_time": 1.3,
+      "cause_category": "network",
+      "evidence": "1 span(s), max=2.665s, accumulated=2.665s",
+      "optimization_opportunity": "Cache fetched source text or streamline input classification",
+      "confidence": "high"
+    }
+  ],
+  "rendering": {
+    "renderer": "remotion",
+    "frames": 0,
+    "fps": 30,
+    "resolution": [
+      1080,
+      1920
+    ],
+    "asset_staging_seconds": null,
+    "remotion_render_seconds": null,
+    "remotion_concurrency": null,
+    "ffmpeg_encode_seconds": null,
+    "audio_delivery_seconds": null,
+    "visual_quality_scan_seconds": null,
+    "total_render_and_qa_seconds": null,
+    "video_encode_passes": null,
+    "average_fps_throughput": null,
+    "output_size_bytes": null
+  },
+  "images": [
+    {
+      "task_index": 1,
+      "entityId": "drake",
+      "assetId": "asset-drake",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "primary_subject_type": "person",
+      "visual_concept": "Drake",
+      "provider": "local_or_cache",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.0001,
+      "admission_wait_seconds": 0.0,
+      "api_duration_seconds": 0.0,
+      "cutout_processing_seconds": 0.0,
+      "visual_review_seconds": 0.0,
+      "processing_and_review_seconds": 14.252,
+      "durationSeconds": 14.252,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "reference_cutout",
+      "identityReferences": [],
+      "dimensions": [
+        871,
+        1064
+      ],
+      "bytes": 1808231,
+      "sha256": "e358fbab71dac8187d78dad924182e1fddda38d6ec4f215be4646b6dd4ba9f22",
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": []
+    },
+    {
+      "task_index": 2,
+      "entityId": "kendrick_lamar",
+      "assetId": "asset-kendrick_lamar",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "primary_subject_type": "person",
+      "visual_concept": "Kendrick Lamar",
+      "provider": "replicate:black-forest-labs/flux-kontext-pro",
+      "request_start_utc": "2026-10-17T12:42:00.939795+00:00",
+      "request_end_utc": "2026-10-17T12:42:15.088942+00:00",
+      "queue_wait_seconds": 0.0002,
+      "admission_wait_seconds": 0.0,
+      "api_duration_seconds": 14.1491,
+      "cutout_processing_seconds": 1.662,
+      "visual_review_seconds": 13.969,
+      "processing_and_review_seconds": 30.3519,
+      "durationSeconds": 44.501,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 1,
+      "cacheHit": false,
+      "route": "premium_reference_illustration",
+      "identityReferences": [],
+      "dimensions": [
+        1000,
+        991
+      ],
+      "bytes": 1280135,
+      "sha256": "fee7fd4b22d405de4495ea76d19964e688ac4ecb650b7d17469316890d01f67b",
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": []
+    },
+    {
+      "task_index": 3,
+      "entityId": "grammy_award",
+      "assetId": "asset-grammy_award",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "primary_subject_type": "symbol",
+      "visual_concept": "Grammy Award",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T12:41:53.646163+00:00",
+      "request_end_utc": "2026-10-17T12:42:00.185886+00:00",
+      "queue_wait_seconds": 0.0005,
+      "admission_wait_seconds": 0.0,
+      "api_duration_seconds": 6.5397,
+      "cutout_processing_seconds": 1.878,
+      "visual_review_seconds": 3.429,
+      "processing_and_review_seconds": 12.5183,
+      "durationSeconds": 19.058,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 1,
+      "cacheHit": false,
+      "route": "contextual_ai_after_missing_reference",
+      "identityReferences": [],
+      "dimensions": [
+        277,
+        696
+      ],
+      "bytes": 107561,
+      "sha256": "967c293329f5e00aec864f858d73b3d5196dd9587da05fad880fcae9414202a2",
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": []
+    },
+    {
+      "task_index": 4,
+      "entityId": "scene-e5c83095c0784aff",
+      "assetId": "asset-scene-e5c83095c0784aff",
+      "sentence_id": "s1",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Kendrick Lamar's hand gesture",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T12:42:31.207960+00:00",
+      "request_end_utc": "2026-10-17T12:43:53.963234+00:00",
+      "queue_wait_seconds": 0.0001,
+      "admission_wait_seconds": 0.0,
+      "api_duration_seconds": 69.1364,
+      "cutout_processing_seconds": 4.45,
+      "visual_review_seconds": 19.434,
+      "processing_and_review_seconds": 24.2776,
+      "durationSeconds": 93.414,
+      "attempts": 4,
+      "rejected_attempts": 3,
+      "recorded_errors": 3,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "kendrick_lamar"
+      ],
+      "dimensions": [
+        698,
+        826
+      ],
+      "bytes": 519972,
+      "sha256": "e603abae31604cbe3f6d811c501f24a3bae9984bfbd8e2a31f1809a6093db026",
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": []
+    },
+    {
+      "task_index": 5,
+      "entityId": "scene-28854a24db7379cf",
+      "assetId": "asset-scene-28854a24db7379cf",
+      "sentence_id": "s2",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Drake's hands on the laptop",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T12:42:31.205153+00:00",
+      "request_end_utc": "2026-10-17T12:44:04.751582+00:00",
+      "queue_wait_seconds": 0.0001,
+      "admission_wait_seconds": 0.0,
+      "api_duration_seconds": 49.783,
+      "cutout_processing_seconds": 4.511,
+      "visual_review_seconds": 46.127,
+      "processing_and_review_seconds": 51.083,
+      "durationSeconds": 100.866,
+      "attempts": 4,
+      "rejected_attempts": 3,
+      "recorded_errors": 3,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "drake"
+      ],
+      "dimensions": [
+        857,
+        924
+      ],
+      "bytes": 461303,
+      "sha256": "ee93f56e3090570c3ed0399e2121801fe4d3c6aee45608f607a153564cee2362",
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": []
+    },
+    {
+      "task_index": 6,
+      "entityId": "scene-8f6b8c097bbbc2fc",
+      "assetId": "asset-scene-8f6b8c097bbbc2fc",
+      "sentence_id": "s3",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Kendrick Lamar's hand on the mixing fader",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T12:42:31.208632+00:00",
+      "request_end_utc": "2026-10-17T12:42:45.341307+00:00",
+      "queue_wait_seconds": 0.0001,
+      "admission_wait_seconds": 0.0,
+      "api_duration_seconds": 14.1326,
+      "cutout_processing_seconds": 1.604,
+      "visual_review_seconds": 7.948,
+      "processing_and_review_seconds": 9.9844,
+      "durationSeconds": 24.117,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "kendrick_lamar"
+      ],
+      "dimensions": [
+        1024,
+        955
+      ],
+      "bytes": 698935,
+      "sha256": "500fe40f4c7f2117c9d427ec73d2e3d8b14c821cb3bff5527eca6dbbfc5489fb",
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": []
+    },
+    {
+      "task_index": 7,
+      "entityId": "scene-376190e4a649a557",
+      "assetId": null,
+      "sentence_id": "s4",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "the smartphone screen",
+      "provider": "black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T12:42:55.320778+00:00",
+      "request_end_utc": "2026-10-17T12:44:02.192032+00:00",
+      "queue_wait_seconds": 24.1212,
+      "admission_wait_seconds": 0.0,
+      "api_duration_seconds": 51.403,
+      "cutout_processing_seconds": 3.36,
+      "visual_review_seconds": 12.094,
+      "processing_and_review_seconds": 0.0,
+      "durationSeconds": 51.403,
+      "attempts": 3,
+      "rejected_attempts": 2,
+      "recorded_errors": 2,
+      "cacheHit": false,
+      "route": "degraded_provider_unavailable",
+      "identityReferences": [
+        "drake"
+      ],
+      "dimensions": [
+        null,
+        null
+      ],
+      "bytes": null,
+      "sha256": null,
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": []
+    },
+    {
+      "task_index": 8,
+      "entityId": "scene-065399783b4e2d3f",
+      "assetId": null,
+      "sentence_id": "s5",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "the waveform on the monitor",
+      "provider": "black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T12:44:02.446745+00:00",
+      "request_end_utc": "2026-10-17T12:44:25.398918+00:00",
+      "queue_wait_seconds": 91.2403,
+      "admission_wait_seconds": 0.0,
+      "api_duration_seconds": 22.9512,
+      "cutout_processing_seconds": 0.0,
+      "visual_review_seconds": 0.0,
+      "processing_and_review_seconds": 0.0,
+      "durationSeconds": 22.9512,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "ready",
+      "identityReferences": [
+        "kendrick_lamar"
+      ],
+      "dimensions": [
+        null,
+        null
+      ],
+      "bytes": null,
+      "sha256": null,
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": []
+    },
+    {
+      "task_index": 9,
+      "entityId": "scene-08b712e67e3ce1a0",
+      "assetId": null,
+      "sentence_id": "s6",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "the 'publish' button",
+      "provider": "black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T12:44:04.614554+00:00",
+      "request_end_utc": "2026-10-17T12:44:16.895993+00:00",
+      "queue_wait_seconds": 93.4169,
+      "admission_wait_seconds": 0.0,
+      "api_duration_seconds": 12.2808,
+      "cutout_processing_seconds": 1.386,
+      "visual_review_seconds": 11.096,
+      "processing_and_review_seconds": 0.0,
+      "durationSeconds": 12.2808,
+      "attempts": 2,
+      "rejected_attempts": 1,
+      "recorded_errors": 1,
+      "cacheHit": false,
+      "route": "ready",
+      "identityReferences": [
+        "kendrick_lamar"
+      ],
+      "dimensions": [
+        null,
+        null
+      ],
+      "bytes": null,
+      "sha256": null,
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": []
+    },
+    {
+      "task_index": 10,
+      "entityId": "scene-df162c1433d99a41",
+      "assetId": null,
+      "sentence_id": "s7",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Drake's face",
+      "provider": "black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T12:44:12.069799+00:00",
+      "request_end_utc": "2026-10-17T12:44:25.351421+00:00",
+      "queue_wait_seconds": 100.8703,
+      "admission_wait_seconds": 0.0,
+      "api_duration_seconds": 13.2811,
+      "cutout_processing_seconds": 0.0,
+      "visual_review_seconds": 0.0,
+      "processing_and_review_seconds": 0.0,
+      "durationSeconds": 13.2811,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "ready",
+      "identityReferences": [
+        "drake"
+      ],
+      "dimensions": [
+        null,
+        null
+      ],
+      "bytes": null,
+      "sha256": null,
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": []
+    }
+  ],
+  "provider_metrics": {},
+  "errors_and_retries": [
+    {
+      "source": "span",
+      "name": "end_to_end",
+      "error_type": "NewsError",
+      "attempt": 1
+    },
+    {
+      "source": "span",
+      "name": "TTS_generation",
+      "error_type": "NewsError",
+      "attempt": 1
+    },
+    {
+      "source": "span",
+      "name": "image_task",
+      "error_type": "NewsError",
+      "attempt": 1
+    },
+    {
+      "source": "span",
+      "name": "new_action_asset_generation",
+      "error_type": "NewsError",
+      "attempt": 1
+    },
+    {
+      "source": "span",
+      "name": "image_provider_wait",
+      "error_type": "NewsError",
+      "attempt": 3
+    },
+    {
+      "source": "span",
+      "name": "image_task",
+      "error_type": "NewsError",
+      "attempt": 1
+    },
+    {
+      "source": "span",
+      "name": "new_action_asset_generation",
+      "error_type": "NewsError",
+      "attempt": 1
+    },
+    {
+      "source": "span",
+      "name": "image_provider_wait",
+      "error_type": "NewsError",
+      "attempt": 1
+    },
+    {
+      "source": "span",
+      "name": "image_task",
+      "error_type": "NewsError",
+      "attempt": 1
+    },
+    {
+      "source": "span",
+      "name": "new_action_asset_generation",
+      "error_type": "NewsError",
+      "attempt": 1
+    },
+    {
+      "source": "span",
+      "name": "image_task",
+      "error_type": "NewsError",
+      "attempt": 1
+    },
+    {
+      "source": "span",
+      "name": "new_action_asset_generation",
+      "error_type": "NewsError",
+      "attempt": 1
+    },
+    {
+      "source": "span",
+      "name": "image_provider_wait",
+      "error_type": "NewsError",
+      "attempt": 1
+    },
+    {
+      "source": "span",
+      "name": "image_task",
+      "error_type": "NewsError",
+      "attempt": 1
+    },
+    {
+      "source": "span",
+      "name": "new_action_asset_generation",
+      "error_type": "NewsError",
+      "attempt": 1
+    },
+    {
+      "source": "span",
+      "name": "image_task",
+      "error_type": "NewsError",
+      "attempt": 1
+    },
+    {
+      "source": "span",
+      "name": "new_action_asset_generation",
+      "error_type": "NewsError",
+      "attempt": 1
+    },
+    {
+      "source": "image_asset",
+      "entity_id": "kendrick_lamar",
+      "sentence_id": "shared_identity",
+      "rejected_attempts": 0,
+      "recorded_errors": 1,
+      "route": "premium_reference_illustration"
+    },
+    {
+      "source": "image_asset",
+      "entity_id": "grammy_award",
+      "sentence_id": "shared_identity",
+      "rejected_attempts": 0,
+      "recorded_errors": 1,
+      "route": "contextual_ai_after_missing_reference"
+    },
+    {
+      "source": "image_asset",
+      "entity_id": "scene-e5c83095c0784aff",
+      "sentence_id": "s1",
+      "rejected_attempts": 3,
+      "recorded_errors": 3,
+      "route": "narrative_action_cutout"
+    },
+    {
+      "source": "image_asset",
+      "entity_id": "scene-28854a24db7379cf",
+      "sentence_id": "s2",
+      "rejected_attempts": 3,
+      "recorded_errors": 3,
+      "route": "narrative_action_cutout"
+    },
+    {
+      "source": "image_asset",
+      "entity_id": "scene-376190e4a649a557",
+      "sentence_id": "s4",
+      "rejected_attempts": 2,
+      "recorded_errors": 2,
+      "route": "degraded_provider_unavailable"
+    },
+    {
+      "source": "image_asset",
+      "entity_id": "scene-08b712e67e3ce1a0",
+      "sentence_id": "s6",
+      "rejected_attempts": 1,
+      "recorded_errors": 1,
+      "route": "ready"
+    },
+    {
+      "source": "pipeline_failure",
+      "stage": "media",
+      "status": "error"
+    }
+  ],
+  "recommended_next_investigation": [
+    "Remotion output is re-encoded by FFmpeg for BT.601->BT.709 color conversion (2 encode passes). Validate HER_EDITORIAL_DIRECT_BT709=1 on target runtime to use -c:v copy.",
+    "Multimodal visual review rejected one or more initial image candidates, triggering regeneration retries. Inspect scene_report and image rejected_attempts."
+  ],
+  "spans": [
+    {
+      "id": "fef96562309b44aa980b0ae3106d9221",
+      "name": "end_to_end",
+      "start_utc": "2026-10-17T12:41:10.954309+00:00",
+      "start_offset_seconds": 0.0003952909999999088,
+      "status": "failed",
+      "metadata": {},
+      "parent_span_id": null,
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T12:44:29.389760+00:00",
+      "end_offset_seconds": 198.43403070800002,
+      "duration_seconds": 198.43363541700003,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "fd780e4b9edf4660aefe4818210158b6",
+      "name": "input_fetch_and_extract",
+      "start_utc": "2026-10-17T12:41:11.094705+00:00",
+      "start_offset_seconds": 0.14078541600000005,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "fef96562309b44aa980b0ae3106d9221",
+      "end_utc": "2026-10-17T12:41:13.759545+00:00",
+      "end_offset_seconds": 2.8056181249999996,
+      "duration_seconds": 2.6648327089999997,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "c269d9ad613f43438f06ad9d69a0dd5b",
+      "name": "research",
+      "start_utc": "2026-10-17T12:41:13.759987+00:00",
+      "start_offset_seconds": 2.806050166,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "fef96562309b44aa980b0ae3106d9221",
+      "end_utc": "2026-10-17T12:41:16.555639+00:00",
+      "end_offset_seconds": 5.601706666,
+      "duration_seconds": 2.7956565,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e172eabe13fc495c961dd30ece3d2783",
+      "name": "research_or_script_generation",
+      "start_utc": "2026-10-17T12:41:16.557129+00:00",
+      "start_offset_seconds": 5.603186333,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "fef96562309b44aa980b0ae3106d9221",
+      "end_utc": "2026-10-17T12:41:40.767482+00:00",
+      "end_offset_seconds": 29.813443791,
+      "duration_seconds": 24.210257458,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "22bc8909614542419d7182d4fd57c5a4",
+      "name": "narration_segmentation",
+      "start_utc": "2026-10-17T12:41:40.821792+00:00",
+      "start_offset_seconds": 29.867737083,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "fef96562309b44aa980b0ae3106d9221",
+      "end_utc": "2026-10-17T12:41:40.822898+00:00",
+      "end_offset_seconds": 29.868836333,
+      "duration_seconds": 0.00109924999999933,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "267952ed467043888060f549a7ba1da7",
+      "name": "semantic_beat_planning",
+      "start_utc": "2026-10-17T12:41:40.823340+00:00",
+      "start_offset_seconds": 29.869277458000003,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "fef96562309b44aa980b0ae3106d9221",
+      "end_utc": "2026-10-17T12:41:46.492886+00:00",
+      "end_offset_seconds": 35.538818958,
+      "duration_seconds": 5.669541499999998,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "8430a8907c024d82ba2c5e0ee0213636",
+      "name": "TTS_generation",
+      "start_utc": "2026-10-17T12:41:40.823360+00:00",
+      "start_offset_seconds": 29.869299291,
+      "status": "failed",
+      "metadata": {},
+      "parent_span_id": "fef96562309b44aa980b0ae3106d9221",
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T12:44:25.231954+00:00",
+      "end_offset_seconds": 194.276328333,
+      "duration_seconds": 164.407029042,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "8a1fa69249ce448a9afa5b47096d0fb8",
+      "name": "image_task",
+      "start_utc": "2026-10-17T12:41:46.502600+00:00",
+      "start_offset_seconds": 35.548529249999994,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "drake",
+        "queue_wait_seconds": 7.1e-05
+      },
+      "parent_span_id": "fef96562309b44aa980b0ae3106d9221",
+      "end_utc": "2026-10-17T12:42:00.760515+00:00",
+      "end_offset_seconds": 49.806360624999996,
+      "duration_seconds": 14.257831375000002,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "879820a4c71f4a5aa8b0a82ac0fc94ac",
+      "name": "image_task",
+      "start_utc": "2026-10-17T12:41:46.502681+00:00",
+      "start_offset_seconds": 35.548596499999995,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "kendrick_lamar",
+        "queue_wait_seconds": 0.000176
+      },
+      "parent_span_id": "fef96562309b44aa980b0ae3106d9221",
+      "end_utc": "2026-10-17T12:42:31.010832+00:00",
+      "end_offset_seconds": 80.05653625,
+      "duration_seconds": 44.50793975,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "de927bdbd1de4a938d36451e1c741845",
+      "name": "image_task",
+      "start_utc": "2026-10-17T12:41:46.502771+00:00",
+      "start_offset_seconds": 35.548686124999996,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "grammy_award",
+        "queue_wait_seconds": 0.000517
+      },
+      "parent_span_id": "fef96562309b44aa980b0ae3106d9221",
+      "end_utc": "2026-10-17T12:42:05.568403+00:00",
+      "end_offset_seconds": 54.614226249999994,
+      "duration_seconds": 19.065540125,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "bb45d5b196f047888af70fd7c6a95c03",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T12:41:46.504030+00:00",
+      "start_offset_seconds": 35.54994825,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "54444aa7bc07ccec"
+      },
+      "parent_span_id": "8a1fa69249ce448a9afa5b47096d0fb8",
+      "end_utc": "2026-10-17T12:42:00.760015+00:00",
+      "end_offset_seconds": 49.805872166,
+      "duration_seconds": 14.255923916,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "1da8305343d14d8bae2db5bbc75e02ae",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T12:41:46.504971+00:00",
+      "start_offset_seconds": 35.550886125,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "172f50c2f09308d1"
+      },
+      "parent_span_id": "879820a4c71f4a5aa8b0a82ac0fc94ac",
+      "end_utc": "2026-10-17T12:42:31.010401+00:00",
+      "end_offset_seconds": 80.056119375,
+      "duration_seconds": 44.505233249999996,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "6e558fc043564cf1917cfc60c41dd3a1",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T12:41:46.505941+00:00",
+      "start_offset_seconds": 35.551857,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "84cf4acdbf24d1f6"
+      },
+      "parent_span_id": "de927bdbd1de4a938d36451e1c741845",
+      "end_utc": "2026-10-17T12:42:05.567980+00:00",
+      "end_offset_seconds": 54.613807666,
+      "duration_seconds": 19.061950666,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "cd21dc92f6964728aaf067a19ec3aa4e",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T12:41:53.646163+00:00",
+      "start_offset_seconds": 42.692066540999996,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "grammy_award",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "6e558fc043564cf1917cfc60c41dd3a1",
+      "end_utc": "2026-10-17T12:42:00.185886+00:00",
+      "end_offset_seconds": 49.231742458,
+      "duration_seconds": 6.539675917000004,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "f450e78d22264ad4bf5a0e8a81f1e939",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T12:41:53.654831+00:00",
+      "start_offset_seconds": 42.700732165999995,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "cd21dc92f6964728aaf067a19ec3aa4e",
+      "end_utc": "2026-10-17T12:41:53.657445+00:00",
+      "end_offset_seconds": 42.703328125,
+      "duration_seconds": 0.0025959590000042,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "6b4c9f3e8a7241cd8daf0523dc40af92",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T12:42:00.187056+00:00",
+      "start_offset_seconds": 49.232907999999995,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "6e558fc043564cf1917cfc60c41dd3a1",
+      "end_utc": "2026-10-17T12:42:02.065015+00:00",
+      "end_offset_seconds": 51.110858916,
+      "duration_seconds": 1.8779509160000032,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "60db8aea91a84eff955bdb4e5713b466",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T12:42:00.939795+00:00",
+      "start_offset_seconds": 49.985644916,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "kendrick_lamar",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "1da8305343d14d8bae2db5bbc75e02ae",
+      "end_utc": "2026-10-17T12:42:15.088942+00:00",
+      "end_offset_seconds": 64.134747916,
+      "duration_seconds": 14.149102999999997,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "751eeb4400d544a29802a2eeba9fa89d",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T12:42:00.973599+00:00",
+      "start_offset_seconds": 50.01944775,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "60db8aea91a84eff955bdb4e5713b466",
+      "end_utc": "2026-10-17T12:42:00.974414+00:00",
+      "end_offset_seconds": 50.020259165999995,
+      "duration_seconds": 0.0008114159999976778,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "36733c8bc29a41f9981d6097a63896bb",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T12:42:15.097245+00:00",
+      "start_offset_seconds": 64.143034333,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "1da8305343d14d8bae2db5bbc75e02ae",
+      "end_utc": "2026-10-17T12:42:16.759170+00:00",
+      "end_offset_seconds": 65.80494570799999,
+      "duration_seconds": 1.6619113749999883,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "c063b9800e124e33a86ce41b279b4022",
+      "name": "image_task",
+      "start_utc": "2026-10-17T12:42:31.011450+00:00",
+      "start_offset_seconds": 80.057154333,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-e5c83095c0784aff",
+        "queue_wait_seconds": 7.1e-05
+      },
+      "parent_span_id": "fef96562309b44aa980b0ae3106d9221",
+      "end_utc": "2026-10-17T12:44:04.428596+00:00",
+      "end_offset_seconds": 173.473868208,
+      "duration_seconds": 93.416713875,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e926ecd9fdaf434a957632052d98c3d4",
+      "name": "image_task",
+      "start_utc": "2026-10-17T12:42:31.011730+00:00",
+      "start_offset_seconds": 80.057436041,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-28854a24db7379cf",
+        "queue_wait_seconds": 5.5e-05
+      },
+      "parent_span_id": "fef96562309b44aa980b0ae3106d9221",
+      "end_utc": "2026-10-17T12:44:11.882320+00:00",
+      "end_offset_seconds": 180.92719025000002,
+      "duration_seconds": 100.86975420900002,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "43a3b2dd6ef64e7b86aa3fb644ceb1e4",
+      "name": "image_task",
+      "start_utc": "2026-10-17T12:42:31.011869+00:00",
+      "start_offset_seconds": 80.05757375,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-8f6b8c097bbbc2fc",
+        "queue_wait_seconds": 5.7e-05
+      },
+      "parent_span_id": "fef96562309b44aa980b0ae3106d9221",
+      "end_utc": "2026-10-17T12:42:55.132643+00:00",
+      "end_offset_seconds": 104.178236375,
+      "duration_seconds": 24.120662624999994,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "9daedf5082234555a3579a18a416b9d6",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T12:42:31.012072+00:00",
+      "start_offset_seconds": 80.05777766599999,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "64a17048759f2248"
+      },
+      "parent_span_id": "c063b9800e124e33a86ce41b279b4022",
+      "end_utc": "2026-10-17T12:44:04.427950+00:00",
+      "end_offset_seconds": 173.47322716600002,
+      "duration_seconds": 93.41544950000002,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e0372d369830484ebc8b630e8e82ff82",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T12:42:31.012469+00:00",
+      "start_offset_seconds": 80.058174,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "1fc149539d4cd4ec"
+      },
+      "parent_span_id": "e926ecd9fdaf434a957632052d98c3d4",
+      "end_utc": "2026-10-17T12:44:11.881345+00:00",
+      "end_offset_seconds": 180.9262285,
+      "duration_seconds": 100.86805450000001,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "9b34103abab6417fb2c08d9685c2c0aa",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T12:42:31.013022+00:00",
+      "start_offset_seconds": 80.058726458,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "e23b92a79b9de202"
+      },
+      "parent_span_id": "43a3b2dd6ef64e7b86aa3fb644ceb1e4",
+      "end_utc": "2026-10-17T12:42:55.132071+00:00",
+      "end_offset_seconds": 104.177668583,
+      "duration_seconds": 24.118942125000004,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "cc200be4d279402493b6b7b96bd86290",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T12:42:31.205153+00:00",
+      "start_offset_seconds": 80.250865916,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-28854a24db7379cf",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "e0372d369830484ebc8b630e8e82ff82",
+      "end_utc": "2026-10-17T12:42:34.230030+00:00",
+      "end_offset_seconds": 83.2757435,
+      "duration_seconds": 3.0248775840000093,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "f7138b8db70342ae911a1da5b958c0a3",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T12:42:31.207960+00:00",
+      "start_offset_seconds": 80.253664958,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-e5c83095c0784aff",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "9daedf5082234555a3579a18a416b9d6",
+      "end_utc": "2026-10-17T12:42:56.750059+00:00",
+      "end_offset_seconds": 105.795662958,
+      "duration_seconds": 25.541997999999992,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "8341f9aafde347ceb2e9c33167ca8333",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T12:42:31.208632+00:00",
+      "start_offset_seconds": 80.254335791,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-8f6b8c097bbbc2fc",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "9b34103abab6417fb2c08d9685c2c0aa",
+      "end_utc": "2026-10-17T12:42:45.341307+00:00",
+      "end_offset_seconds": 94.386968833,
+      "duration_seconds": 14.132633041999995,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "cf2c01e60f4d4f3781096729cb6d50e0",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T12:42:31.208657+00:00",
+      "start_offset_seconds": 80.25436158299999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "cc200be4d279402493b6b7b96bd86290",
+      "end_utc": "2026-10-17T12:42:31.210573+00:00",
+      "end_offset_seconds": 80.256276833,
+      "duration_seconds": 0.00191525000001036,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "230e3897a7774cee8299377e4f1da0f6",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T12:42:31.211529+00:00",
+      "start_offset_seconds": 80.25723291599999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "f7138b8db70342ae911a1da5b958c0a3",
+      "end_utc": "2026-10-17T12:42:33.215461+00:00",
+      "end_offset_seconds": 82.2611775,
+      "duration_seconds": 2.00394458400001,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "593a2f43b09c4857b3a5c328b9a31fdc",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T12:42:31.212252+00:00",
+      "start_offset_seconds": 80.257956333,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "8341f9aafde347ceb2e9c33167ca8333",
+      "end_utc": "2026-10-17T12:42:32.212751+00:00",
+      "end_offset_seconds": 81.258472,
+      "duration_seconds": 1.000515667000002,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "b04918a16e2a4baf8b4a4d273574182b",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T12:42:34.232033+00:00",
+      "start_offset_seconds": 83.277754875,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e0372d369830484ebc8b630e8e82ff82",
+      "end_utc": "2026-10-17T12:42:35.722198+00:00",
+      "end_offset_seconds": 84.76789475,
+      "duration_seconds": 1.490139874999997,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "4568bec2e27a43f2a08789e87a04fe7e",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T12:42:45.343567+00:00",
+      "start_offset_seconds": 94.389214375,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "9b34103abab6417fb2c08d9685c2c0aa",
+      "end_utc": "2026-10-17T12:42:46.946450+00:00",
+      "end_offset_seconds": 95.99208575,
+      "duration_seconds": 1.6028713750000065,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "0a32f1a702b3408cb475f22ccf6aa69c",
+      "name": "image_task",
+      "start_utc": "2026-10-17T12:42:55.133117+00:00",
+      "start_offset_seconds": 104.178709541,
+      "status": "failed",
+      "metadata": {
+        "entity_id": "scene-376190e4a649a557",
+        "queue_wait_seconds": 24.121159
+      },
+      "parent_span_id": "fef96562309b44aa980b0ae3106d9221",
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T12:44:02.251858+00:00",
+      "end_offset_seconds": 171.2971415,
+      "duration_seconds": 67.118431959,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "2bea4a294a134ba9a6bd0a1e3b6a80c1",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T12:42:55.133536+00:00",
+      "start_offset_seconds": 104.179128083,
+      "status": "failed",
+      "metadata": {
+        "asset_key": "687967de0192bea5"
+      },
+      "parent_span_id": "0a32f1a702b3408cb475f22ccf6aa69c",
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T12:44:02.251038+00:00",
+      "end_offset_seconds": 171.29632783300002,
+      "duration_seconds": 67.11719975000003,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "30b206b3c7e443ea9fa99f6da26ac6d6",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T12:42:55.320778+00:00",
+      "start_offset_seconds": 104.36637625,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-376190e4a649a557",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "2bea4a294a134ba9a6bd0a1e3b6a80c1",
+      "end_utc": "2026-10-17T12:43:07.998896+00:00",
+      "end_offset_seconds": 117.044448166,
+      "duration_seconds": 12.678071915999993,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "8b3a9deea3a1454cbeac841324e5f8bf",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T12:42:55.323919+00:00",
+      "start_offset_seconds": 104.369510875,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "30b206b3c7e443ea9fa99f6da26ac6d6",
+      "end_utc": "2026-10-17T12:42:55.324489+00:00",
+      "end_offset_seconds": 104.37008091599999,
+      "duration_seconds": 0.0005700409999889189,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "ca88cf7581a545508e45bd5520943e75",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T12:42:56.752176+00:00",
+      "start_offset_seconds": 105.79777425,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "9daedf5082234555a3579a18a416b9d6",
+      "end_utc": "2026-10-17T12:42:58.168485+00:00",
+      "end_offset_seconds": 107.214070208,
+      "duration_seconds": 1.416295957999992,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "f7c2b557e7f44ec380356e47ec88571e",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T12:43:03.094927+00:00",
+      "start_offset_seconds": 112.140518,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-e5c83095c0784aff",
+        "model": "black-forest-labs[path]",
+        "attempt": 2
+      },
+      "parent_span_id": "9daedf5082234555a3579a18a416b9d6",
+      "end_utc": "2026-10-17T12:43:20.573603+00:00",
+      "end_offset_seconds": 129.619101916,
+      "duration_seconds": 17.478583916000005,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "cda0a173e0a1477b9e2694ef866b6d6a",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T12:43:03.103304+00:00",
+      "start_offset_seconds": 112.1488675,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "f7c2b557e7f44ec380356e47ec88571e",
+      "end_utc": "2026-10-17T12:43:04.259120+00:00",
+      "end_offset_seconds": 113.304697041,
+      "duration_seconds": 1.1558295410000028,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "ab2a91b7d7f946119cde754284c385ed",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T12:43:08.001437+00:00",
+      "start_offset_seconds": 117.046983375,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "2bea4a294a134ba9a6bd0a1e3b6a80c1",
+      "end_utc": "2026-10-17T12:43:09.662342+00:00",
+      "end_offset_seconds": 118.707875083,
+      "duration_seconds": 1.6608917080000083,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "60fb3cd05f7d4d1fb4cb46630421136b",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T12:43:11.037369+00:00",
+      "start_offset_seconds": 120.082907791,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-28854a24db7379cf",
+        "model": "black-forest-labs[path]",
+        "attempt": 2
+      },
+      "parent_span_id": "e0372d369830484ebc8b630e8e82ff82",
+      "end_utc": "2026-10-17T12:43:42.684008+00:00",
+      "end_offset_seconds": 151.72939316600002,
+      "duration_seconds": 31.646485375000026,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "19c651ff6fa542ec8f1245d6922649d3",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T12:43:11.048539+00:00",
+      "start_offset_seconds": 120.09407583299999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "60fb3cd05f7d4d1fb4cb46630421136b",
+      "end_utc": "2026-10-17T12:43:15.616699+00:00",
+      "end_offset_seconds": 124.662210458,
+      "duration_seconds": 4.568134625000013,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "ed9b3d7864854e74bcbac19f452dc264",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T12:43:16.730798+00:00",
+      "start_offset_seconds": 125.776312125,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-376190e4a649a557",
+        "model": "black-forest-labs[path]",
+        "attempt": 2
+      },
+      "parent_span_id": "2bea4a294a134ba9a6bd0a1e3b6a80c1",
+      "end_utc": "2026-10-17T12:43:32.527637+00:00",
+      "end_offset_seconds": 141.5730765,
+      "duration_seconds": 15.79676437500001,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "449a1bbddb664450a895423e678be737",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T12:43:16.740984+00:00",
+      "start_offset_seconds": 125.78649324999999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "ed9b3d7864854e74bcbac19f452dc264",
+      "end_utc": "2026-10-17T12:43:26.301907+00:00",
+      "end_offset_seconds": 135.34736783300002,
+      "duration_seconds": 9.560874583000029,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "51415ab823df45b6bc178b7fccbd7807",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T12:43:20.576130+00:00",
+      "start_offset_seconds": 129.62161350000002,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "9daedf5082234555a3579a18a416b9d6",
+      "end_utc": "2026-10-17T12:43:22.143702+00:00",
+      "end_offset_seconds": 131.18917745800002,
+      "duration_seconds": 1.5675639579999938,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "5c957101022d4bb19b7c1e2d10b92fe6",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T12:43:27.847314+00:00",
+      "start_offset_seconds": 136.89278208300001,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-e5c83095c0784aff",
+        "model": "black-forest-labs[path]",
+        "attempt": 3
+      },
+      "parent_span_id": "9daedf5082234555a3579a18a416b9d6",
+      "end_utc": "2026-10-17T12:43:53.963234+00:00",
+      "end_offset_seconds": 163.00857695800002,
+      "duration_seconds": 26.115794875000006,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "23a4e7f22af84d5c8410079418fd0888",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T12:43:27.856253+00:00",
+      "start_offset_seconds": 136.901716416,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "5c957101022d4bb19b7c1e2d10b92fe6",
+      "end_utc": "2026-10-17T12:43:50.435581+00:00",
+      "end_offset_seconds": 159.480933541,
+      "duration_seconds": 22.579217125000014,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "d1f81bda4ca5487595241f4fa77314bc",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T12:43:32.530024+00:00",
+      "start_offset_seconds": 141.57545337500002,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "2bea4a294a134ba9a6bd0a1e3b6a80c1",
+      "end_utc": "2026-10-17T12:43:34.228115+00:00",
+      "end_offset_seconds": 143.27353150000002,
+      "duration_seconds": 1.698078124999995,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "eb97d01127664e4da48437f5798f866d",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T12:43:39.263744+00:00",
+      "start_offset_seconds": 148.309184458,
+      "status": "failed",
+      "metadata": {
+        "entity_id": "scene-376190e4a649a557",
+        "model": "black-forest-labs[path]",
+        "attempt": 3
+      },
+      "parent_span_id": "2bea4a294a134ba9a6bd0a1e3b6a80c1",
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T12:44:02.192032+00:00",
+      "end_offset_seconds": 171.237323166,
+      "duration_seconds": 22.928138708000006,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "fe130e2877bb423eb079066e82b5f340",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T12:43:39.272529+00:00",
+      "start_offset_seconds": 148.317930958,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "eb97d01127664e4da48437f5798f866d",
+      "end_utc": "2026-10-17T12:43:39.584283+00:00",
+      "end_offset_seconds": 148.62969750000002,
+      "duration_seconds": 0.3117665420000151,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "a686cf55632a4cea9e5d8191742e07ca",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T12:43:42.686502+00:00",
+      "start_offset_seconds": 151.73189175000002,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e0372d369830484ebc8b630e8e82ff82",
+      "end_utc": "2026-10-17T12:43:44.170031+00:00",
+      "end_offset_seconds": 153.21540212500003,
+      "duration_seconds": 1.4835103750000087,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "de379ff9c23a45b59a3aed6ce15c01f9",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T12:43:49.639839+00:00",
+      "start_offset_seconds": 158.68521379100002,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-28854a24db7379cf",
+        "model": "black-forest-labs[path]",
+        "attempt": 3
+      },
+      "parent_span_id": "e0372d369830484ebc8b630e8e82ff82",
+      "end_utc": "2026-10-17T12:44:04.751582+00:00",
+      "end_offset_seconds": 173.79686025,
+      "duration_seconds": 15.111646458999985,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e9871b85d20e47529e7b2da39b05a55f",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T12:43:49.648933+00:00",
+      "start_offset_seconds": 158.69428662500002,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "de379ff9c23a45b59a3aed6ce15c01f9",
+      "end_utc": "2026-10-17T12:44:01.146628+00:00",
+      "end_offset_seconds": 170.191929458,
+      "duration_seconds": 11.497642832999986,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "be760492bb9242d18ab1ccfd986db648",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T12:43:53.965751+00:00",
+      "start_offset_seconds": 163.01108266600002,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "9daedf5082234555a3579a18a416b9d6",
+      "end_utc": "2026-10-17T12:43:55.429984+00:00",
+      "end_offset_seconds": 164.475303375,
+      "duration_seconds": 1.4642207089999886,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "b10471291e2f4175a5c958bcc8e91b1c",
+      "name": "image_task",
+      "start_utc": "2026-10-17T12:44:02.252589+00:00",
+      "start_offset_seconds": 171.29787108300002,
+      "status": "failed",
+      "metadata": {
+        "entity_id": "scene-065399783b4e2d3f",
+        "queue_wait_seconds": 91.240311
+      },
+      "parent_span_id": "fef96562309b44aa980b0ae3106d9221",
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T12:44:25.403270+00:00",
+      "end_offset_seconds": 194.447626375,
+      "duration_seconds": 23.14975529199998,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "0ea4ce6893d84f47ab9cc7f38a50ec96",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T12:44:02.253231+00:00",
+      "start_offset_seconds": 171.29851383300002,
+      "status": "failed",
+      "metadata": {
+        "asset_key": "88bd6ec8e8c13af6"
+      },
+      "parent_span_id": "b10471291e2f4175a5c958bcc8e91b1c",
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T12:44:25.401189+00:00",
+      "end_offset_seconds": 194.445546416,
+      "duration_seconds": 23.147032582999998,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "b02867a2ae5444578c39fb379bdf25a0",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T12:44:02.446745+00:00",
+      "start_offset_seconds": 171.49203791600002,
+      "status": "failed",
+      "metadata": {
+        "entity_id": "scene-065399783b4e2d3f",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "0ea4ce6893d84f47ab9cc7f38a50ec96",
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T12:44:25.398918+00:00",
+      "end_offset_seconds": 194.443278666,
+      "duration_seconds": 22.951240749999982,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "0b4832840874467e8fbf4cee63cd6d70",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T12:44:02.460589+00:00",
+      "start_offset_seconds": 171.505877875,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "b02867a2ae5444578c39fb379bdf25a0",
+      "end_utc": "2026-10-17T12:44:23.981066+00:00",
+      "end_offset_seconds": 193.02546650000002,
+      "duration_seconds": 21.51958862500001,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "d413e31d333849319a3478c787cead46",
+      "name": "image_task",
+      "start_utc": "2026-10-17T12:44:04.429210+00:00",
+      "start_offset_seconds": 173.474481875,
+      "status": "failed",
+      "metadata": {
+        "entity_id": "scene-08b712e67e3ce1a0",
+        "queue_wait_seconds": 93.416905
+      },
+      "parent_span_id": "fef96562309b44aa980b0ae3106d9221",
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T12:44:29.385928+00:00",
+      "end_offset_seconds": 198.43020216600002,
+      "duration_seconds": 24.955720291000006,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "df3ff3fe264f4f2889da5021dc367d1b",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T12:44:04.429759+00:00",
+      "start_offset_seconds": 173.475031,
+      "status": "failed",
+      "metadata": {
+        "asset_key": "1c4f647dd807b5f6"
+      },
+      "parent_span_id": "d413e31d333849319a3478c787cead46",
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T12:44:29.383174+00:00",
+      "end_offset_seconds": 198.42744870800001,
+      "duration_seconds": 24.952417708000013,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "1e21a88d4ad7484ba3ca44a40b5f50d9",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T12:44:04.614554+00:00",
+      "start_offset_seconds": 173.659829,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-08b712e67e3ce1a0",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "df3ff3fe264f4f2889da5021dc367d1b",
+      "end_utc": "2026-10-17T12:44:16.895993+00:00",
+      "end_offset_seconds": 185.94064054100002,
+      "duration_seconds": 12.28081154100002,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "61f6984c9d0e439288c15f55013a6df4",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T12:44:04.617636+00:00",
+      "start_offset_seconds": 173.66290925,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "1e21a88d4ad7484ba3ca44a40b5f50d9",
+      "end_utc": "2026-10-17T12:44:06.147483+00:00",
+      "end_offset_seconds": 175.192732666,
+      "duration_seconds": 1.5298234159999993,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "1bfe818b54a34245826fb93533d90501",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T12:44:04.753035+00:00",
+      "start_offset_seconds": 173.798309291,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e0372d369830484ebc8b630e8e82ff82",
+      "end_utc": "2026-10-17T12:44:06.288636+00:00",
+      "end_offset_seconds": 175.333873708,
+      "duration_seconds": 1.5355644169999891,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "b17b57f290db4f309f7e4e1bfb8f15b9",
+      "name": "image_task",
+      "start_utc": "2026-10-17T12:44:11.883010+00:00",
+      "start_offset_seconds": 180.92787783300003,
+      "status": "failed",
+      "metadata": {
+        "entity_id": "scene-df162c1433d99a41",
+        "queue_wait_seconds": 100.870282
+      },
+      "parent_span_id": "fef96562309b44aa980b0ae3106d9221",
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T12:44:25.356437+00:00",
+      "end_offset_seconds": 194.400797041,
+      "duration_seconds": 13.472919207999979,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "fd2e1774e0d44bb39a0c1e69251368c6",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T12:44:11.883614+00:00",
+      "start_offset_seconds": 180.92848120800002,
+      "status": "failed",
+      "metadata": {
+        "asset_key": "ffdcfc0356bf4bc2"
+      },
+      "parent_span_id": "b17b57f290db4f309f7e4e1bfb8f15b9",
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T12:44:25.354170+00:00",
+      "end_offset_seconds": 194.39853391600002,
+      "duration_seconds": 13.470052707999997,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "75f7472b7d8b49adb4ae674ccafb2059",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T12:44:12.069799+00:00",
+      "start_offset_seconds": 181.11466262500002,
+      "status": "failed",
+      "metadata": {
+        "entity_id": "scene-df162c1433d99a41",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "fd2e1774e0d44bb39a0c1e69251368c6",
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T12:44:25.351421+00:00",
+      "end_offset_seconds": 194.395791833,
+      "duration_seconds": 13.281129207999982,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "b569c1860ee1464890a74b8bf36cc0f5",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T12:44:12.073617+00:00",
+      "start_offset_seconds": 181.118476125,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "75f7472b7d8b49adb4ae674ccafb2059",
+      "end_utc": "2026-10-17T12:44:12.823219+00:00",
+      "end_offset_seconds": 181.86806679100002,
+      "duration_seconds": 0.7495906660000173,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "ec0b0734c9ba47b585f1313731143426",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T12:44:16.898765+00:00",
+      "start_offset_seconds": 185.94340687500002,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "df3ff3fe264f4f2889da5021dc367d1b",
+      "end_utc": "2026-10-17T12:44:18.284426+00:00",
+      "end_offset_seconds": 187.329004625,
+      "duration_seconds": 1.385597749999988,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "d0e55a21335f4bea8d03c57509b77f55",
+      "name": "image_task",
+      "start_utc": "2026-10-17T12:44:25.358692+00:00",
+      "start_offset_seconds": 194.403049208,
+      "status": "failed",
+      "metadata": {
+        "entity_id": "scene-e6371dc33cb94586",
+        "queue_wait_seconds": 114.345415
+      },
+      "parent_span_id": "fef96562309b44aa980b0ae3106d9221",
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T12:44:25.364057+00:00",
+      "end_offset_seconds": 194.40841020800002,
+      "duration_seconds": 0.0053610000000219316,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "fe60456154f3473d84b45db7ac3e22db",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T12:44:25.360697+00:00",
+      "start_offset_seconds": 194.405050458,
+      "status": "failed",
+      "metadata": {
+        "asset_key": "33131e779ce44bef"
+      },
+      "parent_span_id": "d0e55a21335f4bea8d03c57509b77f55",
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T12:44:25.362398+00:00",
+      "end_offset_seconds": 194.40674983300002,
+      "duration_seconds": 0.0016993750000153796,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "649402beb49f4632a45205cede1570f8",
+      "name": "image_task",
+      "start_utc": "2026-10-17T12:44:25.365965+00:00",
+      "start_offset_seconds": 194.410319041,
+      "status": "failed",
+      "metadata": {
+        "entity_id": "scene-d8a8a4a25d167041",
+        "queue_wait_seconds": 114.352721
+      },
+      "parent_span_id": "fef96562309b44aa980b0ae3106d9221",
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T12:44:25.369258+00:00",
+      "end_offset_seconds": 194.41360741600002,
+      "duration_seconds": 0.0032883750000110012,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "52ce5420d9f04b9691da7479a694bba1",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T12:44:25.367641+00:00",
+      "start_offset_seconds": 194.411993166,
+      "status": "failed",
+      "metadata": {
+        "asset_key": "6c7ad8ab99a75007"
+      },
+      "parent_span_id": "649402beb49f4632a45205cede1570f8",
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T12:44:25.368464+00:00",
+      "end_offset_seconds": 194.41281375,
+      "duration_seconds": 0.0008205839999959608,
+      "trace_file": "job_trace.json"
+    }
+  ],
+  "limitations": [
+    "Browser timings unavailable unless submitted by the client.",
+    "Cold-start/cache comparison requires separate controlled runs; process peak RSS includes earlier jobs.",
+    "Overlapping durations must not be summed. Span nesting expresses dependencies, not a proven critical-path DAG.",
+    "Report serialization and report upload occur after the measured worker interval."
+  ]
+}

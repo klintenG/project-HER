@@ -88,7 +88,8 @@ def synthesize(script,output,provider,voice=None,speed='+0%',engine=None,pause=.
             if diagnostic_sink is not None:
                 diagnostic_sink.update(requestedProvider=provider,resolvedProvider=candidate,requestedVoice=voice,
                     resolvedVoice=getattr(current,'voice_name',getattr(current,'voice_id',getattr(current,'voice',None))),
-                    requestedSpeed=speed,resolvedSpeed=getattr(current,'rate',getattr(current,'speed',None)))
+                    requestedSpeed=speed,resolvedSpeed=getattr(current,'rate',getattr(current,'speed',None)),
+                    sentenceTelemetry=sorted(getattr(current,'sentence_telemetry',[]),key=lambda r:r.get('sentence_index',0)))
             logger.info('News narration complete | provider=%s | duration=%.2fs | alignment=%s | fallbacks=%d',candidate,result.duration,result.method,len(failures))
             return result
         except Exception as exc:

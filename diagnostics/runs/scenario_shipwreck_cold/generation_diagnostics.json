@@ -1,0 +1,1017 @@
+{
+  "schema_version": "generation-diagnostics-v2",
+  "job_id": "scenario_shipwreck_cold",
+  "outcome": "completed",
+  "start_utc": "2026-10-17T10:09:53.901922+00:00",
+  "finish_utc": "2026-10-17T10:09:54.087079+00:00",
+  "total_elapsed_seconds": 0.185157,
+  "measured_wall_seconds": 0.185157,
+  "unattributed_wall_seconds": 0.0,
+  "peak_image_provider_concurrency": 1,
+  "runtime": [
+    {
+      "host_cpu_count": 10
+    }
+  ],
+  "infrastructure": {
+    "environment": "local",
+    "python_version": "3.9.6",
+    "service": "local_process",
+    "revision": "local",
+    "commit": "working_tree",
+    "region": "unspecified",
+    "configured_action_workers": 2,
+    "configured_remotion_concurrency": "default",
+    "process_peak_rss_native_units": 150929408,
+    "trace_runtimes": [
+      {
+        "host_cpu_count": 10
+      }
+    ]
+  },
+  "process_peak_rss_native_units": 150929408,
+  "revision": null,
+  "commit": null,
+  "video_mode": "reference_editorial",
+  "actual_video_seconds": 13.833,
+  "resolution": [
+    1080,
+    1920
+  ],
+  "fps": 30,
+  "output_size_bytes": null,
+  "visual_metrics": {
+    "sentences": 5,
+    "storyboard_visual_beats": 5,
+    "planned_primaries": 5,
+    "generated_assets": 7,
+    "distinct_primaries": 5,
+    "reused_secondary_assets": 1,
+    "rendered_primaries": 5,
+    "sentences_without_distinct_primary": 0,
+    "images_rejected_for_duplication": 0,
+    "image_generation_failures": 0,
+    "fallback_attempts": 0,
+    "scene_relevance_failures": 0,
+    "invariant_distinct_ge_sentences": true,
+    "acceptance_passed": true
+  },
+  "scene_report": [
+    {
+      "sentence_number": 1,
+      "sentence_id": "s0",
+      "visual_focus": "Beat 0: An iron steamship sailed into a freezing Atlantic gale.",
+      "primary_entity_id": "scene-d284d66bb66eeea1",
+      "primary_asset_id": "asset-scene-d284d66bb66eeea1",
+      "primary_asset_origin": "replicate:flux-kontext-pro",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "3f1307274548230f",
+      "reused_character_ids": [
+        "steamship"
+      ],
+      "secondary_entity_ids": [
+        "lifeboat"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 0.0,
+      "end_time": 2.88,
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 2,
+      "sentence_id": "s1",
+      "visual_focus": "Beat 1: A boiler fire broke out below the main deck.",
+      "primary_entity_id": "scene-462408efb2f77d65",
+      "primary_asset_id": "asset-scene-462408efb2f77d65",
+      "primary_asset_origin": "replicate:flux-kontext-pro",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "23454845231e1c1c",
+      "reused_character_ids": [
+        "steamship"
+      ],
+      "secondary_entity_ids": [
+        "lifeboat"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 2.88,
+      "end_time": 5.76,
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 3,
+      "sentence_id": "s2",
+      "visual_focus": "Beat 2: Towering waves smashed the wooden lifeboats.",
+      "primary_entity_id": "scene-4d83df10216760e4",
+      "primary_asset_id": "asset-scene-4d83df10216760e4",
+      "primary_asset_origin": "replicate:flux-kontext-pro",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "0c0c0e06170f0d7f",
+      "reused_character_ids": [
+        "steamship"
+      ],
+      "secondary_entity_ids": [
+        "lifeboat"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 5.76,
+      "end_time": 7.68,
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 4,
+      "sentence_id": "s3",
+      "visual_focus": "Beat 3: The crew rescued a stranded lookout from the mast.",
+      "primary_entity_id": "scene-5e61b46d9b2ae883",
+      "primary_asset_id": "asset-scene-5e61b46d9b2ae883",
+      "primary_asset_origin": "replicate:flux-kontext-pro",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "7359593939390703",
+      "reused_character_ids": [
+        "steamship"
+      ],
+      "secondary_entity_ids": [
+        "lifeboat"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 7.68,
+      "end_time": 10.56,
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 5,
+      "sentence_id": "s4",
+      "visual_focus": "Beat 4: The broken hull sank beneath the dark swells.",
+      "primary_entity_id": "scene-47313a57d9f5be93",
+      "primary_asset_id": "asset-scene-47313a57d9f5be93",
+      "primary_asset_origin": "replicate:flux-kontext-pro",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "3f0307274548230f",
+      "reused_character_ids": [
+        "steamship"
+      ],
+      "secondary_entity_ids": [
+        "lifeboat"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 10.56,
+      "end_time": 13.12,
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "render_visibility": "passed"
+    }
+  ],
+  "stage_timings": {},
+  "concurrency_analysis": {
+    "total_image_tasks": 7,
+    "total_provider_wait_spans": 7,
+    "peak_image_provider_concurrency": 1,
+    "average_active_image_concurrency": 1.0,
+    "configured_action_workers": 2,
+    "tts_visual_overlap_seconds": 0.0,
+    "speech_wall_seconds": null,
+    "cutouts_wall_seconds": null,
+    "serial_gap_seconds": 0.0,
+    "admission_wait_seconds": 0.0,
+    "rate_limit_responses": 0,
+    "rate_limit_backoff_seconds": 0,
+    "background_removal_total_seconds": 0.0047
+  },
+  "critical_path": [
+    {
+      "stage": "total_generation",
+      "duration_seconds": 0.1852,
+      "effective_advance_seconds": 0.1852,
+      "status": "succeeded"
+    }
+  ],
+  "bottleneck_ranking": [
+    {
+      "operation": "new_action_asset_generation",
+      "duration_seconds": 0.0206,
+      "percent_of_wall_time": 11.1,
+      "cause_category": "provider",
+      "evidence": "5 span(s), max=0.021s, accumulated=0.098s",
+      "optimization_opportunity": "Bounded parallel scene generation with adaptive Replicate admission pacing",
+      "confidence": "high"
+    },
+    {
+      "operation": "image_provider_wait (accumulated)",
+      "duration_seconds": 0.0163,
+      "percent_of_wall_time": 8.8,
+      "cause_category": "provider",
+      "evidence": "7 provider call(s), peak_concurrency=1, admission_wait=0.00s",
+      "optimization_opportunity": "Overlap independent scene-primary predictions across worker threads while respecting rate limits",
+      "confidence": "high"
+    },
+    {
+      "operation": "entity_identity_asset_generation",
+      "duration_seconds": 0.0141,
+      "percent_of_wall_time": 7.6,
+      "cause_category": "provider",
+      "evidence": "2 span(s), max=0.008s, accumulated=0.014s",
+      "optimization_opportunity": "Cache recurring character identity boards across retries",
+      "confidence": "high"
+    },
+    {
+      "operation": "background_removal_and_alpha",
+      "duration_seconds": 0.0047,
+      "percent_of_wall_time": 2.5,
+      "cause_category": "compute",
+      "evidence": "7 span(s), max=0.001s, accumulated=0.005s",
+      "optimization_opportunity": "Reuse warm ONNX rembg session and run cutout trimming as each image completes",
+      "confidence": "high"
+    },
+    {
+      "operation": "semantic_beat_planning",
+      "duration_seconds": 0.0009,
+      "percent_of_wall_time": 0.5,
+      "cause_category": "provider",
+      "evidence": "1 span(s), max=0.001s, accumulated=0.001s",
+      "optimization_opportunity": "Single-pass structured storyboard generation with strict schema validation",
+      "confidence": "high"
+    }
+  ],
+  "rendering": {
+    "renderer": "remotion",
+    "frames": 415,
+    "fps": 30,
+    "resolution": [
+      1080,
+      1920
+    ],
+    "remotion_render_seconds": null,
+    "ffmpeg_encode_seconds": null,
+    "audio_delivery_seconds": null,
+    "total_render_and_qa_seconds": null,
+    "video_encode_passes": null,
+    "average_fps_throughput": null,
+    "output_size_bytes": null
+  },
+  "images": [
+    {
+      "task_index": 1,
+      "entityId": "steamship",
+      "assetId": "asset-steamship",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "visual_concept": "Iron Steamship",
+      "provider": "replicate:flux-1.1-pro",
+      "request_start_utc": "2026-10-17T10:09:53.961865+00:00",
+      "request_end_utc": "2026-10-17T10:09:53.963793+00:00",
+      "queue_wait_seconds": 0.0,
+      "api_duration_seconds": 0.0019,
+      "processing_and_review_seconds": 0.0031,
+      "durationSeconds": 0.005,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "supporting_illustration",
+      "identityReferences": [],
+      "dimensions": [
+        291,
+        261
+      ],
+      "bytes": 1428,
+      "displayed_in_render": false,
+      "origin": "generated"
+    },
+    {
+      "task_index": 2,
+      "entityId": "lifeboat",
+      "assetId": "asset-lifeboat",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "visual_concept": "Wooden Lifeboat",
+      "provider": "replicate:flux-1.1-pro",
+      "request_start_utc": "2026-10-17T10:09:53.968977+00:00",
+      "request_end_utc": "2026-10-17T10:09:53.972000+00:00",
+      "queue_wait_seconds": 0.0,
+      "api_duration_seconds": 0.003,
+      "processing_and_review_seconds": 0.004,
+      "durationSeconds": 0.007,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "supporting_illustration",
+      "identityReferences": [],
+      "dimensions": [
+        301,
+        301
+      ],
+      "bytes": 2495,
+      "displayed_in_render": true,
+      "origin": "generated"
+    },
+    {
+      "task_index": 3,
+      "entityId": "scene-d284d66bb66eeea1",
+      "assetId": "asset-scene-d284d66bb66eeea1",
+      "sentence_id": "s0",
+      "role": "primary",
+      "visual_concept": "Beat 0: An iron steamship sailed into a freezing Atlantic gale.",
+      "provider": "replicate:flux-kontext-pro",
+      "request_start_utc": "2026-10-17T10:09:53.982570+00:00",
+      "request_end_utc": "2026-10-17T10:09:53.984866+00:00",
+      "queue_wait_seconds": 0.0001,
+      "api_duration_seconds": 0.0023,
+      "processing_and_review_seconds": 0.0157,
+      "durationSeconds": 0.018,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "steamship"
+      ],
+      "dimensions": [
+        301,
+        291
+      ],
+      "bytes": 2688,
+      "displayed_in_render": true,
+      "origin": "generated"
+    },
+    {
+      "task_index": 4,
+      "entityId": "scene-462408efb2f77d65",
+      "assetId": "asset-scene-462408efb2f77d65",
+      "sentence_id": "s1",
+      "role": "primary",
+      "visual_concept": "Beat 1: A boiler fire broke out below the main deck.",
+      "provider": "replicate:flux-kontext-pro",
+      "request_start_utc": "2026-10-17T10:09:53.989243+00:00",
+      "request_end_utc": "2026-10-17T10:09:53.991492+00:00",
+      "queue_wait_seconds": 0.0084,
+      "api_duration_seconds": 0.0022,
+      "processing_and_review_seconds": 0.0158,
+      "durationSeconds": 0.018,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "steamship"
+      ],
+      "dimensions": [
+        291,
+        281
+      ],
+      "bytes": 1699,
+      "displayed_in_render": true,
+      "origin": "generated"
+    },
+    {
+      "task_index": 5,
+      "entityId": "scene-4d83df10216760e4",
+      "assetId": "asset-scene-4d83df10216760e4",
+      "sentence_id": "s2",
+      "role": "primary",
+      "visual_concept": "Beat 2: Towering waves smashed the wooden lifeboats.",
+      "provider": "replicate:flux-kontext-pro",
+      "request_start_utc": "2026-10-17T10:09:54.003954+00:00",
+      "request_end_utc": "2026-10-17T10:09:54.006361+00:00",
+      "queue_wait_seconds": 0.0226,
+      "api_duration_seconds": 0.0024,
+      "processing_and_review_seconds": 0.0166,
+      "durationSeconds": 0.019,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "steamship"
+      ],
+      "dimensions": [
+        301,
+        301
+      ],
+      "bytes": 2583,
+      "displayed_in_render": true,
+      "origin": "generated"
+    },
+    {
+      "task_index": 6,
+      "entityId": "scene-5e61b46d9b2ae883",
+      "assetId": "asset-scene-5e61b46d9b2ae883",
+      "sentence_id": "s3",
+      "role": "primary",
+      "visual_concept": "Beat 3: The crew rescued a stranded lookout from the mast.",
+      "provider": "replicate:flux-kontext-pro",
+      "request_start_utc": "2026-10-17T10:09:54.009206+00:00",
+      "request_end_utc": "2026-10-17T10:09:54.011409+00:00",
+      "queue_wait_seconds": 0.0286,
+      "api_duration_seconds": 0.0022,
+      "processing_and_review_seconds": 0.0168,
+      "durationSeconds": 0.019,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "steamship"
+      ],
+      "dimensions": [
+        291,
+        261
+      ],
+      "bytes": 1424,
+      "displayed_in_render": true,
+      "origin": "generated"
+    },
+    {
+      "task_index": 7,
+      "entityId": "scene-47313a57d9f5be93",
+      "assetId": "asset-scene-47313a57d9f5be93",
+      "sentence_id": "s4",
+      "role": "primary",
+      "visual_concept": "Beat 4: The broken hull sank beneath the dark swells.",
+      "provider": "replicate:flux-kontext-pro",
+      "request_start_utc": "2026-10-17T10:09:54.025475+00:00",
+      "request_end_utc": "2026-10-17T10:09:54.027672+00:00",
+      "queue_wait_seconds": 0.0435,
+      "api_duration_seconds": 0.0022,
+      "processing_and_review_seconds": 0.0158,
+      "durationSeconds": 0.018,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "steamship"
+      ],
+      "dimensions": [
+        301,
+        291
+      ],
+      "bytes": 2683,
+      "displayed_in_render": true,
+      "origin": "generated"
+    }
+  ],
+  "provider_metrics": {},
+  "errors_and_retries": [],
+  "recommended_next_investigation": [
+    "Remotion output is currently re-encoded by FFmpeg for BT.601->BT.709 color conversion (2 encode passes). Validate HER_EDITORIAL_DIRECT_BT709=1 on target runtime to use -c:v copy."
+  ],
+  "spans": [
+    {
+      "id": "8063c7d5c9e742bea3ade498bda7cf6a",
+      "name": "total_generation",
+      "start_utc": "2026-10-17T10:09:53.901922+00:00",
+      "start_offset_seconds": 0.00025399999999997647,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": null,
+      "end_utc": "2026-10-17T10:09:54.087079+00:00",
+      "end_offset_seconds": 0.1854079169999998,
+      "duration_seconds": 0.18515391699999983,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "85077c136a7c4516ac64a469c9321ba2",
+      "name": "input_validation_and_normalization",
+      "start_utc": "2026-10-17T10:09:53.902128+00:00",
+      "start_offset_seconds": 0.00045824999999988236,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "8063c7d5c9e742bea3ade498bda7cf6a",
+      "end_utc": "2026-10-17T10:09:53.902420+00:00",
+      "end_offset_seconds": 0.0007496670000000094,
+      "duration_seconds": 0.00029141700000012705,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "420c1c6d9c0f4473b3d889adcd6c3355",
+      "name": "source_retrieval_and_fact_extraction",
+      "start_utc": "2026-10-17T10:09:53.902632+00:00",
+      "start_offset_seconds": 0.0009619169999999233,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "8063c7d5c9e742bea3ade498bda7cf6a",
+      "end_utc": "2026-10-17T10:09:53.909121+00:00",
+      "end_offset_seconds": 0.007456791999999934,
+      "duration_seconds": 0.006494875000000011,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "aec8f7ccffa744e5a80ac5f6bea8ba5e",
+      "name": "script_generation_and_verification",
+      "start_utc": "2026-10-17T10:09:53.909385+00:00",
+      "start_offset_seconds": 0.007714957999999994,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "8063c7d5c9e742bea3ade498bda7cf6a",
+      "end_utc": "2026-10-17T10:09:53.915821+00:00",
+      "end_offset_seconds": 0.014151792000000052,
+      "duration_seconds": 0.006436834000000058,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "ba037baadd0c4863a17dfc835e541bfa",
+      "name": "parallel_media_stage",
+      "start_utc": "2026-10-17T10:09:53.916038+00:00",
+      "start_offset_seconds": 0.014367500000000089,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "8063c7d5c9e742bea3ade498bda7cf6a",
+      "end_utc": "2026-10-17T10:09:54.036373+00:00",
+      "end_offset_seconds": 0.13470208300000008,
+      "duration_seconds": 0.120334583,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "3b708ebfdc114cbdbc64c2473aa74775",
+      "name": "tts_generation_and_alignment",
+      "start_utc": "2026-10-17T10:09:53.916222+00:00",
+      "start_offset_seconds": 0.014551124999999887,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "ba037baadd0c4863a17dfc835e541bfa",
+      "end_utc": "2026-10-17T10:09:53.959611+00:00",
+      "end_offset_seconds": 0.05794933300000005,
+      "duration_seconds": 0.04339820800000016,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "7a46436dba044e08bec2757cd35abce2",
+      "name": "semantic_beat_planning",
+      "start_utc": "2026-10-17T10:09:53.959965+00:00",
+      "start_offset_seconds": 0.058294124999999974,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "ba037baadd0c4863a17dfc835e541bfa",
+      "end_utc": "2026-10-17T10:09:53.960900+00:00",
+      "end_offset_seconds": 0.05922954199999997,
+      "duration_seconds": 0.000935416999999994,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "8d3fde2b6cb34d27817df310d36ba0c6",
+      "name": "cutout_acquisition_and_matting",
+      "start_utc": "2026-10-17T10:09:53.961114+00:00",
+      "start_offset_seconds": 0.05944329200000009,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "ba037baadd0c4863a17dfc835e541bfa",
+      "end_utc": "2026-10-17T10:09:54.035878+00:00",
+      "end_offset_seconds": 0.13420970799999998,
+      "duration_seconds": 0.07476641599999989,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "5502e00180b945639fad52e19f14d442",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.961458+00:00",
+      "start_offset_seconds": 0.05978779200000006,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "00320825242cecf2"
+      },
+      "parent_span_id": "8d3fde2b6cb34d27817df310d36ba0c6",
+      "end_utc": "2026-10-17T10:09:53.967388+00:00",
+      "end_offset_seconds": 0.06571995800000008,
+      "duration_seconds": 0.0059321660000000165,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "9c87f241451d49a68885ee932ac320d9",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T10:09:53.961865+00:00",
+      "start_offset_seconds": 0.06019387499999995,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "steamship",
+        "model": "black-forest-labs/flux-schnell",
+        "attempt": 1
+      },
+      "parent_span_id": "5502e00180b945639fad52e19f14d442",
+      "end_utc": "2026-10-17T10:09:53.963793+00:00",
+      "end_offset_seconds": 0.06212212499999992,
+      "duration_seconds": 0.0019282499999999647,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "593e861a0f0f4c448ebb0a9fe350b49f",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.964097+00:00",
+      "start_offset_seconds": 0.0624267919999999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "5502e00180b945639fad52e19f14d442",
+      "end_utc": "2026-10-17T10:09:53.964601+00:00",
+      "end_offset_seconds": 0.06293029199999989,
+      "duration_seconds": 0.0005034999999999901,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "876fd77ddb8849adb97bbdde095b84d0",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.967856+00:00",
+      "start_offset_seconds": 0.06618737499999994,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "55b2784500c84f2a"
+      },
+      "parent_span_id": "8063c7d5c9e742bea3ade498bda7cf6a",
+      "end_utc": "2026-10-17T10:09:53.975990+00:00",
+      "end_offset_seconds": 0.07431929199999998,
+      "duration_seconds": 0.008131917000000044,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "7eb807e1811c42b281b5ec1be9121e14",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.967921+00:00",
+      "start_offset_seconds": 0.0662506249999999,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-d284d66bb66eeea1",
+        "queue_wait_seconds": 5.5e-05
+      },
+      "parent_span_id": "8063c7d5c9e742bea3ade498bda7cf6a",
+      "end_utc": "2026-10-17T10:09:53.990161+00:00",
+      "end_offset_seconds": 0.08849149999999995,
+      "duration_seconds": 0.02224087500000005,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "996e33529e78462a8296e8c19d3f8c12",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T10:09:53.968977+00:00",
+      "start_offset_seconds": 0.06730745799999993,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "lifeboat",
+        "model": "black-forest-labs/flux-schnell",
+        "attempt": 1
+      },
+      "parent_span_id": "876fd77ddb8849adb97bbdde095b84d0",
+      "end_utc": "2026-10-17T10:09:53.972000+00:00",
+      "end_offset_seconds": 0.0703298750000001,
+      "duration_seconds": 0.003022417000000166,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "18c8d3b264cc46b98d213d2310e76d8c",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.969028+00:00",
+      "start_offset_seconds": 0.06735762500000009,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "57832c228a0071d5"
+      },
+      "parent_span_id": "7eb807e1811c42b281b5ec1be9121e14",
+      "end_utc": "2026-10-17T10:09:53.989652+00:00",
+      "end_offset_seconds": 0.08798229199999996,
+      "duration_seconds": 0.020624666999999874,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "94d176bf6774473a960ba2df0ce392eb",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.972550+00:00",
+      "start_offset_seconds": 0.07087949999999998,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "876fd77ddb8849adb97bbdde095b84d0",
+      "end_utc": "2026-10-17T10:09:53.973032+00:00",
+      "end_offset_seconds": 0.07136137499999995,
+      "duration_seconds": 0.00048187499999996497,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "80977c59429442919ff2bf2800434175",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.976315+00:00",
+      "start_offset_seconds": 0.07464462499999991,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-462408efb2f77d65",
+        "queue_wait_seconds": 0.008413
+      },
+      "parent_span_id": "8063c7d5c9e742bea3ade498bda7cf6a",
+      "end_utc": "2026-10-17T10:09:53.996108+00:00",
+      "end_offset_seconds": 0.09443779199999991,
+      "duration_seconds": 0.019793167,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "8cd9f7ec3321428bb76dda6b7a50e148",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.976630+00:00",
+      "start_offset_seconds": 0.07495983300000009,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "65181cb4f9ec638f"
+      },
+      "parent_span_id": "80977c59429442919ff2bf2800434175",
+      "end_utc": "2026-10-17T10:09:53.995745+00:00",
+      "end_offset_seconds": 0.09407437499999993,
+      "duration_seconds": 0.019114541999999846,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "6db96e5086dd4e24b50f2b3cf3f01c87",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T10:09:53.982570+00:00",
+      "start_offset_seconds": 0.08090112500000002,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-d284d66bb66eeea1",
+        "model": "black-forest-labs/flux-kontext-pro",
+        "attempt": 1
+      },
+      "parent_span_id": "18c8d3b264cc46b98d213d2310e76d8c",
+      "end_utc": "2026-10-17T10:09:53.984866+00:00",
+      "end_offset_seconds": 0.08319870800000007,
+      "duration_seconds": 0.0022975830000000474,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "a302026044524b01a9e7da29ad456a9b",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.985497+00:00",
+      "start_offset_seconds": 0.08382695799999995,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "18c8d3b264cc46b98d213d2310e76d8c",
+      "end_utc": "2026-10-17T10:09:53.986061+00:00",
+      "end_offset_seconds": 0.0843909169999999,
+      "duration_seconds": 0.0005639589999999473,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e2f59a0e9509479b9f7d1cbf2054f7ba",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T10:09:53.989243+00:00",
+      "start_offset_seconds": 0.08757283300000007,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-462408efb2f77d65",
+        "model": "black-forest-labs/flux-kontext-pro",
+        "attempt": 1
+      },
+      "parent_span_id": "8cd9f7ec3321428bb76dda6b7a50e148",
+      "end_utc": "2026-10-17T10:09:53.991492+00:00",
+      "end_offset_seconds": 0.08982175000000003,
+      "duration_seconds": 0.0022489169999999614,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "edd925d9dc424ecca4fff1c4ced66887",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.990568+00:00",
+      "start_offset_seconds": 0.08889783300000009,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-4d83df10216760e4",
+        "queue_wait_seconds": 0.022646
+      },
+      "parent_span_id": "8063c7d5c9e742bea3ade498bda7cf6a",
+      "end_utc": "2026-10-17T10:09:54.010964+00:00",
+      "end_offset_seconds": 0.10929362500000006,
+      "duration_seconds": 0.020395791999999968,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "07b3f1d1955e4260a9be9d1638227bd3",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.990976+00:00",
+      "start_offset_seconds": 0.08930575000000007,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "b4b4449a482956b2"
+      },
+      "parent_span_id": "edd925d9dc424ecca4fff1c4ced66887",
+      "end_utc": "2026-10-17T10:09:54.010531+00:00",
+      "end_offset_seconds": 0.10886033299999998,
+      "duration_seconds": 0.019554582999999903,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "09444eec19cc485ab6d39f0015f62ddb",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.991969+00:00",
+      "start_offset_seconds": 0.09029858300000004,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "8cd9f7ec3321428bb76dda6b7a50e148",
+      "end_utc": "2026-10-17T10:09:53.992613+00:00",
+      "end_offset_seconds": 0.09094287500000009,
+      "duration_seconds": 0.0006442920000000463,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "31f73ac95e26420eb4553124616d9a38",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.996503+00:00",
+      "start_offset_seconds": 0.0948328329999999,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-5e61b46d9b2ae883",
+        "queue_wait_seconds": 0.028582
+      },
+      "parent_span_id": "8063c7d5c9e742bea3ade498bda7cf6a",
+      "end_utc": "2026-10-17T10:09:54.017205+00:00",
+      "end_offset_seconds": 0.11553454200000002,
+      "duration_seconds": 0.020701709000000124,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "4c4cd768220c4a3ab7e86a7bfc2812dc",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.996938+00:00",
+      "start_offset_seconds": 0.09526708299999997,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "d95a1ffafea4d214"
+      },
+      "parent_span_id": "31f73ac95e26420eb4553124616d9a38",
+      "end_utc": "2026-10-17T10:09:54.016698+00:00",
+      "end_offset_seconds": 0.11502879199999994,
+      "duration_seconds": 0.01976170899999996,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e24ed454971e458a9f808062b4551923",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T10:09:54.003954+00:00",
+      "start_offset_seconds": 0.10228658299999993,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-4d83df10216760e4",
+        "model": "black-forest-labs/flux-kontext-pro",
+        "attempt": 1
+      },
+      "parent_span_id": "07b3f1d1955e4260a9be9d1638227bd3",
+      "end_utc": "2026-10-17T10:09:54.006361+00:00",
+      "end_offset_seconds": 0.10469212499999991,
+      "duration_seconds": 0.0024055419999999827,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "b6f290091def45b9a88aa1541ee66501",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:54.006805+00:00",
+      "start_offset_seconds": 0.10513499999999998,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "07b3f1d1955e4260a9be9d1638227bd3",
+      "end_utc": "2026-10-17T10:09:54.007328+00:00",
+      "end_offset_seconds": 0.10565737500000005,
+      "duration_seconds": 0.0005223750000000749,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "080a814ed4974a7faba5a2f294b6339a",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T10:09:54.009206+00:00",
+      "start_offset_seconds": 0.10753662500000005,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-5e61b46d9b2ae883",
+        "model": "black-forest-labs/flux-kontext-pro",
+        "attempt": 1
+      },
+      "parent_span_id": "4c4cd768220c4a3ab7e86a7bfc2812dc",
+      "end_utc": "2026-10-17T10:09:54.011409+00:00",
+      "end_offset_seconds": 0.10973958300000008,
+      "duration_seconds": 0.0022029580000000326,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "c38743a5471648c8a9cb911c530bfb33",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:54.011438+00:00",
+      "start_offset_seconds": 0.10976945799999993,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-47313a57d9f5be93",
+        "queue_wait_seconds": 0.043494
+      },
+      "parent_span_id": "8063c7d5c9e742bea3ade498bda7cf6a",
+      "end_utc": "2026-10-17T10:09:54.032095+00:00",
+      "end_offset_seconds": 0.13042408300000008,
+      "duration_seconds": 0.02065462500000015,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e868975c75724ba79736f330a0c8e236",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:54.011910+00:00",
+      "start_offset_seconds": 0.11023983300000006,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "4c4cd768220c4a3ab7e86a7bfc2812dc",
+      "end_utc": "2026-10-17T10:09:54.013407+00:00",
+      "end_offset_seconds": 0.1117370419999999,
+      "duration_seconds": 0.0014972089999998328,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "19021a1c90114b0c8931f99dc2c38d2c",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:54.012418+00:00",
+      "start_offset_seconds": 0.1107481669999999,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "3946e49aeaa3758e"
+      },
+      "parent_span_id": "c38743a5471648c8a9cb911c530bfb33",
+      "end_utc": "2026-10-17T10:09:54.031710+00:00",
+      "end_offset_seconds": 0.13003958300000007,
+      "duration_seconds": 0.019291416000000172,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "175293cde6c649138a0e060760a5fbcd",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T10:09:54.025475+00:00",
+      "start_offset_seconds": 0.12380541700000003,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-47313a57d9f5be93",
+        "model": "black-forest-labs/flux-kontext-pro",
+        "attempt": 1
+      },
+      "parent_span_id": "19021a1c90114b0c8931f99dc2c38d2c",
+      "end_utc": "2026-10-17T10:09:54.027672+00:00",
+      "end_offset_seconds": 0.12600179200000006,
+      "duration_seconds": 0.002196375000000028,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "f80eebfd146144a1b22e0be64b07aced",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:54.028136+00:00",
+      "start_offset_seconds": 0.12646554200000004,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "19021a1c90114b0c8931f99dc2c38d2c",
+      "end_utc": "2026-10-17T10:09:54.028634+00:00",
+      "end_offset_seconds": 0.126963583,
+      "duration_seconds": 0.0004980409999999491,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "76734c54363b4503b14e21382cc95efa",
+      "name": "visual_direction_compilation",
+      "start_utc": "2026-10-17T10:09:54.036786+00:00",
+      "start_offset_seconds": 0.1351150000000001,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "8063c7d5c9e742bea3ade498bda7cf6a",
+      "end_utc": "2026-10-17T10:09:54.065654+00:00",
+      "end_offset_seconds": 0.16399424999999979,
+      "duration_seconds": 0.02887924999999969,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "161f48ad69ea4bedb1a1a5d33819990e",
+      "name": "video_composition_and_encoding",
+      "start_utc": "2026-10-17T10:09:54.066228+00:00",
+      "start_offset_seconds": 0.16455883299999985,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "8063c7d5c9e742bea3ade498bda7cf6a",
+      "end_utc": "2026-10-17T10:09:54.079179+00:00",
+      "end_offset_seconds": 0.1775248749999998,
+      "duration_seconds": 0.012966041999999955,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "2bf9d4894e504ceb978f3fdb0b3c7602",
+      "name": "render_quality_assurance",
+      "start_utc": "2026-10-17T10:09:54.079772+00:00",
+      "start_offset_seconds": 0.17810083300000001,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "8063c7d5c9e742bea3ade498bda7cf6a",
+      "end_utc": "2026-10-17T10:09:54.086538+00:00",
+      "end_offset_seconds": 0.184869583,
+      "duration_seconds": 0.00676874999999999,
+      "trace_file": "job_trace.json"
+    }
+  ],
+  "limitations": [
+    "Browser timings unavailable unless submitted by the client.",
+    "Cold-start/cache comparison requires separate controlled runs; process peak RSS includes earlier jobs.",
+    "Overlapping durations must not be summed. Span nesting expresses dependencies, not a proven critical-path DAG.",
+    "Report serialization and report upload occur after the measured worker interval."
+  ]
+}

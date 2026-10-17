@@ -84,10 +84,12 @@ class NewsReplicateTTS:
         self.speed = max(.5, min(2., 1 + int(NarrationEngine._normalize_rate(speed).rstrip('%')) / 100))
         self.cancel_event = cancel_event
         self._throttle_wait = 0
+        self.sentence_telemetry = []
+        self._telemetry_lock = threading.Lock()
         self._session = requests.Session()
         self._session.headers.update({'Authorization':'Bearer '+token})
         from utils.provider_admission import ProviderAdmission
-        self._shared_admission=ProviderAdmission(token,max(config.NEWS_REPLICATE_MIN_INTERVAL,config.EDITORIAL_IMAGE_MIN_INTERVAL))
+        self._shared_admission=ProviderAdmission(token,config.NEWS_REPLICATE_MIN_INTERVAL,scope='default')
 
     def _request(self, method, url, **kwargs):
         retries=config.NEWS_REPLICATE_RATE_LIMIT_RETRIES
@@ -107,6 +109,8 @@ class NewsReplicateTTS:
                     raise NewsError('Replicate speech connection failed; no duplicate prediction was submitted.') from None
                 if method=='GET' and response.status_code in (500,502,503,504) and network_attempt<2:
                     response.close();self._wait(2**network_attempt);continue
+                if method=='POST' and response.status_code in (502,503,504) and network_attempt<1:
+                    response.close();self._wait(2);continue
                 break
             if response.status_code != 429: break
             # HTTP 429 means no prediction was accepted. Only this rejection is safe to resubmit.
@@ -147,7 +151,7 @@ class NewsReplicateTTS:
         try:
             row = self._request('POST','https://api.replicate.com/v1/predictions',
                 json={'version':VERSIONS[self.model], 'input':inputs},
-                headers={'Cancel-After':'2m', 'Prefer':'wait=5'})
+                headers={'Cancel-After':'2m','Prefer':'wait=10'})
             prediction = row.get('id')
             if not isinstance(prediction,str) or not re.fullmatch('[a-zA-Z0-9_-]+',prediction):
                 prediction = None
@@ -205,6 +209,7 @@ class NewsReplicateTTS:
 
         def prepare_one(job,isolated=False):
             point,inputs,cached=job
+            t0=time.perf_counter()
             cancelled(self.cancel_event)
             duration=None
             if cached.is_file():
@@ -212,6 +217,8 @@ class NewsReplicateTTS:
                 except (OSError,ValueError,subprocess.SubprocessError):pass
             if duration is not None:
                 logger.info('Replicate speech | model=%s | sentence=%s | cache=hit',self.model,point.index)
+                with self._telemetry_lock:
+                    self.sentence_telemetry.append({'sentence_index':point.index,'chars':len(point.narration),'cache_hit':True,'audio_duration_seconds':round(duration,4),'synthesis_wall_seconds':round(time.perf_counter()-t0,4),'model':self.model})
                 return duration
             logger.info('Replicate speech | model=%s | sentence=%s | chars=%d | cache=miss',self.model,point.index,len(point.narration))
             raw=output_dir/f'{point.index}-{uuid.uuid4().hex}.raw'
@@ -225,6 +232,8 @@ class NewsReplicateTTS:
                 duration=probe_duration(temporary)
                 cancelled(self.cancel_event)
                 temporary.replace(cached)
+                with self._telemetry_lock:
+                    self.sentence_telemetry.append({'sentence_index':point.index,'chars':len(point.narration),'cache_hit':False,'audio_duration_seconds':round(duration,4),'synthesis_wall_seconds':round(time.perf_counter()-t0,4),'model':self.model})
                 return duration
             finally:
                 if worker is not None:worker._session.close()
@@ -233,9 +242,7 @@ class NewsReplicateTTS:
         work=list(unique.items())
         parallel=config.NEWS_REPLICATE_TTS_WORKERS>1 and len(work)>=4
         if parallel:
-            # Two independent HTTP sessions overlap remote prediction time.
-            # The class-wide 12-second admission pacing still applies to every
-            # uncached POST, so this does not burst the provider or change voice.
+            # Independent HTTP sessions overlap remote prediction time.
             with ThreadPoolExecutor(max_workers=config.NEWS_REPLICATE_TTS_WORKERS) as pool:
                 durations=list(pool.map(lambda item:prepare_one(item[1],True),work))
         else:

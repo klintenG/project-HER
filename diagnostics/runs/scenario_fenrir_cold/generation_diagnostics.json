@@ -1,0 +1,1130 @@
+{
+  "schema_version": "generation-diagnostics-v2",
+  "job_id": "scenario_fenrir_cold",
+  "outcome": "completed",
+  "start_utc": "2026-10-17T10:09:53.070658+00:00",
+  "finish_utc": "2026-10-17T10:09:53.288721+00:00",
+  "total_elapsed_seconds": 0.218063,
+  "measured_wall_seconds": 0.218063,
+  "unattributed_wall_seconds": 0.0,
+  "peak_image_provider_concurrency": 1,
+  "runtime": [
+    {
+      "host_cpu_count": 10
+    }
+  ],
+  "infrastructure": {
+    "environment": "local",
+    "python_version": "3.9.6",
+    "service": "local_process",
+    "revision": "local",
+    "commit": "working_tree",
+    "region": "unspecified",
+    "configured_action_workers": 2,
+    "configured_remotion_concurrency": "default",
+    "process_peak_rss_native_units": 150749184,
+    "trace_runtimes": [
+      {
+        "host_cpu_count": 10
+      }
+    ]
+  },
+  "process_peak_rss_native_units": 150749184,
+  "revision": null,
+  "commit": null,
+  "video_mode": "reference_editorial",
+  "actual_video_seconds": 17.367,
+  "resolution": [
+    1080,
+    1920
+  ],
+  "fps": 30,
+  "output_size_bytes": null,
+  "visual_metrics": {
+    "sentences": 6,
+    "storyboard_visual_beats": 6,
+    "planned_primaries": 6,
+    "generated_assets": 8,
+    "distinct_primaries": 6,
+    "reused_secondary_assets": 1,
+    "rendered_primaries": 6,
+    "sentences_without_distinct_primary": 0,
+    "images_rejected_for_duplication": 0,
+    "image_generation_failures": 0,
+    "fallback_attempts": 0,
+    "scene_relevance_failures": 0,
+    "invariant_distinct_ge_sentences": true,
+    "acceptance_passed": true
+  },
+  "scene_report": [
+    {
+      "sentence_number": 1,
+      "sentence_id": "s0",
+      "visual_focus": "Beat 0: The gods of Asgard feared the giant wolf Fenrir.",
+      "primary_entity_id": "scene-cc09de1d9e0c2672",
+      "primary_asset_id": "asset-scene-cc09de1d9e0c2672",
+      "primary_asset_origin": "replicate:flux-kontext-pro",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "0808183878181808",
+      "reused_character_ids": [
+        "fenrir"
+      ],
+      "secondary_entity_ids": [
+        "tyr"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 0.0,
+      "end_time": 2.88,
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 2,
+      "sentence_id": "s1",
+      "visual_focus": "Beat 1: They forged heavy iron fetters to bind him.",
+      "primary_entity_id": "scene-4dd9fbae8ad86a55",
+      "primary_asset_id": "asset-scene-4dd9fbae8ad86a55",
+      "primary_asset_origin": "replicate:flux-kontext-pro",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "1339303d1b1e1c1c",
+      "reused_character_ids": [
+        "fenrir"
+      ],
+      "secondary_entity_ids": [
+        "tyr"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 2.88,
+      "end_time": 5.44,
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 3,
+      "sentence_id": "s2",
+      "visual_focus": "Beat 2: Fenrir shattered the iron chains with a single kick.",
+      "primary_entity_id": "scene-52a62a457915142f",
+      "primary_asset_id": "asset-scene-52a62a457915142f",
+      "primary_asset_origin": "replicate:flux-kontext-pro",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "034548050b1e1c1c",
+      "reused_character_ids": [
+        "fenrir"
+      ],
+      "secondary_entity_ids": [
+        "tyr"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 5.44,
+      "end_time": 8.32,
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 4,
+      "sentence_id": "s3",
+      "visual_focus": "Beat 3: Dwarven smiths wove the silken ribbon Gleipnir.",
+      "primary_entity_id": "scene-5036e74cdbbb4a3a",
+      "primary_asset_id": "asset-scene-5036e74cdbbb4a3a",
+      "primary_asset_origin": "replicate:flux-kontext-pro",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "3345656525250703",
+      "reused_character_ids": [
+        "fenrir"
+      ],
+      "secondary_entity_ids": [
+        "tyr"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 8.32,
+      "end_time": 10.56,
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 5,
+      "sentence_id": "s4",
+      "visual_focus": "Beat 4: Tyr placed his right hand inside the wolf's jaws.",
+      "primary_entity_id": "scene-c044786540748d41",
+      "primary_asset_id": "asset-scene-c044786540748d41",
+      "primary_asset_origin": "replicate:flux-kontext-pro",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "0808183858181808",
+      "reused_character_ids": [
+        "fenrir"
+      ],
+      "secondary_entity_ids": [
+        "tyr"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 10.56,
+      "end_time": 13.44,
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 6,
+      "sentence_id": "s5",
+      "visual_focus": "Beat 5: Fenrir bit off Tyr's hand when the ribbon held fast.",
+      "primary_entity_id": "scene-042769f02635d3c5",
+      "primary_asset_id": "asset-scene-042769f02635d3c5",
+      "primary_asset_origin": "replicate:flux-kontext-pro",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "0808183858181808",
+      "reused_character_ids": [
+        "fenrir"
+      ],
+      "secondary_entity_ids": [
+        "tyr"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 13.44,
+      "end_time": 16.64,
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "render_visibility": "passed"
+    }
+  ],
+  "stage_timings": {},
+  "concurrency_analysis": {
+    "total_image_tasks": 8,
+    "total_provider_wait_spans": 8,
+    "peak_image_provider_concurrency": 1,
+    "average_active_image_concurrency": 1.0,
+    "configured_action_workers": 2,
+    "tts_visual_overlap_seconds": 0.0,
+    "speech_wall_seconds": null,
+    "cutouts_wall_seconds": null,
+    "serial_gap_seconds": 0.0,
+    "admission_wait_seconds": 0.0,
+    "rate_limit_responses": 0,
+    "rate_limit_backoff_seconds": 0,
+    "background_removal_total_seconds": 0.0045
+  },
+  "critical_path": [
+    {
+      "stage": "total_generation",
+      "duration_seconds": 0.2181,
+      "effective_advance_seconds": 0.2181,
+      "status": "succeeded"
+    }
+  ],
+  "bottleneck_ranking": [
+    {
+      "operation": "new_action_asset_generation",
+      "duration_seconds": 0.0224,
+      "percent_of_wall_time": 10.3,
+      "cause_category": "provider",
+      "evidence": "6 span(s), max=0.022s, accumulated=0.124s",
+      "optimization_opportunity": "Bounded parallel scene generation with adaptive Replicate admission pacing",
+      "confidence": "high"
+    },
+    {
+      "operation": "image_provider_wait (accumulated)",
+      "duration_seconds": 0.0189,
+      "percent_of_wall_time": 8.7,
+      "cause_category": "provider",
+      "evidence": "8 provider call(s), peak_concurrency=1, admission_wait=0.00s",
+      "optimization_opportunity": "Overlap independent scene-primary predictions across worker threads while respecting rate limits",
+      "confidence": "high"
+    },
+    {
+      "operation": "entity_identity_asset_generation",
+      "duration_seconds": 0.014,
+      "percent_of_wall_time": 6.4,
+      "cause_category": "provider",
+      "evidence": "2 span(s), max=0.007s, accumulated=0.014s",
+      "optimization_opportunity": "Cache recurring character identity boards across retries",
+      "confidence": "high"
+    },
+    {
+      "operation": "background_removal_and_alpha",
+      "duration_seconds": 0.0045,
+      "percent_of_wall_time": 2.0,
+      "cause_category": "compute",
+      "evidence": "8 span(s), max=0.001s, accumulated=0.004s",
+      "optimization_opportunity": "Reuse warm ONNX rembg session and run cutout trimming as each image completes",
+      "confidence": "high"
+    },
+    {
+      "operation": "semantic_beat_planning",
+      "duration_seconds": 0.0011,
+      "percent_of_wall_time": 0.5,
+      "cause_category": "provider",
+      "evidence": "1 span(s), max=0.001s, accumulated=0.001s",
+      "optimization_opportunity": "Single-pass structured storyboard generation with strict schema validation",
+      "confidence": "high"
+    }
+  ],
+  "rendering": {
+    "renderer": "remotion",
+    "frames": 521,
+    "fps": 30,
+    "resolution": [
+      1080,
+      1920
+    ],
+    "remotion_render_seconds": null,
+    "ffmpeg_encode_seconds": null,
+    "audio_delivery_seconds": null,
+    "total_render_and_qa_seconds": null,
+    "video_encode_passes": null,
+    "average_fps_throughput": null,
+    "output_size_bytes": null
+  },
+  "images": [
+    {
+      "task_index": 1,
+      "entityId": "fenrir",
+      "assetId": "asset-fenrir",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "visual_concept": "Fenrir",
+      "provider": "replicate:flux-1.1-pro",
+      "request_start_utc": "2026-10-17T10:09:53.148398+00:00",
+      "request_end_utc": "2026-10-17T10:09:53.150909+00:00",
+      "queue_wait_seconds": 0.0,
+      "api_duration_seconds": 0.0025,
+      "processing_and_review_seconds": 0.0035,
+      "durationSeconds": 0.006,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "supporting_illustration",
+      "identityReferences": [],
+      "dimensions": [
+        301,
+        301
+      ],
+      "bytes": 2534,
+      "displayed_in_render": false,
+      "origin": "generated"
+    },
+    {
+      "task_index": 2,
+      "entityId": "tyr",
+      "assetId": "asset-tyr",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "visual_concept": "Tyr",
+      "provider": "replicate:flux-1.1-pro",
+      "request_start_utc": "2026-10-17T10:09:53.156381+00:00",
+      "request_end_utc": "2026-10-17T10:09:53.158571+00:00",
+      "queue_wait_seconds": 0.0,
+      "api_duration_seconds": 0.0022,
+      "processing_and_review_seconds": 0.0038,
+      "durationSeconds": 0.006,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "supporting_illustration",
+      "identityReferences": [],
+      "dimensions": [
+        301,
+        301
+      ],
+      "bytes": 1833,
+      "displayed_in_render": true,
+      "origin": "generated"
+    },
+    {
+      "task_index": 3,
+      "entityId": "scene-cc09de1d9e0c2672",
+      "assetId": "asset-scene-cc09de1d9e0c2672",
+      "sentence_id": "s0",
+      "role": "primary",
+      "visual_concept": "Beat 0: The gods of Asgard feared the giant wolf Fenrir.",
+      "provider": "replicate:flux-kontext-pro",
+      "request_start_utc": "2026-10-17T10:09:53.169957+00:00",
+      "request_end_utc": "2026-10-17T10:09:53.172329+00:00",
+      "queue_wait_seconds": 0.0,
+      "api_duration_seconds": 0.0024,
+      "processing_and_review_seconds": 0.0176,
+      "durationSeconds": 0.02,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "fenrir"
+      ],
+      "dimensions": [
+        301,
+        301
+      ],
+      "bytes": 1831,
+      "displayed_in_render": true,
+      "origin": "generated"
+    },
+    {
+      "task_index": 4,
+      "entityId": "scene-4dd9fbae8ad86a55",
+      "assetId": "asset-scene-4dd9fbae8ad86a55",
+      "sentence_id": "s1",
+      "role": "primary",
+      "visual_concept": "Beat 1: They forged heavy iron fetters to bind him.",
+      "provider": "replicate:flux-kontext-pro",
+      "request_start_utc": "2026-10-17T10:09:53.177406+00:00",
+      "request_end_utc": "2026-10-17T10:09:53.179464+00:00",
+      "queue_wait_seconds": 0.0077,
+      "api_duration_seconds": 0.0021,
+      "processing_and_review_seconds": 0.0169,
+      "durationSeconds": 0.019,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "fenrir"
+      ],
+      "dimensions": [
+        291,
+        281
+      ],
+      "bytes": 1708,
+      "displayed_in_render": true,
+      "origin": "generated"
+    },
+    {
+      "task_index": 5,
+      "entityId": "scene-52a62a457915142f",
+      "assetId": "asset-scene-52a62a457915142f",
+      "sentence_id": "s2",
+      "role": "primary",
+      "visual_concept": "Beat 2: Fenrir shattered the iron chains with a single kick.",
+      "provider": "replicate:flux-kontext-pro",
+      "request_start_utc": "2026-10-17T10:09:53.191834+00:00",
+      "request_end_utc": "2026-10-17T10:09:53.193648+00:00",
+      "queue_wait_seconds": 0.0223,
+      "api_duration_seconds": 0.0018,
+      "processing_and_review_seconds": 0.0162,
+      "durationSeconds": 0.018,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "fenrir"
+      ],
+      "dimensions": [
+        291,
+        281
+      ],
+      "bytes": 1700,
+      "displayed_in_render": true,
+      "origin": "generated"
+    },
+    {
+      "task_index": 6,
+      "entityId": "scene-5036e74cdbbb4a3a",
+      "assetId": "asset-scene-5036e74cdbbb4a3a",
+      "sentence_id": "s3",
+      "role": "primary",
+      "visual_concept": "Beat 3: Dwarven smiths wove the silken ribbon Gleipnir.",
+      "provider": "replicate:flux-kontext-pro",
+      "request_start_utc": "2026-10-17T10:09:53.198155+00:00",
+      "request_end_utc": "2026-10-17T10:09:53.200679+00:00",
+      "queue_wait_seconds": 0.0286,
+      "api_duration_seconds": 0.0025,
+      "processing_and_review_seconds": 0.0175,
+      "durationSeconds": 0.02,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "fenrir"
+      ],
+      "dimensions": [
+        291,
+        261
+      ],
+      "bytes": 1429,
+      "displayed_in_render": true,
+      "origin": "generated"
+    },
+    {
+      "task_index": 7,
+      "entityId": "scene-c044786540748d41",
+      "assetId": "asset-scene-c044786540748d41",
+      "sentence_id": "s4",
+      "role": "primary",
+      "visual_concept": "Beat 4: Tyr placed his right hand inside the wolf's jaws.",
+      "provider": "replicate:flux-kontext-pro",
+      "request_start_utc": "2026-10-17T10:09:53.213868+00:00",
+      "request_end_utc": "2026-10-17T10:09:53.216391+00:00",
+      "queue_wait_seconds": 0.0431,
+      "api_duration_seconds": 0.0025,
+      "processing_and_review_seconds": 0.0185,
+      "durationSeconds": 0.021,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "fenrir"
+      ],
+      "dimensions": [
+        301,
+        301
+      ],
+      "bytes": 1834,
+      "displayed_in_render": true,
+      "origin": "generated"
+    },
+    {
+      "task_index": 8,
+      "entityId": "scene-042769f02635d3c5",
+      "assetId": "asset-scene-042769f02635d3c5",
+      "sentence_id": "s5",
+      "role": "primary",
+      "visual_concept": "Beat 5: Fenrir bit off Tyr's hand when the ribbon held fast.",
+      "provider": "replicate:flux-kontext-pro",
+      "request_start_utc": "2026-10-17T10:09:53.220587+00:00",
+      "request_end_utc": "2026-10-17T10:09:53.223505+00:00",
+      "queue_wait_seconds": 0.0509,
+      "api_duration_seconds": 0.0029,
+      "processing_and_review_seconds": 0.0171,
+      "durationSeconds": 0.02,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "fenrir"
+      ],
+      "dimensions": [
+        301,
+        301
+      ],
+      "bytes": 1764,
+      "displayed_in_render": true,
+      "origin": "generated"
+    }
+  ],
+  "provider_metrics": {},
+  "errors_and_retries": [],
+  "recommended_next_investigation": [
+    "Remotion output is currently re-encoded by FFmpeg for BT.601->BT.709 color conversion (2 encode passes). Validate HER_EDITORIAL_DIRECT_BT709=1 on target runtime to use -c:v copy."
+  ],
+  "spans": [
+    {
+      "id": "717cc6cedfc146bf8d363e9716f55173",
+      "name": "total_generation",
+      "start_utc": "2026-10-17T10:09:53.070658+00:00",
+      "start_offset_seconds": 0.0004371670000000716,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": null,
+      "end_utc": "2026-10-17T10:09:53.288721+00:00",
+      "end_offset_seconds": 0.21849700000000016,
+      "duration_seconds": 0.2180598330000001,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "1f3054fa1a0041cdb64b8abfbebfe8d8",
+      "name": "input_validation_and_normalization",
+      "start_utc": "2026-10-17T10:09:53.070906+00:00",
+      "start_offset_seconds": 0.0006829999999999892,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "717cc6cedfc146bf8d363e9716f55173",
+      "end_utc": "2026-10-17T10:09:53.071294+00:00",
+      "end_offset_seconds": 0.001071084000000111,
+      "duration_seconds": 0.0003880840000001218,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "8736786b94cc4630b66ba865ffcbd713",
+      "name": "source_retrieval_and_fact_extraction",
+      "start_utc": "2026-10-17T10:09:53.071533+00:00",
+      "start_offset_seconds": 0.0013097500000001094,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "717cc6cedfc146bf8d363e9716f55173",
+      "end_utc": "2026-10-17T10:09:53.078021+00:00",
+      "end_offset_seconds": 0.007804209000000117,
+      "duration_seconds": 0.006494459000000008,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "1824400647564e2f8c665ebe42466652",
+      "name": "script_generation_and_verification",
+      "start_utc": "2026-10-17T10:09:53.078349+00:00",
+      "start_offset_seconds": 0.00812533400000004,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "717cc6cedfc146bf8d363e9716f55173",
+      "end_utc": "2026-10-17T10:09:53.084828+00:00",
+      "end_offset_seconds": 0.014609000000000094,
+      "duration_seconds": 0.0064836660000000546,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "8e558335187b4c1bb1ff3e1e008e0566",
+      "name": "parallel_media_stage",
+      "start_utc": "2026-10-17T10:09:53.085146+00:00",
+      "start_offset_seconds": 0.014922875000000113,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "717cc6cedfc146bf8d363e9716f55173",
+      "end_utc": "2026-10-17T10:09:53.234114+00:00",
+      "end_offset_seconds": 0.16389050000000016,
+      "duration_seconds": 0.14896762500000005,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "fcd9ff4e238d46559ecfdcaf6ef66934",
+      "name": "tts_generation_and_alignment",
+      "start_utc": "2026-10-17T10:09:53.085363+00:00",
+      "start_offset_seconds": 0.015139250000000049,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "8e558335187b4c1bb1ff3e1e008e0566",
+      "end_utc": "2026-10-17T10:09:53.145690+00:00",
+      "end_offset_seconds": 0.07547937500000002,
+      "duration_seconds": 0.06034012499999997,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "58eac814aa094993ac786bb65ee0c7b0",
+      "name": "semantic_beat_planning",
+      "start_utc": "2026-10-17T10:09:53.146220+00:00",
+      "start_offset_seconds": 0.07599704200000001,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "8e558335187b4c1bb1ff3e1e008e0566",
+      "end_utc": "2026-10-17T10:09:53.147299+00:00",
+      "end_offset_seconds": 0.07707620900000012,
+      "duration_seconds": 0.001079167000000103,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "99baae6d916947beb5d6edf3d43065b6",
+      "name": "cutout_acquisition_and_matting",
+      "start_utc": "2026-10-17T10:09:53.147554+00:00",
+      "start_offset_seconds": 0.0773296670000001,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "8e558335187b4c1bb1ff3e1e008e0566",
+      "end_utc": "2026-10-17T10:09:53.233297+00:00",
+      "end_offset_seconds": 0.16307354200000002,
+      "duration_seconds": 0.08574387499999991,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "7d1f8321813641c680e2585f3b2e7485",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.147929+00:00",
+      "start_offset_seconds": 0.07770554200000013,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "2b1f36964354d620"
+      },
+      "parent_span_id": "99baae6d916947beb5d6edf3d43065b6",
+      "end_utc": "2026-10-17T10:09:53.154723+00:00",
+      "end_offset_seconds": 0.08449904200000002,
+      "duration_seconds": 0.006793499999999897,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "2e2bac97c5cc442e831a4ae1291a2e97",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T10:09:53.148398+00:00",
+      "start_offset_seconds": 0.0781741250000001,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "fenrir",
+        "model": "black-forest-labs/flux-schnell",
+        "attempt": 1
+      },
+      "parent_span_id": "7d1f8321813641c680e2585f3b2e7485",
+      "end_utc": "2026-10-17T10:09:53.150909+00:00",
+      "end_offset_seconds": 0.08068708400000002,
+      "duration_seconds": 0.0025129589999999258,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "710e31e2b11b4e4fa4bba11b2f3d3b06",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.151333+00:00",
+      "start_offset_seconds": 0.08110991700000003,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "7d1f8321813641c680e2585f3b2e7485",
+      "end_utc": "2026-10-17T10:09:53.151774+00:00",
+      "end_offset_seconds": 0.08155016700000006,
+      "duration_seconds": 0.0004402500000000309,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "6941d176347846c9bed7ce1dc8129f01",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.155276+00:00",
+      "start_offset_seconds": 0.08505333400000015,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-cc09de1d9e0c2672",
+        "queue_wait_seconds": 3.5e-05
+      },
+      "parent_span_id": "717cc6cedfc146bf8d363e9716f55173",
+      "end_utc": "2026-10-17T10:09:53.177009+00:00",
+      "end_offset_seconds": 0.10678458400000013,
+      "duration_seconds": 0.02173124999999998,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "62a0c2136b2246e5a520e8850b6978dc",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.155297+00:00",
+      "start_offset_seconds": 0.08507462500000007,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "208178977d94714f"
+      },
+      "parent_span_id": "717cc6cedfc146bf8d363e9716f55173",
+      "end_utc": "2026-10-17T10:09:53.162536+00:00",
+      "end_offset_seconds": 0.09231237500000011,
+      "duration_seconds": 0.007237750000000043,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "519c95b1eb4342219a8af7bffb302ca1",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.155652+00:00",
+      "start_offset_seconds": 0.08542845900000007,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "27e79487c6808549"
+      },
+      "parent_span_id": "6941d176347846c9bed7ce1dc8129f01",
+      "end_utc": "2026-10-17T10:09:53.176567+00:00",
+      "end_offset_seconds": 0.10634612499999996,
+      "duration_seconds": 0.02091766599999989,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "62d53ce631ae43948aa10feb43a89fb8",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T10:09:53.156381+00:00",
+      "start_offset_seconds": 0.08615837500000012,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "tyr",
+        "model": "black-forest-labs/flux-schnell",
+        "attempt": 1
+      },
+      "parent_span_id": "62a0c2136b2246e5a520e8850b6978dc",
+      "end_utc": "2026-10-17T10:09:53.158571+00:00",
+      "end_offset_seconds": 0.08834737500000012,
+      "duration_seconds": 0.0021889999999999965,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "77274b2593f14d2fa28cb665f864acbe",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.158934+00:00",
+      "start_offset_seconds": 0.08871020900000004,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "62a0c2136b2246e5a520e8850b6978dc",
+      "end_utc": "2026-10-17T10:09:53.159430+00:00",
+      "end_offset_seconds": 0.08920641699999998,
+      "duration_seconds": 0.0004962079999999425,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "d8998d3b1e8e4adfa377f35578112b27",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.162903+00:00",
+      "start_offset_seconds": 0.09267954200000017,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-4dd9fbae8ad86a55",
+        "queue_wait_seconds": 0.007698
+      },
+      "parent_span_id": "717cc6cedfc146bf8d363e9716f55173",
+      "end_utc": "2026-10-17T10:09:53.183400+00:00",
+      "end_offset_seconds": 0.11317587500000004,
+      "duration_seconds": 0.020496332999999867,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "f7f05a24336e40feb489b441aa5c8289",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.163345+00:00",
+      "start_offset_seconds": 0.09312108400000008,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "f64670c03e5f452f"
+      },
+      "parent_span_id": "d8998d3b1e8e4adfa377f35578112b27",
+      "end_utc": "2026-10-17T10:09:53.183009+00:00",
+      "end_offset_seconds": 0.11278512500000004,
+      "duration_seconds": 0.019664040999999965,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "bd1c4160a2aa4f4f8b8c8866cfa4d5ba",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T10:09:53.169957+00:00",
+      "start_offset_seconds": 0.0997352090000001,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-cc09de1d9e0c2672",
+        "model": "black-forest-labs/flux-kontext-pro",
+        "attempt": 1
+      },
+      "parent_span_id": "519c95b1eb4342219a8af7bffb302ca1",
+      "end_utc": "2026-10-17T10:09:53.172329+00:00",
+      "end_offset_seconds": 0.10210612500000016,
+      "duration_seconds": 0.002370916000000056,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "a1b0054f80af47d5af7b4fde091f1eb1",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.172729+00:00",
+      "start_offset_seconds": 0.10250566699999997,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "519c95b1eb4342219a8af7bffb302ca1",
+      "end_utc": "2026-10-17T10:09:53.173225+00:00",
+      "end_offset_seconds": 0.10300149999999997,
+      "duration_seconds": 0.0004958330000000011,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "602badd74dd849619476ac6d1867d4d8",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T10:09:53.177406+00:00",
+      "start_offset_seconds": 0.1071830840000001,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-4dd9fbae8ad86a55",
+        "model": "black-forest-labs/flux-kontext-pro",
+        "attempt": 1
+      },
+      "parent_span_id": "f7f05a24336e40feb489b441aa5c8289",
+      "end_utc": "2026-10-17T10:09:53.179464+00:00",
+      "end_offset_seconds": 0.10924016700000005,
+      "duration_seconds": 0.0020570829999999596,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "55fc5e1b77af41c58cb851a0b47ab913",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.177492+00:00",
+      "start_offset_seconds": 0.10726875000000002,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-52a62a457915142f",
+        "queue_wait_seconds": 0.022269
+      },
+      "parent_span_id": "717cc6cedfc146bf8d363e9716f55173",
+      "end_utc": "2026-10-17T10:09:53.197793+00:00",
+      "end_offset_seconds": 0.12756904199999997,
+      "duration_seconds": 0.020300291999999942,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "7c0465c6fd414928a09829458faa9b2e",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.178324+00:00",
+      "start_offset_seconds": 0.10810025000000012,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "b25f77b83f3012d2"
+      },
+      "parent_span_id": "55fc5e1b77af41c58cb851a0b47ab913",
+      "end_utc": "2026-10-17T10:09:53.197362+00:00",
+      "end_offset_seconds": 0.12713862500000017,
+      "duration_seconds": 0.019038375000000052,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "24589fec73b9448daef902a5c84285a7",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.179829+00:00",
+      "start_offset_seconds": 0.10960495900000011,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "f7f05a24336e40feb489b441aa5c8289",
+      "end_utc": "2026-10-17T10:09:53.180307+00:00",
+      "end_offset_seconds": 0.11008287500000002,
+      "duration_seconds": 0.00047791599999991163,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "01b0aa23d6044929a844b5217be82f20",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.183828+00:00",
+      "start_offset_seconds": 0.11360379200000015,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-5036e74cdbbb4a3a",
+        "queue_wait_seconds": 0.028612
+      },
+      "parent_span_id": "717cc6cedfc146bf8d363e9716f55173",
+      "end_utc": "2026-10-17T10:09:53.205740+00:00",
+      "end_offset_seconds": 0.135515375,
+      "duration_seconds": 0.021911582999999846,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "a685b5e0f0fa4aeb91d538108c25a75a",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.184326+00:00",
+      "start_offset_seconds": 0.11410204200000007,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "6d8c0cdbc53ecd78"
+      },
+      "parent_span_id": "01b0aa23d6044929a844b5217be82f20",
+      "end_utc": "2026-10-17T10:09:53.205281+00:00",
+      "end_offset_seconds": 0.13505754199999997,
+      "duration_seconds": 0.020955499999999905,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "5a5e9ceda1114a1b9a47c541f7382072",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T10:09:53.191834+00:00",
+      "start_offset_seconds": 0.12161058400000013,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-52a62a457915142f",
+        "model": "black-forest-labs/flux-kontext-pro",
+        "attempt": 1
+      },
+      "parent_span_id": "7c0465c6fd414928a09829458faa9b2e",
+      "end_utc": "2026-10-17T10:09:53.193648+00:00",
+      "end_offset_seconds": 0.12342433400000008,
+      "duration_seconds": 0.0018137499999999473,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "22afaee824424567bfdb706365f8dc3d",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.194077+00:00",
+      "start_offset_seconds": 0.1238527920000001,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "7c0465c6fd414928a09829458faa9b2e",
+      "end_utc": "2026-10-17T10:09:53.194597+00:00",
+      "end_offset_seconds": 0.1243732500000001,
+      "duration_seconds": 0.0005204580000000014,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "ed2e4f04febd4be29e5f90057fe5f31f",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T10:09:53.198155+00:00",
+      "start_offset_seconds": 0.1279308750000001,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-5036e74cdbbb4a3a",
+        "model": "black-forest-labs/flux-kontext-pro",
+        "attempt": 1
+      },
+      "parent_span_id": "a685b5e0f0fa4aeb91d538108c25a75a",
+      "end_utc": "2026-10-17T10:09:53.200679+00:00",
+      "end_offset_seconds": 0.1304557500000001,
+      "duration_seconds": 0.002524874999999982,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "6dbe4d7e02ed4b0a8589a73d2d8f74b3",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.198346+00:00",
+      "start_offset_seconds": 0.12812229200000003,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-c044786540748d41",
+        "queue_wait_seconds": 0.043116
+      },
+      "parent_span_id": "717cc6cedfc146bf8d363e9716f55173",
+      "end_utc": "2026-10-17T10:09:53.222475+00:00",
+      "end_offset_seconds": 0.15225062499999997,
+      "duration_seconds": 0.024128332999999946,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "f6b69c9bf8794f0f955e7346376cf790",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.199373+00:00",
+      "start_offset_seconds": 0.12914979199999999,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "70451b9c047085cc"
+      },
+      "parent_span_id": "6dbe4d7e02ed4b0a8589a73d2d8f74b3",
+      "end_utc": "2026-10-17T10:09:53.221762+00:00",
+      "end_offset_seconds": 0.15153824999999999,
+      "duration_seconds": 0.022388458,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "0f46e3bdfda74669bbb3774382abe34d",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.201309+00:00",
+      "start_offset_seconds": 0.13108566700000002,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "a685b5e0f0fa4aeb91d538108c25a75a",
+      "end_utc": "2026-10-17T10:09:53.201939+00:00",
+      "end_offset_seconds": 0.13171500000000003,
+      "duration_seconds": 0.0006293330000000097,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "08cdf53573f6444abacd3139b73e6d6b",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.206216+00:00",
+      "start_offset_seconds": 0.13599204200000004,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-042769f02635d3c5",
+        "queue_wait_seconds": 0.050932
+      },
+      "parent_span_id": "717cc6cedfc146bf8d363e9716f55173",
+      "end_utc": "2026-10-17T10:09:53.228647+00:00",
+      "end_offset_seconds": 0.15842262500000004,
+      "duration_seconds": 0.022430583000000004,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "c39e36afdbdf49dba2e0ffb11e422fe0",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.206801+00:00",
+      "start_offset_seconds": 0.13657670900000007,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "fe63c35777a1defc"
+      },
+      "parent_span_id": "08cdf53573f6444abacd3139b73e6d6b",
+      "end_utc": "2026-10-17T10:09:53.228176+00:00",
+      "end_offset_seconds": 0.15795220900000007,
+      "duration_seconds": 0.02137549999999999,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "446e98d76b214cc79bd0aac050fb408d",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T10:09:53.213868+00:00",
+      "start_offset_seconds": 0.1436445420000001,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-c044786540748d41",
+        "model": "black-forest-labs/flux-kontext-pro",
+        "attempt": 1
+      },
+      "parent_span_id": "f6b69c9bf8794f0f955e7346376cf790",
+      "end_utc": "2026-10-17T10:09:53.216391+00:00",
+      "end_offset_seconds": 0.14616720900000013,
+      "duration_seconds": 0.002522667000000034,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e2bf0e8143354d15be4c4bca04d6a6bc",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.217044+00:00",
+      "start_offset_seconds": 0.146820167,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "f6b69c9bf8794f0f955e7346376cf790",
+      "end_utc": "2026-10-17T10:09:53.217887+00:00",
+      "end_offset_seconds": 0.14766291700000012,
+      "duration_seconds": 0.0008427500000001142,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "f149f0d13d9b43a4820ebb7debcc430c",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T10:09:53.220587+00:00",
+      "start_offset_seconds": 0.15036304200000017,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-042769f02635d3c5",
+        "model": "black-forest-labs/flux-kontext-pro",
+        "attempt": 1
+      },
+      "parent_span_id": "c39e36afdbdf49dba2e0ffb11e422fe0",
+      "end_utc": "2026-10-17T10:09:53.223505+00:00",
+      "end_offset_seconds": 0.15328233400000002,
+      "duration_seconds": 0.0029192919999998512,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "6788bb31d13249bb892935cde0f52ea7",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.223987+00:00",
+      "start_offset_seconds": 0.153763125,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c39e36afdbdf49dba2e0ffb11e422fe0",
+      "end_utc": "2026-10-17T10:09:53.224547+00:00",
+      "end_offset_seconds": 0.15432304200000013,
+      "duration_seconds": 0.0005599170000001319,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "91d75c927e8540e9b01697346d167866",
+      "name": "visual_direction_compilation",
+      "start_utc": "2026-10-17T10:09:53.235008+00:00",
+      "start_offset_seconds": 0.1647851250000001,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "717cc6cedfc146bf8d363e9716f55173",
+      "end_utc": "2026-10-17T10:09:53.266634+00:00",
+      "end_offset_seconds": 0.19641750000000013,
+      "duration_seconds": 0.031632375000000046,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "cea95814b8834064afb4b0c1c404492e",
+      "name": "video_composition_and_encoding",
+      "start_utc": "2026-10-17T10:09:53.267393+00:00",
+      "start_offset_seconds": 0.1971707920000001,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "717cc6cedfc146bf8d363e9716f55173",
+      "end_utc": "2026-10-17T10:09:53.280897+00:00",
+      "end_offset_seconds": 0.210680875,
+      "duration_seconds": 0.013510082999999895,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "a9bfbe9b23df405a814b0e16b833a5ab",
+      "name": "render_quality_assurance",
+      "start_utc": "2026-10-17T10:09:53.281425+00:00",
+      "start_offset_seconds": 0.2112007090000001,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "717cc6cedfc146bf8d363e9716f55173",
+      "end_utc": "2026-10-17T10:09:53.288126+00:00",
+      "end_offset_seconds": 0.2179039170000001,
+      "duration_seconds": 0.006703208000000016,
+      "trace_file": "job_trace.json"
+    }
+  ],
+  "limitations": [
+    "Browser timings unavailable unless submitted by the client.",
+    "Cold-start/cache comparison requires separate controlled runs; process peak RSS includes earlier jobs.",
+    "Overlapping durations must not be summed. Span nesting expresses dependencies, not a proven critical-path DAG.",
+    "Report serialization and report upload occur after the measured worker interval."
+  ]
+}

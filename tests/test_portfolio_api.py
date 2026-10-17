@@ -27,6 +27,26 @@ class PortfolioAPITests(unittest.TestCase):
     def create(self,key='unique-request-key-0001',data=None,**kwargs):
         return self.client.post('/api/portfolio/jobs',json=data or {'text':'A fictional red cup stands on a table.'},headers={'Origin':ORIGIN,'Idempotency-Key':key},**kwargs)
     def headers(self,job):return {'Authorization':'Bearer '+job['access_token'],'Origin':ORIGIN}
+    def test_diagnostics_are_private_and_available_after_failure(self):
+        job=self.create().json
+        report=self.root/'report.json';report.write_text('{"outcome":"failed"}')
+        artifact=self.rt.media.upload(report,'private/report.json','application/json')
+        self.rt.update(job['job_id'],status='failed',diagnostics={'json':artifact})
+        path='/api/portfolio/jobs/'+job['job_id']+'/diagnostics/json'
+        self.assertEqual(self.client.get(path,headers={'Origin':ORIGIN}).status_code,404)
+        response=self.client.get(path,headers=self.headers(job))
+        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.json,{'outcome':'failed'})
+        self.assertIn('no-store',response.headers['Cache-Control'])
+
+    def test_browser_timings_require_capability_and_bounded_numeric_fields(self):
+        job=self.create().json;path='/api/portfolio/jobs/'+job['job_id']+'/client-timings'
+        self.assertEqual(self.client.post(path,json={'submission_ms':5},headers={'Origin':ORIGIN}).status_code,404)
+        for body in ({'submission_ms':-1},{'submission_ms':True},{'url':'secret'},{'submission_ms':float('inf')}):
+            self.assertEqual(self.client.post(path,json=body,headers=self.headers(job)).status_code,400)
+        self.assertEqual(self.client.post(path,json={'submission_ms':5,'playback_ready_ms':1000},headers=self.headers(job)).status_code,200)
+        self.assertEqual(self.rt.get_job(job['job_id'])['client_timings']['playback_ready_ms'],1000)
+
     def test_capabilities_and_origin_allowlist(self):
         response=self.client.get('/api/portfolio/config',headers={'Origin':ORIGIN})
         self.assertEqual(response.status_code,200);self.assertTrue(response.json['enabled'])

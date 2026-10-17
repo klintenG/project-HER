@@ -15,8 +15,10 @@ class EditorialSentence(Sentence):
 class EditorialScript(Script):
     # Separate from the persisted v1 News contract; longer stories can introduce
     # more subjects while each on-screen composition still has at most three.
-    entities: list[Entity] = Field(default_factory=list,max_length=24)
-    sentences: list[EditorialSentence] = Field(min_length=1,max_length=24)
+    entities: list[Entity] = Field(default_factory=list,max_length=192)
+    sentences: list[EditorialSentence] = Field(min_length=1,max_length=96)
+    sentence_storyboard: list[dict] = Field(default_factory=list)
+    identity_registry: list[Entity] = Field(default_factory=list)
     narrative_plan: Optional[NarrativeBeatPlan] = None
 
 

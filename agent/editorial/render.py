@@ -103,14 +103,19 @@ def stage(timeline,output):
 def render(m,output,cancel_event=None,trace=None):
     timings={};render_started=time.monotonic()
     output=Path(output);output.parent.mkdir(parents=True,exist_ok=True)
+    stage_started=time.monotonic()
     props=trace.call('asset_upload_or_download',stage,m,output.parent) if trace else stage(m,output.parent);root=config.BASE_DIR/'remotion';cli=root/'node_modules/.bin/remotion'
+    timings['assetStagingSeconds']=round(time.monotonic()-stage_started,3)
     intermediate=output.with_name(output.stem+'-remotion.mp4')
     log=output.with_suffix('.render.log')
     color_options=['--color-space','bt709','--image-format','png'] if config.EDITORIAL_DIRECT_BT709 else []
+    concurrency=remotion_concurrency()
+    timings['remotionConcurrency']=concurrency
+    remotion_started=time.monotonic()
     from contextlib import nullcontext
     with (trace.span('Remotion_or_other_render') if trace else nullcontext()), log.open('w') as handle:
         p=subprocess.Popen([str(cli),'render','src/index.ts','ProjectHEREditorial',str(intermediate.resolve()),'--props',str(props),
-            '--concurrency',str(remotion_concurrency()),
+            '--concurrency',str(concurrency),
             '--codec','h264','--crf','16','--pixel-format','yuv420p','--overwrite',*color_options],cwd=root,stdout=handle,stderr=subprocess.STDOUT,start_new_session=True)
         deadline=time.monotonic()+1200
         while p.poll() is None:
@@ -118,6 +123,7 @@ def render(m,output,cancel_event=None,trace=None):
                 os.killpg(p.pid,signal.SIGTERM);p.wait(timeout=10);raise NewsError('Editorial render cancelled or timed out; see '+str(log))
             time.sleep(.2)
     if p.returncode:raise NewsError('Editorial Remotion failed: '+log.read_text()[-2500:])
+    timings['remotionRenderSeconds']=round(time.monotonic()-remotion_started,3)
     timings['remotionSeconds']=round(time.monotonic()-render_started,3)
     # Remotion 4.0.242 emits full-range BT.470bg here. Explicit conversion, not
     # merely relabeling metadata, keeps the stage neutral and exports limited 709.
@@ -144,6 +150,7 @@ def render(m,output,cancel_event=None,trace=None):
     delivery_started=time.monotonic()
     stats=finalize_audio(m,intermediate,output,cancel_event)
     timings['audioDeliverySeconds']=round(time.monotonic()-delivery_started,3)
+    qa_started=time.monotonic()
     # Inspect the encoded deliverable, not just the requested composition.
     metadata=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-of','json',str(output)]))
     video_stream=next(s for s in metadata['streams'] if s['codec_type']=='video')
@@ -170,6 +177,7 @@ def render(m,output,cancel_event=None,trace=None):
         output.with_name(output.stem+'-activity.json').write_text(json.dumps(report,indent=2))
         stats['activityReport']=str(output.with_name(output.stem+'-activity.json').resolve())
         if spans:m.warnings.append('Encoded video contains long low-activity spans; review editorial-activity.json for intentional holds versus static storytelling.')
+    timings['visualQualityScanSeconds']=round(time.monotonic()-qa_started,3)
     timings['renderAndQualitySeconds']=round(time.monotonic()-render_started,3)
     stats['stageTimings']=timings
     return output,stats

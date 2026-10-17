@@ -1,0 +1,521 @@
+{
+  "scope": "Pre-change saved local manifests, not a new run or pixel-level relevance review",
+  "runs": [
+    {
+      "run": "editorial_cc30e400275948739c4f33aad1532786",
+      "sentences": 10,
+      "assets": 4,
+      "rendered_assets": 4,
+      "distinct_file_hashes": 4,
+      "timings": {
+        "resolve": 2.937,
+        "research": 2.305,
+        "script": 14.963,
+        "narrate": 126.285,
+        "cutouts": 32.503,
+        "timeline": 0.204,
+        "compose": 150.865
+      }
+    },
+    {
+      "run": "editorial_188a9918e42641e49d10e56ed9bf36b1",
+      "sentences": 5,
+      "assets": 3,
+      "rendered_assets": 3,
+      "distinct_file_hashes": 3,
+      "timings": {}
+    },
+    {
+      "run": "narration_visual_demo",
+      "sentences": 5,
+      "assets": 2,
+      "rendered_assets": 2,
+      "distinct_file_hashes": 2,
+      "timings": {}
+    },
+    {
+      "run": "editorial_portuguese_recovery",
+      "sentences": 5,
+      "assets": 2,
+      "rendered_assets": 2,
+      "distinct_file_hashes": 2,
+      "timings": {}
+    },
+    {
+      "run": "editorial_35c006178e0b4362a69213ae2834a5c2",
+      "sentences": 10,
+      "assets": 5,
+      "rendered_assets": 5,
+      "distinct_file_hashes": 5,
+      "timings": {
+        "resolve": 22.304,
+        "research": 23.252,
+        "script": 72.5,
+        "narrate": 166.272,
+        "cutouts": 56.689,
+        "timeline": 0.113,
+        "compose": 58.239
+      }
+    },
+    {
+      "run": "editorial_dc215408246647a68f8dee3f327ffaa0",
+      "sentences": 11,
+      "assets": 3,
+      "rendered_assets": 3,
+      "distinct_file_hashes": 3,
+      "timings": {
+        "resolve": 10.101,
+        "research": 10.928,
+        "script": 54.087,
+        "narrate": 192.152,
+        "cutouts": 75.062,
+        "timeline": 0.236,
+        "compose": 62.759
+      }
+    },
+    {
+      "run": "editorial_9fe79f1439b84572a418c16a737e670e",
+      "sentences": 13,
+      "assets": 12,
+      "rendered_assets": 12,
+      "distinct_file_hashes": 12,
+      "timings": {
+        "resolve": 18.389,
+        "research": 0.019,
+        "script": 0.04,
+        "narrate": 191.082,
+        "cutouts": 6.663,
+        "timeline": 0.052,
+        "compose": 66.313
+      }
+    },
+    {
+      "run": "editorial_3c7e8907f5fa4dc1b1e4ccb916c5eb3e",
+      "sentences": 5,
+      "assets": 7,
+      "rendered_assets": 7,
+      "distinct_file_hashes": 7,
+      "timings": {
+        "resolve": 15.215,
+        "research": 14.293,
+        "script": 83.078,
+        "narrate": 179.405,
+        "cutouts": 138.123,
+        "timeline": 0.083,
+        "compose": 29.506
+      }
+    },
+    {
+      "run": "editorial_84c9bcad568b4470aff932cbf338b7e2",
+      "sentences": 11,
+      "assets": 8,
+      "rendered_assets": 8,
+      "distinct_file_hashes": 8,
+      "timings": {
+        "resolve": 3.198,
+        "research": 6.446,
+        "script": 36.7,
+        "narrate": 127.283,
+        "cutouts": 90.434,
+        "timeline": 0.228,
+        "compose": 57.644
+      }
+    },
+    {
+      "run": "editorial_8f32c7010e42483fa65271dcda3f9806",
+      "sentences": 3,
+      "assets": 5,
+      "rendered_assets": 5,
+      "distinct_file_hashes": 5,
+      "timings": {
+        "resolve": 19.654,
+        "research": 20.32,
+        "script": 76.282,
+        "narrate": 46.555,
+        "cutouts": 86.917,
+        "timeline": 0.073,
+        "compose": 16.959
+      }
+    },
+    {
+      "run": "editorial_aa5a3fdd13e941c7af254359a1666978",
+      "sentences": 5,
+      "assets": 4,
+      "rendered_assets": 4,
+      "distinct_file_hashes": 4,
+      "timings": {
+        "resolve": 18.459,
+        "research": 11.59,
+        "script": 155.89,
+        "narrate": 92.868,
+        "cutouts": 82.035,
+        "timeline": 0.074,
+        "compose": 24.539
+      }
+    },
+    {
+      "run": "storytelling_zheng",
+      "sentences": 13,
+      "assets": 12,
+      "rendered_assets": 12,
+      "distinct_file_hashes": 12,
+      "timings": {}
+    },
+    {
+      "run": "editorial_57225b1b797e4b6399f6e8d60c0be7a5",
+      "sentences": 4,
+      "assets": 2,
+      "rendered_assets": 2,
+      "distinct_file_hashes": 2,
+      "timings": {
+        "resolve": 4.455,
+        "research": 25.792,
+        "script": 38.701,
+        "narrate": 59.302,
+        "cutouts": 11.078,
+        "timeline": 12.401,
+        "compose": 23.405
+      }
+    },
+    {
+      "run": "caption-cleanup-review",
+      "sentences": 10,
+      "assets": 6,
+      "rendered_assets": 6,
+      "distinct_file_hashes": 6,
+      "timings": {
+        "resolve": 10.4,
+        "research": 40.913,
+        "script": 177.014,
+        "narrate": 161.396,
+        "cutouts": 95.418,
+        "timeline": 0.106,
+        "compose": 60.252
+      }
+    },
+    {
+      "run": "reference_editorial_fixture",
+      "sentences": 2,
+      "assets": 3,
+      "rendered_assets": 3,
+      "distinct_file_hashes": 3,
+      "timings": {}
+    },
+    {
+      "run": "editorial_8edfc0c5ccfd4d63aca7c703f399be72",
+      "sentences": 13,
+      "assets": 12,
+      "rendered_assets": 12,
+      "distinct_file_hashes": 12,
+      "timings": {
+        "resolve": 109.133,
+        "research": 0.002,
+        "script": 0.03,
+        "narrate": 208.081,
+        "cutouts": 6.626,
+        "timeline": 0.051,
+        "compose": 70.724
+      }
+    },
+    {
+      "run": "editorial_7ed9b2ba76954710895de7c1c4a0f28a",
+      "sentences": 6,
+      "assets": 3,
+      "rendered_assets": 3,
+      "distinct_file_hashes": 2,
+      "timings": {
+        "resolve": 14.201,
+        "research": 14.496,
+        "script": 38.495,
+        "narrate": 79.291,
+        "cutouts": 21.69,
+        "timeline": 24.074,
+        "compose": 27.56
+      }
+    },
+    {
+      "run": "editorial_c528833022044f8b8aa4193e0e28c990",
+      "sentences": 10,
+      "assets": 11,
+      "rendered_assets": 11,
+      "distinct_file_hashes": 11,
+      "timings": {
+        "resolve": 7.09,
+        "research": 6.989,
+        "script": 55.81,
+        "narrate": 126.68,
+        "cutouts": 203.915,
+        "timeline": 0.221,
+        "compose": 69.374
+      }
+    },
+    {
+      "run": "editorial_58f89b47d2574c9c8f91c09f10437040",
+      "sentences": 4,
+      "assets": 6,
+      "rendered_assets": 6,
+      "distinct_file_hashes": 6,
+      "timings": {
+        "resolve": 6.266,
+        "research": 16.397,
+        "script": 57.801,
+        "narrate": 70.798,
+        "cutouts": 108.657,
+        "timeline": 0.08,
+        "compose": 22.076
+      }
+    },
+    {
+      "run": "editorial_1def601e6405469a848ef4b1774094c9",
+      "sentences": 4,
+      "assets": 2,
+      "rendered_assets": 2,
+      "distinct_file_hashes": 2,
+      "timings": {
+        "resolve": 13.666,
+        "research": 21.996,
+        "script": 29.97,
+        "narrate": 46.008,
+        "cutouts": 6.021,
+        "timeline": 14.205,
+        "compose": 21.345
+      }
+    },
+    {
+      "run": "editorial_8ca578fb6fa94d5e9a02239aad76620d",
+      "sentences": 5,
+      "assets": 3,
+      "rendered_assets": 3,
+      "distinct_file_hashes": 3,
+      "timings": {
+        "resolve": 1.924,
+        "research": 6.633,
+        "script": 23.11,
+        "narrate": 61.266,
+        "cutouts": 60.357,
+        "timeline": 0.086,
+        "compose": 32.538
+      }
+    },
+    {
+      "run": "editorial_eb8f48b21fe1478c9cab2d35c8f7bba3",
+      "sentences": 8,
+      "assets": 6,
+      "rendered_assets": 6,
+      "distinct_file_hashes": 6,
+      "timings": {
+        "resolve": 12.205,
+        "research": 10.027,
+        "script": 63.416,
+        "narrate": 244.577,
+        "cutouts": 330.816,
+        "timeline": 0.195,
+        "compose": 64.043
+      }
+    },
+    {
+      "run": "reference_parity_v2",
+      "sentences": 9,
+      "assets": 9,
+      "rendered_assets": 9,
+      "distinct_file_hashes": 9,
+      "timings": {
+        "resolve": 17.554,
+        "research": 20.412,
+        "script": 62.946,
+        "narrate": 131.982,
+        "cutouts": 112.628,
+        "timeline": 0.093,
+        "compose": 57.467
+      }
+    },
+    {
+      "run": "editorial_4c0899a32ec6430e9dc25b5778949980",
+      "sentences": 5,
+      "assets": 3,
+      "rendered_assets": 3,
+      "distinct_file_hashes": 3,
+      "timings": {
+        "resolve": 22.249,
+        "research": 29.157,
+        "script": 31.365,
+        "narrate": 59.563,
+        "cutouts": 13.123,
+        "timeline": 28.25,
+        "compose": 27.701
+      }
+    },
+    {
+      "run": "editorial_4c58d0800e274bee97233959c18d7ab4",
+      "sentences": 10,
+      "assets": 8,
+      "rendered_assets": 8,
+      "distinct_file_hashes": 8,
+      "timings": {
+        "resolve": 10.54,
+        "research": 19.298,
+        "script": 127.074,
+        "narrate": 202.612,
+        "cutouts": 93.128,
+        "timeline": 0.101,
+        "compose": 58.797
+      }
+    },
+    {
+      "run": "narration_visual_live",
+      "sentences": 2,
+      "assets": 2,
+      "rendered_assets": 2,
+      "distinct_file_hashes": 2,
+      "timings": {
+        "resolve": 105.169,
+        "research": 25.57,
+        "script": 77.784,
+        "narrate": 34.729,
+        "cutouts": 17.334,
+        "timeline": 0.088,
+        "compose": 11.289
+      }
+    },
+    {
+      "run": "editorial_1959bbeb40fe4f5e82aede73150538c1",
+      "sentences": 11,
+      "assets": 11,
+      "rendered_assets": 11,
+      "distinct_file_hashes": 10,
+      "timings": {
+        "resolve": 24.594,
+        "research": 34.356,
+        "script": 153.906,
+        "narrate": 187.626,
+        "cutouts": 236.358,
+        "timeline": 0.227,
+        "compose": 69.874
+      }
+    },
+    {
+      "run": "editorial_fcb1866532dd45e8b16a77974c76f820",
+      "sentences": 9,
+      "assets": 9,
+      "rendered_assets": 9,
+      "distinct_file_hashes": 9,
+      "timings": {
+        "resolve": 17.554,
+        "research": 20.412,
+        "script": 62.946,
+        "narrate": 131.982,
+        "cutouts": 112.628,
+        "timeline": 0.093,
+        "compose": 57.467
+      }
+    },
+    {
+      "run": "editorial_0c7380d555af4255a526b794112820b4",
+      "sentences": 4,
+      "assets": 1,
+      "rendered_assets": 1,
+      "distinct_file_hashes": 1,
+      "timings": {}
+    },
+    {
+      "run": "editorial_d39657782dad4d2d96ad953cc76e7775",
+      "sentences": 9,
+      "assets": 3,
+      "rendered_assets": 3,
+      "distinct_file_hashes": 3,
+      "timings": {
+        "resolve": 31.851,
+        "research": 31.887,
+        "script": 17.752,
+        "semantic_beat_planning": 17.258,
+        "word_forced_alignment": 10.929,
+        "scene_planning_and_layout": 13.232,
+        "media": 369.035,
+        "timeline": 0.157,
+        "Remotion_and_FFmpeg": 68.035,
+        "compose": 68.101,
+        "end_to_end": 518.783
+      }
+    },
+    {
+      "run": "reference_editorial_demo",
+      "sentences": 6,
+      "assets": 4,
+      "rendered_assets": 4,
+      "distinct_file_hashes": 4,
+      "timings": {}
+    },
+    {
+      "run": "editorial_d29c71575e1f459999dc07936ef7f86c",
+      "sentences": 5,
+      "assets": 2,
+      "rendered_assets": 2,
+      "distinct_file_hashes": 2,
+      "timings": {
+        "resolve": 1.308,
+        "research": 1.852,
+        "script": 15.011,
+        "narrate": 64.844,
+        "cutouts": 23.944,
+        "timeline": 0.043,
+        "compose": 27.02
+      }
+    },
+    {
+      "run": "editorial_07200cfc88174aadb1080c31345a3b97",
+      "sentences": 10,
+      "assets": 4,
+      "rendered_assets": 4,
+      "distinct_file_hashes": 4,
+      "timings": {
+        "resolve": 2.555,
+        "research": 62.431,
+        "script": 16.098,
+        "narrate": 147.807,
+        "cutouts": 65.895,
+        "timeline": 0.201,
+        "compose": 58.488
+      }
+    },
+    {
+      "run": "editorial_092773ef35fe4101b575bb8d952234f2",
+      "sentences": 10,
+      "assets": 6,
+      "rendered_assets": 6,
+      "distinct_file_hashes": 6,
+      "timings": {
+        "resolve": 10.4,
+        "research": 40.913,
+        "script": 177.014,
+        "narrate": 161.396,
+        "cutouts": 95.418,
+        "timeline": 0.106,
+        "compose": 60.252
+      }
+    },
+    {
+      "run": "narration_visual_fixture",
+      "sentences": 4,
+      "assets": 3,
+      "rendered_assets": 3,
+      "distinct_file_hashes": 3,
+      "timings": {
+        "resolve": 0.002,
+        "research": 0.0,
+        "script": 0.018,
+        "narrate": 1.204,
+        "cutouts": 0.054,
+        "timeline": 0.036,
+        "compose": 14.247
+      }
+    },
+    {
+      "run": "editorial_visual_review",
+      "sentences": 6,
+      "assets": 7,
+      "rendered_assets": 7,
+      "distinct_file_hashes": 7,
+      "timings": {}
+    }
+  ]
+}

@@ -1,0 +1,140 @@
+[
+  {
+    "id": "asset-lifeboat",
+    "entityId": "lifeboat",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/33961544e55b7dca64df.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/55b2784500c84f2ad461-cutout.png",
+    "role": "object",
+    "subject": "Wooden Lifeboat",
+    "source": "replicate:flux-1.1-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:flux-1.1-pro",
+    "width": 301,
+    "height": 301,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "b1e42288bbf9dbe81f94df4c755bbd4c5fa169098afce1a6d7ebb157f3cba4ff"
+  },
+  {
+    "id": "asset-scene-d284d66bb66eeea1",
+    "entityId": "scene-d284d66bb66eeea1",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/0c7800ca654ec3e905f9.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/57832c228a0071d53408-cutout.png",
+    "role": "object",
+    "subject": "Iron Steamship in beat s0",
+    "source": "replicate:flux-kontext-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:flux-kontext-pro",
+    "width": 301,
+    "height": 291,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "0ea5873eb50d26d8b2fb1ff05244f0d1adf91986114c0474696124204ecd964e"
+  },
+  {
+    "id": "asset-scene-462408efb2f77d65",
+    "entityId": "scene-462408efb2f77d65",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/36c98644e00d6ff52c21.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/65181cb4f9ec638f1443-cutout.png",
+    "role": "object",
+    "subject": "Iron Steamship in beat s1",
+    "source": "replicate:flux-kontext-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:flux-kontext-pro",
+    "width": 291,
+    "height": 281,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "769eb3b7d1052dab5a404197f4f5f8b2e73cb6c0839b8b183c8aa5494c809e92"
+  },
+  {
+    "id": "asset-scene-4d83df10216760e4",
+    "entityId": "scene-4d83df10216760e4",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/44c2c5f8f3f5c2fbc7f8.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/b4b4449a482956b28395-cutout.png",
+    "role": "object",
+    "subject": "Iron Steamship in beat s2",
+    "source": "replicate:flux-kontext-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:flux-kontext-pro",
+    "width": 301,
+    "height": 301,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "92ed5ec1c2c699887a9b0552c178f5bd450490476270b8462df73bffdd06196b"
+  },
+  {
+    "id": "asset-scene-5e61b46d9b2ae883",
+    "entityId": "scene-5e61b46d9b2ae883",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/2c60d8d235faa04a3cd2.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/d95a1ffafea4d2147cc6-cutout.png",
+    "role": "object",
+    "subject": "Iron Steamship in beat s3",
+    "source": "replicate:flux-kontext-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:flux-kontext-pro",
+    "width": 291,
+    "height": 261,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "0a5fd504c2dc9c1cb6eeda87a16af321a342ba1f1185d14464532eebf98e0dd8"
+  },
+  {
+    "id": "asset-scene-47313a57d9f5be93",
+    "entityId": "scene-47313a57d9f5be93",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/d6f908bdefed9b59d3d1.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/3946e49aeaa3758e6017-cutout.png",
+    "role": "object",
+    "subject": "Iron Steamship in beat s4",
+    "source": "replicate:flux-kontext-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:flux-kontext-pro",
+    "width": 301,
+    "height": 291,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "d9b02239118e47b69288fbcc5de1092aa521eec46a7f45a795ddd82d811d9900"
+  }
+]

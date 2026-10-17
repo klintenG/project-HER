@@ -614,17 +614,29 @@ def _start_news_job(data, input_source):
                 brand_text=data.get("brand_text", ""), progress_callback=_create_sse_callback(job_id), cancel_event=cancel_event,
                 llm=NewsLLM(data.get("llm_provider") or None, data.get("llm_model") or None))
             if not result.success:
-                payload={"error": "; ".join(result.errors) or "Generation failed", **result.news_details}
+                details=dict(result.news_details or {})
+                out_dir=details.get("output_dir")
+                if out_dir:
+                    from utils.generation_diagnostics import export_reports
+                    export_reports(out_dir,job_id,"failed")
+                payload={"error": "; ".join(result.errors) or "Generation failed", **details,
+                    "diagnostics_urls":{"json":f"/api/diagnostics/{job_id}/json","text":f"/api/diagnostics/{job_id}/text"}}
                 _log_job_failure(job_id, "news", payload["error"], payload.get("status", "error"))
             else:
                 def link(path):
                     return "/output/"+str(Path(path).resolve().relative_to(config.OUTPUT_DIR.resolve())) if path else None
+                details=dict(result.news_details or {})
+                out_dir=details.get("output_dir") or (str(Path(details["manifest"]).resolve().parent) if details.get("manifest") else None)
+                if out_dir:
+                    from utils.generation_diagnostics import export_reports
+                    export_reports(out_dir,job_id,"succeeded")
                 payload={"success":True,"title":result.title,"hook":result.hook,"duration":round(result.duration,2),
                     "resolution":result.resolution,"content_type":"news","theme":result.theme,"caption_style":result.caption_style,
                     "key_points":result.key_point_count,"processing_time":round(result.processing_time,1),
                     "video_url":link(result.video_path),"thumbnail_url":link(result.thumbnail_path),"srt_url":link(result.srt_path),
-                    "download_url":f"/api/download/{job_id}","news_details":result.news_details,
-                    "manifest_url":link(result.news_details["manifest"])}
+                    "download_url":f"/api/download/{job_id}","news_details":details,
+                    "manifest_url":link(details.get("manifest")),
+                    "diagnostics_urls":{"json":f"/api/diagnostics/{job_id}/json","text":f"/api/diagnostics/{job_id}/text"}}
             _job_results[job_id]=payload
             _progress_queues[job_id].put(("done",payload))
         except Exception as exc:
@@ -640,6 +652,43 @@ def _start_news_job(data, input_source):
         _active_jobs[job_id]["thread"]=thread
     thread.start()
     return jsonify({"job_id":job_id})
+
+
+@app.route("/api/diagnostics/<job_id>/<kind>")
+def api_job_diagnostics(job_id, kind):
+    """Retrieve sanitized JSON or plain-text generation diagnostics for a job."""
+    names = {
+        "json": ("generation_diagnostics.json", "application/json"),
+        "text": ("generation_diagnostics_report.txt", "text/plain; charset=utf-8"),
+        "coverage": ("sentence_visual_coverage.json", "application/json"),
+        "timeline": ("pipeline_timeline.json", "application/json"),
+    }
+    if kind not in names:
+        return jsonify({"error": "Diagnostic kind must be json, text, coverage, or timeline."}), 400
+    if not re.fullmatch(r"[A-Za-z0-9_-]{4,64}", job_id):
+        return jsonify({"error": "Invalid job ID."}), 404
+    filename, mimetype = names[kind]
+    candidates = []
+    res = _job_results.get(job_id) or {}
+    out_dir = (res.get("news_details") or {}).get("output_dir") or res.get("output_dir")
+    if out_dir:
+        candidates.append(Path(out_dir) / filename)
+    runs_dir = getattr(config, "DIAGNOSTICS_RUNS_DIR", config.BASE_DIR / "diagnostics" / "runs")
+    candidates.append(Path(runs_dir) / job_id / filename)
+    candidates.append(config.OUTPUT_DIR / f"portfolio_{job_id}" / filename)
+    candidates.append(config.OUTPUT_DIR / job_id / filename)
+    for path in candidates:
+        if path.is_file():
+            return Response(
+                path.read_bytes(),
+                headers={
+                    "Content-Type": mimetype,
+                    "Cache-Control": "private, no-store",
+                    "X-Content-Type-Options": "nosniff",
+                    "Content-Disposition": f'attachment; filename="{filename}"',
+                },
+            )
+    return jsonify({"error": "Diagnostics not found for this job."}), 404
 
 
 @app.route("/api/news/cancel/<job_id>", methods=["POST"])

@@ -1,0 +1,153 @@
+========================================================================
+PROJECTHER GENERATION DIAGNOSTIC REPORT
+========================================================================
+
+## A. Generation Summary
+Job ID: editorial_d39657782dad4d2d96ad953cc76e7775
+Trace Provenance: genuine_live_trace
+Environment: local (service=local_process, revision=local)
+Video Mode: reference_editorial
+Total Generation Time: 518.785 s (measured covered wall: 500.851 s, unattributed: 17.934 s)
+Final Video Duration: 66.6 s
+Resolution / FPS: 1080x1920 @ 30 fps
+Narration Sentences: 9
+Unique Primary Images: 3 (Rendered in video: 3)
+Generated / Acquired Images: 3
+Reused Secondary Images: 0
+Sentence-Primary Invariant (distinct >= sentences): False
+Output Size: 7291895 bytes
+Result: completed_legacy_baseline
+
+## B. Stage Duration Breakdown (Inclusive Spans; Parallel Stages Overlap)
+Stage                                | Duration (s) |  % Wall | Status     | Metadata
+------------------------------------------------------------------------------------------------
+end_to_end                           |      518.785 |  100.0% | succeeded  | {}
+input_fetch_and_extract              |       31.850 |    6.1% | succeeded  | {}
+research                             |       31.884 |    6.1% | succeeded  | {}
+research_or_script_generation        |       17.695 |    3.4% | succeeded  | {}
+semantic_beat_planning               |       17.256 |    3.3% | succeeded  | {}
+TTS_generation                       |      110.666 |   21.3% | succeeded  | {}
+entity_identity_asset_generation     |       96.971 |   18.7% | succeeded  | {"asset_key": "260670134225f2a2"}
+image_provider_wait                  |       19.529 |    3.8% | succeeded  | {}
+image_provider_admission             |       10.353 |    2.0% | succeeded  | {}
+background_removal_and_alpha         |        1.611 |    0.3% | succeeded  | {}
+entity_identity_asset_generation     |       72.254 |   13.9% | succeeded  | {"asset_key": "54444aa7bc07ccec"}
+image_provider_wait                  |       11.292 |    2.2% | succeeded  | {}
+image_provider_admission             |        0.001 |    0.0% | succeeded  | {}
+background_removal_and_alpha         |        1.633 |    0.3% | succeeded  | {}
+image_provider_wait                  |       11.093 |    2.1% | succeeded  | {}
+image_provider_admission             |        0.001 |    0.0% | succeeded  | {}
+background_removal_and_alpha         |        1.732 |    0.3% | succeeded  | {}
+image_provider_wait                  |        4.659 |    0.9% | succeeded  | {}
+image_provider_admission             |        0.002 |    0.0% | succeeded  | {}
+background_removal_and_alpha         |        1.434 |    0.3% | succeeded  | {}
+entity_identity_asset_generation     |      153.967 |   29.7% | succeeded  | {"asset_key": "ea1f33324cc5c887"}
+image_provider_wait                  |       11.175 |    2.2% | succeeded  | {}
+image_provider_admission             |        0.001 |    0.0% | succeeded  | {}
+background_removal_and_alpha         |        1.120 |    0.2% | failed     | {}
+image_provider_wait                  |        9.724 |    1.9% | succeeded  | {}
+image_provider_admission             |        0.001 |    0.0% | succeeded  | {}
+background_removal_and_alpha         |        1.117 |    0.2% | failed     | {}
+image_provider_wait                  |        5.394 |    1.0% | succeeded  | {}
+image_provider_admission             |        1.170 |    0.2% | succeeded  | {}
+background_removal_and_alpha         |        1.414 |    0.3% | succeeded  | {}
+word_forced_alignment                |       10.927 |    2.1% | succeeded  | {}
+render_and_delivery                  |       68.034 |   13.1% | succeeded  | {}
+asset_upload_or_download             |        0.021 |    0.0% | succeeded  | {}
+Remotion_or_other_render             |       54.822 |   10.6% | succeeded  | {}
+FFmpeg_encode_and_mux                |        9.177 |    1.8% | succeeded  | {}
+
+## C. Individual Image-Generation Times
+ # | Sentence       | Entity ID                | Role       | Queue(s) |   API(s) |  Cut(s) |  Rev(s) | Total(s) | Tries | Cache | Route
+------------------------------------------------------------------------------------------------------------------------------------------
+ 1 | shared_identity | kendrick                 | identity_o |    0.000 |    0.000 |   0.000 |   0.000 |   96.970 |     1 | False | premium_reference_illustration
+ 2 | shared_identity | drake                    | identity_o |    0.000 |    0.000 |   0.000 |   0.000 |   72.253 |     3 | False | unverified_identity_ai_illustration
+ 3 | shared_identity | jcole                    | identity_o |    0.000 |    0.000 |   0.000 |   0.000 |  153.966 |     1 | False | unverified_identity_ai_illustration
+Slowest image tasks: jcole (153.966s, tries=1), kendrick (96.970s, tries=1), drake (72.253s, tries=3)
+
+## D. Concurrency Analysis
+Total image tasks: 3
+Peak concurrent image provider requests: 1
+Average active image provider concurrency: 1.0
+Configured action workers: 2
+TTS and visual sourcing overlap: 110.667 s (speech=110.667 s, cutouts=323.204 s, alignment=10.929 s)
+Sequential unattributed gap time: 17.864 s
+Admission pacing wait (accumulated): 11.538 s
+Rate-limited responses (HTTP 429): 0 (backoff=0 s)
+Background removal total CPU work: 10.062 s across 7 cutout(s)
+Rendering breakdown: staging=Nones, remotion=54.845s (concurrency=None), ffmpeg=9.179s, audio_delivery=2.333s, qa=Nones
+
+## E. Critical Path
+input_fetch_and_extract (31.85s) -> research (31.88s) -> research_or_script_generation (17.69s) -> semantic_beat_planning (17.26s) -> TTS_generation (110.67s) -> entity_identity_asset_generation (96.97s) -> entity_identity_asset_generation (72.25s) -> entity_identity_asset_generation (153.97s) -> word_forced_alignment (10.93s) -> render_and_delivery (68.03s)
+
+## F. Bottleneck Ranking
+Rank | Operation / Stage                  | Duration(s) |  % Wall | Category   | Evidence & Optimization Opportunity
+------------------------------------------------------------------------------------------------------------------------
+   1 | entity_identity_asset_generation   |     153.967 |   29.7% | provider   | 3 span(s), max=153.967s, accumulated=323.192s -> Acquire identity references in parallel or reuse supporting cutouts
+   2 | TTS_generation                     |     110.666 |   21.3% | provider   | 1 span(s), max=110.666s, accumulated=110.666s -> Overlap TTS with visual planning/sourcing and use dedicated TTS admission scope
+   3 | image_provider_wait (accumulated)  |      72.865 |   14.0% | provider   | 7 provider call(s), peak_concurrency=1, admission_wait=11.53s -> Overlap independent scene-primary predictions across worker threads while respecting rate limits
+   4 | render_and_delivery                |      68.034 |   13.1% | compute    | 1 span(s), max=68.034s, accumulated=68.034s -> Use hardware-tuned Remotion concurrency and single-pass audio measurement
+   5 | research                           |      31.884 |    6.1% | network    | 1 span(s), max=31.884s, accumulated=31.884s -> Bound web search pages and HTTP timeouts
+   6 | input_fetch_and_extract            |      31.850 |    6.1% | network    | 1 span(s), max=31.850s, accumulated=31.850s -> Cache fetched source text or streamline input classification
+   7 | research_or_script_generation      |      17.695 |    3.4% | provider   | 1 span(s), max=17.695s, accumulated=17.695s -> Reduce LLM repair iterations and token output size
+   8 | semantic_beat_planning             |      17.256 |    3.3% | provider   | 1 span(s), max=17.256s, accumulated=17.256s -> Single-pass structured storyboard generation with strict schema validation
+
+## G. Errors and Retries (Sanitized)
+[
+  {
+    "source": "span",
+    "name": "background_removal_and_alpha",
+    "error_type": "CutoutQualityError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "background_removal_and_alpha",
+    "error_type": "CutoutQualityError",
+    "attempt": 1
+  },
+  {
+    "source": "image_asset",
+    "entity_id": "kendrick",
+    "sentence_id": "shared_identity",
+    "rejected_attempts": 0,
+    "recorded_errors": 1,
+    "route": "premium_reference_illustration"
+  },
+  {
+    "source": "image_asset",
+    "entity_id": "drake",
+    "sentence_id": "shared_identity",
+    "rejected_attempts": 2,
+    "recorded_errors": 5,
+    "route": "unverified_identity_ai_illustration"
+  },
+  {
+    "source": "image_asset",
+    "entity_id": "jcole",
+    "sentence_id": "shared_identity",
+    "rejected_attempts": 0,
+    "recorded_errors": 5,
+    "route": "unverified_identity_ai_illustration"
+  }
+]
+Provider counters: {"createRequests": 7, "acceptedPredictions": 7, "rateLimitResponses": 0, "backoffSeconds": 0, "pollRetries": 0, "admissionWaitSeconds": 11.538300583000023}
+
+## H. Scene-Level Visual Quality Report
+ # | Sentence ID    | Subject Type | Primary Asset ID             | Distinct | Rendered | Window (s)      | Secondary IDs
+------------------------------------------------------------------------------------------------------------------------
+
+## I. Recommended Next Investigation
+- Remotion output is re-encoded by FFmpeg for BT.601->BT.709 color conversion (2 encode passes). Validate HER_EDITORIAL_DIRECT_BT709=1 on target runtime to use -c:v copy.
+- Multimodal visual review rejected one or more initial image candidates, triggering regeneration retries. Inspect scene_report and image rejected_attempts.
+
+## J. Optimization Comparison & Telemetry Notes
+- TTS sentence telemetry records: 0
+- Image prediction telemetry records: 0
+- Trace provenance: genuine_live_trace
+
+## K. Unresolved External Constraints & Measurement Limitations
+- Browser timings unavailable unless submitted by the client.
+- Cold-start/cache comparison requires separate controlled runs; process peak RSS includes earlier jobs.
+- Overlapping durations must not be summed. Span nesting expresses dependencies, not a proven critical-path DAG.
+- Report serialization and report upload occur after the measured worker interval.

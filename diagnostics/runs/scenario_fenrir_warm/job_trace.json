@@ -1,0 +1,441 @@
+{
+  "schema_version": "job-trace-v1",
+  "job_id": "scenario_fenrir_warm",
+  "runtime": {
+    "host_cpu_count": 10
+  },
+  "elapsed_seconds": 0.219032,
+  "covered_wall_seconds": 0.2183,
+  "spans": [
+    {
+      "id": "6b3df03ce0ec4b23baecc8d3c849f138",
+      "name": "total_generation",
+      "start_utc": "2026-10-17T10:09:53.296636+00:00",
+      "start_offset_seconds": 0.0002902499999999364,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": null,
+      "end_utc": "2026-10-17T10:09:53.514938+00:00",
+      "end_offset_seconds": 0.21859020799999995,
+      "duration_seconds": 0.21829995800000002
+    },
+    {
+      "id": "4a146f2058c14e70a9b540a98cb69da9",
+      "name": "input_validation_and_normalization",
+      "start_utc": "2026-10-17T10:09:53.296948+00:00",
+      "start_offset_seconds": 0.0006016669999999724,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "6b3df03ce0ec4b23baecc8d3c849f138",
+      "end_utc": "2026-10-17T10:09:53.297312+00:00",
+      "end_offset_seconds": 0.0009651669999999335,
+      "duration_seconds": 0.0003634999999999611
+    },
+    {
+      "id": "4a6b0a6b5bcd4357bff53cbcc58ed095",
+      "name": "source_retrieval_and_fact_extraction",
+      "start_utc": "2026-10-17T10:09:53.297537+00:00",
+      "start_offset_seconds": 0.0011905420000000166,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "6b3df03ce0ec4b23baecc8d3c849f138",
+      "end_utc": "2026-10-17T10:09:53.304192+00:00",
+      "end_offset_seconds": 0.00786379199999998,
+      "duration_seconds": 0.006673249999999964
+    },
+    {
+      "id": "86abe9187b1e411783c26009f520ad99",
+      "name": "script_generation_and_verification",
+      "start_utc": "2026-10-17T10:09:53.304588+00:00",
+      "start_offset_seconds": 0.008241417000000029,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "6b3df03ce0ec4b23baecc8d3c849f138",
+      "end_utc": "2026-10-17T10:09:53.311096+00:00",
+      "end_offset_seconds": 0.014749958000000118,
+      "duration_seconds": 0.00650854100000009
+    },
+    {
+      "id": "a7b3a8e0d04b4c8c885e1097fe2d4e9c",
+      "name": "parallel_media_stage",
+      "start_utc": "2026-10-17T10:09:53.311335+00:00",
+      "start_offset_seconds": 0.014987666999999982,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "6b3df03ce0ec4b23baecc8d3c849f138",
+      "end_utc": "2026-10-17T10:09:53.445066+00:00",
+      "end_offset_seconds": 0.14871962500000002,
+      "duration_seconds": 0.13373195800000004
+    },
+    {
+      "id": "5aa1c48608594508994a8d0a7c3a076e",
+      "name": "tts_generation_and_alignment",
+      "start_utc": "2026-10-17T10:09:53.311551+00:00",
+      "start_offset_seconds": 0.015204124999999902,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "a7b3a8e0d04b4c8c885e1097fe2d4e9c",
+      "end_utc": "2026-10-17T10:09:53.371398+00:00",
+      "end_offset_seconds": 0.0750639580000001,
+      "duration_seconds": 0.059859833000000195
+    },
+    {
+      "id": "f670069cd5554a2fa3cfd58d6ad92b0a",
+      "name": "semantic_beat_planning",
+      "start_utc": "2026-10-17T10:09:53.371909+00:00",
+      "start_offset_seconds": 0.07556266700000003,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "a7b3a8e0d04b4c8c885e1097fe2d4e9c",
+      "end_utc": "2026-10-17T10:09:53.373005+00:00",
+      "end_offset_seconds": 0.07665862500000009,
+      "duration_seconds": 0.0010959580000000635
+    },
+    {
+      "id": "29cea2e3ef75400397ac79d80bde25d7",
+      "name": "cutout_acquisition_and_matting",
+      "start_utc": "2026-10-17T10:09:53.373257+00:00",
+      "start_offset_seconds": 0.07690949999999996,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "a7b3a8e0d04b4c8c885e1097fe2d4e9c",
+      "end_utc": "2026-10-17T10:09:53.444480+00:00",
+      "end_offset_seconds": 0.14813608300000003,
+      "duration_seconds": 0.07122658300000007
+    },
+    {
+      "id": "d3fff6c585654ba69d4722d3daac6ab5",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.373617+00:00",
+      "start_offset_seconds": 0.07726991699999997,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "2b1f36964354d620"
+      },
+      "parent_span_id": "29cea2e3ef75400397ac79d80bde25d7",
+      "end_utc": "2026-10-17T10:09:53.377980+00:00",
+      "end_offset_seconds": 0.08163275000000003,
+      "duration_seconds": 0.004362833000000066
+    },
+    {
+      "id": "183621100b484422b4ad128d722fae0f",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.374374+00:00",
+      "start_offset_seconds": 0.07802670800000011,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "d3fff6c585654ba69d4722d3daac6ab5",
+      "end_utc": "2026-10-17T10:09:53.374980+00:00",
+      "end_offset_seconds": 0.07863237499999998,
+      "duration_seconds": 0.0006056669999998654
+    },
+    {
+      "id": "e185f126e9834bb180da1e0f142dbe50",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.378395+00:00",
+      "start_offset_seconds": 0.0820500420000001,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "208178977d94714f"
+      },
+      "parent_span_id": "6b3df03ce0ec4b23baecc8d3c849f138",
+      "end_utc": "2026-10-17T10:09:53.382911+00:00",
+      "end_offset_seconds": 0.08656683300000001,
+      "duration_seconds": 0.004516790999999909
+    },
+    {
+      "id": "43f71eb0d3374cfba73fa85a36043284",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.378447+00:00",
+      "start_offset_seconds": 0.08209920800000003,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-cc09de1d9e0c2672",
+        "queue_wait_seconds": 2.8e-05
+      },
+      "parent_span_id": "6b3df03ce0ec4b23baecc8d3c849f138",
+      "end_utc": "2026-10-17T10:09:53.397734+00:00",
+      "end_offset_seconds": 0.10138637499999992,
+      "duration_seconds": 0.019287166999999883
+    },
+    {
+      "id": "4f2748bf767a44bb9c64ecd4f178f4b2",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.379179+00:00",
+      "start_offset_seconds": 0.0828317919999999,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "27e79487c6808549"
+      },
+      "parent_span_id": "43f71eb0d3374cfba73fa85a36043284",
+      "end_utc": "2026-10-17T10:09:53.397087+00:00",
+      "end_offset_seconds": 0.10074020799999994,
+      "duration_seconds": 0.017908416000000038
+    },
+    {
+      "id": "770458ac6f8c42368bc809ea99fe97b2",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.379580+00:00",
+      "start_offset_seconds": 0.08323366700000001,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e185f126e9834bb180da1e0f142dbe50",
+      "end_utc": "2026-10-17T10:09:53.380042+00:00",
+      "end_offset_seconds": 0.08369500000000007,
+      "duration_seconds": 0.0004613330000000637
+    },
+    {
+      "id": "4fe8afef42dd45e990e261682a4a36b1",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.383421+00:00",
+      "start_offset_seconds": 0.08707370799999992,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-4dd9fbae8ad86a55",
+        "queue_wait_seconds": 0.004991
+      },
+      "parent_span_id": "6b3df03ce0ec4b23baecc8d3c849f138",
+      "end_utc": "2026-10-17T10:09:53.402781+00:00",
+      "end_offset_seconds": 0.10643354199999999,
+      "duration_seconds": 0.019359834000000076
+    },
+    {
+      "id": "01bcdb0b966e4a01986c88d304a8bccd",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.383854+00:00",
+      "start_offset_seconds": 0.0875068750000001,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "f64670c03e5f452f"
+      },
+      "parent_span_id": "4fe8afef42dd45e990e261682a4a36b1",
+      "end_utc": "2026-10-17T10:09:53.402431+00:00",
+      "end_offset_seconds": 0.10608375000000003,
+      "duration_seconds": 0.018576874999999937
+    },
+    {
+      "id": "160d0adddc30403fa84956f13ab21ded",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.393787+00:00",
+      "start_offset_seconds": 0.09744279200000006,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "4f2748bf767a44bb9c64ecd4f178f4b2",
+      "end_utc": "2026-10-17T10:09:53.394220+00:00",
+      "end_offset_seconds": 0.09787258300000001,
+      "duration_seconds": 0.0004297909999999572
+    },
+    {
+      "id": "f6ca59a9cefe44ae915358fe55e62e00",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.398050+00:00",
+      "start_offset_seconds": 0.10170258300000001,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-52a62a457915142f",
+        "queue_wait_seconds": 0.019603
+      },
+      "parent_span_id": "6b3df03ce0ec4b23baecc8d3c849f138",
+      "end_utc": "2026-10-17T10:09:53.415721+00:00",
+      "end_offset_seconds": 0.11937387499999996,
+      "duration_seconds": 0.01767129199999995
+    },
+    {
+      "id": "d3a767b70a8e4a108151ead50ba7f78f",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.398422+00:00",
+      "start_offset_seconds": 0.10207420800000011,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "b25f77b83f3012d2"
+      },
+      "parent_span_id": "f6ca59a9cefe44ae915358fe55e62e00",
+      "end_utc": "2026-10-17T10:09:53.415372+00:00",
+      "end_offset_seconds": 0.11902450000000009,
+      "duration_seconds": 0.016950291999999978
+    },
+    {
+      "id": "9191df9d071b43ce93a43c49352976a8",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.399212+00:00",
+      "start_offset_seconds": 0.10286545799999991,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "01bcdb0b966e4a01986c88d304a8bccd",
+      "end_utc": "2026-10-17T10:09:53.399855+00:00",
+      "end_offset_seconds": 0.10350870800000012,
+      "duration_seconds": 0.0006432500000002062
+    },
+    {
+      "id": "8f2ba7299469483f803e75a23d61ae65",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.403131+00:00",
+      "start_offset_seconds": 0.10678354200000006,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-5036e74cdbbb4a3a",
+        "queue_wait_seconds": 0.024685
+      },
+      "parent_span_id": "6b3df03ce0ec4b23baecc8d3c849f138",
+      "end_utc": "2026-10-17T10:09:53.420984+00:00",
+      "end_offset_seconds": 0.12463637499999991,
+      "duration_seconds": 0.017852832999999846
+    },
+    {
+      "id": "4a59546f9fd94d7a835e99ebc6f0987a",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.403464+00:00",
+      "start_offset_seconds": 0.107116875,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "6d8c0cdbc53ecd78"
+      },
+      "parent_span_id": "8f2ba7299469483f803e75a23d61ae65",
+      "end_utc": "2026-10-17T10:09:53.420589+00:00",
+      "end_offset_seconds": 0.12424162500000002,
+      "duration_seconds": 0.017124750000000022
+    },
+    {
+      "id": "d60eb024fde84ae68cbbb16577fea5bd",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.412438+00:00",
+      "start_offset_seconds": 0.116091167,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "d3a767b70a8e4a108151ead50ba7f78f",
+      "end_utc": "2026-10-17T10:09:53.412933+00:00",
+      "end_offset_seconds": 0.11658529200000012,
+      "duration_seconds": 0.0004941250000001229
+    },
+    {
+      "id": "85886bfddf84425eaaa37f1272269669",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.416179+00:00",
+      "start_offset_seconds": 0.11983199999999994,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-c044786540748d41",
+        "queue_wait_seconds": 0.03773
+      },
+      "parent_span_id": "6b3df03ce0ec4b23baecc8d3c849f138",
+      "end_utc": "2026-10-17T10:09:53.434647+00:00",
+      "end_offset_seconds": 0.13830029200000005,
+      "duration_seconds": 0.01846829200000011
+    },
+    {
+      "id": "c7cf60d12987460e8f8771664e1162ec",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.416582+00:00",
+      "start_offset_seconds": 0.12023483300000004,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "70451b9c047085cc"
+      },
+      "parent_span_id": "85886bfddf84425eaaa37f1272269669",
+      "end_utc": "2026-10-17T10:09:53.434170+00:00",
+      "end_offset_seconds": 0.13782483300000004,
+      "duration_seconds": 0.017589999999999995
+    },
+    {
+      "id": "c7692c729b43423ab5922ec0c34a4aba",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.417545+00:00",
+      "start_offset_seconds": 0.12119737499999994,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "4a59546f9fd94d7a835e99ebc6f0987a",
+      "end_utc": "2026-10-17T10:09:53.418029+00:00",
+      "end_offset_seconds": 0.12168175000000003,
+      "duration_seconds": 0.00048437500000009237
+    },
+    {
+      "id": "fb07353102474efd92854e701834a1cc",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.421408+00:00",
+      "start_offset_seconds": 0.12506020800000006,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-042769f02635d3c5",
+        "queue_wait_seconds": 0.042958
+      },
+      "parent_span_id": "6b3df03ce0ec4b23baecc8d3c849f138",
+      "end_utc": "2026-10-17T10:09:53.439863+00:00",
+      "end_offset_seconds": 0.14351541699999992,
+      "duration_seconds": 0.01845520899999986
+    },
+    {
+      "id": "34d01d2a799148fbb5c7fe1d8ad55548",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.421795+00:00",
+      "start_offset_seconds": 0.12544716699999992,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "fe63c35777a1defc"
+      },
+      "parent_span_id": "fb07353102474efd92854e701834a1cc",
+      "end_utc": "2026-10-17T10:09:53.439424+00:00",
+      "end_offset_seconds": 0.14307662499999996,
+      "duration_seconds": 0.017629458000000042
+    },
+    {
+      "id": "5435646afbbc461ea19d2e8fc9f7fea6",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.430466+00:00",
+      "start_offset_seconds": 0.13411949999999995,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c7cf60d12987460e8f8771664e1162ec",
+      "end_utc": "2026-10-17T10:09:53.431047+00:00",
+      "end_offset_seconds": 0.13469920800000001,
+      "duration_seconds": 0.0005797080000000676
+    },
+    {
+      "id": "a27c5e5d06144e34b3a977bcc1ed229b",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.435850+00:00",
+      "start_offset_seconds": 0.139502542,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "34d01d2a799148fbb5c7fe1d8ad55548",
+      "end_utc": "2026-10-17T10:09:53.436451+00:00",
+      "end_offset_seconds": 0.14010395800000008,
+      "duration_seconds": 0.0006014160000000768
+    },
+    {
+      "id": "121e564e824b4a31ac473496c9fc4ad9",
+      "name": "visual_direction_compilation",
+      "start_utc": "2026-10-17T10:09:53.445603+00:00",
+      "start_offset_seconds": 0.14925641699999992,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "6b3df03ce0ec4b23baecc8d3c849f138",
+      "end_utc": "2026-10-17T10:09:53.492786+00:00",
+      "end_offset_seconds": 0.19646141700000008,
+      "duration_seconds": 0.047205000000000163
+    },
+    {
+      "id": "28b1269e12a54b41ab6fae17b4744641",
+      "name": "video_composition_and_encoding",
+      "start_utc": "2026-10-17T10:09:53.494270+00:00",
+      "start_offset_seconds": 0.197943792,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "6b3df03ce0ec4b23baecc8d3c849f138",
+      "end_utc": "2026-10-17T10:09:53.506870+00:00",
+      "end_offset_seconds": 0.2105331669999999,
+      "duration_seconds": 0.012589374999999903
+    },
+    {
+      "id": "7ebea2989b9d46959123fc244bb0d0ac",
+      "name": "render_quality_assurance",
+      "start_utc": "2026-10-17T10:09:53.507571+00:00",
+      "start_offset_seconds": 0.2112252080000001,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "6b3df03ce0ec4b23baecc8d3c849f138",
+      "end_utc": "2026-10-17T10:09:53.514313+00:00",
+      "end_offset_seconds": 0.21796791699999996,
+      "duration_seconds": 0.006742708999999847
+    }
+  ]
+}

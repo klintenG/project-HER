@@ -1,0 +1,889 @@
+{
+  "schema_version": "generation-diagnostics-v2",
+  "job_id": "scenario_diamond_warm",
+  "outcome": "completed",
+  "start_utc": "2026-10-17T10:09:53.721098+00:00",
+  "finish_utc": "2026-10-17T10:09:53.894928+00:00",
+  "total_elapsed_seconds": 0.17383,
+  "measured_wall_seconds": 0.17383,
+  "unattributed_wall_seconds": 0.0,
+  "peak_image_provider_concurrency": 0,
+  "runtime": [
+    {
+      "host_cpu_count": 10
+    }
+  ],
+  "infrastructure": {
+    "environment": "local",
+    "python_version": "3.9.6",
+    "service": "local_process",
+    "revision": "local",
+    "commit": "working_tree",
+    "region": "unspecified",
+    "configured_action_workers": 2,
+    "configured_remotion_concurrency": "default",
+    "process_peak_rss_native_units": 150929408,
+    "trace_runtimes": [
+      {
+        "host_cpu_count": 10
+      }
+    ]
+  },
+  "process_peak_rss_native_units": 150929408,
+  "revision": null,
+  "commit": null,
+  "video_mode": "reference_editorial",
+  "actual_video_seconds": 13.833,
+  "resolution": [
+    1080,
+    1920
+  ],
+  "fps": 30,
+  "output_size_bytes": null,
+  "visual_metrics": {
+    "sentences": 5,
+    "storyboard_visual_beats": 5,
+    "planned_primaries": 5,
+    "generated_assets": 7,
+    "distinct_primaries": 5,
+    "reused_secondary_assets": 1,
+    "rendered_primaries": 5,
+    "sentences_without_distinct_primary": 0,
+    "images_rejected_for_duplication": 0,
+    "image_generation_failures": 0,
+    "fallback_attempts": 0,
+    "scene_relevance_failures": 0,
+    "invariant_distinct_ge_sentences": true,
+    "acceptance_passed": true
+  },
+  "scene_report": [
+    {
+      "sentence_number": 1,
+      "sentence_id": "s0",
+      "visual_focus": "Beat 0: A sacred blue diamond was mined in Golconda.",
+      "primary_entity_id": "scene-615499394d495610",
+      "primary_asset_id": "asset-scene-615499394d495610",
+      "primary_asset_origin": "replicate:black-forest-labs/flux-kontext-pro",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "0808183878181808",
+      "reused_character_ids": [
+        "diamond"
+      ],
+      "secondary_entity_ids": [
+        "chest"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 0.0,
+      "end_time": 2.56,
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 2,
+      "sentence_id": "s1",
+      "visual_focus": "Beat 1: A French merchant smuggled the rough gem to Paris.",
+      "primary_entity_id": "scene-ec6d4cd235676171",
+      "primary_asset_id": "asset-scene-ec6d4cd235676171",
+      "primary_asset_origin": "replicate:black-forest-labs/flux-kontext-pro",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "234548050b1e1c1c",
+      "reused_character_ids": [
+        "diamond"
+      ],
+      "secondary_entity_ids": [
+        "chest"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 2.56,
+      "end_time": 5.44,
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 3,
+      "sentence_id": "s2",
+      "visual_focus": "Beat 2: King Louis wore the recut jewel at court.",
+      "primary_entity_id": "scene-1988e0412495ffe3",
+      "primary_asset_id": "asset-scene-1988e0412495ffe3",
+      "primary_asset_origin": "replicate:black-forest-labs/flux-kontext-pro",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "23454845231e1c1c",
+      "reused_character_ids": [
+        "diamond"
+      ],
+      "secondary_entity_ids": [
+        "chest"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 5.44,
+      "end_time": 8.0,
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 4,
+      "sentence_id": "s3",
+      "visual_focus": "Beat 3: Thieves seized the royal treasury during the revolution.",
+      "primary_entity_id": "scene-3cece34b2f9f81be",
+      "primary_asset_id": "asset-scene-3cece34b2f9f81be",
+      "primary_asset_origin": "replicate:black-forest-labs/flux-kontext-pro",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "3319191939391f03",
+      "reused_character_ids": [
+        "diamond"
+      ],
+      "secondary_entity_ids": [
+        "chest"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 8.0,
+      "end_time": 10.56,
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 5,
+      "sentence_id": "s4",
+      "visual_focus": "Beat 4: The cursed stone finally entered a museum vault.",
+      "primary_entity_id": "scene-9418232ce4b5acd0",
+      "primary_asset_id": "asset-scene-9418232ce4b5acd0",
+      "primary_asset_origin": "replicate:black-forest-labs/flux-kontext-pro",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "3345450525250703",
+      "reused_character_ids": [
+        "diamond"
+      ],
+      "secondary_entity_ids": [
+        "chest"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 10.56,
+      "end_time": 13.12,
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "render_visibility": "passed"
+    }
+  ],
+  "stage_timings": {},
+  "concurrency_analysis": {
+    "total_image_tasks": 7,
+    "total_provider_wait_spans": 0,
+    "peak_image_provider_concurrency": 0,
+    "average_active_image_concurrency": 0.0,
+    "configured_action_workers": 2,
+    "tts_visual_overlap_seconds": 0.0,
+    "speech_wall_seconds": null,
+    "cutouts_wall_seconds": null,
+    "serial_gap_seconds": 0.0,
+    "admission_wait_seconds": 0.0,
+    "rate_limit_responses": 0,
+    "rate_limit_backoff_seconds": 0,
+    "background_removal_total_seconds": 0.0044
+  },
+  "critical_path": [
+    {
+      "stage": "total_generation",
+      "duration_seconds": 0.1738,
+      "effective_advance_seconds": 0.1738,
+      "status": "succeeded"
+    }
+  ],
+  "bottleneck_ranking": [
+    {
+      "operation": "new_action_asset_generation",
+      "duration_seconds": 0.0178,
+      "percent_of_wall_time": 10.2,
+      "cause_category": "provider",
+      "evidence": "5 span(s), max=0.018s, accumulated=0.086s",
+      "optimization_opportunity": "Bounded parallel scene generation with adaptive Replicate admission pacing",
+      "confidence": "high"
+    },
+    {
+      "operation": "entity_identity_asset_generation",
+      "duration_seconds": 0.0079,
+      "percent_of_wall_time": 4.5,
+      "cause_category": "provider",
+      "evidence": "2 span(s), max=0.004s, accumulated=0.008s",
+      "optimization_opportunity": "Cache recurring character identity boards across retries",
+      "confidence": "high"
+    },
+    {
+      "operation": "background_removal_and_alpha",
+      "duration_seconds": 0.0044,
+      "percent_of_wall_time": 2.5,
+      "cause_category": "compute",
+      "evidence": "7 span(s), max=0.001s, accumulated=0.004s",
+      "optimization_opportunity": "Reuse warm ONNX rembg session and run cutout trimming as each image completes",
+      "confidence": "high"
+    },
+    {
+      "operation": "semantic_beat_planning",
+      "duration_seconds": 0.0009,
+      "percent_of_wall_time": 0.5,
+      "cause_category": "provider",
+      "evidence": "1 span(s), max=0.001s, accumulated=0.001s",
+      "optimization_opportunity": "Single-pass structured storyboard generation with strict schema validation",
+      "confidence": "high"
+    }
+  ],
+  "rendering": {
+    "renderer": "remotion",
+    "frames": 415,
+    "fps": 30,
+    "resolution": [
+      1080,
+      1920
+    ],
+    "remotion_render_seconds": null,
+    "ffmpeg_encode_seconds": null,
+    "audio_delivery_seconds": null,
+    "total_render_and_qa_seconds": null,
+    "video_encode_passes": null,
+    "average_fps_throughput": null,
+    "output_size_bytes": null
+  },
+  "images": [
+    {
+      "task_index": 1,
+      "entityId": "diamond",
+      "assetId": "asset-diamond",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "visual_concept": "Golconda Blue Diamond",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.0,
+      "api_duration_seconds": 0,
+      "processing_and_review_seconds": 0.003,
+      "durationSeconds": 0.003,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": true,
+      "route": "supporting_illustration",
+      "identityReferences": [],
+      "dimensions": [
+        301,
+        301
+      ],
+      "bytes": 2509,
+      "displayed_in_render": false,
+      "origin": "reused_or_cached"
+    },
+    {
+      "task_index": 2,
+      "entityId": "chest",
+      "assetId": "asset-chest",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "visual_concept": "Royal Reliquary",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.0,
+      "api_duration_seconds": 0,
+      "processing_and_review_seconds": 0.003,
+      "durationSeconds": 0.003,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": true,
+      "route": "supporting_illustration",
+      "identityReferences": [],
+      "dimensions": [
+        291,
+        261
+      ],
+      "bytes": 1428,
+      "displayed_in_render": true,
+      "origin": "reused_or_cached"
+    },
+    {
+      "task_index": 3,
+      "entityId": "scene-615499394d495610",
+      "assetId": "asset-scene-615499394d495610",
+      "sentence_id": "s0",
+      "role": "primary",
+      "visual_concept": "Beat 0: A sacred blue diamond was mined in Golconda.",
+      "provider": "replicate:black-forest-labs/flux-kontext-pro",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.0,
+      "api_duration_seconds": 0,
+      "processing_and_review_seconds": 0.016,
+      "durationSeconds": 0.016,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": true,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "diamond"
+      ],
+      "dimensions": [
+        301,
+        301
+      ],
+      "bytes": 1833,
+      "displayed_in_render": true,
+      "origin": "reused_or_cached"
+    },
+    {
+      "task_index": 4,
+      "entityId": "scene-ec6d4cd235676171",
+      "assetId": "asset-scene-ec6d4cd235676171",
+      "sentence_id": "s1",
+      "role": "primary",
+      "visual_concept": "Beat 1: A French merchant smuggled the rough gem to Paris.",
+      "provider": "replicate:black-forest-labs/flux-kontext-pro",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.0043,
+      "api_duration_seconds": 0,
+      "processing_and_review_seconds": 0.017,
+      "durationSeconds": 0.017,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": true,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "diamond"
+      ],
+      "dimensions": [
+        291,
+        281
+      ],
+      "bytes": 1702,
+      "displayed_in_render": true,
+      "origin": "reused_or_cached"
+    },
+    {
+      "task_index": 5,
+      "entityId": "scene-1988e0412495ffe3",
+      "assetId": "asset-scene-1988e0412495ffe3",
+      "sentence_id": "s2",
+      "role": "primary",
+      "visual_concept": "Beat 2: King Louis wore the recut jewel at court.",
+      "provider": "replicate:black-forest-labs/flux-kontext-pro",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.0186,
+      "api_duration_seconds": 0,
+      "processing_and_review_seconds": 0.016,
+      "durationSeconds": 0.016,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": true,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "diamond"
+      ],
+      "dimensions": [
+        291,
+        281
+      ],
+      "bytes": 1702,
+      "displayed_in_render": true,
+      "origin": "reused_or_cached"
+    },
+    {
+      "task_index": 6,
+      "entityId": "scene-3cece34b2f9f81be",
+      "assetId": "asset-scene-3cece34b2f9f81be",
+      "sentence_id": "s3",
+      "role": "primary",
+      "visual_concept": "Beat 3: Thieves seized the royal treasury during the revolution.",
+      "provider": "replicate:black-forest-labs/flux-kontext-pro",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.0231,
+      "api_duration_seconds": 0,
+      "processing_and_review_seconds": 0.017,
+      "durationSeconds": 0.017,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": true,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "diamond"
+      ],
+      "dimensions": [
+        291,
+        261
+      ],
+      "bytes": 1429,
+      "displayed_in_render": true,
+      "origin": "reused_or_cached"
+    },
+    {
+      "task_index": 7,
+      "entityId": "scene-9418232ce4b5acd0",
+      "assetId": "asset-scene-9418232ce4b5acd0",
+      "sentence_id": "s4",
+      "role": "primary",
+      "visual_concept": "Beat 4: The cursed stone finally entered a museum vault.",
+      "provider": "replicate:black-forest-labs/flux-kontext-pro",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.0367,
+      "api_duration_seconds": 0,
+      "processing_and_review_seconds": 0.016,
+      "durationSeconds": 0.016,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": true,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "diamond"
+      ],
+      "dimensions": [
+        291,
+        261
+      ],
+      "bytes": 1424,
+      "displayed_in_render": true,
+      "origin": "reused_or_cached"
+    }
+  ],
+  "provider_metrics": {},
+  "errors_and_retries": [],
+  "recommended_next_investigation": [
+    "Remotion output is currently re-encoded by FFmpeg for BT.601->BT.709 color conversion (2 encode passes). Validate HER_EDITORIAL_DIRECT_BT709=1 on target runtime to use -c:v copy."
+  ],
+  "spans": [
+    {
+      "id": "dc7a188629dd477499c9f74a9b3aa84b",
+      "name": "total_generation",
+      "start_utc": "2026-10-17T10:09:53.721098+00:00",
+      "start_offset_seconds": 0.0002947920000000437,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": null,
+      "end_utc": "2026-10-17T10:09:53.894928+00:00",
+      "end_offset_seconds": 0.1741226250000001,
+      "duration_seconds": 0.17382783300000004,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "cd7d0824189f499f95a5dff9ab07655f",
+      "name": "input_validation_and_normalization",
+      "start_utc": "2026-10-17T10:09:53.721371+00:00",
+      "start_offset_seconds": 0.0005665839999999811,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "dc7a188629dd477499c9f74a9b3aa84b",
+      "end_utc": "2026-10-17T10:09:53.721681+00:00",
+      "end_offset_seconds": 0.0008772500000000516,
+      "duration_seconds": 0.0003106660000000705,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "07be24bd636c4073a612aba868e6514e",
+      "name": "source_retrieval_and_fact_extraction",
+      "start_utc": "2026-10-17T10:09:53.721926+00:00",
+      "start_offset_seconds": 0.001121292000000107,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "dc7a188629dd477499c9f74a9b3aa84b",
+      "end_utc": "2026-10-17T10:09:53.728408+00:00",
+      "end_offset_seconds": 0.0076049170000001,
+      "duration_seconds": 0.006483624999999993,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "fa9941d3c57641629935e07c2a7eb40e",
+      "name": "script_generation_and_verification",
+      "start_utc": "2026-10-17T10:09:53.728645+00:00",
+      "start_offset_seconds": 0.007840750000000174,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "dc7a188629dd477499c9f74a9b3aa84b",
+      "end_utc": "2026-10-17T10:09:53.735099+00:00",
+      "end_offset_seconds": 0.014295625000000145,
+      "duration_seconds": 0.006454874999999971,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "490e205b33e9431b8b5a64fad72e5dba",
+      "name": "parallel_media_stage",
+      "start_utc": "2026-10-17T10:09:53.735339+00:00",
+      "start_offset_seconds": 0.014535167000000015,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "dc7a188629dd477499c9f74a9b3aa84b",
+      "end_utc": "2026-10-17T10:09:53.843327+00:00",
+      "end_offset_seconds": 0.12252258400000016,
+      "duration_seconds": 0.10798741700000014,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "d0a661235e34430d9a506825785f3567",
+      "name": "tts_generation_and_alignment",
+      "start_utc": "2026-10-17T10:09:53.735533+00:00",
+      "start_offset_seconds": 0.014728542000000067,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "490e205b33e9431b8b5a64fad72e5dba",
+      "end_utc": "2026-10-17T10:09:53.779219+00:00",
+      "end_offset_seconds": 0.05842016700000019,
+      "duration_seconds": 0.04369162500000012,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "4e4cc92b3eab41c4be74c53cf12c3e48",
+      "name": "semantic_beat_planning",
+      "start_utc": "2026-10-17T10:09:53.779551+00:00",
+      "start_offset_seconds": 0.05874662500000016,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "490e205b33e9431b8b5a64fad72e5dba",
+      "end_utc": "2026-10-17T10:09:53.780498+00:00",
+      "end_offset_seconds": 0.05969391700000015,
+      "duration_seconds": 0.0009472919999999885,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "70e697fb674d40dab33858f70d8d7a62",
+      "name": "cutout_acquisition_and_matting",
+      "start_utc": "2026-10-17T10:09:53.780722+00:00",
+      "start_offset_seconds": 0.05991787500000001,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "490e205b33e9431b8b5a64fad72e5dba",
+      "end_utc": "2026-10-17T10:09:53.842895+00:00",
+      "end_offset_seconds": 0.1220903750000002,
+      "duration_seconds": 0.062172500000000186,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "185c1383dbc74c84b57427958e348010",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.781066+00:00",
+      "start_offset_seconds": 0.06026150000000019,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "81c9d6128b5fcd7b"
+      },
+      "parent_span_id": "70e697fb674d40dab33858f70d8d7a62",
+      "end_utc": "2026-10-17T10:09:53.784897+00:00",
+      "end_offset_seconds": 0.06409295900000012,
+      "duration_seconds": 0.003831458999999926,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "3e6d78367eb74c04b1bafd9e8c92a2ca",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.781762+00:00",
+      "start_offset_seconds": 0.060957250000000185,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "185c1383dbc74c84b57427958e348010",
+      "end_utc": "2026-10-17T10:09:53.782153+00:00",
+      "end_offset_seconds": 0.06134812500000009,
+      "duration_seconds": 0.0003908749999999017,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "b3a34d48192646e38066a21538d82b99",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.785313+00:00",
+      "start_offset_seconds": 0.06450845900000002,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "7ca0d7019158ccd9"
+      },
+      "parent_span_id": "dc7a188629dd477499c9f74a9b3aa84b",
+      "end_utc": "2026-10-17T10:09:53.789371+00:00",
+      "end_offset_seconds": 0.06856670900000017,
+      "duration_seconds": 0.004058250000000152,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "270d1da6a68b4ce2bb158abc926f94ec",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.785370+00:00",
+      "start_offset_seconds": 0.0645656670000001,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-615499394d495610",
+        "queue_wait_seconds": 2.7e-05
+      },
+      "parent_span_id": "dc7a188629dd477499c9f74a9b3aa84b",
+      "end_utc": "2026-10-17T10:09:53.803537+00:00",
+      "end_offset_seconds": 0.0827320840000001,
+      "duration_seconds": 0.01816641699999999,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "ecf04a76484e444880dedba5689e8fdf",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.786047+00:00",
+      "start_offset_seconds": 0.06524366700000006,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "94148a6bc1097dcb"
+      },
+      "parent_span_id": "270d1da6a68b4ce2bb158abc926f94ec",
+      "end_utc": "2026-10-17T10:09:53.803218+00:00",
+      "end_offset_seconds": 0.08241395900000015,
+      "duration_seconds": 0.017170292000000087,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "486707d6e2dd4450809945b6c4669973",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.786472+00:00",
+      "start_offset_seconds": 0.06566762500000012,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "b3a34d48192646e38066a21538d82b99",
+      "end_utc": "2026-10-17T10:09:53.787020+00:00",
+      "end_offset_seconds": 0.06621545900000014,
+      "duration_seconds": 0.0005478340000000248,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "73e41ca465ba412b9c0744104df4b990",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.789679+00:00",
+      "start_offset_seconds": 0.06887479200000013,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-ec6d4cd235676171",
+        "queue_wait_seconds": 0.00434
+      },
+      "parent_span_id": "dc7a188629dd477499c9f74a9b3aa84b",
+      "end_utc": "2026-10-17T10:09:53.808098+00:00",
+      "end_offset_seconds": 0.087293375,
+      "duration_seconds": 0.018418582999999877,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "fca51e57d788440892d5aa795c204484",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.790001+00:00",
+      "start_offset_seconds": 0.06919625000000007,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "c57e7449deda49fc"
+      },
+      "parent_span_id": "73e41ca465ba412b9c0744104df4b990",
+      "end_utc": "2026-10-17T10:09:53.807767+00:00",
+      "end_offset_seconds": 0.08696250000000005,
+      "duration_seconds": 0.017766249999999983,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "0f477607f772473db9e6a42f3ddeacb2",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.800023+00:00",
+      "start_offset_seconds": 0.07921912500000006,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "ecf04a76484e444880dedba5689e8fdf",
+      "end_utc": "2026-10-17T10:09:53.800487+00:00",
+      "end_offset_seconds": 0.07968233400000013,
+      "duration_seconds": 0.0004632090000000755,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "6c588dfe4c204682aa32899fd4396ed6",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.803922+00:00",
+      "start_offset_seconds": 0.08311737500000005,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-1988e0412495ffe3",
+        "queue_wait_seconds": 0.018562
+      },
+      "parent_span_id": "dc7a188629dd477499c9f74a9b3aa84b",
+      "end_utc": "2026-10-17T10:09:53.821708+00:00",
+      "end_offset_seconds": 0.10090295900000013,
+      "duration_seconds": 0.017785584000000076,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e03b80b5223e464e8d64d4b39beb64a1",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.804264+00:00",
+      "start_offset_seconds": 0.08345924999999998,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "fca51e57d788440892d5aa795c204484",
+      "end_utc": "2026-10-17T10:09:53.805175+00:00",
+      "end_offset_seconds": 0.08437095900000013,
+      "duration_seconds": 0.0009117090000001493,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "58cc5bcb27b8450fb6bf37f4e351d066",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.804307+00:00",
+      "start_offset_seconds": 0.08350250000000004,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "da9bcd4c6648098e"
+      },
+      "parent_span_id": "6c588dfe4c204682aa32899fd4396ed6",
+      "end_utc": "2026-10-17T10:09:53.821347+00:00",
+      "end_offset_seconds": 0.10054266700000003,
+      "duration_seconds": 0.017040166999999995,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "617034333dbb4cf68484f517e35ab751",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.808439+00:00",
+      "start_offset_seconds": 0.08763454199999998,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-3cece34b2f9f81be",
+        "queue_wait_seconds": 0.02308
+      },
+      "parent_span_id": "dc7a188629dd477499c9f74a9b3aa84b",
+      "end_utc": "2026-10-17T10:09:53.826542+00:00",
+      "end_offset_seconds": 0.10573695900000013,
+      "duration_seconds": 0.01810241700000015,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "cf330df12fc54e8c86b3bcb3490a136b",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.808768+00:00",
+      "start_offset_seconds": 0.08796283400000005,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "9ea267dbc1e698ff"
+      },
+      "parent_span_id": "617034333dbb4cf68484f517e35ab751",
+      "end_utc": "2026-10-17T10:09:53.826170+00:00",
+      "end_offset_seconds": 0.10536512500000006,
+      "duration_seconds": 0.017402291000000014,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "aea57b41f45b48429c28bcd41100aabc",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.818349+00:00",
+      "start_offset_seconds": 0.09754499999999999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "58cc5bcb27b8450fb6bf37f4e351d066",
+      "end_utc": "2026-10-17T10:09:53.818832+00:00",
+      "end_offset_seconds": 0.09802720900000006,
+      "duration_seconds": 0.0004822090000000667,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "3ca37b4a6807457f8c2dbe74b005c86d",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.822113+00:00",
+      "start_offset_seconds": 0.1013090000000001,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-9418232ce4b5acd0",
+        "queue_wait_seconds": 0.036748
+      },
+      "parent_span_id": "dc7a188629dd477499c9f74a9b3aa84b",
+      "end_utc": "2026-10-17T10:09:53.839494+00:00",
+      "end_offset_seconds": 0.11868875000000001,
+      "duration_seconds": 0.017379749999999916,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "be6e45623474416bad0f5b2852d6642f",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.822517+00:00",
+      "start_offset_seconds": 0.10171258400000016,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "b651b33dc8dbf553"
+      },
+      "parent_span_id": "3ca37b4a6807457f8c2dbe74b005c86d",
+      "end_utc": "2026-10-17T10:09:53.839075+00:00",
+      "end_offset_seconds": 0.11826987500000019,
+      "duration_seconds": 0.01655729100000003,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "728f1ac15bf74c3685ea7187c2d4cf24",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.822538+00:00",
+      "start_offset_seconds": 0.10173383400000002,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "cf330df12fc54e8c86b3bcb3490a136b",
+      "end_utc": "2026-10-17T10:09:53.823624+00:00",
+      "end_offset_seconds": 0.10282241700000005,
+      "duration_seconds": 0.0010885830000000318,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e0e3a02bc5594bcb93990d1ce823e8ca",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.836195+00:00",
+      "start_offset_seconds": 0.11539016700000015,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "be6e45623474416bad0f5b2852d6642f",
+      "end_utc": "2026-10-17T10:09:53.836695+00:00",
+      "end_offset_seconds": 0.11589045900000006,
+      "duration_seconds": 0.0005002919999999023,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "55b67e313a45426590ba20684011e170",
+      "name": "visual_direction_compilation",
+      "start_utc": "2026-10-17T10:09:53.843740+00:00",
+      "start_offset_seconds": 0.12293554200000001,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "dc7a188629dd477499c9f74a9b3aa84b",
+      "end_utc": "2026-10-17T10:09:53.873910+00:00",
+      "end_offset_seconds": 0.15311404200000012,
+      "duration_seconds": 0.030178500000000108,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "9b4752ffbeac41d29a2ef616f69f8e39",
+      "name": "video_composition_and_encoding",
+      "start_utc": "2026-10-17T10:09:53.874425+00:00",
+      "start_offset_seconds": 0.15362104200000015,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "dc7a188629dd477499c9f74a9b3aa84b",
+      "end_utc": "2026-10-17T10:09:53.887343+00:00",
+      "end_offset_seconds": 0.166545167,
+      "duration_seconds": 0.012924124999999842,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "7618104a41a44700953cb2033a7f46ad",
+      "name": "render_quality_assurance",
+      "start_utc": "2026-10-17T10:09:53.887827+00:00",
+      "start_offset_seconds": 0.16702258400000014,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "dc7a188629dd477499c9f74a9b3aa84b",
+      "end_utc": "2026-10-17T10:09:53.894486+00:00",
+      "end_offset_seconds": 0.17368704200000007,
+      "duration_seconds": 0.006664457999999929,
+      "trace_file": "job_trace.json"
+    }
+  ],
+  "limitations": [
+    "Browser timings unavailable unless submitted by the client.",
+    "Cold-start/cache comparison requires separate controlled runs; process peak RSS includes earlier jobs.",
+    "Overlapping durations must not be summed. Span nesting expresses dependencies, not a proven critical-path DAG.",
+    "Report serialization and report upload occur after the measured worker interval."
+  ]
+}

@@ -79,6 +79,9 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
         for entity in script.entities:validate_glyphs(entity.name)
         (out/'news_preview.json').write_text(json.dumps({'input':inp.model_dump(),'evidence':evidence.model_dump(),'script':script.model_dump(),'warnings':warnings},ensure_ascii=False,indent=2))
         from .visuals import plan_visuals
+        from . import sentence_storyboard as storyboard
+        strict=config.SENTENCE_PRIMARY_VISUALS
+        if strict:script=trace.call('narration_segmentation',storyboard.segment,script)
         narration_settings={};asset_diagnostics={};media_timings={}
         approved_script=script
         begin('media','Planning narrative visuals and generating narration')
@@ -94,8 +97,9 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
         # Local registries intentionally specify every supplied subject; they
         # retain the script plan instead of adding unregistered illustrations.
         visual_started=time.monotonic()
-        script,cues=trace.call('semantic_beat_planning',plan_visuals,script,evidence,None if asset_mode=='local' else llm,visual_diagnostics)
+        script,cues=trace.call('semantic_beat_planning',storyboard.plan if strict else plan_visuals,script,evidence,llm if strict or asset_mode!='local' else None,visual_diagnostics)
         timings['semantic_beat_planning']=round(time.monotonic()-visual_started,3)
+        if strict:(out/'sentence_storyboard.json').write_text(json.dumps(script.sentence_storyboard,ensure_ascii=False,indent=2))
         (out/'visual_plan.json').write_text(json.dumps({'script':script.model_dump(),'sections':cues,'diagnostics':visual_diagnostics},ensure_ascii=False,indent=2))
         tracker.update_stage('media',detail='Generating narration and sourcing cutouts together')
         # Remote speech and cutout sourcing are independent after the approved
@@ -107,6 +111,9 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
             lambda:tracker.update_stage('media',progress=.5,detail='Speech ready; completing visual cutouts'),media_timings)
         if speech_pool:speech_pool.shutdown(wait=True);speech_pool=None
         cancelled(cancel_event)
+        if strict:
+            from .vision import VisualReview
+            visual_diagnostics['sentenceQuality']=trace.call('sentence_asset_validation',storyboard.validate_assets,script,assets,asset_diagnostics.get('assetAcquisition',{}),VisualReview())
         tracker.update_stage('media',progress=.75,detail='Aligning approved narration to audio')
         code=LANGUAGES.get(language.lower(),language.lower()).split('-')[0]
         align_started=time.monotonic()
@@ -122,7 +129,7 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
         from .director import VisualSettings,direct,save_summary
         visual_settings=VisualSettings.configured()
         direction_started=time.monotonic()
-        direction=direct(script,words,cues,None if asset_mode=='local' else llm,visual_settings,diagnostics) if visual_settings.narrationDrivenVisualsEnabled else None
+        direction=storyboard.direction(script) if strict else direct(script,words,cues,None if asset_mode=='local' else llm,visual_settings,diagnostics) if visual_settings.narrationDrivenVisualsEnabled else None
         timings['scene_planning_and_layout']=round(time.monotonic()-direction_started,3)
         if direction is not None:
             (out/'visual_direction.json').write_text(direction.model_dump_json(indent=2))
@@ -136,14 +143,17 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
             mixed=mix_music(audio.model_copy(update={'path':str(raw.resolve()),'duration':probe_duration(raw)}),out,music_path)
             mix_source=Path(mixed.path);diagnostics['music']={'enabled':True,'source':str(music_path or 'existing procedural music engine'),'ducking':True}
         else:diagnostics['music']={'enabled':False}
-        mix=out/'master.wav';diagnostics['loudness']=normalize(mix_source,mix)
+        mix=out/'master.wav';diagnostics['loudness']=trace.call('audio_normalization',normalize,mix_source,mix)
         begin('timeline','Aligning semantic beats to the final master track')
         # The atomic director already owns layout intent. Keep the legacy plan
         # for inspection without a redundant LLM layout request in this mode.
-        plan=semantic_plan(script,None if direction is not None else llm,diagnostics=diagnostics);(out/'semantic_plan.json').write_text(json.dumps(plan,indent=2))
+        plan=trace.call('timeline_planning',semantic_plan,script,None if direction is not None else llm,diagnostics=diagnostics);(out/'semantic_plan.json').write_text(json.dumps(plan,indent=2))
         m=build(script,words,sections,entities,assets,mix,out,generation,diagnostics,plan,subtitle_mode,visual_cues=cues,direction=direction,visual_settings=visual_settings)
+        if strict:
+            diagnostics['sentenceQuality'].update(trace.call('sentence_render_validation',storyboard.validate_render,script,m))
+            (out/'sentence_storyboard.json').write_text(json.dumps(script.sentence_storyboard,ensure_ascii=False,indent=2))
         m.warnings.extend(diagnostics.get('visualDirector',{}).get('warnings',[]))
-        m.warnings.extend(warnings+diagnostics.get('alignmentWarnings',[])+diagnostics['semanticPlan']['warnings']+diagnostics['visualPlan']['warnings'])
+        m.warnings.extend(warnings+diagnostics.get('alignmentWarnings',[])+diagnostics.get('semanticPlan',{}).get('warnings',[])+diagnostics.get('visualPlan',{}).get('warnings',[]))
         if diagnostics.get('narrativeQuality',{}).get('degradedBeats'):
             m.warnings.append('Some required action visuals are degraded; review narrative_beat_plan.json before publishing.')
         if target_duration and abs(m.durationInFrames/30-target_duration)>max(5,target_duration*.2):m.warnings.append('Actual speech duration differs from target; no padding added.')
@@ -161,15 +171,26 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
         manifest=out/'editorial_manifest.json';manifest.write_text(m.model_dump_json(indent=2))
         (out/'image_credits.txt').write_text('\n\n'.join(f'{a.subject}\n{a.attribution}\n{a.source}\n{a.fallback or ""}' for a in assets))
         total_span.__exit__(None,None,None)
+        if getattr(config,'PERF_DIAGNOSTICS',True):
+            try:
+                from utils.generation_diagnostics import export_reports
+                export_reports(out,trace.job_id,'succeeded')
+            except Exception:pass
         return PipelineResult(success=True,video_path=video,srt_path=out/'subtitles.srt',thumbnail_path=thumb,duration=output_frames(m.durationInFrames,30)/30,resolution='1080x1920',video_format='vertical',title=script.summary,key_point_count=len(m.beats),processing_time=time.monotonic()-started,content_type='news',theme='reference_editorial',caption_style=subtitle_mode,hook=script.sentences[0].text,
-            news_details={'status':'ready','preset':'reference_editorial','manifest':str(manifest.resolve()),'sources':[{'id':s.id,'title':s.title,'url':s.url} for s in evidence.sources],
+            news_details={'status':'ready','preset':'reference_editorial','output_dir':str(out.resolve()),'manifest':str(manifest.resolve()),'sources':[{'id':s.id,'title':s.title,'url':s.url} for s in evidence.sources],
                 'images':[{'name':a.subject,'origin':'generated' if a.source.startswith('replicate:') else a.preparation,'identity_verified':a.factual,'attribution':a.attribution,'source_url':a.source,
                     'likeness_reviewed':any(r.get('assetId')==a.id and bool(r.get('generation',{}).get('visualReview')) for r in diagnostics['assetAcquisition']['assets'])} for a in assets],
                 'narration':{'provider':audio.provider,'model':audio.model,'fallbacks':audio.fallbacks},'warnings':m.warnings,'audio':stats,
-                'narrative_quality':diagnostics.get('narrativeQuality')})
+                'narrative_quality':diagnostics.get('narrativeQuality'),'sentence_quality':diagnostics.get('sentenceQuality')})
     except Exception as exc:
-        total_span.__exit__(type(exc),exc,exc.__traceback__)
-        if 'speech_pool' in locals() and speech_pool:speech_pool.shutdown(wait=False,cancel_futures=True)
+        if 'speech_pool' in locals() and speech_pool:speech_pool.shutdown(wait=True,cancel_futures=True)
         tracker.fail_stage(stage,str(exc));details=exc.response() if isinstance(exc,NewsError) else {'status':'error','error':str(exc)}
+        details['output_dir']=str(out.resolve())
         (out/'editorial_failure.json').write_text(json.dumps({'stage':stage,**details},indent=2))
+        total_span.__exit__(type(exc),exc,exc.__traceback__)
+        if getattr(config,'PERF_DIAGNOSTICS',True):
+            try:
+                from utils.generation_diagnostics import export_reports
+                export_reports(out,trace.job_id,'failed')
+            except Exception:pass
         return PipelineResult(errors=[str(exc)],content_type='news',processing_time=time.monotonic()-started,news_details=details)

@@ -1,0 +1,2723 @@
+{
+  "schemaVersion": "2.0",
+  "preset": "reference_editorial",
+  "contentMode": "news",
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "durationInFrames": 425,
+  "generationId": "scenario_sisyphus_cold",
+  "script": "Sisyphus was a clever king of Corinth. He cheated death twice with cunning chains. Zeus decided to punish him in Tartarus. Sisyphus pushed a massive granite boulder uphill. The boulder rolled downhill just before the summit. He faced the exhausting task forever.",
+  "scriptHash": "b3cbca3e302f305485160303464cfe87a5d6c47ba5bf90e5e915533c38fcb85b",
+  "fonts": {
+    "semibold": "/Users/klinten/Desktop/My-projects/project-HER/assets/fonts/news/Poppins-SemiBold.ttf",
+    "bold": "/Users/klinten/Desktop/My-projects/project-HER/assets/fonts/news/Poppins-Bold.ttf",
+    "version": "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c"
+  },
+  "audio": [
+    {
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/master.wav",
+      "offsetFrames": 0,
+      "duration": 13.54,
+      "kind": "master",
+      "gain": 1.0,
+      "sha256": "faf95c982aaa3105ecc7d29a63ed2893154474a745a9f60dd42be81eb2264420"
+    }
+  ],
+  "words": [
+    {
+      "id": "w0",
+      "sectionId": "s0",
+      "text": "Sisyphus",
+      "start": 0.0,
+      "end": 0.32,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w1",
+      "sectionId": "s0",
+      "text": "was",
+      "start": 0.32,
+      "end": 0.64,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w2",
+      "sectionId": "s0",
+      "text": "a",
+      "start": 0.64,
+      "end": 0.96,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w3",
+      "sectionId": "s0",
+      "text": "clever",
+      "start": 0.96,
+      "end": 1.28,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w4",
+      "sectionId": "s0",
+      "text": "king",
+      "start": 1.28,
+      "end": 1.6,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w5",
+      "sectionId": "s0",
+      "text": "of",
+      "start": 1.6,
+      "end": 1.92,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w6",
+      "sectionId": "s0",
+      "text": "Corinth.",
+      "start": 1.92,
+      "end": 2.24,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w7",
+      "sectionId": "s1",
+      "text": "He",
+      "start": 2.24,
+      "end": 2.56,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w8",
+      "sectionId": "s1",
+      "text": "cheated",
+      "start": 2.56,
+      "end": 2.88,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w9",
+      "sectionId": "s1",
+      "text": "death",
+      "start": 2.88,
+      "end": 3.2,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w10",
+      "sectionId": "s1",
+      "text": "twice",
+      "start": 3.2,
+      "end": 3.52,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w11",
+      "sectionId": "s1",
+      "text": "with",
+      "start": 3.52,
+      "end": 3.84,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w12",
+      "sectionId": "s1",
+      "text": "cunning",
+      "start": 3.84,
+      "end": 4.16,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w13",
+      "sectionId": "s1",
+      "text": "chains.",
+      "start": 4.16,
+      "end": 4.48,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w14",
+      "sectionId": "s2",
+      "text": "Zeus",
+      "start": 4.48,
+      "end": 4.8,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w15",
+      "sectionId": "s2",
+      "text": "decided",
+      "start": 4.8,
+      "end": 5.12,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w16",
+      "sectionId": "s2",
+      "text": "to",
+      "start": 5.12,
+      "end": 5.44,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w17",
+      "sectionId": "s2",
+      "text": "punish",
+      "start": 5.44,
+      "end": 5.76,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w18",
+      "sectionId": "s2",
+      "text": "him",
+      "start": 5.76,
+      "end": 6.08,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w19",
+      "sectionId": "s2",
+      "text": "in",
+      "start": 6.08,
+      "end": 6.4,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w20",
+      "sectionId": "s2",
+      "text": "Tartarus.",
+      "start": 6.4,
+      "end": 6.72,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w21",
+      "sectionId": "s3",
+      "text": "Sisyphus",
+      "start": 6.72,
+      "end": 7.04,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w22",
+      "sectionId": "s3",
+      "text": "pushed",
+      "start": 7.04,
+      "end": 7.36,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w23",
+      "sectionId": "s3",
+      "text": "a",
+      "start": 7.36,
+      "end": 7.68,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w24",
+      "sectionId": "s3",
+      "text": "massive",
+      "start": 7.68,
+      "end": 8.0,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w25",
+      "sectionId": "s3",
+      "text": "granite",
+      "start": 8.0,
+      "end": 8.32,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w26",
+      "sectionId": "s3",
+      "text": "boulder",
+      "start": 8.32,
+      "end": 8.64,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w27",
+      "sectionId": "s3",
+      "text": "uphill.",
+      "start": 8.64,
+      "end": 8.96,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w28",
+      "sectionId": "s4",
+      "text": "The",
+      "start": 8.96,
+      "end": 9.28,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w29",
+      "sectionId": "s4",
+      "text": "boulder",
+      "start": 9.28,
+      "end": 9.6,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w30",
+      "sectionId": "s4",
+      "text": "rolled",
+      "start": 9.6,
+      "end": 9.92,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w31",
+      "sectionId": "s4",
+      "text": "downhill",
+      "start": 9.92,
+      "end": 10.24,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w32",
+      "sectionId": "s4",
+      "text": "just",
+      "start": 10.24,
+      "end": 10.56,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w33",
+      "sectionId": "s4",
+      "text": "before",
+      "start": 10.56,
+      "end": 10.88,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w34",
+      "sectionId": "s4",
+      "text": "the",
+      "start": 10.88,
+      "end": 11.2,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w35",
+      "sectionId": "s4",
+      "text": "summit.",
+      "start": 11.2,
+      "end": 11.52,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w36",
+      "sectionId": "s5",
+      "text": "He",
+      "start": 11.52,
+      "end": 11.84,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w37",
+      "sectionId": "s5",
+      "text": "faced",
+      "start": 11.84,
+      "end": 12.16,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w38",
+      "sectionId": "s5",
+      "text": "the",
+      "start": 12.16,
+      "end": 12.48,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w39",
+      "sectionId": "s5",
+      "text": "exhausting",
+      "start": 12.48,
+      "end": 12.8,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w40",
+      "sectionId": "s5",
+      "text": "task",
+      "start": 12.8,
+      "end": 13.12,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w41",
+      "sectionId": "s5",
+      "text": "forever.",
+      "start": 13.12,
+      "end": 13.44,
+      "provenance": "provider",
+      "confidence": 1.0
+    }
+  ],
+  "sections": [
+    {
+      "id": "s0",
+      "text": "Sisyphus was a clever king of Corinth.",
+      "start": 0.0,
+      "end": 2.24,
+      "wordIds": [
+        "w0",
+        "w1",
+        "w2",
+        "w3",
+        "w4",
+        "w5",
+        "w6"
+      ],
+      "sourceIds": []
+    },
+    {
+      "id": "s1",
+      "text": "He cheated death twice with cunning chains.",
+      "start": 2.24,
+      "end": 4.48,
+      "wordIds": [
+        "w7",
+        "w8",
+        "w9",
+        "w10",
+        "w11",
+        "w12",
+        "w13"
+      ],
+      "sourceIds": []
+    },
+    {
+      "id": "s2",
+      "text": "Zeus decided to punish him in Tartarus.",
+      "start": 4.48,
+      "end": 6.72,
+      "wordIds": [
+        "w14",
+        "w15",
+        "w16",
+        "w17",
+        "w18",
+        "w19",
+        "w20"
+      ],
+      "sourceIds": []
+    },
+    {
+      "id": "s3",
+      "text": "Sisyphus pushed a massive granite boulder uphill.",
+      "start": 6.72,
+      "end": 8.96,
+      "wordIds": [
+        "w21",
+        "w22",
+        "w23",
+        "w24",
+        "w25",
+        "w26",
+        "w27"
+      ],
+      "sourceIds": []
+    },
+    {
+      "id": "s4",
+      "text": "The boulder rolled downhill just before the summit.",
+      "start": 8.96,
+      "end": 11.52,
+      "wordIds": [
+        "w28",
+        "w29",
+        "w30",
+        "w31",
+        "w32",
+        "w33",
+        "w34",
+        "w35"
+      ],
+      "sourceIds": []
+    },
+    {
+      "id": "s5",
+      "text": "He faced the exhausting task forever.",
+      "start": 11.52,
+      "end": 13.44,
+      "wordIds": [
+        "w36",
+        "w37",
+        "w38",
+        "w39",
+        "w40",
+        "w41"
+      ],
+      "sourceIds": []
+    }
+  ],
+  "entities": [
+    {
+      "id": "boulder",
+      "name": "Granite Boulder",
+      "identity": "generic",
+      "assetIds": [
+        "asset-boulder"
+      ],
+      "source": "replicate:flux-1.1-pro"
+    },
+    {
+      "id": "scene-729ddea7c8694300",
+      "name": "King Sisyphus in beat s0",
+      "identity": "generic",
+      "assetIds": [
+        "asset-scene-729ddea7c8694300"
+      ],
+      "source": "replicate:flux-kontext-pro"
+    },
+    {
+      "id": "scene-bf263bb1efd08a85",
+      "name": "King Sisyphus in beat s1",
+      "identity": "generic",
+      "assetIds": [
+        "asset-scene-bf263bb1efd08a85"
+      ],
+      "source": "replicate:flux-kontext-pro"
+    },
+    {
+      "id": "scene-ef612721cceb8054",
+      "name": "King Sisyphus in beat s2",
+      "identity": "generic",
+      "assetIds": [
+        "asset-scene-ef612721cceb8054"
+      ],
+      "source": "replicate:flux-kontext-pro"
+    },
+    {
+      "id": "scene-2dda8cbc710514aa",
+      "name": "King Sisyphus in beat s3",
+      "identity": "generic",
+      "assetIds": [
+        "asset-scene-2dda8cbc710514aa"
+      ],
+      "source": "replicate:flux-kontext-pro"
+    },
+    {
+      "id": "scene-2e465e68ad08235f",
+      "name": "King Sisyphus in beat s4",
+      "identity": "generic",
+      "assetIds": [
+        "asset-scene-2e465e68ad08235f"
+      ],
+      "source": "replicate:flux-kontext-pro"
+    },
+    {
+      "id": "scene-e3a52e34cefd73f2",
+      "name": "King Sisyphus in beat s5",
+      "identity": "generic",
+      "assetIds": [
+        "asset-scene-e3a52e34cefd73f2"
+      ],
+      "source": "replicate:flux-kontext-pro"
+    }
+  ],
+  "assets": [
+    {
+      "id": "asset-boulder",
+      "entityId": "boulder",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/859fc7c385cf5fd0d955.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/d2fa0e68a5824ca58e1a-cutout.png",
+      "role": "object",
+      "subject": "Granite Boulder",
+      "source": "replicate:flux-1.1-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-1.1-pro",
+      "width": 301,
+      "height": 301,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "120da88495a138dc6f85158ab10874c4a0bf9ff4a138611abb33040507a147b6"
+    },
+    {
+      "id": "asset-scene-729ddea7c8694300",
+      "entityId": "scene-729ddea7c8694300",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/a949e63d6d117cd0a9aa.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/f4bed0859daa9dcaa0a0-cutout.png",
+      "role": "object",
+      "subject": "King Sisyphus in beat s0",
+      "source": "replicate:flux-kontext-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-kontext-pro",
+      "width": 301,
+      "height": 301,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "1cab0811a22a33130295b49d9f81dcd1d1759f68aca7759916ea4577f1b43460"
+    },
+    {
+      "id": "asset-scene-bf263bb1efd08a85",
+      "entityId": "scene-bf263bb1efd08a85",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/a2043c369b2de4123ac2.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/b9fb347f3637edfc9097-cutout.png",
+      "role": "object",
+      "subject": "King Sisyphus in beat s1",
+      "source": "replicate:flux-kontext-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-kontext-pro",
+      "width": 291,
+      "height": 261,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "a832d0688cd2146b024dbdce8425ca3626412c25154b45cde1a2aecfe3f7562f"
+    },
+    {
+      "id": "asset-scene-ef612721cceb8054",
+      "entityId": "scene-ef612721cceb8054",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/65588697093f154dd714.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/3309f9b414ba32dda2d3-cutout.png",
+      "role": "object",
+      "subject": "King Sisyphus in beat s2",
+      "source": "replicate:flux-kontext-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-kontext-pro",
+      "width": 291,
+      "height": 261,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "528bf837f810a385d3708693f4e15feef0e848be335117640cd76aa93f4d9227"
+    },
+    {
+      "id": "asset-scene-2dda8cbc710514aa",
+      "entityId": "scene-2dda8cbc710514aa",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/ed232edd006a3d7b91c3.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/7bcfe5b92f3e42e5ad76-cutout.png",
+      "role": "object",
+      "subject": "King Sisyphus in beat s3",
+      "source": "replicate:flux-kontext-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-kontext-pro",
+      "width": 301,
+      "height": 301,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "d0f3c8c007e7d5b5ebbf89bf23c28e826eb12e8dbc5466c51831a416b7c44d37"
+    },
+    {
+      "id": "asset-scene-2e465e68ad08235f",
+      "entityId": "scene-2e465e68ad08235f",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/3790af330b6d7d98fef5.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/214c37b4320e19bc4ade-cutout.png",
+      "role": "object",
+      "subject": "King Sisyphus in beat s4",
+      "source": "replicate:flux-kontext-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-kontext-pro",
+      "width": 291,
+      "height": 281,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "adc5f44d56b66b76a91c4c38471e159781779d7ff420cbacd847fe10ec203bfc"
+    },
+    {
+      "id": "asset-scene-e3a52e34cefd73f2",
+      "entityId": "scene-e3a52e34cefd73f2",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/01cfcc83e28b9848e60f.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/4acfb60799a67fb4a753-cutout.png",
+      "role": "object",
+      "subject": "King Sisyphus in beat s5",
+      "source": "replicate:flux-kontext-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-kontext-pro",
+      "width": 301,
+      "height": 301,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "06b39510178fba64fb85e7466c28b357c4664122d313b3730f8da0ecf2067320"
+    }
+  ],
+  "layers": [
+    {
+      "startFrame": 0,
+      "endFrame": 67,
+      "id": "directed-0",
+      "role": "object",
+      "entityId": "scene-729ddea7c8694300",
+      "assetId": "asset-scene-729ddea7c8694300",
+      "parentId": null,
+      "bounds": {
+        "x": 110.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 0,
+      "endFrame": 67,
+      "id": "directed-0-label",
+      "role": "label",
+      "entityId": "scene-729ddea7c8694300",
+      "assetId": null,
+      "parentId": "directed-0",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "King Sisyphus in\nbeat s0",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 0,
+      "endFrame": 425,
+      "id": "directed-1",
+      "role": "object",
+      "entityId": "boulder",
+      "assetId": "asset-boulder",
+      "parentId": null,
+      "bounds": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 0,
+      "endFrame": 425,
+      "id": "directed-1-label",
+      "role": "label",
+      "entityId": "boulder",
+      "assetId": null,
+      "parentId": "directed-1",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "Granite Boulder",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 67,
+      "endFrame": 134,
+      "id": "directed-2",
+      "role": "object",
+      "entityId": "scene-bf263bb1efd08a85",
+      "assetId": "asset-scene-bf263bb1efd08a85",
+      "parentId": null,
+      "bounds": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 67,
+      "endFrame": 134,
+      "id": "directed-2-label",
+      "role": "label",
+      "entityId": "scene-bf263bb1efd08a85",
+      "assetId": null,
+      "parentId": "directed-2",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "King Sisyphus in\nbeat s1",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 134,
+      "endFrame": 202,
+      "id": "directed-3",
+      "role": "object",
+      "entityId": "scene-ef612721cceb8054",
+      "assetId": "asset-scene-ef612721cceb8054",
+      "parentId": null,
+      "bounds": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 134,
+      "endFrame": 202,
+      "id": "directed-3-label",
+      "role": "label",
+      "entityId": "scene-ef612721cceb8054",
+      "assetId": null,
+      "parentId": "directed-3",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "King Sisyphus in\nbeat s2",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 202,
+      "endFrame": 269,
+      "id": "directed-4",
+      "role": "object",
+      "entityId": "scene-2dda8cbc710514aa",
+      "assetId": "asset-scene-2dda8cbc710514aa",
+      "parentId": null,
+      "bounds": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 202,
+      "endFrame": 269,
+      "id": "directed-4-label",
+      "role": "label",
+      "entityId": "scene-2dda8cbc710514aa",
+      "assetId": null,
+      "parentId": "directed-4",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "King Sisyphus in\nbeat s3",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 269,
+      "endFrame": 346,
+      "id": "directed-5",
+      "role": "object",
+      "entityId": "scene-2e465e68ad08235f",
+      "assetId": "asset-scene-2e465e68ad08235f",
+      "parentId": null,
+      "bounds": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 269,
+      "endFrame": 346,
+      "id": "directed-5-label",
+      "role": "label",
+      "entityId": "scene-2e465e68ad08235f",
+      "assetId": null,
+      "parentId": "directed-5",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "King Sisyphus in\nbeat s4",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 346,
+      "endFrame": 425,
+      "id": "directed-6",
+      "role": "object",
+      "entityId": "scene-e3a52e34cefd73f2",
+      "assetId": "asset-scene-e3a52e34cefd73f2",
+      "parentId": null,
+      "bounds": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 346,
+      "endFrame": 425,
+      "id": "directed-6-label",
+      "role": "label",
+      "entityId": "scene-e3a52e34cefd73f2",
+      "assetId": null,
+      "parentId": "directed-6",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "King Sisyphus in\nbeat s5",
+        "anticipationFrames": 0
+      },
+      "value": null
+    }
+  ],
+  "beats": [
+    {
+      "startFrame": 0,
+      "endFrame": 67,
+      "id": "atomic-0",
+      "template": "document_photo",
+      "sectionIds": [
+        "s0"
+      ],
+      "layerIds": [
+        "directed-0",
+        "directed-1",
+        "directed-0-label",
+        "directed-1-label"
+      ],
+      "purpose": "Sisyphus was a clever king of Corinth."
+    },
+    {
+      "startFrame": 67,
+      "endFrame": 134,
+      "id": "atomic-1",
+      "template": "document_photo",
+      "sectionIds": [
+        "s1"
+      ],
+      "layerIds": [
+        "directed-1",
+        "directed-2",
+        "directed-1-label",
+        "directed-2-label"
+      ],
+      "purpose": "He cheated death twice with cunning chains."
+    },
+    {
+      "startFrame": 134,
+      "endFrame": 202,
+      "id": "atomic-2",
+      "template": "document_photo",
+      "sectionIds": [
+        "s2"
+      ],
+      "layerIds": [
+        "directed-1",
+        "directed-3",
+        "directed-1-label",
+        "directed-3-label"
+      ],
+      "purpose": "Zeus decided to punish him in Tartarus."
+    },
+    {
+      "startFrame": 202,
+      "endFrame": 269,
+      "id": "atomic-3",
+      "template": "document_photo",
+      "sectionIds": [
+        "s3"
+      ],
+      "layerIds": [
+        "directed-1",
+        "directed-4",
+        "directed-1-label",
+        "directed-4-label"
+      ],
+      "purpose": "Sisyphus pushed a massive granite boulder uphill."
+    },
+    {
+      "startFrame": 269,
+      "endFrame": 346,
+      "id": "atomic-4",
+      "template": "document_photo",
+      "sectionIds": [
+        "s4"
+      ],
+      "layerIds": [
+        "directed-1",
+        "directed-5",
+        "directed-1-label",
+        "directed-5-label"
+      ],
+      "purpose": "The boulder rolled downhill just before the summit."
+    },
+    {
+      "startFrame": 346,
+      "endFrame": 425,
+      "id": "atomic-5",
+      "template": "document_photo",
+      "sectionIds": [
+        "s5"
+      ],
+      "layerIds": [
+        "directed-1",
+        "directed-6",
+        "directed-1-label",
+        "directed-6-label"
+      ],
+      "purpose": "He faced the exhausting task forever."
+    }
+  ],
+  "events": [
+    {
+      "startFrame": 0,
+      "endFrame": 8,
+      "id": "director-event-0",
+      "type": "settle",
+      "targetIds": [
+        "directed-0"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 1.0088,
+      "scaleTo": 1.04,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 0,
+      "endFrame": 8,
+      "id": "director-event-1",
+      "type": "settle",
+      "targetIds": [
+        "directed-1"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 0.9117999999999999,
+      "scaleTo": 0.94,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 62,
+      "endFrame": 67,
+      "id": "director-event-2",
+      "type": "fade",
+      "targetIds": [
+        "directed-0"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 0.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 67,
+      "endFrame": 75,
+      "id": "director-event-3",
+      "type": "settle",
+      "targetIds": [
+        "directed-2"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 1.0088,
+      "scaleTo": 1.04,
+      "secondaryScale": 0.78,
+      "opacityFrom": 0.9,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 67,
+      "endFrame": 73,
+      "id": "director-event-4",
+      "type": "reframe",
+      "targetIds": [
+        "directed-1"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "boundsTo": {
+        "x": 110.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      }
+    },
+    {
+      "startFrame": 129,
+      "endFrame": 134,
+      "id": "director-event-5",
+      "type": "fade",
+      "targetIds": [
+        "directed-2"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 0.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 134,
+      "endFrame": 142,
+      "id": "director-event-6",
+      "type": "settle",
+      "targetIds": [
+        "directed-3"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 1.0088,
+      "scaleTo": 1.04,
+      "secondaryScale": 0.78,
+      "opacityFrom": 0.9,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 197,
+      "endFrame": 202,
+      "id": "director-event-7",
+      "type": "fade",
+      "targetIds": [
+        "directed-3"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 0.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 202,
+      "endFrame": 210,
+      "id": "director-event-8",
+      "type": "settle",
+      "targetIds": [
+        "directed-4"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 1.0088,
+      "scaleTo": 1.04,
+      "secondaryScale": 0.78,
+      "opacityFrom": 0.9,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 264,
+      "endFrame": 269,
+      "id": "director-event-9",
+      "type": "fade",
+      "targetIds": [
+        "directed-4"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 0.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 269,
+      "endFrame": 277,
+      "id": "director-event-10",
+      "type": "settle",
+      "targetIds": [
+        "directed-5"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 1.0088,
+      "scaleTo": 1.04,
+      "secondaryScale": 0.78,
+      "opacityFrom": 0.9,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 341,
+      "endFrame": 346,
+      "id": "director-event-11",
+      "type": "fade",
+      "targetIds": [
+        "directed-5"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 0.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 346,
+      "endFrame": 354,
+      "id": "director-event-12",
+      "type": "settle",
+      "targetIds": [
+        "directed-6"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 1.0088,
+      "scaleTo": 1.04,
+      "secondaryScale": 0.78,
+      "opacityFrom": 0.9,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    }
+  ],
+  "transitions": [
+    {
+      "startFrame": 0,
+      "endFrame": 8,
+      "kind": "settle",
+      "persist": [],
+      "enter": [
+        "directed-0",
+        "directed-1"
+      ],
+      "leave": []
+    },
+    {
+      "startFrame": 67,
+      "endFrame": 75,
+      "kind": "settle",
+      "persist": [
+        "directed-1"
+      ],
+      "enter": [
+        "directed-2"
+      ],
+      "leave": [
+        "directed-0"
+      ]
+    },
+    {
+      "startFrame": 134,
+      "endFrame": 142,
+      "kind": "settle",
+      "persist": [
+        "directed-1"
+      ],
+      "enter": [
+        "directed-3"
+      ],
+      "leave": [
+        "directed-2"
+      ]
+    },
+    {
+      "startFrame": 202,
+      "endFrame": 210,
+      "kind": "settle",
+      "persist": [
+        "directed-1"
+      ],
+      "enter": [
+        "directed-4"
+      ],
+      "leave": [
+        "directed-3"
+      ]
+    },
+    {
+      "startFrame": 269,
+      "endFrame": 277,
+      "kind": "settle",
+      "persist": [
+        "directed-1"
+      ],
+      "enter": [
+        "directed-5"
+      ],
+      "leave": [
+        "directed-4"
+      ]
+    },
+    {
+      "startFrame": 346,
+      "endFrame": 354,
+      "kind": "settle",
+      "persist": [
+        "directed-1"
+      ],
+      "enter": [
+        "directed-6"
+      ],
+      "leave": [
+        "directed-5"
+      ]
+    }
+  ],
+  "subtitleMode": "editorial",
+  "narrationDriven": true,
+  "editorialStyleVersion": "legacy",
+  "warnings": [
+    "AI illustrative reconstruction; not documentary evidence"
+  ],
+  "diagnostics": {
+    "sentenceStoryboard": {
+      "sentences": 6,
+      "plannedPrimaries": 6,
+      "repairAttempts": 0
+    },
+    "assetAcquisition": {
+      "mode": "auto",
+      "assets": [
+        {
+          "entityId": "sisyphus",
+          "name": "King Sisyphus",
+          "identity": "fictional",
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "fc03b56da5db566eefcbc130bc919874ec86b6fc53e1132145615a70ccab26fd",
+            "model": "black-forest-labs/flux-schnell",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-1.1-pro",
+          "route": "supporting_illustration",
+          "assetId": "asset-sisyphus",
+          "alpha": true,
+          "source": "replicate:flux-1.1-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 291,
+          "height": 281,
+          "role": "identity_or_secondary",
+          "durationSeconds": 0.011,
+          "bytes": 1701
+        },
+        {
+          "entityId": "boulder",
+          "name": "Granite Boulder",
+          "identity": "generic",
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "6ac75dfbf0a74bfa85cfdeb0c3cca913e9cd79b6bf35112e3bb019e5e806725a",
+            "model": "black-forest-labs/flux-schnell",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-1.1-pro",
+          "route": "supporting_illustration",
+          "assetId": "asset-boulder",
+          "alpha": true,
+          "source": "replicate:flux-1.1-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 301,
+          "height": 301,
+          "role": "identity_or_secondary",
+          "durationSeconds": 0.008,
+          "bytes": 2534
+        },
+        {
+          "entityId": "scene-729ddea7c8694300",
+          "name": "King Sisyphus in beat s0",
+          "identity": "generic",
+          "identityReferences": [
+            "sisyphus"
+          ],
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sentenceReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "continuityReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "d2922d127e29d45db3f02f476f3ccd4c1ef50585bee61a6c8ae7f300d4dbb420",
+            "model": "black-forest-labs/flux-kontext-pro",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-kontext-pro",
+          "route": "narrative_action_cutout",
+          "assetId": "asset-scene-729ddea7c8694300",
+          "alpha": true,
+          "source": "replicate:flux-kontext-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 301,
+          "height": 301,
+          "role": "primary",
+          "durationSeconds": 0.021,
+          "bytes": 1835
+        },
+        {
+          "entityId": "scene-bf263bb1efd08a85",
+          "name": "King Sisyphus in beat s1",
+          "identity": "generic",
+          "identityReferences": [
+            "sisyphus"
+          ],
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sentenceReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "continuityReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "62ae60453567f541d5979c3a5f6cb252260bc06a6f40a08fa2eedcbe6535c344",
+            "model": "black-forest-labs/flux-kontext-pro",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-kontext-pro",
+          "route": "narrative_action_cutout",
+          "assetId": "asset-scene-bf263bb1efd08a85",
+          "alpha": true,
+          "source": "replicate:flux-kontext-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 291,
+          "height": 261,
+          "role": "primary",
+          "durationSeconds": 0.02,
+          "bytes": 1425
+        },
+        {
+          "entityId": "scene-ef612721cceb8054",
+          "name": "King Sisyphus in beat s2",
+          "identity": "generic",
+          "identityReferences": [
+            "sisyphus"
+          ],
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sentenceReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "continuityReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "d6ac26bbc88c485361b74965e8712ef5ec8da44e77f9ce27cf5975bd75e6abb7",
+            "model": "black-forest-labs/flux-kontext-pro",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-kontext-pro",
+          "route": "narrative_action_cutout",
+          "assetId": "asset-scene-ef612721cceb8054",
+          "alpha": true,
+          "source": "replicate:flux-kontext-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 291,
+          "height": 261,
+          "role": "primary",
+          "durationSeconds": 0.017,
+          "bytes": 1425
+        },
+        {
+          "entityId": "scene-2dda8cbc710514aa",
+          "name": "King Sisyphus in beat s3",
+          "identity": "generic",
+          "identityReferences": [
+            "sisyphus"
+          ],
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sentenceReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "continuityReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "ef10c6407014db6c2753177e49c0f39483d72eeb936f114eef5b3ca70b3fd9c3",
+            "model": "black-forest-labs/flux-kontext-pro",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-kontext-pro",
+          "route": "narrative_action_cutout",
+          "assetId": "asset-scene-2dda8cbc710514aa",
+          "alpha": true,
+          "source": "replicate:flux-kontext-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 301,
+          "height": 301,
+          "role": "primary",
+          "durationSeconds": 0.017,
+          "bytes": 1831
+        },
+        {
+          "entityId": "scene-2e465e68ad08235f",
+          "name": "King Sisyphus in beat s4",
+          "identity": "generic",
+          "identityReferences": [
+            "sisyphus"
+          ],
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sentenceReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "continuityReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "f72902d11a16c1729e67b6bba1f949f0baba11bbd90d90bcecbbf64db7263fff",
+            "model": "black-forest-labs/flux-kontext-pro",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-kontext-pro",
+          "route": "narrative_action_cutout",
+          "assetId": "asset-scene-2e465e68ad08235f",
+          "alpha": true,
+          "source": "replicate:flux-kontext-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 291,
+          "height": 281,
+          "role": "primary",
+          "durationSeconds": 0.018,
+          "bytes": 1700
+        },
+        {
+          "entityId": "scene-e3a52e34cefd73f2",
+          "name": "King Sisyphus in beat s5",
+          "identity": "generic",
+          "identityReferences": [
+            "sisyphus"
+          ],
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sentenceReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "continuityReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "788af8bcc7445635ef5a69014c378ffed7789280e64554b16aa33641047b1beb",
+            "model": "black-forest-labs/flux-kontext-pro",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-kontext-pro",
+          "route": "narrative_action_cutout",
+          "assetId": "asset-scene-e3a52e34cefd73f2",
+          "alpha": true,
+          "source": "replicate:flux-kontext-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 301,
+          "height": 301,
+          "role": "primary",
+          "durationSeconds": 0.018,
+          "bytes": 1831
+        }
+      ],
+      "actionWorkers": 2
+    },
+    "atomicStoryboard": {
+      "timeUnit": "frames",
+      "fps": 30,
+      "beats": [
+        {
+          "id": "atomic-0",
+          "sectionId": "s0",
+          "startWord": 0,
+          "endWord": 7,
+          "phrase": "Sisyphus was a clever king of Corinth.",
+          "primaryEntityId": "scene-729ddea7c8694300",
+          "secondaryEntityIds": [
+            "boulder"
+          ],
+          "relationship": "event",
+          "action": "introduce",
+          "importance": 1,
+          "confidence": 1,
+          "scriptSpan": [
+            0,
+            38
+          ],
+          "startFrame": 0,
+          "endFrame": 67,
+          "triggerWordIds": [
+            "w0",
+            "w1",
+            "w2",
+            "w3",
+            "w4",
+            "w5",
+            "w6"
+          ],
+          "frameQuantizationErrorMs": 0.0,
+          "timingProvenance": "provider",
+          "assetIds": [
+            "asset-scene-729ddea7c8694300",
+            "asset-boulder"
+          ],
+          "activeLayers": [
+            "directed-0",
+            "directed-1",
+            "directed-0-label",
+            "directed-1-label"
+          ],
+          "persistentLayers": [],
+          "entityStates": [
+            {
+              "entityId": "scene-729ddea7c8694300",
+              "assetId": "asset-scene-729ddea7c8694300",
+              "layerId": "directed-0",
+              "state": "PRIMARY",
+              "bounds": {
+                "x": 110.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 1.04
+            },
+            {
+              "entityId": "boulder",
+              "assetId": "asset-boulder",
+              "layerId": "directed-1",
+              "state": "SECONDARY",
+              "bounds": {
+                "x": 565.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 0.94
+            }
+          ],
+          "readabilityWarning": false
+        },
+        {
+          "id": "atomic-1",
+          "sectionId": "s1",
+          "startWord": 0,
+          "endWord": 7,
+          "phrase": "He cheated death twice with cunning chains.",
+          "primaryEntityId": "scene-bf263bb1efd08a85",
+          "secondaryEntityIds": [
+            "boulder"
+          ],
+          "relationship": "event",
+          "action": "introduce",
+          "importance": 1,
+          "confidence": 1,
+          "scriptSpan": [
+            39,
+            82
+          ],
+          "startFrame": 67,
+          "endFrame": 134,
+          "triggerWordIds": [
+            "w7",
+            "w8",
+            "w9",
+            "w10",
+            "w11",
+            "w12",
+            "w13"
+          ],
+          "frameQuantizationErrorMs": 6.667,
+          "timingProvenance": "provider",
+          "assetIds": [
+            "asset-scene-bf263bb1efd08a85",
+            "asset-boulder"
+          ],
+          "activeLayers": [
+            "directed-1",
+            "directed-2",
+            "directed-1-label",
+            "directed-2-label"
+          ],
+          "persistentLayers": [
+            "directed-1"
+          ],
+          "entityStates": [
+            {
+              "entityId": "boulder",
+              "assetId": "asset-boulder",
+              "layerId": "directed-1",
+              "state": "SECONDARY",
+              "bounds": {
+                "x": 110.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 0.94
+            },
+            {
+              "entityId": "scene-bf263bb1efd08a85",
+              "assetId": "asset-scene-bf263bb1efd08a85",
+              "layerId": "directed-2",
+              "state": "PRIMARY",
+              "bounds": {
+                "x": 565.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 1.04
+            }
+          ],
+          "readabilityWarning": false
+        },
+        {
+          "id": "atomic-2",
+          "sectionId": "s2",
+          "startWord": 0,
+          "endWord": 7,
+          "phrase": "Zeus decided to punish him in Tartarus.",
+          "primaryEntityId": "scene-ef612721cceb8054",
+          "secondaryEntityIds": [
+            "boulder"
+          ],
+          "relationship": "event",
+          "action": "introduce",
+          "importance": 1,
+          "confidence": 1,
+          "scriptSpan": [
+            83,
+            122
+          ],
+          "startFrame": 134,
+          "endFrame": 202,
+          "triggerWordIds": [
+            "w14",
+            "w15",
+            "w16",
+            "w17",
+            "w18",
+            "w19",
+            "w20"
+          ],
+          "frameQuantizationErrorMs": 13.333,
+          "timingProvenance": "provider",
+          "assetIds": [
+            "asset-scene-ef612721cceb8054",
+            "asset-boulder"
+          ],
+          "activeLayers": [
+            "directed-1",
+            "directed-3",
+            "directed-1-label",
+            "directed-3-label"
+          ],
+          "persistentLayers": [
+            "directed-1"
+          ],
+          "entityStates": [
+            {
+              "entityId": "boulder",
+              "assetId": "asset-boulder",
+              "layerId": "directed-1",
+              "state": "SECONDARY",
+              "bounds": {
+                "x": 110.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 0.94
+            },
+            {
+              "entityId": "scene-ef612721cceb8054",
+              "assetId": "asset-scene-ef612721cceb8054",
+              "layerId": "directed-3",
+              "state": "PRIMARY",
+              "bounds": {
+                "x": 565.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 1.04
+            }
+          ],
+          "readabilityWarning": false
+        },
+        {
+          "id": "atomic-3",
+          "sectionId": "s3",
+          "startWord": 0,
+          "endWord": 7,
+          "phrase": "Sisyphus pushed a massive granite boulder uphill.",
+          "primaryEntityId": "scene-2dda8cbc710514aa",
+          "secondaryEntityIds": [
+            "boulder"
+          ],
+          "relationship": "event",
+          "action": "introduce",
+          "importance": 1,
+          "confidence": 1,
+          "scriptSpan": [
+            123,
+            172
+          ],
+          "startFrame": 202,
+          "endFrame": 269,
+          "triggerWordIds": [
+            "w21",
+            "w22",
+            "w23",
+            "w24",
+            "w25",
+            "w26",
+            "w27"
+          ],
+          "frameQuantizationErrorMs": 13.333,
+          "timingProvenance": "provider",
+          "assetIds": [
+            "asset-scene-2dda8cbc710514aa",
+            "asset-boulder"
+          ],
+          "activeLayers": [
+            "directed-1",
+            "directed-4",
+            "directed-1-label",
+            "directed-4-label"
+          ],
+          "persistentLayers": [
+            "directed-1"
+          ],
+          "entityStates": [
+            {
+              "entityId": "boulder",
+              "assetId": "asset-boulder",
+              "layerId": "directed-1",
+              "state": "SECONDARY",
+              "bounds": {
+                "x": 110.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 0.94
+            },
+            {
+              "entityId": "scene-2dda8cbc710514aa",
+              "assetId": "asset-scene-2dda8cbc710514aa",
+              "layerId": "directed-4",
+              "state": "PRIMARY",
+              "bounds": {
+                "x": 565.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 1.04
+            }
+          ],
+          "readabilityWarning": false
+        },
+        {
+          "id": "atomic-4",
+          "sectionId": "s4",
+          "startWord": 0,
+          "endWord": 8,
+          "phrase": "The boulder rolled downhill just before the summit.",
+          "primaryEntityId": "scene-2e465e68ad08235f",
+          "secondaryEntityIds": [
+            "boulder"
+          ],
+          "relationship": "event",
+          "action": "introduce",
+          "importance": 1,
+          "confidence": 1,
+          "scriptSpan": [
+            173,
+            224
+          ],
+          "startFrame": 269,
+          "endFrame": 346,
+          "triggerWordIds": [
+            "w28",
+            "w29",
+            "w30",
+            "w31",
+            "w32",
+            "w33",
+            "w34",
+            "w35"
+          ],
+          "frameQuantizationErrorMs": 6.667,
+          "timingProvenance": "provider",
+          "assetIds": [
+            "asset-scene-2e465e68ad08235f",
+            "asset-boulder"
+          ],
+          "activeLayers": [
+            "directed-1",
+            "directed-5",
+            "directed-1-label",
+            "directed-5-label"
+          ],
+          "persistentLayers": [
+            "directed-1"
+          ],
+          "entityStates": [
+            {
+              "entityId": "boulder",
+              "assetId": "asset-boulder",
+              "layerId": "directed-1",
+              "state": "SECONDARY",
+              "bounds": {
+                "x": 110.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 0.94
+            },
+            {
+              "entityId": "scene-2e465e68ad08235f",
+              "assetId": "asset-scene-2e465e68ad08235f",
+              "layerId": "directed-5",
+              "state": "PRIMARY",
+              "bounds": {
+                "x": 565.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 1.04
+            }
+          ],
+          "readabilityWarning": false
+        },
+        {
+          "id": "atomic-5",
+          "sectionId": "s5",
+          "startWord": 0,
+          "endWord": 6,
+          "phrase": "He faced the exhausting task forever.",
+          "primaryEntityId": "scene-e3a52e34cefd73f2",
+          "secondaryEntityIds": [
+            "boulder"
+          ],
+          "relationship": "event",
+          "action": "introduce",
+          "importance": 1,
+          "confidence": 1,
+          "scriptSpan": [
+            225,
+            262
+          ],
+          "startFrame": 346,
+          "endFrame": 425,
+          "triggerWordIds": [
+            "w36",
+            "w37",
+            "w38",
+            "w39",
+            "w40",
+            "w41"
+          ],
+          "frameQuantizationErrorMs": 13.333,
+          "timingProvenance": "provider",
+          "assetIds": [
+            "asset-scene-e3a52e34cefd73f2",
+            "asset-boulder"
+          ],
+          "activeLayers": [
+            "directed-1",
+            "directed-6",
+            "directed-1-label",
+            "directed-6-label"
+          ],
+          "persistentLayers": [
+            "directed-1"
+          ],
+          "entityStates": [
+            {
+              "entityId": "boulder",
+              "assetId": "asset-boulder",
+              "layerId": "directed-1",
+              "state": "SECONDARY",
+              "bounds": {
+                "x": 110.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 0.94
+            },
+            {
+              "entityId": "scene-e3a52e34cefd73f2",
+              "assetId": "asset-scene-e3a52e34cefd73f2",
+              "layerId": "directed-6",
+              "state": "PRIMARY",
+              "bounds": {
+                "x": 565.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 1.04
+            }
+          ],
+          "readabilityWarning": false
+        }
+      ]
+    },
+    "sentenceQuality": {
+      "narrationSentences": 6,
+      "storyboardVisualBeats": 6,
+      "primaryAssetsPlanned": 6,
+      "primaryAssetsGenerated": 6,
+      "distinctPrimaryVisuals": 6,
+      "reusedSecondaryAssets": 1,
+      "sentencesWithoutDistinctPrimary": 0,
+      "imagesRejectedForDuplication": 0,
+      "imageGenerationFailures": 0,
+      "fallbackAttempts": 0,
+      "sceneRelevanceFailures": 0,
+      "missingMappings": 0,
+      "acceptancePassed": true,
+      "primaryAssetsInRender": 6,
+      "missingRenderMappings": 0
+    },
+    "sentenceVisualMetrics": {
+      "narrationSentences": 6,
+      "storyboardVisualBeats": 6,
+      "primaryAssetsPlanned": 6,
+      "primaryAssetsGenerated": 6,
+      "distinctPrimaryVisuals": 6,
+      "reusedSecondaryAssets": 1,
+      "sentencesWithoutDistinctPrimary": 0,
+      "imagesRejectedForDuplication": 0,
+      "imageGenerationFailures": 0,
+      "fallbackAttempts": 0,
+      "sceneRelevanceFailures": 0,
+      "missingMappings": 0,
+      "acceptancePassed": true,
+      "primaryAssetsInRender": 6,
+      "missingRenderMappings": 0
+    }
+  }
+}

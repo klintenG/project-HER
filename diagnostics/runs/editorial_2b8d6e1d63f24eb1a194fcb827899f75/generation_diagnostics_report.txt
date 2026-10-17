@@ -1,0 +1,517 @@
+========================================================================
+PROJECTHER GENERATION DIAGNOSTIC REPORT
+========================================================================
+
+## A. Generation Summary
+Job ID: editorial_2b8d6e1d63f24eb1a194fcb827899f75
+Trace Provenance: genuine_live_trace
+Environment: local (service=local_process, revision=local)
+Video Mode: reference_editorial
+Total Generation Time: 604.318 s (measured covered wall: 604.252 s, unattributed: 0.066 s)
+Final Video Duration: N/A s
+Resolution / FPS: 1080x1920 @ 30 fps
+Narration Sentences: 9
+Unique Primary Images: 0 (Rendered in video: 0)
+Generated / Acquired Images: 12
+Reused Secondary Images: 3
+Sentence-Primary Invariant (distinct >= sentences): False
+Output Size: N/A bytes
+Result: failed
+
+## B. Stage Duration Breakdown (Inclusive Spans; Parallel Stages Overlap)
+Stage                                | Duration (s) |  % Wall | Status     | Metadata
+------------------------------------------------------------------------------------------------
+end_to_end                           |      604.318 |  100.0% | failed     | {}
+input_fetch_and_extract              |        2.681 |    0.4% | succeeded  | {}
+research                             |        4.506 |    0.7% | succeeded  | {}
+research_or_script_generation        |       13.725 |    2.3% | succeeded  | {}
+narration_segmentation               |        0.001 |    0.0% | succeeded  | {}
+TTS_generation                       |      123.026 |   20.4% | succeeded  | {}
+semantic_beat_planning               |        6.456 |    1.1% | succeeded  | {}
+entity_identity_asset_generation     |       46.183 |    7.6% | succeeded  | {"asset_key": "260670134225f2a2"}
+image_provider_wait                  |       10.312 |    1.7% | succeeded  | {"entity_id": "kendrick", "model": "black-forest-labs[path]", "attempt": 1}
+image_provider_admission             |        1.455 |    0.2% | succeeded  | {}
+background_removal_and_alpha         |        1.606 |    0.3% | succeeded  | {}
+entity_identity_asset_generation     |       90.220 |   14.9% | succeeded  | {"asset_key": "54444aa7bc07ccec"}
+image_provider_wait                  |       17.334 |    2.9% | succeeded  | {"entity_id": "drake", "model": "black-forest-labs[path]", "attempt": 1}
+image_provider_admission             |        5.284 |    0.9% | succeeded  | {}
+background_removal_and_alpha         |        1.722 |    0.3% | succeeded  | {}
+image_provider_wait                  |       16.653 |    2.8% | succeeded  | {"entity_id": "drake", "model": "black-forest-labs[path]", "attempt": 2}
+image_provider_admission             |        4.925 |    0.8% | succeeded  | {}
+background_removal_and_alpha         |        1.618 |    0.3% | succeeded  | {}
+image_provider_wait                  |       24.698 |    4.1% | succeeded  | {"entity_id": "drake", "model": "black-forest-labs[path]", "attempt": 1}
+image_provider_admission             |       17.475 |    2.9% | succeeded  | {}
+background_removal_and_alpha         |        1.231 |    0.2% | succeeded  | {}
+entity_identity_asset_generation     |       62.733 |   10.4% | succeeded  | {"asset_key": "ea1f33324cc5c887"}
+image_task                           |      144.926 |   24.0% | failed     | {"entity_id": "scene-f4e436152fbfd698", "queue_wait_seconds": 3.9e-05}
+new_action_asset_generation          |      144.924 |   24.0% | failed     | {"asset_key": "42c1dc417062c90c"}
+image_provider_wait                  |        9.452 |    1.6% | succeeded  | {"entity_id": "scene-f4e436152fbfd698", "model": "black-forest-labs[path]", "attempt": 1}
+image_provider_admission             |        0.988 |    0.2% | succeeded  | {}
+image_provider_wait                  |       19.266 |    3.2% | succeeded  | {"entity_id": "jcole", "model": "black-forest-labs[path]", "attempt": 1}
+image_provider_admission             |        9.492 |    1.6% | succeeded  | {}
+background_removal_and_alpha         |        1.707 |    0.3% | succeeded  | {}
+background_removal_and_alpha         |        1.555 |    0.3% | succeeded  | {}
+image_provider_wait                  |       10.428 |    1.7% | succeeded  | {"entity_id": "jcole", "model": "black-forest-labs[path]", "attempt": 2}
+image_provider_admission             |        0.002 |    0.0% | succeeded  | {}
+image_provider_wait                  |       13.878 |    2.3% | succeeded  | {"entity_id": "scene-f4e436152fbfd698", "model": "black-forest-labs[path]", "attempt": 2}
+image_provider_admission             |        3.622 |    0.6% | succeeded  | {}
+background_removal_and_alpha         |        1.701 |    0.3% | succeeded  | {}
+image_provider_wait                  |       12.220 |    2.0% | succeeded  | {"entity_id": "jcole", "model": "black-forest-labs[path]", "attempt": 1}
+image_provider_admission             |        6.186 |    1.0% | succeeded  | {}
+background_removal_and_alpha         |        1.649 |    0.3% | succeeded  | {}
+background_removal_and_alpha         |        1.229 |    0.2% | succeeded  | {}
+image_task                           |       86.601 |   14.3% | failed     | {"entity_id": "scene-69a76b72f042ba45", "queue_wait_seconds": 62.733283}
+new_action_asset_generation          |       86.600 |   14.3% | failed     | {"asset_key": "ab40440e4032dd9e"}
+image_provider_wait                  |       12.250 |    2.0% | succeeded  | {"entity_id": "scene-69a76b72f042ba45", "model": "black-forest-labs[path]", "attempt": 1}
+image_provider_admission             |        2.427 |    0.4% | succeeded  | {}
+image_provider_wait                  |       25.947 |    4.3% | succeeded  | {"entity_id": "scene-f4e436152fbfd698", "model": "black-forest-labs[path]", "attempt": 3}
+image_provider_admission             |       13.862 |    2.3% | succeeded  | {}
+background_removal_and_alpha         |        1.494 |    0.2% | succeeded  | {}
+image_provider_wait                  |       11.357 |    1.9% | succeeded  | {"entity_id": "scene-69a76b72f042ba45", "model": "black-forest-labs[path]", "attempt": 2}
+image_provider_admission             |        3.817 |    0.6% | succeeded  | {}
+background_removal_and_alpha         |        1.698 |    0.3% | succeeded  | {}
+background_removal_and_alpha         |        2.636 |    0.4% | succeeded  | {}
+image_provider_wait                  |        8.511 |    1.4% | succeeded  | {"entity_id": "scene-69a76b72f042ba45", "model": "black-forest-labs[path]", "attempt": 3}
+image_provider_admission             |        0.002 |    0.0% | succeeded  | {}
+background_removal_and_alpha         |        1.608 |    0.3% | succeeded  | {}
+image_task                           |       72.609 |   12.0% | failed     | {"entity_id": "scene-123cc30eb9aa42c5", "queue_wait_seconds": 144.926435}
+new_action_asset_generation          |       72.608 |   12.0% | failed     | {"asset_key": "5e2c47fb2e6e7fc8"}
+image_provider_wait                  |        8.208 |    1.4% | succeeded  | {"entity_id": "scene-123cc30eb9aa42c5", "model": "black-forest-labs[path]", "attempt": 1}
+image_provider_admission             |        0.001 |    0.0% | succeeded  | {}
+image_task                           |       72.638 |   12.0% | failed     | {"entity_id": "scene-888f770c5b11de6a", "queue_wait_seconds": 149.334641}
+new_action_asset_generation          |       72.637 |   12.0% | failed     | {"asset_key": "a7b25bc5fa57d933"}
+image_provider_wait                  |       15.155 |    2.5% | succeeded  | {"entity_id": "scene-888f770c5b11de6a", "model": "black-forest-labs[path]", "attempt": 1}
+image_provider_admission             |        7.673 |    1.3% | succeeded  | {}
+background_removal_and_alpha         |        1.675 |    0.3% | succeeded  | {}
+background_removal_and_alpha         |        1.512 |    0.3% | succeeded  | {}
+image_provider_wait                  |       12.796 |    2.1% | succeeded  | {"entity_id": "scene-123cc30eb9aa42c5", "model": "black-forest-labs[path]", "attempt": 2}
+image_provider_admission             |        0.587 |    0.1% | succeeded  | {}
+image_provider_wait                  |       17.341 |    2.9% | succeeded  | {"entity_id": "scene-888f770c5b11de6a", "model": "black-forest-labs[path]", "attempt": 2}
+image_provider_admission             |        7.927 |    1.3% | succeeded  | {}
+background_removal_and_alpha         |        1.132 |    0.2% | failed     | {}
+image_provider_wait                  |       20.152 |    3.3% | succeeded  | {"entity_id": "scene-123cc30eb9aa42c5", "model": "black-forest-labs[path]", "attempt": 3}
+image_provider_admission             |       10.683 |    1.8% | succeeded  | {}
+background_removal_and_alpha         |        1.486 |    0.2% | succeeded  | {}
+image_provider_wait                  |       14.360 |    2.4% | succeeded  | {"entity_id": "scene-888f770c5b11de6a", "model": "black-forest-labs[path]", "attempt": 3}
+image_provider_admission             |        4.705 |    0.8% | succeeded  | {}
+background_removal_and_alpha         |        1.836 |    0.3% | succeeded  | {}
+background_removal_and_alpha         |        1.471 |    0.2% | succeeded  | {}
+image_task                           |       85.090 |   14.1% | failed     | {"entity_id": "scene-bb86e86be52aa8eb", "queue_wait_seconds": 217.536629}
+new_action_asset_generation          |       85.088 |   14.1% | failed     | {"asset_key": "2c48bc32051d42f5"}
+image_provider_wait                  |        9.768 |    1.6% | succeeded  | {"entity_id": "scene-bb86e86be52aa8eb", "model": "black-forest-labs[path]", "attempt": 1}
+image_provider_admission             |        0.001 |    0.0% | succeeded  | {}
+image_task                           |       98.190 |   16.2% | failed     | {"entity_id": "scene-ad39b2900f8df4f6", "queue_wait_seconds": 221.973631}
+new_action_asset_generation          |       98.188 |   16.2% | failed     | {"asset_key": "9073e2670a205062"}
+image_provider_wait                  |       16.680 |    2.8% | succeeded  | {"entity_id": "scene-ad39b2900f8df4f6", "model": "black-forest-labs[path]", "attempt": 1}
+image_provider_admission             |        7.567 |    1.3% | succeeded  | {}
+background_removal_and_alpha         |        1.105 |    0.2% | failed     | {}
+image_provider_wait                  |       32.690 |    5.4% | succeeded  | {"entity_id": "scene-bb86e86be52aa8eb", "model": "black-forest-labs[path]", "attempt": 2}
+image_provider_admission             |       25.126 |    4.2% | succeeded  | {}
+background_removal_and_alpha         |        1.130 |    0.2% | failed     | {}
+image_provider_wait                  |       11.111 |    1.8% | succeeded  | {"entity_id": "scene-ad39b2900f8df4f6", "model": "black-forest-labs[path]", "attempt": 2}
+image_provider_admission             |        1.751 |    0.3% | succeeded  | {}
+background_removal_and_alpha         |        1.697 |    0.3% | succeeded  | {}
+image_provider_wait                  |       15.600 |    2.6% | succeeded  | {"entity_id": "scene-ad39b2900f8df4f6", "model": "black-forest-labs[path]", "attempt": 3}
+image_provider_admission             |        4.942 |    0.8% | succeeded  | {}
+background_removal_and_alpha         |        1.110 |    0.2% | failed     | {}
+image_provider_wait                  |       25.469 |    4.2% | succeeded  | {"entity_id": "scene-bb86e86be52aa8eb", "model": "black-forest-labs[path]", "attempt": 3}
+image_provider_admission             |       15.326 |    2.5% | succeeded  | {}
+background_removal_and_alpha         |        1.664 |    0.3% | succeeded  | {}
+background_removal_and_alpha         |        1.104 |    0.2% | failed     | {}
+image_provider_wait                  |       12.563 |    2.1% | succeeded  | {"entity_id": "scene-bb86e86be52aa8eb", "model": "black-forest-labs[path]", "attempt": 4}
+image_provider_admission             |        0.747 |    0.1% | succeeded  | {}
+background_removal_and_alpha         |        1.086 |    0.2% | failed     | {}
+image_task                           |      108.010 |   17.9% | failed     | {"entity_id": "scene-dd38edafc14b7083", "queue_wait_seconds": 302.627709}
+new_action_asset_generation          |      108.008 |   17.9% | failed     | {"asset_key": "2d1e38dba79679b0"}
+image_provider_wait                  |        7.913 |    1.3% | succeeded  | {"entity_id": "scene-dd38edafc14b7083", "model": "black-forest-labs[path]", "attempt": 1}
+image_provider_admission             |        0.001 |    0.0% | succeeded  | {}
+background_removal_and_alpha         |        1.439 |    0.2% | succeeded  | {}
+image_task                           |       72.950 |   12.1% | failed     | {"entity_id": "scene-0098a7e026d19898", "queue_wait_seconds": 320.164548}
+new_action_asset_generation          |       72.948 |   12.1% | failed     | {"asset_key": "56cb066b31b87d11"}
+image_provider_wait                  |        6.112 |    1.0% | succeeded  | {"entity_id": "scene-0098a7e026d19898", "model": "black-forest-labs[path]", "attempt": 1}
+image_provider_admission             |        0.001 |    0.0% | succeeded  | {}
+background_removal_and_alpha         |        1.352 |    0.2% | succeeded  | {}
+image_provider_wait                  |        7.476 |    1.2% | succeeded  | {"entity_id": "scene-0098a7e026d19898", "model": "black-forest-labs[path]", "attempt": 2}
+image_provider_admission             |        0.005 |    0.0% | succeeded  | {}
+image_provider_wait                  |       30.134 |    5.0% | succeeded  | {"entity_id": "scene-dd38edafc14b7083", "model": "black-forest-labs[path]", "attempt": 2}
+image_provider_admission             |       20.837 |    3.4% | succeeded  | {}
+background_removal_and_alpha         |        1.112 |    0.2% | failed     | {}
+image_provider_wait                  |       10.462 |    1.7% | succeeded  | {"entity_id": "scene-0098a7e026d19898", "model": "black-forest-labs[path]", "attempt": 3}
+image_provider_admission             |        3.418 |    0.6% | succeeded  | {}
+background_removal_and_alpha         |        1.725 |    0.3% | succeeded  | {}
+background_removal_and_alpha         |        1.529 |    0.3% | succeeded  | {}
+image_provider_wait                  |       11.254 |    1.9% | succeeded  | {"entity_id": "scene-dd38edafc14b7083", "model": "black-forest-labs[path]", "attempt": 3}
+image_provider_admission             |        0.003 |    0.0% | succeeded  | {}
+background_removal_and_alpha         |        1.431 |    0.2% | succeeded  | {}
+image_task                           |       47.353 |    7.8% | failed     | {"entity_id": "scene-01027e7c45f2e7b6", "queue_wait_seconds": 393.115662}
+new_action_asset_generation          |       47.350 |    7.8% | failed     | {"asset_key": "e7ea854661cc7b1b"}
+image_provider_wait                  |        9.808 |    1.6% | succeeded  | {"entity_id": "scene-01027e7c45f2e7b6", "model": "black-forest-labs[path]", "attempt": 1}
+image_provider_admission             |        0.001 |    0.0% | succeeded  | {}
+background_removal_and_alpha         |        1.144 |    0.2% | failed     | {}
+image_provider_wait                  |        8.543 |    1.4% | succeeded  | {"entity_id": "scene-01027e7c45f2e7b6", "model": "black-forest-labs[path]", "attempt": 2}
+image_provider_admission             |        1.044 |    0.2% | succeeded  | {}
+background_removal_and_alpha         |        1.142 |    0.2% | failed     | {}
+image_provider_wait                  |       10.614 |    1.8% | succeeded  | {"entity_id": "scene-01027e7c45f2e7b6", "model": "black-forest-labs[path]", "attempt": 3}
+image_provider_admission             |        3.354 |    0.6% | succeeded  | {}
+background_removal_and_alpha         |        1.124 |    0.2% | failed     | {}
+image_provider_wait                  |       13.651 |    2.3% | succeeded  | {"entity_id": "scene-01027e7c45f2e7b6", "model": "black-forest-labs[path]", "attempt": 4}
+image_provider_admission             |        3.610 |    0.6% | succeeded  | {}
+background_removal_and_alpha         |        1.114 |    0.2% | failed     | {}
+
+## C. Individual Image-Generation Times
+ # | Sentence       | Entity ID                | Role       | Queue(s) |   API(s) |  Cut(s) |  Rev(s) | Total(s) | Tries | Cache | Route
+------------------------------------------------------------------------------------------------------------------------------------------
+ 1 | shared_identity | kendrick                 | identity_o |    0.000 |   10.312 |   0.000 |   0.000 |   46.181 |     1 | False | premium_reference_illustration
+ 2 | shared_identity | drake                    | identity_o |    0.000 |   58.685 |   0.000 |   0.000 |   90.219 |     3 | False | unverified_identity_ai_illustration
+ 3 | shared_identity | jcole                    | identity_o |    0.000 |   41.914 |   0.000 |   0.000 |   62.731 |     3 | False | unverified_identity_ai_illustration
+ 4 | s1             | scene-f4e436152fbfd698   | primary    |    0.000 |   49.276 |   0.000 |   0.000 |   49.276 |     3 | False | narrative_action_cutout
+ 5 | s2             | scene-69a76b72f042ba45   | primary    |   62.733 |   32.118 |   0.000 |   0.000 |   32.118 |     3 | False | narrative_action_cutout
+ 6 | s3             | scene-123cc30eb9aa42c5   | primary    |  144.926 |   41.156 |   0.000 |   0.000 |   41.156 |     3 | False | narrative_action_cutout
+ 7 | s4             | scene-888f770c5b11de6a   | primary    |  149.335 |   46.856 |   0.000 |   0.000 |   46.856 |     3 | False | narrative_action_cutout
+ 8 | s5             | scene-bb86e86be52aa8eb   | primary    |  217.537 |   80.490 |   0.000 |   0.000 |   80.490 |     4 | False | ready
+ 9 | s6             | scene-ad39b2900f8df4f6   | primary    |  221.974 |   43.391 |   0.000 |   0.000 |   43.391 |     3 | False | narrative_action_cutout
+10 | s7             | scene-dd38edafc14b7083   | primary    |  302.628 |   49.301 |   0.000 |   0.000 |   49.301 |     3 | False | narrative_action_cutout
+11 | s8             | scene-0098a7e026d19898   | primary    |  320.164 |   24.050 |   0.000 |   0.000 |   24.050 |     3 | False | narrative_action_cutout
+12 | s9             | scene-01027e7c45f2e7b6   | primary    |  393.116 |   42.615 |   0.000 |   0.000 |   42.615 |     4 | False | ready
+Slowest image tasks: drake (90.219s, tries=3), scene-bb86e86be52aa8eb (80.490s, tries=4), jcole (62.731s, tries=3)
+
+## D. Concurrency Analysis
+Total image tasks: 12
+Peak concurrent image provider requests: 2
+Average active image provider concurrency: 1.257
+Configured action workers: 2
+TTS and visual sourcing overlap: 123.027 s (speech=123.026 s, cutouts=583.344 s, alignment=None s)
+Sequential unattributed gap time: 0.064 s
+Admission pacing wait (accumulated): 188.845 s
+Rate-limited responses (HTTP 429): 0 (backoff=0 s)
+Background removal total CPU work: 52.575 s across 36 cutout(s)
+Rendering breakdown: staging=Nones, remotion=Nones (concurrency=None), ffmpeg=Nones, audio_delivery=Nones, qa=Nones
+
+## E. Critical Path
+input_fetch_and_extract (2.68s) -> research (4.51s) -> research_or_script_generation (13.72s) -> narration_segmentation (0.00s) -> TTS_generation (123.03s) -> entity_identity_asset_generation (90.22s) -> entity_identity_asset_generation (62.73s) -> new_action_asset_generation (144.92s) -> new_action_asset_generation (86.60s) -> new_action_asset_generation (72.61s) -> new_action_asset_generation (72.64s) -> new_action_asset_generation (85.09s) -> new_action_asset_generation (98.19s) -> new_action_asset_generation (108.01s) -> new_action_asset_generation (47.35s)
+
+## F. Bottleneck Ranking
+Rank | Operation / Stage                  | Duration(s) |  % Wall | Category   | Evidence & Optimization Opportunity
+------------------------------------------------------------------------------------------------------------------------
+   1 | image_provider_wait (accumulated)  |     520.164 |   86.1% | provider   | 36 provider call(s), peak_concurrency=2, admission_wait=188.84s -> Overlap independent scene-primary predictions across worker threads while respecting rate limits
+   2 | new_action_asset_generation        |     144.923 |   24.0% | provider   | 9 span(s), max=144.924s, accumulated=788.351s -> Bounded parallel scene generation with adaptive Replicate admission pacing
+   3 | TTS_generation                     |     123.026 |   20.4% | provider   | 1 span(s), max=123.026s, accumulated=123.026s -> Overlap TTS with visual planning/sourcing and use dedicated TTS admission scope
+   4 | entity_identity_asset_generation   |      90.220 |   14.9% | provider   | 3 span(s), max=90.220s, accumulated=199.135s -> Acquire identity references in parallel or reuse supporting cutouts
+   5 | background_removal_and_alpha       |      52.575 |    8.7% | compute    | 36 span(s), max=2.636s, accumulated=52.575s -> Reuse warm ONNX rembg session and run cutout trimming as each image completes
+   6 | research_or_script_generation      |      13.725 |    2.3% | provider   | 1 span(s), max=13.725s, accumulated=13.725s -> Reduce LLM repair iterations and token output size
+   7 | semantic_beat_planning             |       6.456 |    1.1% | provider   | 1 span(s), max=6.456s, accumulated=6.456s -> Single-pass structured storyboard generation with strict schema validation
+   8 | research                           |       4.506 |    0.7% | network    | 1 span(s), max=4.506s, accumulated=4.506s -> Bound web search pages and HTTP timeouts
+
+## G. Errors and Retries (Sanitized)
+[
+  {
+    "source": "span",
+    "name": "end_to_end",
+    "error_type": "NewsError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "image_task",
+    "error_type": "NewsError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "new_action_asset_generation",
+    "error_type": "NewsError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "image_task",
+    "error_type": "NewsError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "new_action_asset_generation",
+    "error_type": "NewsError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "image_task",
+    "error_type": "NewsError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "new_action_asset_generation",
+    "error_type": "NewsError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "image_task",
+    "error_type": "NewsError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "new_action_asset_generation",
+    "error_type": "NewsError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "background_removal_and_alpha",
+    "error_type": "CutoutQualityError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "image_task",
+    "error_type": "NewsError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "new_action_asset_generation",
+    "error_type": "NewsError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "image_task",
+    "error_type": "NewsError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "new_action_asset_generation",
+    "error_type": "NewsError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "background_removal_and_alpha",
+    "error_type": "CutoutQualityError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "background_removal_and_alpha",
+    "error_type": "CutoutQualityError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "background_removal_and_alpha",
+    "error_type": "CutoutQualityError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "background_removal_and_alpha",
+    "error_type": "CutoutQualityError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "background_removal_and_alpha",
+    "error_type": "CutoutQualityError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "image_task",
+    "error_type": "NewsError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "new_action_asset_generation",
+    "error_type": "NewsError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "image_task",
+    "error_type": "NewsError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "new_action_asset_generation",
+    "error_type": "NewsError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "background_removal_and_alpha",
+    "error_type": "CutoutQualityError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "image_task",
+    "error_type": "NewsError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "new_action_asset_generation",
+    "error_type": "NewsError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "background_removal_and_alpha",
+    "error_type": "CutoutQualityError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "background_removal_and_alpha",
+    "error_type": "CutoutQualityError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "background_removal_and_alpha",
+    "error_type": "CutoutQualityError",
+    "attempt": 1
+  },
+  {
+    "source": "span",
+    "name": "background_removal_and_alpha",
+    "error_type": "CutoutQualityError",
+    "attempt": 1
+  },
+  {
+    "source": "image_asset",
+    "entity_id": "kendrick",
+    "sentence_id": "shared_identity",
+    "rejected_attempts": 0,
+    "recorded_errors": 1,
+    "route": "premium_reference_illustration"
+  },
+  {
+    "source": "image_asset",
+    "entity_id": "drake",
+    "sentence_id": "shared_identity",
+    "rejected_attempts": 2,
+    "recorded_errors": 5,
+    "route": "unverified_identity_ai_illustration"
+  },
+  {
+    "source": "image_asset",
+    "entity_id": "jcole",
+    "sentence_id": "shared_identity",
+    "rejected_attempts": 2,
+    "recorded_errors": 5,
+    "route": "unverified_identity_ai_illustration"
+  },
+  {
+    "source": "image_asset",
+    "entity_id": "scene-f4e436152fbfd698",
+    "sentence_id": "s1",
+    "rejected_attempts": 0,
+    "recorded_errors": 3,
+    "route": "narrative_action_cutout"
+  },
+  {
+    "source": "image_asset",
+    "entity_id": "scene-69a76b72f042ba45",
+    "sentence_id": "s2",
+    "rejected_attempts": 0,
+    "recorded_errors": 3,
+    "route": "narrative_action_cutout"
+  },
+  {
+    "source": "image_asset",
+    "entity_id": "scene-123cc30eb9aa42c5",
+    "sentence_id": "s3",
+    "rejected_attempts": 0,
+    "recorded_errors": 3,
+    "route": "narrative_action_cutout"
+  },
+  {
+    "source": "image_asset",
+    "entity_id": "scene-888f770c5b11de6a",
+    "sentence_id": "s4",
+    "rejected_attempts": 0,
+    "recorded_errors": 3,
+    "route": "narrative_action_cutout"
+  },
+  {
+    "source": "image_asset",
+    "entity_id": "scene-bb86e86be52aa8eb",
+    "sentence_id": "s5",
+    "rejected_attempts": 0,
+    "recorded_errors": 3,
+    "route": "ready"
+  },
+  {
+    "source": "image_asset",
+    "entity_id": "scene-ad39b2900f8df4f6",
+    "sentence_id": "s6",
+    "rejected_attempts": 0,
+    "recorded_errors": 3,
+    "route": "narrative_action_cutout"
+  },
+  {
+    "source": "image_asset",
+    "entity_id": "scene-dd38edafc14b7083",
+    "sentence_id": "s7",
+    "rejected_attempts": 0,
+    "recorded_errors": 3,
+    "route": "narrative_action_cutout"
+  },
+  {
+    "source": "image_asset",
+    "entity_id": "scene-0098a7e026d19898",
+    "sentence_id": "s8",
+    "rejected_attempts": 0,
+    "recorded_errors": 3,
+    "route": "narrative_action_cutout"
+  },
+  {
+    "source": "image_asset",
+    "entity_id": "scene-01027e7c45f2e7b6",
+    "sentence_id": "s9",
+    "rejected_attempts": 0,
+    "recorded_errors": 3,
+    "route": "ready"
+  },
+  {
+    "source": "pipeline_failure",
+    "stage": "media",
+    "status": "error"
+  }
+]
+Provider counters: {}
+
+## H. Scene-Level Visual Quality Report
+ # | Sentence ID    | Subject Type | Primary Asset ID             | Distinct | Rendered | Window (s)      | Secondary IDs
+------------------------------------------------------------------------------------------------------------------------
+ 1 | s1             | event        | None                         | False    | pending  | N/A             | drake,jcole
+ 2 | s2             | event        | None                         | False    | pending  | N/A             | kendrick
+ 3 | s3             | event        | None                         | False    | pending  | N/A             | 
+ 4 | s4             | event        | None                         | False    | pending  | N/A             | kendrick
+ 5 | s5             | event        | None                         | False    | pending  | N/A             | drake
+ 6 | s6             | event        | None                         | False    | pending  | N/A             | drake
+ 7 | s7             | event        | None                         | False    | pending  | N/A             | 
+ 8 | s8             | event        | None                         | False    | pending  | N/A             | 
+ 9 | s9             | event        | None                         | False    | pending  | N/A             | 
+
+## I. Recommended Next Investigation
+- Remotion output is re-encoded by FFmpeg for BT.601->BT.709 color conversion (2 encode passes). Validate HER_EDITORIAL_DIRECT_BT709=1 on target runtime to use -c:v copy.
+- Multimodal visual review rejected one or more initial image candidates, triggering regeneration retries. Inspect scene_report and image rejected_attempts.
+
+## J. Optimization Comparison & Telemetry Notes
+- TTS sentence telemetry records: 0
+- Image prediction telemetry records: 0
+- Trace provenance: genuine_live_trace
+
+## K. Unresolved External Constraints & Measurement Limitations
+- Browser timings unavailable unless submitted by the client.
+- Cold-start/cache comparison requires separate controlled runs; process peak RSS includes earlier jobs.
+- Overlapping durations must not be summed. Span nesting expresses dependencies, not a proven critical-path DAG.
+- Report serialization and report upload occur after the measured worker interval.

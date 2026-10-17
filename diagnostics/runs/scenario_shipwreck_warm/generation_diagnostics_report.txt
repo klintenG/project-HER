@@ -1,0 +1,108 @@
+========================================================================
+PROJECTHER GENERATION DIAGNOSTIC REPORT
+========================================================================
+
+## A. Generation Summary
+Job ID: scenario_shipwreck_warm
+Environment: local (service=local_process, revision=local)
+Video Mode: reference_editorial
+Total Generation Time: 0.172 s (measured covered wall: 0.172 s, unattributed: 0.000 s)
+Final Video Duration: 13.833 s
+Resolution / FPS: 1080x1920 @ 30 fps
+Narration Sentences: 5
+Unique Primary Images: 5 (Rendered in video: 5)
+Generated / Acquired Images: 7
+Reused Secondary Images: 1
+Sentence-Primary Invariant (distinct >= sentences): True
+Output Size: N/A bytes
+Result: completed
+
+## B. Stage Duration Breakdown (Inclusive Spans; Parallel Stages Overlap)
+Stage                                | Duration (s) |  % Wall | Status     | Metadata
+------------------------------------------------------------------------------------------------
+total_generation                     |        0.172 |  100.0% | succeeded  | {}
+input_validation_and_normalization   |        0.000 |    0.2% | succeeded  | {}
+source_retrieval_and_fact_extraction |        0.006 |    3.8% | succeeded  | {}
+script_generation_and_verification   |        0.006 |    3.8% | succeeded  | {}
+parallel_media_stage                 |        0.107 |   62.3% | succeeded  | {}
+tts_generation_and_alignment         |        0.044 |   25.6% | succeeded  | {}
+semantic_beat_planning               |        0.001 |    0.6% | succeeded  | {}
+cutout_acquisition_and_matting       |        0.061 |   35.3% | succeeded  | {}
+entity_identity_asset_generation     |        0.004 |    2.0% | succeeded  | {"asset_key": "00320825242cecf2"}
+background_removal_and_alpha         |        0.000 |    0.2% | succeeded  | {}
+entity_identity_asset_generation     |        0.004 |    2.4% | succeeded  | {"asset_key": "55b2784500c84f2a"}
+image_task                           |        0.017 |   10.1% | succeeded  | {"entity_id": "scene-d284d66bb66eeea1", "queue_wait_seconds": 4.9e-05}
+new_action_asset_generation          |        0.016 |    9.5% | succeeded  | {"asset_key": "57832c228a0071d5"}
+background_removal_and_alpha         |        0.000 |    0.3% | succeeded  | {}
+image_task                           |        0.017 |   10.0% | succeeded  | {"entity_id": "scene-462408efb2f77d65", "queue_wait_seconds": 0.004468}
+new_action_asset_generation          |        0.017 |    9.7% | succeeded  | {"asset_key": "65181cb4f9ec638f"}
+background_removal_and_alpha         |        0.001 |    0.3% | succeeded  | {}
+image_task                           |        0.017 |   10.1% | succeeded  | {"entity_id": "scene-4d83df10216760e4", "queue_wait_seconds": 0.01773}
+background_removal_and_alpha         |        0.001 |    0.6% | succeeded  | {}
+new_action_asset_generation          |        0.016 |    9.4% | succeeded  | {"asset_key": "b4b4449a482956b2"}
+image_task                           |        0.017 |    9.9% | succeeded  | {"entity_id": "scene-5e61b46d9b2ae883", "queue_wait_seconds": 0.022088}
+new_action_asset_generation          |        0.016 |    9.5% | succeeded  | {"asset_key": "d95a1ffafea4d214"}
+background_removal_and_alpha         |        0.001 |    0.3% | succeeded  | {}
+background_removal_and_alpha         |        0.001 |    0.5% | succeeded  | {}
+image_task                           |        0.017 |   10.1% | succeeded  | {"entity_id": "scene-47313a57d9f5be93", "queue_wait_seconds": 0.035601}
+new_action_asset_generation          |        0.016 |    9.4% | succeeded  | {"asset_key": "3946e49aeaa3758e"}
+background_removal_and_alpha         |        0.001 |    0.3% | succeeded  | {}
+visual_direction_compilation         |        0.029 |   16.9% | succeeded  | {}
+video_composition_and_encoding       |        0.013 |    7.5% | succeeded  | {}
+render_quality_assurance             |        0.007 |    3.8% | succeeded  | {}
+
+## C. Individual Image-Generation Times
+ # | Sentence       | Entity ID                | Role       | Queue(s) |   API(s) |  Proc(s) | Total(s) | Tries | Cache | Route
+----------------------------------------------------------------------------------------------------------------------------
+ 1 | shared_identity | steamship                | identity_o |    0.000 |    0.000 |    0.003 |    0.003 |     1 | True  | supporting_illustration
+ 2 | shared_identity | lifeboat                 | identity_o |    0.000 |    0.000 |    0.004 |    0.004 |     1 | True  | supporting_illustration
+ 3 | s0             | scene-d284d66bb66eeea1   | primary    |    0.000 |    0.000 |    0.016 |    0.016 |     1 | True  | narrative_action_cutout
+ 4 | s1             | scene-462408efb2f77d65   | primary    |    0.004 |    0.000 |    0.016 |    0.016 |     1 | True  | narrative_action_cutout
+ 5 | s2             | scene-4d83df10216760e4   | primary    |    0.018 |    0.000 |    0.015 |    0.015 |     1 | True  | narrative_action_cutout
+ 6 | s3             | scene-5e61b46d9b2ae883   | primary    |    0.022 |    0.000 |    0.016 |    0.016 |     1 | True  | narrative_action_cutout
+ 7 | s4             | scene-47313a57d9f5be93   | primary    |    0.036 |    0.000 |    0.015 |    0.015 |     1 | True  | narrative_action_cutout
+Slowest image tasks: scene-d284d66bb66eeea1 (0.016s, tries=1), scene-462408efb2f77d65 (0.016s, tries=1), scene-5e61b46d9b2ae883 (0.016s, tries=1)
+
+## D. Concurrency Analysis
+Total image tasks: 7
+Peak concurrent image provider requests: 0
+Average active image provider concurrency: 0.0
+Configured action workers: 2
+TTS and visual sourcing overlap: 0.000 s (speech=None s, cutouts=None s)
+Sequential unattributed gap time: 0.000 s
+Admission pacing wait (accumulated): 0.000 s
+Rate-limited responses (HTTP 429): 0 (backoff=0 s)
+Background removal total CPU work: 0.004 s across 7 cutout(s)
+
+## E. Critical Path
+total_generation (0.17s)
+
+## F. Bottleneck Ranking
+Rank | Operation / Stage                  | Duration(s) |  % Wall | Category   | Evidence & Optimization Opportunity
+------------------------------------------------------------------------------------------------------------------------
+   1 | new_action_asset_generation        |       0.017 |    9.7% | provider   | 5 span(s), max=0.017s, accumulated=0.082s -> Bounded parallel scene generation with adaptive Replicate admission pacing
+   2 | entity_identity_asset_generation   |       0.008 |    4.4% | provider   | 2 span(s), max=0.004s, accumulated=0.008s -> Cache recurring character identity boards across retries
+   3 | background_removal_and_alpha       |       0.004 |    2.5% | compute    | 7 span(s), max=0.001s, accumulated=0.004s -> Reuse warm ONNX rembg session and run cutout trimming as each image completes
+   4 | semantic_beat_planning             |       0.001 |    0.6% | provider   | 1 span(s), max=0.001s, accumulated=0.001s -> Single-pass structured storyboard generation with strict schema validation
+
+## G. Errors and Retries (Sanitized)
+None recorded.
+Provider counters: {}
+
+## H. Scene-Level Visual Quality Report
+ # | Sentence ID    | Primary Asset ID             | Distinct | Rendered | Window (s)      | Secondary IDs
+---------------------------------------------------------------------------------------------------------
+ 1 | s0             | asset-scene-d284d66bb66eeea1 | True     | passed   | 0.00-2.88       | lifeboat
+ 2 | s1             | asset-scene-462408efb2f77d65 | True     | passed   | 2.88-5.76       | lifeboat
+ 3 | s2             | asset-scene-4d83df10216760e4 | True     | passed   | 5.76-7.68       | lifeboat
+ 4 | s3             | asset-scene-5e61b46d9b2ae883 | True     | passed   | 7.68-10.56      | lifeboat
+ 5 | s4             | asset-scene-47313a57d9f5be93 | True     | passed   | 10.56-13.12     | lifeboat
+
+## I. Recommended Next Investigation
+- Remotion output is currently re-encoded by FFmpeg for BT.601->BT.709 color conversion (2 encode passes). Validate HER_EDITORIAL_DIRECT_BT709=1 on target runtime to use -c:v copy.
+
+## J. Measurement Limitations
+- Browser timings unavailable unless submitted by the client.
+- Cold-start/cache comparison requires separate controlled runs; process peak RSS includes earlier jobs.
+- Overlapping durations must not be summed. Span nesting expresses dependencies, not a proven critical-path DAG.
+- Report serialization and report upload occur after the measured worker interval.

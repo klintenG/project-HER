@@ -1,0 +1,236 @@
+{
+  "schema_version": "generation-diagnostics-v3",
+  "trace_provenance": "genuine_live_trace",
+  "job_id": "editorial_b987517e0ff5410e8e71d5e053ad6984",
+  "outcome": "failed",
+  "start_utc": "2026-10-17T13:30:36.076134+00:00",
+  "finish_utc": "2026-10-17T13:33:12.848611+00:00",
+  "total_elapsed_seconds": 134.719923,
+  "measured_wall_seconds": 134.601204,
+  "unattributed_wall_seconds": 0.118719,
+  "peak_image_provider_concurrency": 0,
+  "runtime": [
+    {
+      "host_cpu_count": 10
+    }
+  ],
+  "infrastructure": {
+    "environment": "local",
+    "python_version": "3.9.6",
+    "service": "local_process",
+    "revision": "local",
+    "commit": "working_tree",
+    "region": "unspecified",
+    "configured_action_workers": 3,
+    "configured_remotion_concurrency": "default",
+    "process_peak_rss_native_units": 108429312,
+    "trace_runtimes": [
+      {
+        "host_cpu_count": 10
+      }
+    ]
+  },
+  "process_peak_rss_native_units": 108429312,
+  "revision": null,
+  "commit": null,
+  "video_mode": "reference_editorial",
+  "actual_video_seconds": null,
+  "resolution": [
+    null,
+    null
+  ],
+  "fps": null,
+  "output_size_bytes": null,
+  "visual_metrics": {
+    "sentences": 0,
+    "storyboard_visual_beats": 0,
+    "planned_primaries": 0,
+    "generated_assets": 0,
+    "distinct_primaries": 0,
+    "reused_secondary_assets": 0,
+    "rendered_primaries": 0,
+    "sentences_without_distinct_primary": 0,
+    "images_rejected_for_duplication": 0,
+    "image_generation_failures": 0,
+    "fallback_attempts": 0,
+    "scene_relevance_failures": 0,
+    "invariant_planned_ge_sentences": false,
+    "invariant_distinct_ge_sentences": false,
+    "invariant_rendered_eq_sentences": false,
+    "acceptance_passed": false
+  },
+  "scene_report": [],
+  "stage_timings": {},
+  "concurrency_analysis": {
+    "total_image_tasks": 0,
+    "total_provider_wait_spans": 0,
+    "peak_image_provider_concurrency": 0,
+    "average_active_image_concurrency": 0.0,
+    "configured_action_workers": 3,
+    "tts_visual_overlap_seconds": 0.0,
+    "speech_wall_seconds": null,
+    "cutouts_wall_seconds": null,
+    "alignment_seconds": null,
+    "serial_gap_seconds": 0.0026,
+    "admission_wait_seconds": 0.0,
+    "rate_limit_responses": 0,
+    "rate_limit_backoff_seconds": 0,
+    "background_removal_total_seconds": 0
+  },
+  "tts_telemetry": [],
+  "prediction_records": [],
+  "critical_path": [
+    {
+      "stage": "input_fetch_and_extract",
+      "duration_seconds": 3.0491,
+      "effective_advance_seconds": 3.0491,
+      "status": "succeeded"
+    },
+    {
+      "stage": "research",
+      "duration_seconds": 25.9225,
+      "effective_advance_seconds": 25.9226,
+      "status": "succeeded"
+    },
+    {
+      "stage": "research_or_script_generation",
+      "duration_seconds": 105.6296,
+      "effective_advance_seconds": 127.6818,
+      "status": "failed"
+    }
+  ],
+  "bottleneck_ranking": [
+    {
+      "operation": "research_or_script_generation",
+      "duration_seconds": 105.6296,
+      "percent_of_wall_time": 78.4,
+      "cause_category": "provider",
+      "evidence": "1 span(s), max=105.630s, accumulated=105.630s",
+      "optimization_opportunity": "Reduce LLM repair iterations and token output size",
+      "confidence": "high"
+    },
+    {
+      "operation": "research",
+      "duration_seconds": 25.9225,
+      "percent_of_wall_time": 19.2,
+      "cause_category": "network",
+      "evidence": "1 span(s), max=25.922s, accumulated=25.922s",
+      "optimization_opportunity": "Bound web search pages and HTTP timeouts",
+      "confidence": "high"
+    },
+    {
+      "operation": "input_fetch_and_extract",
+      "duration_seconds": 3.0491,
+      "percent_of_wall_time": 2.3,
+      "cause_category": "network",
+      "evidence": "1 span(s), max=3.049s, accumulated=3.049s",
+      "optimization_opportunity": "Cache fetched source text or streamline input classification",
+      "confidence": "high"
+    }
+  ],
+  "rendering": {
+    "renderer": "remotion",
+    "frames": 0,
+    "fps": 30,
+    "resolution": [
+      1080,
+      1920
+    ],
+    "asset_staging_seconds": null,
+    "remotion_render_seconds": null,
+    "remotion_concurrency": null,
+    "ffmpeg_encode_seconds": null,
+    "audio_delivery_seconds": null,
+    "visual_quality_scan_seconds": null,
+    "total_render_and_qa_seconds": null,
+    "video_encode_passes": null,
+    "average_fps_throughput": null,
+    "output_size_bytes": null
+  },
+  "images": [],
+  "provider_metrics": {},
+  "errors_and_retries": [
+    {
+      "source": "span",
+      "name": "end_to_end",
+      "error_type": "NewsError",
+      "attempt": 1
+    },
+    {
+      "source": "span",
+      "name": "research_or_script_generation",
+      "error_type": "NewsError",
+      "attempt": 1
+    },
+    {
+      "source": "pipeline_failure",
+      "stage": "script",
+      "status": "error"
+    }
+  ],
+  "recommended_next_investigation": [
+    "Remotion output is re-encoded by FFmpeg for BT.601->BT.709 color conversion (2 encode passes). Validate HER_EDITORIAL_DIRECT_BT709=1 on target runtime to use -c:v copy."
+  ],
+  "spans": [
+    {
+      "id": "c717ed09805c45b4a7ebd9e40952029d",
+      "name": "end_to_end",
+      "start_utc": "2026-10-17T13:30:36.076134+00:00",
+      "start_offset_seconds": 0.00036274999999996727,
+      "status": "failed",
+      "metadata": {},
+      "parent_span_id": null,
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T13:33:12.848611+00:00",
+      "end_offset_seconds": 134.720286042,
+      "duration_seconds": 134.719923292,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "c772c9c6d2084217a96c0054218c86da",
+      "name": "input_fetch_and_extract",
+      "start_utc": "2026-10-17T13:30:36.188493+00:00",
+      "start_offset_seconds": 0.11274595799999998,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c717ed09805c45b4a7ebd9e40952029d",
+      "end_utc": "2026-10-17T13:30:39.237623+00:00",
+      "end_offset_seconds": 3.161836333,
+      "duration_seconds": 3.049090375,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "fe3d5367f5194649ad72d10644eabac9",
+      "name": "research",
+      "start_utc": "2026-10-17T13:30:39.238029+00:00",
+      "start_offset_seconds": 3.16223475,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c717ed09805c45b4a7ebd9e40952029d",
+      "end_utc": "2026-10-17T13:31:05.160612+00:00",
+      "end_offset_seconds": 29.084717333,
+      "duration_seconds": 25.922482583,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "fbd0bbc4af504b1a90dd3b5cbb82011c",
+      "name": "research_or_script_generation",
+      "start_utc": "2026-10-17T13:31:05.162802+00:00",
+      "start_offset_seconds": 29.08689725,
+      "status": "failed",
+      "metadata": {},
+      "parent_span_id": "c717ed09805c45b4a7ebd9e40952029d",
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T13:33:12.844571+00:00",
+      "end_offset_seconds": 134.716528458,
+      "duration_seconds": 105.629631208,
+      "trace_file": "job_trace.json"
+    }
+  ],
+  "limitations": [
+    "Browser timings unavailable unless submitted by the client.",
+    "Cold-start/cache comparison requires separate controlled runs; process peak RSS includes earlier jobs.",
+    "Overlapping durations must not be summed. Span nesting expresses dependencies, not a proven critical-path DAG.",
+    "Report serialization and report upload occur after the measured worker interval."
+  ]
+}

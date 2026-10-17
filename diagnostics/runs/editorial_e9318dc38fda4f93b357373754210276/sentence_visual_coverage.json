@@ -1,0 +1,32 @@
+{
+  "schema_version": "sentence-visual-coverage-v1",
+  "job_id": "editorial_e9318dc38fda4f93b357373754210276",
+  "outcome": "failed",
+  "trace_provenance": "genuine_live_trace",
+  "invariants": {
+    "planned_primary_image_tasks_ge_sentences": false,
+    "distinct_valid_primary_images_ge_sentences": false,
+    "sentences_with_rendered_distinct_primary_images_eq_sentences": false,
+    "all_passed": false
+  },
+  "summary": {
+    "sentences": 0,
+    "storyboard_visual_beats": 0,
+    "planned_primaries": 0,
+    "generated_assets": 0,
+    "distinct_primaries": 0,
+    "reused_secondary_assets": 0,
+    "rendered_primaries": 0,
+    "sentences_without_distinct_primary": 0,
+    "images_rejected_for_duplication": 0,
+    "image_generation_failures": 0,
+    "fallback_attempts": 0,
+    "scene_relevance_failures": 0,
+    "invariant_planned_ge_sentences": false,
+    "invariant_distinct_ge_sentences": false,
+    "invariant_rendered_eq_sentences": false,
+    "acceptance_passed": false
+  },
+  "sentences": [],
+  "supporting_and_identity_assets": []
+}

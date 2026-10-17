@@ -1,0 +1,163 @@
+[
+  {
+    "id": "asset-boulder",
+    "entityId": "boulder",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/859fc7c385cf5fd0d955.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/d2fa0e68a5824ca58e1a-cutout.png",
+    "role": "object",
+    "subject": "Granite Boulder",
+    "source": "replicate:flux-1.1-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:flux-1.1-pro",
+    "width": 301,
+    "height": 301,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "120da88495a138dc6f85158ab10874c4a0bf9ff4a138611abb33040507a147b6"
+  },
+  {
+    "id": "asset-scene-729ddea7c8694300",
+    "entityId": "scene-729ddea7c8694300",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/a949e63d6d117cd0a9aa.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/f4bed0859daa9dcaa0a0-cutout.png",
+    "role": "object",
+    "subject": "King Sisyphus in beat s0",
+    "source": "replicate:flux-kontext-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:flux-kontext-pro",
+    "width": 301,
+    "height": 301,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "1cab0811a22a33130295b49d9f81dcd1d1759f68aca7759916ea4577f1b43460"
+  },
+  {
+    "id": "asset-scene-bf263bb1efd08a85",
+    "entityId": "scene-bf263bb1efd08a85",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/a2043c369b2de4123ac2.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/b9fb347f3637edfc9097-cutout.png",
+    "role": "object",
+    "subject": "King Sisyphus in beat s1",
+    "source": "replicate:flux-kontext-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:flux-kontext-pro",
+    "width": 291,
+    "height": 261,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "a832d0688cd2146b024dbdce8425ca3626412c25154b45cde1a2aecfe3f7562f"
+  },
+  {
+    "id": "asset-scene-ef612721cceb8054",
+    "entityId": "scene-ef612721cceb8054",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/65588697093f154dd714.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/3309f9b414ba32dda2d3-cutout.png",
+    "role": "object",
+    "subject": "King Sisyphus in beat s2",
+    "source": "replicate:flux-kontext-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:flux-kontext-pro",
+    "width": 291,
+    "height": 261,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "528bf837f810a385d3708693f4e15feef0e848be335117640cd76aa93f4d9227"
+  },
+  {
+    "id": "asset-scene-2dda8cbc710514aa",
+    "entityId": "scene-2dda8cbc710514aa",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/ed232edd006a3d7b91c3.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/7bcfe5b92f3e42e5ad76-cutout.png",
+    "role": "object",
+    "subject": "King Sisyphus in beat s3",
+    "source": "replicate:flux-kontext-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:flux-kontext-pro",
+    "width": 301,
+    "height": 301,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "d0f3c8c007e7d5b5ebbf89bf23c28e826eb12e8dbc5466c51831a416b7c44d37"
+  },
+  {
+    "id": "asset-scene-2e465e68ad08235f",
+    "entityId": "scene-2e465e68ad08235f",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/3790af330b6d7d98fef5.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/214c37b4320e19bc4ade-cutout.png",
+    "role": "object",
+    "subject": "King Sisyphus in beat s4",
+    "source": "replicate:flux-kontext-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:flux-kontext-pro",
+    "width": 291,
+    "height": 281,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "adc5f44d56b66b76a91c4c38471e159781779d7ff420cbacd847fe10ec203bfc"
+  },
+  {
+    "id": "asset-scene-e3a52e34cefd73f2",
+    "entityId": "scene-e3a52e34cefd73f2",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/01cfcc83e28b9848e60f.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_sisyphus_cold/assets/4acfb60799a67fb4a753-cutout.png",
+    "role": "object",
+    "subject": "King Sisyphus in beat s5",
+    "source": "replicate:flux-kontext-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:flux-kontext-pro",
+    "width": 301,
+    "height": 301,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "06b39510178fba64fb85e7466c28b357c4664122d313b3730f8da0ecf2067320"
+  }
+]

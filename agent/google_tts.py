@@ -199,13 +199,13 @@ class GoogleTTS:
             clip = self._generate_single(kp, audio_dir)
             clips.append(clip)
 
-            # Fail-fast: if first 2 screens both fail, the API is probably
-            # exhausted or down — bail immediately to trigger edge-tts fallback.
+            # Fail-fast: if daily quota is exhausted or first 2 screens both fail,
+            # the API is exhausted or down — bail immediately to trigger fallback.
             if clip.duration > 0 and Path(clip.audio_path).exists():
                 consecutive_failures = 0  # reset on success
             else:
                 consecutive_failures += 1
-                if consecutive_failures >= 2:
+                if getattr(self, "_daily_quota_exhausted", False) or consecutive_failures >= 2:
                     logger.warning(
                         "Google TTS: %d consecutive failures — "
                         "API likely exhausted. Aborting early for fallback.",
@@ -307,11 +307,13 @@ class GoogleTTS:
 
                 body_lower = body.lower()
                 is_quota_exhausted = (
-                    "quota exceeded" in body_lower
+                    "per_day" in body_lower
+                    or "perday" in body_lower
                     or "limit: 10" in body_lower
-                    or ("retry in" in body_lower and ("h" in body_lower or "d" in body_lower))
+                    or bool(re.search(r"retry in [\d.]+[hd]", body_lower))
                 )
                 if status == 429 and is_quota_exhausted:
+                    self._daily_quota_exhausted = True
                     logger.warning(
                         "Google TTS daily quota exhausted for screen %d (%s). Fast-falling back to edge-tts.",
                         idx, body[:120],

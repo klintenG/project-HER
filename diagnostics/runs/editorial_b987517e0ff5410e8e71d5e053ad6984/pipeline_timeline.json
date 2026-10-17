@@ -1,0 +1,125 @@
+{
+  "schema_version": "pipeline-timeline-v1",
+  "job_id": "editorial_b987517e0ff5410e8e71d5e053ad6984",
+  "outcome": "failed",
+  "trace_provenance": "genuine_live_trace",
+  "start_utc": "2026-10-17T13:30:36.076134+00:00",
+  "finish_utc": "2026-10-17T13:33:12.848611+00:00",
+  "total_elapsed_seconds": 134.719923,
+  "measured_wall_seconds": 134.601204,
+  "stage_timings": {},
+  "concurrency_analysis": {
+    "total_image_tasks": 0,
+    "total_provider_wait_spans": 0,
+    "peak_image_provider_concurrency": 0,
+    "average_active_image_concurrency": 0.0,
+    "configured_action_workers": 3,
+    "tts_visual_overlap_seconds": 0.0,
+    "speech_wall_seconds": null,
+    "cutouts_wall_seconds": null,
+    "alignment_seconds": null,
+    "serial_gap_seconds": 0.0026,
+    "admission_wait_seconds": 0.0,
+    "rate_limit_responses": 0,
+    "rate_limit_backoff_seconds": 0,
+    "background_removal_total_seconds": 0
+  },
+  "critical_path": [
+    {
+      "stage": "input_fetch_and_extract",
+      "duration_seconds": 3.0491,
+      "effective_advance_seconds": 3.0491,
+      "status": "succeeded"
+    },
+    {
+      "stage": "research",
+      "duration_seconds": 25.9225,
+      "effective_advance_seconds": 25.9226,
+      "status": "succeeded"
+    },
+    {
+      "stage": "research_or_script_generation",
+      "duration_seconds": 105.6296,
+      "effective_advance_seconds": 127.6818,
+      "status": "failed"
+    }
+  ],
+  "tts_sentence_timeline": [],
+  "image_prediction_timeline": [],
+  "image_task_timeline": [],
+  "rendering_breakdown": {
+    "renderer": "remotion",
+    "frames": 0,
+    "fps": 30,
+    "resolution": [
+      1080,
+      1920
+    ],
+    "asset_staging_seconds": null,
+    "remotion_render_seconds": null,
+    "remotion_concurrency": null,
+    "ffmpeg_encode_seconds": null,
+    "audio_delivery_seconds": null,
+    "visual_quality_scan_seconds": null,
+    "total_render_and_qa_seconds": null,
+    "video_encode_passes": null,
+    "average_fps_throughput": null,
+    "output_size_bytes": null
+  },
+  "spans": [
+    {
+      "id": "c717ed09805c45b4a7ebd9e40952029d",
+      "name": "end_to_end",
+      "start_utc": "2026-10-17T13:30:36.076134+00:00",
+      "start_offset_seconds": 0.00036274999999996727,
+      "status": "failed",
+      "metadata": {},
+      "parent_span_id": null,
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T13:33:12.848611+00:00",
+      "end_offset_seconds": 134.720286042,
+      "duration_seconds": 134.719923292,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "c772c9c6d2084217a96c0054218c86da",
+      "name": "input_fetch_and_extract",
+      "start_utc": "2026-10-17T13:30:36.188493+00:00",
+      "start_offset_seconds": 0.11274595799999998,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c717ed09805c45b4a7ebd9e40952029d",
+      "end_utc": "2026-10-17T13:30:39.237623+00:00",
+      "end_offset_seconds": 3.161836333,
+      "duration_seconds": 3.049090375,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "fe3d5367f5194649ad72d10644eabac9",
+      "name": "research",
+      "start_utc": "2026-10-17T13:30:39.238029+00:00",
+      "start_offset_seconds": 3.16223475,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c717ed09805c45b4a7ebd9e40952029d",
+      "end_utc": "2026-10-17T13:31:05.160612+00:00",
+      "end_offset_seconds": 29.084717333,
+      "duration_seconds": 25.922482583,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "fbd0bbc4af504b1a90dd3b5cbb82011c",
+      "name": "research_or_script_generation",
+      "start_utc": "2026-10-17T13:31:05.162802+00:00",
+      "start_offset_seconds": 29.08689725,
+      "status": "failed",
+      "metadata": {},
+      "parent_span_id": "c717ed09805c45b4a7ebd9e40952029d",
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T13:33:12.844571+00:00",
+      "end_offset_seconds": 134.716528458,
+      "duration_seconds": 105.629631208,
+      "trace_file": "job_trace.json"
+    }
+  ]
+}

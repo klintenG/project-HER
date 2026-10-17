@@ -126,14 +126,29 @@ _AI_MARKER=re.compile(r'\s*[\(\[]?\s*(?:ai[- ]?(?:generated|illustrat\w*|image|a
 def label_lines(text,width):
     prev=None
     while prev!=text:prev=text;text=_AI_MARKER.sub('',text).strip()
-    font=ImageFont.truetype(str(font_path(600)),36);lines=[];line=''
+    for px in range(36,21,-2):
+        font=ImageFont.truetype(str(font_path(600)),px);lines=[];line=''
+        for word in text.split():
+            test=(line+' '+word).strip()
+            if font.getlength(test)>width and line:lines.append(line);line=word
+            else:line=test
+        if line:lines.append(line)
+        if not any(font.getlength(x)>width for x in lines) and len(lines)<=3:
+            return '\n'.join(lines)
+    font=ImageFont.truetype(str(font_path(600)),22);lines=[];line=''
     for word in text.split():
         test=(line+' '+word).strip()
-        if font.getlength(test)>width and line:lines.append(line);line=word
+        if font.getlength(test)>width and line:
+            if len(lines)>=2:
+                while line and font.getlength(line+'...')>width:
+                    line=' '.join(line.split()[:-1])
+                lines.append((line+'...').strip() if line else '...')
+                break
+            lines.append(line);line=word
         else:line=test
-    if line:lines.append(line)
-    if any(font.getlength(x)>width for x in lines) or len(lines)>3:raise NewsError('Entity label too long at 36px; supply a shorter canonical display name.')
-    return '\n'.join(lines)
+    else:
+        if line and len(lines)<3:lines.append(line)
+    return '\n'.join(lines[:3]) if lines else text[:24]
 
 
 def build(script,words,sections,entities,assets,audio_path,output,generation_id,diagnostics=None,plan=None,subtitle_mode='editorial',visual_cues=None,direction=None,visual_settings=None):

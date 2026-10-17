@@ -1,0 +1,140 @@
+[
+  {
+    "id": "asset-chest",
+    "entityId": "chest",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_warm/assets/8f35ad7c48a184fcb3f8.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_warm/assets/7ca0d7019158ccd92de4-cutout.png",
+    "role": "object",
+    "subject": "Royal Reliquary",
+    "source": "replicate:black-forest-labs/flux-schnell",
+    "license": "Generated illustration",
+    "attribution": "replicate:black-forest-labs/flux-schnell",
+    "width": 291,
+    "height": 261,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "0523815aeb445116af7de6085d3f95ac71d8b96b10dcab87ff276241914ef204"
+  },
+  {
+    "id": "asset-scene-615499394d495610",
+    "entityId": "scene-615499394d495610",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_warm/assets/ec483f333c466d1989f1.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_warm/assets/94148a6bc1097dcb2b8d-cutout.png",
+    "role": "object",
+    "subject": "Golconda Blue Diamond in beat s0",
+    "source": "replicate:black-forest-labs/flux-kontext-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:black-forest-labs/flux-kontext-pro",
+    "width": 301,
+    "height": 301,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "f620272520f2cd492a03ddaf2efa912b3890b588c5fd8b5fae7b9f5976d8c6bd"
+  },
+  {
+    "id": "asset-scene-ec6d4cd235676171",
+    "entityId": "scene-ec6d4cd235676171",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_warm/assets/03a21ae44e40fdbb214e.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_warm/assets/c57e7449deda49fcfcca-cutout.png",
+    "role": "object",
+    "subject": "Golconda Blue Diamond in beat s1",
+    "source": "replicate:black-forest-labs/flux-kontext-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:black-forest-labs/flux-kontext-pro",
+    "width": 291,
+    "height": 281,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "2651a598dd74ad9562e75bf0b62ff2ea92bdabda1cc4be5e34a1ff0ed088603e"
+  },
+  {
+    "id": "asset-scene-1988e0412495ffe3",
+    "entityId": "scene-1988e0412495ffe3",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_warm/assets/7c01e31e3ca98c6e19ae.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_warm/assets/da9bcd4c6648098e0c70-cutout.png",
+    "role": "object",
+    "subject": "Golconda Blue Diamond in beat s2",
+    "source": "replicate:black-forest-labs/flux-kontext-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:black-forest-labs/flux-kontext-pro",
+    "width": 291,
+    "height": 281,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "eb7a915f777686a89304a0e18c188f19d193f49fbeff5bf405e47d5c05638281"
+  },
+  {
+    "id": "asset-scene-3cece34b2f9f81be",
+    "entityId": "scene-3cece34b2f9f81be",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_warm/assets/1a6d4180f0f8da5dc018.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_warm/assets/9ea267dbc1e698ff4d26-cutout.png",
+    "role": "object",
+    "subject": "Golconda Blue Diamond in beat s3",
+    "source": "replicate:black-forest-labs/flux-kontext-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:black-forest-labs/flux-kontext-pro",
+    "width": 291,
+    "height": 261,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "c56daf90c2956be5f201bae93117fbc8df9be66523abd413bb7066f899bac79f"
+  },
+  {
+    "id": "asset-scene-9418232ce4b5acd0",
+    "entityId": "scene-9418232ce4b5acd0",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_warm/assets/347e5601ec8a63673958.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_diamond_warm/assets/b651b33dc8dbf5530de0-cutout.png",
+    "role": "object",
+    "subject": "Golconda Blue Diamond in beat s4",
+    "source": "replicate:black-forest-labs/flux-kontext-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:black-forest-labs/flux-kontext-pro",
+    "width": 291,
+    "height": 261,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "8ac10833fc4f5f2abbd3f03960c47ce6ee0e38b8ed53efbcdbda340c16bd8994"
+  }
+]

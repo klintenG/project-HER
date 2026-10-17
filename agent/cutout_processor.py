@@ -25,15 +25,18 @@ def mask_statistics(image, require_margin=True, allow_geometry=False, allow_grou
     a = np.asarray(image.getchannel("A"))
     fg = a>32
     coverage = float(fg.mean())
-    if not .025 <= coverage <= .88:
+    min_cov = .001 if allow_geometry else .015
+    if not min_cov <= coverage <= .92:
         raise NewsError(f"Unusable foreground coverage ({coverage:.3f}); empty/opaque rectangle.")
     ys,xs = np.where(fg)
     box = (int(xs.min()),int(ys.min()),int(xs.max()+1),int(ys.max()+1))
     margin = min(box[0]/image.width,box[1]/image.height,(image.width-box[2])/image.width,(image.height-box[3])/image.height)
     if require_margin and margin < .018:
         # Actual head-and-shoulders photos are intentionally cropped at the torso.
-        # Never permit clipped hair/head or side clipping in the upper 55%.
-        inset=max(1,round(image.width*.018)); upper=fg[:round(image.height*.55)]
+        # Never permit clipped hair/head or side clipping in the head region.
+        inset=max(1,round(image.width*.018))
+        upper_ratio=.35 if allow_portrait_crop else .55
+        upper=fg[:round(image.height*upper_ratio)]
         top_clipped = fg[:inset, :].sum() > 4
         upper_left_clipped = upper[:, :inset].sum() > 4
         upper_right_clipped = upper[:, -inset:].sum() > 4
@@ -130,7 +133,7 @@ class CutoutProcessor:
         meta=cache.with_suffix('.json')
         if cache.exists() and meta.exists():
             image=Image.open(cache).convert('RGBA')
-            try:stats=mask_statistics(image,allow_geometry=allow_geometry,allow_group=allow_group)
+            try:stats=mask_statistics(image,allow_geometry=allow_geometry,allow_group=allow_group,allow_portrait_crop=allow_portrait_crop,allow_bottom_crop=allow_bottom_crop)
             except NewsError as exc:raise CutoutQualityError(str(exc)) from exc
             dest.parent.mkdir(parents=True,exist_ok=True); image.save(dest)
             return stats,json.loads(meta.read_text())["segmentation"]
@@ -146,8 +149,10 @@ class CutoutProcessor:
                 variants = [candidate_image]
                 if method != "provider_alpha":
                     variants.append(soft_edge_fade(candidate_image, fade_bottom=not allow_bottom))
-                    if getattr(config,'CUTOUT_MATTE_REPAIR',False):
+                    if getattr(config,'CUTOUT_MATTE_REPAIR',False) or self.segmenter is None:
                         variants.append(soft_edge_fade(consolidate_diffuse_alpha(candidate_image, source=original, allow_group=allow_group), fade_bottom=not allow_bottom))
+                        if allow_group:
+                            variants.append(soft_edge_fade(consolidate_diffuse_alpha(candidate_image, source=original, allow_group=False), fade_bottom=not allow_bottom))
                 for v_idx, image in enumerate(variants):
                     try:
                         # Validate source borders before cropping: adding padding cannot repair a clipped subject.
@@ -162,7 +167,7 @@ class CutoutProcessor:
                         image=image.crop(bounds)
                         pad=max(8,round(max(image.size)*.045))
                         image=ImageOps.expand(image,border=pad,fill=(0,0,0,0))
-                        stats=mask_statistics(image,allow_geometry=allow_geometry,allow_group=allow_group)
+                        stats=mask_statistics(image,allow_geometry=allow_geometry,allow_group=allow_group,allow_portrait_crop=allow_portrait_crop,allow_bottom_crop=allow_bottom_crop)
                         dest.parent.mkdir(parents=True,exist_ok=True); cache.parent.mkdir(parents=True,exist_ok=True)
                         image.save(dest,format="PNG")
                         temporary=cache.with_name(cache.stem+'-'+uuid.uuid4().hex+'.tmp')

@@ -1,0 +1,74 @@
+========================================================================
+PROJECTHER GENERATION DIAGNOSTIC REPORT
+========================================================================
+
+## A. Generation Summary
+Job ID: editorial_5b195603fbaf41f8b142e7fdea7605c5
+Environment: local (service=local_process, revision=local)
+Video Mode: reference_editorial
+Total Generation Time: 0.000 s (measured covered wall: 0.000 s, unattributed: 0.000 s)
+Final Video Duration: N/A s
+Resolution / FPS: 1080x1920 @ 30 fps
+Narration Sentences: 0
+Unique Primary Images: 0 (Rendered in video: 0)
+Generated / Acquired Images: 0
+Reused Secondary Images: 0
+Sentence-Primary Invariant (distinct >= sentences): False
+Output Size: N/A bytes
+Result: failed
+
+## B. Stage Duration Breakdown (Inclusive Spans; Parallel Stages Overlap)
+Stage                                | Duration (s) |  % Wall | Status     | Metadata
+------------------------------------------------------------------------------------------------
+end_to_end                           |        0.000 |   97.9% | failed     | {}
+
+## C. Individual Image-Generation Times
+ # | Sentence       | Entity ID                | Role       | Queue(s) |   API(s) |  Proc(s) | Total(s) | Tries | Cache | Route
+----------------------------------------------------------------------------------------------------------------------------
+
+## D. Concurrency Analysis
+Total image tasks: 0
+Peak concurrent image provider requests: 0
+Average active image provider concurrency: 0.0
+Configured action workers: 2
+TTS and visual sourcing overlap: 0.000 s (speech=None s, cutouts=None s)
+Sequential unattributed gap time: 0.000 s
+Admission pacing wait (accumulated): 0.000 s
+Rate-limited responses (HTTP 429): 0 (backoff=0 s)
+Background removal total CPU work: 0.000 s across 0 cutout(s)
+
+## E. Critical Path
+No completed stage chain recorded.
+
+## F. Bottleneck Ranking
+Rank | Operation / Stage                  | Duration(s) |  % Wall | Category   | Evidence & Optimization Opportunity
+------------------------------------------------------------------------------------------------------------------------
+
+## G. Errors and Retries (Sanitized)
+[
+  {
+    "source": "span",
+    "name": "end_to_end",
+    "error_type": "NewsError",
+    "attempt": 1
+  },
+  {
+    "source": "pipeline_failure",
+    "stage": "resolve",
+    "status": "error"
+  }
+]
+Provider counters: {}
+
+## H. Scene-Level Visual Quality Report
+ # | Sentence ID    | Primary Asset ID             | Distinct | Rendered | Window (s)      | Secondary IDs
+---------------------------------------------------------------------------------------------------------
+
+## I. Recommended Next Investigation
+- Remotion output is currently re-encoded by FFmpeg for BT.601->BT.709 color conversion (2 encode passes). Validate HER_EDITORIAL_DIRECT_BT709=1 on target runtime to use -c:v copy.
+
+## J. Measurement Limitations
+- Browser timings unavailable unless submitted by the client.
+- Cold-start/cache comparison requires separate controlled runs; process peak RSS includes earlier jobs.
+- Overlapping durations must not be summed. Span nesting expresses dependencies, not a proven critical-path DAG.
+- Report serialization and report upload occur after the measured worker interval.

@@ -1,0 +1,129 @@
+========================================================================
+PROJECTHER GENERATION DIAGNOSTIC REPORT
+========================================================================
+
+## A. Generation Summary
+Job ID: editorial_4e1179ca1d2c42d0aeb3b9306b081254
+Trace Provenance: genuine_live_trace
+Environment: local (service=local_process, revision=local)
+Video Mode: reference_editorial
+Total Generation Time: 1.428 s (measured covered wall: 1.345 s, unattributed: 0.083 s)
+Final Video Duration: 10.1 s
+Resolution / FPS: 1080x1920 @ 30 fps
+Narration Sentences: 6
+Unique Primary Images: 6 (Rendered in video: 6)
+Generated / Acquired Images: 7
+Reused Secondary Images: 0
+Sentence-Primary Invariant (distinct >= sentences): True
+Output Size: N/A bytes
+Result: succeeded
+
+## B. Stage Duration Breakdown (Inclusive Spans; Parallel Stages Overlap)
+Stage                                | Duration (s) |  % Wall | Status     | Metadata
+------------------------------------------------------------------------------------------------
+end_to_end                           |        1.428 |  100.0% | succeeded  | {}
+input_fetch_and_extract              |        0.002 |    0.1% | succeeded  | {}
+research                             |        0.000 |    0.0% | succeeded  | {}
+research_or_script_generation        |        0.001 |    0.1% | succeeded  | {}
+narration_segmentation               |        0.001 |    0.1% | succeeded  | {}
+semantic_beat_planning               |        0.001 |    0.1% | succeeded  | {}
+TTS_generation                       |        0.281 |   19.7% | succeeded  | {}
+entity_identity_asset_generation     |        0.074 |    5.2% | succeeded  | {"asset_key": "689f6a627384c7dc"}
+background_removal_and_alpha         |        0.048 |    3.4% | succeeded  | {}
+image_task                           |        0.145 |   10.1% | succeeded  | {"entity_id": "scene-520dd37bafacd66d", "queue_wait_seconds": 9.9e-05}
+image_task                           |        0.145 |   10.2% | succeeded  | {"entity_id": "scene-ab7e629b4e37845a", "queue_wait_seconds": 4.9e-05}
+image_task                           |        0.150 |   10.5% | succeeded  | {"entity_id": "scene-07dcf822580711f1", "queue_wait_seconds": 3.3e-05}
+new_action_asset_generation          |        0.144 |   10.1% | succeeded  | {"asset_key": "3af452c50784b0a5"}
+new_action_asset_generation          |        0.144 |   10.1% | succeeded  | {"asset_key": "4306d35be2f4b374"}
+new_action_asset_generation          |        0.149 |   10.4% | succeeded  | {"asset_key": "a14e57e14b88d4cd"}
+background_removal_and_alpha         |        0.051 |    3.6% | succeeded  | {}
+background_removal_and_alpha         |        0.052 |    3.7% | succeeded  | {}
+background_removal_and_alpha         |        0.058 |    4.1% | succeeded  | {}
+image_task                           |        0.140 |    9.8% | succeeded  | {"entity_id": "scene-e39206e4c8446735", "queue_wait_seconds": 0.145133}
+image_task                           |        0.134 |    9.4% | succeeded  | {"entity_id": "scene-cee4d30ceb1f2367", "queue_wait_seconds": 0.145499}
+new_action_asset_generation          |        0.139 |    9.7% | succeeded  | {"asset_key": "94d9d856649d56e5"}
+new_action_asset_generation          |        0.132 |    9.3% | succeeded  | {"asset_key": "8ef2139470e32239"}
+image_task                           |        0.142 |    9.9% | succeeded  | {"entity_id": "scene-a75c6afd73c9a44a", "queue_wait_seconds": 0.150462}
+new_action_asset_generation          |        0.141 |    9.9% | succeeded  | {"asset_key": "9811952bd03cbb99"}
+background_removal_and_alpha         |        0.041 |    2.9% | succeeded  | {}
+background_removal_and_alpha         |        0.045 |    3.2% | succeeded  | {}
+background_removal_and_alpha         |        0.051 |    3.6% | succeeded  | {}
+sentence_asset_validation            |        0.024 |    1.7% | succeeded  | {}
+word_forced_alignment                |        0.444 |   31.1% | succeeded  | {}
+audio_normalization                  |        0.494 |   34.6% | succeeded  | {}
+timeline_planning                    |        0.001 |    0.0% | succeeded  | {}
+sentence_render_validation           |        0.001 |    0.0% | succeeded  | {}
+render_and_delivery                  |        0.007 |    0.5% | succeeded  | {}
+
+## C. Individual Image-Generation Times
+ # | Sentence       | Entity ID                | Role       | Queue(s) |   API(s) |  Cut(s) |  Rev(s) | Total(s) | Tries | Cache | Route
+------------------------------------------------------------------------------------------------------------------------------------------
+ 1 | shared_identity | identity                 | identity_o |    0.000 |    0.000 |   0.049 |   0.000 |    0.073 |     1 | True  | supporting_illustration
+ 2 | s0             | scene-520dd37bafacd66d   | primary    |    0.000 |    0.000 |   0.053 |   0.000 |    0.142 |     1 | True  | narrative_action_cutout
+ 3 | s2             | scene-ab7e629b4e37845a   | primary    |    0.000 |    0.000 |   0.052 |   0.000 |    0.142 |     1 | True  | narrative_action_cutout
+ 4 | s1             | scene-07dcf822580711f1   | primary    |    0.000 |    0.000 |   0.059 |   0.000 |    0.147 |     1 | True  | narrative_action_cutout
+ 5 | s3             | scene-e39206e4c8446735   | primary    |    0.145 |    0.000 |   0.046 |   0.000 |    0.138 |     1 | True  | narrative_action_cutout
+ 6 | s4             | scene-cee4d30ceb1f2367   | primary    |    0.145 |    0.000 |   0.042 |   0.000 |    0.131 |     1 | True  | narrative_action_cutout
+ 7 | s5             | scene-a75c6afd73c9a44a   | primary    |    0.150 |    0.000 |   0.052 |   0.000 |    0.140 |     1 | True  | narrative_action_cutout
+Slowest image tasks: scene-07dcf822580711f1 (0.147s, tries=1), scene-520dd37bafacd66d (0.142s, tries=1), scene-ab7e629b4e37845a (0.142s, tries=1)
+
+## D. Concurrency Analysis
+Total image tasks: 7
+Peak concurrent image provider requests: 0
+Average active image provider concurrency: 0.0
+Configured action workers: 3
+TTS and visual sourcing overlap: 0.282 s (speech=0.282 s, cutouts=0.369 s, alignment=0.444 s)
+Sequential unattributed gap time: 0.082 s
+Admission pacing wait (accumulated): 0.000 s
+Rate-limited responses (HTTP 429): 0 (backoff=0 s)
+Background removal total CPU work: 0.348 s across 7 cutout(s)
+Rendering breakdown: staging=Nones, remotion=Nones (concurrency=None), ffmpeg=Nones, audio_delivery=Nones, qa=Nones
+
+## E. Critical Path
+input_fetch_and_extract (0.00s) -> research_or_script_generation (0.00s) -> narration_segmentation (0.00s) -> semantic_beat_planning (0.00s) -> TTS_generation (0.28s) -> new_action_asset_generation (0.14s) -> new_action_asset_generation (0.14s) -> sentence_asset_validation (0.02s) -> word_forced_alignment (0.44s) -> audio_normalization (0.49s) -> timeline_planning (0.00s) -> sentence_render_validation (0.00s) -> render_and_delivery (0.01s)
+
+## F. Bottleneck Ranking
+Rank | Operation / Stage                  | Duration(s) |  % Wall | Category   | Evidence & Optimization Opportunity
+------------------------------------------------------------------------------------------------------------------------
+   1 | word_forced_alignment              |       0.444 |   31.1% | compute    | 1 span(s), max=0.444s, accumulated=0.444s -> Persist forced-alignment cache across runs and downsample in-memory
+   2 | background_removal_and_alpha       |       0.348 |   24.3% | compute    | 7 span(s), max=0.058s, accumulated=0.348s -> Reuse warm ONNX rembg session and run cutout trimming as each image completes
+   3 | TTS_generation                     |       0.281 |   19.7% | provider   | 1 span(s), max=0.281s, accumulated=0.281s -> Overlap TTS with visual planning/sourcing and use dedicated TTS admission scope
+   4 | new_action_asset_generation        |       0.149 |   10.4% | provider   | 6 span(s), max=0.149s, accumulated=0.848s -> Bounded parallel scene generation with adaptive Replicate admission pacing
+   5 | entity_identity_asset_generation   |       0.074 |    5.2% | provider   | 1 span(s), max=0.074s, accumulated=0.074s -> Acquire identity references in parallel or reuse supporting cutouts
+   6 | sentence_asset_validation          |       0.024 |    1.7% | provider   | 1 span(s), max=0.024s, accumulated=0.024s -> Batch ordered primary cutouts into a single multimodal diversity check
+   7 | render_and_delivery                |       0.007 |    0.5% | compute    | 1 span(s), max=0.007s, accumulated=0.007s -> Use hardware-tuned Remotion concurrency and single-pass audio measurement
+   8 | input_fetch_and_extract            |       0.002 |    0.1% | network    | 1 span(s), max=0.002s, accumulated=0.002s -> Cache fetched source text or streamline input classification
+
+## G. Errors and Retries (Sanitized)
+[
+  {
+    "source": "pipeline_failure",
+    "stage": "script",
+    "status": "error"
+  }
+]
+Provider counters: {}
+
+## H. Scene-Level Visual Quality Report
+ # | Sentence ID    | Subject Type | Primary Asset ID             | Distinct | Rendered | Window (s)      | Secondary IDs
+------------------------------------------------------------------------------------------------------------------------
+ 1 | s0             | person       | asset-scene-520dd37bafacd66d | True     | passed   | 0.00-1.56       | 
+ 2 | s1             | person       | asset-scene-07dcf822580711f1 | True     | passed   | 1.74-2.66       | 
+ 3 | s2             | person       | asset-scene-ab7e629b4e37845a | True     | passed   | 2.84-4.39       | 
+ 4 | s3             | person       | asset-scene-e39206e4c8446735 | True     | passed   | 4.57-6.20       | 
+ 5 | s4             | person       | asset-scene-cee4d30ceb1f2367 | True     | passed   | 6.38-7.69       | 
+ 6 | s5             | person       | asset-scene-a75c6afd73c9a44a | True     | passed   | 7.87-9.42       | 
+
+## I. Recommended Next Investigation
+- Remotion output is re-encoded by FFmpeg for BT.601->BT.709 color conversion (2 encode passes). Validate HER_EDITORIAL_DIRECT_BT709=1 on target runtime to use -c:v copy.
+
+## J. Optimization Comparison & Telemetry Notes
+- TTS sentence telemetry records: 0
+- Image prediction telemetry records: 0
+- Trace provenance: genuine_live_trace
+
+## K. Unresolved External Constraints & Measurement Limitations
+- Browser timings unavailable unless submitted by the client.
+- Cold-start/cache comparison requires separate controlled runs; process peak RSS includes earlier jobs.
+- Overlapping durations must not be summed. Span nesting expresses dependencies, not a proven critical-path DAG.
+- Report serialization and report upload occur after the measured worker interval.

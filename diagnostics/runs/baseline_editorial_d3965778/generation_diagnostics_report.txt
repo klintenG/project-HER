@@ -1,0 +1,103 @@
+========================================================================
+PROJECTHER GENERATION DIAGNOSTIC REPORT
+========================================================================
+
+## A. Generation Summary
+Job ID: editorial_d39657782dad4d2d96ad953cc76e7775
+Environment: local (service=local_process, revision=local)
+Video Mode: reference_editorial
+Total Generation Time: 518.000 s (measured covered wall: 518.000 s, unattributed: 0.000 s)
+Final Video Duration: 66.6 s
+Resolution / FPS: 1080x1920 @ 30 fps
+Narration Sentences: 9
+Unique Primary Images: 3 (Rendered in video: 3)
+Generated / Acquired Images: 3
+Reused Secondary Images: 6
+Sentence-Primary Invariant (distinct >= sentences): False
+Output Size: N/A bytes
+Result: completed_legacy_baseline
+
+## B. Stage Duration Breakdown (Inclusive Spans; Parallel Stages Overlap)
+Stage                                | Duration (s) |  % Wall | Status     | Metadata
+------------------------------------------------------------------------------------------------
+input_validation_and_normalization   |        6.220 |    1.2% | completed  | {"source": "saved_manifest_timings"}
+source_retrieval_and_fact_extraction |       33.430 |    6.5% | completed  | {"source": "saved_manifest_timings"}
+script_generation_and_verification   |       41.320 |    8.0% | completed  | {"source": "saved_manifest_timings"}
+parallel_media_stage                 |      369.040 |   71.2% | completed  | {"source": "saved_manifest_timings"}
+tts_generation_and_alignment         |      215.270 |   41.6% | completed  | {"source": "saved_manifest_timings"}
+semantic_beat_planning               |       20.470 |    4.0% | completed  | {"source": "saved_manifest_timings"}
+cutout_acquisition_and_matting       |      330.820 |   63.9% | completed  | {"source": "saved_manifest_timings"}
+visual_direction_compilation         |        9.650 |    1.9% | completed  | {"source": "saved_manifest_timings"}
+video_composition_and_encoding       |       57.150 |   11.0% | completed  | {"source": "saved_manifest_timings"}
+render_quality_assurance             |        1.970 |    0.4% | completed  | {"source": "saved_manifest_timings"}
+
+## C. Individual Image-Generation Times
+ # | Sentence       | Entity ID                | Role       | Queue(s) |   API(s) |  Proc(s) | Total(s) | Tries | Cache | Route
+----------------------------------------------------------------------------------------------------------------------------
+ 1 | shared_identity | kendrick                 | entity_por |    0.000 |    0.000 |  110.273 |  110.273 |     2 | False | replicate:black-forest-labs/flux-kontext-pro
+ 2 | shared_identity | drake                    | entity_por |    0.000 |    0.000 |  110.273 |  110.273 |     2 | False | replicate:black-forest-labs/flux-schnell
+ 3 | shared_identity | jcole                    | entity_por |    0.000 |    0.000 |  110.273 |  110.273 |     2 | False | replicate:black-forest-labs/flux-schnell
+Slowest image tasks: kendrick (110.273s, tries=2), drake (110.273s, tries=2), jcole (110.273s, tries=2)
+
+## D. Concurrency Analysis
+Total image tasks: 3
+Peak concurrent image provider requests: 0
+Average active image provider concurrency: 0.0
+Configured action workers: 2
+TTS and visual sourcing overlap: 93.406 s (speech=93.406 s, cutouts=323.204 s)
+Sequential unattributed gap time: 0.000 s
+Admission pacing wait (accumulated): 72.000 s
+Rate-limited responses (HTTP 429): 1 (backoff=15.0 s)
+Background removal total CPU work: 0.000 s across 0 cutout(s)
+
+## E. Critical Path
+input_validation_and_normalization (6.22s)
+
+## F. Bottleneck Ranking
+Rank | Operation / Stage                  | Duration(s) |  % Wall | Category   | Evidence & Optimization Opportunity
+------------------------------------------------------------------------------------------------------------------------
+   1 | semantic_beat_planning             |      20.470 |    4.0% | provider   | 1 span(s), max=20.470s, accumulated=20.470s -> Single-pass structured storyboard generation with strict schema validation
+
+## G. Errors and Retries (Sanitized)
+[
+  {
+    "source": "image_asset",
+    "entity_id": "kendrick",
+    "sentence_id": "shared_identity",
+    "rejected_attempts": 1,
+    "recorded_errors": 0,
+    "route": "replicate:black-forest-labs/flux-kontext-pro"
+  },
+  {
+    "source": "image_asset",
+    "entity_id": "drake",
+    "sentence_id": "shared_identity",
+    "rejected_attempts": 1,
+    "recorded_errors": 0,
+    "route": "replicate:black-forest-labs/flux-schnell"
+  },
+  {
+    "source": "image_asset",
+    "entity_id": "jcole",
+    "sentence_id": "shared_identity",
+    "rejected_attempts": 1,
+    "recorded_errors": 0,
+    "route": "replicate:black-forest-labs/flux-schnell"
+  }
+]
+Provider counters: {"createRequests": 6, "acceptedPredictions": 6, "rateLimitResponses": 1, "backoffSeconds": 15.0, "pollRetries": 18, "admissionWaitSeconds": 72.0}
+
+## H. Scene-Level Visual Quality Report
+ # | Sentence ID    | Primary Asset ID             | Distinct | Rendered | Window (s)      | Secondary IDs
+---------------------------------------------------------------------------------------------------------
+
+## I. Recommended Next Investigation
+- Replicate returned HTTP 429 rate-limit responses; increase account credit tier or adjust HER_EDITORIAL_IMAGE_MIN_INTERVAL / NEWS_REPLICATE_MIN_INTERVAL.
+- Remotion output is currently re-encoded by FFmpeg for BT.601->BT.709 color conversion (2 encode passes). Validate HER_EDITORIAL_DIRECT_BT709=1 on target runtime to use -c:v copy.
+- Multimodal visual review rejected one or more initial image candidates, triggering regeneration retries. Inspect scene_report and image rejected_attempts.
+
+## J. Measurement Limitations
+- Browser timings unavailable unless submitted by the client.
+- Cold-start/cache comparison requires separate controlled runs; process peak RSS includes earlier jobs.
+- Overlapping durations must not be summed. Span nesting expresses dependencies, not a proven critical-path DAG.
+- Report serialization and report upload occur after the measured worker interval.

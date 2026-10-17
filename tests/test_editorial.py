@@ -12,6 +12,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch,MagicMock
 import numpy as np
+import config
 from agent.editorial.models import Timeline,Layer,Event,Bounds,frames,digest
 from agent.editorial.audio import remap_words,refine_silence_edges,write_wave
 from agent.editorial.pipeline import check_configuration
@@ -266,6 +267,7 @@ class EditorialTests(unittest.TestCase):
         self.assertEqual(run.call_args.kwargs['subtitle_mode'],'complete')
         self.assertEqual(run.call_args.kwargs['local_assets'],'fixture.json')
 
+    @patch.object(config,'SENTENCE_PRIMARY_VISUALS',False)
     def test_full_pipeline_with_native_timestamp_provider_fixture(self):
         from tests.news_fixtures import FixtureLLM,FixtureTTS,SCRIPT,ACCOUNT,subject_image
         from agent.editorial.planner import semantic_plan

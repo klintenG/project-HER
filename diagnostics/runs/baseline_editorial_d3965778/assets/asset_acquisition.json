@@ -1,0 +1,67 @@
+{
+  "assets": [
+    {
+      "entityId": "kendrick",
+      "assetId": "asset-kendrick",
+      "name": "Kendrick Lamar",
+      "role": "entity_portrait",
+      "tier": "person",
+      "provider": "black-forest-labs/flux-1.1-pro",
+      "route": "replicate:black-forest-labs/flux-kontext-pro",
+      "durationSeconds": 110.273,
+      "rejectedAttempts": [
+        "review_failed"
+      ],
+      "cacheHit": false,
+      "width": 1024,
+      "height": 993,
+      "bytes": 412000
+    },
+    {
+      "entityId": "drake",
+      "assetId": "asset-drake",
+      "name": "Drake",
+      "role": "entity_portrait",
+      "tier": "person",
+      "provider": "black-forest-labs/flux-1.1-pro",
+      "route": "replicate:black-forest-labs/flux-schnell",
+      "durationSeconds": 110.273,
+      "rejectedAttempts": [
+        "review_failed"
+      ],
+      "cacheHit": false,
+      "width": 703,
+      "height": 937,
+      "bytes": 412000
+    },
+    {
+      "entityId": "jcole",
+      "assetId": "asset-jcole",
+      "name": "J. Cole",
+      "role": "entity_portrait",
+      "tier": "person",
+      "provider": "black-forest-labs/flux-1.1-pro",
+      "route": "replicate:black-forest-labs/flux-schnell",
+      "durationSeconds": 110.273,
+      "rejectedAttempts": [
+        "review_failed"
+      ],
+      "cacheHit": false,
+      "width": 767,
+      "height": 922,
+      "bytes": 412000
+    }
+  ],
+  "concurrency": {
+    "configuredWorkers": 1,
+    "peakActiveWorkers": 1
+  },
+  "providerMetrics": {
+    "createRequests": 6,
+    "acceptedPredictions": 6,
+    "rateLimitResponses": 1,
+    "backoffSeconds": 15.0,
+    "pollRetries": 18,
+    "admissionWaitSeconds": 72.0
+  }
+}

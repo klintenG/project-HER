@@ -153,8 +153,8 @@ class _ResilientCompletions:
         for model_idx, target_model in enumerate(models_to_try):
             call_kwargs = dict(kwargs)
             call_kwargs["model"] = target_model
-            # For 503 high demand, retry up to 2 attempts before trying fallback model
-            max_retries = 2 if len(models_to_try) > 1 else 3
+            # For 503 high demand, retry up to 3 attempts before trying fallback model
+            max_retries = 3
 
             for attempt in range(max_retries):
                 try:

@@ -43,7 +43,7 @@ class JobTrace:
         row={'id':uuid.uuid4().hex,'name':name,'start_utc':datetime.now(timezone.utc).isoformat(),
              'start_offset_seconds':time.monotonic()-self.origin,'status':'running','metadata':metadata}
         row['parent_span_id']=self.current.get() or self.root_id
-        if self.root_id is None:self.root_id=row['id']
+        if self.root_id is None and name in ('end_to_end','worker_end_to_end'):self.root_id=row['id']
         token=self.current.set(row['id'])
         with self.lock:self.spans.append(row);self.persist()
         try:
@@ -62,6 +62,10 @@ class JobTrace:
                 # the host's structured log stream as well as the local file.
                 logger.info('HER_JOB_SPAN %s',json.dumps({'schema_version':'job-trace-v1','job_id':self.job_id,'runtime':self.runtime,**row},separators=(',',':')))
             self.current.reset(token)
+            if name in ('end_to_end','worker_end_to_end'):
+                from .generation_diagnostics import export_reports
+                try:export_reports(self.path.parent,self.job_id,row['status'])
+                except Exception as exc:logger.error('Diagnostic export failed job=%s type=%s',self.job_id,type(exc).__name__)
 
     def call(self,name,fn,*args,**kwargs):
         with self.span(name):return fn(*args,**kwargs)

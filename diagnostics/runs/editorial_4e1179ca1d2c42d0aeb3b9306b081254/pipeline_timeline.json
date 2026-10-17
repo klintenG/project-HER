@@ -1,0 +1,855 @@
+{
+  "schema_version": "pipeline-timeline-v1",
+  "job_id": "editorial_4e1179ca1d2c42d0aeb3b9306b081254",
+  "outcome": "succeeded",
+  "trace_provenance": "genuine_live_trace",
+  "start_utc": "2026-10-17T16:36:19.650626+00:00",
+  "finish_utc": "2026-10-17T16:36:21.078813+00:00",
+  "total_elapsed_seconds": 1.428171,
+  "measured_wall_seconds": 1.344931,
+  "stage_timings": {
+    "resolve": 0.002,
+    "research": 0.001,
+    "script": 0.027,
+    "semantic_beat_planning": 0.001,
+    "word_forced_alignment": 0.444,
+    "scene_planning_and_layout": 0.0,
+    "media": 1.337,
+    "timeline": 0.052,
+    "Remotion_and_FFmpeg": 0.008,
+    "compose": 0.008,
+    "end_to_end": 1.428
+  },
+  "concurrency_analysis": {
+    "total_image_tasks": 7,
+    "total_provider_wait_spans": 0,
+    "peak_image_provider_concurrency": 0,
+    "average_active_image_concurrency": 0.0,
+    "configured_action_workers": 3,
+    "tts_visual_overlap_seconds": 0.282,
+    "speech_wall_seconds": 0.282,
+    "cutouts_wall_seconds": 0.369,
+    "alignment_seconds": 0.444,
+    "serial_gap_seconds": 0.0818,
+    "admission_wait_seconds": 0.0,
+    "rate_limit_responses": 0,
+    "rate_limit_backoff_seconds": 0,
+    "background_removal_total_seconds": 0.3477
+  },
+  "critical_path": [
+    {
+      "stage": "input_fetch_and_extract",
+      "duration_seconds": 0.0021,
+      "effective_advance_seconds": 0.0021,
+      "status": "succeeded"
+    },
+    {
+      "stage": "research_or_script_generation",
+      "duration_seconds": 0.0012,
+      "effective_advance_seconds": 0.0012,
+      "status": "succeeded"
+    },
+    {
+      "stage": "narration_segmentation",
+      "duration_seconds": 0.0008,
+      "effective_advance_seconds": 0.0008,
+      "status": "succeeded"
+    },
+    {
+      "stage": "semantic_beat_planning",
+      "duration_seconds": 0.0011,
+      "effective_advance_seconds": 0.0011,
+      "status": "succeeded"
+    },
+    {
+      "stage": "TTS_generation",
+      "duration_seconds": 0.2815,
+      "effective_advance_seconds": 0.2804,
+      "status": "succeeded"
+    },
+    {
+      "stage": "new_action_asset_generation",
+      "duration_seconds": 0.1389,
+      "effective_advance_seconds": 0.0817,
+      "status": "succeeded"
+    },
+    {
+      "stage": "new_action_asset_generation",
+      "duration_seconds": 0.1408,
+      "effective_advance_seconds": 0.0069,
+      "status": "succeeded"
+    },
+    {
+      "stage": "sentence_asset_validation",
+      "duration_seconds": 0.024,
+      "effective_advance_seconds": 0.024,
+      "status": "succeeded"
+    },
+    {
+      "stage": "word_forced_alignment",
+      "duration_seconds": 0.4436,
+      "effective_advance_seconds": 0.4436,
+      "status": "succeeded"
+    },
+    {
+      "stage": "audio_normalization",
+      "duration_seconds": 0.4936,
+      "effective_advance_seconds": 0.4936,
+      "status": "succeeded"
+    },
+    {
+      "stage": "timeline_planning",
+      "duration_seconds": 0.0007,
+      "effective_advance_seconds": 0.0007,
+      "status": "succeeded"
+    },
+    {
+      "stage": "sentence_render_validation",
+      "duration_seconds": 0.0005,
+      "effective_advance_seconds": 0.0005,
+      "status": "succeeded"
+    },
+    {
+      "stage": "render_and_delivery",
+      "duration_seconds": 0.0074,
+      "effective_advance_seconds": 0.0074,
+      "status": "succeeded"
+    }
+  ],
+  "tts_sentence_timeline": [],
+  "image_prediction_timeline": [],
+  "image_task_timeline": [
+    {
+      "task_index": 1,
+      "entityId": "identity",
+      "assetId": "asset-identity",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "primary_subject_type": "person",
+      "visual_concept": "Character",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.0,
+      "admission_wait_seconds": 0.0,
+      "api_duration_seconds": 0.0,
+      "cutout_processing_seconds": 0.049,
+      "visual_review_seconds": 0.0,
+      "processing_and_review_seconds": 0.073,
+      "durationSeconds": 0.073,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": true,
+      "route": "supporting_illustration",
+      "identityReferences": [],
+      "dimensions": [
+        521,
+        541
+      ],
+      "bytes": 4811,
+      "sha256": "ed67f44537ef0c8d879dd8642c222e600513a3ca2537b540a475e78d4202ac4f",
+      "displayed_in_render": false,
+      "origin": "reused_or_cached",
+      "prediction_records": []
+    },
+    {
+      "task_index": 2,
+      "entityId": "scene-520dd37bafacd66d",
+      "assetId": "asset-scene-520dd37bafacd66d",
+      "sentence_id": "s0",
+      "role": "primary",
+      "primary_subject_type": "person",
+      "visual_concept": "Sisyphus was a clever king.",
+      "provider": "replicate:black-forest-labs/flux-kontext-pro",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.0001,
+      "admission_wait_seconds": 0.0,
+      "api_duration_seconds": 0.0,
+      "cutout_processing_seconds": 0.053,
+      "visual_review_seconds": 0.0,
+      "processing_and_review_seconds": 0.142,
+      "durationSeconds": 0.142,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": true,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "identity"
+      ],
+      "dimensions": [
+        521,
+        541
+      ],
+      "bytes": 4651,
+      "sha256": "86413e7b276855054ffe035fff16ddf2c45922206239b3b0f2ac697d52994cea",
+      "displayed_in_render": true,
+      "origin": "reused_or_cached",
+      "prediction_records": []
+    },
+    {
+      "task_index": 3,
+      "entityId": "scene-ab7e629b4e37845a",
+      "assetId": "asset-scene-ab7e629b4e37845a",
+      "sentence_id": "s2",
+      "role": "primary",
+      "primary_subject_type": "person",
+      "visual_concept": "Zeus decided to punish him.",
+      "provider": "replicate:black-forest-labs/flux-kontext-pro",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.0,
+      "admission_wait_seconds": 0.0,
+      "api_duration_seconds": 0.0,
+      "cutout_processing_seconds": 0.052,
+      "visual_review_seconds": 0.0,
+      "processing_and_review_seconds": 0.142,
+      "durationSeconds": 0.142,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": true,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "identity"
+      ],
+      "dimensions": [
+        521,
+        541
+      ],
+      "bytes": 4873,
+      "sha256": "6b439ad1b4d156ba8425c205861fd985e2165cd4730665f4cd5ed04d526a62b7",
+      "displayed_in_render": true,
+      "origin": "reused_or_cached",
+      "prediction_records": []
+    },
+    {
+      "task_index": 4,
+      "entityId": "scene-07dcf822580711f1",
+      "assetId": "asset-scene-07dcf822580711f1",
+      "sentence_id": "s1",
+      "role": "primary",
+      "primary_subject_type": "person",
+      "visual_concept": "He cheated death.",
+      "provider": "replicate:black-forest-labs/flux-kontext-pro",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.0,
+      "admission_wait_seconds": 0.0,
+      "api_duration_seconds": 0.0,
+      "cutout_processing_seconds": 0.059,
+      "visual_review_seconds": 0.0,
+      "processing_and_review_seconds": 0.147,
+      "durationSeconds": 0.147,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": true,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "identity"
+      ],
+      "dimensions": [
+        521,
+        541
+      ],
+      "bytes": 4841,
+      "sha256": "d2169d29b6b347eaf87a29aab5d371a28b54cf427103da5a44265d5ac2ce8643",
+      "displayed_in_render": true,
+      "origin": "reused_or_cached",
+      "prediction_records": []
+    },
+    {
+      "task_index": 5,
+      "entityId": "scene-e39206e4c8446735",
+      "assetId": "asset-scene-e39206e4c8446735",
+      "sentence_id": "s3",
+      "role": "primary",
+      "primary_subject_type": "person",
+      "visual_concept": "Sisyphus pushed a boulder uphill.",
+      "provider": "replicate:black-forest-labs/flux-kontext-pro",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.1451,
+      "admission_wait_seconds": 0.0,
+      "api_duration_seconds": 0.0,
+      "cutout_processing_seconds": 0.046,
+      "visual_review_seconds": 0.0,
+      "processing_and_review_seconds": 0.138,
+      "durationSeconds": 0.138,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": true,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "identity"
+      ],
+      "dimensions": [
+        521,
+        541
+      ],
+      "bytes": 4805,
+      "sha256": "505a168b5582afd27f8a5a2960412e59d0c542dca33b9dd664f7cbd1e28cb10c",
+      "displayed_in_render": true,
+      "origin": "reused_or_cached",
+      "prediction_records": []
+    },
+    {
+      "task_index": 6,
+      "entityId": "scene-cee4d30ceb1f2367",
+      "assetId": "asset-scene-cee4d30ceb1f2367",
+      "sentence_id": "s4",
+      "role": "primary",
+      "primary_subject_type": "person",
+      "visual_concept": "The boulder rolled downhill.",
+      "provider": "replicate:black-forest-labs/flux-kontext-pro",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.1455,
+      "admission_wait_seconds": 0.0,
+      "api_duration_seconds": 0.0,
+      "cutout_processing_seconds": 0.042,
+      "visual_review_seconds": 0.0,
+      "processing_and_review_seconds": 0.131,
+      "durationSeconds": 0.131,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": true,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "identity"
+      ],
+      "dimensions": [
+        521,
+        541
+      ],
+      "bytes": 4789,
+      "sha256": "e12a82920c7f919659e78666963378cf5e0c0b87c5babb6cc1a6f2bc6a5f066c",
+      "displayed_in_render": true,
+      "origin": "reused_or_cached",
+      "prediction_records": []
+    },
+    {
+      "task_index": 7,
+      "entityId": "scene-a75c6afd73c9a44a",
+      "assetId": "asset-scene-a75c6afd73c9a44a",
+      "sentence_id": "s5",
+      "role": "primary",
+      "primary_subject_type": "person",
+      "visual_concept": "He faced the task forever.",
+      "provider": "replicate:black-forest-labs/flux-kontext-pro",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.1505,
+      "admission_wait_seconds": 0.0,
+      "api_duration_seconds": 0.0,
+      "cutout_processing_seconds": 0.052,
+      "visual_review_seconds": 0.0,
+      "processing_and_review_seconds": 0.14,
+      "durationSeconds": 0.14,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": true,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "identity"
+      ],
+      "dimensions": [
+        521,
+        541
+      ],
+      "bytes": 4719,
+      "sha256": "b02cad95723bf1d2e822199feed3db6cf78f370330f37e5215fbdb680ebb80db",
+      "displayed_in_render": true,
+      "origin": "reused_or_cached",
+      "prediction_records": []
+    }
+  ],
+  "rendering_breakdown": {
+    "renderer": "remotion",
+    "frames": 303,
+    "fps": 30,
+    "resolution": [
+      1080,
+      1920
+    ],
+    "asset_staging_seconds": null,
+    "remotion_render_seconds": null,
+    "remotion_concurrency": null,
+    "ffmpeg_encode_seconds": null,
+    "audio_delivery_seconds": null,
+    "visual_quality_scan_seconds": null,
+    "total_render_and_qa_seconds": 0.008,
+    "video_encode_passes": null,
+    "average_fps_throughput": null,
+    "output_size_bytes": null
+  },
+  "spans": [
+    {
+      "id": "e6e9cc6fc72040dcba8024171f20742a",
+      "name": "end_to_end",
+      "start_utc": "2026-10-17T16:36:19.650626+00:00",
+      "start_offset_seconds": 0.0005117920000000664,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": null,
+      "end_utc": "2026-10-17T16:36:21.078813+00:00",
+      "end_offset_seconds": 1.428682417,
+      "duration_seconds": 1.428170625,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "604b971f41eb4d4b864301dd4a2bb1b0",
+      "name": "input_fetch_and_extract",
+      "start_utc": "2026-10-17T16:36:19.650914+00:00",
+      "start_offset_seconds": 0.0007897500000000335,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e6e9cc6fc72040dcba8024171f20742a",
+      "end_utc": "2026-10-17T16:36:19.653027+00:00",
+      "end_offset_seconds": 0.0029032079999999905,
+      "duration_seconds": 0.002113457999999957,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "d47afc3f427b4ca780c26c94903d5604",
+      "name": "research",
+      "start_utc": "2026-10-17T16:36:19.653246+00:00",
+      "start_offset_seconds": 0.0031219580000000358,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e6e9cc6fc72040dcba8024171f20742a",
+      "end_utc": "2026-10-17T16:36:19.653689+00:00",
+      "end_offset_seconds": 0.0035648329999999895,
+      "duration_seconds": 0.0004428749999999537,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "ae161d66082241aeb0d21c829fdd6854",
+      "name": "research_or_script_generation",
+      "start_utc": "2026-10-17T16:36:19.653898+00:00",
+      "start_offset_seconds": 0.003773667000000036,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e6e9cc6fc72040dcba8024171f20742a",
+      "end_utc": "2026-10-17T16:36:19.655095+00:00",
+      "end_offset_seconds": 0.004970833000000008,
+      "duration_seconds": 0.0011971659999999718,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "96be673d74c04634bbdd5e17ce865416",
+      "name": "narration_segmentation",
+      "start_utc": "2026-10-17T16:36:19.680196+00:00",
+      "start_offset_seconds": 0.030076917000000036,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e6e9cc6fc72040dcba8024171f20742a",
+      "end_utc": "2026-10-17T16:36:19.681035+00:00",
+      "end_offset_seconds": 0.03091145800000006,
+      "duration_seconds": 0.000834541000000022,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "78dc9c9ce22b45f796d53e917c6ee7db",
+      "name": "semantic_beat_planning",
+      "start_utc": "2026-10-17T16:36:19.681398+00:00",
+      "start_offset_seconds": 0.031273333000000014,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e6e9cc6fc72040dcba8024171f20742a",
+      "end_utc": "2026-10-17T16:36:19.682494+00:00",
+      "end_offset_seconds": 0.03237033300000003,
+      "duration_seconds": 0.0010970000000000146,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "0b95d0c71011490a81781ba44200ba5f",
+      "name": "TTS_generation",
+      "start_utc": "2026-10-17T16:36:19.681413+00:00",
+      "start_offset_seconds": 0.03129020800000004,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e6e9cc6fc72040dcba8024171f20742a",
+      "end_utc": "2026-10-17T16:36:19.962855+00:00",
+      "end_offset_seconds": 0.3127569170000001,
+      "duration_seconds": 0.28146670900000004,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "f0dae11f1dac493b93718644f6bfc5fe",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T16:36:19.685234+00:00",
+      "start_offset_seconds": 0.03510970800000002,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "689f6a627384c7dc"
+      },
+      "parent_span_id": "e6e9cc6fc72040dcba8024171f20742a",
+      "end_utc": "2026-10-17T16:36:19.759068+00:00",
+      "end_offset_seconds": 0.10895325,
+      "duration_seconds": 0.07384354199999998,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "37090e09ae58459b88d1e9efe6a34510",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:36:19.690444+00:00",
+      "start_offset_seconds": 0.040338207999999987,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "f0dae11f1dac493b93718644f6bfc5fe",
+      "end_utc": "2026-10-17T16:36:19.738904+00:00",
+      "end_offset_seconds": 0.08878837500000003,
+      "duration_seconds": 0.048450167000000044,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "0331bbf54fcd433592abd85e49259e4a",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:36:19.759651+00:00",
+      "start_offset_seconds": 0.10952799999999996,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-520dd37bafacd66d",
+        "queue_wait_seconds": 9.9e-05
+      },
+      "parent_span_id": "e6e9cc6fc72040dcba8024171f20742a",
+      "end_utc": "2026-10-17T16:36:19.904599+00:00",
+      "end_offset_seconds": 0.2544737920000001,
+      "duration_seconds": 0.14494579200000013,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e60b0a9cc1854d4ea77b4cb91246edd9",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:36:19.759828+00:00",
+      "start_offset_seconds": 0.10970287499999998,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-ab7e629b4e37845a",
+        "queue_wait_seconds": 4.9e-05
+      },
+      "parent_span_id": "e6e9cc6fc72040dcba8024171f20742a",
+      "end_utc": "2026-10-17T16:36:19.904988+00:00",
+      "end_offset_seconds": 0.2548613329999999,
+      "duration_seconds": 0.14515845799999993,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "271db990e7ec4b5c96303fd72bc97ad7",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:36:19.759836+00:00",
+      "start_offset_seconds": 0.10971191700000005,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-07dcf822580711f1",
+        "queue_wait_seconds": 3.3e-05
+      },
+      "parent_span_id": "e6e9cc6fc72040dcba8024171f20742a",
+      "end_utc": "2026-10-17T16:36:19.909873+00:00",
+      "end_offset_seconds": 0.2597475830000001,
+      "duration_seconds": 0.15003566600000007,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "07a0af05feb24bf9907e14b5c8f6f8a4",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:36:19.760063+00:00",
+      "start_offset_seconds": 0.10993941699999998,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "3af452c50784b0a5"
+      },
+      "parent_span_id": "0331bbf54fcd433592abd85e49259e4a",
+      "end_utc": "2026-10-17T16:36:19.903688+00:00",
+      "end_offset_seconds": 0.25356608300000005,
+      "duration_seconds": 0.14362666600000007,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "f5e3486b885c466c81c781a10710c61e",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:36:19.760377+00:00",
+      "start_offset_seconds": 0.11025254200000001,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "4306d35be2f4b374"
+      },
+      "parent_span_id": "e60b0a9cc1854d4ea77b4cb91246edd9",
+      "end_utc": "2026-10-17T16:36:19.904232+00:00",
+      "end_offset_seconds": 0.2541086250000001,
+      "duration_seconds": 0.14385608300000008,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "aeb12688d8da4a0f9ecb150df947bf78",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:36:19.760741+00:00",
+      "start_offset_seconds": 0.11061691699999998,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "a14e57e14b88d4cd"
+      },
+      "parent_span_id": "271db990e7ec4b5c96303fd72bc97ad7",
+      "end_utc": "2026-10-17T16:36:19.909388+00:00",
+      "end_offset_seconds": 0.25926645800000003,
+      "duration_seconds": 0.14864954100000005,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "309bb8332bb845d5bbe5f76e14b036e7",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:36:19.830958+00:00",
+      "start_offset_seconds": 0.180844958,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "f5e3486b885c466c81c781a10710c61e",
+      "end_utc": "2026-10-17T16:36:19.882310+00:00",
+      "end_offset_seconds": 0.232211292,
+      "duration_seconds": 0.051366334000000013,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "5e5bc349ef0a42cfb34870406e85decd",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:36:19.831029+00:00",
+      "start_offset_seconds": 0.180904917,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "07a0af05feb24bf9907e14b5c8f6f8a4",
+      "end_utc": "2026-10-17T16:36:19.883172+00:00",
+      "end_offset_seconds": 0.23304854200000003,
+      "duration_seconds": 0.05214362500000003,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "be02bc4a8d6241258673597d27ce4f09",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:36:19.831607+00:00",
+      "start_offset_seconds": 0.18148220800000003,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "aeb12688d8da4a0f9ecb150df947bf78",
+      "end_utc": "2026-10-17T16:36:19.889808+00:00",
+      "end_offset_seconds": 0.23968500000000004,
+      "duration_seconds": 0.058202792,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "9a3b60d544d544fd8c71ccfcb592dbb0",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:36:19.904960+00:00",
+      "start_offset_seconds": 0.25483449999999996,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-e39206e4c8446735",
+        "queue_wait_seconds": 0.145133
+      },
+      "parent_span_id": "e6e9cc6fc72040dcba8024171f20742a",
+      "end_utc": "2026-10-17T16:36:20.044976+00:00",
+      "end_offset_seconds": 0.3948498749999999,
+      "duration_seconds": 0.14001537499999994,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "c4615fcd5602430db15496012b367420",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:36:19.905336+00:00",
+      "start_offset_seconds": 0.2552097080000001,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-cee4d30ceb1f2367",
+        "queue_wait_seconds": 0.145499
+      },
+      "parent_span_id": "e6e9cc6fc72040dcba8024171f20742a",
+      "end_utc": "2026-10-17T16:36:20.039070+00:00",
+      "end_offset_seconds": 0.3889439170000001,
+      "duration_seconds": 0.133734209,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "cbc60bda825941d896692575172cf6e1",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:36:19.905694+00:00",
+      "start_offset_seconds": 0.2555692500000001,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "94d9d856649d56e5"
+      },
+      "parent_span_id": "9a3b60d544d544fd8c71ccfcb592dbb0",
+      "end_utc": "2026-10-17T16:36:20.044556+00:00",
+      "end_offset_seconds": 0.39443324999999996,
+      "duration_seconds": 0.13886399999999988,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "ed336a02ea114427bf43df1cad04dbe5",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:36:19.906035+00:00",
+      "start_offset_seconds": 0.2559091670000001,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "8ef2139470e32239"
+      },
+      "parent_span_id": "c4615fcd5602430db15496012b367420",
+      "end_utc": "2026-10-17T16:36:20.038388+00:00",
+      "end_offset_seconds": 0.388263417,
+      "duration_seconds": 0.1323542499999999,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e589f393381c40b8ac3c04dce1c069b5",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:36:19.910290+00:00",
+      "start_offset_seconds": 0.26016391699999997,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-a75c6afd73c9a44a",
+        "queue_wait_seconds": 0.150462
+      },
+      "parent_span_id": "e6e9cc6fc72040dcba8024171f20742a",
+      "end_utc": "2026-10-17T16:36:20.051825+00:00",
+      "end_offset_seconds": 0.40169829199999996,
+      "duration_seconds": 0.141534375,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "ef4f64cec7484c2cb22bfc18977e3f5f",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:36:19.910653+00:00",
+      "start_offset_seconds": 0.2605275830000001,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "9811952bd03cbb99"
+      },
+      "parent_span_id": "e589f393381c40b8ac3c04dce1c069b5",
+      "end_utc": "2026-10-17T16:36:20.051464+00:00",
+      "end_offset_seconds": 0.4013380000000001,
+      "duration_seconds": 0.14081041699999997,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "b0ad69ac0df1436f97b9a0ed729eb4bd",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:36:19.979771+00:00",
+      "start_offset_seconds": 0.3296488329999999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "ed336a02ea114427bf43df1cad04dbe5",
+      "end_utc": "2026-10-17T16:36:20.020829+00:00",
+      "end_offset_seconds": 0.370707958,
+      "duration_seconds": 0.041059125000000085,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "dc06b7a9beec4bf2bf0a46df6ce71944",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:36:19.981545+00:00",
+      "start_offset_seconds": 0.3314203750000001,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "cbc60bda825941d896692575172cf6e1",
+      "end_utc": "2026-10-17T16:36:20.026688+00:00",
+      "end_offset_seconds": 0.37656620799999996,
+      "duration_seconds": 0.04514583299999986,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "392114eda8e341ab9f1256fea64d5695",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:36:19.982849+00:00",
+      "start_offset_seconds": 0.332724833,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "ef4f64cec7484c2cb22bfc18977e3f5f",
+      "end_utc": "2026-10-17T16:36:20.034177+00:00",
+      "end_offset_seconds": 0.38405187500000004,
+      "duration_seconds": 0.051327042000000045,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "cf4c95f001804641a4cbdcbcd86f925b",
+      "name": "sentence_asset_validation",
+      "start_utc": "2026-10-17T16:36:20.053222+00:00",
+      "start_offset_seconds": 0.403095125,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e6e9cc6fc72040dcba8024171f20742a",
+      "end_utc": "2026-10-17T16:36:20.077249+00:00",
+      "end_offset_seconds": 0.427127167,
+      "duration_seconds": 0.024032041999999976,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "01db5758e8ef4a7d971effc1adbb190f",
+      "name": "word_forced_alignment",
+      "start_utc": "2026-10-17T16:36:20.077849+00:00",
+      "start_offset_seconds": 0.42772266699999995,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e6e9cc6fc72040dcba8024171f20742a",
+      "end_utc": "2026-10-17T16:36:20.521435+00:00",
+      "end_offset_seconds": 0.871316708,
+      "duration_seconds": 0.4435940410000001,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "7d4e778cb555434da6782952ca6b3f22",
+      "name": "audio_normalization",
+      "start_utc": "2026-10-17T16:36:20.523574+00:00",
+      "start_offset_seconds": 0.873445667,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e6e9cc6fc72040dcba8024171f20742a",
+      "end_utc": "2026-10-17T16:36:21.017193+00:00",
+      "end_offset_seconds": 1.367084792,
+      "duration_seconds": 0.49363912499999996,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "78fd5ea6494f4159a24d0beba25f35a3",
+      "name": "timeline_planning",
+      "start_utc": "2026-10-17T16:36:21.018090+00:00",
+      "start_offset_seconds": 1.367959875,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e6e9cc6fc72040dcba8024171f20742a",
+      "end_utc": "2026-10-17T16:36:21.018770+00:00",
+      "end_offset_seconds": 1.368638583,
+      "duration_seconds": 0.0006787080000001389,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "13c1c6da54ea44cbb5ff0d7b8f422411",
+      "name": "sentence_render_validation",
+      "start_utc": "2026-10-17T16:36:21.068390+00:00",
+      "start_offset_seconds": 1.418268292,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e6e9cc6fc72040dcba8024171f20742a",
+      "end_utc": "2026-10-17T16:36:21.068930+00:00",
+      "end_offset_seconds": 1.4187988749999998,
+      "duration_seconds": 0.0005305829999997513,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "83f34f7ecab14917a6e32b7ab0063cfe",
+      "name": "render_and_delivery",
+      "start_utc": "2026-10-17T16:36:21.070256+00:00",
+      "start_offset_seconds": 1.420124667,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e6e9cc6fc72040dcba8024171f20742a",
+      "end_utc": "2026-10-17T16:36:21.077695+00:00",
+      "end_offset_seconds": 1.4275677499999997,
+      "duration_seconds": 0.007443082999999628,
+      "trace_file": "job_trace.json"
+    }
+  ]
+}

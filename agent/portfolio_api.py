@@ -250,7 +250,9 @@ class Runtime:
                 path=f'{PREFIX}/jobs/{job["job_id"]}/media/{kind}?ticket={ticket}'
                 result[kind+'_url']=path
                 if kind=='video':result['download_url']=path+'&download=1'
-        return {k:(job.get(k,[]) if k=='stages' else job[k]) for k in ('job_id','status','created_at','updated_at','expires_at','cancel_supported','cancel_requested','stage','stages','error')}|{'result':result}
+        diag=job.get('diagnostics') or {}
+        diag_urls={k:f'{PREFIX}/jobs/{job["job_id"]}/diagnostics/{k}' for k in diag} if diag else None
+        return {k:(job.get(k,[]) if k=='stages' else job[k]) for k in ('job_id','status','created_at','updated_at','expires_at','cancel_supported','cancel_requested','stage','stages','error')}|{'result':result,'diagnostics_urls':diag_urls}
     def execute(self,jid,data):
         job=self.get_job(jid);cancel=DurableCancel(self,jid,job['deadline'])
         out=config.OUTPUT_DIR/('portfolio_'+jid);out.mkdir(parents=True,exist_ok=True)
@@ -324,7 +326,19 @@ class Runtime:
             logger.warning('Portfolio job %s ended | type=%s | cancelled=%s',jid,type(exc).__name__,is_cancelled)
         finally:
             execution.__exit__(type(trace_error) if trace_error else None,trace_error,trace_error.__traceback__ if trace_error else None)
-            self.release(jid)
+            try:
+                from utils.generation_diagnostics import export_reports
+                reports=export_reports(out,jid,'failed' if trace_error else 'succeeded')
+                artifacts={}
+                kind_by_name={'generation_diagnostics.json':'json','generation_diagnostics_report.txt':'text','sentence_visual_coverage.json':'coverage','pipeline_timeline.json':'timeline'}
+                for path in reports:
+                    kind=kind_by_name.get(path.name,'json' if path.suffix=='.json' else 'text')
+                    artifacts[kind]=self.media.upload(path,f'portfolio/{jid}/diagnostics/{path.name}','application/json' if path.suffix=='.json' else 'text/plain')
+                self.update(jid,diagnostics=artifacts)
+            except Exception as exc:
+                logger.warning('Diagnostic publication failed job=%s type=%s',jid,type(exc).__name__)
+                self.update(jid,diagnostics_error='Report persistence failed; inspect private worker logs.')
+            finally:self.release(jid)
 
 
 def env_enabled(name):return os.getenv(name,'0').lower() in ('1','true','yes')
@@ -491,6 +505,36 @@ def install(app):
     @bp.route('/jobs/<jid>')
     def status(jid):
         rt=runtime();return jsonify(rt.present(rt.authorized(jid)))
+    @bp.route('/jobs/<jid>/client-timings',methods=['POST'])
+    def client_timings(jid):
+        import math
+        rt=runtime();job=rt.authorized(jid)
+        body=request.get_json(silent=True)
+        allowed={'validation_ms','submission_ms','acknowledgement_ms','completion_observed_ms','output_url_ready_ms','playback_ready_ms'}
+        if not isinstance(body,dict) or not body or not set(body)<=allowed:
+            raise APIError('Provide only supported browser timing fields.')
+        if any(type(v) not in (int,float) or not math.isfinite(v) or not 0<=v<=43200000 for v in body.values()):
+            raise APIError('Browser timings must be finite milliseconds since Generate, within twelve hours.')
+        # Bounded numeric fields only; no URLs, browser identifiers or input text.
+        rt.update(jid,client_timings={**job.get('client_timings',{}),**body})
+        return jsonify({'recorded':True,'job_id':jid})
+    @bp.route('/jobs/<jid>/diagnostics/<kind>')
+    def diagnostics(jid,kind):
+        rt=runtime();job=rt.authorized(jid)
+        asset=job.get('diagnostics',{}).get(kind)
+        if not asset:raise APIError('Diagnostics are not available yet.',404)
+        if not rt.media.exists(asset):raise APIError('Diagnostics expired.',410)
+        names={'json':'generation_diagnostics.json','text':'generation_diagnostics_report.txt','coverage':'sentence_visual_coverage.json','timeline':'pipeline_timeline.json'}
+        filename=names.get(kind,'generation_diagnostics.json')
+        content=rt.media.chunks(asset,0,asset['size']-1)
+        timings=job.get('client_timings')
+        if timings and kind in ('json','text'):
+            data=b''.join(content)
+            if kind=='json':
+                report=json.loads(data);report['browser_timings']={'clock':'milliseconds since Generate; client reported','events':timings}
+                content=json.dumps(report,indent=2)
+            else:content=data+b'\nBrowser timings (milliseconds since Generate; client reported):\n'+json.dumps(timings,indent=2).encode()+b'\n'
+        return Response(content,headers={'Content-Type':asset['content_type'],'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff','Content-Disposition':'attachment; filename="'+filename+'"'})
     @bp.route('/jobs/<jid>/events')
     def events(jid):
         rt=runtime();rt.authorized(jid)

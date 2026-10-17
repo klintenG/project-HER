@@ -1,0 +1,2833 @@
+{
+  "schemaVersion": "2.0",
+  "preset": "reference_editorial",
+  "contentMode": "news",
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "durationInFrames": 521,
+  "generationId": "scenario_fenrir_cold",
+  "script": "The gods of Asgard feared the giant wolf Fenrir. They forged heavy iron fetters to bind him. Fenrir shattered the iron chains with a single kick. Dwarven smiths wove the silken ribbon Gleipnir. Tyr placed his right hand inside the wolf's jaws. Fenrir bit off Tyr's hand when the ribbon held fast.",
+  "scriptHash": "1486d75ae0ef6b6ca33a25d101ef5cd0d978f9d12160559370ef78b11775a419",
+  "fonts": {
+    "semibold": "/Users/klinten/Desktop/My-projects/project-HER/assets/fonts/news/Poppins-SemiBold.ttf",
+    "bold": "/Users/klinten/Desktop/My-projects/project-HER/assets/fonts/news/Poppins-Bold.ttf",
+    "version": "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c"
+  },
+  "audio": [
+    {
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_cold/master.wav",
+      "offsetFrames": 0,
+      "duration": 16.74,
+      "kind": "master",
+      "gain": 1.0,
+      "sha256": "dae91136f6d218cb1dfe98ddd4e521cf180597ee6fac041a4d5b9bef99aa735a"
+    }
+  ],
+  "words": [
+    {
+      "id": "w0",
+      "sectionId": "s0",
+      "text": "The",
+      "start": 0.0,
+      "end": 0.32,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w1",
+      "sectionId": "s0",
+      "text": "gods",
+      "start": 0.32,
+      "end": 0.64,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w2",
+      "sectionId": "s0",
+      "text": "of",
+      "start": 0.64,
+      "end": 0.96,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w3",
+      "sectionId": "s0",
+      "text": "Asgard",
+      "start": 0.96,
+      "end": 1.28,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w4",
+      "sectionId": "s0",
+      "text": "feared",
+      "start": 1.28,
+      "end": 1.6,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w5",
+      "sectionId": "s0",
+      "text": "the",
+      "start": 1.6,
+      "end": 1.92,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w6",
+      "sectionId": "s0",
+      "text": "giant",
+      "start": 1.92,
+      "end": 2.24,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w7",
+      "sectionId": "s0",
+      "text": "wolf",
+      "start": 2.24,
+      "end": 2.56,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w8",
+      "sectionId": "s0",
+      "text": "Fenrir.",
+      "start": 2.56,
+      "end": 2.88,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w9",
+      "sectionId": "s1",
+      "text": "They",
+      "start": 2.88,
+      "end": 3.2,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w10",
+      "sectionId": "s1",
+      "text": "forged",
+      "start": 3.2,
+      "end": 3.52,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w11",
+      "sectionId": "s1",
+      "text": "heavy",
+      "start": 3.52,
+      "end": 3.84,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w12",
+      "sectionId": "s1",
+      "text": "iron",
+      "start": 3.84,
+      "end": 4.16,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w13",
+      "sectionId": "s1",
+      "text": "fetters",
+      "start": 4.16,
+      "end": 4.48,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w14",
+      "sectionId": "s1",
+      "text": "to",
+      "start": 4.48,
+      "end": 4.8,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w15",
+      "sectionId": "s1",
+      "text": "bind",
+      "start": 4.8,
+      "end": 5.12,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w16",
+      "sectionId": "s1",
+      "text": "him.",
+      "start": 5.12,
+      "end": 5.44,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w17",
+      "sectionId": "s2",
+      "text": "Fenrir",
+      "start": 5.44,
+      "end": 5.76,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w18",
+      "sectionId": "s2",
+      "text": "shattered",
+      "start": 5.76,
+      "end": 6.08,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w19",
+      "sectionId": "s2",
+      "text": "the",
+      "start": 6.08,
+      "end": 6.4,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w20",
+      "sectionId": "s2",
+      "text": "iron",
+      "start": 6.4,
+      "end": 6.72,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w21",
+      "sectionId": "s2",
+      "text": "chains",
+      "start": 6.72,
+      "end": 7.04,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w22",
+      "sectionId": "s2",
+      "text": "with",
+      "start": 7.04,
+      "end": 7.36,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w23",
+      "sectionId": "s2",
+      "text": "a",
+      "start": 7.36,
+      "end": 7.68,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w24",
+      "sectionId": "s2",
+      "text": "single",
+      "start": 7.68,
+      "end": 8.0,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w25",
+      "sectionId": "s2",
+      "text": "kick.",
+      "start": 8.0,
+      "end": 8.32,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w26",
+      "sectionId": "s3",
+      "text": "Dwarven",
+      "start": 8.32,
+      "end": 8.64,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w27",
+      "sectionId": "s3",
+      "text": "smiths",
+      "start": 8.64,
+      "end": 8.96,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w28",
+      "sectionId": "s3",
+      "text": "wove",
+      "start": 8.96,
+      "end": 9.28,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w29",
+      "sectionId": "s3",
+      "text": "the",
+      "start": 9.28,
+      "end": 9.6,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w30",
+      "sectionId": "s3",
+      "text": "silken",
+      "start": 9.6,
+      "end": 9.92,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w31",
+      "sectionId": "s3",
+      "text": "ribbon",
+      "start": 9.92,
+      "end": 10.24,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w32",
+      "sectionId": "s3",
+      "text": "Gleipnir.",
+      "start": 10.24,
+      "end": 10.56,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w33",
+      "sectionId": "s4",
+      "text": "Tyr",
+      "start": 10.56,
+      "end": 10.88,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w34",
+      "sectionId": "s4",
+      "text": "placed",
+      "start": 10.88,
+      "end": 11.2,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w35",
+      "sectionId": "s4",
+      "text": "his",
+      "start": 11.2,
+      "end": 11.52,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w36",
+      "sectionId": "s4",
+      "text": "right",
+      "start": 11.52,
+      "end": 11.84,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w37",
+      "sectionId": "s4",
+      "text": "hand",
+      "start": 11.84,
+      "end": 12.16,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w38",
+      "sectionId": "s4",
+      "text": "inside",
+      "start": 12.16,
+      "end": 12.48,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w39",
+      "sectionId": "s4",
+      "text": "the",
+      "start": 12.48,
+      "end": 12.8,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w40",
+      "sectionId": "s4",
+      "text": "wolf's",
+      "start": 12.8,
+      "end": 13.12,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w41",
+      "sectionId": "s4",
+      "text": "jaws.",
+      "start": 13.12,
+      "end": 13.44,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w42",
+      "sectionId": "s5",
+      "text": "Fenrir",
+      "start": 13.44,
+      "end": 13.76,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w43",
+      "sectionId": "s5",
+      "text": "bit",
+      "start": 13.76,
+      "end": 14.08,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w44",
+      "sectionId": "s5",
+      "text": "off",
+      "start": 14.08,
+      "end": 14.4,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w45",
+      "sectionId": "s5",
+      "text": "Tyr's",
+      "start": 14.4,
+      "end": 14.72,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w46",
+      "sectionId": "s5",
+      "text": "hand",
+      "start": 14.72,
+      "end": 15.04,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w47",
+      "sectionId": "s5",
+      "text": "when",
+      "start": 15.04,
+      "end": 15.36,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w48",
+      "sectionId": "s5",
+      "text": "the",
+      "start": 15.36,
+      "end": 15.68,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w49",
+      "sectionId": "s5",
+      "text": "ribbon",
+      "start": 15.68,
+      "end": 16.0,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w50",
+      "sectionId": "s5",
+      "text": "held",
+      "start": 16.0,
+      "end": 16.32,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w51",
+      "sectionId": "s5",
+      "text": "fast.",
+      "start": 16.32,
+      "end": 16.64,
+      "provenance": "provider",
+      "confidence": 1.0
+    }
+  ],
+  "sections": [
+    {
+      "id": "s0",
+      "text": "The gods of Asgard feared the giant wolf Fenrir.",
+      "start": 0.0,
+      "end": 2.88,
+      "wordIds": [
+        "w0",
+        "w1",
+        "w2",
+        "w3",
+        "w4",
+        "w5",
+        "w6",
+        "w7",
+        "w8"
+      ],
+      "sourceIds": []
+    },
+    {
+      "id": "s1",
+      "text": "They forged heavy iron fetters to bind him.",
+      "start": 2.88,
+      "end": 5.44,
+      "wordIds": [
+        "w9",
+        "w10",
+        "w11",
+        "w12",
+        "w13",
+        "w14",
+        "w15",
+        "w16"
+      ],
+      "sourceIds": []
+    },
+    {
+      "id": "s2",
+      "text": "Fenrir shattered the iron chains with a single kick.",
+      "start": 5.44,
+      "end": 8.32,
+      "wordIds": [
+        "w17",
+        "w18",
+        "w19",
+        "w20",
+        "w21",
+        "w22",
+        "w23",
+        "w24",
+        "w25"
+      ],
+      "sourceIds": []
+    },
+    {
+      "id": "s3",
+      "text": "Dwarven smiths wove the silken ribbon Gleipnir.",
+      "start": 8.32,
+      "end": 10.56,
+      "wordIds": [
+        "w26",
+        "w27",
+        "w28",
+        "w29",
+        "w30",
+        "w31",
+        "w32"
+      ],
+      "sourceIds": []
+    },
+    {
+      "id": "s4",
+      "text": "Tyr placed his right hand inside the wolf's jaws.",
+      "start": 10.56,
+      "end": 13.44,
+      "wordIds": [
+        "w33",
+        "w34",
+        "w35",
+        "w36",
+        "w37",
+        "w38",
+        "w39",
+        "w40",
+        "w41"
+      ],
+      "sourceIds": []
+    },
+    {
+      "id": "s5",
+      "text": "Fenrir bit off Tyr's hand when the ribbon held fast.",
+      "start": 13.44,
+      "end": 16.64,
+      "wordIds": [
+        "w42",
+        "w43",
+        "w44",
+        "w45",
+        "w46",
+        "w47",
+        "w48",
+        "w49",
+        "w50",
+        "w51"
+      ],
+      "sourceIds": []
+    }
+  ],
+  "entities": [
+    {
+      "id": "tyr",
+      "name": "Tyr",
+      "identity": "fictional",
+      "assetIds": [
+        "asset-tyr"
+      ],
+      "source": "replicate:flux-1.1-pro"
+    },
+    {
+      "id": "scene-cc09de1d9e0c2672",
+      "name": "Fenrir in beat s0",
+      "identity": "generic",
+      "assetIds": [
+        "asset-scene-cc09de1d9e0c2672"
+      ],
+      "source": "replicate:flux-kontext-pro"
+    },
+    {
+      "id": "scene-4dd9fbae8ad86a55",
+      "name": "Fenrir in beat s1",
+      "identity": "generic",
+      "assetIds": [
+        "asset-scene-4dd9fbae8ad86a55"
+      ],
+      "source": "replicate:flux-kontext-pro"
+    },
+    {
+      "id": "scene-52a62a457915142f",
+      "name": "Fenrir in beat s2",
+      "identity": "generic",
+      "assetIds": [
+        "asset-scene-52a62a457915142f"
+      ],
+      "source": "replicate:flux-kontext-pro"
+    },
+    {
+      "id": "scene-5036e74cdbbb4a3a",
+      "name": "Fenrir in beat s3",
+      "identity": "generic",
+      "assetIds": [
+        "asset-scene-5036e74cdbbb4a3a"
+      ],
+      "source": "replicate:flux-kontext-pro"
+    },
+    {
+      "id": "scene-c044786540748d41",
+      "name": "Fenrir in beat s4",
+      "identity": "generic",
+      "assetIds": [
+        "asset-scene-c044786540748d41"
+      ],
+      "source": "replicate:flux-kontext-pro"
+    },
+    {
+      "id": "scene-042769f02635d3c5",
+      "name": "Fenrir in beat s5",
+      "identity": "generic",
+      "assetIds": [
+        "asset-scene-042769f02635d3c5"
+      ],
+      "source": "replicate:flux-kontext-pro"
+    }
+  ],
+  "assets": [
+    {
+      "id": "asset-tyr",
+      "entityId": "tyr",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_cold/assets/641e9a662480c93854c2.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_cold/assets/208178977d94714f3082-cutout.png",
+      "role": "portrait",
+      "subject": "Tyr",
+      "source": "replicate:flux-1.1-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-1.1-pro",
+      "width": 301,
+      "height": 301,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "2c3284b685c5df2cfe8c7a9c894f0228c14dbc65bd3911bd93d4eb356220b089"
+    },
+    {
+      "id": "asset-scene-cc09de1d9e0c2672",
+      "entityId": "scene-cc09de1d9e0c2672",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_cold/assets/70f40fc1676275fe1e4b.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_cold/assets/27e79487c68085497aec-cutout.png",
+      "role": "object",
+      "subject": "Fenrir in beat s0",
+      "source": "replicate:flux-kontext-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-kontext-pro",
+      "width": 301,
+      "height": 301,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "0c56754426545213e4271459b0c088239c85965ade750b4b4ed778c2b3c03fea"
+    },
+    {
+      "id": "asset-scene-4dd9fbae8ad86a55",
+      "entityId": "scene-4dd9fbae8ad86a55",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_cold/assets/f6950ab108e01bc630bb.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_cold/assets/f64670c03e5f452f2e06-cutout.png",
+      "role": "object",
+      "subject": "Fenrir in beat s1",
+      "source": "replicate:flux-kontext-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-kontext-pro",
+      "width": 291,
+      "height": 281,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "7cacd9c18777b83497c60f78cae11228e98f0c70f34f7e5cf0b0f43c2c0aac0e"
+    },
+    {
+      "id": "asset-scene-52a62a457915142f",
+      "entityId": "scene-52a62a457915142f",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_cold/assets/b772d9969920344339a1.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_cold/assets/b25f77b83f3012d2e2b5-cutout.png",
+      "role": "object",
+      "subject": "Fenrir in beat s2",
+      "source": "replicate:flux-kontext-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-kontext-pro",
+      "width": 291,
+      "height": 281,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "c3cb4ec80a237b14ede18d7264d5a058c95d8ee69316da879e06ee660cf19d58"
+    },
+    {
+      "id": "asset-scene-5036e74cdbbb4a3a",
+      "entityId": "scene-5036e74cdbbb4a3a",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_cold/assets/37cc1a69539a29a6f19e.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_cold/assets/6d8c0cdbc53ecd789b8e-cutout.png",
+      "role": "object",
+      "subject": "Fenrir in beat s3",
+      "source": "replicate:flux-kontext-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-kontext-pro",
+      "width": 291,
+      "height": 261,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "b9989a9d3d423a40a3f24bd73390630a43b2c1c957d4b49c30b2796f8cd83499"
+    },
+    {
+      "id": "asset-scene-c044786540748d41",
+      "entityId": "scene-c044786540748d41",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_cold/assets/bd13fbd4a9625742ca21.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_cold/assets/70451b9c047085ccca6a-cutout.png",
+      "role": "object",
+      "subject": "Fenrir in beat s4",
+      "source": "replicate:flux-kontext-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-kontext-pro",
+      "width": 301,
+      "height": 301,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "3fdd89fbff926da20deb668b99bd28ea98e5c0cc6f6bac9afe7279da150366ba"
+    },
+    {
+      "id": "asset-scene-042769f02635d3c5",
+      "entityId": "scene-042769f02635d3c5",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_cold/assets/79745648208a92b6d5a5.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_cold/assets/fe63c35777a1defc9d5f-cutout.png",
+      "role": "object",
+      "subject": "Fenrir in beat s5",
+      "source": "replicate:flux-kontext-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-kontext-pro",
+      "width": 301,
+      "height": 301,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "317e6ede22c93958e9da7cf0cd34cbd6fd9caed8c5b0c1d1b8e86fe5e8f7f966"
+    }
+  ],
+  "layers": [
+    {
+      "startFrame": 0,
+      "endFrame": 86,
+      "id": "directed-0",
+      "role": "object",
+      "entityId": "scene-cc09de1d9e0c2672",
+      "assetId": "asset-scene-cc09de1d9e0c2672",
+      "parentId": null,
+      "bounds": {
+        "x": 110.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 0,
+      "endFrame": 86,
+      "id": "directed-0-label",
+      "role": "label",
+      "entityId": "scene-cc09de1d9e0c2672",
+      "assetId": null,
+      "parentId": "directed-0",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "Fenrir in beat s0",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 0,
+      "endFrame": 521,
+      "id": "directed-1",
+      "role": "subject",
+      "entityId": "tyr",
+      "assetId": "asset-tyr",
+      "parentId": null,
+      "bounds": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 0,
+      "endFrame": 521,
+      "id": "directed-1-label",
+      "role": "label",
+      "entityId": "tyr",
+      "assetId": null,
+      "parentId": "directed-1",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "Tyr",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 86,
+      "endFrame": 163,
+      "id": "directed-2",
+      "role": "object",
+      "entityId": "scene-4dd9fbae8ad86a55",
+      "assetId": "asset-scene-4dd9fbae8ad86a55",
+      "parentId": null,
+      "bounds": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 86,
+      "endFrame": 163,
+      "id": "directed-2-label",
+      "role": "label",
+      "entityId": "scene-4dd9fbae8ad86a55",
+      "assetId": null,
+      "parentId": "directed-2",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "Fenrir in beat s1",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 163,
+      "endFrame": 250,
+      "id": "directed-3",
+      "role": "object",
+      "entityId": "scene-52a62a457915142f",
+      "assetId": "asset-scene-52a62a457915142f",
+      "parentId": null,
+      "bounds": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 163,
+      "endFrame": 250,
+      "id": "directed-3-label",
+      "role": "label",
+      "entityId": "scene-52a62a457915142f",
+      "assetId": null,
+      "parentId": "directed-3",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "Fenrir in beat s2",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 250,
+      "endFrame": 317,
+      "id": "directed-4",
+      "role": "object",
+      "entityId": "scene-5036e74cdbbb4a3a",
+      "assetId": "asset-scene-5036e74cdbbb4a3a",
+      "parentId": null,
+      "bounds": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 250,
+      "endFrame": 317,
+      "id": "directed-4-label",
+      "role": "label",
+      "entityId": "scene-5036e74cdbbb4a3a",
+      "assetId": null,
+      "parentId": "directed-4",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "Fenrir in beat s3",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 317,
+      "endFrame": 403,
+      "id": "directed-5",
+      "role": "object",
+      "entityId": "scene-c044786540748d41",
+      "assetId": "asset-scene-c044786540748d41",
+      "parentId": null,
+      "bounds": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 317,
+      "endFrame": 403,
+      "id": "directed-5-label",
+      "role": "label",
+      "entityId": "scene-c044786540748d41",
+      "assetId": null,
+      "parentId": "directed-5",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "Fenrir in beat s4",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 403,
+      "endFrame": 521,
+      "id": "directed-6",
+      "role": "object",
+      "entityId": "scene-042769f02635d3c5",
+      "assetId": "asset-scene-042769f02635d3c5",
+      "parentId": null,
+      "bounds": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 403,
+      "endFrame": 521,
+      "id": "directed-6-label",
+      "role": "label",
+      "entityId": "scene-042769f02635d3c5",
+      "assetId": null,
+      "parentId": "directed-6",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "Fenrir in beat s5",
+        "anticipationFrames": 0
+      },
+      "value": null
+    }
+  ],
+  "beats": [
+    {
+      "startFrame": 0,
+      "endFrame": 86,
+      "id": "atomic-0",
+      "template": "document_photo",
+      "sectionIds": [
+        "s0"
+      ],
+      "layerIds": [
+        "directed-0",
+        "directed-1",
+        "directed-0-label",
+        "directed-1-label"
+      ],
+      "purpose": "The gods of Asgard feared the giant wolf Fenrir."
+    },
+    {
+      "startFrame": 86,
+      "endFrame": 163,
+      "id": "atomic-1",
+      "template": "document_photo",
+      "sectionIds": [
+        "s1"
+      ],
+      "layerIds": [
+        "directed-1",
+        "directed-2",
+        "directed-1-label",
+        "directed-2-label"
+      ],
+      "purpose": "They forged heavy iron fetters to bind him."
+    },
+    {
+      "startFrame": 163,
+      "endFrame": 250,
+      "id": "atomic-2",
+      "template": "document_photo",
+      "sectionIds": [
+        "s2"
+      ],
+      "layerIds": [
+        "directed-1",
+        "directed-3",
+        "directed-1-label",
+        "directed-3-label"
+      ],
+      "purpose": "Fenrir shattered the iron chains with a single kick."
+    },
+    {
+      "startFrame": 250,
+      "endFrame": 317,
+      "id": "atomic-3",
+      "template": "document_photo",
+      "sectionIds": [
+        "s3"
+      ],
+      "layerIds": [
+        "directed-1",
+        "directed-4",
+        "directed-1-label",
+        "directed-4-label"
+      ],
+      "purpose": "Dwarven smiths wove the silken ribbon Gleipnir."
+    },
+    {
+      "startFrame": 317,
+      "endFrame": 403,
+      "id": "atomic-4",
+      "template": "document_photo",
+      "sectionIds": [
+        "s4"
+      ],
+      "layerIds": [
+        "directed-1",
+        "directed-5",
+        "directed-1-label",
+        "directed-5-label"
+      ],
+      "purpose": "Tyr placed his right hand inside the wolf's jaws."
+    },
+    {
+      "startFrame": 403,
+      "endFrame": 521,
+      "id": "atomic-5",
+      "template": "document_photo",
+      "sectionIds": [
+        "s5"
+      ],
+      "layerIds": [
+        "directed-1",
+        "directed-6",
+        "directed-1-label",
+        "directed-6-label"
+      ],
+      "purpose": "Fenrir bit off Tyr's hand when the ribbon held fast."
+    }
+  ],
+  "events": [
+    {
+      "startFrame": 0,
+      "endFrame": 8,
+      "id": "director-event-0",
+      "type": "settle",
+      "targetIds": [
+        "directed-0"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 1.0088,
+      "scaleTo": 1.04,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 0,
+      "endFrame": 8,
+      "id": "director-event-1",
+      "type": "settle",
+      "targetIds": [
+        "directed-1"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 0.9117999999999999,
+      "scaleTo": 0.94,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 81,
+      "endFrame": 86,
+      "id": "director-event-2",
+      "type": "fade",
+      "targetIds": [
+        "directed-0"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 0.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 86,
+      "endFrame": 94,
+      "id": "director-event-3",
+      "type": "settle",
+      "targetIds": [
+        "directed-2"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 1.0088,
+      "scaleTo": 1.04,
+      "secondaryScale": 0.78,
+      "opacityFrom": 0.9,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 86,
+      "endFrame": 92,
+      "id": "director-event-4",
+      "type": "reframe",
+      "targetIds": [
+        "directed-1"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "boundsTo": {
+        "x": 110.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      }
+    },
+    {
+      "startFrame": 158,
+      "endFrame": 163,
+      "id": "director-event-5",
+      "type": "fade",
+      "targetIds": [
+        "directed-2"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 0.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 163,
+      "endFrame": 171,
+      "id": "director-event-6",
+      "type": "settle",
+      "targetIds": [
+        "directed-3"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 1.0088,
+      "scaleTo": 1.04,
+      "secondaryScale": 0.78,
+      "opacityFrom": 0.9,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 245,
+      "endFrame": 250,
+      "id": "director-event-7",
+      "type": "fade",
+      "targetIds": [
+        "directed-3"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 0.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 250,
+      "endFrame": 258,
+      "id": "director-event-8",
+      "type": "settle",
+      "targetIds": [
+        "directed-4"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 1.0088,
+      "scaleTo": 1.04,
+      "secondaryScale": 0.78,
+      "opacityFrom": 0.9,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 312,
+      "endFrame": 317,
+      "id": "director-event-9",
+      "type": "fade",
+      "targetIds": [
+        "directed-4"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 0.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 317,
+      "endFrame": 325,
+      "id": "director-event-10",
+      "type": "settle",
+      "targetIds": [
+        "directed-5"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 1.0088,
+      "scaleTo": 1.04,
+      "secondaryScale": 0.78,
+      "opacityFrom": 0.9,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 398,
+      "endFrame": 403,
+      "id": "director-event-11",
+      "type": "fade",
+      "targetIds": [
+        "directed-5"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 0.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 403,
+      "endFrame": 411,
+      "id": "director-event-12",
+      "type": "settle",
+      "targetIds": [
+        "directed-6"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 1.0088,
+      "scaleTo": 1.04,
+      "secondaryScale": 0.78,
+      "opacityFrom": 0.9,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    }
+  ],
+  "transitions": [
+    {
+      "startFrame": 0,
+      "endFrame": 8,
+      "kind": "settle",
+      "persist": [],
+      "enter": [
+        "directed-0",
+        "directed-1"
+      ],
+      "leave": []
+    },
+    {
+      "startFrame": 86,
+      "endFrame": 94,
+      "kind": "settle",
+      "persist": [
+        "directed-1"
+      ],
+      "enter": [
+        "directed-2"
+      ],
+      "leave": [
+        "directed-0"
+      ]
+    },
+    {
+      "startFrame": 163,
+      "endFrame": 171,
+      "kind": "settle",
+      "persist": [
+        "directed-1"
+      ],
+      "enter": [
+        "directed-3"
+      ],
+      "leave": [
+        "directed-2"
+      ]
+    },
+    {
+      "startFrame": 250,
+      "endFrame": 258,
+      "kind": "settle",
+      "persist": [
+        "directed-1"
+      ],
+      "enter": [
+        "directed-4"
+      ],
+      "leave": [
+        "directed-3"
+      ]
+    },
+    {
+      "startFrame": 317,
+      "endFrame": 325,
+      "kind": "settle",
+      "persist": [
+        "directed-1"
+      ],
+      "enter": [
+        "directed-5"
+      ],
+      "leave": [
+        "directed-4"
+      ]
+    },
+    {
+      "startFrame": 403,
+      "endFrame": 411,
+      "kind": "settle",
+      "persist": [
+        "directed-1"
+      ],
+      "enter": [
+        "directed-6"
+      ],
+      "leave": [
+        "directed-5"
+      ]
+    }
+  ],
+  "subtitleMode": "editorial",
+  "narrationDriven": true,
+  "editorialStyleVersion": "legacy",
+  "warnings": [
+    "AI illustrative reconstruction; not documentary evidence"
+  ],
+  "diagnostics": {
+    "sentenceStoryboard": {
+      "sentences": 6,
+      "plannedPrimaries": 6,
+      "repairAttempts": 0
+    },
+    "assetAcquisition": {
+      "mode": "auto",
+      "assets": [
+        {
+          "entityId": "fenrir",
+          "name": "Fenrir",
+          "identity": "fictional",
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "8da33d7b17607bc59b7a03ceae7db8efa3f546dfbacc097689936eb345d72997",
+            "model": "black-forest-labs/flux-schnell",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-1.1-pro",
+          "route": "supporting_illustration",
+          "assetId": "asset-fenrir",
+          "alpha": true,
+          "source": "replicate:flux-1.1-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 301,
+          "height": 301,
+          "role": "identity_or_secondary",
+          "durationSeconds": 0.006,
+          "bytes": 2534
+        },
+        {
+          "entityId": "tyr",
+          "name": "Tyr",
+          "identity": "fictional",
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "999b9c8e9a3843e076588f22edb88c7e8f1f350c1177fc97a535238937e6390e",
+            "model": "black-forest-labs/flux-schnell",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-1.1-pro",
+          "route": "supporting_illustration",
+          "assetId": "asset-tyr",
+          "alpha": true,
+          "source": "replicate:flux-1.1-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 301,
+          "height": 301,
+          "role": "identity_or_secondary",
+          "durationSeconds": 0.006,
+          "bytes": 1833
+        },
+        {
+          "entityId": "scene-cc09de1d9e0c2672",
+          "name": "Fenrir in beat s0",
+          "identity": "generic",
+          "identityReferences": [
+            "fenrir"
+          ],
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sentenceReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "continuityReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "bff59b3ef1697219ba7a764bd7b61997d5d01b5e53b31201d31071fc3b36aa49",
+            "model": "black-forest-labs/flux-kontext-pro",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-kontext-pro",
+          "route": "narrative_action_cutout",
+          "assetId": "asset-scene-cc09de1d9e0c2672",
+          "alpha": true,
+          "source": "replicate:flux-kontext-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 301,
+          "height": 301,
+          "role": "primary",
+          "durationSeconds": 0.02,
+          "bytes": 1831
+        },
+        {
+          "entityId": "scene-4dd9fbae8ad86a55",
+          "name": "Fenrir in beat s1",
+          "identity": "generic",
+          "identityReferences": [
+            "fenrir"
+          ],
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sentenceReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "continuityReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "b3cf2252c51bf31774ae8c4eb0e91d4a43fcb28088a5e1768aa1e4586955bfb7",
+            "model": "black-forest-labs/flux-kontext-pro",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-kontext-pro",
+          "route": "narrative_action_cutout",
+          "assetId": "asset-scene-4dd9fbae8ad86a55",
+          "alpha": true,
+          "source": "replicate:flux-kontext-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 291,
+          "height": 281,
+          "role": "primary",
+          "durationSeconds": 0.019,
+          "bytes": 1708
+        },
+        {
+          "entityId": "scene-52a62a457915142f",
+          "name": "Fenrir in beat s2",
+          "identity": "generic",
+          "identityReferences": [
+            "fenrir"
+          ],
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sentenceReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "continuityReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "dd56da2a0effe82df8885d14d9da3e972319d46815f45cce695e8cfbc121b8f6",
+            "model": "black-forest-labs/flux-kontext-pro",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-kontext-pro",
+          "route": "narrative_action_cutout",
+          "assetId": "asset-scene-52a62a457915142f",
+          "alpha": true,
+          "source": "replicate:flux-kontext-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 291,
+          "height": 281,
+          "role": "primary",
+          "durationSeconds": 0.018,
+          "bytes": 1700
+        },
+        {
+          "entityId": "scene-5036e74cdbbb4a3a",
+          "name": "Fenrir in beat s3",
+          "identity": "generic",
+          "identityReferences": [
+            "fenrir"
+          ],
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sentenceReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "continuityReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "228c0ae9c877f52d05252b691a4ab5ce272185bc8e155768fa5129fd7b6f8c94",
+            "model": "black-forest-labs/flux-kontext-pro",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-kontext-pro",
+          "route": "narrative_action_cutout",
+          "assetId": "asset-scene-5036e74cdbbb4a3a",
+          "alpha": true,
+          "source": "replicate:flux-kontext-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 291,
+          "height": 261,
+          "role": "primary",
+          "durationSeconds": 0.02,
+          "bytes": 1429
+        },
+        {
+          "entityId": "scene-c044786540748d41",
+          "name": "Fenrir in beat s4",
+          "identity": "generic",
+          "identityReferences": [
+            "fenrir"
+          ],
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sentenceReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "continuityReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "3170b34a4948c10fd2d82c1f9822b51ead5cf4ec794592e122e5a8e5195d7bc6",
+            "model": "black-forest-labs/flux-kontext-pro",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-kontext-pro",
+          "route": "narrative_action_cutout",
+          "assetId": "asset-scene-c044786540748d41",
+          "alpha": true,
+          "source": "replicate:flux-kontext-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 301,
+          "height": 301,
+          "role": "primary",
+          "durationSeconds": 0.021,
+          "bytes": 1834
+        },
+        {
+          "entityId": "scene-042769f02635d3c5",
+          "name": "Fenrir in beat s5",
+          "identity": "generic",
+          "identityReferences": [
+            "fenrir"
+          ],
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sentenceReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "continuityReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "b2ba9f20cae3ff30ca0f312e0db5626cc9be2a2038593a5f26ebcfd477fc6fef",
+            "model": "black-forest-labs/flux-kontext-pro",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-kontext-pro",
+          "route": "narrative_action_cutout",
+          "assetId": "asset-scene-042769f02635d3c5",
+          "alpha": true,
+          "source": "replicate:flux-kontext-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 301,
+          "height": 301,
+          "role": "primary",
+          "durationSeconds": 0.02,
+          "bytes": 1764
+        }
+      ],
+      "actionWorkers": 2
+    },
+    "atomicStoryboard": {
+      "timeUnit": "frames",
+      "fps": 30,
+      "beats": [
+        {
+          "id": "atomic-0",
+          "sectionId": "s0",
+          "startWord": 0,
+          "endWord": 9,
+          "phrase": "The gods of Asgard feared the giant wolf Fenrir.",
+          "primaryEntityId": "scene-cc09de1d9e0c2672",
+          "secondaryEntityIds": [
+            "tyr"
+          ],
+          "relationship": "event",
+          "action": "introduce",
+          "importance": 1,
+          "confidence": 1,
+          "scriptSpan": [
+            0,
+            48
+          ],
+          "startFrame": 0,
+          "endFrame": 86,
+          "triggerWordIds": [
+            "w0",
+            "w1",
+            "w2",
+            "w3",
+            "w4",
+            "w5",
+            "w6",
+            "w7",
+            "w8"
+          ],
+          "frameQuantizationErrorMs": 0.0,
+          "timingProvenance": "provider",
+          "assetIds": [
+            "asset-scene-cc09de1d9e0c2672",
+            "asset-tyr"
+          ],
+          "activeLayers": [
+            "directed-0",
+            "directed-1",
+            "directed-0-label",
+            "directed-1-label"
+          ],
+          "persistentLayers": [],
+          "entityStates": [
+            {
+              "entityId": "scene-cc09de1d9e0c2672",
+              "assetId": "asset-scene-cc09de1d9e0c2672",
+              "layerId": "directed-0",
+              "state": "PRIMARY",
+              "bounds": {
+                "x": 110.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 1.04
+            },
+            {
+              "entityId": "tyr",
+              "assetId": "asset-tyr",
+              "layerId": "directed-1",
+              "state": "SECONDARY",
+              "bounds": {
+                "x": 565.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 0.94
+            }
+          ],
+          "readabilityWarning": false
+        },
+        {
+          "id": "atomic-1",
+          "sectionId": "s1",
+          "startWord": 0,
+          "endWord": 8,
+          "phrase": "They forged heavy iron fetters to bind him.",
+          "primaryEntityId": "scene-4dd9fbae8ad86a55",
+          "secondaryEntityIds": [
+            "tyr"
+          ],
+          "relationship": "event",
+          "action": "introduce",
+          "importance": 1,
+          "confidence": 1,
+          "scriptSpan": [
+            49,
+            92
+          ],
+          "startFrame": 86,
+          "endFrame": 163,
+          "triggerWordIds": [
+            "w9",
+            "w10",
+            "w11",
+            "w12",
+            "w13",
+            "w14",
+            "w15",
+            "w16"
+          ],
+          "frameQuantizationErrorMs": 13.333,
+          "timingProvenance": "provider",
+          "assetIds": [
+            "asset-scene-4dd9fbae8ad86a55",
+            "asset-tyr"
+          ],
+          "activeLayers": [
+            "directed-1",
+            "directed-2",
+            "directed-1-label",
+            "directed-2-label"
+          ],
+          "persistentLayers": [
+            "directed-1"
+          ],
+          "entityStates": [
+            {
+              "entityId": "tyr",
+              "assetId": "asset-tyr",
+              "layerId": "directed-1",
+              "state": "SECONDARY",
+              "bounds": {
+                "x": 110.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 0.94
+            },
+            {
+              "entityId": "scene-4dd9fbae8ad86a55",
+              "assetId": "asset-scene-4dd9fbae8ad86a55",
+              "layerId": "directed-2",
+              "state": "PRIMARY",
+              "bounds": {
+                "x": 565.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 1.04
+            }
+          ],
+          "readabilityWarning": false
+        },
+        {
+          "id": "atomic-2",
+          "sectionId": "s2",
+          "startWord": 0,
+          "endWord": 9,
+          "phrase": "Fenrir shattered the iron chains with a single kick.",
+          "primaryEntityId": "scene-52a62a457915142f",
+          "secondaryEntityIds": [
+            "tyr"
+          ],
+          "relationship": "event",
+          "action": "introduce",
+          "importance": 1,
+          "confidence": 1,
+          "scriptSpan": [
+            93,
+            145
+          ],
+          "startFrame": 163,
+          "endFrame": 250,
+          "triggerWordIds": [
+            "w17",
+            "w18",
+            "w19",
+            "w20",
+            "w21",
+            "w22",
+            "w23",
+            "w24",
+            "w25"
+          ],
+          "frameQuantizationErrorMs": 6.667,
+          "timingProvenance": "provider",
+          "assetIds": [
+            "asset-scene-52a62a457915142f",
+            "asset-tyr"
+          ],
+          "activeLayers": [
+            "directed-1",
+            "directed-3",
+            "directed-1-label",
+            "directed-3-label"
+          ],
+          "persistentLayers": [
+            "directed-1"
+          ],
+          "entityStates": [
+            {
+              "entityId": "tyr",
+              "assetId": "asset-tyr",
+              "layerId": "directed-1",
+              "state": "SECONDARY",
+              "bounds": {
+                "x": 110.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 0.94
+            },
+            {
+              "entityId": "scene-52a62a457915142f",
+              "assetId": "asset-scene-52a62a457915142f",
+              "layerId": "directed-3",
+              "state": "PRIMARY",
+              "bounds": {
+                "x": 565.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 1.04
+            }
+          ],
+          "readabilityWarning": false
+        },
+        {
+          "id": "atomic-3",
+          "sectionId": "s3",
+          "startWord": 0,
+          "endWord": 7,
+          "phrase": "Dwarven smiths wove the silken ribbon Gleipnir.",
+          "primaryEntityId": "scene-5036e74cdbbb4a3a",
+          "secondaryEntityIds": [
+            "tyr"
+          ],
+          "relationship": "event",
+          "action": "introduce",
+          "importance": 1,
+          "confidence": 1,
+          "scriptSpan": [
+            146,
+            193
+          ],
+          "startFrame": 250,
+          "endFrame": 317,
+          "triggerWordIds": [
+            "w26",
+            "w27",
+            "w28",
+            "w29",
+            "w30",
+            "w31",
+            "w32"
+          ],
+          "frameQuantizationErrorMs": 13.333,
+          "timingProvenance": "provider",
+          "assetIds": [
+            "asset-scene-5036e74cdbbb4a3a",
+            "asset-tyr"
+          ],
+          "activeLayers": [
+            "directed-1",
+            "directed-4",
+            "directed-1-label",
+            "directed-4-label"
+          ],
+          "persistentLayers": [
+            "directed-1"
+          ],
+          "entityStates": [
+            {
+              "entityId": "tyr",
+              "assetId": "asset-tyr",
+              "layerId": "directed-1",
+              "state": "SECONDARY",
+              "bounds": {
+                "x": 110.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 0.94
+            },
+            {
+              "entityId": "scene-5036e74cdbbb4a3a",
+              "assetId": "asset-scene-5036e74cdbbb4a3a",
+              "layerId": "directed-4",
+              "state": "PRIMARY",
+              "bounds": {
+                "x": 565.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 1.04
+            }
+          ],
+          "readabilityWarning": false
+        },
+        {
+          "id": "atomic-4",
+          "sectionId": "s4",
+          "startWord": 0,
+          "endWord": 9,
+          "phrase": "Tyr placed his right hand inside the wolf's jaws.",
+          "primaryEntityId": "scene-c044786540748d41",
+          "secondaryEntityIds": [
+            "tyr"
+          ],
+          "relationship": "event",
+          "action": "introduce",
+          "importance": 1,
+          "confidence": 1,
+          "scriptSpan": [
+            194,
+            243
+          ],
+          "startFrame": 317,
+          "endFrame": 403,
+          "triggerWordIds": [
+            "w33",
+            "w34",
+            "w35",
+            "w36",
+            "w37",
+            "w38",
+            "w39",
+            "w40",
+            "w41"
+          ],
+          "frameQuantizationErrorMs": 6.667,
+          "timingProvenance": "provider",
+          "assetIds": [
+            "asset-scene-c044786540748d41",
+            "asset-tyr"
+          ],
+          "activeLayers": [
+            "directed-1",
+            "directed-5",
+            "directed-1-label",
+            "directed-5-label"
+          ],
+          "persistentLayers": [
+            "directed-1"
+          ],
+          "entityStates": [
+            {
+              "entityId": "tyr",
+              "assetId": "asset-tyr",
+              "layerId": "directed-1",
+              "state": "SECONDARY",
+              "bounds": {
+                "x": 110.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 0.94
+            },
+            {
+              "entityId": "scene-c044786540748d41",
+              "assetId": "asset-scene-c044786540748d41",
+              "layerId": "directed-5",
+              "state": "PRIMARY",
+              "bounds": {
+                "x": 565.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 1.04
+            }
+          ],
+          "readabilityWarning": false
+        },
+        {
+          "id": "atomic-5",
+          "sectionId": "s5",
+          "startWord": 0,
+          "endWord": 10,
+          "phrase": "Fenrir bit off Tyr's hand when the ribbon held fast.",
+          "primaryEntityId": "scene-042769f02635d3c5",
+          "secondaryEntityIds": [
+            "tyr"
+          ],
+          "relationship": "event",
+          "action": "introduce",
+          "importance": 1,
+          "confidence": 1,
+          "scriptSpan": [
+            244,
+            296
+          ],
+          "startFrame": 403,
+          "endFrame": 521,
+          "triggerWordIds": [
+            "w42",
+            "w43",
+            "w44",
+            "w45",
+            "w46",
+            "w47",
+            "w48",
+            "w49",
+            "w50",
+            "w51"
+          ],
+          "frameQuantizationErrorMs": 6.667,
+          "timingProvenance": "provider",
+          "assetIds": [
+            "asset-scene-042769f02635d3c5",
+            "asset-tyr"
+          ],
+          "activeLayers": [
+            "directed-1",
+            "directed-6",
+            "directed-1-label",
+            "directed-6-label"
+          ],
+          "persistentLayers": [
+            "directed-1"
+          ],
+          "entityStates": [
+            {
+              "entityId": "tyr",
+              "assetId": "asset-tyr",
+              "layerId": "directed-1",
+              "state": "SECONDARY",
+              "bounds": {
+                "x": 110.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 0.94
+            },
+            {
+              "entityId": "scene-042769f02635d3c5",
+              "assetId": "asset-scene-042769f02635d3c5",
+              "layerId": "directed-6",
+              "state": "PRIMARY",
+              "bounds": {
+                "x": 565.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 1.04
+            }
+          ],
+          "readabilityWarning": false
+        }
+      ]
+    },
+    "sentenceQuality": {
+      "narrationSentences": 6,
+      "storyboardVisualBeats": 6,
+      "primaryAssetsPlanned": 6,
+      "primaryAssetsGenerated": 6,
+      "distinctPrimaryVisuals": 6,
+      "reusedSecondaryAssets": 1,
+      "sentencesWithoutDistinctPrimary": 0,
+      "imagesRejectedForDuplication": 0,
+      "imageGenerationFailures": 0,
+      "fallbackAttempts": 0,
+      "sceneRelevanceFailures": 0,
+      "missingMappings": 0,
+      "acceptancePassed": true,
+      "primaryAssetsInRender": 6,
+      "missingRenderMappings": 0
+    },
+    "sentenceVisualMetrics": {
+      "narrationSentences": 6,
+      "storyboardVisualBeats": 6,
+      "primaryAssetsPlanned": 6,
+      "primaryAssetsGenerated": 6,
+      "distinctPrimaryVisuals": 6,
+      "reusedSecondaryAssets": 1,
+      "sentencesWithoutDistinctPrimary": 0,
+      "imagesRejectedForDuplication": 0,
+      "imageGenerationFailures": 0,
+      "fallbackAttempts": 0,
+      "sceneRelevanceFailures": 0,
+      "missingMappings": 0,
+      "acceptancePassed": true,
+      "primaryAssetsInRender": 6,
+      "missingRenderMappings": 0
+    }
+  }
+}

@@ -1,0 +1,163 @@
+[
+  {
+    "id": "asset-tyr",
+    "entityId": "tyr",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_warm/assets/641e9a662480c93854c2.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_warm/assets/208178977d94714f3082-cutout.png",
+    "role": "portrait",
+    "subject": "Tyr",
+    "source": "replicate:black-forest-labs/flux-schnell",
+    "license": "Generated illustration",
+    "attribution": "replicate:black-forest-labs/flux-schnell",
+    "width": 301,
+    "height": 301,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "2c3284b685c5df2cfe8c7a9c894f0228c14dbc65bd3911bd93d4eb356220b089"
+  },
+  {
+    "id": "asset-scene-cc09de1d9e0c2672",
+    "entityId": "scene-cc09de1d9e0c2672",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_warm/assets/70f40fc1676275fe1e4b.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_warm/assets/27e79487c68085497aec-cutout.png",
+    "role": "object",
+    "subject": "Fenrir in beat s0",
+    "source": "replicate:black-forest-labs/flux-kontext-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:black-forest-labs/flux-kontext-pro",
+    "width": 301,
+    "height": 301,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "0c56754426545213e4271459b0c088239c85965ade750b4b4ed778c2b3c03fea"
+  },
+  {
+    "id": "asset-scene-4dd9fbae8ad86a55",
+    "entityId": "scene-4dd9fbae8ad86a55",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_warm/assets/f6950ab108e01bc630bb.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_warm/assets/f64670c03e5f452f2e06-cutout.png",
+    "role": "object",
+    "subject": "Fenrir in beat s1",
+    "source": "replicate:black-forest-labs/flux-kontext-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:black-forest-labs/flux-kontext-pro",
+    "width": 291,
+    "height": 281,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "7cacd9c18777b83497c60f78cae11228e98f0c70f34f7e5cf0b0f43c2c0aac0e"
+  },
+  {
+    "id": "asset-scene-52a62a457915142f",
+    "entityId": "scene-52a62a457915142f",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_warm/assets/b772d9969920344339a1.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_warm/assets/b25f77b83f3012d2e2b5-cutout.png",
+    "role": "object",
+    "subject": "Fenrir in beat s2",
+    "source": "replicate:black-forest-labs/flux-kontext-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:black-forest-labs/flux-kontext-pro",
+    "width": 291,
+    "height": 281,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "c3cb4ec80a237b14ede18d7264d5a058c95d8ee69316da879e06ee660cf19d58"
+  },
+  {
+    "id": "asset-scene-5036e74cdbbb4a3a",
+    "entityId": "scene-5036e74cdbbb4a3a",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_warm/assets/37cc1a69539a29a6f19e.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_warm/assets/6d8c0cdbc53ecd789b8e-cutout.png",
+    "role": "object",
+    "subject": "Fenrir in beat s3",
+    "source": "replicate:black-forest-labs/flux-kontext-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:black-forest-labs/flux-kontext-pro",
+    "width": 291,
+    "height": 261,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "b9989a9d3d423a40a3f24bd73390630a43b2c1c957d4b49c30b2796f8cd83499"
+  },
+  {
+    "id": "asset-scene-c044786540748d41",
+    "entityId": "scene-c044786540748d41",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_warm/assets/bd13fbd4a9625742ca21.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_warm/assets/70451b9c047085ccca6a-cutout.png",
+    "role": "object",
+    "subject": "Fenrir in beat s4",
+    "source": "replicate:black-forest-labs/flux-kontext-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:black-forest-labs/flux-kontext-pro",
+    "width": 301,
+    "height": 301,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "3fdd89fbff926da20deb668b99bd28ea98e5c0cc6f6bac9afe7279da150366ba"
+  },
+  {
+    "id": "asset-scene-042769f02635d3c5",
+    "entityId": "scene-042769f02635d3c5",
+    "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_warm/assets/79745648208a92b6d5a5.png",
+    "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_fenrir_warm/assets/fe63c35777a1defc9d5f-cutout.png",
+    "role": "object",
+    "subject": "Fenrir in beat s5",
+    "source": "replicate:black-forest-labs/flux-kontext-pro",
+    "license": "Generated illustration",
+    "attribution": "replicate:black-forest-labs/flux-kontext-pro",
+    "width": 301,
+    "height": 301,
+    "alpha": true,
+    "factual": false,
+    "confidence": 0.5,
+    "preparation": "trimmed_alpha",
+    "focalPoint": [
+      0.5,
+      0.5
+    ],
+    "fallback": "AI illustrative reconstruction; not documentary evidence",
+    "sha256": "317e6ede22c93958e9da7cf0cd34cbd6fd9caed8c5b0c1d1b8e86fe5e8f7f966"
+  }
+]

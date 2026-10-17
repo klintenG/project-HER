@@ -1,0 +1,141 @@
+{
+  "schema_version": "job-trace-v1",
+  "job_id": "editorial_d39657782dad4d2d96ad953cc76e7775",
+  "runtime": {
+    "host_cpu_count": 10
+  },
+  "elapsed_seconds": 0.000564,
+  "covered_wall_seconds": 780.83,
+  "spans": [
+    {
+      "id": "input_validation_and_normalization",
+      "name": "input_validation_and_normalization",
+      "start_utc": "2026-04-12T06:00:00+00:00",
+      "end_utc": "2026-04-12T06:08:38+00:00",
+      "start_offset_seconds": 0.0,
+      "end_offset_seconds": 6.22,
+      "duration_seconds": 6.22,
+      "status": "completed",
+      "metadata": {
+        "source": "saved_manifest_timings"
+      }
+    },
+    {
+      "id": "source_retrieval_and_fact_extraction",
+      "name": "source_retrieval_and_fact_extraction",
+      "start_utc": "2026-04-12T06:00:00+00:00",
+      "end_utc": "2026-04-12T06:08:38+00:00",
+      "start_offset_seconds": 6.22,
+      "end_offset_seconds": 39.65,
+      "duration_seconds": 33.43,
+      "status": "completed",
+      "metadata": {
+        "source": "saved_manifest_timings"
+      }
+    },
+    {
+      "id": "script_generation_and_verification",
+      "name": "script_generation_and_verification",
+      "start_utc": "2026-04-12T06:00:00+00:00",
+      "end_utc": "2026-04-12T06:08:38+00:00",
+      "start_offset_seconds": 39.65,
+      "end_offset_seconds": 80.97,
+      "duration_seconds": 41.32,
+      "status": "completed",
+      "metadata": {
+        "source": "saved_manifest_timings"
+      }
+    },
+    {
+      "id": "parallel_media_stage",
+      "name": "parallel_media_stage",
+      "start_utc": "2026-04-12T06:00:00+00:00",
+      "end_utc": "2026-04-12T06:08:38+00:00",
+      "start_offset_seconds": 80.97,
+      "end_offset_seconds": 450.01,
+      "duration_seconds": 369.04,
+      "status": "completed",
+      "metadata": {
+        "source": "saved_manifest_timings"
+      }
+    },
+    {
+      "id": "tts_generation_and_alignment",
+      "name": "tts_generation_and_alignment",
+      "start_utc": "2026-04-12T06:00:00+00:00",
+      "end_utc": "2026-04-12T06:08:38+00:00",
+      "start_offset_seconds": 450.01,
+      "end_offset_seconds": 665.28,
+      "duration_seconds": 215.27,
+      "status": "completed",
+      "metadata": {
+        "source": "saved_manifest_timings"
+      }
+    },
+    {
+      "id": "semantic_beat_planning",
+      "name": "semantic_beat_planning",
+      "start_utc": "2026-04-12T06:00:00+00:00",
+      "end_utc": "2026-04-12T06:08:38+00:00",
+      "start_offset_seconds": 450.01,
+      "end_offset_seconds": 470.48,
+      "duration_seconds": 20.47,
+      "status": "completed",
+      "metadata": {
+        "source": "saved_manifest_timings"
+      }
+    },
+    {
+      "id": "cutout_acquisition_and_matting",
+      "name": "cutout_acquisition_and_matting",
+      "start_utc": "2026-04-12T06:00:00+00:00",
+      "end_utc": "2026-04-12T06:08:38+00:00",
+      "start_offset_seconds": 450.01,
+      "end_offset_seconds": 780.83,
+      "duration_seconds": 330.82,
+      "status": "completed",
+      "metadata": {
+        "source": "saved_manifest_timings"
+      }
+    },
+    {
+      "id": "visual_direction_compilation",
+      "name": "visual_direction_compilation",
+      "start_utc": "2026-04-12T06:00:00+00:00",
+      "end_utc": "2026-04-12T06:08:38+00:00",
+      "start_offset_seconds": 450.01,
+      "end_offset_seconds": 459.66,
+      "duration_seconds": 9.65,
+      "status": "completed",
+      "metadata": {
+        "source": "saved_manifest_timings"
+      }
+    },
+    {
+      "id": "video_composition_and_encoding",
+      "name": "video_composition_and_encoding",
+      "start_utc": "2026-04-12T06:00:00+00:00",
+      "end_utc": "2026-04-12T06:08:38+00:00",
+      "start_offset_seconds": 459.66,
+      "end_offset_seconds": 516.81,
+      "duration_seconds": 57.15,
+      "status": "completed",
+      "metadata": {
+        "source": "saved_manifest_timings"
+      }
+    },
+    {
+      "id": "render_quality_assurance",
+      "name": "render_quality_assurance",
+      "start_utc": "2026-04-12T06:00:00+00:00",
+      "end_utc": "2026-04-12T06:08:38+00:00",
+      "start_offset_seconds": 516.81,
+      "end_offset_seconds": 518.78,
+      "duration_seconds": 1.97,
+      "status": "completed",
+      "metadata": {
+        "source": "saved_manifest_timings"
+      }
+    }
+  ]
+}

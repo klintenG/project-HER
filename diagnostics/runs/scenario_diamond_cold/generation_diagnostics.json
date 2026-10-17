@@ -1,0 +1,1017 @@
+{
+  "schema_version": "generation-diagnostics-v2",
+  "job_id": "scenario_diamond_cold",
+  "outcome": "completed",
+  "start_utc": "2026-10-17T10:09:53.523756+00:00",
+  "finish_utc": "2026-10-17T10:09:53.714029+00:00",
+  "total_elapsed_seconds": 0.190273,
+  "measured_wall_seconds": 0.190273,
+  "unattributed_wall_seconds": 0.0,
+  "peak_image_provider_concurrency": 1,
+  "runtime": [
+    {
+      "host_cpu_count": 10
+    }
+  ],
+  "infrastructure": {
+    "environment": "local",
+    "python_version": "3.9.6",
+    "service": "local_process",
+    "revision": "local",
+    "commit": "working_tree",
+    "region": "unspecified",
+    "configured_action_workers": 2,
+    "configured_remotion_concurrency": "default",
+    "process_peak_rss_native_units": 150929408,
+    "trace_runtimes": [
+      {
+        "host_cpu_count": 10
+      }
+    ]
+  },
+  "process_peak_rss_native_units": 150929408,
+  "revision": null,
+  "commit": null,
+  "video_mode": "reference_editorial",
+  "actual_video_seconds": 13.833,
+  "resolution": [
+    1080,
+    1920
+  ],
+  "fps": 30,
+  "output_size_bytes": null,
+  "visual_metrics": {
+    "sentences": 5,
+    "storyboard_visual_beats": 5,
+    "planned_primaries": 5,
+    "generated_assets": 7,
+    "distinct_primaries": 5,
+    "reused_secondary_assets": 1,
+    "rendered_primaries": 5,
+    "sentences_without_distinct_primary": 0,
+    "images_rejected_for_duplication": 0,
+    "image_generation_failures": 0,
+    "fallback_attempts": 0,
+    "scene_relevance_failures": 0,
+    "invariant_distinct_ge_sentences": true,
+    "acceptance_passed": true
+  },
+  "scene_report": [
+    {
+      "sentence_number": 1,
+      "sentence_id": "s0",
+      "visual_focus": "Beat 0: A sacred blue diamond was mined in Golconda.",
+      "primary_entity_id": "scene-615499394d495610",
+      "primary_asset_id": "asset-scene-615499394d495610",
+      "primary_asset_origin": "replicate:flux-kontext-pro",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "0808183878181808",
+      "reused_character_ids": [
+        "diamond"
+      ],
+      "secondary_entity_ids": [
+        "chest"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 0.0,
+      "end_time": 2.56,
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 2,
+      "sentence_id": "s1",
+      "visual_focus": "Beat 1: A French merchant smuggled the rough gem to Paris.",
+      "primary_entity_id": "scene-ec6d4cd235676171",
+      "primary_asset_id": "asset-scene-ec6d4cd235676171",
+      "primary_asset_origin": "replicate:flux-kontext-pro",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "234548050b1e1c1c",
+      "reused_character_ids": [
+        "diamond"
+      ],
+      "secondary_entity_ids": [
+        "chest"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 2.56,
+      "end_time": 5.44,
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 3,
+      "sentence_id": "s2",
+      "visual_focus": "Beat 2: King Louis wore the recut jewel at court.",
+      "primary_entity_id": "scene-1988e0412495ffe3",
+      "primary_asset_id": "asset-scene-1988e0412495ffe3",
+      "primary_asset_origin": "replicate:flux-kontext-pro",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "23454845231e1c1c",
+      "reused_character_ids": [
+        "diamond"
+      ],
+      "secondary_entity_ids": [
+        "chest"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 5.44,
+      "end_time": 8.0,
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 4,
+      "sentence_id": "s3",
+      "visual_focus": "Beat 3: Thieves seized the royal treasury during the revolution.",
+      "primary_entity_id": "scene-3cece34b2f9f81be",
+      "primary_asset_id": "asset-scene-3cece34b2f9f81be",
+      "primary_asset_origin": "replicate:flux-kontext-pro",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "3319191939391f03",
+      "reused_character_ids": [
+        "diamond"
+      ],
+      "secondary_entity_ids": [
+        "chest"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 8.0,
+      "end_time": 10.56,
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 5,
+      "sentence_id": "s4",
+      "visual_focus": "Beat 4: The cursed stone finally entered a museum vault.",
+      "primary_entity_id": "scene-9418232ce4b5acd0",
+      "primary_asset_id": "asset-scene-9418232ce4b5acd0",
+      "primary_asset_origin": "replicate:flux-kontext-pro",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "3345450525250703",
+      "reused_character_ids": [
+        "diamond"
+      ],
+      "secondary_entity_ids": [
+        "chest"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 10.56,
+      "end_time": 13.12,
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "render_visibility": "passed"
+    }
+  ],
+  "stage_timings": {},
+  "concurrency_analysis": {
+    "total_image_tasks": 7,
+    "total_provider_wait_spans": 7,
+    "peak_image_provider_concurrency": 1,
+    "average_active_image_concurrency": 1.0,
+    "configured_action_workers": 2,
+    "tts_visual_overlap_seconds": 0.0,
+    "speech_wall_seconds": null,
+    "cutouts_wall_seconds": null,
+    "serial_gap_seconds": 0.0,
+    "admission_wait_seconds": 0.0,
+    "rate_limit_responses": 0,
+    "rate_limit_backoff_seconds": 0,
+    "background_removal_total_seconds": 0.0047
+  },
+  "critical_path": [
+    {
+      "stage": "total_generation",
+      "duration_seconds": 0.1903,
+      "effective_advance_seconds": 0.1903,
+      "status": "succeeded"
+    }
+  ],
+  "bottleneck_ranking": [
+    {
+      "operation": "new_action_asset_generation",
+      "duration_seconds": 0.0214,
+      "percent_of_wall_time": 11.2,
+      "cause_category": "provider",
+      "evidence": "5 span(s), max=0.021s, accumulated=0.099s",
+      "optimization_opportunity": "Bounded parallel scene generation with adaptive Replicate admission pacing",
+      "confidence": "high"
+    },
+    {
+      "operation": "entity_identity_asset_generation",
+      "duration_seconds": 0.0156,
+      "percent_of_wall_time": 8.2,
+      "cause_category": "provider",
+      "evidence": "2 span(s), max=0.008s, accumulated=0.016s",
+      "optimization_opportunity": "Cache recurring character identity boards across retries",
+      "confidence": "high"
+    },
+    {
+      "operation": "image_provider_wait (accumulated)",
+      "duration_seconds": 0.0142,
+      "percent_of_wall_time": 7.4,
+      "cause_category": "provider",
+      "evidence": "7 provider call(s), peak_concurrency=1, admission_wait=0.00s",
+      "optimization_opportunity": "Overlap independent scene-primary predictions across worker threads while respecting rate limits",
+      "confidence": "high"
+    },
+    {
+      "operation": "background_removal_and_alpha",
+      "duration_seconds": 0.0047,
+      "percent_of_wall_time": 2.5,
+      "cause_category": "compute",
+      "evidence": "7 span(s), max=0.001s, accumulated=0.005s",
+      "optimization_opportunity": "Reuse warm ONNX rembg session and run cutout trimming as each image completes",
+      "confidence": "high"
+    },
+    {
+      "operation": "semantic_beat_planning",
+      "duration_seconds": 0.001,
+      "percent_of_wall_time": 0.5,
+      "cause_category": "provider",
+      "evidence": "1 span(s), max=0.001s, accumulated=0.001s",
+      "optimization_opportunity": "Single-pass structured storyboard generation with strict schema validation",
+      "confidence": "high"
+    }
+  ],
+  "rendering": {
+    "renderer": "remotion",
+    "frames": 415,
+    "fps": 30,
+    "resolution": [
+      1080,
+      1920
+    ],
+    "remotion_render_seconds": null,
+    "ffmpeg_encode_seconds": null,
+    "audio_delivery_seconds": null,
+    "total_render_and_qa_seconds": null,
+    "video_encode_passes": null,
+    "average_fps_throughput": null,
+    "output_size_bytes": null
+  },
+  "images": [
+    {
+      "task_index": 1,
+      "entityId": "diamond",
+      "assetId": "asset-diamond",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "visual_concept": "Golconda Blue Diamond",
+      "provider": "replicate:flux-1.1-pro",
+      "request_start_utc": "2026-10-17T10:09:53.585722+00:00",
+      "request_end_utc": "2026-10-17T10:09:53.588056+00:00",
+      "queue_wait_seconds": 0.0,
+      "api_duration_seconds": 0.0023,
+      "processing_and_review_seconds": 0.0047,
+      "durationSeconds": 0.007,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "supporting_illustration",
+      "identityReferences": [],
+      "dimensions": [
+        301,
+        301
+      ],
+      "bytes": 2509,
+      "displayed_in_render": false,
+      "origin": "generated"
+    },
+    {
+      "task_index": 2,
+      "entityId": "chest",
+      "assetId": "asset-chest",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "visual_concept": "Royal Reliquary",
+      "provider": "replicate:flux-1.1-pro",
+      "request_start_utc": "2026-10-17T10:09:53.594664+00:00",
+      "request_end_utc": "2026-10-17T10:09:53.596538+00:00",
+      "queue_wait_seconds": 0.0,
+      "api_duration_seconds": 0.0019,
+      "processing_and_review_seconds": 0.0051,
+      "durationSeconds": 0.007,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "supporting_illustration",
+      "identityReferences": [],
+      "dimensions": [
+        291,
+        261
+      ],
+      "bytes": 1428,
+      "displayed_in_render": true,
+      "origin": "generated"
+    },
+    {
+      "task_index": 3,
+      "entityId": "scene-615499394d495610",
+      "assetId": "asset-scene-615499394d495610",
+      "sentence_id": "s0",
+      "role": "primary",
+      "visual_concept": "Beat 0: A sacred blue diamond was mined in Golconda.",
+      "provider": "replicate:flux-kontext-pro",
+      "request_start_utc": "2026-10-17T10:09:53.608380+00:00",
+      "request_end_utc": "2026-10-17T10:09:53.610618+00:00",
+      "queue_wait_seconds": 0.0,
+      "api_duration_seconds": 0.0022,
+      "processing_and_review_seconds": 0.0178,
+      "durationSeconds": 0.02,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "diamond"
+      ],
+      "dimensions": [
+        301,
+        301
+      ],
+      "bytes": 1833,
+      "displayed_in_render": true,
+      "origin": "generated"
+    },
+    {
+      "task_index": 4,
+      "entityId": "scene-ec6d4cd235676171",
+      "assetId": "asset-scene-ec6d4cd235676171",
+      "sentence_id": "s1",
+      "role": "primary",
+      "visual_concept": "Beat 1: A French merchant smuggled the rough gem to Paris.",
+      "provider": "replicate:flux-kontext-pro",
+      "request_start_utc": "2026-10-17T10:09:53.616413+00:00",
+      "request_end_utc": "2026-10-17T10:09:53.618144+00:00",
+      "queue_wait_seconds": 0.0089,
+      "api_duration_seconds": 0.0017,
+      "processing_and_review_seconds": 0.0163,
+      "durationSeconds": 0.018,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "diamond"
+      ],
+      "dimensions": [
+        291,
+        281
+      ],
+      "bytes": 1702,
+      "displayed_in_render": true,
+      "origin": "generated"
+    },
+    {
+      "task_index": 5,
+      "entityId": "scene-1988e0412495ffe3",
+      "assetId": "asset-scene-1988e0412495ffe3",
+      "sentence_id": "s2",
+      "role": "primary",
+      "visual_concept": "Beat 2: King Louis wore the recut jewel at court.",
+      "provider": "replicate:flux-kontext-pro",
+      "request_start_utc": "2026-10-17T10:09:53.629375+00:00",
+      "request_end_utc": "2026-10-17T10:09:53.631234+00:00",
+      "queue_wait_seconds": 0.0225,
+      "api_duration_seconds": 0.0019,
+      "processing_and_review_seconds": 0.0161,
+      "durationSeconds": 0.018,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "diamond"
+      ],
+      "dimensions": [
+        291,
+        281
+      ],
+      "bytes": 1702,
+      "displayed_in_render": true,
+      "origin": "generated"
+    },
+    {
+      "task_index": 6,
+      "entityId": "scene-3cece34b2f9f81be",
+      "assetId": "asset-scene-3cece34b2f9f81be",
+      "sentence_id": "s3",
+      "role": "primary",
+      "visual_concept": "Beat 3: Thieves seized the royal treasury during the revolution.",
+      "provider": "replicate:flux-kontext-pro",
+      "request_start_utc": "2026-10-17T10:09:53.636249+00:00",
+      "request_end_utc": "2026-10-17T10:09:53.638431+00:00",
+      "queue_wait_seconds": 0.0294,
+      "api_duration_seconds": 0.0022,
+      "processing_and_review_seconds": 0.0168,
+      "durationSeconds": 0.019,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "diamond"
+      ],
+      "dimensions": [
+        291,
+        261
+      ],
+      "bytes": 1429,
+      "displayed_in_render": true,
+      "origin": "generated"
+    },
+    {
+      "task_index": 7,
+      "entityId": "scene-9418232ce4b5acd0",
+      "assetId": "asset-scene-9418232ce4b5acd0",
+      "sentence_id": "s4",
+      "role": "primary",
+      "visual_concept": "Beat 4: The cursed stone finally entered a museum vault.",
+      "provider": "replicate:flux-kontext-pro",
+      "request_start_utc": "2026-10-17T10:09:53.650396+00:00",
+      "request_end_utc": "2026-10-17T10:09:53.652338+00:00",
+      "queue_wait_seconds": 0.0429,
+      "api_duration_seconds": 0.0019,
+      "processing_and_review_seconds": 0.0171,
+      "durationSeconds": 0.019,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "diamond"
+      ],
+      "dimensions": [
+        291,
+        261
+      ],
+      "bytes": 1424,
+      "displayed_in_render": true,
+      "origin": "generated"
+    }
+  ],
+  "provider_metrics": {},
+  "errors_and_retries": [],
+  "recommended_next_investigation": [
+    "Remotion output is currently re-encoded by FFmpeg for BT.601->BT.709 color conversion (2 encode passes). Validate HER_EDITORIAL_DIRECT_BT709=1 on target runtime to use -c:v copy."
+  ],
+  "spans": [
+    {
+      "id": "6f29c184910e40e2aa1fee875aad33f1",
+      "name": "total_generation",
+      "start_utc": "2026-10-17T10:09:53.523756+00:00",
+      "start_offset_seconds": 0.0003609159999999889,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": null,
+      "end_utc": "2026-10-17T10:09:53.714029+00:00",
+      "end_offset_seconds": 0.19062908299999992,
+      "duration_seconds": 0.19026816699999993,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "76762e71c02849fea49bff164808782f",
+      "name": "input_validation_and_normalization",
+      "start_utc": "2026-10-17T10:09:53.524021+00:00",
+      "start_offset_seconds": 0.0006226249999998767,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "6f29c184910e40e2aa1fee875aad33f1",
+      "end_utc": "2026-10-17T10:09:53.524366+00:00",
+      "end_offset_seconds": 0.0009673749999998815,
+      "duration_seconds": 0.0003447500000000048,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "fae170914090483085ea7f77cd58a6dc",
+      "name": "source_retrieval_and_fact_extraction",
+      "start_utc": "2026-10-17T10:09:53.524582+00:00",
+      "start_offset_seconds": 0.0011828329999998832,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "6f29c184910e40e2aa1fee875aad33f1",
+      "end_utc": "2026-10-17T10:09:53.531066+00:00",
+      "end_offset_seconds": 0.007667499999999938,
+      "duration_seconds": 0.006484667000000055,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "edf9505324954dbcb48be059ac161909",
+      "name": "script_generation_and_verification",
+      "start_utc": "2026-10-17T10:09:53.531290+00:00",
+      "start_offset_seconds": 0.007891207999999983,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "6f29c184910e40e2aa1fee875aad33f1",
+      "end_utc": "2026-10-17T10:09:53.537737+00:00",
+      "end_offset_seconds": 0.014339915999999953,
+      "duration_seconds": 0.00644870799999997,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "733f47b86e2640dbb7072a99cdab492a",
+      "name": "parallel_media_stage",
+      "start_utc": "2026-10-17T10:09:53.538000+00:00",
+      "start_offset_seconds": 0.014601540999999996,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "6f29c184910e40e2aa1fee875aad33f1",
+      "end_utc": "2026-10-17T10:09:53.660560+00:00",
+      "end_offset_seconds": 0.137160041,
+      "duration_seconds": 0.12255850000000001,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "20f5cd0fdac34d418e918a2170ee56be",
+      "name": "tts_generation_and_alignment",
+      "start_utc": "2026-10-17T10:09:53.538204+00:00",
+      "start_offset_seconds": 0.014804666000000077,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "733f47b86e2640dbb7072a99cdab492a",
+      "end_utc": "2026-10-17T10:09:53.583181+00:00",
+      "end_offset_seconds": 0.05979104099999999,
+      "duration_seconds": 0.04498637499999991,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "ed5f7738fe2a46909be0b16c8d2007e7",
+      "name": "semantic_beat_planning",
+      "start_utc": "2026-10-17T10:09:53.583620+00:00",
+      "start_offset_seconds": 0.060221958000000075,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "733f47b86e2640dbb7072a99cdab492a",
+      "end_utc": "2026-10-17T10:09:53.584617+00:00",
+      "end_offset_seconds": 0.06121829099999987,
+      "duration_seconds": 0.0009963329999997939,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "91d3cc9cd09640308f659bb5a65814b1",
+      "name": "cutout_acquisition_and_matting",
+      "start_utc": "2026-10-17T10:09:53.584871+00:00",
+      "start_offset_seconds": 0.061471749999999936,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "733f47b86e2640dbb7072a99cdab492a",
+      "end_utc": "2026-10-17T10:09:53.660079+00:00",
+      "end_offset_seconds": 0.13667962499999997,
+      "duration_seconds": 0.07520787500000004,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "1be9c80bbd8c473591fdd14028f089ff",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.585248+00:00",
+      "start_offset_seconds": 0.061848375000000066,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "81c9d6128b5fcd7b"
+      },
+      "parent_span_id": "91d3cc9cd09640308f659bb5a65814b1",
+      "end_utc": "2026-10-17T10:09:53.592478+00:00",
+      "end_offset_seconds": 0.06908204099999993,
+      "duration_seconds": 0.007233665999999861,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "ed8e36645d7e4152925333c2ccf7a18c",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T10:09:53.585722+00:00",
+      "start_offset_seconds": 0.06232237499999993,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "diamond",
+        "model": "black-forest-labs/flux-schnell",
+        "attempt": 1
+      },
+      "parent_span_id": "1be9c80bbd8c473591fdd14028f089ff",
+      "end_utc": "2026-10-17T10:09:53.588056+00:00",
+      "end_offset_seconds": 0.06465662500000002,
+      "duration_seconds": 0.002334250000000093,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "29da33a151a94fec9bb26ac356d3fbca",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.588392+00:00",
+      "start_offset_seconds": 0.06499224999999997,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "1be9c80bbd8c473591fdd14028f089ff",
+      "end_utc": "2026-10-17T10:09:53.589016+00:00",
+      "end_offset_seconds": 0.06561700000000004,
+      "duration_seconds": 0.0006247500000000628,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "c316f622bc6a42f1b22e56f9e7358e2d",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.593039+00:00",
+      "start_offset_seconds": 0.06964045800000007,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-615499394d495610",
+        "queue_wait_seconds": 3.3e-05
+      },
+      "parent_span_id": "6f29c184910e40e2aa1fee875aad33f1",
+      "end_utc": "2026-10-17T10:09:53.615210+00:00",
+      "end_offset_seconds": 0.09181083300000004,
+      "duration_seconds": 0.022170374999999964,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "17ae3218a7a741b5b2292f977b5ec16d",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.593061+00:00",
+      "start_offset_seconds": 0.06966291599999996,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "7ca0d7019158ccd9"
+      },
+      "parent_span_id": "6f29c184910e40e2aa1fee875aad33f1",
+      "end_utc": "2026-10-17T10:09:53.601447+00:00",
+      "end_offset_seconds": 0.07805029100000005,
+      "duration_seconds": 0.008387375000000086,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "abd45e469d604f7bae68567ebfc96d57",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.593494+00:00",
+      "start_offset_seconds": 0.07009558300000007,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "94148a6bc1097dcb"
+      },
+      "parent_span_id": "c316f622bc6a42f1b22e56f9e7358e2d",
+      "end_utc": "2026-10-17T10:09:53.614855+00:00",
+      "end_offset_seconds": 0.09145599999999998,
+      "duration_seconds": 0.02136041699999991,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "3d6db568c5a446fda06889477cf02838",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T10:09:53.594664+00:00",
+      "start_offset_seconds": 0.07126466600000003,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "chest",
+        "model": "black-forest-labs/flux-schnell",
+        "attempt": 1
+      },
+      "parent_span_id": "17ae3218a7a741b5b2292f977b5ec16d",
+      "end_utc": "2026-10-17T10:09:53.596538+00:00",
+      "end_offset_seconds": 0.07314037499999992,
+      "duration_seconds": 0.0018757089999998922,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "dc60cad5c74e42e6a60a0d8db46278b3",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.597275+00:00",
+      "start_offset_seconds": 0.07387662500000003,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "17ae3218a7a741b5b2292f977b5ec16d",
+      "end_utc": "2026-10-17T10:09:53.598650+00:00",
+      "end_offset_seconds": 0.07525120800000007,
+      "duration_seconds": 0.0013745830000000403,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "14ad7f54f624449c956b6186439f638a",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.601936+00:00",
+      "start_offset_seconds": 0.07853708300000006,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-ec6d4cd235676171",
+        "queue_wait_seconds": 0.008913
+      },
+      "parent_span_id": "6f29c184910e40e2aa1fee875aad33f1",
+      "end_utc": "2026-10-17T10:09:53.622017+00:00",
+      "end_offset_seconds": 0.09861674999999992,
+      "duration_seconds": 0.020079666999999857,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "aa54012fe10040dc87a304b99b3e294d",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.602392+00:00",
+      "start_offset_seconds": 0.07899270799999991,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "c57e7449deda49fc"
+      },
+      "parent_span_id": "14ad7f54f624449c956b6186439f638a",
+      "end_utc": "2026-10-17T10:09:53.621662+00:00",
+      "end_offset_seconds": 0.09826195799999993,
+      "duration_seconds": 0.019269250000000016,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "05ed67f8a88f4f5ea20fc1714179c05c",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T10:09:53.608380+00:00",
+      "start_offset_seconds": 0.08498158300000003,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-615499394d495610",
+        "model": "black-forest-labs/flux-kontext-pro",
+        "attempt": 1
+      },
+      "parent_span_id": "abd45e469d604f7bae68567ebfc96d57",
+      "end_utc": "2026-10-17T10:09:53.610618+00:00",
+      "end_offset_seconds": 0.087218625,
+      "duration_seconds": 0.002237041999999967,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "59d802b916e742f29b36ae0af280a18e",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.611024+00:00",
+      "start_offset_seconds": 0.08762437499999987,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "abd45e469d604f7bae68567ebfc96d57",
+      "end_utc": "2026-10-17T10:09:53.611626+00:00",
+      "end_offset_seconds": 0.08822654100000005,
+      "duration_seconds": 0.0006021660000001816,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "5f09461a5f3b4abcbd85665c692932c9",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.615573+00:00",
+      "start_offset_seconds": 0.09217312499999997,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-1988e0412495ffe3",
+        "queue_wait_seconds": 0.022537
+      },
+      "parent_span_id": "6f29c184910e40e2aa1fee875aad33f1",
+      "end_utc": "2026-10-17T10:09:53.635457+00:00",
+      "end_offset_seconds": 0.11205766599999989,
+      "duration_seconds": 0.019884540999999922,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "b820dcef77eb4daabc1a4857fe0936fe",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.615903+00:00",
+      "start_offset_seconds": 0.09250379099999995,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "da9bcd4c6648098e"
+      },
+      "parent_span_id": "5f09461a5f3b4abcbd85665c692932c9",
+      "end_utc": "2026-10-17T10:09:53.635054+00:00",
+      "end_offset_seconds": 0.111655375,
+      "duration_seconds": 0.019151584000000055,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "901ac3716abd4795a8083ecd929b2f0f",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T10:09:53.616413+00:00",
+      "start_offset_seconds": 0.09301387500000002,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-ec6d4cd235676171",
+        "model": "black-forest-labs/flux-kontext-pro",
+        "attempt": 1
+      },
+      "parent_span_id": "aa54012fe10040dc87a304b99b3e294d",
+      "end_utc": "2026-10-17T10:09:53.618144+00:00",
+      "end_offset_seconds": 0.09474408299999992,
+      "duration_seconds": 0.0017302079999998998,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "3093b41655084b1d8761ef494a923cdd",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.618549+00:00",
+      "start_offset_seconds": 0.09514979099999987,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "aa54012fe10040dc87a304b99b3e294d",
+      "end_utc": "2026-10-17T10:09:53.619056+00:00",
+      "end_offset_seconds": 0.09565612499999987,
+      "duration_seconds": 0.0005063339999999972,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "322e3b1c7fe0424baa9d3f74f232aa80",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.622413+00:00",
+      "start_offset_seconds": 0.09901358300000007,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-3cece34b2f9f81be",
+        "queue_wait_seconds": 0.029376
+      },
+      "parent_span_id": "6f29c184910e40e2aa1fee875aad33f1",
+      "end_utc": "2026-10-17T10:09:53.642592+00:00",
+      "end_offset_seconds": 0.119192666,
+      "duration_seconds": 0.02017908299999993,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "76b84bb9d8ad438e92705608dfc39640",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.622763+00:00",
+      "start_offset_seconds": 0.09936379100000003,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "9ea267dbc1e698ff"
+      },
+      "parent_span_id": "322e3b1c7fe0424baa9d3f74f232aa80",
+      "end_utc": "2026-10-17T10:09:53.642156+00:00",
+      "end_offset_seconds": 0.11875658299999992,
+      "duration_seconds": 0.01939279199999988,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "fc819f87ad854ec7b5f88a6417053045",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T10:09:53.629375+00:00",
+      "start_offset_seconds": 0.10597725000000002,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-1988e0412495ffe3",
+        "model": "black-forest-labs/flux-kontext-pro",
+        "attempt": 1
+      },
+      "parent_span_id": "b820dcef77eb4daabc1a4857fe0936fe",
+      "end_utc": "2026-10-17T10:09:53.631234+00:00",
+      "end_offset_seconds": 0.107834875,
+      "duration_seconds": 0.0018576249999999739,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "2d06778069d54506ad42f0c2434fdb70",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.631693+00:00",
+      "start_offset_seconds": 0.10829370799999993,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "b820dcef77eb4daabc1a4857fe0936fe",
+      "end_utc": "2026-10-17T10:09:53.632215+00:00",
+      "end_offset_seconds": 0.10881612499999993,
+      "duration_seconds": 0.0005224169999999972,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "f387923190aa47839097af7079917ac8",
+      "name": "image_task",
+      "start_utc": "2026-10-17T10:09:53.635915+00:00",
+      "start_offset_seconds": 0.1125150829999999,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-9418232ce4b5acd0",
+        "queue_wait_seconds": 0.042866
+      },
+      "parent_span_id": "6f29c184910e40e2aa1fee875aad33f1",
+      "end_utc": "2026-10-17T10:09:53.656653+00:00",
+      "end_offset_seconds": 0.133253458,
+      "duration_seconds": 0.020738375000000087,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e0750a6947a44f6cab673e82df6801d4",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T10:09:53.636249+00:00",
+      "start_offset_seconds": 0.11285024999999993,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-3cece34b2f9f81be",
+        "model": "black-forest-labs/flux-kontext-pro",
+        "attempt": 1
+      },
+      "parent_span_id": "76b84bb9d8ad438e92705608dfc39640",
+      "end_utc": "2026-10-17T10:09:53.638431+00:00",
+      "end_offset_seconds": 0.11503162500000008,
+      "duration_seconds": 0.002181375000000152,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "c218f12d2cb14db99f3cd7e0aed8cc6b",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T10:09:53.636373+00:00",
+      "start_offset_seconds": 0.112973416,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "b651b33dc8dbf553"
+      },
+      "parent_span_id": "f387923190aa47839097af7079917ac8",
+      "end_utc": "2026-10-17T10:09:53.656229+00:00",
+      "end_offset_seconds": 0.13282949999999993,
+      "duration_seconds": 0.01985608399999994,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "a8d17a57e511457ba731db9cb19b1074",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.638892+00:00",
+      "start_offset_seconds": 0.11549304099999991,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "76b84bb9d8ad438e92705608dfc39640",
+      "end_utc": "2026-10-17T10:09:53.639426+00:00",
+      "end_offset_seconds": 0.11602612499999987,
+      "duration_seconds": 0.0005330839999999615,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "7edcd8c2487542edb5f22c0a2194ea81",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T10:09:53.650396+00:00",
+      "start_offset_seconds": 0.12699649999999996,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-9418232ce4b5acd0",
+        "model": "black-forest-labs/flux-kontext-pro",
+        "attempt": 1
+      },
+      "parent_span_id": "c218f12d2cb14db99f3cd7e0aed8cc6b",
+      "end_utc": "2026-10-17T10:09:53.652338+00:00",
+      "end_offset_seconds": 0.128938,
+      "duration_seconds": 0.0019415000000000404,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "1e4abb02a0774dc28ed76ff892dee1a2",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T10:09:53.652758+00:00",
+      "start_offset_seconds": 0.12935791600000002,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c218f12d2cb14db99f3cd7e0aed8cc6b",
+      "end_utc": "2026-10-17T10:09:53.653260+00:00",
+      "end_offset_seconds": 0.12986033299999988,
+      "duration_seconds": 0.0005024169999998662,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "febec4e614a3451da2e2b71d2ea5d0ac",
+      "name": "visual_direction_compilation",
+      "start_utc": "2026-10-17T10:09:53.660964+00:00",
+      "start_offset_seconds": 0.13756454099999993,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "6f29c184910e40e2aa1fee875aad33f1",
+      "end_utc": "2026-10-17T10:09:53.693127+00:00",
+      "end_offset_seconds": 0.16973337500000008,
+      "duration_seconds": 0.032168834000000146,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "b5f2ec88dfff4f2f8bb84dc58cc9a35e",
+      "name": "video_composition_and_encoding",
+      "start_utc": "2026-10-17T10:09:53.693676+00:00",
+      "start_offset_seconds": 0.17027658299999993,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "6f29c184910e40e2aa1fee875aad33f1",
+      "end_utc": "2026-10-17T10:09:53.706409+00:00",
+      "end_offset_seconds": 0.18300983300000007,
+      "duration_seconds": 0.01273325000000014,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "6c9e59c2d0d741258bbae8b87bf028cc",
+      "name": "render_quality_assurance",
+      "start_utc": "2026-10-17T10:09:53.706858+00:00",
+      "start_offset_seconds": 0.183458208,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "6f29c184910e40e2aa1fee875aad33f1",
+      "end_utc": "2026-10-17T10:09:53.713510+00:00",
+      "end_offset_seconds": 0.19011699999999987,
+      "duration_seconds": 0.006658791999999858,
+      "trace_file": "job_trace.json"
+    }
+  ],
+  "limitations": [
+    "Browser timings unavailable unless submitted by the client.",
+    "Cold-start/cache comparison requires separate controlled runs; process peak RSS includes earlier jobs.",
+    "Overlapping durations must not be summed. Span nesting expresses dependencies, not a proven critical-path DAG.",
+    "Report serialization and report upload occur after the measured worker interval."
+  ]
+}

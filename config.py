@@ -1083,7 +1083,7 @@ NEWS_ASSET_RETRIES = 3
 NEWS_REAL_IMAGE_MODEL = os.getenv("NEWS_REAL_IMAGE_MODEL", "black-forest-labs/flux-1.1-pro")
 NEWS_REFERENCE_IMAGE_MODEL = "black-forest-labs/flux-kontext-pro"
 NEWS_REAL_IMAGE_ATTEMPTS = 2
-NEWS_MAX_REAL_IMAGE_CALLS = max(0, min(24, int(os.getenv("NEWS_MAX_REAL_IMAGE_CALLS", "16"))))
+NEWS_MAX_REAL_IMAGE_CALLS = max(0, min(36, int(os.getenv("NEWS_MAX_REAL_IMAGE_CALLS", "24"))))
 NEWS_REFERENCE_CACHE = TEMP_DIR / "news_references"
 NEWS_IDENTITY_IMAGE_CACHE = TEMP_DIR / "news_identity_images"
 # News-only speech fallback: selected provider -> this model -> free Edge TTS.
@@ -1091,8 +1091,8 @@ NEWS_REPLICATE_TTS_MODEL = os.getenv("NEWS_REPLICATE_TTS_MODEL", "jaaari/kokoro-
 # Explicit Replicate selection keeps one voice/provider; other selections retain
 # their existing fallback chain. Pace uncached speech predictions across jobs.
 NEWS_REPLICATE_ONLY = os.getenv('NEWS_REPLICATE_ONLY', '1').lower() in ('1','true','yes')
-NEWS_REPLICATE_MIN_INTERVAL = max(0,min(60,float(os.getenv('NEWS_REPLICATE_MIN_INTERVAL', '12'))))
-NEWS_REPLICATE_TTS_WORKERS = max(1,min(2,int(os.getenv('NEWS_REPLICATE_TTS_WORKERS','2'))))
+NEWS_REPLICATE_MIN_INTERVAL = max(0,min(60,float(os.getenv('NEWS_REPLICATE_MIN_INTERVAL', '1'))))
+NEWS_REPLICATE_TTS_WORKERS = max(1,min(3,int(os.getenv('NEWS_REPLICATE_TTS_WORKERS','2'))))
 NEWS_REPLICATE_RATE_LIMIT_RETRIES = max(0,min(20,int(os.getenv('NEWS_REPLICATE_RATE_LIMIT_RETRIES', '7'))))
 NEWS_REPLICATE_RATE_LIMIT_WAIT = max(0,min(1800,float(os.getenv('NEWS_REPLICATE_RATE_LIMIT_WAIT', '600'))))
 NEWS_TTS_CACHE = TEMP_DIR / "news_speech"
@@ -1124,7 +1124,7 @@ EDITORIAL_STYLE_VERSION = os.getenv('HER_EDITORIAL_STYLE_VERSION', 'reference-v2
 NARRATIVE_VISUAL_PLANNER_V2 = os.getenv('HER_NARRATIVE_VISUAL_PLANNER_V2', '1').lower() in ('1','true','yes')
 PARALLEL_ASSET_PIPELINE_V2 = os.getenv('HER_PARALLEL_ASSET_PIPELINE_V2', '1').lower() in ('1','true','yes')
 ACTION_ASSETS_V2 = os.getenv('HER_ACTION_ASSETS_V2', '1').lower() in ('1','true','yes')
-EDITORIAL_ACTION_WORKERS = max(1,min(2,int(os.getenv('HER_EDITORIAL_ACTION_WORKERS','2'))))
+EDITORIAL_ACTION_WORKERS = max(1,min(4,int(os.getenv('HER_EDITORIAL_ACTION_WORKERS','3'))))
 EDITORIAL_IMAGE_MIN_INTERVAL = max(0,min(12,float(os.getenv('HER_EDITORIAL_IMAGE_MIN_INTERVAL','1'))))
 EDITORIAL_IMAGE_TIMEOUT = max(30,min(240,int(os.getenv('HER_EDITORIAL_IMAGE_TIMEOUT','180'))))
 # Canary only until export comparisons pass on the target renderer/runtime.
@@ -1132,3 +1132,8 @@ EDITORIAL_DIRECT_BT709 = os.getenv('HER_EDITORIAL_DIRECT_BT709','0').lower() in 
 
 # Experimental diffuse matte recovery; kept off until individual assets pass review.
 CUTOUT_MATTE_REPAIR = os.getenv('HER_CUTOUT_MATTE_REPAIR','0').lower() in ('1','true','yes')
+
+# Rollback retains legacy semantics and is not sentence-compliant.
+SENTENCE_PRIMARY_VISUALS = os.getenv('HER_SENTENCE_PRIMARY_VISUALS', '1').lower() in ('1','true','yes')
+PERF_DIAGNOSTICS = os.getenv('PROJECTHER_PERF_DIAGNOSTICS', '1').lower() in ('1','true','yes')
+DIAGNOSTICS_RUNS_DIR = BASE_DIR / 'diagnostics' / 'runs'

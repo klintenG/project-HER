@@ -1,0 +1,3289 @@
+{
+  "schema_version": "generation-diagnostics-v3",
+  "trace_provenance": "genuine_live_trace",
+  "job_id": "editorial_e75333e547c442f6bc450f1e2b2aa206",
+  "outcome": "succeeded",
+  "start_utc": "2026-10-17T16:08:04.328357+00:00",
+  "finish_utc": "2026-10-17T16:10:40.827533+00:00",
+  "total_elapsed_seconds": 156.497247,
+  "measured_wall_seconds": 156.274568,
+  "unattributed_wall_seconds": 0.222679,
+  "peak_image_provider_concurrency": 3,
+  "runtime": [
+    {
+      "host_cpu_count": 10
+    }
+  ],
+  "infrastructure": {
+    "environment": "local",
+    "python_version": "3.9.6",
+    "service": "local_process",
+    "revision": "local",
+    "commit": "working_tree",
+    "region": "unspecified",
+    "configured_action_workers": 3,
+    "configured_remotion_concurrency": 2,
+    "process_peak_rss_native_units": 1829011456,
+    "trace_runtimes": [
+      {
+        "host_cpu_count": 10
+      }
+    ]
+  },
+  "process_peak_rss_native_units": 1829011456,
+  "revision": null,
+  "commit": null,
+  "video_mode": "reference_editorial",
+  "actual_video_seconds": 55.667,
+  "resolution": [
+    1080,
+    1920
+  ],
+  "fps": 30,
+  "output_size_bytes": 6080538,
+  "visual_metrics": {
+    "sentences": 8,
+    "storyboard_visual_beats": 8,
+    "planned_primaries": 8,
+    "generated_assets": 10,
+    "distinct_primaries": 8,
+    "reused_secondary_assets": 2,
+    "rendered_primaries": 8,
+    "sentences_without_distinct_primary": 0,
+    "images_rejected_for_duplication": 0,
+    "image_generation_failures": 6,
+    "fallback_attempts": 1,
+    "scene_relevance_failures": 5,
+    "invariant_planned_ge_sentences": true,
+    "invariant_distinct_ge_sentences": true,
+    "invariant_rendered_eq_sentences": true,
+    "acceptance_passed": true
+  },
+  "scene_report": [
+    {
+      "sentence_number": 1,
+      "sentence_id": "s1",
+      "narration_text": "In March 2024, Kendrick Lamar ignited a massive controversy by rejecting the idea of a rap Big Three.",
+      "visual_focus": "Microphone",
+      "main_action": "Standing isolated on a stand",
+      "important_object": "Studio microphone",
+      "primary_subject_type": "object",
+      "primary_entity_id": "scene-c830542e7ceb055f",
+      "primary_asset_id": "asset-scene-c830542e7ceb055f",
+      "primary_asset_sha256": "40e1454560e9f95cbb37bb2f9586839a200151aac9ce2e2a87085bd0bc3f3335",
+      "primary_asset_origin": "replicate:black-forest-labs/flux-schnell",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "070756060d0c0c0f",
+      "reused_character_ids": [],
+      "secondary_entity_ids": [
+        "kendrick"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 0.06000000000000005,
+      "end_time": 7.605,
+      "start_frame": 0,
+      "end_frame": 235,
+      "representative_midpoint_seconds": 3.833,
+      "representative_midpoint_frame": 115,
+      "rendered_layer_id": "directed-0",
+      "rendered_bounds": {
+        "x": 170.0,
+        "y": 850.0,
+        "w": 350.0,
+        "h": 410.0
+      },
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "asset_status": "ready",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 2,
+      "sentence_id": "s2",
+      "narration_text": "His verse on Like That asserted there was only one king, prompting Drake to fire back with Push Ups.",
+      "visual_focus": "Mixing console",
+      "main_action": "Faders set to high levels",
+      "important_object": "Mixing console",
+      "primary_subject_type": "object",
+      "primary_entity_id": "scene-53be8265b9ddfa5b",
+      "primary_asset_id": "asset-scene-53be8265b9ddfa5b",
+      "primary_asset_sha256": "d3baff8bc71ee5ee99fc28ae96940a6d24e65760dc3af38b9bc2fb52f076f734",
+      "primary_asset_origin": "replicate:black-forest-labs/flux-schnell",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "c4c4141652064564",
+      "reused_character_ids": [],
+      "secondary_entity_ids": [
+        "kendrick",
+        "drake"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 7.845,
+      "end_time": 13.555,
+      "start_frame": 235,
+      "end_frame": 414,
+      "representative_midpoint_seconds": 10.7,
+      "representative_midpoint_frame": 321,
+      "rendered_layer_id": "directed-2",
+      "rendered_bounds": {
+        "x": 395.0,
+        "y": 760.0,
+        "w": 290.0,
+        "h": 420.0
+      },
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "asset_status": "ready",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 3,
+      "sentence_id": "s3",
+      "narration_text": "Kendrick responded with the six-minute diss track Euphoria, escalating the tension between the two artists.",
+      "visual_focus": "Vinyl record",
+      "main_action": "Spinning on a turntable",
+      "important_object": "Vinyl record",
+      "primary_subject_type": "object",
+      "primary_entity_id": "scene-51a8d9ce585e02f3",
+      "primary_asset_id": "asset-scene-51a8d9ce585e02f3",
+      "primary_asset_sha256": "333c47065f02fa353da62ec1842b12314e2fd08117ce42267e2fb6c77e69115e",
+      "primary_asset_origin": "replicate:black-forest-labs/flux-schnell",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "1959199995991c0c",
+      "reused_character_ids": [],
+      "secondary_entity_ids": [
+        "kendrick",
+        "drake"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 13.795,
+      "end_time": 19.935,
+      "start_frame": 414,
+      "end_frame": 605,
+      "representative_midpoint_seconds": 16.865,
+      "representative_midpoint_frame": 506,
+      "rendered_layer_id": "directed-4",
+      "rendered_bounds": {
+        "x": 705.0,
+        "y": 760.0,
+        "w": 290.0,
+        "h": 420.0
+      },
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "asset_status": "ready",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 4,
+      "sentence_id": "s4",
+      "narration_text": "The conflict turned personal when Drake released Family Matters, making explosive allegations about Kendrick's private life.",
+      "visual_focus": "Legal document",
+      "main_action": "Lying on a desk with an embossed seal",
+      "important_object": "Legal document",
+      "primary_subject_type": "object",
+      "primary_entity_id": "scene-93c2a33635add248",
+      "primary_asset_id": "asset-scene-93c2a33635add248",
+      "primary_asset_sha256": "491cda9c358e2448ba713452340a75860dc2005ca79351f457aa929f25852f09",
+      "primary_asset_origin": "replicate:black-forest-labs/flux-schnell",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "037371713701497f",
+      "reused_character_ids": [],
+      "secondary_entity_ids": [
+        "drake",
+        "kendrick"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 20.174999999999997,
+      "end_time": 27.549999999999997,
+      "start_frame": 605,
+      "end_frame": 834,
+      "representative_midpoint_seconds": 23.862,
+      "representative_midpoint_frame": 716,
+      "rendered_layer_id": "directed-5",
+      "rendered_bounds": {
+        "x": 705.0,
+        "y": 760.0,
+        "w": 290.0,
+        "h": 420.0
+      },
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "asset_status": "ready",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 5,
+      "sentence_id": "s5",
+      "narration_text": "Less than an hour later, Kendrick shocked the industry with Meet the Grahams, firing back with disturbing claims.",
+      "visual_focus": "Studio monitor speaker",
+      "main_action": "Sitting on a desk",
+      "important_object": "Studio monitor speaker",
+      "primary_subject_type": "object",
+      "primary_entity_id": "scene-08860386d10a55f4",
+      "primary_asset_id": "asset-scene-08860386d10a55f4",
+      "primary_asset_sha256": "cba05afb3732b7666e2e122df00ea1b0a33e7b10823a4c48e49d26ffd8b92512",
+      "primary_asset_origin": "replicate:black-forest-labs/flux-schnell",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "170f2b8e4c120c0c",
+      "reused_character_ids": [],
+      "secondary_entity_ids": [
+        "kendrick",
+        "drake"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 27.79,
+      "end_time": 34.2,
+      "start_frame": 834,
+      "end_frame": 1033,
+      "representative_midpoint_seconds": 30.995,
+      "representative_midpoint_frame": 930,
+      "rendered_layer_id": "directed-6",
+      "rendered_bounds": {
+        "x": 705.0,
+        "y": 760.0,
+        "w": 290.0,
+        "h": 420.0
+      },
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "asset_status": "ready",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 6,
+      "sentence_id": "s6",
+      "narration_text": "On May 4, Kendrick dropped the devastating track Not Like Us, accusing Drake of serious misconduct.",
+      "visual_focus": "Gold record plaque",
+      "main_action": "Mounted on a wall",
+      "important_object": "Gold record plaque",
+      "primary_subject_type": "object",
+      "primary_entity_id": "scene-93175c6f4c7adc5a",
+      "primary_asset_id": "asset-scene-93175c6f4c7adc5a",
+      "primary_asset_sha256": "31e772380da228f9c2eeebdad2f7d2843114b4fdcb39e038bacd1f9f10256418",
+      "primary_asset_origin": "replicate:black-forest-labs/flux-schnell",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "1f195d3695456307",
+      "reused_character_ids": [],
+      "secondary_entity_ids": [
+        "kendrick",
+        "drake"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 34.440000000000005,
+      "end_time": 40.800000000000004,
+      "start_frame": 1033,
+      "end_frame": 1231,
+      "representative_midpoint_seconds": 37.62,
+      "representative_midpoint_frame": 1129,
+      "rendered_layer_id": "directed-7",
+      "rendered_bounds": {
+        "x": 705.0,
+        "y": 760.0,
+        "w": 290.0,
+        "h": 420.0
+      },
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "asset_status": "ready",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 7,
+      "sentence_id": "s7",
+      "narration_text": "Although Drake denied the allegations, the song became a global anthem that millions danced to.",
+      "visual_focus": "Headphones",
+      "main_action": "Resting on a mixing desk",
+      "important_object": "Professional headphones",
+      "primary_subject_type": "object",
+      "primary_entity_id": "scene-ef130e44f569bc50",
+      "primary_asset_id": "asset-scene-ef130e44f569bc50",
+      "primary_asset_sha256": "acef25384e0a829632e0cb4c3f036710f2ac6dae617b0f4c64b5553e1c697188",
+      "primary_asset_origin": "replicate:black-forest-labs/flux-schnell",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "0371c1e0b1b15859",
+      "reused_character_ids": [],
+      "secondary_entity_ids": [
+        "drake"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 41.04,
+      "end_time": 46.644999999999996,
+      "start_frame": 1231,
+      "end_frame": 1407,
+      "representative_midpoint_seconds": 43.843,
+      "representative_midpoint_frame": 1315,
+      "rendered_layer_id": "directed-8",
+      "rendered_bounds": {
+        "x": 560.0,
+        "y": 760.0,
+        "w": 430.0,
+        "h": 520.0
+      },
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "asset_status": "ready",
+      "render_visibility": "passed"
+    },
+    {
+      "sentence_number": 8,
+      "sentence_id": "s8",
+      "narration_text": "Ultimately, a track created to destroy a rival won five Grammy Awards, cementing this as an unforgettable hip-hop rivalry.",
+      "visual_focus": "Grammy award trophy",
+      "main_action": "Standing on a pedestal",
+      "important_object": "Grammy award trophy",
+      "primary_subject_type": "object",
+      "primary_entity_id": "scene-89933b7c339942fa",
+      "primary_asset_id": "asset-scene-89933b7c339942fa",
+      "primary_asset_sha256": "72907e17a0f09a0ca154b784a4c272be1066acaeacadb6012cf1f84c69d25f26",
+      "primary_asset_origin": "replicate:black-forest-labs/flux-schnell",
+      "primary_asset_is_distinct": true,
+      "perceptual_dhash": "1c0f030732614c04",
+      "reused_character_ids": [],
+      "secondary_entity_ids": [
+        "kendrick",
+        "drake"
+      ],
+      "composition_type": "multi_cutout",
+      "start_time": 46.885000000000005,
+      "end_time": 54.985,
+      "start_frame": 1407,
+      "end_frame": 1670,
+      "representative_midpoint_seconds": 50.935,
+      "representative_midpoint_frame": 1528,
+      "rendered_layer_id": "directed-9",
+      "rendered_bounds": {
+        "x": 395.0,
+        "y": 760.0,
+        "w": 290.0,
+        "h": 420.0
+      },
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "asset_status": "ready",
+      "render_visibility": "passed"
+    }
+  ],
+  "stage_timings": {
+    "resolve": 1.939,
+    "research": 2.403,
+    "script": 4.407,
+    "semantic_beat_planning": 4.523,
+    "word_forced_alignment": 9.636,
+    "scene_planning_and_layout": 0.0,
+    "media": 89.889,
+    "timeline": 0.116,
+    "Remotion_and_FFmpeg": 57.676,
+    "compose": 57.741,
+    "end_to_end": 156.496
+  },
+  "concurrency_analysis": {
+    "total_image_tasks": 10,
+    "total_provider_wait_spans": 13,
+    "peak_image_provider_concurrency": 3,
+    "average_active_image_concurrency": 1.585,
+    "configured_action_workers": 3,
+    "tts_visual_overlap_seconds": 26.909,
+    "speech_wall_seconds": 26.909,
+    "cutouts_wall_seconds": 68.435,
+    "alignment_seconds": 9.636,
+    "serial_gap_seconds": 0.1487,
+    "admission_wait_seconds": 4.1756,
+    "rate_limit_responses": 0,
+    "rate_limit_backoff_seconds": 0,
+    "background_removal_total_seconds": 22.0749
+  },
+  "tts_telemetry": [
+    {
+      "sentence_index": 0,
+      "chars": 101,
+      "cache_hit": false,
+      "audio_duration_seconds": 8.525,
+      "synthesis_wall_seconds": 8.6938,
+      "model": "jaaari[path]"
+    },
+    {
+      "sentence_index": 1,
+      "chars": 100,
+      "cache_hit": false,
+      "audio_duration_seconds": 6.65,
+      "synthesis_wall_seconds": 16.16,
+      "model": "jaaari[path]"
+    },
+    {
+      "sentence_index": 2,
+      "chars": 107,
+      "cache_hit": false,
+      "audio_duration_seconds": 7.075,
+      "synthesis_wall_seconds": 10.9427,
+      "model": "jaaari[path]"
+    },
+    {
+      "sentence_index": 3,
+      "chars": 124,
+      "cache_hit": true,
+      "audio_duration_seconds": 8.3,
+      "synthesis_wall_seconds": 0.0311,
+      "model": "jaaari[path]"
+    },
+    {
+      "sentence_index": 4,
+      "chars": 113,
+      "cache_hit": false,
+      "audio_duration_seconds": 7.35,
+      "synthesis_wall_seconds": 7.1336,
+      "model": "jaaari[path]"
+    },
+    {
+      "sentence_index": 5,
+      "chars": 99,
+      "cache_hit": true,
+      "audio_duration_seconds": 7.325,
+      "synthesis_wall_seconds": 0.0321,
+      "model": "jaaari[path]"
+    },
+    {
+      "sentence_index": 6,
+      "chars": 95,
+      "cache_hit": false,
+      "audio_duration_seconds": 6.575,
+      "synthesis_wall_seconds": 3.6811,
+      "model": "jaaari[path]"
+    },
+    {
+      "sentence_index": 7,
+      "chars": 122,
+      "cache_hit": false,
+      "audio_duration_seconds": 9.075,
+      "synthesis_wall_seconds": 2.6706,
+      "model": "jaaari[path]"
+    }
+  ],
+  "prediction_records": [
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:08:17.610268+00:00",
+      "admission_wait_seconds": 0.002109,
+      "http_request_start_timestamp": "2026-10-17T16:08:17.617414+00:00",
+      "http_response_timestamp": "2026-10-17T16:08:20.088096+00:00",
+      "http_status_code": 201,
+      "prediction_id": "699etm87nhrp40d19afva8ncb0",
+      "prediction_creation_latency_seconds": 2.470666,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:08:20.088231+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:08:20.088245+00:00",
+      "total_provider_wait_seconds": 2.47082,
+      "provider_reported_predict_time_seconds": 0.734599,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 2.715607,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:08:17.611312+00:00",
+      "admission_wait_seconds": 2.006802,
+      "http_request_start_timestamp": "2026-10-17T16:08:19.623023+00:00",
+      "http_response_timestamp": "2026-10-17T16:08:22.590092+00:00",
+      "http_status_code": 201,
+      "prediction_id": "qqzs1sghvnrp00d19aft2p86hc",
+      "prediction_creation_latency_seconds": 2.967052,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:08:22.590198+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:08:22.590211+00:00",
+      "total_provider_wait_seconds": 2.967178,
+      "provider_reported_predict_time_seconds": 0.802281,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 1.768777,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:08:17.611992+00:00",
+      "admission_wait_seconds": 1.002959,
+      "http_request_start_timestamp": "2026-10-17T16:08:18.619483+00:00",
+      "http_response_timestamp": "2026-10-17T16:08:21.437746+00:00",
+      "http_status_code": 201,
+      "prediction_id": "k3t8a48dqhrp40d19afsrayts8",
+      "prediction_creation_latency_seconds": 2.81825,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:08:21.437873+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:08:21.437888+00:00",
+      "total_provider_wait_seconds": 2.818397,
+      "provider_reported_predict_time_seconds": 0.73145,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 1.396959,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:08:27.234430+00:00",
+      "admission_wait_seconds": 0.000967,
+      "http_request_start_timestamp": "2026-10-17T16:08:27.237676+00:00",
+      "http_response_timestamp": "2026-10-17T16:08:30.446769+00:00",
+      "http_status_code": 201,
+      "prediction_id": "4hapg09ffnrp40d19afv93vgem",
+      "prediction_creation_latency_seconds": 3.209076,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:08:30.446855+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:08:30.446865+00:00",
+      "total_provider_wait_seconds": 3.209174,
+      "provider_reported_predict_time_seconds": 0.599961,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 2.742308,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:08:29.401498+00:00",
+      "admission_wait_seconds": 0.001079,
+      "http_request_start_timestamp": "2026-10-17T16:08:29.404795+00:00",
+      "http_response_timestamp": "2026-10-17T16:08:32.923848+00:00",
+      "http_status_code": 201,
+      "prediction_id": "5ps95q9m7srp00d19afs4xmzfw",
+      "prediction_creation_latency_seconds": 3.519033,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:08:32.923973+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:08:32.923986+00:00",
+      "total_provider_wait_seconds": 3.519175,
+      "provider_reported_predict_time_seconds": 0.737827,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 3.083098,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:08:30.087910+00:00",
+      "admission_wait_seconds": 0.318074,
+      "http_request_start_timestamp": "2026-10-17T16:08:30.408648+00:00",
+      "http_response_timestamp": "2026-10-17T16:08:33.572694+00:00",
+      "http_status_code": 201,
+      "prediction_id": "zmbjfnsqhhrp20d19afv6mbccc",
+      "prediction_creation_latency_seconds": 3.16403,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:08:33.572774+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:08:33.572784+00:00",
+      "total_provider_wait_seconds": 3.164124,
+      "provider_reported_predict_time_seconds": 1.141564,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 2.420544,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:08:37.167297+00:00",
+      "admission_wait_seconds": 0.829081,
+      "http_request_start_timestamp": "2026-10-17T16:08:37.999090+00:00",
+      "http_response_timestamp": "2026-10-17T16:08:40.681581+00:00",
+      "http_status_code": 201,
+      "prediction_id": "85emhx2n7xrp20d19aft8btf54",
+      "prediction_creation_latency_seconds": 2.682474,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:08:40.681710+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:08:40.681730+00:00",
+      "total_provider_wait_seconds": 2.682629,
+      "provider_reported_predict_time_seconds": 0.73467,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 2.77444,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:08:39.064935+00:00",
+      "admission_wait_seconds": 0.002781,
+      "http_request_start_timestamp": "2026-10-17T16:08:39.073001+00:00",
+      "http_response_timestamp": "2026-10-17T16:08:42.435372+00:00",
+      "http_status_code": 201,
+      "prediction_id": "9c8hweaw25rp40d19aftjwbs0g",
+      "prediction_creation_latency_seconds": 3.362352,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:08:42.435515+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:08:42.435533+00:00",
+      "total_provider_wait_seconds": 3.362518,
+      "provider_reported_predict_time_seconds": 0.685572,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 0.760758,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:08:40.833158+00:00",
+      "admission_wait_seconds": 0.001432,
+      "http_request_start_timestamp": "2026-10-17T16:08:40.837056+00:00",
+      "http_response_timestamp": "2026-10-17T16:08:42.641604+00:00",
+      "http_status_code": 201,
+      "prediction_id": "r4v2mtk0dnrp20d19afst52apw",
+      "prediction_creation_latency_seconds": 1.804539,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:08:42.641661+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:08:42.641668+00:00",
+      "total_provider_wait_seconds": 1.804603,
+      "provider_reported_predict_time_seconds": 0.797869,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 2.699823,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:08:48.284439+00:00",
+      "admission_wait_seconds": 0.00273,
+      "http_request_start_timestamp": "2026-10-17T16:08:48.292472+00:00",
+      "http_response_timestamp": "2026-10-17T16:08:50.673878+00:00",
+      "http_status_code": 201,
+      "prediction_id": "8q1vcnvy7drp20d19afvg0akvm",
+      "prediction_creation_latency_seconds": 2.381394,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:08:50.673919+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:08:50.673924+00:00",
+      "total_provider_wait_seconds": 2.381441,
+      "provider_reported_predict_time_seconds": 0.760104,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 2.640543,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "person",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:08:51.482121+00:00",
+      "admission_wait_seconds": 0.001695,
+      "http_request_start_timestamp": "2026-10-17T16:08:51.486334+00:00",
+      "http_response_timestamp": "2026-10-17T16:09:01.707773+00:00",
+      "http_status_code": 201,
+      "prediction_id": "5bhff5wf4drmw0d19aft808hn4",
+      "prediction_creation_latency_seconds": 10.221387,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:09:01.707885+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:09:01.707898+00:00",
+      "total_provider_wait_seconds": 10.221517,
+      "provider_reported_predict_time_seconds": 7.833452,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 1.052259,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:09:01.778096+00:00",
+      "admission_wait_seconds": 0.002849,
+      "http_request_start_timestamp": "2026-10-17T16:09:01.785970+00:00",
+      "http_response_timestamp": "2026-10-17T16:09:04.283592+00:00",
+      "http_status_code": 201,
+      "prediction_id": "sb3578dm3xrp00d19afrhmyb74",
+      "prediction_creation_latency_seconds": 2.49761,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:09:04.283632+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:09:04.283636+00:00",
+      "total_provider_wait_seconds": 2.497656,
+      "provider_reported_predict_time_seconds": 0.792518,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 4.49569,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:09:12.546997+00:00",
+      "admission_wait_seconds": 0.003034,
+      "http_request_start_timestamp": "2026-10-17T16:09:12.555291+00:00",
+      "http_response_timestamp": "2026-10-17T16:09:16.528393+00:00",
+      "http_status_code": 201,
+      "prediction_id": "0mky1vq311rp20d19aftfyj1e0",
+      "prediction_creation_latency_seconds": 3.973083,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:09:16.528499+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:09:16.528510+00:00",
+      "total_provider_wait_seconds": 3.973202,
+      "provider_reported_predict_time_seconds": 0.758659,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 2.589604,
+      "status": "succeeded"
+    }
+  ],
+  "critical_path": [
+    {
+      "stage": "input_fetch_and_extract",
+      "duration_seconds": 1.9329,
+      "effective_advance_seconds": 1.9329,
+      "status": "succeeded"
+    },
+    {
+      "stage": "research",
+      "duration_seconds": 2.401,
+      "effective_advance_seconds": 2.401,
+      "status": "succeeded"
+    },
+    {
+      "stage": "research_or_script_generation",
+      "duration_seconds": 4.385,
+      "effective_advance_seconds": 4.385,
+      "status": "succeeded"
+    },
+    {
+      "stage": "narration_segmentation",
+      "duration_seconds": 0.001,
+      "effective_advance_seconds": 0.0011,
+      "status": "succeeded"
+    },
+    {
+      "stage": "semantic_beat_planning",
+      "duration_seconds": 4.5217,
+      "effective_advance_seconds": 4.5217,
+      "status": "succeeded"
+    },
+    {
+      "stage": "TTS_generation",
+      "duration_seconds": 26.9082,
+      "effective_advance_seconds": 22.3866,
+      "status": "succeeded"
+    },
+    {
+      "stage": "new_action_asset_generation",
+      "duration_seconds": 11.4296,
+      "effective_advance_seconds": 0.8444,
+      "status": "succeeded"
+    },
+    {
+      "stage": "new_action_asset_generation",
+      "duration_seconds": 55.948,
+      "effective_advance_seconds": 45.2048,
+      "status": "succeeded"
+    },
+    {
+      "stage": "sentence_asset_validation",
+      "duration_seconds": 3.4201,
+      "effective_advance_seconds": 3.4201,
+      "status": "succeeded"
+    },
+    {
+      "stage": "word_forced_alignment",
+      "duration_seconds": 9.6353,
+      "effective_advance_seconds": 9.6354,
+      "status": "succeeded"
+    },
+    {
+      "stage": "audio_normalization",
+      "duration_seconds": 3.8646,
+      "effective_advance_seconds": 3.8646,
+      "status": "succeeded"
+    },
+    {
+      "stage": "timeline_planning",
+      "duration_seconds": 0.0011,
+      "effective_advance_seconds": 0.0011,
+      "status": "succeeded"
+    },
+    {
+      "stage": "sentence_render_validation",
+      "duration_seconds": 0.0009,
+      "effective_advance_seconds": 0.0009,
+      "status": "succeeded"
+    },
+    {
+      "stage": "render_and_delivery",
+      "duration_seconds": 57.6746,
+      "effective_advance_seconds": 57.6761,
+      "status": "succeeded"
+    }
+  ],
+  "bottleneck_ranking": [
+    {
+      "operation": "image_provider_wait (accumulated)",
+      "duration_seconds": 80.5084,
+      "percent_of_wall_time": 51.4,
+      "cause_category": "provider",
+      "evidence": "13 provider call(s), peak_concurrency=3, admission_wait=4.16s",
+      "optimization_opportunity": "Overlap independent scene-primary predictions across worker threads while respecting rate limits",
+      "confidence": "high"
+    },
+    {
+      "operation": "render_and_delivery",
+      "duration_seconds": 57.6746,
+      "percent_of_wall_time": 36.9,
+      "cause_category": "compute",
+      "evidence": "1 span(s), max=57.675s, accumulated=57.675s",
+      "optimization_opportunity": "Use hardware-tuned Remotion concurrency and single-pass audio measurement",
+      "confidence": "high"
+    },
+    {
+      "operation": "new_action_asset_generation",
+      "duration_seconds": 55.948,
+      "percent_of_wall_time": 35.8,
+      "cause_category": "provider",
+      "evidence": "8 span(s), max=55.948s, accumulated=138.943s",
+      "optimization_opportunity": "Bounded parallel scene generation with adaptive Replicate admission pacing",
+      "confidence": "high"
+    },
+    {
+      "operation": "TTS_generation",
+      "duration_seconds": 26.9082,
+      "percent_of_wall_time": 17.2,
+      "cause_category": "provider",
+      "evidence": "1 span(s), max=26.908s, accumulated=26.908s",
+      "optimization_opportunity": "Overlap TTS with visual planning/sourcing and use dedicated TTS admission scope",
+      "confidence": "high"
+    },
+    {
+      "operation": "background_removal_and_alpha",
+      "duration_seconds": 22.0749,
+      "percent_of_wall_time": 14.1,
+      "cause_category": "compute",
+      "evidence": "13 span(s), max=2.485s, accumulated=22.075s",
+      "optimization_opportunity": "Reuse warm ONNX rembg session and run cutout trimming as each image completes",
+      "confidence": "high"
+    },
+    {
+      "operation": "entity_identity_asset_generation",
+      "duration_seconds": 18.0322,
+      "percent_of_wall_time": 11.5,
+      "cause_category": "provider",
+      "evidence": "2 span(s), max=18.032s, accumulated=28.196s",
+      "optimization_opportunity": "Acquire identity references in parallel or reuse supporting cutouts",
+      "confidence": "high"
+    },
+    {
+      "operation": "word_forced_alignment",
+      "duration_seconds": 9.6353,
+      "percent_of_wall_time": 6.2,
+      "cause_category": "compute",
+      "evidence": "1 span(s), max=9.635s, accumulated=9.635s",
+      "optimization_opportunity": "Persist forced-alignment cache across runs and downsample in-memory",
+      "confidence": "high"
+    },
+    {
+      "operation": "semantic_beat_planning",
+      "duration_seconds": 4.5217,
+      "percent_of_wall_time": 2.9,
+      "cause_category": "provider",
+      "evidence": "1 span(s), max=4.522s, accumulated=4.522s",
+      "optimization_opportunity": "Single-pass structured storyboard generation with strict schema validation",
+      "confidence": "high"
+    },
+    {
+      "operation": "research_or_script_generation",
+      "duration_seconds": 4.385,
+      "percent_of_wall_time": 2.8,
+      "cause_category": "provider",
+      "evidence": "1 span(s), max=4.385s, accumulated=4.385s",
+      "optimization_opportunity": "Reduce LLM repair iterations and token output size",
+      "confidence": "high"
+    },
+    {
+      "operation": "sentence_asset_validation",
+      "duration_seconds": 3.4201,
+      "percent_of_wall_time": 2.2,
+      "cause_category": "provider",
+      "evidence": "1 span(s), max=3.420s, accumulated=3.420s",
+      "optimization_opportunity": "Batch ordered primary cutouts into a single multimodal diversity check",
+      "confidence": "high"
+    },
+    {
+      "operation": "research",
+      "duration_seconds": 2.401,
+      "percent_of_wall_time": 1.5,
+      "cause_category": "network",
+      "evidence": "1 span(s), max=2.401s, accumulated=2.401s",
+      "optimization_opportunity": "Bound web search pages and HTTP timeouts",
+      "confidence": "high"
+    },
+    {
+      "operation": "input_fetch_and_extract",
+      "duration_seconds": 1.9329,
+      "percent_of_wall_time": 1.2,
+      "cause_category": "network",
+      "evidence": "1 span(s), max=1.933s, accumulated=1.933s",
+      "optimization_opportunity": "Cache fetched source text or streamline input classification",
+      "confidence": "high"
+    }
+  ],
+  "rendering": {
+    "renderer": "remotion",
+    "frames": 1670,
+    "fps": 30,
+    "resolution": [
+      1080,
+      1920
+    ],
+    "asset_staging_seconds": 0.029,
+    "remotion_render_seconds": 46.877,
+    "remotion_concurrency": 2,
+    "ffmpeg_encode_seconds": 7.767,
+    "audio_delivery_seconds": 1.58,
+    "visual_quality_scan_seconds": 1.422,
+    "total_render_and_qa_seconds": 57.674,
+    "video_encode_passes": 2,
+    "average_fps_throughput": 35.63,
+    "output_size_bytes": 6080538
+  },
+  "images": [
+    {
+      "task_index": 1,
+      "entityId": "scene-53be8265b9ddfa5b",
+      "assetId": "asset-scene-53be8265b9ddfa5b",
+      "sentence_id": "s2",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Mixing console",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T16:08:17.608154+00:00",
+      "request_end_utc": "2026-10-17T16:08:22.806242+00:00",
+      "queue_wait_seconds": 0.0001,
+      "admission_wait_seconds": 0.002,
+      "api_duration_seconds": 5.1981,
+      "cutout_processing_seconds": 1.774,
+      "visual_review_seconds": 2.429,
+      "processing_and_review_seconds": 4.4259,
+      "durationSeconds": 9.624,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [],
+      "dimensions": [
+        1020,
+        411
+      ],
+      "bytes": 537749,
+      "sha256": "f9a46fc4601a92cd11b6e3adccc98d7164f23c1315a2cd2d99d753f67abb6462",
+      "displayed_in_render": true,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:08:17.610268+00:00",
+          "admission_wait_seconds": 0.002109,
+          "http_request_start_timestamp": "2026-10-17T16:08:17.617414+00:00",
+          "http_response_timestamp": "2026-10-17T16:08:20.088096+00:00",
+          "http_status_code": 201,
+          "prediction_id": "699etm87nhrp40d19afva8ncb0",
+          "prediction_creation_latency_seconds": 2.470666,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:08:20.088231+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:08:20.088245+00:00",
+          "total_provider_wait_seconds": 2.47082,
+          "provider_reported_predict_time_seconds": 0.734599,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 2.715607,
+          "status": "succeeded"
+        }
+      ]
+    },
+    {
+      "task_index": 2,
+      "entityId": "scene-51a8d9ce585e02f3",
+      "assetId": "asset-scene-51a8d9ce585e02f3",
+      "sentence_id": "s3",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Vinyl record",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T16:08:17.608856+00:00",
+      "request_end_utc": "2026-10-17T16:08:24.360174+00:00",
+      "queue_wait_seconds": 0.0001,
+      "admission_wait_seconds": 2.007,
+      "api_duration_seconds": 6.7513,
+      "cutout_processing_seconds": 2.143,
+      "visual_review_seconds": 2.788,
+      "processing_and_review_seconds": 5.0397,
+      "durationSeconds": 11.791,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [],
+      "dimensions": [
+        723,
+        331
+      ],
+      "bytes": 241638,
+      "sha256": "6618c6aac517cdae1d095e8586f9c0ec9fe3a9a0ee7b38111411f029c055fd90",
+      "displayed_in_render": true,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:08:17.611312+00:00",
+          "admission_wait_seconds": 2.006802,
+          "http_request_start_timestamp": "2026-10-17T16:08:19.623023+00:00",
+          "http_response_timestamp": "2026-10-17T16:08:22.590092+00:00",
+          "http_status_code": 201,
+          "prediction_id": "qqzs1sghvnrp00d19aft2p86hc",
+          "prediction_creation_latency_seconds": 2.967052,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:08:22.590198+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:08:22.590211+00:00",
+          "total_provider_wait_seconds": 2.967178,
+          "provider_reported_predict_time_seconds": 0.802281,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 1.768777,
+          "status": "succeeded"
+        }
+      ]
+    },
+    {
+      "task_index": 3,
+      "entityId": "scene-c830542e7ceb055f",
+      "assetId": "asset-scene-c830542e7ceb055f",
+      "sentence_id": "s1",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Microphone",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T16:08:17.609457+00:00",
+      "request_end_utc": "2026-10-17T16:08:22.835709+00:00",
+      "queue_wait_seconds": 0.0001,
+      "admission_wait_seconds": 1.003,
+      "api_duration_seconds": 5.2262,
+      "cutout_processing_seconds": 2.469,
+      "visual_review_seconds": 4.725,
+      "processing_and_review_seconds": 7.2498,
+      "durationSeconds": 12.476,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [],
+      "dimensions": [
+        235,
+        676
+      ],
+      "bytes": 141061,
+      "sha256": "c5cada3ce0367dc757918c7f27047e820fe70b59ec067841de162efb8430eaf7",
+      "displayed_in_render": true,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:08:17.611992+00:00",
+          "admission_wait_seconds": 1.002959,
+          "http_request_start_timestamp": "2026-10-17T16:08:18.619483+00:00",
+          "http_response_timestamp": "2026-10-17T16:08:21.437746+00:00",
+          "http_status_code": 201,
+          "prediction_id": "k3t8a48dqhrp40d19afsrayts8",
+          "prediction_creation_latency_seconds": 2.81825,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:08:21.437873+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:08:21.437888+00:00",
+          "total_provider_wait_seconds": 2.818397,
+          "provider_reported_predict_time_seconds": 0.73145,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 1.396959,
+          "status": "succeeded"
+        }
+      ]
+    },
+    {
+      "task_index": 4,
+      "entityId": "scene-93c2a33635add248",
+      "assetId": "asset-scene-93c2a33635add248",
+      "sentence_id": "s4",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Legal document",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T16:08:27.233895+00:00",
+      "request_end_utc": "2026-10-17T16:08:33.191914+00:00",
+      "queue_wait_seconds": 9.6279,
+      "admission_wait_seconds": 0.001,
+      "api_duration_seconds": 5.958,
+      "cutout_processing_seconds": 1.404,
+      "visual_review_seconds": 2.434,
+      "processing_and_review_seconds": 3.972,
+      "durationSeconds": 9.93,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [],
+      "dimensions": [
+        476,
+        585
+      ],
+      "bytes": 294063,
+      "sha256": "fd182469d378a7a084e3b4f164e8fcc1fb27bd4d413854dd9960fb35e3336b26",
+      "displayed_in_render": true,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:08:27.234430+00:00",
+          "admission_wait_seconds": 0.000967,
+          "http_request_start_timestamp": "2026-10-17T16:08:27.237676+00:00",
+          "http_response_timestamp": "2026-10-17T16:08:30.446769+00:00",
+          "http_status_code": 201,
+          "prediction_id": "4hapg09ffnrp40d19afv93vgem",
+          "prediction_creation_latency_seconds": 3.209076,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:08:30.446855+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:08:30.446865+00:00",
+          "total_provider_wait_seconds": 3.209174,
+          "provider_reported_predict_time_seconds": 0.599961,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 2.742308,
+          "status": "succeeded"
+        }
+      ]
+    },
+    {
+      "task_index": 5,
+      "entityId": "scene-08860386d10a55f4",
+      "assetId": "asset-scene-08860386d10a55f4",
+      "sentence_id": "s5",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Studio monitor speaker",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T16:08:29.400969+00:00",
+      "request_end_utc": "2026-10-17T16:08:36.008264+00:00",
+      "queue_wait_seconds": 11.796,
+      "admission_wait_seconds": 0.001,
+      "api_duration_seconds": 6.6073,
+      "cutout_processing_seconds": 2.486,
+      "visual_review_seconds": 2.246,
+      "processing_and_review_seconds": 4.8217,
+      "durationSeconds": 11.429,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [],
+      "dimensions": [
+        496,
+        692
+      ],
+      "bytes": 251174,
+      "sha256": "16f7e6dd7b43b4c023a87b5022a104c2818773ab1a5fa53472543dd3fce8e319",
+      "displayed_in_render": true,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:08:29.401498+00:00",
+          "admission_wait_seconds": 0.001079,
+          "http_request_start_timestamp": "2026-10-17T16:08:29.404795+00:00",
+          "http_response_timestamp": "2026-10-17T16:08:32.923848+00:00",
+          "http_status_code": 201,
+          "prediction_id": "5ps95q9m7srp00d19afs4xmzfw",
+          "prediction_creation_latency_seconds": 3.519033,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:08:32.923973+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:08:32.923986+00:00",
+          "total_provider_wait_seconds": 3.519175,
+          "provider_reported_predict_time_seconds": 0.737827,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 3.083098,
+          "status": "succeeded"
+        }
+      ]
+    },
+    {
+      "task_index": 6,
+      "entityId": "scene-93175c6f4c7adc5a",
+      "assetId": "asset-scene-93175c6f4c7adc5a",
+      "sentence_id": "s6",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Gold record plaque",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T16:08:30.087287+00:00",
+      "request_end_utc": "2026-10-17T16:09:19.121298+00:00",
+      "queue_wait_seconds": 12.4822,
+      "admission_wait_seconds": 0.327,
+      "api_duration_seconds": 23.6261,
+      "cutout_processing_seconds": 5.407,
+      "visual_review_seconds": 26.799,
+      "processing_and_review_seconds": 32.3209,
+      "durationSeconds": 55.947,
+      "attempts": 5,
+      "rejected_attempts": 4,
+      "recorded_errors": 4,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [],
+      "dimensions": [
+        395,
+        400
+      ],
+      "bytes": 224912,
+      "sha256": "31e772380da228f9c2eeebdad2f7d2843114b4fdcb39e038bacd1f9f10256418",
+      "displayed_in_render": true,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:08:30.087910+00:00",
+          "admission_wait_seconds": 0.318074,
+          "http_request_start_timestamp": "2026-10-17T16:08:30.408648+00:00",
+          "http_response_timestamp": "2026-10-17T16:08:33.572694+00:00",
+          "http_status_code": 201,
+          "prediction_id": "zmbjfnsqhhrp20d19afv6mbccc",
+          "prediction_creation_latency_seconds": 3.16403,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:08:33.572774+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:08:33.572784+00:00",
+          "total_provider_wait_seconds": 3.164124,
+          "provider_reported_predict_time_seconds": 1.141564,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 2.420544,
+          "status": "succeeded"
+        },
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:08:39.064935+00:00",
+          "admission_wait_seconds": 0.002781,
+          "http_request_start_timestamp": "2026-10-17T16:08:39.073001+00:00",
+          "http_response_timestamp": "2026-10-17T16:08:42.435372+00:00",
+          "http_status_code": 201,
+          "prediction_id": "9c8hweaw25rp40d19aftjwbs0g",
+          "prediction_creation_latency_seconds": 3.362352,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:08:42.435515+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:08:42.435533+00:00",
+          "total_provider_wait_seconds": 3.362518,
+          "provider_reported_predict_time_seconds": 0.685572,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 0.760758,
+          "status": "succeeded"
+        },
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:09:01.778096+00:00",
+          "admission_wait_seconds": 0.002849,
+          "http_request_start_timestamp": "2026-10-17T16:09:01.785970+00:00",
+          "http_response_timestamp": "2026-10-17T16:09:04.283592+00:00",
+          "http_status_code": 201,
+          "prediction_id": "sb3578dm3xrp00d19afrhmyb74",
+          "prediction_creation_latency_seconds": 2.49761,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:09:04.283632+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:09:04.283636+00:00",
+          "total_provider_wait_seconds": 2.497656,
+          "provider_reported_predict_time_seconds": 0.792518,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 4.49569,
+          "status": "succeeded"
+        },
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:09:12.546997+00:00",
+          "admission_wait_seconds": 0.003034,
+          "http_request_start_timestamp": "2026-10-17T16:09:12.555291+00:00",
+          "http_response_timestamp": "2026-10-17T16:09:16.528393+00:00",
+          "http_status_code": 201,
+          "prediction_id": "0mky1vq311rp20d19aftfyj1e0",
+          "prediction_creation_latency_seconds": 3.973083,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:09:16.528499+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:09:16.528510+00:00",
+          "total_provider_wait_seconds": 3.973202,
+          "provider_reported_predict_time_seconds": 0.758659,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 2.589604,
+          "status": "succeeded"
+        }
+      ]
+    },
+    {
+      "task_index": 7,
+      "entityId": "scene-ef130e44f569bc50",
+      "assetId": "asset-scene-ef130e44f569bc50",
+      "sentence_id": "s7",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Headphones",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T16:08:37.166480+00:00",
+      "request_end_utc": "2026-10-17T16:08:53.315438+00:00",
+      "queue_wait_seconds": 19.5604,
+      "admission_wait_seconds": 0.832,
+      "api_duration_seconds": 11.3238,
+      "cutout_processing_seconds": 3.472,
+      "visual_review_seconds": 4.546,
+      "processing_and_review_seconds": 8.1192,
+      "durationSeconds": 19.443,
+      "attempts": 2,
+      "rejected_attempts": 1,
+      "recorded_errors": 1,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [],
+      "dimensions": [
+        505,
+        601
+      ],
+      "bytes": 267659,
+      "sha256": "79830e7c6fabed2fbf660532d8ce03a109df114d18a4d7942b94fcb7154110cc",
+      "displayed_in_render": true,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:08:37.167297+00:00",
+          "admission_wait_seconds": 0.829081,
+          "http_request_start_timestamp": "2026-10-17T16:08:37.999090+00:00",
+          "http_response_timestamp": "2026-10-17T16:08:40.681581+00:00",
+          "http_status_code": 201,
+          "prediction_id": "85emhx2n7xrp20d19aft8btf54",
+          "prediction_creation_latency_seconds": 2.682474,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:08:40.681710+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:08:40.681730+00:00",
+          "total_provider_wait_seconds": 2.682629,
+          "provider_reported_predict_time_seconds": 0.73467,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 2.77444,
+          "status": "succeeded"
+        },
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:08:48.284439+00:00",
+          "admission_wait_seconds": 0.00273,
+          "http_request_start_timestamp": "2026-10-17T16:08:48.292472+00:00",
+          "http_response_timestamp": "2026-10-17T16:08:50.673878+00:00",
+          "http_status_code": 201,
+          "prediction_id": "8q1vcnvy7drp20d19afvg0akvm",
+          "prediction_creation_latency_seconds": 2.381394,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:08:50.673919+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:08:50.673924+00:00",
+          "total_provider_wait_seconds": 2.381441,
+          "provider_reported_predict_time_seconds": 0.760104,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 2.640543,
+          "status": "succeeded"
+        }
+      ]
+    },
+    {
+      "task_index": 8,
+      "entityId": "scene-89933b7c339942fa",
+      "assetId": "asset-scene-89933b7c339942fa",
+      "sentence_id": "s8",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Grammy award trophy",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T16:08:40.832455+00:00",
+      "request_end_utc": "2026-10-17T16:08:45.343031+00:00",
+      "queue_wait_seconds": 23.227,
+      "admission_wait_seconds": 0.001,
+      "api_duration_seconds": 4.5106,
+      "cutout_processing_seconds": 1.379,
+      "visual_review_seconds": 2.333,
+      "processing_and_review_seconds": 3.7794,
+      "durationSeconds": 8.29,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [],
+      "dimensions": [
+        287,
+        537
+      ],
+      "bytes": 112222,
+      "sha256": "5b4fc0aaa9ea1bf8f3c376fe78495d3ed7faaa82e583309ad9fb8a8b29c98710",
+      "displayed_in_render": true,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:08:40.833158+00:00",
+          "admission_wait_seconds": 0.001432,
+          "http_request_start_timestamp": "2026-10-17T16:08:40.837056+00:00",
+          "http_response_timestamp": "2026-10-17T16:08:42.641604+00:00",
+          "http_status_code": 201,
+          "prediction_id": "r4v2mtk0dnrp20d19afst52apw",
+          "prediction_creation_latency_seconds": 1.804539,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:08:42.641661+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:08:42.641668+00:00",
+          "total_provider_wait_seconds": 1.804603,
+          "provider_reported_predict_time_seconds": 0.797869,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 2.699823,
+          "status": "succeeded"
+        }
+      ]
+    },
+    {
+      "task_index": 9,
+      "entityId": "kendrick",
+      "assetId": "asset-kendrick",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "primary_subject_type": "person",
+      "visual_concept": "Kendrick Lamar",
+      "provider": "replicate:black-forest-labs/flux-kontext-pro",
+      "request_start_utc": "2026-10-17T16:08:51.454355+00:00",
+      "request_end_utc": "2026-10-17T16:09:02.761495+00:00",
+      "queue_wait_seconds": 31.5198,
+      "admission_wait_seconds": 0.002,
+      "api_duration_seconds": 11.3071,
+      "cutout_processing_seconds": 1.55,
+      "visual_review_seconds": 2.615,
+      "processing_and_review_seconds": 6.7239,
+      "durationSeconds": 18.031,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 1,
+      "cacheHit": false,
+      "route": "premium_reference_illustration",
+      "identityReferences": [],
+      "dimensions": [
+        953,
+        956
+      ],
+      "bytes": 1165359,
+      "sha256": "cbc5b21564aa095eeffc13757f5abbbbcebdea948449e0732b854b1bbd5d40ee",
+      "displayed_in_render": true,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "person",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:08:51.482121+00:00",
+          "admission_wait_seconds": 0.001695,
+          "http_request_start_timestamp": "2026-10-17T16:08:51.486334+00:00",
+          "http_response_timestamp": "2026-10-17T16:09:01.707773+00:00",
+          "http_status_code": 201,
+          "prediction_id": "5bhff5wf4drmw0d19aft808hn4",
+          "prediction_creation_latency_seconds": 10.221387,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:09:01.707885+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:09:01.707898+00:00",
+          "total_provider_wait_seconds": 10.221517,
+          "provider_reported_predict_time_seconds": 7.833452,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 1.052259,
+          "status": "succeeded"
+        }
+      ]
+    },
+    {
+      "task_index": 10,
+      "entityId": "drake",
+      "assetId": "asset-drake",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "primary_subject_type": "person",
+      "visual_concept": "Drake",
+      "provider": "local_or_cache",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 39.0075,
+      "admission_wait_seconds": 0.0,
+      "api_duration_seconds": 0.0,
+      "cutout_processing_seconds": 0.0,
+      "visual_review_seconds": 0.0,
+      "processing_and_review_seconds": 10.163,
+      "durationSeconds": 10.163,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "reference_cutout",
+      "identityReferences": [],
+      "dimensions": [
+        871,
+        1064
+      ],
+      "bytes": 1808231,
+      "sha256": "e358fbab71dac8187d78dad924182e1fddda38d6ec4f215be4646b6dd4ba9f22",
+      "displayed_in_render": true,
+      "origin": "generated",
+      "prediction_records": []
+    }
+  ],
+  "provider_metrics": {
+    "createRequests": 13,
+    "acceptedPredictions": 13,
+    "rateLimitResponses": 0,
+    "backoffSeconds": 0,
+    "pollRetries": 0,
+    "admissionWaitSeconds": 4.17559295800001,
+    "apiDurationSeconds": 45.072433666999984,
+    "downloadDurationSeconds": 31.140409707000032,
+    "peakHttpConcurrency": 3,
+    "peakProviderConcurrency": 3,
+    "predictionRecords": [
+      {
+        "model_name": "black-forest-labs/flux-schnell",
+        "model_version": "hidden",
+        "tier": "support",
+        "target_path": "/Users/klinten/Desktop/My-projects/project-HER/output/editorial_9s_warm_v3/assets/78c3221edab5f53eddb3-generated-1.png",
+        "request_admission_timestamp": "2026-10-17T16:08:17.610268+00:00",
+        "admission_wait_seconds": 0.002109,
+        "http_request_start_timestamp": "2026-10-17T16:08:17.617414+00:00",
+        "http_response_timestamp": "2026-10-17T16:08:20.088096+00:00",
+        "http_status_code": 201,
+        "prediction_id": "699etm87nhrp40d19afva8ncb0",
+        "prediction_creation_latency_seconds": 2.470666,
+        "prediction_state_transitions": [
+          {
+            "status": "succeeded",
+            "at": "2026-10-17T16:08:20.088231+00:00",
+            "offset_seconds": 0.0
+          }
+        ],
+        "prediction_completion_timestamp": "2026-10-17T16:08:20.088245+00:00",
+        "total_provider_wait_seconds": 2.47082,
+        "provider_reported_predict_time_seconds": 0.734599,
+        "poll_attempts": 0,
+        "poll_interval_delays": [],
+        "http_429_count": 0,
+        "retry_delay_seconds": 0.0,
+        "output_download_duration_seconds": 2.715607,
+        "status": "succeeded"
+      },
+      {
+        "model_name": "black-forest-labs/flux-schnell",
+        "model_version": "hidden",
+        "tier": "support",
+        "target_path": "/Users/klinten/Desktop/My-projects/project-HER/output/editorial_9s_warm_v3/assets/aa0284052ca0255562d9-generated-1.png",
+        "request_admission_timestamp": "2026-10-17T16:08:17.611312+00:00",
+        "admission_wait_seconds": 2.006802,
+        "http_request_start_timestamp": "2026-10-17T16:08:19.623023+00:00",
+        "http_response_timestamp": "2026-10-17T16:08:22.590092+00:00",
+        "http_status_code": 201,
+        "prediction_id": "qqzs1sghvnrp00d19aft2p86hc",
+        "prediction_creation_latency_seconds": 2.967052,
+        "prediction_state_transitions": [
+          {
+            "status": "succeeded",
+            "at": "2026-10-17T16:08:22.590198+00:00",
+            "offset_seconds": 0.0
+          }
+        ],
+        "prediction_completion_timestamp": "2026-10-17T16:08:22.590211+00:00",
+        "total_provider_wait_seconds": 2.967178,
+        "provider_reported_predict_time_seconds": 0.802281,
+        "poll_attempts": 0,
+        "poll_interval_delays": [],
+        "http_429_count": 0,
+        "retry_delay_seconds": 0.0,
+        "output_download_duration_seconds": 1.768777,
+        "status": "succeeded"
+      },
+      {
+        "model_name": "black-forest-labs/flux-schnell",
+        "model_version": "hidden",
+        "tier": "support",
+        "target_path": "/Users/klinten/Desktop/My-projects/project-HER/output/editorial_9s_warm_v3/assets/3b69b1935e7f7c8421ce-generated-1.png",
+        "request_admission_timestamp": "2026-10-17T16:08:17.611992+00:00",
+        "admission_wait_seconds": 1.002959,
+        "http_request_start_timestamp": "2026-10-17T16:08:18.619483+00:00",
+        "http_response_timestamp": "2026-10-17T16:08:21.437746+00:00",
+        "http_status_code": 201,
+        "prediction_id": "k3t8a48dqhrp40d19afsrayts8",
+        "prediction_creation_latency_seconds": 2.81825,
+        "prediction_state_transitions": [
+          {
+            "status": "succeeded",
+            "at": "2026-10-17T16:08:21.437873+00:00",
+            "offset_seconds": 0.0
+          }
+        ],
+        "prediction_completion_timestamp": "2026-10-17T16:08:21.437888+00:00",
+        "total_provider_wait_seconds": 2.818397,
+        "provider_reported_predict_time_seconds": 0.73145,
+        "poll_attempts": 0,
+        "poll_interval_delays": [],
+        "http_429_count": 0,
+        "retry_delay_seconds": 0.0,
+        "output_download_duration_seconds": 1.396959,
+        "status": "succeeded"
+      },
+      {
+        "model_name": "black-forest-labs/flux-schnell",
+        "model_version": "hidden",
+        "tier": "support",
+        "target_path": "/Users/klinten/Desktop/My-projects/project-HER/output/editorial_9s_warm_v3/assets/22c09dc4d9adf9d79c52-generated-1.png",
+        "request_admission_timestamp": "2026-10-17T16:08:27.234430+00:00",
+        "admission_wait_seconds": 0.000967,
+        "http_request_start_timestamp": "2026-10-17T16:08:27.237676+00:00",
+        "http_response_timestamp": "2026-10-17T16:08:30.446769+00:00",
+        "http_status_code": 201,
+        "prediction_id": "4hapg09ffnrp40d19afv93vgem",
+        "prediction_creation_latency_seconds": 3.209076,
+        "prediction_state_transitions": [
+          {
+            "status": "succeeded",
+            "at": "2026-10-17T16:08:30.446855+00:00",
+            "offset_seconds": 0.0
+          }
+        ],
+        "prediction_completion_timestamp": "2026-10-17T16:08:30.446865+00:00",
+        "total_provider_wait_seconds": 3.209174,
+        "provider_reported_predict_time_seconds": 0.599961,
+        "poll_attempts": 0,
+        "poll_interval_delays": [],
+        "http_429_count": 0,
+        "retry_delay_seconds": 0.0,
+        "output_download_duration_seconds": 2.742308,
+        "status": "succeeded"
+      },
+      {
+        "model_name": "black-forest-labs/flux-schnell",
+        "model_version": "hidden",
+        "tier": "support",
+        "target_path": "/Users/klinten/Desktop/My-projects/project-HER/output/editorial_9s_warm_v3/assets/915b82049d6999223cb6-generated-1.png",
+        "request_admission_timestamp": "2026-10-17T16:08:29.401498+00:00",
+        "admission_wait_seconds": 0.001079,
+        "http_request_start_timestamp": "2026-10-17T16:08:29.404795+00:00",
+        "http_response_timestamp": "2026-10-17T16:08:32.923848+00:00",
+        "http_status_code": 201,
+        "prediction_id": "5ps95q9m7srp00d19afs4xmzfw",
+        "prediction_creation_latency_seconds": 3.519033,
+        "prediction_state_transitions": [
+          {
+            "status": "succeeded",
+            "at": "2026-10-17T16:08:32.923973+00:00",
+            "offset_seconds": 0.0
+          }
+        ],
+        "prediction_completion_timestamp": "2026-10-17T16:08:32.923986+00:00",
+        "total_provider_wait_seconds": 3.519175,
+        "provider_reported_predict_time_seconds": 0.737827,
+        "poll_attempts": 0,
+        "poll_interval_delays": [],
+        "http_429_count": 0,
+        "retry_delay_seconds": 0.0,
+        "output_download_duration_seconds": 3.083098,
+        "status": "succeeded"
+      },
+      {
+        "model_name": "black-forest-labs/flux-schnell",
+        "model_version": "hidden",
+        "tier": "support",
+        "target_path": "/Users/klinten/Desktop/My-projects/project-HER/output/editorial_9s_warm_v3/assets/ab4aabf47beb55938af6-generated-1.png",
+        "request_admission_timestamp": "2026-10-17T16:08:30.087910+00:00",
+        "admission_wait_seconds": 0.318074,
+        "http_request_start_timestamp": "2026-10-17T16:08:30.408648+00:00",
+        "http_response_timestamp": "2026-10-17T16:08:33.572694+00:00",
+        "http_status_code": 201,
+        "prediction_id": "zmbjfnsqhhrp20d19afv6mbccc",
+        "prediction_creation_latency_seconds": 3.16403,
+        "prediction_state_transitions": [
+          {
+            "status": "succeeded",
+            "at": "2026-10-17T16:08:33.572774+00:00",
+            "offset_seconds": 0.0
+          }
+        ],
+        "prediction_completion_timestamp": "2026-10-17T16:08:33.572784+00:00",
+        "total_provider_wait_seconds": 3.164124,
+        "provider_reported_predict_time_seconds": 1.141564,
+        "poll_attempts": 0,
+        "poll_interval_delays": [],
+        "http_429_count": 0,
+        "retry_delay_seconds": 0.0,
+        "output_download_duration_seconds": 2.420544,
+        "status": "succeeded"
+      },
+      {
+        "model_name": "black-forest-labs/flux-schnell",
+        "model_version": "hidden",
+        "tier": "support",
+        "target_path": "/Users/klinten/Desktop/My-projects/project-HER/output/editorial_9s_warm_v3/assets/b77a976bad0b54950c37-generated-1.png",
+        "request_admission_timestamp": "2026-10-17T16:08:37.167297+00:00",
+        "admission_wait_seconds": 0.829081,
+        "http_request_start_timestamp": "2026-10-17T16:08:37.999090+00:00",
+        "http_response_timestamp": "2026-10-17T16:08:40.681581+00:00",
+        "http_status_code": 201,
+        "prediction_id": "85emhx2n7xrp20d19aft8btf54",
+        "prediction_creation_latency_seconds": 2.682474,
+        "prediction_state_transitions": [
+          {
+            "status": "succeeded",
+            "at": "2026-10-17T16:08:40.681710+00:00",
+            "offset_seconds": 0.0
+          }
+        ],
+        "prediction_completion_timestamp": "2026-10-17T16:08:40.681730+00:00",
+        "total_provider_wait_seconds": 2.682629,
+        "provider_reported_predict_time_seconds": 0.73467,
+        "poll_attempts": 0,
+        "poll_interval_delays": [],
+        "http_429_count": 0,
+        "retry_delay_seconds": 0.0,
+        "output_download_duration_seconds": 2.77444,
+        "status": "succeeded"
+      },
+      {
+        "model_name": "black-forest-labs/flux-schnell",
+        "model_version": "hidden",
+        "tier": "support",
+        "target_path": "/Users/klinten/Desktop/My-projects/project-HER/output/editorial_9s_warm_v3/assets/ab4aabf47beb55938af6-generated-2.png",
+        "request_admission_timestamp": "2026-10-17T16:08:39.064935+00:00",
+        "admission_wait_seconds": 0.002781,
+        "http_request_start_timestamp": "2026-10-17T16:08:39.073001+00:00",
+        "http_response_timestamp": "2026-10-17T16:08:42.435372+00:00",
+        "http_status_code": 201,
+        "prediction_id": "9c8hweaw25rp40d19aftjwbs0g",
+        "prediction_creation_latency_seconds": 3.362352,
+        "prediction_state_transitions": [
+          {
+            "status": "succeeded",
+            "at": "2026-10-17T16:08:42.435515+00:00",
+            "offset_seconds": 0.0
+          }
+        ],
+        "prediction_completion_timestamp": "2026-10-17T16:08:42.435533+00:00",
+        "total_provider_wait_seconds": 3.362518,
+        "provider_reported_predict_time_seconds": 0.685572,
+        "poll_attempts": 0,
+        "poll_interval_delays": [],
+        "http_429_count": 0,
+        "retry_delay_seconds": 0.0,
+        "output_download_duration_seconds": 0.760758,
+        "status": "succeeded"
+      },
+      {
+        "model_name": "black-forest-labs/flux-schnell",
+        "model_version": "hidden",
+        "tier": "support",
+        "target_path": "/Users/klinten/Desktop/My-projects/project-HER/output/editorial_9s_warm_v3/assets/937b8df6616161612f42-generated-1.png",
+        "request_admission_timestamp": "2026-10-17T16:08:40.833158+00:00",
+        "admission_wait_seconds": 0.001432,
+        "http_request_start_timestamp": "2026-10-17T16:08:40.837056+00:00",
+        "http_response_timestamp": "2026-10-17T16:08:42.641604+00:00",
+        "http_status_code": 201,
+        "prediction_id": "r4v2mtk0dnrp20d19afst52apw",
+        "prediction_creation_latency_seconds": 1.804539,
+        "prediction_state_transitions": [
+          {
+            "status": "succeeded",
+            "at": "2026-10-17T16:08:42.641661+00:00",
+            "offset_seconds": 0.0
+          }
+        ],
+        "prediction_completion_timestamp": "2026-10-17T16:08:42.641668+00:00",
+        "total_provider_wait_seconds": 1.804603,
+        "provider_reported_predict_time_seconds": 0.797869,
+        "poll_attempts": 0,
+        "poll_interval_delays": [],
+        "http_429_count": 0,
+        "retry_delay_seconds": 0.0,
+        "output_download_duration_seconds": 2.699823,
+        "status": "succeeded"
+      },
+      {
+        "model_name": "black-forest-labs/flux-schnell",
+        "model_version": "hidden",
+        "tier": "support",
+        "target_path": "/Users/klinten/Desktop/My-projects/project-HER/output/editorial_9s_warm_v3/assets/b77a976bad0b54950c37-generated-2.png",
+        "request_admission_timestamp": "2026-10-17T16:08:48.284439+00:00",
+        "admission_wait_seconds": 0.00273,
+        "http_request_start_timestamp": "2026-10-17T16:08:48.292472+00:00",
+        "http_response_timestamp": "2026-10-17T16:08:50.673878+00:00",
+        "http_status_code": 201,
+        "prediction_id": "8q1vcnvy7drp20d19afvg0akvm",
+        "prediction_creation_latency_seconds": 2.381394,
+        "prediction_state_transitions": [
+          {
+            "status": "succeeded",
+            "at": "2026-10-17T16:08:50.673919+00:00",
+            "offset_seconds": 0.0
+          }
+        ],
+        "prediction_completion_timestamp": "2026-10-17T16:08:50.673924+00:00",
+        "total_provider_wait_seconds": 2.381441,
+        "provider_reported_predict_time_seconds": 0.760104,
+        "poll_attempts": 0,
+        "poll_interval_delays": [],
+        "http_429_count": 0,
+        "retry_delay_seconds": 0.0,
+        "output_download_duration_seconds": 2.640543,
+        "status": "succeeded"
+      },
+      {
+        "model_name": "black-forest-labs/flux-kontext-pro",
+        "model_version": "hidden",
+        "tier": "person",
+        "target_path": "/Users/klinten/Desktop/My-projects/project-HER/output/editorial_9s_warm_v3/assets/260670134225f2a24b59-generated-1.png",
+        "request_admission_timestamp": "2026-10-17T16:08:51.482121+00:00",
+        "admission_wait_seconds": 0.001695,
+        "http_request_start_timestamp": "2026-10-17T16:08:51.486334+00:00",
+        "http_response_timestamp": "2026-10-17T16:09:01.707773+00:00",
+        "http_status_code": 201,
+        "prediction_id": "5bhff5wf4drmw0d19aft808hn4",
+        "prediction_creation_latency_seconds": 10.221387,
+        "prediction_state_transitions": [
+          {
+            "status": "succeeded",
+            "at": "2026-10-17T16:09:01.707885+00:00",
+            "offset_seconds": 0.0
+          }
+        ],
+        "prediction_completion_timestamp": "2026-10-17T16:09:01.707898+00:00",
+        "total_provider_wait_seconds": 10.221517,
+        "provider_reported_predict_time_seconds": 7.833452,
+        "poll_attempts": 0,
+        "poll_interval_delays": [],
+        "http_429_count": 0,
+        "retry_delay_seconds": 0.0,
+        "output_download_duration_seconds": 1.052259,
+        "status": "succeeded"
+      },
+      {
+        "model_name": "black-forest-labs/flux-schnell",
+        "model_version": "hidden",
+        "tier": "support",
+        "target_path": "/Users/klinten/Desktop/My-projects/project-HER/output/editorial_9s_warm_v3/assets/ab4aabf47beb55938af6-generated-3.png",
+        "request_admission_timestamp": "2026-10-17T16:09:01.778096+00:00",
+        "admission_wait_seconds": 0.002849,
+        "http_request_start_timestamp": "2026-10-17T16:09:01.785970+00:00",
+        "http_response_timestamp": "2026-10-17T16:09:04.283592+00:00",
+        "http_status_code": 201,
+        "prediction_id": "sb3578dm3xrp00d19afrhmyb74",
+        "prediction_creation_latency_seconds": 2.49761,
+        "prediction_state_transitions": [
+          {
+            "status": "succeeded",
+            "at": "2026-10-17T16:09:04.283632+00:00",
+            "offset_seconds": 0.0
+          }
+        ],
+        "prediction_completion_timestamp": "2026-10-17T16:09:04.283636+00:00",
+        "total_provider_wait_seconds": 2.497656,
+        "provider_reported_predict_time_seconds": 0.792518,
+        "poll_attempts": 0,
+        "poll_interval_delays": [],
+        "http_429_count": 0,
+        "retry_delay_seconds": 0.0,
+        "output_download_duration_seconds": 4.49569,
+        "status": "succeeded"
+      },
+      {
+        "model_name": "black-forest-labs/flux-schnell",
+        "model_version": "hidden",
+        "tier": "support",
+        "target_path": "/Users/klinten/Desktop/My-projects/project-HER/output/editorial_9s_warm_v3/assets/ab4aabf47beb55938af6-generated-4.png",
+        "request_admission_timestamp": "2026-10-17T16:09:12.546997+00:00",
+        "admission_wait_seconds": 0.003034,
+        "http_request_start_timestamp": "2026-10-17T16:09:12.555291+00:00",
+        "http_response_timestamp": "2026-10-17T16:09:16.528393+00:00",
+        "http_status_code": 201,
+        "prediction_id": "0mky1vq311rp20d19aftfyj1e0",
+        "prediction_creation_latency_seconds": 3.973083,
+        "prediction_state_transitions": [
+          {
+            "status": "succeeded",
+            "at": "2026-10-17T16:09:16.528499+00:00",
+            "offset_seconds": 0.0
+          }
+        ],
+        "prediction_completion_timestamp": "2026-10-17T16:09:16.528510+00:00",
+        "total_provider_wait_seconds": 3.973202,
+        "provider_reported_predict_time_seconds": 0.758659,
+        "poll_attempts": 0,
+        "poll_interval_delays": [],
+        "http_429_count": 0,
+        "retry_delay_seconds": 0.0,
+        "output_download_duration_seconds": 2.589604,
+        "status": "succeeded"
+      }
+    ]
+  },
+  "errors_and_retries": [
+    {
+      "source": "image_asset",
+      "entity_id": "scene-93175c6f4c7adc5a",
+      "sentence_id": "s6",
+      "rejected_attempts": 4,
+      "recorded_errors": 4,
+      "route": "narrative_action_cutout"
+    },
+    {
+      "source": "image_asset",
+      "entity_id": "scene-ef130e44f569bc50",
+      "sentence_id": "s7",
+      "rejected_attempts": 1,
+      "recorded_errors": 1,
+      "route": "narrative_action_cutout"
+    },
+    {
+      "source": "image_asset",
+      "entity_id": "kendrick",
+      "sentence_id": "shared_identity",
+      "rejected_attempts": 0,
+      "recorded_errors": 1,
+      "route": "premium_reference_illustration"
+    }
+  ],
+  "recommended_next_investigation": [
+    "Remotion output is re-encoded by FFmpeg for BT.601->BT.709 color conversion (2 encode passes). Validate HER_EDITORIAL_DIRECT_BT709=1 on target runtime to use -c:v copy.",
+    "Multimodal visual review rejected one or more initial image candidates, triggering regeneration retries. Inspect scene_report and image rejected_attempts."
+  ],
+  "spans": [
+    {
+      "id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "name": "end_to_end",
+      "start_utc": "2026-10-17T16:08:04.328357+00:00",
+      "start_offset_seconds": 0.00036037499998542444,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": null,
+      "end_utc": "2026-10-17T16:10:40.827533+00:00",
+      "end_offset_seconds": 156.49760775,
+      "duration_seconds": 156.497247375,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "797bde181eea4f929e843d37c2660c8e",
+      "name": "input_fetch_and_extract",
+      "start_utc": "2026-10-17T16:08:04.333537+00:00",
+      "start_offset_seconds": 0.005539124999984324,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "end_utc": "2026-10-17T16:08:06.266407+00:00",
+      "end_offset_seconds": 1.938413875000009,
+      "duration_seconds": 1.9328747500000247,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "94c9b781f1124af9ab802d42d0cd058d",
+      "name": "research",
+      "start_utc": "2026-10-17T16:08:06.267243+00:00",
+      "start_offset_seconds": 1.9392378340000107,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "end_utc": "2026-10-17T16:08:08.668233+00:00",
+      "end_offset_seconds": 4.340233000000012,
+      "duration_seconds": 2.4009951660000013,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "2e44c22b7dc64c338e69e2d3e5fbbbc3",
+      "name": "research_or_script_generation",
+      "start_utc": "2026-10-17T16:08:08.670075+00:00",
+      "start_offset_seconds": 4.342064209,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "end_utc": "2026-10-17T16:08:13.055119+00:00",
+      "end_offset_seconds": 8.727101750000003,
+      "duration_seconds": 4.385037541000003,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "0edc805494814d9f95dc54392681cd0d",
+      "name": "narration_segmentation",
+      "start_utc": "2026-10-17T16:08:13.075468+00:00",
+      "start_offset_seconds": 8.74744287499999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "end_utc": "2026-10-17T16:08:13.076521+00:00",
+      "end_offset_seconds": 8.748478541999987,
+      "duration_seconds": 0.0010356669999964652,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "6609f9da54264c29bf4c615159643775",
+      "name": "semantic_beat_planning",
+      "start_utc": "2026-10-17T16:08:13.077169+00:00",
+      "start_offset_seconds": 8.74912624999999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "end_utc": "2026-10-17T16:08:17.598888+00:00",
+      "end_offset_seconds": 13.270844958999987,
+      "duration_seconds": 4.521718708999998,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "4650292e622a4ff0957d86d48eb5b14f",
+      "name": "TTS_generation",
+      "start_utc": "2026-10-17T16:08:13.077196+00:00",
+      "start_offset_seconds": 8.74915658399999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "end_utc": "2026-10-17T16:08:39.985492+00:00",
+      "end_offset_seconds": 35.65733608400001,
+      "duration_seconds": 26.908179500000017,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "67088136cb294da6b9076e8a8af8bd7e",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:08:17.603395+00:00",
+      "start_offset_seconds": 13.275346208999991,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-53be8265b9ddfa5b",
+        "queue_wait_seconds": 6.6e-05
+      },
+      "parent_span_id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "end_utc": "2026-10-17T16:08:27.231417+00:00",
+      "end_offset_seconds": 22.90330825000001,
+      "duration_seconds": 9.627962041000018,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "841a525486c8424aa3b9a7f3e9d456ed",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:08:17.603917+00:00",
+      "start_offset_seconds": 13.275858249999999,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-51a8d9ce585e02f3",
+        "queue_wait_seconds": 9.8e-05
+      },
+      "parent_span_id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "end_utc": "2026-10-17T16:08:29.399523+00:00",
+      "end_offset_seconds": 25.071404083999994,
+      "duration_seconds": 11.795545833999995,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "9d73fe30122542fcac4419108ab71288",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:08:17.603940+00:00",
+      "start_offset_seconds": 13.275876917000005,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-c830542e7ceb055f",
+        "queue_wait_seconds": 8.9e-05
+      },
+      "parent_span_id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "end_utc": "2026-10-17T16:08:30.085683+00:00",
+      "end_offset_seconds": 25.757560874999996,
+      "duration_seconds": 12.48168395799999,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "1787d1f8c99c4794bc346c4b2cde5bcc",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:08:17.604327+00:00",
+      "start_offset_seconds": 13.276265749999993,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "78c3221edab5f53e"
+      },
+      "parent_span_id": "67088136cb294da6b9076e8a8af8bd7e",
+      "end_utc": "2026-10-17T16:08:27.231048+00:00",
+      "end_offset_seconds": 22.902943666999988,
+      "duration_seconds": 9.626677916999995,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "082b2dd60b3645ac8e3f0d27c40ead75",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:08:17.605202+00:00",
+      "start_offset_seconds": 13.277139917,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "aa0284052ca02555"
+      },
+      "parent_span_id": "841a525486c8424aa3b9a7f3e9d456ed",
+      "end_utc": "2026-10-17T16:08:29.399121+00:00",
+      "end_offset_seconds": 25.07100650000001,
+      "duration_seconds": 11.79386658300001,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "23a8244b6f57480296812f5529cec5f2",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:08:17.606187+00:00",
+      "start_offset_seconds": 13.278128874999993,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "3b69b1935e7f7c84"
+      },
+      "parent_span_id": "9d73fe30122542fcac4419108ab71288",
+      "end_utc": "2026-10-17T16:08:30.085213+00:00",
+      "end_offset_seconds": 25.757100208999987,
+      "duration_seconds": 12.478971333999993,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "4bbc9d2a6d364bcca4fc7ce43df83c0d",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:08:17.608154+00:00",
+      "start_offset_seconds": 13.280091959000003,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-53be8265b9ddfa5b",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "1787d1f8c99c4794bc346c4b2cde5bcc",
+      "end_utc": "2026-10-17T16:08:22.806242+00:00",
+      "end_offset_seconds": 18.478167584000005,
+      "duration_seconds": 5.198075625000001,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "d630d89899da4203bc64602afa53c711",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:08:17.608856+00:00",
+      "start_offset_seconds": 13.280795708999989,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-51a8d9ce585e02f3",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "082b2dd60b3645ac8e3f0d27c40ead75",
+      "end_utc": "2026-10-17T16:08:24.360174+00:00",
+      "end_offset_seconds": 20.032086375000006,
+      "duration_seconds": 6.751290666000017,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "115ceed2256e40b786ff457a94906a38",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:08:17.609457+00:00",
+      "start_offset_seconds": 13.28139487499999,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-c830542e7ceb055f",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "23a8244b6f57480296812f5529cec5f2",
+      "end_utc": "2026-10-17T16:08:22.835709+00:00",
+      "end_offset_seconds": 18.507626749999986,
+      "duration_seconds": 5.226231874999996,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "ea021662b21e4b9aafdb13af80c68ee5",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:08:17.615311+00:00",
+      "start_offset_seconds": 13.287247250000007,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "4bbc9d2a6d364bcca4fc7ce43df83c0d",
+      "end_utc": "2026-10-17T16:08:17.616784+00:00",
+      "end_offset_seconds": 13.288721124999995,
+      "duration_seconds": 0.0014738749999878564,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e7514ab4455c45969eab71a976bdf322",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:08:17.616181+00:00",
+      "start_offset_seconds": 13.288118749999995,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "d630d89899da4203bc64602afa53c711",
+      "end_utc": "2026-10-17T16:08:19.620659+00:00",
+      "end_offset_seconds": 15.292617124999992,
+      "duration_seconds": 2.004498374999997,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "4530bc700dd04077b8619752b7befc15",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:08:17.616481+00:00",
+      "start_offset_seconds": 13.288417708999987,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "115ceed2256e40b786ff457a94906a38",
+      "end_utc": "2026-10-17T16:08:18.617650+00:00",
+      "end_offset_seconds": 14.289603959000004,
+      "duration_seconds": 1.0011862500000177,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "35f6ea31a65f4391825df1a3460d684a",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:08:22.807593+00:00",
+      "start_offset_seconds": 18.479509374999992,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "1787d1f8c99c4794bc346c4b2cde5bcc",
+      "end_utc": "2026-10-17T16:08:24.581036+00:00",
+      "end_offset_seconds": 20.252946874999992,
+      "duration_seconds": 1.7734375,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "fe21106a6d214025b38a3df13c894081",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:08:22.836313+00:00",
+      "start_offset_seconds": 18.508225167000006,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "23a8244b6f57480296812f5529cec5f2",
+      "end_utc": "2026-10-17T16:08:25.304152+00:00",
+      "end_offset_seconds": 20.976059083999985,
+      "duration_seconds": 2.467833916999979,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "f6e19140efdb4a33b0746327122b7123",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:08:24.360887+00:00",
+      "start_offset_seconds": 20.032794792000004,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "082b2dd60b3645ac8e3f0d27c40ead75",
+      "end_utc": "2026-10-17T16:08:26.503947+00:00",
+      "end_offset_seconds": 22.17585087500001,
+      "duration_seconds": 2.1430560830000047,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "18825908349c40328b281f40900ec54f",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:08:27.231766+00:00",
+      "start_offset_seconds": 22.903656917000006,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-93c2a33635add248",
+        "queue_wait_seconds": 9.627871
+      },
+      "parent_span_id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "end_utc": "2026-10-17T16:08:37.163655+00:00",
+      "end_offset_seconds": 32.835503166999985,
+      "duration_seconds": 9.931846249999978,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "182bbf54b1544e8699d976a77a257828",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:08:27.232088+00:00",
+      "start_offset_seconds": 22.90397816699999,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "22c09dc4d9adf9d7"
+      },
+      "parent_span_id": "18825908349c40328b281f40900ec54f",
+      "end_utc": "2026-10-17T16:08:37.162896+00:00",
+      "end_offset_seconds": 32.834749292,
+      "duration_seconds": 9.930771125000007,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "d80bf23278ad492e97c25c76258addee",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:08:27.233895+00:00",
+      "start_offset_seconds": 22.905785374999994,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-93c2a33635add248",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "182bbf54b1544e8699d976a77a257828",
+      "end_utc": "2026-10-17T16:08:33.191914+00:00",
+      "end_offset_seconds": 28.86379712499999,
+      "duration_seconds": 5.958011749999997,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "06844364c5f64987bdae4d38d6e665b1",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:08:27.236718+00:00",
+      "start_offset_seconds": 22.908609667000007,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "d80bf23278ad492e97c25c76258addee",
+      "end_utc": "2026-10-17T16:08:27.237262+00:00",
+      "end_offset_seconds": 22.909153624999988,
+      "duration_seconds": 0.0005439579999801936,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "a15fdb794eb6409ea838832ce375bb81",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:08:29.399901+00:00",
+      "start_offset_seconds": 25.071781999999985,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-08860386d10a55f4",
+        "queue_wait_seconds": 11.795982
+      },
+      "parent_span_id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "end_utc": "2026-10-17T16:08:40.830474+00:00",
+      "end_offset_seconds": 36.502304834,
+      "duration_seconds": 11.430522834000016,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "bf70e451b8f14c5aaded794859efcf74",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:08:29.400279+00:00",
+      "start_offset_seconds": 25.07215958399999,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "915b82049d699922"
+      },
+      "parent_span_id": "a15fdb794eb6409ea838832ce375bb81",
+      "end_utc": "2026-10-17T16:08:40.829928+00:00",
+      "end_offset_seconds": 36.50176141700001,
+      "duration_seconds": 11.42960183300002,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "24072da077734a93a85b9aeaa87357a7",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:08:29.400969+00:00",
+      "start_offset_seconds": 25.072849208999997,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-08860386d10a55f4",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "bf70e451b8f14c5aaded794859efcf74",
+      "end_utc": "2026-10-17T16:08:36.008264+00:00",
+      "end_offset_seconds": 31.68012437499999,
+      "duration_seconds": 6.607275165999994,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "fae7b769cab1494e8c721945fd3a8a0a",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:08:29.403720+00:00",
+      "start_offset_seconds": 25.075602083999996,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "24072da077734a93a85b9aeaa87357a7",
+      "end_utc": "2026-10-17T16:08:29.404329+00:00",
+      "end_offset_seconds": 25.07621104200001,
+      "duration_seconds": 0.0006089580000150363,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "63bea0f806454854879a821c2bf138b5",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:08:30.086120+00:00",
+      "start_offset_seconds": 25.757997416999984,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-93175c6f4c7adc5a",
+        "queue_wait_seconds": 12.482186
+      },
+      "parent_span_id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "end_utc": "2026-10-17T16:09:26.035441+00:00",
+      "end_offset_seconds": 81.70706270900001,
+      "duration_seconds": 55.94906529200003,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "ebbd74dd9a884824b12c7d06b4a45f9c",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:08:30.086530+00:00",
+      "start_offset_seconds": 25.758408041999985,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "ab4aabf47beb5593"
+      },
+      "parent_span_id": "63bea0f806454854879a821c2bf138b5",
+      "end_utc": "2026-10-17T16:09:26.034763+00:00",
+      "end_offset_seconds": 81.706389,
+      "duration_seconds": 55.94798095800002,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "af508fbf72ac4c788a1858791183cfa4",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:08:30.087287+00:00",
+      "start_offset_seconds": 25.759164542000008,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-93175c6f4c7adc5a",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "ebbd74dd9a884824b12c7d06b4a45f9c",
+      "end_utc": "2026-10-17T16:08:35.995582+00:00",
+      "end_offset_seconds": 31.667448167000003,
+      "duration_seconds": 5.908283624999996,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "95c02c4fa2a7497a9a2e87cade5d1dcc",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:08:30.090544+00:00",
+      "start_offset_seconds": 25.76242345899999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "af508fbf72ac4c788a1858791183cfa4",
+      "end_utc": "2026-10-17T16:08:30.406469+00:00",
+      "end_offset_seconds": 26.078370667,
+      "duration_seconds": 0.3159472080000114,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "1db7db13291a4e559eb8906708cd9db6",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:08:33.193773+00:00",
+      "start_offset_seconds": 28.865642458999986,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "182bbf54b1544e8699d976a77a257828",
+      "end_utc": "2026-10-17T16:08:34.597204+00:00",
+      "end_offset_seconds": 30.26907025,
+      "duration_seconds": 1.4034277910000128,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "721b291785644a869c0a0af44bd88865",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:08:35.997043+00:00",
+      "start_offset_seconds": 31.668899584000002,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "ebbd74dd9a884824b12c7d06b4a45f9c",
+      "end_utc": "2026-10-17T16:08:37.378184+00:00",
+      "end_offset_seconds": 33.05003554199999,
+      "duration_seconds": 1.3811359579999873,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "59ca2a4f8e4f48fc95003ea495896291",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:08:36.009299+00:00",
+      "start_offset_seconds": 31.68115212500001,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "bf70e451b8f14c5aaded794859efcf74",
+      "end_utc": "2026-10-17T16:08:38.494412+00:00",
+      "end_offset_seconds": 34.166258124999985,
+      "duration_seconds": 2.4851059999999734,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "b5d463e31a2540b79266cc0741ac8262",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:08:37.164426+00:00",
+      "start_offset_seconds": 32.836278625000006,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-ef130e44f569bc50",
+        "queue_wait_seconds": 19.560425
+      },
+      "parent_span_id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "end_utc": "2026-10-17T16:08:56.610944+00:00",
+      "end_offset_seconds": 52.282700917,
+      "duration_seconds": 19.446422291999994,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "8e46d679f7974f079e6ea4eda56b0b6b",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:08:37.165351+00:00",
+      "start_offset_seconds": 32.83719775,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "b77a976bad0b5495"
+      },
+      "parent_span_id": "b5d463e31a2540b79266cc0741ac8262",
+      "end_utc": "2026-10-17T16:08:56.609903+00:00",
+      "end_offset_seconds": 52.28166329199999,
+      "duration_seconds": 19.44446554199999,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "7ab8e459891b41d5a8506677d3c4730f",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:08:37.166480+00:00",
+      "start_offset_seconds": 32.83832562500001,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-ef130e44f569bc50",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "8e46d679f7974f079e6ea4eda56b0b6b",
+      "end_utc": "2026-10-17T16:08:43.457552+00:00",
+      "end_offset_seconds": 39.129376417,
+      "duration_seconds": 6.291050791999993,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "b151fb345b6c4270958f570fdddcf9de",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:08:37.169994+00:00",
+      "start_offset_seconds": 32.84184270899999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "7ab8e459891b41d5a8506677d3c4730f",
+      "end_utc": "2026-10-17T16:08:37.997698+00:00",
+      "end_offset_seconds": 33.669550292,
+      "duration_seconds": 0.8277075830000058,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "5a3fa9575f144ff9b0cc012e215e0544",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:08:39.063450+00:00",
+      "start_offset_seconds": 34.735298916999994,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-93175c6f4c7adc5a",
+        "model": "black-forest-labs[path]",
+        "attempt": 2
+      },
+      "parent_span_id": "ebbd74dd9a884824b12c7d06b4a45f9c",
+      "end_utc": "2026-10-17T16:08:43.198902+00:00",
+      "end_offset_seconds": 38.87073724999999,
+      "duration_seconds": 4.135438332999996,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "828dba2dbde14b249d5a5122facdaf65",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:08:39.070226+00:00",
+      "start_offset_seconds": 34.742067958999996,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "5a3fa9575f144ff9b0cc012e215e0544",
+      "end_utc": "2026-10-17T16:08:39.071914+00:00",
+      "end_offset_seconds": 34.743756958999995,
+      "duration_seconds": 0.0016889999999989413,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "42264c3dd56342c5b561b550d36dff4d",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:08:40.831005+00:00",
+      "start_offset_seconds": 36.50283429199999,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-89933b7c339942fa",
+        "queue_wait_seconds": 23.226994
+      },
+      "parent_span_id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "end_utc": "2026-10-17T16:08:49.123276+00:00",
+      "end_offset_seconds": 44.795066542,
+      "duration_seconds": 8.292232250000012,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "b238f29ab28648b1b0da1f646f150641",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:08:40.831506+00:00",
+      "start_offset_seconds": 36.50333499999999,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "937b8df661616161"
+      },
+      "parent_span_id": "42264c3dd56342c5b561b550d36dff4d",
+      "end_utc": "2026-10-17T16:08:49.122693+00:00",
+      "end_offset_seconds": 44.794486667,
+      "duration_seconds": 8.291151667000008,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "9ec74ed689094e3d88bb30f0531d2317",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:08:40.832455+00:00",
+      "start_offset_seconds": 36.504283999999984,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-89933b7c339942fa",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "b238f29ab28648b1b0da1f646f150641",
+      "end_utc": "2026-10-17T16:08:45.343031+00:00",
+      "end_offset_seconds": 41.01484775,
+      "duration_seconds": 4.510563750000017,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "9ef3dbc8cf9a4172b6cf340219075f4d",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:08:40.835629+00:00",
+      "start_offset_seconds": 36.50745900000001,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "9ec74ed689094e3d88bb30f0531d2317",
+      "end_utc": "2026-10-17T16:08:40.836534+00:00",
+      "end_offset_seconds": 36.50836362499999,
+      "duration_seconds": 0.0009046249999755673,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "605c68c6c7ba4bad8b7fe819b493de30",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:08:43.200867+00:00",
+      "start_offset_seconds": 38.872694209,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "ebbd74dd9a884824b12c7d06b4a45f9c",
+      "end_utc": "2026-10-17T16:08:44.581945+00:00",
+      "end_offset_seconds": 40.253763542,
+      "duration_seconds": 1.3810693329999992,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "cc0e99ab426f4c85af8547e191be06db",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:08:43.458911+00:00",
+      "start_offset_seconds": 39.13073116699999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "8e46d679f7974f079e6ea4eda56b0b6b",
+      "end_utc": "2026-10-17T16:08:45.647344+00:00",
+      "end_offset_seconds": 41.319157625,
+      "duration_seconds": 2.1884264580000092,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "7302d06e20b645e395c516aacd93771c",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:08:45.344646+00:00",
+      "start_offset_seconds": 41.01645858399999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "b238f29ab28648b1b0da1f646f150641",
+      "end_utc": "2026-10-17T16:08:46.722600+00:00",
+      "end_offset_seconds": 42.394409292000006,
+      "duration_seconds": 1.3779507080000144,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "542110245981453f84ba5d357c3a80cd",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:08:48.282702+00:00",
+      "start_offset_seconds": 43.954509624999986,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-ef130e44f569bc50",
+        "model": "black-forest-labs[path]",
+        "attempt": 2
+      },
+      "parent_span_id": "8e46d679f7974f079e6ea4eda56b0b6b",
+      "end_utc": "2026-10-17T16:08:53.315438+00:00",
+      "end_offset_seconds": 48.98721574999999,
+      "duration_seconds": 5.032706125000004,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "1d756d3828fc46688fdd23481068bd90",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:08:48.289795+00:00",
+      "start_offset_seconds": 43.96160287500001,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "542110245981453f84ba5d357c3a80cd",
+      "end_utc": "2026-10-17T16:08:48.291402+00:00",
+      "end_offset_seconds": 43.96319970900001,
+      "duration_seconds": 0.0015968339999972159,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "24e781c377e54c8095b399bc4c6bcf53",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:08:49.123834+00:00",
+      "start_offset_seconds": 44.79562437499999,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "kendrick",
+        "queue_wait_seconds": 31.519796
+      },
+      "parent_span_id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "end_utc": "2026-10-17T16:09:07.157747+00:00",
+      "end_offset_seconds": 62.829456625000006,
+      "duration_seconds": 18.033832250000017,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "9706458574cf460fba2b486a8b5f1435",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T16:08:49.124558+00:00",
+      "start_offset_seconds": 44.796348209,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "260670134225f2a2"
+      },
+      "parent_span_id": "24e781c377e54c8095b399bc4c6bcf53",
+      "end_utc": "2026-10-17T16:09:07.156834+00:00",
+      "end_offset_seconds": 62.828546708999994,
+      "duration_seconds": 18.032198499999993,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "727cb915e32f49d9a76c9b2eeb5d5371",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:08:51.454355+00:00",
+      "start_offset_seconds": 47.126141916999984,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "kendrick",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "9706458574cf460fba2b486a8b5f1435",
+      "end_utc": "2026-10-17T16:09:02.761495+00:00",
+      "end_offset_seconds": 58.43323225,
+      "duration_seconds": 11.30709033300002,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "b300117fd2344112a6251944ae9a169a",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:08:51.484657+00:00",
+      "start_offset_seconds": 47.156438708999985,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "727cb915e32f49d9a76c9b2eeb5d5371",
+      "end_utc": "2026-10-17T16:08:51.485676+00:00",
+      "end_offset_seconds": 47.157456749999994,
+      "duration_seconds": 0.0010180410000089068,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "181194da29ca4aa994dc0a820e1b2aeb",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:08:53.316436+00:00",
+      "start_offset_seconds": 48.98820995899999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "8e46d679f7974f079e6ea4eda56b0b6b",
+      "end_utc": "2026-10-17T16:08:54.599042+00:00",
+      "end_offset_seconds": 50.270814,
+      "duration_seconds": 1.2826040410000132,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "62806ef8ce2c40a7bd8b01686013e52a",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:08:56.611586+00:00",
+      "start_offset_seconds": 52.283341584,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "drake",
+        "queue_wait_seconds": 39.007507
+      },
+      "parent_span_id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "end_utc": "2026-10-17T16:09:06.776692+00:00",
+      "end_offset_seconds": 62.44840199999999,
+      "duration_seconds": 10.165060415999989,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "b082d399836b46818ca04ee5feb82913",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T16:08:56.612160+00:00",
+      "start_offset_seconds": 52.28391554199999,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "54444aa7bc07ccec"
+      },
+      "parent_span_id": "62806ef8ce2c40a7bd8b01686013e52a",
+      "end_utc": "2026-10-17T16:09:06.776063+00:00",
+      "end_offset_seconds": 62.44777745900001,
+      "duration_seconds": 10.16386191700002,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "c2e9c2aeb1ea4bf3aacf9b2c144c07f9",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:09:01.775946+00:00",
+      "start_offset_seconds": 57.447691125000006,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-93175c6f4c7adc5a",
+        "model": "black-forest-labs[path]",
+        "attempt": 3
+      },
+      "parent_span_id": "ebbd74dd9a884824b12c7d06b4a45f9c",
+      "end_utc": "2026-10-17T16:09:08.781853+00:00",
+      "end_offset_seconds": 64.45357454199998,
+      "duration_seconds": 7.005883416999978,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "76984f28d20b41efa90a600e86ce2d2e",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:09:01.783134+00:00",
+      "start_offset_seconds": 57.454870916999994,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c2e9c2aeb1ea4bf3aacf9b2c144c07f9",
+      "end_utc": "2026-10-17T16:09:01.784773+00:00",
+      "end_offset_seconds": 57.456508499999984,
+      "duration_seconds": 0.0016375829999901725,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "73827d45f44e469b943e3234e2ba957c",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:09:02.763003+00:00",
+      "start_offset_seconds": 58.434734875000004,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "9706458574cf460fba2b486a8b5f1435",
+      "end_utc": "2026-10-17T16:09:04.311950+00:00",
+      "end_offset_seconds": 59.98367625,
+      "duration_seconds": 1.5489413749999983,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e108d2be3ad84d9da8bf05890eb2caa0",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:09:08.784264+00:00",
+      "start_offset_seconds": 64.455975,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "ebbd74dd9a884824b12c7d06b4a45f9c",
+      "end_utc": "2026-10-17T16:09:10.144951+00:00",
+      "end_offset_seconds": 65.816651917,
+      "duration_seconds": 1.3606769170000064,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e93422a0a8ef4cd08b2f3845a8ab1c7f",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:09:12.544816+00:00",
+      "start_offset_seconds": 68.21651566700001,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-93175c6f4c7adc5a",
+        "model": "black-forest-labs[path]",
+        "attempt": 4
+      },
+      "parent_span_id": "ebbd74dd9a884824b12c7d06b4a45f9c",
+      "end_utc": "2026-10-17T16:09:19.121298+00:00",
+      "end_offset_seconds": 74.792975292,
+      "duration_seconds": 6.576459624999984,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "827962e1e2d3491488f368e4c1437b45",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:09:12.552268+00:00",
+      "start_offset_seconds": 68.22395766700001,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e93422a0a8ef4cd08b2f3845a8ab1c7f",
+      "end_utc": "2026-10-17T16:09:12.554005+00:00",
+      "end_offset_seconds": 68.225691667,
+      "duration_seconds": 0.001733999999999014,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "90535a70656e4c6baaad3a2e50d2c5cd",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:09:19.124644+00:00",
+      "start_offset_seconds": 74.79631258399999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "ebbd74dd9a884824b12c7d06b4a45f9c",
+      "end_utc": "2026-10-17T16:09:20.405879+00:00",
+      "end_offset_seconds": 76.077532709,
+      "duration_seconds": 1.2812201250000044,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "6cbe516200db458880f53ee8344a9dc7",
+      "name": "sentence_asset_validation",
+      "start_utc": "2026-10-17T16:09:26.040872+00:00",
+      "start_offset_seconds": 81.712496209,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "end_utc": "2026-10-17T16:09:29.460993+00:00",
+      "end_offset_seconds": 85.13262262500001,
+      "duration_seconds": 3.4201264160000164,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e3ea87174b27424b9a8007ac80df923a",
+      "name": "word_forced_alignment",
+      "start_utc": "2026-10-17T16:09:29.464099+00:00",
+      "start_offset_seconds": 85.13571587500002,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "end_utc": "2026-10-17T16:09:39.099472+00:00",
+      "end_offset_seconds": 94.77104995899998,
+      "duration_seconds": 9.635334083999965,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "d75e822c87d54efc91460f26da31b762",
+      "name": "audio_normalization",
+      "start_utc": "2026-10-17T16:09:39.100809+00:00",
+      "start_offset_seconds": 94.772372292,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "end_utc": "2026-10-17T16:09:42.965415+00:00",
+      "end_offset_seconds": 98.63698062499998,
+      "duration_seconds": 3.8646083329999783,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "da694e624c294b629896885dcc95e960",
+      "name": "timeline_planning",
+      "start_utc": "2026-10-17T16:09:42.966703+00:00",
+      "start_offset_seconds": 98.638247917,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "end_utc": "2026-10-17T16:09:42.967796+00:00",
+      "end_offset_seconds": 98.63934154200001,
+      "duration_seconds": 0.001093625000009979,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "2e4cde246c694a349bf579e5de9e213d",
+      "name": "sentence_render_validation",
+      "start_utc": "2026-10-17T16:09:43.079010+00:00",
+      "start_offset_seconds": 98.75056425000002,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "end_utc": "2026-10-17T16:09:43.079926+00:00",
+      "end_offset_seconds": 98.75146999999998,
+      "duration_seconds": 0.0009057499999585161,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "7b06abaea0e94d8a935bfb3eaffc901e",
+      "name": "render_and_delivery",
+      "start_utc": "2026-10-17T16:09:43.082594+00:00",
+      "start_offset_seconds": 98.754137334,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e0f5d3c112924392b4630cf304bcf5e3",
+      "end_utc": "2026-10-17T16:10:40.758681+00:00",
+      "end_offset_seconds": 156.42875750000002,
+      "duration_seconds": 57.67462016600001,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "4fde0d7c09e74cdabcbca8e730e703e2",
+      "name": "asset_upload_or_download",
+      "start_utc": "2026-10-17T16:09:43.083288+00:00",
+      "start_offset_seconds": 98.75483087499998,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "7b06abaea0e94d8a935bfb3eaffc901e",
+      "end_utc": "2026-10-17T16:09:43.111233+00:00",
+      "end_offset_seconds": 98.782783209,
+      "duration_seconds": 0.02795233400001962,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "3ff724d295274f4a947d74536ad75767",
+      "name": "Remotion_or_other_render",
+      "start_utc": "2026-10-17T16:09:43.112066+00:00",
+      "start_offset_seconds": 98.783610167,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "7b06abaea0e94d8a935bfb3eaffc901e",
+      "end_utc": "2026-10-17T16:10:29.986871+00:00",
+      "end_offset_seconds": 145.657598667,
+      "duration_seconds": 46.873988499999996,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "818d879a1332428c91f07d65e58a9a30",
+      "name": "FFmpeg_encode_and_mux",
+      "start_utc": "2026-10-17T16:10:29.989932+00:00",
+      "start_offset_seconds": 145.66059808400001,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "7b06abaea0e94d8a935bfb3eaffc901e",
+      "end_utc": "2026-10-17T16:10:37.754631+00:00",
+      "end_offset_seconds": 153.42488525,
+      "duration_seconds": 7.764287165999974,
+      "trace_file": "job_trace.json"
+    }
+  ],
+  "limitations": [
+    "Browser timings unavailable unless submitted by the client.",
+    "Cold-start/cache comparison requires separate controlled runs; process peak RSS includes earlier jobs.",
+    "Overlapping durations must not be summed. Span nesting expresses dependencies, not a proven critical-path DAG.",
+    "Report serialization and report upload occur after the measured worker interval."
+  ]
+}

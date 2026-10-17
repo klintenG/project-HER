@@ -1,0 +1,396 @@
+{
+  "schema_version": "generation-diagnostics-v2",
+  "job_id": "editorial_d39657782dad4d2d96ad953cc76e7775",
+  "outcome": "completed_legacy_baseline",
+  "start_utc": "2026-04-12T06:00:00+00:00",
+  "finish_utc": "2026-04-12T06:08:38+00:00",
+  "total_elapsed_seconds": 518.0,
+  "measured_wall_seconds": 518.0,
+  "unattributed_wall_seconds": 0.0,
+  "peak_image_provider_concurrency": 0,
+  "runtime": [
+    {
+      "host_cpu_count": 10
+    }
+  ],
+  "infrastructure": {
+    "environment": "local",
+    "python_version": "3.9.6",
+    "service": "local_process",
+    "revision": "local",
+    "commit": "working_tree",
+    "region": "unspecified",
+    "configured_action_workers": 2,
+    "configured_remotion_concurrency": "default",
+    "process_peak_rss_native_units": 38060032,
+    "trace_runtimes": [
+      {
+        "host_cpu_count": 10
+      }
+    ]
+  },
+  "process_peak_rss_native_units": 38060032,
+  "revision": null,
+  "commit": null,
+  "video_mode": "reference_editorial",
+  "actual_video_seconds": 66.6,
+  "resolution": [
+    1080,
+    1920
+  ],
+  "fps": 30,
+  "output_size_bytes": null,
+  "visual_metrics": {
+    "sentences": 9,
+    "storyboard_visual_beats": 0,
+    "planned_primaries": 0,
+    "generated_assets": 3,
+    "distinct_primaries": 3,
+    "reused_secondary_assets": 6,
+    "rendered_primaries": 3,
+    "sentences_without_distinct_primary": 6,
+    "images_rejected_for_duplication": 0,
+    "image_generation_failures": 0,
+    "fallback_attempts": 1,
+    "scene_relevance_failures": 0,
+    "invariant_distinct_ge_sentences": false,
+    "acceptance_passed": false
+  },
+  "scene_report": [],
+  "stage_timings": {
+    "resolve": 31.851,
+    "research": 31.887,
+    "script": 17.752,
+    "semantic_beat_planning": 17.258,
+    "word_forced_alignment": 10.929,
+    "scene_planning_and_layout": 13.232,
+    "media": 369.035,
+    "timeline": 0.157,
+    "Remotion_and_FFmpeg": 68.035,
+    "compose": 68.101,
+    "end_to_end": 518.783
+  },
+  "concurrency_analysis": {
+    "total_image_tasks": 3,
+    "total_provider_wait_spans": 0,
+    "peak_image_provider_concurrency": 0,
+    "average_active_image_concurrency": 0.0,
+    "configured_action_workers": 2,
+    "tts_visual_overlap_seconds": 93.406,
+    "speech_wall_seconds": 93.406,
+    "cutouts_wall_seconds": 323.204,
+    "serial_gap_seconds": 0.0,
+    "admission_wait_seconds": 72.0,
+    "rate_limit_responses": 1,
+    "rate_limit_backoff_seconds": 15.0,
+    "background_removal_total_seconds": 0
+  },
+  "critical_path": [
+    {
+      "stage": "input_validation_and_normalization",
+      "duration_seconds": 6.22,
+      "effective_advance_seconds": 518.0,
+      "status": "completed"
+    }
+  ],
+  "bottleneck_ranking": [
+    {
+      "operation": "semantic_beat_planning",
+      "duration_seconds": 20.47,
+      "percent_of_wall_time": 4.0,
+      "cause_category": "provider",
+      "evidence": "1 span(s), max=20.470s, accumulated=20.470s",
+      "optimization_opportunity": "Single-pass structured storyboard generation with strict schema validation",
+      "confidence": "high"
+    }
+  ],
+  "rendering": {
+    "renderer": "remotion",
+    "frames": 1998,
+    "fps": 30,
+    "resolution": [
+      1080,
+      1920
+    ],
+    "remotion_render_seconds": 54.845,
+    "ffmpeg_encode_seconds": 9.179,
+    "audio_delivery_seconds": 2.333,
+    "total_render_and_qa_seconds": 68.033,
+    "video_encode_passes": 2,
+    "average_fps_throughput": 36.43,
+    "output_size_bytes": null
+  },
+  "images": [
+    {
+      "task_index": 1,
+      "entityId": "kendrick",
+      "assetId": "asset-kendrick",
+      "sentence_id": "shared_identity",
+      "role": "entity_portrait",
+      "visual_concept": "Kendrick Lamar",
+      "provider": "black-forest-labs/flux-1.1-pro",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.0,
+      "api_duration_seconds": 0,
+      "processing_and_review_seconds": 110.273,
+      "durationSeconds": 110.273,
+      "attempts": 2,
+      "rejected_attempts": 1,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "replicate:black-forest-labs/flux-kontext-pro",
+      "identityReferences": [],
+      "dimensions": [
+        1024,
+        993
+      ],
+      "bytes": 412000,
+      "displayed_in_render": true,
+      "origin": "generated"
+    },
+    {
+      "task_index": 2,
+      "entityId": "drake",
+      "assetId": "asset-drake",
+      "sentence_id": "shared_identity",
+      "role": "entity_portrait",
+      "visual_concept": "Drake",
+      "provider": "black-forest-labs/flux-1.1-pro",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.0,
+      "api_duration_seconds": 0,
+      "processing_and_review_seconds": 110.273,
+      "durationSeconds": 110.273,
+      "attempts": 2,
+      "rejected_attempts": 1,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "replicate:black-forest-labs/flux-schnell",
+      "identityReferences": [],
+      "dimensions": [
+        703,
+        937
+      ],
+      "bytes": 412000,
+      "displayed_in_render": true,
+      "origin": "generated"
+    },
+    {
+      "task_index": 3,
+      "entityId": "jcole",
+      "assetId": "asset-jcole",
+      "sentence_id": "shared_identity",
+      "role": "entity_portrait",
+      "visual_concept": "J. Cole",
+      "provider": "black-forest-labs/flux-1.1-pro",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.0,
+      "api_duration_seconds": 0,
+      "processing_and_review_seconds": 110.273,
+      "durationSeconds": 110.273,
+      "attempts": 2,
+      "rejected_attempts": 1,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "replicate:black-forest-labs/flux-schnell",
+      "identityReferences": [],
+      "dimensions": [
+        767,
+        922
+      ],
+      "bytes": 412000,
+      "displayed_in_render": true,
+      "origin": "generated"
+    }
+  ],
+  "provider_metrics": {
+    "createRequests": 6,
+    "acceptedPredictions": 6,
+    "rateLimitResponses": 1,
+    "backoffSeconds": 15.0,
+    "pollRetries": 18,
+    "admissionWaitSeconds": 72.0
+  },
+  "errors_and_retries": [
+    {
+      "source": "image_asset",
+      "entity_id": "kendrick",
+      "sentence_id": "shared_identity",
+      "rejected_attempts": 1,
+      "recorded_errors": 0,
+      "route": "replicate:black-forest-labs/flux-kontext-pro"
+    },
+    {
+      "source": "image_asset",
+      "entity_id": "drake",
+      "sentence_id": "shared_identity",
+      "rejected_attempts": 1,
+      "recorded_errors": 0,
+      "route": "replicate:black-forest-labs/flux-schnell"
+    },
+    {
+      "source": "image_asset",
+      "entity_id": "jcole",
+      "sentence_id": "shared_identity",
+      "rejected_attempts": 1,
+      "recorded_errors": 0,
+      "route": "replicate:black-forest-labs/flux-schnell"
+    }
+  ],
+  "recommended_next_investigation": [
+    "Replicate returned HTTP 429 rate-limit responses; increase account credit tier or adjust HER_EDITORIAL_IMAGE_MIN_INTERVAL / NEWS_REPLICATE_MIN_INTERVAL.",
+    "Remotion output is currently re-encoded by FFmpeg for BT.601->BT.709 color conversion (2 encode passes). Validate HER_EDITORIAL_DIRECT_BT709=1 on target runtime to use -c:v copy.",
+    "Multimodal visual review rejected one or more initial image candidates, triggering regeneration retries. Inspect scene_report and image rejected_attempts."
+  ],
+  "spans": [
+    {
+      "id": "input_validation_and_normalization",
+      "name": "input_validation_and_normalization",
+      "start_utc": "2026-04-12T06:00:00+00:00",
+      "end_utc": "2026-04-12T06:08:38+00:00",
+      "start_offset_seconds": 0.0,
+      "end_offset_seconds": 6.22,
+      "duration_seconds": 6.22,
+      "status": "completed",
+      "metadata": {
+        "source": "saved_manifest_timings"
+      },
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "source_retrieval_and_fact_extraction",
+      "name": "source_retrieval_and_fact_extraction",
+      "start_utc": "2026-04-12T06:00:00+00:00",
+      "end_utc": "2026-04-12T06:08:38+00:00",
+      "start_offset_seconds": 6.22,
+      "end_offset_seconds": 39.65,
+      "duration_seconds": 33.43,
+      "status": "completed",
+      "metadata": {
+        "source": "saved_manifest_timings"
+      },
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "script_generation_and_verification",
+      "name": "script_generation_and_verification",
+      "start_utc": "2026-04-12T06:00:00+00:00",
+      "end_utc": "2026-04-12T06:08:38+00:00",
+      "start_offset_seconds": 39.65,
+      "end_offset_seconds": 80.97,
+      "duration_seconds": 41.32,
+      "status": "completed",
+      "metadata": {
+        "source": "saved_manifest_timings"
+      },
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "parallel_media_stage",
+      "name": "parallel_media_stage",
+      "start_utc": "2026-04-12T06:00:00+00:00",
+      "end_utc": "2026-04-12T06:08:38+00:00",
+      "start_offset_seconds": 80.97,
+      "end_offset_seconds": 450.01,
+      "duration_seconds": 369.04,
+      "status": "completed",
+      "metadata": {
+        "source": "saved_manifest_timings"
+      },
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "tts_generation_and_alignment",
+      "name": "tts_generation_and_alignment",
+      "start_utc": "2026-04-12T06:00:00+00:00",
+      "end_utc": "2026-04-12T06:08:38+00:00",
+      "start_offset_seconds": 450.01,
+      "end_offset_seconds": 665.28,
+      "duration_seconds": 215.27,
+      "status": "completed",
+      "metadata": {
+        "source": "saved_manifest_timings"
+      },
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "semantic_beat_planning",
+      "name": "semantic_beat_planning",
+      "start_utc": "2026-04-12T06:00:00+00:00",
+      "end_utc": "2026-04-12T06:08:38+00:00",
+      "start_offset_seconds": 450.01,
+      "end_offset_seconds": 470.48,
+      "duration_seconds": 20.47,
+      "status": "completed",
+      "metadata": {
+        "source": "saved_manifest_timings"
+      },
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "cutout_acquisition_and_matting",
+      "name": "cutout_acquisition_and_matting",
+      "start_utc": "2026-04-12T06:00:00+00:00",
+      "end_utc": "2026-04-12T06:08:38+00:00",
+      "start_offset_seconds": 450.01,
+      "end_offset_seconds": 780.83,
+      "duration_seconds": 330.82,
+      "status": "completed",
+      "metadata": {
+        "source": "saved_manifest_timings"
+      },
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "visual_direction_compilation",
+      "name": "visual_direction_compilation",
+      "start_utc": "2026-04-12T06:00:00+00:00",
+      "end_utc": "2026-04-12T06:08:38+00:00",
+      "start_offset_seconds": 450.01,
+      "end_offset_seconds": 459.66,
+      "duration_seconds": 9.65,
+      "status": "completed",
+      "metadata": {
+        "source": "saved_manifest_timings"
+      },
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "video_composition_and_encoding",
+      "name": "video_composition_and_encoding",
+      "start_utc": "2026-04-12T06:00:00+00:00",
+      "end_utc": "2026-04-12T06:08:38+00:00",
+      "start_offset_seconds": 459.66,
+      "end_offset_seconds": 516.81,
+      "duration_seconds": 57.15,
+      "status": "completed",
+      "metadata": {
+        "source": "saved_manifest_timings"
+      },
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "render_quality_assurance",
+      "name": "render_quality_assurance",
+      "start_utc": "2026-04-12T06:00:00+00:00",
+      "end_utc": "2026-04-12T06:08:38+00:00",
+      "start_offset_seconds": 516.81,
+      "end_offset_seconds": 518.78,
+      "duration_seconds": 1.97,
+      "status": "completed",
+      "metadata": {
+        "source": "saved_manifest_timings"
+      },
+      "trace_file": "job_trace.json"
+    }
+  ],
+  "limitations": [
+    "Browser timings unavailable unless submitted by the client.",
+    "Cold-start/cache comparison requires separate controlled runs; process peak RSS includes earlier jobs.",
+    "Overlapping durations must not be summed. Span nesting expresses dependencies, not a proven critical-path DAG.",
+    "Report serialization and report upload occur after the measured worker interval."
+  ]
+}

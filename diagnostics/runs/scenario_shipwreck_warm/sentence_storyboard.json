@@ -1,0 +1,261 @@
+[
+  {
+    "beat_id": "beat-s0",
+    "sentence_id": "s0",
+    "narration_text": "An iron steamship sailed into a freezing Atlantic gale.",
+    "primary_subject": "Iron Steamship in beat s0",
+    "visual_description": "An isolated connected cutout depicting An iron steamship sailed into a freezing Atlantic gale. with distinct silhouette 0",
+    "subject": "Iron Steamship in beat s0",
+    "action": "An iron steamship sailed into a freezing Atlantic gale.",
+    "important_objects": [
+      "Wooden Lifeboat"
+    ],
+    "setting": "dramatic historical setting",
+    "emotion": "intense",
+    "state_change": "An iron steamship sailed into a freezing Atlantic gale.",
+    "visual_focus": "Beat 0: An iron steamship sailed into a freezing Atlantic gale.",
+    "description": "An isolated connected cutout depicting An iron steamship sailed into a freezing Atlantic gale. with distinct silhouette 0",
+    "identity_ids": [
+      "steamship"
+    ],
+    "secondary_ids": [],
+    "relevance": 0.96,
+    "narrative_importance": 0.92,
+    "novelty": 0.94,
+    "readability": 0.93,
+    "primary_entity_id": "scene-d284d66bb66eeea1",
+    "primary_asset_id": "asset-scene-d284d66bb66eeea1",
+    "primary_asset_is_distinct": true,
+    "secondary_entity_ids": [
+      "lifeboat"
+    ],
+    "secondary_asset_ids": [
+      "asset-lifeboat"
+    ],
+    "reused_character_ids": [
+      "steamship"
+    ],
+    "continuity_references": [
+      "steamship"
+    ],
+    "image_generation_prompt": "Exact narrated sentence: An iron steamship sailed into a freezing Atlantic gale.\nVisual focus: Beat 0: An iron steamship sailed into a freezing Atlantic gale.. An isolated connected cutout depicting An iron steamship sailed into a freezing Atlantic gale. with distinct silhouette 0\nIdentity continuity: Iron Steamship: Black-hulled 19th-century iron steam freighter. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+    "asset_generation_status": "ready",
+    "asset_relevance_status": "passed",
+    "composition_type": "multi_cutout",
+    "animation_plan": "existing_editorial_motion",
+    "transition_plan": "aligned_sentence_boundary",
+    "primary_asset_origin": "replicate:black-forest-labs/flux-kontext-pro",
+    "perceptual_dhash": "3f1307274548230f",
+    "start_time": 0.0,
+    "end_time": 2.88,
+    "render_visibility": "passed"
+  },
+  {
+    "beat_id": "beat-s1",
+    "sentence_id": "s1",
+    "narration_text": "A boiler fire broke out below the main deck.",
+    "primary_subject": "Iron Steamship in beat s1",
+    "visual_description": "An isolated connected cutout depicting A boiler fire broke out below the main deck. with distinct silhouette 1",
+    "subject": "Iron Steamship in beat s1",
+    "action": "A boiler fire broke out below the main deck.",
+    "important_objects": [
+      "Wooden Lifeboat"
+    ],
+    "setting": "dramatic historical setting",
+    "emotion": "intense",
+    "state_change": "A boiler fire broke out below the main deck.",
+    "visual_focus": "Beat 1: A boiler fire broke out below the main deck.",
+    "description": "An isolated connected cutout depicting A boiler fire broke out below the main deck. with distinct silhouette 1",
+    "identity_ids": [
+      "steamship"
+    ],
+    "secondary_ids": [
+      "lifeboat"
+    ],
+    "relevance": 0.96,
+    "narrative_importance": 0.92,
+    "novelty": 0.94,
+    "readability": 0.93,
+    "primary_entity_id": "scene-462408efb2f77d65",
+    "primary_asset_id": "asset-scene-462408efb2f77d65",
+    "primary_asset_is_distinct": true,
+    "secondary_entity_ids": [
+      "lifeboat"
+    ],
+    "secondary_asset_ids": [
+      "asset-lifeboat"
+    ],
+    "reused_character_ids": [
+      "steamship"
+    ],
+    "continuity_references": [
+      "steamship"
+    ],
+    "image_generation_prompt": "Exact narrated sentence: A boiler fire broke out below the main deck.\nVisual focus: Beat 1: A boiler fire broke out below the main deck.. An isolated connected cutout depicting A boiler fire broke out below the main deck. with distinct silhouette 1\nIdentity continuity: Iron Steamship: Black-hulled 19th-century iron steam freighter. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+    "asset_generation_status": "ready",
+    "asset_relevance_status": "passed",
+    "composition_type": "multi_cutout",
+    "animation_plan": "existing_editorial_motion",
+    "transition_plan": "aligned_sentence_boundary",
+    "primary_asset_origin": "replicate:black-forest-labs/flux-kontext-pro",
+    "perceptual_dhash": "23454845231e1c1c",
+    "start_time": 2.88,
+    "end_time": 5.76,
+    "render_visibility": "passed"
+  },
+  {
+    "beat_id": "beat-s2",
+    "sentence_id": "s2",
+    "narration_text": "Towering waves smashed the wooden lifeboats.",
+    "primary_subject": "Iron Steamship in beat s2",
+    "visual_description": "An isolated connected cutout depicting Towering waves smashed the wooden lifeboats. with distinct silhouette 2",
+    "subject": "Iron Steamship in beat s2",
+    "action": "Towering waves smashed the wooden lifeboats.",
+    "important_objects": [
+      "Wooden Lifeboat"
+    ],
+    "setting": "dramatic historical setting",
+    "emotion": "intense",
+    "state_change": "Towering waves smashed the wooden lifeboats.",
+    "visual_focus": "Beat 2: Towering waves smashed the wooden lifeboats.",
+    "description": "An isolated connected cutout depicting Towering waves smashed the wooden lifeboats. with distinct silhouette 2",
+    "identity_ids": [
+      "steamship"
+    ],
+    "secondary_ids": [],
+    "relevance": 0.96,
+    "narrative_importance": 0.92,
+    "novelty": 0.94,
+    "readability": 0.93,
+    "primary_entity_id": "scene-4d83df10216760e4",
+    "primary_asset_id": "asset-scene-4d83df10216760e4",
+    "primary_asset_is_distinct": true,
+    "secondary_entity_ids": [
+      "lifeboat"
+    ],
+    "secondary_asset_ids": [
+      "asset-lifeboat"
+    ],
+    "reused_character_ids": [
+      "steamship"
+    ],
+    "continuity_references": [
+      "steamship"
+    ],
+    "image_generation_prompt": "Exact narrated sentence: Towering waves smashed the wooden lifeboats.\nVisual focus: Beat 2: Towering waves smashed the wooden lifeboats.. An isolated connected cutout depicting Towering waves smashed the wooden lifeboats. with distinct silhouette 2\nIdentity continuity: Iron Steamship: Black-hulled 19th-century iron steam freighter. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+    "asset_generation_status": "ready",
+    "asset_relevance_status": "passed",
+    "composition_type": "multi_cutout",
+    "animation_plan": "existing_editorial_motion",
+    "transition_plan": "aligned_sentence_boundary",
+    "primary_asset_origin": "replicate:black-forest-labs/flux-kontext-pro",
+    "perceptual_dhash": "0c0c0e06170f0d7f",
+    "start_time": 5.76,
+    "end_time": 7.68,
+    "render_visibility": "passed"
+  },
+  {
+    "beat_id": "beat-s3",
+    "sentence_id": "s3",
+    "narration_text": "The crew rescued a stranded lookout from the mast.",
+    "primary_subject": "Iron Steamship in beat s3",
+    "visual_description": "An isolated connected cutout depicting The crew rescued a stranded lookout from the mast. with distinct silhouette 3",
+    "subject": "Iron Steamship in beat s3",
+    "action": "The crew rescued a stranded lookout from the mast.",
+    "important_objects": [
+      "Wooden Lifeboat"
+    ],
+    "setting": "dramatic historical setting",
+    "emotion": "intense",
+    "state_change": "The crew rescued a stranded lookout from the mast.",
+    "visual_focus": "Beat 3: The crew rescued a stranded lookout from the mast.",
+    "description": "An isolated connected cutout depicting The crew rescued a stranded lookout from the mast. with distinct silhouette 3",
+    "identity_ids": [
+      "steamship"
+    ],
+    "secondary_ids": [
+      "lifeboat"
+    ],
+    "relevance": 0.96,
+    "narrative_importance": 0.92,
+    "novelty": 0.94,
+    "readability": 0.93,
+    "primary_entity_id": "scene-5e61b46d9b2ae883",
+    "primary_asset_id": "asset-scene-5e61b46d9b2ae883",
+    "primary_asset_is_distinct": true,
+    "secondary_entity_ids": [
+      "lifeboat"
+    ],
+    "secondary_asset_ids": [
+      "asset-lifeboat"
+    ],
+    "reused_character_ids": [
+      "steamship"
+    ],
+    "continuity_references": [
+      "steamship"
+    ],
+    "image_generation_prompt": "Exact narrated sentence: The crew rescued a stranded lookout from the mast.\nVisual focus: Beat 3: The crew rescued a stranded lookout from the mast.. An isolated connected cutout depicting The crew rescued a stranded lookout from the mast. with distinct silhouette 3\nIdentity continuity: Iron Steamship: Black-hulled 19th-century iron steam freighter. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+    "asset_generation_status": "ready",
+    "asset_relevance_status": "passed",
+    "composition_type": "multi_cutout",
+    "animation_plan": "existing_editorial_motion",
+    "transition_plan": "aligned_sentence_boundary",
+    "primary_asset_origin": "replicate:black-forest-labs/flux-kontext-pro",
+    "perceptual_dhash": "7359593939390703",
+    "start_time": 7.68,
+    "end_time": 10.56,
+    "render_visibility": "passed"
+  },
+  {
+    "beat_id": "beat-s4",
+    "sentence_id": "s4",
+    "narration_text": "The broken hull sank beneath the dark swells.",
+    "primary_subject": "Iron Steamship in beat s4",
+    "visual_description": "An isolated connected cutout depicting The broken hull sank beneath the dark swells. with distinct silhouette 4",
+    "subject": "Iron Steamship in beat s4",
+    "action": "The broken hull sank beneath the dark swells.",
+    "important_objects": [
+      "Wooden Lifeboat"
+    ],
+    "setting": "dramatic historical setting",
+    "emotion": "intense",
+    "state_change": "The broken hull sank beneath the dark swells.",
+    "visual_focus": "Beat 4: The broken hull sank beneath the dark swells.",
+    "description": "An isolated connected cutout depicting The broken hull sank beneath the dark swells. with distinct silhouette 4",
+    "identity_ids": [
+      "steamship"
+    ],
+    "secondary_ids": [],
+    "relevance": 0.96,
+    "narrative_importance": 0.92,
+    "novelty": 0.94,
+    "readability": 0.93,
+    "primary_entity_id": "scene-47313a57d9f5be93",
+    "primary_asset_id": "asset-scene-47313a57d9f5be93",
+    "primary_asset_is_distinct": true,
+    "secondary_entity_ids": [
+      "lifeboat"
+    ],
+    "secondary_asset_ids": [
+      "asset-lifeboat"
+    ],
+    "reused_character_ids": [
+      "steamship"
+    ],
+    "continuity_references": [
+      "steamship"
+    ],
+    "image_generation_prompt": "Exact narrated sentence: The broken hull sank beneath the dark swells.\nVisual focus: Beat 4: The broken hull sank beneath the dark swells.. An isolated connected cutout depicting The broken hull sank beneath the dark swells. with distinct silhouette 4\nIdentity continuity: Iron Steamship: Black-hulled 19th-century iron steam freighter. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+    "asset_generation_status": "ready",
+    "asset_relevance_status": "passed",
+    "composition_type": "multi_cutout",
+    "animation_plan": "existing_editorial_motion",
+    "transition_plan": "aligned_sentence_boundary",
+    "primary_asset_origin": "replicate:black-forest-labs/flux-kontext-pro",
+    "perceptual_dhash": "3f0307274548230f",
+    "start_time": 10.56,
+    "end_time": 13.12,
+    "render_visibility": "passed"
+  }
+]

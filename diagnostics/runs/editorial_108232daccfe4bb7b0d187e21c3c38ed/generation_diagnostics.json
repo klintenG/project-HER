@@ -1,0 +1,214 @@
+{
+  "schema_version": "generation-diagnostics-v2",
+  "job_id": "editorial_108232daccfe4bb7b0d187e21c3c38ed",
+  "outcome": "failed",
+  "start_utc": "2026-10-17T10:11:06.124181+00:00",
+  "finish_utc": "2026-10-17T10:11:06.128495+00:00",
+  "total_elapsed_seconds": 0.004314,
+  "measured_wall_seconds": 0.003014,
+  "unattributed_wall_seconds": 0.0013,
+  "peak_image_provider_concurrency": 0,
+  "runtime": [
+    {
+      "host_cpu_count": 10
+    }
+  ],
+  "infrastructure": {
+    "environment": "local",
+    "python_version": "3.9.6",
+    "service": "local_process",
+    "revision": "local",
+    "commit": "working_tree",
+    "region": "unspecified",
+    "configured_action_workers": 2,
+    "configured_remotion_concurrency": "default",
+    "process_peak_rss_native_units": 138723328,
+    "trace_runtimes": [
+      {
+        "host_cpu_count": 10
+      }
+    ]
+  },
+  "process_peak_rss_native_units": 138723328,
+  "revision": null,
+  "commit": null,
+  "video_mode": "reference_editorial",
+  "actual_video_seconds": null,
+  "resolution": [
+    null,
+    null
+  ],
+  "fps": null,
+  "output_size_bytes": null,
+  "visual_metrics": {
+    "sentences": 0,
+    "storyboard_visual_beats": 0,
+    "planned_primaries": 0,
+    "generated_assets": 0,
+    "distinct_primaries": 0,
+    "reused_secondary_assets": 0,
+    "rendered_primaries": 0,
+    "sentences_without_distinct_primary": 0,
+    "images_rejected_for_duplication": 0,
+    "image_generation_failures": 0,
+    "fallback_attempts": 0,
+    "scene_relevance_failures": 0,
+    "invariant_distinct_ge_sentences": false,
+    "acceptance_passed": false
+  },
+  "scene_report": [],
+  "stage_timings": {},
+  "concurrency_analysis": {
+    "total_image_tasks": 0,
+    "total_provider_wait_spans": 0,
+    "peak_image_provider_concurrency": 0,
+    "average_active_image_concurrency": 0.0,
+    "configured_action_workers": 2,
+    "tts_visual_overlap_seconds": 0.0,
+    "speech_wall_seconds": null,
+    "cutouts_wall_seconds": null,
+    "serial_gap_seconds": 0.0006,
+    "admission_wait_seconds": 0.0,
+    "rate_limit_responses": 0,
+    "rate_limit_backoff_seconds": 0,
+    "background_removal_total_seconds": 0
+  },
+  "critical_path": [
+    {
+      "stage": "input_fetch_and_extract",
+      "duration_seconds": 0.0014,
+      "effective_advance_seconds": 0.0014,
+      "status": "succeeded"
+    },
+    {
+      "stage": "research_or_script_generation",
+      "duration_seconds": 0.0013,
+      "effective_advance_seconds": 0.0013,
+      "status": "succeeded"
+    }
+  ],
+  "bottleneck_ranking": [
+    {
+      "operation": "input_fetch_and_extract",
+      "duration_seconds": 0.0014,
+      "percent_of_wall_time": 33.3,
+      "cause_category": "network",
+      "evidence": "1 span(s), max=0.001s, accumulated=0.001s",
+      "optimization_opportunity": "Cache fetched source text or streamline input classification",
+      "confidence": "high"
+    },
+    {
+      "operation": "research_or_script_generation",
+      "duration_seconds": 0.0013,
+      "percent_of_wall_time": 29.7,
+      "cause_category": "provider",
+      "evidence": "1 span(s), max=0.001s, accumulated=0.001s",
+      "optimization_opportunity": "Reduce LLM repair iterations and token output size",
+      "confidence": "high"
+    },
+    {
+      "operation": "research",
+      "duration_seconds": 0.0003,
+      "percent_of_wall_time": 6.8,
+      "cause_category": "network",
+      "evidence": "1 span(s), max=0.000s, accumulated=0.000s",
+      "optimization_opportunity": "Bound web search pages and HTTP timeouts",
+      "confidence": "high"
+    }
+  ],
+  "rendering": {
+    "renderer": "remotion",
+    "frames": 0,
+    "fps": 30,
+    "resolution": [
+      1080,
+      1920
+    ],
+    "remotion_render_seconds": null,
+    "ffmpeg_encode_seconds": null,
+    "audio_delivery_seconds": null,
+    "total_render_and_qa_seconds": null,
+    "video_encode_passes": null,
+    "average_fps_throughput": null,
+    "output_size_bytes": null
+  },
+  "images": [],
+  "provider_metrics": {},
+  "errors_and_retries": [
+    {
+      "source": "span",
+      "name": "end_to_end",
+      "error_type": "ModuleNotFoundError",
+      "attempt": 1
+    },
+    {
+      "source": "pipeline_failure",
+      "stage": "script",
+      "status": "error"
+    }
+  ],
+  "recommended_next_investigation": [
+    "Remotion output is currently re-encoded by FFmpeg for BT.601->BT.709 color conversion (2 encode passes). Validate HER_EDITORIAL_DIRECT_BT709=1 on target runtime to use -c:v copy."
+  ],
+  "spans": [
+    {
+      "id": "c97d3e1158ef4a5ca2ba7569623ccd1f",
+      "name": "end_to_end",
+      "start_utc": "2026-10-17T10:11:06.124181+00:00",
+      "start_offset_seconds": 0.00023491700000000115,
+      "status": "failed",
+      "metadata": {},
+      "parent_span_id": null,
+      "error_type": "ModuleNotFoundError",
+      "end_utc": "2026-10-17T10:11:06.128495+00:00",
+      "end_offset_seconds": 0.004538500000000001,
+      "duration_seconds": 0.004303583,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "6db1d4350a0c4ad49e0c1d36be290c76",
+      "name": "input_fetch_and_extract",
+      "start_utc": "2026-10-17T10:11:06.124483+00:00",
+      "start_offset_seconds": 0.0005268750000000377,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c97d3e1158ef4a5ca2ba7569623ccd1f",
+      "end_utc": "2026-10-17T10:11:06.125922+00:00",
+      "end_offset_seconds": 0.0019653330000000135,
+      "duration_seconds": 0.0014384579999999758,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "12d9e0d8c6984ff685073af5b3359b7b",
+      "name": "research",
+      "start_utc": "2026-10-17T10:11:06.126271+00:00",
+      "start_offset_seconds": 0.0023138330000000984,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c97d3e1158ef4a5ca2ba7569623ccd1f",
+      "end_utc": "2026-10-17T10:11:06.126565+00:00",
+      "end_offset_seconds": 0.002608042000000088,
+      "duration_seconds": 0.00029420899999998973,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "ff61291b2ae14670bfc9319e4981ddff",
+      "name": "research_or_script_generation",
+      "start_utc": "2026-10-17T10:11:06.126783+00:00",
+      "start_offset_seconds": 0.0028263749999999366,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c97d3e1158ef4a5ca2ba7569623ccd1f",
+      "end_utc": "2026-10-17T10:11:06.128064+00:00",
+      "end_offset_seconds": 0.004107582999999915,
+      "duration_seconds": 0.0012812079999999781,
+      "trace_file": "job_trace.json"
+    }
+  ],
+  "limitations": [
+    "Browser timings unavailable unless submitted by the client.",
+    "Cold-start/cache comparison requires separate controlled runs; process peak RSS includes earlier jobs.",
+    "Overlapping durations must not be summed. Span nesting expresses dependencies, not a proven critical-path DAG.",
+    "Report serialization and report upload occur after the measured worker interval."
+  ]
+}

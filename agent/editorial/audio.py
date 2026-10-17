@@ -34,9 +34,9 @@ def write_wave(path, data, rate=48000):
 
 
 def measure(path,*,true_peak=-1.5):
-    result=run(['ffmpeg','-hide_banner','-i',str(path),'-af',f'loudnorm=I=-15:TP={true_peak}:LRA=7:print_format=json','-f','null','-'])
+    result=run(['ffmpeg','-hide_banner','-i',str(path),'-af',f'silencedetect=noise=-40dB:d=0.15,loudnorm=I=-15:TP={true_peak}:LRA=7:print_format=json','-f','null','-'])
     stats=json.loads(re.findall(r'\{[^{}]+\}',result.stderr)[-1])
-    silence=run(['ffmpeg','-hide_banner','-i',str(path),'-af','silencedetect=noise=-40dB:d=0.15','-f','null','-']).stderr
+    silence=result.stderr
     starts=[float(x) for x in re.findall(r'silence_start: ([\d.]+)',silence)]
     ends=[float(x) for x in re.findall(r'silence_end: ([\d.]+)',silence)]
     finite=lambda value:float(value) if math.isfinite(float(value)) else None
@@ -44,7 +44,7 @@ def measure(path,*,true_peak=-1.5):
         'loudnessRangeLU':float(stats['input_lra']), 'silences':[{'start':s,'end':e,'duration':e-s} for s,e in zip(starts,ends)],'loudnorm':stats}
 
 
-def normalize(source,target,*,true_peak=-1.5):
+def normalize(source,target,*,true_peak=-1.8):
     before=measure(source,true_peak=true_peak); s=before['loudnorm']
     if before['integratedLUFS'] is None: raise NewsError('Silent narration cannot be normalized.')
     filt=f"loudnorm=I=-15:TP={true_peak}:LRA=7:measured_I={s['input_i']}:measured_TP={s['input_tp']}:measured_LRA={s['input_lra']}:measured_thresh={s['input_thresh']}:offset={s['target_offset']}:linear=true:print_format=json"
@@ -155,16 +155,28 @@ def refine_silence_edges(rows,data,rate=48000):
 
 
 def assemble(script,clips,output,language='en',native=None,gap=.12):
+    import time
+    import config
     output=Path(output);output.mkdir(parents=True,exist_ok=True)
+    shared_cache_dir=Path(config.NEWS_TTS_CACHE);shared_cache_dir.mkdir(parents=True,exist_ok=True)
     aligner=None; words=[]; sections=[]; buffers=[]; offsets=[]; warnings=[]; cursor=0; rate=48000
     for i,(section,clip) in enumerate(zip(script.sentences,clips)):
+        sec_start_mono=time.monotonic()
         data=samples(clip)
         key=hashlib.sha256((digest(clip)+section.text+'alignment-v5-'+os.getenv('HER_ALIGNMENT_MODEL','small')+'-faster-whisper-1.2.1-'+language).encode()).hexdigest()
         cache=output/(key+'.alignment.json')
+        shared_cache=shared_cache_dir/(key+'.alignment.json')
         rows=native.get(section.id) if native else None
-        if rows is None and cache.is_file():
-            try:rows=json.loads(cache.read_text())
-            except (ValueError,OSError):rows=None
+        align_cache_hit=False
+        if rows is None:
+            for c_path in (cache,shared_cache):
+                if c_path.is_file():
+                    try:
+                        rows=json.loads(c_path.read_text())
+                        align_cache_hit=True
+                        if c_path!=cache:cache.write_text(json.dumps(rows,indent=2))
+                        break
+                    except (ValueError,OSError):rows=None
         if rows is not None:
             try:
                 previous=0
@@ -174,12 +186,16 @@ def assemble(script,clips,output,language='en',native=None,gap=.12):
                     if row['text']!=token or not (math.isfinite(start) and math.isfinite(end) and previous-.001<=start<end<=len(data)/rate+.001):raise ValueError('word bounds')
                     previous=end
             except (ValueError,TypeError,KeyError):
-                rows=None;warnings.append(section.id+': rejected invalid provider/cache word timing; requested fresh forced alignment.')
+                rows=None;align_cache_hit=False;warnings.append(section.id+': rejected invalid provider/cache word timing; requested fresh forced alignment.')
         if rows is None:
             try:
                 aligner=aligner or Aligner(language)
-                rows=aligner.align(samples(clip,16000),section.text)
+                # Downsample 48kHz -> 16kHz in-memory when exact 3:1 ratio applies, avoiding a second FFmpeg subprocess
+                data_16k=data[:len(data)//3*3].reshape(-1,3).mean(axis=1).astype(np.float32) if len(data)>=3 else samples(clip,16000)
+                rows=aligner.align(data_16k,section.text)
                 cache.write_text(json.dumps(rows,indent=2))
+                try:shared_cache.write_text(json.dumps(rows,indent=2))
+                except OSError:pass
             except NewsError as exc:
                 from .director import VisualSettings
                 if not VisualSettings.configured().allowPhraseTimingFallback:raise
@@ -204,7 +220,8 @@ def assemble(script,clips,output,language='en',native=None,gap=.12):
         sections.append(Section(id=section.id,text=section.text,start=offset,end=offset+len(trimmed)/rate,
             wordIds=[w.id for w in mapped],sourceIds=section.claim_ids))
         offsets.append({'sectionId':section.id,'source':str(clip),'sourceDuration':len(data)/rate,'trimStart':left/rate,
-            'trimEnd':(len(data)-right)/rate,'offset':offset,'sampleOffset':cursor,'retainedDuration':len(trimmed)/rate})
+            'trimEnd':(len(data)-right)/rate,'offset':offset,'sampleOffset':cursor,'retainedDuration':len(trimmed)/rate,
+            'alignmentWallSeconds':round(time.monotonic()-sec_start_mono,4),'alignmentCacheHit':align_cache_hit})
         if any(w.confidence<.5 for w in mapped): warnings.append(section.id+': low-confidence words retained; inspect alignment.json')
         buffers.append(trimmed);cursor+=len(trimmed)
         if i+1<len(clips):

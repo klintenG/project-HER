@@ -1,0 +1,3356 @@
+{
+  "schema_version": "pipeline-timeline-v1",
+  "job_id": "a23a67e10743",
+  "outcome": "failed",
+  "trace_provenance": "genuine_live_trace",
+  "start_utc": "2026-10-17T16:13:00.078470+00:00",
+  "finish_utc": "2026-10-17T16:15:22.240659+00:00",
+  "total_elapsed_seconds": 142.161494,
+  "measured_wall_seconds": 142.089245,
+  "stage_timings": {},
+  "concurrency_analysis": {
+    "total_image_tasks": 15,
+    "total_provider_wait_spans": 22,
+    "peak_image_provider_concurrency": 3,
+    "average_active_image_concurrency": 1.91,
+    "configured_action_workers": 3,
+    "tts_visual_overlap_seconds": 25.414,
+    "speech_wall_seconds": 25.414,
+    "cutouts_wall_seconds": 130.714,
+    "alignment_seconds": null,
+    "serial_gap_seconds": 0.069,
+    "admission_wait_seconds": 5.3928,
+    "rate_limit_responses": 0,
+    "rate_limit_backoff_seconds": 0,
+    "background_removal_total_seconds": 34.1992
+  },
+  "critical_path": [
+    {
+      "stage": "input_fetch_and_extract",
+      "duration_seconds": 1.7966,
+      "effective_advance_seconds": 1.7966,
+      "status": "succeeded"
+    },
+    {
+      "stage": "research",
+      "duration_seconds": 1.8502,
+      "effective_advance_seconds": 1.8502,
+      "status": "succeeded"
+    },
+    {
+      "stage": "research_or_script_generation",
+      "duration_seconds": 7.7283,
+      "effective_advance_seconds": 7.7284,
+      "status": "succeeded"
+    },
+    {
+      "stage": "narration_segmentation",
+      "duration_seconds": 0.0011,
+      "effective_advance_seconds": 0.0011,
+      "status": "succeeded"
+    },
+    {
+      "stage": "semantic_beat_planning",
+      "duration_seconds": 5.6478,
+      "effective_advance_seconds": 5.6478,
+      "status": "succeeded"
+    },
+    {
+      "stage": "TTS_generation",
+      "duration_seconds": 25.4139,
+      "effective_advance_seconds": 19.7663,
+      "status": "succeeded"
+    },
+    {
+      "stage": "entity_identity_asset_generation",
+      "duration_seconds": 40.8187,
+      "effective_advance_seconds": 21.0674,
+      "status": "succeeded"
+    },
+    {
+      "stage": "new_action_asset_generation",
+      "duration_seconds": 13.5441,
+      "effective_advance_seconds": 13.5441,
+      "status": "succeeded"
+    },
+    {
+      "stage": "new_action_asset_generation",
+      "duration_seconds": 25.8027,
+      "effective_advance_seconds": 12.2596,
+      "status": "succeeded"
+    },
+    {
+      "stage": "new_action_asset_generation",
+      "duration_seconds": 14.8802,
+      "effective_advance_seconds": 2.6237,
+      "status": "succeeded"
+    },
+    {
+      "stage": "new_action_asset_generation",
+      "duration_seconds": 11.6786,
+      "effective_advance_seconds": 3.3084,
+      "status": "succeeded"
+    },
+    {
+      "stage": "new_action_asset_generation",
+      "duration_seconds": 12.3241,
+      "effective_advance_seconds": 6.3941,
+      "status": "succeeded"
+    },
+    {
+      "stage": "new_action_asset_generation",
+      "duration_seconds": 49.3704,
+      "effective_advance_seconds": 39.6707,
+      "status": "succeeded"
+    },
+    {
+      "stage": "new_action_asset_generation",
+      "duration_seconds": 46.516,
+      "effective_advance_seconds": 0.4534,
+      "status": "failed"
+    },
+    {
+      "stage": "entity_identity_asset_generation",
+      "duration_seconds": 6.4267,
+      "effective_advance_seconds": 5.9762,
+      "status": "succeeded"
+    }
+  ],
+  "tts_sentence_timeline": [],
+  "image_prediction_timeline": [
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:13:17.192285+00:00",
+      "admission_wait_seconds": 1.327743,
+      "http_request_start_timestamp": "2026-10-17T16:13:18.526465+00:00",
+      "http_response_timestamp": "2026-10-17T16:13:20.926929+00:00",
+      "http_status_code": 201,
+      "prediction_id": "prgy09mzmhrp40d19ahtszs49m",
+      "prediction_creation_latency_seconds": 2.40045,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:13:20.927075+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:13:20.927094+00:00",
+      "total_provider_wait_seconds": 2.40062,
+      "provider_reported_predict_time_seconds": 0.660919,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 2.688503,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:13:17.193502+00:00",
+      "admission_wait_seconds": 0.322287,
+      "http_request_start_timestamp": "2026-10-17T16:13:17.521407+00:00",
+      "http_response_timestamp": "2026-10-17T16:13:20.725602+00:00",
+      "http_status_code": 201,
+      "prediction_id": "wcv285wwphrp20d19ahs5tdj98",
+      "prediction_creation_latency_seconds": 3.204175,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:13:20.725751+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:13:20.725768+00:00",
+      "total_provider_wait_seconds": 3.204345,
+      "provider_reported_predict_time_seconds": 0.660683,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 1.618144,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:13:58.010979+00:00",
+      "admission_wait_seconds": 0.042325,
+      "http_request_start_timestamp": "2026-10-17T16:13:58.059081+00:00",
+      "http_response_timestamp": "2026-10-17T16:14:01.133010+00:00",
+      "http_status_code": 201,
+      "prediction_id": "t9snq5swn1rp20d19ajajhpjk8",
+      "prediction_creation_latency_seconds": 3.073911,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:14:01.133133+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:14:01.133148+00:00",
+      "total_provider_wait_seconds": 3.074052,
+      "provider_reported_predict_time_seconds": 0.771769,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 5.452013,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:13:58.011811+00:00",
+      "admission_wait_seconds": 2.009576,
+      "http_request_start_timestamp": "2026-10-17T16:14:00.066227+00:00",
+      "http_response_timestamp": "2026-10-17T16:14:02.796494+00:00",
+      "http_status_code": 201,
+      "prediction_id": "4dxgq2j2a5rp60d19ajb014kz8",
+      "prediction_creation_latency_seconds": 2.730255,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:14:02.796603+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:14:02.796616+00:00",
+      "total_provider_wait_seconds": 2.730382,
+      "provider_reported_predict_time_seconds": 0.744293,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 3.788633,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:13:58.012339+00:00",
+      "admission_wait_seconds": 1.004,
+      "http_request_start_timestamp": "2026-10-17T16:13:59.060553+00:00",
+      "http_response_timestamp": "2026-10-17T16:14:00.981088+00:00",
+      "http_status_code": 201,
+      "prediction_id": "99ynh99vynrp60d19aj8b46abw",
+      "prediction_creation_latency_seconds": 1.920524,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:14:00.981158+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:14:00.981167+00:00",
+      "total_provider_wait_seconds": 1.920606,
+      "provider_reported_predict_time_seconds": 0.710108,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 7.343993,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:14:10.114349+00:00",
+      "admission_wait_seconds": 0.002148,
+      "http_request_start_timestamp": "2026-10-17T16:14:10.121112+00:00",
+      "http_response_timestamp": "2026-10-17T16:14:12.500104+00:00",
+      "http_status_code": 201,
+      "prediction_id": "22161gv7nhrp00d19ajbsm2v5r",
+      "prediction_creation_latency_seconds": 2.378976,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:14:12.500253+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:14:12.500264+00:00",
+      "total_provider_wait_seconds": 2.379141,
+      "provider_reported_predict_time_seconds": 0.662222,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 1.723035,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "action",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:14:11.707344+00:00",
+      "admission_wait_seconds": 0.001189,
+      "http_request_start_timestamp": "2026-10-17T16:14:11.710787+00:00",
+      "http_response_timestamp": "2026-10-17T16:14:20.206837+00:00",
+      "http_status_code": 201,
+      "prediction_id": "4chn1nkej9rmt0d19aj8awzngw",
+      "prediction_creation_latency_seconds": 8.496004,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:14:20.206970+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:14:20.206984+00:00",
+      "total_provider_wait_seconds": 8.496156,
+      "provider_reported_predict_time_seconds": 6.50887,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 2.706757,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:14:13.703453+00:00",
+      "admission_wait_seconds": 0.004096,
+      "http_request_start_timestamp": "2026-10-17T16:14:13.713784+00:00",
+      "http_response_timestamp": "2026-10-17T16:14:15.884705+00:00",
+      "http_status_code": 201,
+      "prediction_id": "dfdyjqbp55rp40d19aja4m3d4c",
+      "prediction_creation_latency_seconds": 2.170908,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:14:15.884836+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:14:15.884848+00:00",
+      "total_provider_wait_seconds": 2.171057,
+      "provider_reported_predict_time_seconds": 0.82712,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 2.337728,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "action",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:14:18.300118+00:00",
+      "admission_wait_seconds": 0.003427,
+      "http_request_start_timestamp": "2026-10-17T16:14:18.308026+00:00",
+      "http_response_timestamp": "2026-10-17T16:14:25.687647+00:00",
+      "http_status_code": 201,
+      "prediction_id": "qqyaysw84xrmy0d19aj95hmcmc",
+      "prediction_creation_latency_seconds": 7.379581,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:14:25.687776+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:14:25.687789+00:00",
+      "total_provider_wait_seconds": 7.379728,
+      "provider_reported_predict_time_seconds": 5.923123,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 0.952527,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "action",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:14:24.011329+00:00",
+      "admission_wait_seconds": 0.001638,
+      "http_request_start_timestamp": "2026-10-17T16:14:24.015598+00:00",
+      "http_response_timestamp": "2026-10-17T16:14:29.634380+00:00",
+      "http_status_code": 201,
+      "prediction_id": "x6dbbpmx79rmr0d19ajbs9b2c8",
+      "prediction_creation_latency_seconds": 5.618749,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:14:29.634450+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:14:29.634461+00:00",
+      "total_provider_wait_seconds": 5.618836,
+      "provider_reported_predict_time_seconds": 4.488442,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 1.403789,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "action",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:14:26.669898+00:00",
+      "admission_wait_seconds": 0.002213,
+      "http_request_start_timestamp": "2026-10-17T16:14:26.675829+00:00",
+      "http_response_timestamp": "2026-10-17T16:14:34.930167+00:00",
+      "http_status_code": 201,
+      "prediction_id": "8f0gerd9z5rmt0d19aj9gztjzr",
+      "prediction_creation_latency_seconds": 8.254294,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:14:34.930273+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:14:34.930284+00:00",
+      "total_provider_wait_seconds": 8.254416,
+      "provider_reported_predict_time_seconds": 6.532706,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 2.320424,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "action",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:14:29.979709+00:00",
+      "admission_wait_seconds": 0.00158,
+      "http_request_start_timestamp": "2026-10-17T16:14:29.983574+00:00",
+      "http_response_timestamp": "2026-10-17T16:14:40.332351+00:00",
+      "http_status_code": 202,
+      "prediction_id": "1r00a55nbnrmy0d19aj9rxndag",
+      "prediction_creation_latency_seconds": 10.348723,
+      "prediction_state_transitions": [
+        {
+          "status": "starting",
+          "at": "2026-10-17T16:14:40.332455+00:00",
+          "offset_seconds": 0.0
+        },
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:14:41.772867+00:00",
+          "offset_seconds": 11.7893
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:14:41.772902+00:00",
+      "total_provider_wait_seconds": 11.78927,
+      "provider_reported_predict_time_seconds": 9.969059,
+      "poll_attempts": 1,
+      "poll_interval_delays": [
+        0.6
+      ],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 2.606253,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "action",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:14:36.364690+00:00",
+      "admission_wait_seconds": 0.00174,
+      "http_request_start_timestamp": "2026-10-17T16:14:36.368727+00:00",
+      "http_response_timestamp": "2026-10-17T16:14:43.194034+00:00",
+      "http_status_code": 201,
+      "prediction_id": "f6r4tseg3srmy0d19aj8q49mz0",
+      "prediction_creation_latency_seconds": 6.82527,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:14:43.194160+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:14:43.194172+00:00",
+      "total_provider_wait_seconds": 6.825413,
+      "provider_reported_predict_time_seconds": 5.107027,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 2.944024,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:14:41.083884+00:00",
+      "admission_wait_seconds": 0.005547,
+      "http_request_start_timestamp": "2026-10-17T16:14:41.096423+00:00",
+      "http_response_timestamp": "2026-10-17T16:14:43.152480+00:00",
+      "http_status_code": 201,
+      "prediction_id": "f587cyz0mxrp20d19ajbga2qqr",
+      "prediction_creation_latency_seconds": 2.056041,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:14:43.152609+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:14:43.152624+00:00",
+      "total_provider_wait_seconds": 2.056192,
+      "provider_reported_predict_time_seconds": 0.703499,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 1.049513,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:14:47.734151+00:00",
+      "admission_wait_seconds": 0.002021,
+      "http_request_start_timestamp": "2026-10-17T16:14:47.738554+00:00",
+      "http_response_timestamp": "2026-10-17T16:14:50.360235+00:00",
+      "http_status_code": 201,
+      "prediction_id": "x4bwkpzvfxrp00d19ajapwf7q4",
+      "prediction_creation_latency_seconds": 2.621668,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:14:50.360274+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:14:50.360278+00:00",
+      "total_provider_wait_seconds": 2.621712,
+      "provider_reported_predict_time_seconds": 0.619217,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 1.34319,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:14:49.399943+00:00",
+      "admission_wait_seconds": 0.005995,
+      "http_request_start_timestamp": "2026-10-17T16:14:49.413145+00:00",
+      "http_response_timestamp": "2026-10-17T16:14:51.904368+00:00",
+      "http_status_code": 201,
+      "prediction_id": "76bpchg0q9rp40d19ajtazr6h0",
+      "prediction_creation_latency_seconds": 2.49121,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:14:51.904440+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:14:51.904449+00:00",
+      "total_provider_wait_seconds": 2.491293,
+      "provider_reported_predict_time_seconds": 0.734461,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 4.181689,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "action",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:14:50.513497+00:00",
+      "admission_wait_seconds": 0.001799,
+      "http_request_start_timestamp": "2026-10-17T16:14:50.517592+00:00",
+      "http_response_timestamp": "2026-10-17T16:14:57.565577+00:00",
+      "http_status_code": 201,
+      "prediction_id": "j12cqj86p9rmy0d19ajrekfv9r",
+      "prediction_creation_latency_seconds": 7.047944,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:14:57.565704+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:14:57.565716+00:00",
+      "total_provider_wait_seconds": 7.048089,
+      "provider_reported_predict_time_seconds": 4.89702,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 2.680284,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:15:01.271062+00:00",
+      "admission_wait_seconds": 0.003482,
+      "http_request_start_timestamp": "2026-10-17T16:15:01.278889+00:00",
+      "http_response_timestamp": "2026-10-17T16:15:03.276688+00:00",
+      "http_status_code": 201,
+      "prediction_id": "hq80951ee5rp00d19ajv9gb1qc",
+      "prediction_creation_latency_seconds": 1.99779,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:15:03.276745+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:15:03.276751+00:00",
+      "total_provider_wait_seconds": 1.997855,
+      "provider_reported_predict_time_seconds": 0.722551,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 0.990222,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:15:03.147994+00:00",
+      "admission_wait_seconds": 0.002297,
+      "http_request_start_timestamp": "2026-10-17T16:15:03.152635+00:00",
+      "http_response_timestamp": "2026-10-17T16:15:05.066771+00:00",
+      "http_status_code": 201,
+      "prediction_id": "zfyv98spknrp00d19ajvsgt7w4",
+      "prediction_creation_latency_seconds": 1.914125,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:15:05.066837+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:15:05.066844+00:00",
+      "total_provider_wait_seconds": 1.9142,
+      "provider_reported_predict_time_seconds": 0.590819,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 1.074004,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:15:07.285439+00:00",
+      "admission_wait_seconds": 0.002182,
+      "http_request_start_timestamp": "2026-10-17T16:15:07.290024+00:00",
+      "http_response_timestamp": "2026-10-17T16:15:09.261083+00:00",
+      "http_status_code": 201,
+      "prediction_id": "q8z2eq275nrp60d19ajt9pp0s4",
+      "prediction_creation_latency_seconds": 1.971043,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:15:09.261224+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:15:09.261237+00:00",
+      "total_provider_wait_seconds": 1.971203,
+      "provider_reported_predict_time_seconds": 0.669778,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 1.018683,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:15:07.649612+00:00",
+      "admission_wait_seconds": 0.643283,
+      "http_request_start_timestamp": "2026-10-17T16:15:08.299339+00:00",
+      "http_response_timestamp": "2026-10-17T16:15:10.561696+00:00",
+      "http_status_code": 201,
+      "prediction_id": "h0znsnj9sxrp20d19ajvgmevgm",
+      "prediction_creation_latency_seconds": 2.262348,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:15:10.561761+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:15:10.561768+00:00",
+      "total_provider_wait_seconds": 2.262422,
+      "provider_reported_predict_time_seconds": 0.721481,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 1.839648,
+      "status": "succeeded"
+    },
+    {
+      "model_name": "black-forest-labs[path]",
+      "model_version": "hidden",
+      "tier": "support",
+      "target_path": "[path]",
+      "request_admission_timestamp": "2026-10-17T16:15:15.812723+00:00",
+      "admission_wait_seconds": 0.002201,
+      "http_request_start_timestamp": "2026-10-17T16:15:15.818248+00:00",
+      "http_response_timestamp": "2026-10-17T16:15:17.516270+00:00",
+      "http_status_code": 201,
+      "prediction_id": "pttrx6v759rp00d19ajsv4pzpm",
+      "prediction_creation_latency_seconds": 1.698009,
+      "prediction_state_transitions": [
+        {
+          "status": "succeeded",
+          "at": "2026-10-17T16:15:17.516433+00:00",
+          "offset_seconds": 0.0
+        }
+      ],
+      "prediction_completion_timestamp": "2026-10-17T16:15:17.516452+00:00",
+      "total_provider_wait_seconds": 1.698196,
+      "provider_reported_predict_time_seconds": 0.64466,
+      "poll_attempts": 0,
+      "poll_interval_delays": [],
+      "http_429_count": 0,
+      "retry_delay_seconds": 0.0,
+      "output_download_duration_seconds": 1.1963,
+      "status": "succeeded"
+    }
+  ],
+  "image_task_timeline": [
+    {
+      "task_index": 1,
+      "entityId": "bhasmasura",
+      "assetId": "asset-bhasmasura",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "primary_subject_type": "person",
+      "visual_concept": "Bhasmasura",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T16:13:17.190155+00:00",
+      "request_end_utc": "2026-10-17T16:13:23.616929+00:00",
+      "queue_wait_seconds": 0.0002,
+      "admission_wait_seconds": 1.328,
+      "api_duration_seconds": 6.4267,
+      "cutout_processing_seconds": 2.635,
+      "visual_review_seconds": 31.548,
+      "processing_and_review_seconds": 34.3903,
+      "durationSeconds": 40.817,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "supporting_illustration",
+      "identityReferences": [],
+      "dimensions": [
+        952,
+        882
+      ],
+      "bytes": 550766,
+      "sha256": "d7e246b9d9b0b6396bb999d39e4aee5a93fd414227f9903f4549ebaa1af6938e",
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:13:17.192285+00:00",
+          "admission_wait_seconds": 1.327743,
+          "http_request_start_timestamp": "2026-10-17T16:13:18.526465+00:00",
+          "http_response_timestamp": "2026-10-17T16:13:20.926929+00:00",
+          "http_status_code": 201,
+          "prediction_id": "prgy09mzmhrp40d19ahtszs49m",
+          "prediction_creation_latency_seconds": 2.40045,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:13:20.927075+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:13:20.927094+00:00",
+          "total_provider_wait_seconds": 2.40062,
+          "provider_reported_predict_time_seconds": 0.660919,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 2.688503,
+          "status": "succeeded"
+        }
+      ]
+    },
+    {
+      "task_index": 2,
+      "entityId": "mohini",
+      "assetId": "asset-mohini",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "primary_subject_type": "person",
+      "visual_concept": "Mohini",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T16:13:17.190846+00:00",
+      "request_end_utc": "2026-10-17T16:13:22.346519+00:00",
+      "queue_wait_seconds": 0.0001,
+      "admission_wait_seconds": 0.322,
+      "api_duration_seconds": 5.1557,
+      "cutout_processing_seconds": 2.681,
+      "visual_review_seconds": 2.506,
+      "processing_and_review_seconds": 5.2943,
+      "durationSeconds": 10.45,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "supporting_illustration",
+      "identityReferences": [],
+      "dimensions": [
+        544,
+        861
+      ],
+      "bytes": 368071,
+      "sha256": "32869e512f050412800e09a7edf66c509272cbc40b454ebf29508ddc4f424026",
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:13:17.193502+00:00",
+          "admission_wait_seconds": 0.322287,
+          "http_request_start_timestamp": "2026-10-17T16:13:17.521407+00:00",
+          "http_response_timestamp": "2026-10-17T16:13:20.725602+00:00",
+          "http_status_code": 201,
+          "prediction_id": "wcv285wwphrp20d19ahs5tdj98",
+          "prediction_creation_latency_seconds": 3.204175,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:13:20.725751+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:13:20.725768+00:00",
+          "total_provider_wait_seconds": 3.204345,
+          "provider_reported_predict_time_seconds": 0.660683,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 1.618144,
+          "status": "succeeded"
+        }
+      ]
+    },
+    {
+      "task_index": 3,
+      "entityId": "scene-d39a2fbad6aa72b8",
+      "assetId": "asset-scene-d39a2fbad6aa72b8",
+      "sentence_id": "s1",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Prayer beads",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T16:13:58.009575+00:00",
+      "request_end_utc": "2026-10-17T16:14:06.588708+00:00",
+      "queue_wait_seconds": 0.0001,
+      "admission_wait_seconds": 0.042,
+      "api_duration_seconds": 8.5791,
+      "cutout_processing_seconds": 2.396,
+      "visual_review_seconds": 2.527,
+      "processing_and_review_seconds": 4.9619,
+      "durationSeconds": 13.541,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [],
+      "dimensions": [
+        448,
+        137
+      ],
+      "bytes": 80725,
+      "sha256": "42c5cd5f5419ca3e0caaae492cdf74ec35aba5aa17e01753211ea111de2bcf93",
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:13:58.010979+00:00",
+          "admission_wait_seconds": 0.042325,
+          "http_request_start_timestamp": "2026-10-17T16:13:58.059081+00:00",
+          "http_response_timestamp": "2026-10-17T16:14:01.133010+00:00",
+          "http_status_code": 201,
+          "prediction_id": "t9snq5swn1rp20d19ajajhpjk8",
+          "prediction_creation_latency_seconds": 3.073911,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:14:01.133133+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:14:01.133148+00:00",
+          "total_provider_wait_seconds": 3.074052,
+          "provider_reported_predict_time_seconds": 0.771769,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 5.452013,
+          "status": "succeeded"
+        }
+      ]
+    },
+    {
+      "task_index": 4,
+      "entityId": "scene-bd741005a26076ed",
+      "assetId": "asset-scene-bd741005a26076ed",
+      "sentence_id": "s2",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Incense burner",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T16:13:58.010008+00:00",
+      "request_end_utc": "2026-10-17T16:14:06.592180+00:00",
+      "queue_wait_seconds": 0.0,
+      "admission_wait_seconds": 2.01,
+      "api_duration_seconds": 8.5821,
+      "cutout_processing_seconds": 1.352,
+      "visual_review_seconds": 2.117,
+      "processing_and_review_seconds": 3.5189,
+      "durationSeconds": 12.101,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [],
+      "dimensions": [
+        366,
+        758
+      ],
+      "bytes": 176590,
+      "sha256": "2bf34c432123601ef51d58f15bf2c0e3e73c01098ab49e9ff87801b26d7e940d",
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:13:58.011811+00:00",
+          "admission_wait_seconds": 2.009576,
+          "http_request_start_timestamp": "2026-10-17T16:14:00.066227+00:00",
+          "http_response_timestamp": "2026-10-17T16:14:02.796494+00:00",
+          "http_status_code": 201,
+          "prediction_id": "4dxgq2j2a5rp60d19ajb014kz8",
+          "prediction_creation_latency_seconds": 2.730255,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:14:02.796603+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:14:02.796616+00:00",
+          "total_provider_wait_seconds": 2.730382,
+          "provider_reported_predict_time_seconds": 0.744293,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 3.788633,
+          "status": "succeeded"
+        }
+      ]
+    },
+    {
+      "task_index": 5,
+      "entityId": "scene-e996e7edbae7b76f",
+      "assetId": "asset-scene-e996e7edbae7b76f",
+      "sentence_id": "s3",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Embossed seal",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T16:13:58.010568+00:00",
+      "request_end_utc": "2026-10-17T16:14:18.223361+00:00",
+      "queue_wait_seconds": 0.0,
+      "admission_wait_seconds": 1.008,
+      "api_duration_seconds": 14.838,
+      "cutout_processing_seconds": 3.107,
+      "visual_review_seconds": 7.744,
+      "processing_and_review_seconds": 10.962,
+      "durationSeconds": 25.8,
+      "attempts": 2,
+      "rejected_attempts": 1,
+      "recorded_errors": 1,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [],
+      "dimensions": [
+        551,
+        536
+      ],
+      "bytes": 627045,
+      "sha256": "b1a16c70aa6e6e805a29ee540817ba6426bbc5ebd1cb4bb98974113bd89fcbe7",
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:13:58.012339+00:00",
+          "admission_wait_seconds": 1.004,
+          "http_request_start_timestamp": "2026-10-17T16:13:59.060553+00:00",
+          "http_response_timestamp": "2026-10-17T16:14:00.981088+00:00",
+          "http_status_code": 201,
+          "prediction_id": "99ynh99vynrp60d19aj8b46abw",
+          "prediction_creation_latency_seconds": 1.920524,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:14:00.981158+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:14:00.981167+00:00",
+          "total_provider_wait_seconds": 1.920606,
+          "provider_reported_predict_time_seconds": 0.710108,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 7.343993,
+          "status": "succeeded"
+        },
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:14:13.703453+00:00",
+          "admission_wait_seconds": 0.004096,
+          "http_request_start_timestamp": "2026-10-17T16:14:13.713784+00:00",
+          "http_response_timestamp": "2026-10-17T16:14:15.884705+00:00",
+          "http_status_code": 201,
+          "prediction_id": "dfdyjqbp55rp40d19aja4m3d4c",
+          "prediction_creation_latency_seconds": 2.170908,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:14:15.884836+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:14:15.884848+00:00",
+          "total_provider_wait_seconds": 2.171057,
+          "provider_reported_predict_time_seconds": 0.82712,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 2.337728,
+          "status": "succeeded"
+        }
+      ]
+    },
+    {
+      "task_index": 6,
+      "entityId": "scene-18d5c4d33371dc94",
+      "assetId": "asset-scene-18d5c4d33371dc94",
+      "sentence_id": "s4",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Trident",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T16:14:10.113563+00:00",
+      "request_end_utc": "2026-10-17T16:14:14.225836+00:00",
+      "queue_wait_seconds": 12.1057,
+      "admission_wait_seconds": 0.002,
+      "api_duration_seconds": 4.1123,
+      "cutout_processing_seconds": 1.316,
+      "visual_review_seconds": 2.391,
+      "processing_and_review_seconds": 3.8357,
+      "durationSeconds": 7.948,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [],
+      "dimensions": [
+        612,
+        894
+      ],
+      "bytes": 628227,
+      "sha256": "eafc0be7893c3f5325a3272d81d9c1424c1fbeb100b7ce613667e8f9d7beed6e",
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:14:10.114349+00:00",
+          "admission_wait_seconds": 0.002148,
+          "http_request_start_timestamp": "2026-10-17T16:14:10.121112+00:00",
+          "http_response_timestamp": "2026-10-17T16:14:12.500104+00:00",
+          "http_status_code": 201,
+          "prediction_id": "22161gv7nhrp00d19ajbsm2v5r",
+          "prediction_creation_latency_seconds": 2.378976,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:14:12.500253+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:14:12.500264+00:00",
+          "total_provider_wait_seconds": 2.379141,
+          "provider_reported_predict_time_seconds": 0.662222,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 1.723035,
+          "status": "succeeded"
+        }
+      ]
+    },
+    {
+      "task_index": 7,
+      "entityId": "scene-db4e9e0ff55c1961",
+      "assetId": "asset-scene-db4e9e0ff55c1961",
+      "sentence_id": "s5",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Golden anklet",
+      "provider": "replicate:black-forest-labs/flux-kontext-pro",
+      "request_start_utc": "2026-10-17T16:14:11.692468+00:00",
+      "request_end_utc": "2026-10-17T16:14:22.916360+00:00",
+      "queue_wait_seconds": 13.5464,
+      "admission_wait_seconds": 0.001,
+      "api_duration_seconds": 11.2238,
+      "cutout_processing_seconds": 1.231,
+      "visual_review_seconds": 2.232,
+      "processing_and_review_seconds": 3.6552,
+      "durationSeconds": 14.879,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "mohini"
+      ],
+      "dimensions": [
+        336,
+        309
+      ],
+      "bytes": 145210,
+      "sha256": "a344f4e51cfea9da8315d4d2880fd4d4e05c8a8954a208954fae596f6806c482",
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "action",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:14:11.707344+00:00",
+          "admission_wait_seconds": 0.001189,
+          "http_request_start_timestamp": "2026-10-17T16:14:11.710787+00:00",
+          "http_response_timestamp": "2026-10-17T16:14:20.206837+00:00",
+          "http_status_code": 201,
+          "prediction_id": "4chn1nkej9rmt0d19aj8awzngw",
+          "prediction_creation_latency_seconds": 8.496004,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:14:20.206970+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:14:20.206984+00:00",
+          "total_provider_wait_seconds": 8.496156,
+          "provider_reported_predict_time_seconds": 6.50887,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 2.706757,
+          "status": "succeeded"
+        }
+      ]
+    },
+    {
+      "task_index": 8,
+      "entityId": "scene-7e42146eb60ee6d1",
+      "assetId": "asset-scene-7e42146eb60ee6d1",
+      "sentence_id": "s6",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Wooden clappers",
+      "provider": "replicate:black-forest-labs/flux-kontext-pro",
+      "request_start_utc": "2026-10-17T16:14:18.276197+00:00",
+      "request_end_utc": "2026-10-17T16:14:26.641038+00:00",
+      "queue_wait_seconds": 20.0569,
+      "admission_wait_seconds": 0.003,
+      "api_duration_seconds": 8.3648,
+      "cutout_processing_seconds": 1.255,
+      "visual_review_seconds": 1.738,
+      "processing_and_review_seconds": 3.3132,
+      "durationSeconds": 11.678,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "bhasmasura"
+      ],
+      "dimensions": [
+        578,
+        786
+      ],
+      "bytes": 308780,
+      "sha256": "1ddabfa57661acb0347c81c60b845868d61fbda22658bbc667edeab38c36a71a",
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "action",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:14:18.300118+00:00",
+          "admission_wait_seconds": 0.003427,
+          "http_request_start_timestamp": "2026-10-17T16:14:18.308026+00:00",
+          "http_response_timestamp": "2026-10-17T16:14:25.687647+00:00",
+          "http_status_code": 201,
+          "prediction_id": "qqyaysw84xrmy0d19aj95hmcmc",
+          "prediction_creation_latency_seconds": 7.379581,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:14:25.687776+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:14:25.687789+00:00",
+          "total_provider_wait_seconds": 7.379728,
+          "provider_reported_predict_time_seconds": 5.923123,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 0.952527,
+          "status": "succeeded"
+        }
+      ]
+    },
+    {
+      "task_index": 9,
+      "entityId": "scene-06cfae8fa3429941",
+      "assetId": "asset-scene-06cfae8fa3429941",
+      "sentence_id": "s7",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Hand touching headpiece",
+      "provider": "replicate:black-forest-labs/flux-kontext-pro",
+      "request_start_utc": "2026-10-17T16:14:23.990397+00:00",
+      "request_end_utc": "2026-10-17T16:14:31.041020+00:00",
+      "queue_wait_seconds": 25.8052,
+      "admission_wait_seconds": 0.002,
+      "api_duration_seconds": 7.0506,
+      "cutout_processing_seconds": 1.517,
+      "visual_review_seconds": 3.344,
+      "processing_and_review_seconds": 5.2724,
+      "durationSeconds": 12.323,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "mohini"
+      ],
+      "dimensions": [
+        954,
+        820
+      ],
+      "bytes": 735242,
+      "sha256": "3e0eace9f77a171185c5405c050755e5171420fdc97b438045b6bbfa470fbf1c",
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "action",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:14:24.011329+00:00",
+          "admission_wait_seconds": 0.001638,
+          "http_request_start_timestamp": "2026-10-17T16:14:24.015598+00:00",
+          "http_response_timestamp": "2026-10-17T16:14:29.634380+00:00",
+          "http_status_code": 201,
+          "prediction_id": "x6dbbpmx79rmr0d19ajbs9b2c8",
+          "prediction_creation_latency_seconds": 5.618749,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:14:29.634450+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:14:29.634461+00:00",
+          "total_provider_wait_seconds": 5.618836,
+          "provider_reported_predict_time_seconds": 4.488442,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 1.403789,
+          "status": "succeeded"
+        }
+      ]
+    },
+    {
+      "task_index": 10,
+      "entityId": "scene-0e3bcce57853b90e",
+      "assetId": "asset-scene-0e3bcce57853b90e",
+      "sentence_id": "s8",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Iron bracelet",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T16:14:26.651934+00:00",
+      "request_end_utc": "2026-10-17T16:14:51.706138+00:00",
+      "queue_wait_seconds": 28.4293,
+      "admission_wait_seconds": 0.01,
+      "api_duration_seconds": 17.697,
+      "cutout_processing_seconds": 4.054,
+      "visual_review_seconds": 27.276,
+      "processing_and_review_seconds": 31.672,
+      "durationSeconds": 49.369,
+      "attempts": 3,
+      "rejected_attempts": 2,
+      "recorded_errors": 2,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "bhasmasura"
+      ],
+      "dimensions": [
+        489,
+        593
+      ],
+      "bytes": 243502,
+      "sha256": "2585577b111792a66a22862df0341084af2b6097cc5d4c7590cd45487fb9db42",
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "action",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:14:26.669898+00:00",
+          "admission_wait_seconds": 0.002213,
+          "http_request_start_timestamp": "2026-10-17T16:14:26.675829+00:00",
+          "http_response_timestamp": "2026-10-17T16:14:34.930167+00:00",
+          "http_status_code": 201,
+          "prediction_id": "8f0gerd9z5rmt0d19aj9gztjzr",
+          "prediction_creation_latency_seconds": 8.254294,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:14:34.930273+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:14:34.930284+00:00",
+          "total_provider_wait_seconds": 8.254416,
+          "provider_reported_predict_time_seconds": 6.532706,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 2.320424,
+          "status": "succeeded"
+        },
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:14:41.083884+00:00",
+          "admission_wait_seconds": 0.005547,
+          "http_request_start_timestamp": "2026-10-17T16:14:41.096423+00:00",
+          "http_response_timestamp": "2026-10-17T16:14:43.152480+00:00",
+          "http_status_code": 201,
+          "prediction_id": "f587cyz0mxrp20d19ajbga2qqr",
+          "prediction_creation_latency_seconds": 2.056041,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:14:43.152609+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:14:43.152624+00:00",
+          "total_provider_wait_seconds": 2.056192,
+          "provider_reported_predict_time_seconds": 0.703499,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 1.049513,
+          "status": "succeeded"
+        },
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:14:47.734151+00:00",
+          "admission_wait_seconds": 0.002021,
+          "http_request_start_timestamp": "2026-10-17T16:14:47.738554+00:00",
+          "http_response_timestamp": "2026-10-17T16:14:50.360235+00:00",
+          "http_status_code": 201,
+          "prediction_id": "x4bwkpzvfxrp00d19ajapwf7q4",
+          "prediction_creation_latency_seconds": 2.621668,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:14:50.360274+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:14:50.360278+00:00",
+          "total_provider_wait_seconds": 2.621712,
+          "provider_reported_predict_time_seconds": 0.619217,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 1.34319,
+          "status": "succeeded"
+        }
+      ]
+    },
+    {
+      "task_index": 11,
+      "entityId": "scene-d75ce2ba829539ec",
+      "assetId": null,
+      "sentence_id": "s9",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Pile of ash",
+      "provider": "black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T16:14:29.962378+00:00",
+      "request_end_utc": "2026-10-17T16:15:12.403995+00:00",
+      "queue_wait_seconds": 31.7373,
+      "admission_wait_seconds": 0.0,
+      "api_duration_seconds": 28.8706,
+      "cutout_processing_seconds": 5.994,
+      "visual_review_seconds": 11.407,
+      "processing_and_review_seconds": 0.0,
+      "durationSeconds": 28.8706,
+      "attempts": 5,
+      "rejected_attempts": 4,
+      "recorded_errors": 4,
+      "cacheHit": false,
+      "route": "ready",
+      "identityReferences": [
+        "bhasmasura"
+      ],
+      "dimensions": [
+        null,
+        null
+      ],
+      "bytes": null,
+      "sha256": null,
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": []
+    },
+    {
+      "task_index": 12,
+      "entityId": "scene-53b12ee0386bc1f1",
+      "assetId": "asset-scene-53b12ee0386bc1f1",
+      "sentence_id": "s10",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Stone fragments",
+      "provider": "replicate:black-forest-labs/flux-kontext-pro",
+      "request_start_utc": "2026-10-17T16:14:36.347442+00:00",
+      "request_end_utc": "2026-10-17T16:14:46.139736+00:00",
+      "queue_wait_seconds": 38.1315,
+      "admission_wait_seconds": 0.002,
+      "api_duration_seconds": 9.7923,
+      "cutout_processing_seconds": 1.596,
+      "visual_review_seconds": 2.439,
+      "processing_and_review_seconds": 4.3507,
+      "durationSeconds": 14.143,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "bhasmasura"
+      ],
+      "dimensions": [
+        703,
+        576
+      ],
+      "bytes": 365187,
+      "sha256": "95992ac6aca55ee9614da0d581a0a482c9aefb4cd146deb9b9f98a158368f2ca",
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "action",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:14:36.364690+00:00",
+          "admission_wait_seconds": 0.00174,
+          "http_request_start_timestamp": "2026-10-17T16:14:36.368727+00:00",
+          "http_response_timestamp": "2026-10-17T16:14:43.194034+00:00",
+          "http_status_code": 201,
+          "prediction_id": "f6r4tseg3srmy0d19aj8q49mz0",
+          "prediction_creation_latency_seconds": 6.82527,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:14:43.194160+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:14:43.194172+00:00",
+          "total_provider_wait_seconds": 6.825413,
+          "provider_reported_predict_time_seconds": 5.107027,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 2.944024,
+          "status": "succeeded"
+        }
+      ]
+    },
+    {
+      "task_index": 13,
+      "entityId": "scene-418f155afedd671c",
+      "assetId": "asset-scene-418f155afedd671c",
+      "sentence_id": "s11",
+      "role": "primary",
+      "primary_subject_type": "object",
+      "visual_concept": "Empty pedestal",
+      "provider": "replicate:black-forest-labs/flux-kontext-pro",
+      "request_start_utc": "2026-10-17T16:14:50.496011+00:00",
+      "request_end_utc": "2026-10-17T16:15:00.248507+00:00",
+      "queue_wait_seconds": 52.2776,
+      "admission_wait_seconds": 0.002,
+      "api_duration_seconds": 9.7525,
+      "cutout_processing_seconds": 1.27,
+      "visual_review_seconds": 1.53,
+      "processing_and_review_seconds": 3.1045,
+      "durationSeconds": 12.857,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "narrative_action_cutout",
+      "identityReferences": [
+        "bhasmasura"
+      ],
+      "dimensions": [
+        501,
+        434
+      ],
+      "bytes": 239337,
+      "sha256": "deb6254b4a991f18de21ef217a37a71941aceef3334305250cd42194683a85e6",
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "action",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:14:50.513497+00:00",
+          "admission_wait_seconds": 0.001799,
+          "http_request_start_timestamp": "2026-10-17T16:14:50.517592+00:00",
+          "http_response_timestamp": "2026-10-17T16:14:57.565577+00:00",
+          "http_status_code": 201,
+          "prediction_id": "j12cqj86p9rmy0d19ajrekfv9r",
+          "prediction_creation_latency_seconds": 7.047944,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:14:57.565704+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:14:57.565716+00:00",
+          "total_provider_wait_seconds": 7.048089,
+          "provider_reported_predict_time_seconds": 4.89702,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 2.680284,
+          "status": "succeeded"
+        }
+      ]
+    },
+    {
+      "task_index": 14,
+      "entityId": "shiva",
+      "assetId": "asset-shiva",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "primary_subject_type": "person",
+      "visual_concept": "Lord Shiva",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T16:15:03.147099+00:00",
+      "request_end_utc": "2026-10-17T16:15:10.283903+00:00",
+      "queue_wait_seconds": 65.1383,
+      "admission_wait_seconds": 0.004,
+      "api_duration_seconds": 5.9959,
+      "cutout_processing_seconds": 1.436,
+      "visual_review_seconds": 3.966,
+      "processing_and_review_seconds": 6.7301,
+      "durationSeconds": 12.726,
+      "attempts": 2,
+      "rejected_attempts": 0,
+      "recorded_errors": 1,
+      "cacheHit": false,
+      "route": "supporting_illustration",
+      "identityReferences": [],
+      "dimensions": [
+        461,
+        992
+      ],
+      "bytes": 432624,
+      "sha256": "ee76391f482185847571c1f9550e10ea3146767723586160a3102609d03470ed",
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:15:03.147994+00:00",
+          "admission_wait_seconds": 0.002297,
+          "http_request_start_timestamp": "2026-10-17T16:15:03.152635+00:00",
+          "http_response_timestamp": "2026-10-17T16:15:05.066771+00:00",
+          "http_status_code": 201,
+          "prediction_id": "zfyv98spknrp00d19ajvsgt7w4",
+          "prediction_creation_latency_seconds": 1.914125,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:15:05.066837+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:15:05.066844+00:00",
+          "total_provider_wait_seconds": 1.9142,
+          "provider_reported_predict_time_seconds": 0.590819,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 1.074004,
+          "status": "succeeded"
+        },
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:15:07.285439+00:00",
+          "admission_wait_seconds": 0.002182,
+          "http_request_start_timestamp": "2026-10-17T16:15:07.290024+00:00",
+          "http_response_timestamp": "2026-10-17T16:15:09.261083+00:00",
+          "http_status_code": 201,
+          "prediction_id": "q8z2eq275nrp60d19ajt9pp0s4",
+          "prediction_creation_latency_seconds": 1.971043,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:15:09.261224+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:15:09.261237+00:00",
+          "total_provider_wait_seconds": 1.971203,
+          "provider_reported_predict_time_seconds": 0.669778,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 1.018683,
+          "status": "succeeded"
+        }
+      ]
+    },
+    {
+      "task_index": 15,
+      "entityId": "vishnu",
+      "assetId": "asset-vishnu",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "primary_subject_type": "person",
+      "visual_concept": "Lord Vishnu",
+      "provider": "replicate:black-forest-labs/flux-schnell",
+      "request_start_utc": "2026-10-17T16:15:15.811723+00:00",
+      "request_end_utc": "2026-10-17T16:15:18.715909+00:00",
+      "queue_wait_seconds": 77.8025,
+      "admission_wait_seconds": 0.002,
+      "api_duration_seconds": 2.9042,
+      "cutout_processing_seconds": 1.243,
+      "visual_review_seconds": 2.185,
+      "processing_and_review_seconds": 3.5208,
+      "durationSeconds": 6.425,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "supporting_illustration",
+      "identityReferences": [],
+      "dimensions": [
+        347,
+        887
+      ],
+      "bytes": 444462,
+      "sha256": "7a39793b590144316ae96c9f1ec2b04a9acb05fa1556330310db6397e3387fa4",
+      "displayed_in_render": false,
+      "origin": "generated",
+      "prediction_records": [
+        {
+          "model_name": "black-forest-labs[path]",
+          "model_version": "hidden",
+          "tier": "support",
+          "target_path": "[path]",
+          "request_admission_timestamp": "2026-10-17T16:15:15.812723+00:00",
+          "admission_wait_seconds": 0.002201,
+          "http_request_start_timestamp": "2026-10-17T16:15:15.818248+00:00",
+          "http_response_timestamp": "2026-10-17T16:15:17.516270+00:00",
+          "http_status_code": 201,
+          "prediction_id": "pttrx6v759rp00d19ajsv4pzpm",
+          "prediction_creation_latency_seconds": 1.698009,
+          "prediction_state_transitions": [
+            {
+              "status": "succeeded",
+              "at": "2026-10-17T16:15:17.516433+00:00",
+              "offset_seconds": 0.0
+            }
+          ],
+          "prediction_completion_timestamp": "2026-10-17T16:15:17.516452+00:00",
+          "total_provider_wait_seconds": 1.698196,
+          "provider_reported_predict_time_seconds": 0.64466,
+          "poll_attempts": 0,
+          "poll_interval_delays": [],
+          "http_429_count": 0,
+          "retry_delay_seconds": 0.0,
+          "output_download_duration_seconds": 1.1963,
+          "status": "succeeded"
+        }
+      ]
+    }
+  ],
+  "rendering_breakdown": {
+    "renderer": "remotion",
+    "frames": 0,
+    "fps": 30,
+    "resolution": [
+      1080,
+      1920
+    ],
+    "asset_staging_seconds": null,
+    "remotion_render_seconds": null,
+    "remotion_concurrency": null,
+    "ffmpeg_encode_seconds": null,
+    "audio_delivery_seconds": null,
+    "visual_quality_scan_seconds": null,
+    "total_render_and_qa_seconds": null,
+    "video_encode_passes": null,
+    "average_fps_throughput": null,
+    "output_size_bytes": null
+  },
+  "spans": [
+    {
+      "id": "c4912bb6daf34b069eb2f35b45a93247",
+      "name": "end_to_end",
+      "start_utc": "2026-10-17T16:13:00.078470+00:00",
+      "start_offset_seconds": 0.0002739579999975206,
+      "status": "failed",
+      "metadata": {},
+      "parent_span_id": null,
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T16:15:22.240659+00:00",
+      "end_offset_seconds": 142.161768041,
+      "duration_seconds": 142.16149408299998,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "fce25d96e2fe4987b6f1529205d58016",
+      "name": "input_fetch_and_extract",
+      "start_utc": "2026-10-17T16:13:00.078863+00:00",
+      "start_offset_seconds": 0.0006598749999966458,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c4912bb6daf34b069eb2f35b45a93247",
+      "end_utc": "2026-10-17T16:13:01.875440+00:00",
+      "end_offset_seconds": 1.7972515409999978,
+      "duration_seconds": 1.7965916660000012,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "13297f4b56d148ef9f16d76b75003070",
+      "name": "research",
+      "start_utc": "2026-10-17T16:13:01.884405+00:00",
+      "start_offset_seconds": 1.8062054999999972,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c4912bb6daf34b069eb2f35b45a93247",
+      "end_utc": "2026-10-17T16:13:03.734616+00:00",
+      "end_offset_seconds": 3.6564221659999987,
+      "duration_seconds": 1.8502166660000015,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "a787382c408147e9a2781dd0fe1e94d9",
+      "name": "research_or_script_generation",
+      "start_utc": "2026-10-17T16:13:03.736622+00:00",
+      "start_offset_seconds": 3.658412499999997,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c4912bb6daf34b069eb2f35b45a93247",
+      "end_utc": "2026-10-17T16:13:11.464997+00:00",
+      "end_offset_seconds": 11.386761999999997,
+      "duration_seconds": 7.7283495,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e987bd37f28b4571bda5d7ca09f3c176",
+      "name": "narration_segmentation",
+      "start_utc": "2026-10-17T16:13:11.521779+00:00",
+      "start_offset_seconds": 11.443526290999998,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c4912bb6daf34b069eb2f35b45a93247",
+      "end_utc": "2026-10-17T16:13:11.522901+00:00",
+      "end_offset_seconds": 11.444646124999998,
+      "duration_seconds": 0.0011198340000007079,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "0eb9521dae074cd99d3fac2a2134eb2e",
+      "name": "semantic_beat_planning",
+      "start_utc": "2026-10-17T16:13:11.523487+00:00",
+      "start_offset_seconds": 11.445229165999997,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c4912bb6daf34b069eb2f35b45a93247",
+      "end_utc": "2026-10-17T16:13:17.171255+00:00",
+      "end_offset_seconds": 17.093000040999996,
+      "duration_seconds": 5.647770874999999,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "c5692588bb44412ba02b3dcfbfffcfc5",
+      "name": "TTS_generation",
+      "start_utc": "2026-10-17T16:13:11.523506+00:00",
+      "start_offset_seconds": 11.445249040999997,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c4912bb6daf34b069eb2f35b45a93247",
+      "end_utc": "2026-10-17T16:13:36.937547+00:00",
+      "end_offset_seconds": 36.859174666,
+      "duration_seconds": 25.413925625000005,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "6f2531c3b98340b1bfdb87a58e8bca96",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:13:17.184646+00:00",
+      "start_offset_seconds": 17.106377166,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "bhasmasura",
+        "queue_wait_seconds": 0.000161
+      },
+      "parent_span_id": "c4912bb6daf34b069eb2f35b45a93247",
+      "end_utc": "2026-10-17T16:13:58.005423+00:00",
+      "end_offset_seconds": 57.926940833,
+      "duration_seconds": 40.820563667,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "39e6d0f9c54f4c68aadded4f41bd2252",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:13:17.184741+00:00",
+      "start_offset_seconds": 17.106463458,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "mohini",
+        "queue_wait_seconds": 9.1e-05
+      },
+      "parent_span_id": "c4912bb6daf34b069eb2f35b45a93247",
+      "end_utc": "2026-10-17T16:13:27.640897+00:00",
+      "end_offset_seconds": 27.562560874999996,
+      "duration_seconds": 10.456097416999995,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "dfd0e3ba61c54ab0b1afa620532ed923",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T16:13:17.186096+00:00",
+      "start_offset_seconds": 17.107816833,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "2e37af1ee0851113"
+      },
+      "parent_span_id": "6f2531c3b98340b1bfdb87a58e8bca96",
+      "end_utc": "2026-10-17T16:13:58.004971+00:00",
+      "end_offset_seconds": 57.926498083,
+      "duration_seconds": 40.81868125,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "74ddbfd1c21247c5bcea50dca5476702",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T16:13:17.187025+00:00",
+      "start_offset_seconds": 17.108744375,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "d2fb5ab1e777e775"
+      },
+      "parent_span_id": "39e6d0f9c54f4c68aadded4f41bd2252",
+      "end_utc": "2026-10-17T16:13:27.640381+00:00",
+      "end_offset_seconds": 27.562051333,
+      "duration_seconds": 10.453306957999999,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "74ca6f062ce6432bb4c109768841325e",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:13:17.190155+00:00",
+      "start_offset_seconds": 17.111875124999997,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "bhasmasura",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "dfd0e3ba61c54ab0b1afa620532ed923",
+      "end_utc": "2026-10-17T16:13:23.616929+00:00",
+      "end_offset_seconds": 23.538619249999996,
+      "duration_seconds": 6.426744124999999,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "6f551db8fee74396a6dc3cabd0b2103b",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:13:17.190846+00:00",
+      "start_offset_seconds": 17.112564,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "mohini",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "74ddbfd1c21247c5bcea50dca5476702",
+      "end_utc": "2026-10-17T16:13:22.346519+00:00",
+      "end_offset_seconds": 22.268232833,
+      "duration_seconds": 5.155668833,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "dcc1978729ca45c59ab42c7c8c85761d",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:13:17.198701+00:00",
+      "start_offset_seconds": 17.120422333,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "74ca6f062ce6432bb4c109768841325e",
+      "end_utc": "2026-10-17T16:13:18.523782+00:00",
+      "end_offset_seconds": 18.445531208,
+      "duration_seconds": 1.325108874999998,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "9f7156b43a04401ab2f1c7e27537b41d",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:13:17.199122+00:00",
+      "start_offset_seconds": 17.120838999999997,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "6f551db8fee74396a6dc3cabd0b2103b",
+      "end_utc": "2026-10-17T16:13:17.520594+00:00",
+      "end_offset_seconds": 17.442311124999996,
+      "duration_seconds": 0.32147212499999966,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "3607d7d7e22348f28eabb414a3d9f275",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:13:22.348502+00:00",
+      "start_offset_seconds": 22.270201082999996,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "74ddbfd1c21247c5bcea50dca5476702",
+      "end_utc": "2026-10-17T16:13:25.028396+00:00",
+      "end_offset_seconds": 24.950082832999996,
+      "duration_seconds": 2.67988175,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "3562f399a77f4d34b8905b5c9593d1b2",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:13:23.617703+00:00",
+      "start_offset_seconds": 23.539387040999998,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "dfd0e3ba61c54ab0b1afa620532ed923",
+      "end_utc": "2026-10-17T16:13:26.252449+00:00",
+      "end_offset_seconds": 26.174128165999996,
+      "duration_seconds": 2.634741124999998,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "31d3127c6b934437b50f3141f1d93546",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:13:58.006116+00:00",
+      "start_offset_seconds": 57.92763279099999,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-d39a2fbad6aa72b8",
+        "queue_wait_seconds": 8.6e-05
+      },
+      "parent_span_id": "c4912bb6daf34b069eb2f35b45a93247",
+      "end_utc": "2026-10-17T16:14:11.551733+00:00",
+      "end_offset_seconds": 71.473187583,
+      "duration_seconds": 13.545554792000004,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "5ffda68ed4d94a1a9e43ca22f11f3d70",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:13:58.006143+00:00",
+      "start_offset_seconds": 57.927661958,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-bd741005a26076ed",
+        "queue_wait_seconds": 3.7e-05
+      },
+      "parent_span_id": "c4912bb6daf34b069eb2f35b45a93247",
+      "end_utc": "2026-10-17T16:14:10.111447+00:00",
+      "end_offset_seconds": 70.03290541599999,
+      "duration_seconds": 12.10524345799999,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "755e1e25828540c4a3efcdd3ec2b816e",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:13:58.006352+00:00",
+      "start_offset_seconds": 57.927870625,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-e996e7edbae7b76f",
+        "queue_wait_seconds": 2.3e-05
+      },
+      "parent_span_id": "c4912bb6daf34b069eb2f35b45a93247",
+      "end_utc": "2026-10-17T16:14:23.810948+00:00",
+      "end_offset_seconds": 83.732340916,
+      "duration_seconds": 25.804470291,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "8c56e33228d0497cadf6fed3212b5b6f",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:13:58.006590+00:00",
+      "start_offset_seconds": 57.928106583,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "b2ce7d921d1d01f7"
+      },
+      "parent_span_id": "31d3127c6b934437b50f3141f1d93546",
+      "end_utc": "2026-10-17T16:14:11.550729+00:00",
+      "end_offset_seconds": 71.47219237499999,
+      "duration_seconds": 13.54408579199999,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "3dc2839ac9dd4de0b6a1483646d2701c",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:13:58.007038+00:00",
+      "start_offset_seconds": 57.928555958000004,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "454ef8d078794340"
+      },
+      "parent_span_id": "5ffda68ed4d94a1a9e43ca22f11f3d70",
+      "end_utc": "2026-10-17T16:14:10.110906+00:00",
+      "end_offset_seconds": 70.03236895799999,
+      "duration_seconds": 12.103812999999988,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "96cd3cf90cdc4ef8936746fbeb61b2db",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:13:58.007457+00:00",
+      "start_offset_seconds": 57.928974958,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "02c29ed7f8807d61"
+      },
+      "parent_span_id": "755e1e25828540c4a3efcdd3ec2b816e",
+      "end_utc": "2026-10-17T16:14:23.810290+00:00",
+      "end_offset_seconds": 83.731687708,
+      "duration_seconds": 25.802712749999998,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "8f259e5f8de44f1eb013dd5cb7a7b5cc",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:13:58.009575+00:00",
+      "start_offset_seconds": 57.931092291,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-d39a2fbad6aa72b8",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "8c56e33228d0497cadf6fed3212b5b6f",
+      "end_utc": "2026-10-17T16:14:06.588708+00:00",
+      "end_offset_seconds": 66.510213708,
+      "duration_seconds": 8.579121416999996,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "fa9873bf5a8c4cf3b1a16bdaac839560",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:13:58.010008+00:00",
+      "start_offset_seconds": 57.931524708,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-bd741005a26076ed",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "3dc2839ac9dd4de0b6a1483646d2701c",
+      "end_utc": "2026-10-17T16:14:06.592180+00:00",
+      "end_offset_seconds": 66.51367216599999,
+      "duration_seconds": 8.582147457999994,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "637a59c64dba46c8b5e240803c44b602",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:13:58.010568+00:00",
+      "start_offset_seconds": 57.932084790999994,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-e996e7edbae7b76f",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "96cd3cf90cdc4ef8936746fbeb61b2db",
+      "end_utc": "2026-10-17T16:14:08.326649+00:00",
+      "end_offset_seconds": 68.248125125,
+      "duration_seconds": 10.316040334000007,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "53556a4e8b3b40049bb607223d66293f",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:13:58.016775+00:00",
+      "start_offset_seconds": 57.93829475,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "8f259e5f8de44f1eb013dd5cb7a7b5cc",
+      "end_utc": "2026-10-17T16:13:58.058563+00:00",
+      "end_offset_seconds": 57.980081333,
+      "duration_seconds": 0.04178658300000393,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "a1361fc1c88e477bb11139a9cd7b3133",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:13:58.056556+00:00",
+      "start_offset_seconds": 57.978078916,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "637a59c64dba46c8b5e240803c44b602",
+      "end_utc": "2026-10-17T16:13:59.059648+00:00",
+      "end_offset_seconds": 58.981167791000004,
+      "duration_seconds": 1.003088875000003,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "f8a585ea7961410f8d8c19011e973895",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:13:58.057002+00:00",
+      "start_offset_seconds": 57.978520290999995,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "fa9873bf5a8c4cf3b1a16bdaac839560",
+      "end_utc": "2026-10-17T16:14:00.062914+00:00",
+      "end_offset_seconds": 59.984461416,
+      "duration_seconds": 2.0059411250000068,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "1aad2ecd471241d4bdd53c00f248ee1e",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:14:06.592309+00:00",
+      "start_offset_seconds": 66.513788166,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "8c56e33228d0497cadf6fed3212b5b6f",
+      "end_utc": "2026-10-17T16:14:08.987131+00:00",
+      "end_offset_seconds": 68.90860145799999,
+      "duration_seconds": 2.394813291999995,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "5e3050db56134503b6a77b56d3740f1f",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:14:06.594000+00:00",
+      "start_offset_seconds": 66.51548174999999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "3dc2839ac9dd4de0b6a1483646d2701c",
+      "end_utc": "2026-10-17T16:14:07.944964+00:00",
+      "end_offset_seconds": 67.866440708,
+      "duration_seconds": 1.3509589580000068,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "d138694ace674695a4f7f485f0430bb2",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:14:08.327930+00:00",
+      "start_offset_seconds": 68.24940074999999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "96cd3cf90cdc4ef8936746fbeb61b2db",
+      "end_utc": "2026-10-17T16:14:10.143979+00:00",
+      "end_offset_seconds": 70.065443541,
+      "duration_seconds": 1.816042791000001,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "4503dc86530848b6870674c5c9ce5af5",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:14:10.111961+00:00",
+      "start_offset_seconds": 70.033419416,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-18d5c4d33371dc94",
+        "queue_wait_seconds": 12.105738
+      },
+      "parent_span_id": "c4912bb6daf34b069eb2f35b45a93247",
+      "end_utc": "2026-10-17T16:14:18.062220+00:00",
+      "end_offset_seconds": 77.983641208,
+      "duration_seconds": 7.950221791999994,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "8be9d5f4b01d498c8615d45e87576113",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:14:10.112435+00:00",
+      "start_offset_seconds": 70.033892791,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "06163b1441de929c"
+      },
+      "parent_span_id": "4503dc86530848b6870674c5c9ce5af5",
+      "end_utc": "2026-10-17T16:14:18.061639+00:00",
+      "end_offset_seconds": 77.983064083,
+      "duration_seconds": 7.949171292000003,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "c4e5f37d850d459f9fd776f9a8d31f9a",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:14:10.113563+00:00",
+      "start_offset_seconds": 70.03502225,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-18d5c4d33371dc94",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "8be9d5f4b01d498c8615d45e87576113",
+      "end_utc": "2026-10-17T16:14:14.225836+00:00",
+      "end_offset_seconds": 74.147292541,
+      "duration_seconds": 4.1122702910000015,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "387a95e118ca4287b19a6e5c731fdbce",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:14:10.118988+00:00",
+      "start_offset_seconds": 70.040455958,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "c4e5f37d850d459f9fd776f9a8d31f9a",
+      "end_utc": "2026-10-17T16:14:10.120273+00:00",
+      "end_offset_seconds": 70.041733208,
+      "duration_seconds": 0.0012772500000011178,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "14c4993cc7e4422b8d35b83b43730152",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:14:11.552709+00:00",
+      "start_offset_seconds": 71.47416370799999,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-db4e9e0ff55c1961",
+        "queue_wait_seconds": 13.546422
+      },
+      "parent_span_id": "c4912bb6daf34b069eb2f35b45a93247",
+      "end_utc": "2026-10-17T16:14:26.434774+00:00",
+      "end_offset_seconds": 86.356154875,
+      "duration_seconds": 14.88199116700001,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "b878282caa204f8dac9c258cd42f5b4f",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:14:11.553686+00:00",
+      "start_offset_seconds": 71.475139458,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "50ae9dd0c66cc5b5"
+      },
+      "parent_span_id": "14c4993cc7e4422b8d35b83b43730152",
+      "end_utc": "2026-10-17T16:14:26.433941+00:00",
+      "end_offset_seconds": 86.355326875,
+      "duration_seconds": 14.880187417000002,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "7a8edd5a36b84c0ca11c5609df30e388",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:14:11.692468+00:00",
+      "start_offset_seconds": 71.61392475,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-db4e9e0ff55c1961",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "b878282caa204f8dac9c258cd42f5b4f",
+      "end_utc": "2026-10-17T16:14:22.916360+00:00",
+      "end_offset_seconds": 82.837774666,
+      "duration_seconds": 11.223849916000006,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "a7e1d546a89e4038a9b0ea692623c9e2",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:14:11.709606+00:00",
+      "start_offset_seconds": 71.631057916,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "7a8edd5a36b84c0ca11c5609df30e388",
+      "end_utc": "2026-10-17T16:14:11.710274+00:00",
+      "end_offset_seconds": 71.631725041,
+      "duration_seconds": 0.0006671249999925521,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "58146d5d31b64d2488e98906015311c4",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:14:13.701373+00:00",
+      "start_offset_seconds": 73.622834125,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-e996e7edbae7b76f",
+        "model": "black-forest-labs[path]",
+        "attempt": 2
+      },
+      "parent_span_id": "96cd3cf90cdc4ef8936746fbeb61b2db",
+      "end_utc": "2026-10-17T16:14:18.223361+00:00",
+      "end_offset_seconds": 78.144784625,
+      "duration_seconds": 4.521950500000003,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "28a20818cb194340b5df1be494ba7471",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:14:13.709768+00:00",
+      "start_offset_seconds": 73.631230041,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "58146d5d31b64d2488e98906015311c4",
+      "end_utc": "2026-10-17T16:14:13.712286+00:00",
+      "end_offset_seconds": 73.633734875,
+      "duration_seconds": 0.0025048340000068947,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "2930d6f93d784670b84733e14a4667a0",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:14:14.228258+00:00",
+      "start_offset_seconds": 74.14970174999999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "8be9d5f4b01d498c8615d45e87576113",
+      "end_utc": "2026-10-17T16:14:15.543620+00:00",
+      "end_offset_seconds": 75.465056916,
+      "duration_seconds": 1.3153551660000034,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "7df9863350d148a783750efc57b354cf",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:14:18.063199+00:00",
+      "start_offset_seconds": 77.984619083,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-7e42146eb60ee6d1",
+        "queue_wait_seconds": 20.056928
+      },
+      "parent_span_id": "c4912bb6daf34b069eb2f35b45a93247",
+      "end_utc": "2026-10-17T16:14:29.743043+00:00",
+      "end_offset_seconds": 89.664406375,
+      "duration_seconds": 11.679787292,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e2aa13a132bd451e85bbd87c6f2f0ba0",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:14:18.063695+00:00",
+      "start_offset_seconds": 77.985114458,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "4417a91b6701910e"
+      },
+      "parent_span_id": "7df9863350d148a783750efc57b354cf",
+      "end_utc": "2026-10-17T16:14:29.742360+00:00",
+      "end_offset_seconds": 89.663727416,
+      "duration_seconds": 11.678612958000002,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "167a76ed435e4058ba2b43d4999f959e",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:14:18.224116+00:00",
+      "start_offset_seconds": 78.145535875,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "96cd3cf90cdc4ef8936746fbeb61b2db",
+      "end_utc": "2026-10-17T16:14:19.513627+00:00",
+      "end_offset_seconds": 79.435051833,
+      "duration_seconds": 1.2895159580000097,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "4c265979ee7b4fbba2f43278e7f49401",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:14:18.276197+00:00",
+      "start_offset_seconds": 78.19762604099999,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-7e42146eb60ee6d1",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "e2aa13a132bd451e85bbd87c6f2f0ba0",
+      "end_utc": "2026-10-17T16:14:26.641038+00:00",
+      "end_offset_seconds": 86.562420375,
+      "duration_seconds": 8.36479433400001,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "7b6594cd7f8b4ab9bbca4929299d0e73",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:14:18.304644+00:00",
+      "start_offset_seconds": 78.22607291599999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "4c265979ee7b4fbba2f43278e7f49401",
+      "end_utc": "2026-10-17T16:14:18.306549+00:00",
+      "end_offset_seconds": 78.227975041,
+      "duration_seconds": 0.001902125000000865,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "d49f983a295747f5915272fb39e8c2e6",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:14:22.918594+00:00",
+      "start_offset_seconds": 82.839997375,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "b878282caa204f8dac9c258cd42f5b4f",
+      "end_utc": "2026-10-17T16:14:24.149239+00:00",
+      "end_offset_seconds": 84.0706355,
+      "duration_seconds": 1.2306381249999987,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "ce9960c3cbac4931b5c2e7078457a979",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:14:23.811543+00:00",
+      "start_offset_seconds": 83.732935208,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-06cfae8fa3429941",
+        "queue_wait_seconds": 25.805238
+      },
+      "parent_span_id": "c4912bb6daf34b069eb2f35b45a93247",
+      "end_utc": "2026-10-17T16:14:36.137163+00:00",
+      "end_offset_seconds": 96.058496458,
+      "duration_seconds": 12.325561249999993,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "42693a90c5e74f9e8d28c88c7d9aa9e7",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:14:23.812280+00:00",
+      "start_offset_seconds": 83.73368829099999,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "17141270d9aff724"
+      },
+      "parent_span_id": "ce9960c3cbac4931b5c2e7078457a979",
+      "end_utc": "2026-10-17T16:14:36.136424+00:00",
+      "end_offset_seconds": 96.057761458,
+      "duration_seconds": 12.324073167000009,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "967c604f472e493eac585750afe4149b",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:14:23.990397+00:00",
+      "start_offset_seconds": 83.911793416,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-06cfae8fa3429941",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "42693a90c5e74f9e8d28c88c7d9aa9e7",
+      "end_utc": "2026-10-17T16:14:31.041020+00:00",
+      "end_offset_seconds": 90.962396833,
+      "duration_seconds": 7.050603417000005,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "fc61d35b183e42b0bf266334235d1c9d",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:14:24.013976+00:00",
+      "start_offset_seconds": 83.935369,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "967c604f472e493eac585750afe4149b",
+      "end_utc": "2026-10-17T16:14:24.014923+00:00",
+      "end_offset_seconds": 83.936314916,
+      "duration_seconds": 0.0009459160000062639,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "8dc01ccfe75e4cd39660c9505caa6ee2",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:14:26.435594+00:00",
+      "start_offset_seconds": 86.356976875,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-0e3bcce57853b90e",
+        "queue_wait_seconds": 28.429255
+      },
+      "parent_span_id": "c4912bb6daf34b069eb2f35b45a93247",
+      "end_utc": "2026-10-17T16:15:15.808119+00:00",
+      "end_offset_seconds": 135.729260541,
+      "duration_seconds": 49.372283666,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "dc35b12293314803ad1f869af264a438",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:14:26.436431+00:00",
+      "start_offset_seconds": 86.35781175,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "c89147e921025c24"
+      },
+      "parent_span_id": "8dc01ccfe75e4cd39660c9505caa6ee2",
+      "end_utc": "2026-10-17T16:15:15.807095+00:00",
+      "end_offset_seconds": 135.728240958,
+      "duration_seconds": 49.37042920799999,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "15e6187635d940dc8be2203eb06171b8",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:14:26.641851+00:00",
+      "start_offset_seconds": 86.56323025,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e2aa13a132bd451e85bbd87c6f2f0ba0",
+      "end_utc": "2026-10-17T16:14:27.895851+00:00",
+      "end_offset_seconds": 87.81722804099999,
+      "duration_seconds": 1.253997790999989,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "3ed941509dfe43b7b3fa1a3472785b2c",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:14:26.651934+00:00",
+      "start_offset_seconds": 86.57331599999999,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-0e3bcce57853b90e",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "dc35b12293314803ad1f869af264a438",
+      "end_utc": "2026-10-17T16:14:37.253060+00:00",
+      "end_offset_seconds": 97.174406041,
+      "duration_seconds": 10.601090041000006,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "7d6e09890de44c808f760f85d085560a",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:14:26.673647+00:00",
+      "start_offset_seconds": 86.595033833,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "3ed941509dfe43b7b3fa1a3472785b2c",
+      "end_utc": "2026-10-17T16:14:26.674960+00:00",
+      "end_offset_seconds": 86.596340916,
+      "duration_seconds": 0.0013070830000003753,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "c2a79f910abc47a48e6cbd44d1677413",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:14:29.743693+00:00",
+      "start_offset_seconds": 89.665056583,
+      "status": "failed",
+      "metadata": {
+        "entity_id": "scene-d75ce2ba829539ec",
+        "queue_wait_seconds": 31.737342
+      },
+      "parent_span_id": "c4912bb6daf34b069eb2f35b45a93247",
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T16:15:16.264462+00:00",
+      "end_offset_seconds": 136.185612791,
+      "duration_seconds": 46.520556208000016,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "d8a1c4bbb63b44608a31c88b816b0c0a",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:14:29.744322+00:00",
+      "start_offset_seconds": 89.665685416,
+      "status": "failed",
+      "metadata": {
+        "asset_key": "af26a2e68c2879a7"
+      },
+      "parent_span_id": "c2a79f910abc47a48e6cbd44d1677413",
+      "error_type": "NewsError",
+      "end_utc": "2026-10-17T16:15:16.260538+00:00",
+      "end_offset_seconds": 136.181703166,
+      "duration_seconds": 46.51601775,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "863b0b3d9b2e410c8e8afb9d12d20280",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:14:29.962378+00:00",
+      "start_offset_seconds": 89.883745166,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-d75ce2ba829539ec",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "d8a1c4bbb63b44608a31c88b816b0c0a",
+      "end_utc": "2026-10-17T16:14:44.380805+00:00",
+      "end_offset_seconds": 104.302106125,
+      "duration_seconds": 14.418360958999997,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "f600365a6e524d2583bb3632f4e35e7d",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:14:29.982005+00:00",
+      "start_offset_seconds": 89.903369208,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "863b0b3d9b2e410c8e8afb9d12d20280",
+      "end_utc": "2026-10-17T16:14:29.982893+00:00",
+      "end_offset_seconds": 89.904255791,
+      "duration_seconds": 0.0008865829999962216,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "60098959e71b46fcb7b9d0680d2a7458",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:14:31.043662+00:00",
+      "start_offset_seconds": 90.965026666,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "42693a90c5e74f9e8d28c88c7d9aa9e7",
+      "end_utc": "2026-10-17T16:14:32.559795+00:00",
+      "end_offset_seconds": 92.481150208,
+      "duration_seconds": 1.5161235420000025,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "c4b81f2c872548908416415d62f30c3b",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:14:36.137844+00:00",
+      "start_offset_seconds": 96.059176458,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-53b12ee0386bc1f1",
+        "queue_wait_seconds": 38.131462
+      },
+      "parent_span_id": "c4912bb6daf34b069eb2f35b45a93247",
+      "end_utc": "2026-10-17T16:14:50.283250+00:00",
+      "end_offset_seconds": 110.204514708,
+      "duration_seconds": 14.145338250000009,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "23fcbc87aa174d0d89fb3b638e055906",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:14:36.138462+00:00",
+      "start_offset_seconds": 96.05979425,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "1e34848fecc01998"
+      },
+      "parent_span_id": "c4b81f2c872548908416415d62f30c3b",
+      "end_utc": "2026-10-17T16:14:50.282472+00:00",
+      "end_offset_seconds": 110.20374033299998,
+      "duration_seconds": 14.143946082999989,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "019f23b450b94ce2b45ae739e722b373",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:14:36.347442+00:00",
+      "start_offset_seconds": 96.268779125,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-53b12ee0386bc1f1",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "23fcbc87aa174d0d89fb3b638e055906",
+      "end_utc": "2026-10-17T16:14:46.139736+00:00",
+      "end_offset_seconds": 106.061031291,
+      "duration_seconds": 9.792252166000011,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "1515e7185aab4a9da16179840fdf4a97",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:14:36.367003+00:00",
+      "start_offset_seconds": 96.288337333,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "019f23b450b94ce2b45ae739e722b373",
+      "end_utc": "2026-10-17T16:14:36.367961+00:00",
+      "end_offset_seconds": 96.28929475,
+      "duration_seconds": 0.0009574169999950755,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "bca9828e7e96499aaea1c70fb7517b40",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:14:37.255979+00:00",
+      "start_offset_seconds": 97.177313416,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "dc35b12293314803ad1f869af264a438",
+      "end_utc": "2026-10-17T16:14:38.657416+00:00",
+      "end_offset_seconds": 98.578746166,
+      "duration_seconds": 1.401432749999998,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "baa5d98d1fd641db901df7a222847dc3",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:14:41.081339+00:00",
+      "start_offset_seconds": 101.00266608300001,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-0e3bcce57853b90e",
+        "model": "black-forest-labs[path]",
+        "attempt": 2
+      },
+      "parent_span_id": "dc35b12293314803ad1f869af264a438",
+      "end_utc": "2026-10-17T16:14:44.204340+00:00",
+      "end_offset_seconds": 104.125647375,
+      "duration_seconds": 3.1229812919999915,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "d17da8d075c34fe7b39e9cd835e2bea2",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:14:41.090959+00:00",
+      "start_offset_seconds": 101.012291,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "baa5d98d1fd641db901df7a222847dc3",
+      "end_utc": "2026-10-17T16:14:41.094295+00:00",
+      "end_offset_seconds": 101.015618666,
+      "duration_seconds": 0.003327665999989904,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "b7c45fe4ac714226be4342ca8ac05300",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:14:44.207616+00:00",
+      "start_offset_seconds": 104.12891483300001,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "dc35b12293314803ad1f869af264a438",
+      "end_utc": "2026-10-17T16:14:45.539843+00:00",
+      "end_offset_seconds": 105.46113808300001,
+      "duration_seconds": 1.3322232499999984,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "2d953c63533144db94220c1c13142e0e",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:14:44.382868+00:00",
+      "start_offset_seconds": 104.304165291,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "d8a1c4bbb63b44608a31c88b816b0c0a",
+      "end_utc": "2026-10-17T16:14:46.712033+00:00",
+      "end_offset_seconds": 106.633321833,
+      "duration_seconds": 2.3291565419999927,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "3f6de38c65f24a1986340edef58ada09",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:14:46.140954+00:00",
+      "start_offset_seconds": 106.062241416,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "23fcbc87aa174d0d89fb3b638e055906",
+      "end_utc": "2026-10-17T16:14:47.735850+00:00",
+      "end_offset_seconds": 107.657128666,
+      "duration_seconds": 1.5948872499999993,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "f2e7fc773c3c426387878891662d8ea0",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:14:47.733256+00:00",
+      "start_offset_seconds": 107.654536541,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-0e3bcce57853b90e",
+        "model": "black-forest-labs[path]",
+        "attempt": 3
+      },
+      "parent_span_id": "dc35b12293314803ad1f869af264a438",
+      "end_utc": "2026-10-17T16:14:51.706138+00:00",
+      "end_offset_seconds": 111.62741741599999,
+      "duration_seconds": 3.972880874999987,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "a69a5bc808a84b88b0e7e59785c1f322",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:14:47.736536+00:00",
+      "start_offset_seconds": 107.657812458,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "f2e7fc773c3c426387878891662d8ea0",
+      "end_utc": "2026-10-17T16:14:47.737791+00:00",
+      "end_offset_seconds": 107.65906745800001,
+      "duration_seconds": 0.001255000000014661,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "9cf04dd237f24cf0bb7302adffa54abe",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:14:49.396279+00:00",
+      "start_offset_seconds": 109.317562458,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-d75ce2ba829539ec",
+        "model": "black-forest-labs[path]",
+        "attempt": 2
+      },
+      "parent_span_id": "d8a1c4bbb63b44608a31c88b816b0c0a",
+      "end_utc": "2026-10-17T16:14:56.089720+00:00",
+      "end_offset_seconds": 116.010977583,
+      "duration_seconds": 6.693415125000001,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "4d13416a70ae4ee284cd65c8b3605589",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:14:49.407267+00:00",
+      "start_offset_seconds": 109.328569458,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "9cf04dd237f24cf0bb7302adffa54abe",
+      "end_utc": "2026-10-17T16:14:49.410888+00:00",
+      "end_offset_seconds": 109.332176333,
+      "duration_seconds": 0.003606875000002674,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "ee27248688674ddaa94ea941914a7d35",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:14:50.283994+00:00",
+      "start_offset_seconds": 110.20525733299999,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-418f155afedd671c",
+        "queue_wait_seconds": 52.277551
+      },
+      "parent_span_id": "c4912bb6daf34b069eb2f35b45a93247",
+      "end_utc": "2026-10-17T16:15:03.143942+00:00",
+      "end_offset_seconds": 123.06514495799999,
+      "duration_seconds": 12.859887624999999,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "435fba0eaa9744529ef44020b4fdbe68",
+      "name": "new_action_asset_generation",
+      "start_utc": "2026-10-17T16:14:50.284712+00:00",
+      "start_offset_seconds": 110.205976125,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "199ee07c8a373ffd"
+      },
+      "parent_span_id": "ee27248688674ddaa94ea941914a7d35",
+      "end_utc": "2026-10-17T16:15:03.143093+00:00",
+      "end_offset_seconds": 123.064299208,
+      "duration_seconds": 12.858323082999988,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "6119efd7cdba42268e987a74c8c335dd",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:14:50.496011+00:00",
+      "start_offset_seconds": 110.41727975,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-418f155afedd671c",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "435fba0eaa9744529ef44020b4fdbe68",
+      "end_utc": "2026-10-17T16:15:00.248507+00:00",
+      "end_offset_seconds": 120.169742541,
+      "duration_seconds": 9.752462791,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "b8a42ae50483443fb22360afb33f8f2e",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:14:50.515806+00:00",
+      "start_offset_seconds": 110.43707075,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "6119efd7cdba42268e987a74c8c335dd",
+      "end_utc": "2026-10-17T16:14:50.516809+00:00",
+      "end_offset_seconds": 110.43807341600001,
+      "duration_seconds": 0.0010026660000050924,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "6c9ef2eca7054b0c97f901e59dcbf92f",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:14:51.709377+00:00",
+      "start_offset_seconds": 111.63064175,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "dc35b12293314803ad1f869af264a438",
+      "end_utc": "2026-10-17T16:14:53.026681+00:00",
+      "end_offset_seconds": 112.947937333,
+      "duration_seconds": 1.3172955830000035,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "426a4d4de0cb44328e078f12ef5bf01b",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:14:56.093279+00:00",
+      "start_offset_seconds": 116.014525333,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "d8a1c4bbb63b44608a31c88b816b0c0a",
+      "end_utc": "2026-10-17T16:14:57.301027+00:00",
+      "end_offset_seconds": 117.22226262499998,
+      "duration_seconds": 1.2077372919999902,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "3fea1c392089441f9cf3c83cdc901547",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:15:00.251779+00:00",
+      "start_offset_seconds": 120.173003916,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "435fba0eaa9744529ef44020b4fdbe68",
+      "end_utc": "2026-10-17T16:15:01.521034+00:00",
+      "end_offset_seconds": 121.442248208,
+      "duration_seconds": 1.2692442919999962,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "0acf99303c9c47809ea48a359c6fab7e",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:15:01.269444+00:00",
+      "start_offset_seconds": 121.19066487500001,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-d75ce2ba829539ec",
+        "model": "black-forest-labs[path]",
+        "attempt": 3
+      },
+      "parent_span_id": "d8a1c4bbb63b44608a31c88b816b0c0a",
+      "end_utc": "2026-10-17T16:15:04.269925+00:00",
+      "end_offset_seconds": 124.191136333,
+      "duration_seconds": 3.0004714579999927,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "cf0cd890a2634964931d38c37721349e",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:15:01.275420+00:00",
+      "start_offset_seconds": 121.196636625,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "0acf99303c9c47809ea48a359c6fab7e",
+      "end_utc": "2026-10-17T16:15:01.276779+00:00",
+      "end_offset_seconds": 121.19800033300001,
+      "duration_seconds": 0.0013637080000137303,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "6c09b1d31aa94519b48eea98cd9804d3",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:15:03.144795+00:00",
+      "start_offset_seconds": 123.06599641599999,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "shiva",
+        "queue_wait_seconds": 65.138288
+      },
+      "parent_span_id": "c4912bb6daf34b069eb2f35b45a93247",
+      "end_utc": "2026-10-17T16:15:15.874569+00:00",
+      "end_offset_seconds": 135.795710541,
+      "duration_seconds": 12.729714125000015,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "bc06742155c84975956bd044e25b3571",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T16:15:03.145590+00:00",
+      "start_offset_seconds": 123.066791333,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "eba6fd0e1aec9c8b"
+      },
+      "parent_span_id": "6c09b1d31aa94519b48eea98cd9804d3",
+      "end_utc": "2026-10-17T16:15:15.873568+00:00",
+      "end_offset_seconds": 135.794712625,
+      "duration_seconds": 12.72792129199999,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "46247fa8a3614d47a94751e1011c1361",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:15:03.147099+00:00",
+      "start_offset_seconds": 123.068299916,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "shiva",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "bc06742155c84975956bd044e25b3571",
+      "end_utc": "2026-10-17T16:15:06.143515+00:00",
+      "end_offset_seconds": 126.0647175,
+      "duration_seconds": 2.9964175839999996,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "13a093146b534260a8d3a5fe8845208b",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:15:03.150343+00:00",
+      "start_offset_seconds": 123.07154616599999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "46247fa8a3614d47a94751e1011c1361",
+      "end_utc": "2026-10-17T16:15:03.151619+00:00",
+      "end_offset_seconds": 123.07282237499999,
+      "duration_seconds": 0.0012762089999966975,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "4a7cd775afe2459aab4ef69b51bd6be9",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:15:04.273811+00:00",
+      "start_offset_seconds": 124.19501508299999,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "d8a1c4bbb63b44608a31c88b816b0c0a",
+      "end_utc": "2026-10-17T16:15:05.537558+00:00",
+      "end_offset_seconds": 125.45875337499999,
+      "duration_seconds": 1.2637382919999993,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "a40215bc2dab4fa2b0ba7d72cd8785b4",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:15:06.147086+00:00",
+      "start_offset_seconds": 126.068283041,
+      "status": "failed",
+      "metadata": {},
+      "parent_span_id": "bc06742155c84975956bd044e25b3571",
+      "error_type": "CutoutQualityError",
+      "end_utc": "2026-10-17T16:15:07.282304+00:00",
+      "end_offset_seconds": 127.20349291599999,
+      "duration_seconds": 1.1352098749999868,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "44026a3e35374329bec42b03967bc019",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:15:07.284407+00:00",
+      "start_offset_seconds": 127.205590083,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "shiva",
+        "model": "black-forest-labs[path]",
+        "attempt": 2
+      },
+      "parent_span_id": "bc06742155c84975956bd044e25b3571",
+      "end_utc": "2026-10-17T16:15:10.283903+00:00",
+      "end_offset_seconds": 130.205087625,
+      "duration_seconds": 2.9994975420000003,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "65eced41525f4fe69b8b20d58f759305",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:15:07.287853+00:00",
+      "start_offset_seconds": 127.209036666,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "44026a3e35374329bec42b03967bc019",
+      "end_utc": "2026-10-17T16:15:07.288937+00:00",
+      "end_offset_seconds": 127.21011974999999,
+      "duration_seconds": 0.0010830839999869113,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "637389a926434ba89a32646d131fa89a",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:15:07.645664+00:00",
+      "start_offset_seconds": 127.566863958,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "scene-d75ce2ba829539ec",
+        "model": "black-forest-labs[path]",
+        "attempt": 4
+      },
+      "parent_span_id": "d8a1c4bbb63b44608a31c88b816b0c0a",
+      "end_utc": "2026-10-17T16:15:12.403995+00:00",
+      "end_offset_seconds": 132.32517075,
+      "duration_seconds": 4.758306792000013,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "1e3512b9167146d3a1ae23daa157ca45",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:15:07.656178+00:00",
+      "start_offset_seconds": 127.577416166,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "637389a926434ba89a32646d131fa89a",
+      "end_utc": "2026-10-17T16:15:08.291796+00:00",
+      "end_offset_seconds": 128.213001,
+      "duration_seconds": 0.6355848339999852,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "1aec3f04774c4d319c8695245cd6acdb",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:15:10.287909+00:00",
+      "start_offset_seconds": 130.209122208,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "bc06742155c84975956bd044e25b3571",
+      "end_utc": "2026-10-17T16:15:11.723154+00:00",
+      "end_offset_seconds": 131.64431975,
+      "duration_seconds": 1.4351975419999974,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "0905d24f16394d1795cae3b20f5f4285",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:15:12.408070+00:00",
+      "start_offset_seconds": 132.329236833,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "d8a1c4bbb63b44608a31c88b816b0c0a",
+      "end_utc": "2026-10-17T16:15:13.597324+00:00",
+      "end_offset_seconds": 133.518481125,
+      "duration_seconds": 1.1892442919999837,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "b17696d1d878497f8972e6a834777e99",
+      "name": "image_task",
+      "start_utc": "2026-10-17T16:15:15.809133+00:00",
+      "start_offset_seconds": 135.730274041,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "vishnu",
+        "queue_wait_seconds": 77.802548
+      },
+      "parent_span_id": "c4912bb6daf34b069eb2f35b45a93247",
+      "end_utc": "2026-10-17T16:15:22.237778+00:00",
+      "end_offset_seconds": 142.158888,
+      "duration_seconds": 6.428613958999989,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e526ce10af314d4d9377f61c154e79c3",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T16:15:15.810002+00:00",
+      "start_offset_seconds": 135.731142291,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "7fdd922ef3de1581"
+      },
+      "parent_span_id": "b17696d1d878497f8972e6a834777e99",
+      "end_utc": "2026-10-17T16:15:22.236769+00:00",
+      "end_offset_seconds": 142.157882666,
+      "duration_seconds": 6.4267403750000085,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "5ff5c6a476ca49d488e9fe5f2ddd295e",
+      "name": "image_provider_wait",
+      "start_utc": "2026-10-17T16:15:15.811723+00:00",
+      "start_offset_seconds": 135.732863166,
+      "status": "succeeded",
+      "metadata": {
+        "entity_id": "vishnu",
+        "model": "black-forest-labs[path]",
+        "attempt": 1
+      },
+      "parent_span_id": "e526ce10af314d4d9377f61c154e79c3",
+      "end_utc": "2026-10-17T16:15:18.715909+00:00",
+      "end_offset_seconds": 138.637054541,
+      "duration_seconds": 2.9041913750000106,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "de3a2340bd004cb0a8bf37c22212d320",
+      "name": "image_provider_admission",
+      "start_utc": "2026-10-17T16:15:15.816064+00:00",
+      "start_offset_seconds": 135.73720925,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "5ff5c6a476ca49d488e9fe5f2ddd295e",
+      "end_utc": "2026-10-17T16:15:15.817303+00:00",
+      "end_offset_seconds": 135.738444583,
+      "duration_seconds": 0.0012353329999825746,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "0de9ccba9ede4135b0df5cc073718cce",
+      "name": "background_removal_and_alpha",
+      "start_utc": "2026-10-17T16:15:18.719823+00:00",
+      "start_offset_seconds": 138.64096175,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "e526ce10af314d4d9377f61c154e79c3",
+      "end_utc": "2026-10-17T16:15:19.961586+00:00",
+      "end_offset_seconds": 139.882712541,
+      "duration_seconds": 1.241750790999987,
+      "trace_file": "job_trace.json"
+    }
+  ]
+}

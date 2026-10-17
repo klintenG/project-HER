@@ -1,0 +1,419 @@
+{
+  "summary": "Scenario diamond",
+  "narration": "A sacred blue diamond was mined in Golconda. A French merchant smuggled the rough gem to Paris. King Louis wore the recut jewel at court. Thieves seized the royal treasury during the revolution. The cursed stone finally entered a museum vault.",
+  "sentences": [
+    {
+      "id": "s0",
+      "text": "A sacred blue diamond was mined in Golconda.",
+      "claim_ids": [
+        "c"
+      ],
+      "entity_ids": [
+        "scene-615499394d495610",
+        "chest"
+      ],
+      "phrase": "A sacred blue diamond",
+      "role": "development",
+      "emphasis": [],
+      "headline_text": null
+    },
+    {
+      "id": "s1",
+      "text": "A French merchant smuggled the rough gem to Paris.",
+      "claim_ids": [
+        "c"
+      ],
+      "entity_ids": [
+        "scene-ec6d4cd235676171",
+        "chest"
+      ],
+      "phrase": "A French merchant smuggled",
+      "role": "development",
+      "emphasis": [],
+      "headline_text": null
+    },
+    {
+      "id": "s2",
+      "text": "King Louis wore the recut jewel at court.",
+      "claim_ids": [
+        "c"
+      ],
+      "entity_ids": [
+        "scene-1988e0412495ffe3",
+        "chest"
+      ],
+      "phrase": "King Louis wore the",
+      "role": "development",
+      "emphasis": [],
+      "headline_text": null
+    },
+    {
+      "id": "s3",
+      "text": "Thieves seized the royal treasury during the revolution.",
+      "claim_ids": [
+        "c"
+      ],
+      "entity_ids": [
+        "scene-3cece34b2f9f81be",
+        "chest"
+      ],
+      "phrase": "Thieves seized the royal",
+      "role": "development",
+      "emphasis": [],
+      "headline_text": null
+    },
+    {
+      "id": "s4",
+      "text": "The cursed stone finally entered a museum vault.",
+      "claim_ids": [
+        "c"
+      ],
+      "entity_ids": [
+        "scene-9418232ce4b5acd0",
+        "chest"
+      ],
+      "phrase": "The cursed stone finally",
+      "role": "development",
+      "emphasis": [],
+      "headline_text": null
+    }
+  ],
+  "entities": [
+    {
+      "id": "chest",
+      "name": "Royal Reliquary",
+      "kind": "object",
+      "description": "Gilded velvet-lined royal jewel casket",
+      "identity": "generic",
+      "reference_query": null,
+      "exact_asset": null
+    },
+    {
+      "id": "scene-615499394d495610",
+      "name": "Golconda Blue Diamond in beat s0",
+      "kind": "object",
+      "description": "Exact narrated sentence: A sacred blue diamond was mined in Golconda.\nVisual focus: Beat 0: A sacred blue diamond was mined in Golconda.. An isolated connected cutout depicting A sacred blue diamond was mined in Golconda. with distinct silhouette 0\nIdentity continuity: Golconda Blue Diamond: Deep sapphire-blue faceted cushion-cut diamond. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+      "identity": "generic",
+      "reference_query": null,
+      "exact_asset": null
+    },
+    {
+      "id": "scene-ec6d4cd235676171",
+      "name": "Golconda Blue Diamond in beat s1",
+      "kind": "object",
+      "description": "Exact narrated sentence: A French merchant smuggled the rough gem to Paris.\nVisual focus: Beat 1: A French merchant smuggled the rough gem to Paris.. An isolated connected cutout depicting A French merchant smuggled the rough gem to Paris. with distinct silhouette 1\nIdentity continuity: Golconda Blue Diamond: Deep sapphire-blue faceted cushion-cut diamond. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+      "identity": "generic",
+      "reference_query": null,
+      "exact_asset": null
+    },
+    {
+      "id": "scene-1988e0412495ffe3",
+      "name": "Golconda Blue Diamond in beat s2",
+      "kind": "object",
+      "description": "Exact narrated sentence: King Louis wore the recut jewel at court.\nVisual focus: Beat 2: King Louis wore the recut jewel at court.. An isolated connected cutout depicting King Louis wore the recut jewel at court. with distinct silhouette 2\nIdentity continuity: Golconda Blue Diamond: Deep sapphire-blue faceted cushion-cut diamond. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+      "identity": "generic",
+      "reference_query": null,
+      "exact_asset": null
+    },
+    {
+      "id": "scene-3cece34b2f9f81be",
+      "name": "Golconda Blue Diamond in beat s3",
+      "kind": "object",
+      "description": "Exact narrated sentence: Thieves seized the royal treasury during the revolution.\nVisual focus: Beat 3: Thieves seized the royal treasury during the revolution.. An isolated connected cutout depicting Thieves seized the royal treasury during the revolution. with distinct silhouette 3\nIdentity continuity: Golconda Blue Diamond: Deep sapphire-blue faceted cushion-cut diamond. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+      "identity": "generic",
+      "reference_query": null,
+      "exact_asset": null
+    },
+    {
+      "id": "scene-9418232ce4b5acd0",
+      "name": "Golconda Blue Diamond in beat s4",
+      "kind": "object",
+      "description": "Exact narrated sentence: The cursed stone finally entered a museum vault.\nVisual focus: Beat 4: The cursed stone finally entered a museum vault.. An isolated connected cutout depicting The cursed stone finally entered a museum vault. with distinct silhouette 4\nIdentity continuity: Golconda Blue Diamond: Deep sapphire-blue faceted cushion-cut diamond. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+      "identity": "generic",
+      "reference_query": null,
+      "exact_asset": null
+    }
+  ],
+  "sentence_storyboard": [
+    {
+      "beat_id": "beat-s0",
+      "sentence_id": "s0",
+      "narration_text": "A sacred blue diamond was mined in Golconda.",
+      "primary_subject": "Golconda Blue Diamond in beat s0",
+      "visual_description": "An isolated connected cutout depicting A sacred blue diamond was mined in Golconda. with distinct silhouette 0",
+      "subject": "Golconda Blue Diamond in beat s0",
+      "action": "A sacred blue diamond was mined in Golconda.",
+      "important_objects": [
+        "Royal Reliquary"
+      ],
+      "setting": "dramatic historical setting",
+      "emotion": "intense",
+      "state_change": "A sacred blue diamond was mined in Golconda.",
+      "visual_focus": "Beat 0: A sacred blue diamond was mined in Golconda.",
+      "description": "An isolated connected cutout depicting A sacred blue diamond was mined in Golconda. with distinct silhouette 0",
+      "identity_ids": [
+        "diamond"
+      ],
+      "secondary_ids": [],
+      "relevance": 0.96,
+      "narrative_importance": 0.92,
+      "novelty": 0.94,
+      "readability": 0.93,
+      "primary_entity_id": "scene-615499394d495610",
+      "primary_asset_id": "asset-scene-615499394d495610",
+      "primary_asset_is_distinct": true,
+      "secondary_entity_ids": [
+        "chest"
+      ],
+      "secondary_asset_ids": [
+        "asset-chest"
+      ],
+      "reused_character_ids": [
+        "diamond"
+      ],
+      "continuity_references": [
+        "diamond"
+      ],
+      "image_generation_prompt": "Exact narrated sentence: A sacred blue diamond was mined in Golconda.\nVisual focus: Beat 0: A sacred blue diamond was mined in Golconda.. An isolated connected cutout depicting A sacred blue diamond was mined in Golconda. with distinct silhouette 0\nIdentity continuity: Golconda Blue Diamond: Deep sapphire-blue faceted cushion-cut diamond. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "composition_type": "multi_cutout",
+      "animation_plan": "existing_editorial_motion",
+      "transition_plan": "aligned_sentence_boundary",
+      "primary_asset_origin": "replicate:black-forest-labs/flux-kontext-pro",
+      "perceptual_dhash": "0808183878181808",
+      "start_time": 0.0,
+      "end_time": 2.56,
+      "render_visibility": "passed"
+    },
+    {
+      "beat_id": "beat-s1",
+      "sentence_id": "s1",
+      "narration_text": "A French merchant smuggled the rough gem to Paris.",
+      "primary_subject": "Golconda Blue Diamond in beat s1",
+      "visual_description": "An isolated connected cutout depicting A French merchant smuggled the rough gem to Paris. with distinct silhouette 1",
+      "subject": "Golconda Blue Diamond in beat s1",
+      "action": "A French merchant smuggled the rough gem to Paris.",
+      "important_objects": [
+        "Royal Reliquary"
+      ],
+      "setting": "dramatic historical setting",
+      "emotion": "intense",
+      "state_change": "A French merchant smuggled the rough gem to Paris.",
+      "visual_focus": "Beat 1: A French merchant smuggled the rough gem to Paris.",
+      "description": "An isolated connected cutout depicting A French merchant smuggled the rough gem to Paris. with distinct silhouette 1",
+      "identity_ids": [
+        "diamond"
+      ],
+      "secondary_ids": [
+        "chest"
+      ],
+      "relevance": 0.96,
+      "narrative_importance": 0.92,
+      "novelty": 0.94,
+      "readability": 0.93,
+      "primary_entity_id": "scene-ec6d4cd235676171",
+      "primary_asset_id": "asset-scene-ec6d4cd235676171",
+      "primary_asset_is_distinct": true,
+      "secondary_entity_ids": [
+        "chest"
+      ],
+      "secondary_asset_ids": [
+        "asset-chest"
+      ],
+      "reused_character_ids": [
+        "diamond"
+      ],
+      "continuity_references": [
+        "diamond"
+      ],
+      "image_generation_prompt": "Exact narrated sentence: A French merchant smuggled the rough gem to Paris.\nVisual focus: Beat 1: A French merchant smuggled the rough gem to Paris.. An isolated connected cutout depicting A French merchant smuggled the rough gem to Paris. with distinct silhouette 1\nIdentity continuity: Golconda Blue Diamond: Deep sapphire-blue faceted cushion-cut diamond. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "composition_type": "multi_cutout",
+      "animation_plan": "existing_editorial_motion",
+      "transition_plan": "aligned_sentence_boundary",
+      "primary_asset_origin": "replicate:black-forest-labs/flux-kontext-pro",
+      "perceptual_dhash": "234548050b1e1c1c",
+      "start_time": 2.56,
+      "end_time": 5.44,
+      "render_visibility": "passed"
+    },
+    {
+      "beat_id": "beat-s2",
+      "sentence_id": "s2",
+      "narration_text": "King Louis wore the recut jewel at court.",
+      "primary_subject": "Golconda Blue Diamond in beat s2",
+      "visual_description": "An isolated connected cutout depicting King Louis wore the recut jewel at court. with distinct silhouette 2",
+      "subject": "Golconda Blue Diamond in beat s2",
+      "action": "King Louis wore the recut jewel at court.",
+      "important_objects": [
+        "Royal Reliquary"
+      ],
+      "setting": "dramatic historical setting",
+      "emotion": "intense",
+      "state_change": "King Louis wore the recut jewel at court.",
+      "visual_focus": "Beat 2: King Louis wore the recut jewel at court.",
+      "description": "An isolated connected cutout depicting King Louis wore the recut jewel at court. with distinct silhouette 2",
+      "identity_ids": [
+        "diamond"
+      ],
+      "secondary_ids": [],
+      "relevance": 0.96,
+      "narrative_importance": 0.92,
+      "novelty": 0.94,
+      "readability": 0.93,
+      "primary_entity_id": "scene-1988e0412495ffe3",
+      "primary_asset_id": "asset-scene-1988e0412495ffe3",
+      "primary_asset_is_distinct": true,
+      "secondary_entity_ids": [
+        "chest"
+      ],
+      "secondary_asset_ids": [
+        "asset-chest"
+      ],
+      "reused_character_ids": [
+        "diamond"
+      ],
+      "continuity_references": [
+        "diamond"
+      ],
+      "image_generation_prompt": "Exact narrated sentence: King Louis wore the recut jewel at court.\nVisual focus: Beat 2: King Louis wore the recut jewel at court.. An isolated connected cutout depicting King Louis wore the recut jewel at court. with distinct silhouette 2\nIdentity continuity: Golconda Blue Diamond: Deep sapphire-blue faceted cushion-cut diamond. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "composition_type": "multi_cutout",
+      "animation_plan": "existing_editorial_motion",
+      "transition_plan": "aligned_sentence_boundary",
+      "primary_asset_origin": "replicate:black-forest-labs/flux-kontext-pro",
+      "perceptual_dhash": "23454845231e1c1c",
+      "start_time": 5.44,
+      "end_time": 8.0,
+      "render_visibility": "passed"
+    },
+    {
+      "beat_id": "beat-s3",
+      "sentence_id": "s3",
+      "narration_text": "Thieves seized the royal treasury during the revolution.",
+      "primary_subject": "Golconda Blue Diamond in beat s3",
+      "visual_description": "An isolated connected cutout depicting Thieves seized the royal treasury during the revolution. with distinct silhouette 3",
+      "subject": "Golconda Blue Diamond in beat s3",
+      "action": "Thieves seized the royal treasury during the revolution.",
+      "important_objects": [
+        "Royal Reliquary"
+      ],
+      "setting": "dramatic historical setting",
+      "emotion": "intense",
+      "state_change": "Thieves seized the royal treasury during the revolution.",
+      "visual_focus": "Beat 3: Thieves seized the royal treasury during the revolution.",
+      "description": "An isolated connected cutout depicting Thieves seized the royal treasury during the revolution. with distinct silhouette 3",
+      "identity_ids": [
+        "diamond"
+      ],
+      "secondary_ids": [
+        "chest"
+      ],
+      "relevance": 0.96,
+      "narrative_importance": 0.92,
+      "novelty": 0.94,
+      "readability": 0.93,
+      "primary_entity_id": "scene-3cece34b2f9f81be",
+      "primary_asset_id": "asset-scene-3cece34b2f9f81be",
+      "primary_asset_is_distinct": true,
+      "secondary_entity_ids": [
+        "chest"
+      ],
+      "secondary_asset_ids": [
+        "asset-chest"
+      ],
+      "reused_character_ids": [
+        "diamond"
+      ],
+      "continuity_references": [
+        "diamond"
+      ],
+      "image_generation_prompt": "Exact narrated sentence: Thieves seized the royal treasury during the revolution.\nVisual focus: Beat 3: Thieves seized the royal treasury during the revolution.. An isolated connected cutout depicting Thieves seized the royal treasury during the revolution. with distinct silhouette 3\nIdentity continuity: Golconda Blue Diamond: Deep sapphire-blue faceted cushion-cut diamond. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "composition_type": "multi_cutout",
+      "animation_plan": "existing_editorial_motion",
+      "transition_plan": "aligned_sentence_boundary",
+      "primary_asset_origin": "replicate:black-forest-labs/flux-kontext-pro",
+      "perceptual_dhash": "3319191939391f03",
+      "start_time": 8.0,
+      "end_time": 10.56,
+      "render_visibility": "passed"
+    },
+    {
+      "beat_id": "beat-s4",
+      "sentence_id": "s4",
+      "narration_text": "The cursed stone finally entered a museum vault.",
+      "primary_subject": "Golconda Blue Diamond in beat s4",
+      "visual_description": "An isolated connected cutout depicting The cursed stone finally entered a museum vault. with distinct silhouette 4",
+      "subject": "Golconda Blue Diamond in beat s4",
+      "action": "The cursed stone finally entered a museum vault.",
+      "important_objects": [
+        "Royal Reliquary"
+      ],
+      "setting": "dramatic historical setting",
+      "emotion": "intense",
+      "state_change": "The cursed stone finally entered a museum vault.",
+      "visual_focus": "Beat 4: The cursed stone finally entered a museum vault.",
+      "description": "An isolated connected cutout depicting The cursed stone finally entered a museum vault. with distinct silhouette 4",
+      "identity_ids": [
+        "diamond"
+      ],
+      "secondary_ids": [],
+      "relevance": 0.96,
+      "narrative_importance": 0.92,
+      "novelty": 0.94,
+      "readability": 0.93,
+      "primary_entity_id": "scene-9418232ce4b5acd0",
+      "primary_asset_id": "asset-scene-9418232ce4b5acd0",
+      "primary_asset_is_distinct": true,
+      "secondary_entity_ids": [
+        "chest"
+      ],
+      "secondary_asset_ids": [
+        "asset-chest"
+      ],
+      "reused_character_ids": [
+        "diamond"
+      ],
+      "continuity_references": [
+        "diamond"
+      ],
+      "image_generation_prompt": "Exact narrated sentence: The cursed stone finally entered a museum vault.\nVisual focus: Beat 4: The cursed stone finally entered a museum vault.. An isolated connected cutout depicting The cursed stone finally entered a museum vault. with distinct silhouette 4\nIdentity continuity: Golconda Blue Diamond: Deep sapphire-blue faceted cushion-cut diamond. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "composition_type": "multi_cutout",
+      "animation_plan": "existing_editorial_motion",
+      "transition_plan": "aligned_sentence_boundary",
+      "primary_asset_origin": "replicate:black-forest-labs/flux-kontext-pro",
+      "perceptual_dhash": "3345450525250703",
+      "start_time": 10.56,
+      "end_time": 13.12,
+      "render_visibility": "passed"
+    }
+  ],
+  "identity_registry": [
+    {
+      "id": "diamond",
+      "name": "Golconda Blue Diamond",
+      "kind": "object",
+      "description": "Deep sapphire-blue faceted cushion-cut diamond",
+      "identity": "generic",
+      "reference_query": null,
+      "exact_asset": null
+    },
+    {
+      "id": "chest",
+      "name": "Royal Reliquary",
+      "kind": "object",
+      "description": "Gilded velvet-lined royal jewel casket",
+      "identity": "generic",
+      "reference_query": null,
+      "exact_asset": null
+    }
+  ],
+  "narrative_plan": null
+}

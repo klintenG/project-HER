@@ -1,0 +1,496 @@
+{
+  "summary": "Scenario fenrir",
+  "narration": "The gods of Asgard feared the giant wolf Fenrir. They forged heavy iron fetters to bind him. Fenrir shattered the iron chains with a single kick. Dwarven smiths wove the silken ribbon Gleipnir. Tyr placed his right hand inside the wolf's jaws. Fenrir bit off Tyr's hand when the ribbon held fast.",
+  "sentences": [
+    {
+      "id": "s0",
+      "text": "The gods of Asgard feared the giant wolf Fenrir.",
+      "claim_ids": [
+        "c"
+      ],
+      "entity_ids": [
+        "scene-cc09de1d9e0c2672",
+        "tyr"
+      ],
+      "phrase": "The gods of Asgard",
+      "role": "development",
+      "emphasis": [],
+      "headline_text": null
+    },
+    {
+      "id": "s1",
+      "text": "They forged heavy iron fetters to bind him.",
+      "claim_ids": [
+        "c"
+      ],
+      "entity_ids": [
+        "scene-4dd9fbae8ad86a55",
+        "tyr"
+      ],
+      "phrase": "They forged heavy iron",
+      "role": "development",
+      "emphasis": [],
+      "headline_text": null
+    },
+    {
+      "id": "s2",
+      "text": "Fenrir shattered the iron chains with a single kick.",
+      "claim_ids": [
+        "c"
+      ],
+      "entity_ids": [
+        "scene-52a62a457915142f",
+        "tyr"
+      ],
+      "phrase": "Fenrir shattered the iron",
+      "role": "development",
+      "emphasis": [],
+      "headline_text": null
+    },
+    {
+      "id": "s3",
+      "text": "Dwarven smiths wove the silken ribbon Gleipnir.",
+      "claim_ids": [
+        "c"
+      ],
+      "entity_ids": [
+        "scene-5036e74cdbbb4a3a",
+        "tyr"
+      ],
+      "phrase": "Dwarven smiths wove the",
+      "role": "development",
+      "emphasis": [],
+      "headline_text": null
+    },
+    {
+      "id": "s4",
+      "text": "Tyr placed his right hand inside the wolf's jaws.",
+      "claim_ids": [
+        "c"
+      ],
+      "entity_ids": [
+        "scene-c044786540748d41",
+        "tyr"
+      ],
+      "phrase": "Tyr placed his right",
+      "role": "development",
+      "emphasis": [],
+      "headline_text": null
+    },
+    {
+      "id": "s5",
+      "text": "Fenrir bit off Tyr's hand when the ribbon held fast.",
+      "claim_ids": [
+        "c"
+      ],
+      "entity_ids": [
+        "scene-042769f02635d3c5",
+        "tyr"
+      ],
+      "phrase": "Fenrir bit off Tyr's",
+      "role": "development",
+      "emphasis": [],
+      "headline_text": null
+    }
+  ],
+  "entities": [
+    {
+      "id": "tyr",
+      "name": "Tyr",
+      "kind": "person",
+      "description": "Norse god of war in dark leather and bronze armor",
+      "identity": "fictional",
+      "reference_query": null,
+      "exact_asset": null
+    },
+    {
+      "id": "scene-cc09de1d9e0c2672",
+      "name": "Fenrir in beat s0",
+      "kind": "object",
+      "description": "Exact narrated sentence: The gods of Asgard feared the giant wolf Fenrir.\nVisual focus: Beat 0: The gods of Asgard feared the giant wolf Fenrir.. An isolated connected cutout depicting The gods of Asgard feared the giant wolf Fenrir. with distinct silhouette 0\nIdentity continuity: Fenrir: Colossal dark grey Norse wolf with amber eyes. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+      "identity": "generic",
+      "reference_query": null,
+      "exact_asset": null
+    },
+    {
+      "id": "scene-4dd9fbae8ad86a55",
+      "name": "Fenrir in beat s1",
+      "kind": "object",
+      "description": "Exact narrated sentence: They forged heavy iron fetters to bind him.\nVisual focus: Beat 1: They forged heavy iron fetters to bind him.. An isolated connected cutout depicting They forged heavy iron fetters to bind him. with distinct silhouette 1\nIdentity continuity: Fenrir: Colossal dark grey Norse wolf with amber eyes. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+      "identity": "generic",
+      "reference_query": null,
+      "exact_asset": null
+    },
+    {
+      "id": "scene-52a62a457915142f",
+      "name": "Fenrir in beat s2",
+      "kind": "object",
+      "description": "Exact narrated sentence: Fenrir shattered the iron chains with a single kick.\nVisual focus: Beat 2: Fenrir shattered the iron chains with a single kick.. An isolated connected cutout depicting Fenrir shattered the iron chains with a single kick. with distinct silhouette 2\nIdentity continuity: Fenrir: Colossal dark grey Norse wolf with amber eyes. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+      "identity": "generic",
+      "reference_query": null,
+      "exact_asset": null
+    },
+    {
+      "id": "scene-5036e74cdbbb4a3a",
+      "name": "Fenrir in beat s3",
+      "kind": "object",
+      "description": "Exact narrated sentence: Dwarven smiths wove the silken ribbon Gleipnir.\nVisual focus: Beat 3: Dwarven smiths wove the silken ribbon Gleipnir.. An isolated connected cutout depicting Dwarven smiths wove the silken ribbon Gleipnir. with distinct silhouette 3\nIdentity continuity: Fenrir: Colossal dark grey Norse wolf with amber eyes. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+      "identity": "generic",
+      "reference_query": null,
+      "exact_asset": null
+    },
+    {
+      "id": "scene-c044786540748d41",
+      "name": "Fenrir in beat s4",
+      "kind": "object",
+      "description": "Exact narrated sentence: Tyr placed his right hand inside the wolf's jaws.\nVisual focus: Beat 4: Tyr placed his right hand inside the wolf's jaws.. An isolated connected cutout depicting Tyr placed his right hand inside the wolf's jaws. with distinct silhouette 4\nIdentity continuity: Fenrir: Colossal dark grey Norse wolf with amber eyes. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+      "identity": "generic",
+      "reference_query": null,
+      "exact_asset": null
+    },
+    {
+      "id": "scene-042769f02635d3c5",
+      "name": "Fenrir in beat s5",
+      "kind": "object",
+      "description": "Exact narrated sentence: Fenrir bit off Tyr's hand when the ribbon held fast.\nVisual focus: Beat 5: Fenrir bit off Tyr's hand when the ribbon held fast.. An isolated connected cutout depicting Fenrir bit off Tyr's hand when the ribbon held fast. with distinct silhouette 5\nIdentity continuity: Fenrir: Colossal dark grey Norse wolf with amber eyes. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+      "identity": "generic",
+      "reference_query": null,
+      "exact_asset": null
+    }
+  ],
+  "sentence_storyboard": [
+    {
+      "beat_id": "beat-s0",
+      "sentence_id": "s0",
+      "narration_text": "The gods of Asgard feared the giant wolf Fenrir.",
+      "primary_subject": "Fenrir in beat s0",
+      "visual_description": "An isolated connected cutout depicting The gods of Asgard feared the giant wolf Fenrir. with distinct silhouette 0",
+      "subject": "Fenrir in beat s0",
+      "action": "The gods of Asgard feared the giant wolf Fenrir.",
+      "important_objects": [
+        "Tyr"
+      ],
+      "setting": "dramatic historical setting",
+      "emotion": "intense",
+      "state_change": "The gods of Asgard feared the giant wolf Fenrir.",
+      "visual_focus": "Beat 0: The gods of Asgard feared the giant wolf Fenrir.",
+      "description": "An isolated connected cutout depicting The gods of Asgard feared the giant wolf Fenrir. with distinct silhouette 0",
+      "identity_ids": [
+        "fenrir"
+      ],
+      "secondary_ids": [],
+      "relevance": 0.96,
+      "narrative_importance": 0.92,
+      "novelty": 0.94,
+      "readability": 0.93,
+      "primary_entity_id": "scene-cc09de1d9e0c2672",
+      "primary_asset_id": "asset-scene-cc09de1d9e0c2672",
+      "primary_asset_is_distinct": true,
+      "secondary_entity_ids": [
+        "tyr"
+      ],
+      "secondary_asset_ids": [
+        "asset-tyr"
+      ],
+      "reused_character_ids": [
+        "fenrir"
+      ],
+      "continuity_references": [
+        "fenrir"
+      ],
+      "image_generation_prompt": "Exact narrated sentence: The gods of Asgard feared the giant wolf Fenrir.\nVisual focus: Beat 0: The gods of Asgard feared the giant wolf Fenrir.. An isolated connected cutout depicting The gods of Asgard feared the giant wolf Fenrir. with distinct silhouette 0\nIdentity continuity: Fenrir: Colossal dark grey Norse wolf with amber eyes. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "composition_type": "multi_cutout",
+      "animation_plan": "existing_editorial_motion",
+      "transition_plan": "aligned_sentence_boundary",
+      "primary_asset_origin": "replicate:flux-kontext-pro",
+      "perceptual_dhash": "0808183878181808",
+      "start_time": 0.0,
+      "end_time": 2.88,
+      "render_visibility": "passed"
+    },
+    {
+      "beat_id": "beat-s1",
+      "sentence_id": "s1",
+      "narration_text": "They forged heavy iron fetters to bind him.",
+      "primary_subject": "Fenrir in beat s1",
+      "visual_description": "An isolated connected cutout depicting They forged heavy iron fetters to bind him. with distinct silhouette 1",
+      "subject": "Fenrir in beat s1",
+      "action": "They forged heavy iron fetters to bind him.",
+      "important_objects": [
+        "Tyr"
+      ],
+      "setting": "dramatic historical setting",
+      "emotion": "intense",
+      "state_change": "They forged heavy iron fetters to bind him.",
+      "visual_focus": "Beat 1: They forged heavy iron fetters to bind him.",
+      "description": "An isolated connected cutout depicting They forged heavy iron fetters to bind him. with distinct silhouette 1",
+      "identity_ids": [
+        "fenrir"
+      ],
+      "secondary_ids": [
+        "tyr"
+      ],
+      "relevance": 0.96,
+      "narrative_importance": 0.92,
+      "novelty": 0.94,
+      "readability": 0.93,
+      "primary_entity_id": "scene-4dd9fbae8ad86a55",
+      "primary_asset_id": "asset-scene-4dd9fbae8ad86a55",
+      "primary_asset_is_distinct": true,
+      "secondary_entity_ids": [
+        "tyr"
+      ],
+      "secondary_asset_ids": [
+        "asset-tyr"
+      ],
+      "reused_character_ids": [
+        "fenrir"
+      ],
+      "continuity_references": [
+        "fenrir"
+      ],
+      "image_generation_prompt": "Exact narrated sentence: They forged heavy iron fetters to bind him.\nVisual focus: Beat 1: They forged heavy iron fetters to bind him.. An isolated connected cutout depicting They forged heavy iron fetters to bind him. with distinct silhouette 1\nIdentity continuity: Fenrir: Colossal dark grey Norse wolf with amber eyes. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "composition_type": "multi_cutout",
+      "animation_plan": "existing_editorial_motion",
+      "transition_plan": "aligned_sentence_boundary",
+      "primary_asset_origin": "replicate:flux-kontext-pro",
+      "perceptual_dhash": "1339303d1b1e1c1c",
+      "start_time": 2.88,
+      "end_time": 5.44,
+      "render_visibility": "passed"
+    },
+    {
+      "beat_id": "beat-s2",
+      "sentence_id": "s2",
+      "narration_text": "Fenrir shattered the iron chains with a single kick.",
+      "primary_subject": "Fenrir in beat s2",
+      "visual_description": "An isolated connected cutout depicting Fenrir shattered the iron chains with a single kick. with distinct silhouette 2",
+      "subject": "Fenrir in beat s2",
+      "action": "Fenrir shattered the iron chains with a single kick.",
+      "important_objects": [
+        "Tyr"
+      ],
+      "setting": "dramatic historical setting",
+      "emotion": "intense",
+      "state_change": "Fenrir shattered the iron chains with a single kick.",
+      "visual_focus": "Beat 2: Fenrir shattered the iron chains with a single kick.",
+      "description": "An isolated connected cutout depicting Fenrir shattered the iron chains with a single kick. with distinct silhouette 2",
+      "identity_ids": [
+        "fenrir"
+      ],
+      "secondary_ids": [],
+      "relevance": 0.96,
+      "narrative_importance": 0.92,
+      "novelty": 0.94,
+      "readability": 0.93,
+      "primary_entity_id": "scene-52a62a457915142f",
+      "primary_asset_id": "asset-scene-52a62a457915142f",
+      "primary_asset_is_distinct": true,
+      "secondary_entity_ids": [
+        "tyr"
+      ],
+      "secondary_asset_ids": [
+        "asset-tyr"
+      ],
+      "reused_character_ids": [
+        "fenrir"
+      ],
+      "continuity_references": [
+        "fenrir"
+      ],
+      "image_generation_prompt": "Exact narrated sentence: Fenrir shattered the iron chains with a single kick.\nVisual focus: Beat 2: Fenrir shattered the iron chains with a single kick.. An isolated connected cutout depicting Fenrir shattered the iron chains with a single kick. with distinct silhouette 2\nIdentity continuity: Fenrir: Colossal dark grey Norse wolf with amber eyes. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "composition_type": "multi_cutout",
+      "animation_plan": "existing_editorial_motion",
+      "transition_plan": "aligned_sentence_boundary",
+      "primary_asset_origin": "replicate:flux-kontext-pro",
+      "perceptual_dhash": "034548050b1e1c1c",
+      "start_time": 5.44,
+      "end_time": 8.32,
+      "render_visibility": "passed"
+    },
+    {
+      "beat_id": "beat-s3",
+      "sentence_id": "s3",
+      "narration_text": "Dwarven smiths wove the silken ribbon Gleipnir.",
+      "primary_subject": "Fenrir in beat s3",
+      "visual_description": "An isolated connected cutout depicting Dwarven smiths wove the silken ribbon Gleipnir. with distinct silhouette 3",
+      "subject": "Fenrir in beat s3",
+      "action": "Dwarven smiths wove the silken ribbon Gleipnir.",
+      "important_objects": [
+        "Tyr"
+      ],
+      "setting": "dramatic historical setting",
+      "emotion": "intense",
+      "state_change": "Dwarven smiths wove the silken ribbon Gleipnir.",
+      "visual_focus": "Beat 3: Dwarven smiths wove the silken ribbon Gleipnir.",
+      "description": "An isolated connected cutout depicting Dwarven smiths wove the silken ribbon Gleipnir. with distinct silhouette 3",
+      "identity_ids": [
+        "fenrir"
+      ],
+      "secondary_ids": [
+        "tyr"
+      ],
+      "relevance": 0.96,
+      "narrative_importance": 0.92,
+      "novelty": 0.94,
+      "readability": 0.93,
+      "primary_entity_id": "scene-5036e74cdbbb4a3a",
+      "primary_asset_id": "asset-scene-5036e74cdbbb4a3a",
+      "primary_asset_is_distinct": true,
+      "secondary_entity_ids": [
+        "tyr"
+      ],
+      "secondary_asset_ids": [
+        "asset-tyr"
+      ],
+      "reused_character_ids": [
+        "fenrir"
+      ],
+      "continuity_references": [
+        "fenrir"
+      ],
+      "image_generation_prompt": "Exact narrated sentence: Dwarven smiths wove the silken ribbon Gleipnir.\nVisual focus: Beat 3: Dwarven smiths wove the silken ribbon Gleipnir.. An isolated connected cutout depicting Dwarven smiths wove the silken ribbon Gleipnir. with distinct silhouette 3\nIdentity continuity: Fenrir: Colossal dark grey Norse wolf with amber eyes. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "composition_type": "multi_cutout",
+      "animation_plan": "existing_editorial_motion",
+      "transition_plan": "aligned_sentence_boundary",
+      "primary_asset_origin": "replicate:flux-kontext-pro",
+      "perceptual_dhash": "3345656525250703",
+      "start_time": 8.32,
+      "end_time": 10.56,
+      "render_visibility": "passed"
+    },
+    {
+      "beat_id": "beat-s4",
+      "sentence_id": "s4",
+      "narration_text": "Tyr placed his right hand inside the wolf's jaws.",
+      "primary_subject": "Fenrir in beat s4",
+      "visual_description": "An isolated connected cutout depicting Tyr placed his right hand inside the wolf's jaws. with distinct silhouette 4",
+      "subject": "Fenrir in beat s4",
+      "action": "Tyr placed his right hand inside the wolf's jaws.",
+      "important_objects": [
+        "Tyr"
+      ],
+      "setting": "dramatic historical setting",
+      "emotion": "intense",
+      "state_change": "Tyr placed his right hand inside the wolf's jaws.",
+      "visual_focus": "Beat 4: Tyr placed his right hand inside the wolf's jaws.",
+      "description": "An isolated connected cutout depicting Tyr placed his right hand inside the wolf's jaws. with distinct silhouette 4",
+      "identity_ids": [
+        "fenrir"
+      ],
+      "secondary_ids": [],
+      "relevance": 0.96,
+      "narrative_importance": 0.92,
+      "novelty": 0.94,
+      "readability": 0.93,
+      "primary_entity_id": "scene-c044786540748d41",
+      "primary_asset_id": "asset-scene-c044786540748d41",
+      "primary_asset_is_distinct": true,
+      "secondary_entity_ids": [
+        "tyr"
+      ],
+      "secondary_asset_ids": [
+        "asset-tyr"
+      ],
+      "reused_character_ids": [
+        "fenrir"
+      ],
+      "continuity_references": [
+        "fenrir"
+      ],
+      "image_generation_prompt": "Exact narrated sentence: Tyr placed his right hand inside the wolf's jaws.\nVisual focus: Beat 4: Tyr placed his right hand inside the wolf's jaws.. An isolated connected cutout depicting Tyr placed his right hand inside the wolf's jaws. with distinct silhouette 4\nIdentity continuity: Fenrir: Colossal dark grey Norse wolf with amber eyes. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "composition_type": "multi_cutout",
+      "animation_plan": "existing_editorial_motion",
+      "transition_plan": "aligned_sentence_boundary",
+      "primary_asset_origin": "replicate:flux-kontext-pro",
+      "perceptual_dhash": "0808183858181808",
+      "start_time": 10.56,
+      "end_time": 13.44,
+      "render_visibility": "passed"
+    },
+    {
+      "beat_id": "beat-s5",
+      "sentence_id": "s5",
+      "narration_text": "Fenrir bit off Tyr's hand when the ribbon held fast.",
+      "primary_subject": "Fenrir in beat s5",
+      "visual_description": "An isolated connected cutout depicting Fenrir bit off Tyr's hand when the ribbon held fast. with distinct silhouette 5",
+      "subject": "Fenrir in beat s5",
+      "action": "Fenrir bit off Tyr's hand when the ribbon held fast.",
+      "important_objects": [
+        "Tyr"
+      ],
+      "setting": "dramatic historical setting",
+      "emotion": "intense",
+      "state_change": "Fenrir bit off Tyr's hand when the ribbon held fast.",
+      "visual_focus": "Beat 5: Fenrir bit off Tyr's hand when the ribbon held fast.",
+      "description": "An isolated connected cutout depicting Fenrir bit off Tyr's hand when the ribbon held fast. with distinct silhouette 5",
+      "identity_ids": [
+        "fenrir"
+      ],
+      "secondary_ids": [
+        "tyr"
+      ],
+      "relevance": 0.96,
+      "narrative_importance": 0.92,
+      "novelty": 0.94,
+      "readability": 0.93,
+      "primary_entity_id": "scene-042769f02635d3c5",
+      "primary_asset_id": "asset-scene-042769f02635d3c5",
+      "primary_asset_is_distinct": true,
+      "secondary_entity_ids": [
+        "tyr"
+      ],
+      "secondary_asset_ids": [
+        "asset-tyr"
+      ],
+      "reused_character_ids": [
+        "fenrir"
+      ],
+      "continuity_references": [
+        "fenrir"
+      ],
+      "image_generation_prompt": "Exact narrated sentence: Fenrir bit off Tyr's hand when the ribbon held fast.\nVisual focus: Beat 5: Fenrir bit off Tyr's hand when the ribbon held fast.. An isolated connected cutout depicting Fenrir bit off Tyr's hand when the ribbon held fast. with distinct silhouette 5\nIdentity continuity: Fenrir: Colossal dark grey Norse wolf with amber eyes. Create a new narrative composition, not a reused portrait. Isolated editorial cutout; no text or scenery.",
+      "asset_generation_status": "ready",
+      "asset_relevance_status": "passed",
+      "composition_type": "multi_cutout",
+      "animation_plan": "existing_editorial_motion",
+      "transition_plan": "aligned_sentence_boundary",
+      "primary_asset_origin": "replicate:flux-kontext-pro",
+      "perceptual_dhash": "0808183858181808",
+      "start_time": 13.44,
+      "end_time": 16.64,
+      "render_visibility": "passed"
+    }
+  ],
+  "identity_registry": [
+    {
+      "id": "fenrir",
+      "name": "Fenrir",
+      "kind": "person",
+      "description": "Colossal dark grey Norse wolf with amber eyes",
+      "identity": "fictional",
+      "reference_query": null,
+      "exact_asset": null
+    },
+    {
+      "id": "tyr",
+      "name": "Tyr",
+      "kind": "person",
+      "description": "Norse god of war in dark leather and bronze armor",
+      "identity": "fictional",
+      "reference_query": null,
+      "exact_asset": null
+    }
+  ],
+  "narrative_plan": null
+}

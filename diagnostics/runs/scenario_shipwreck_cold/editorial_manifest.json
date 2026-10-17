@@ -1,0 +1,2387 @@
+{
+  "schemaVersion": "2.0",
+  "preset": "reference_editorial",
+  "contentMode": "news",
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "durationInFrames": 415,
+  "generationId": "scenario_shipwreck_cold",
+  "script": "An iron steamship sailed into a freezing Atlantic gale. A boiler fire broke out below the main deck. Towering waves smashed the wooden lifeboats. The crew rescued a stranded lookout from the mast. The broken hull sank beneath the dark swells.",
+  "scriptHash": "a201b17569542285f6d3f7a2c10cf217ebffe9bd5918232deccbbbe1d334bb1b",
+  "fonts": {
+    "semibold": "/Users/klinten/Desktop/My-projects/project-HER/assets/fonts/news/Poppins-SemiBold.ttf",
+    "bold": "/Users/klinten/Desktop/My-projects/project-HER/assets/fonts/news/Poppins-Bold.ttf",
+    "version": "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c"
+  },
+  "audio": [
+    {
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/master.wav",
+      "offsetFrames": 0,
+      "duration": 13.22,
+      "kind": "master",
+      "gain": 1.0,
+      "sha256": "727fd6089e6b61d44b11efcb608c6efd55c392438bfa93e0c34645752bff7940"
+    }
+  ],
+  "words": [
+    {
+      "id": "w0",
+      "sectionId": "s0",
+      "text": "An",
+      "start": 0.0,
+      "end": 0.32,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w1",
+      "sectionId": "s0",
+      "text": "iron",
+      "start": 0.32,
+      "end": 0.64,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w2",
+      "sectionId": "s0",
+      "text": "steamship",
+      "start": 0.64,
+      "end": 0.96,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w3",
+      "sectionId": "s0",
+      "text": "sailed",
+      "start": 0.96,
+      "end": 1.28,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w4",
+      "sectionId": "s0",
+      "text": "into",
+      "start": 1.28,
+      "end": 1.6,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w5",
+      "sectionId": "s0",
+      "text": "a",
+      "start": 1.6,
+      "end": 1.92,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w6",
+      "sectionId": "s0",
+      "text": "freezing",
+      "start": 1.92,
+      "end": 2.24,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w7",
+      "sectionId": "s0",
+      "text": "Atlantic",
+      "start": 2.24,
+      "end": 2.56,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w8",
+      "sectionId": "s0",
+      "text": "gale.",
+      "start": 2.56,
+      "end": 2.88,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w9",
+      "sectionId": "s1",
+      "text": "A",
+      "start": 2.88,
+      "end": 3.2,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w10",
+      "sectionId": "s1",
+      "text": "boiler",
+      "start": 3.2,
+      "end": 3.52,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w11",
+      "sectionId": "s1",
+      "text": "fire",
+      "start": 3.52,
+      "end": 3.84,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w12",
+      "sectionId": "s1",
+      "text": "broke",
+      "start": 3.84,
+      "end": 4.16,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w13",
+      "sectionId": "s1",
+      "text": "out",
+      "start": 4.16,
+      "end": 4.48,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w14",
+      "sectionId": "s1",
+      "text": "below",
+      "start": 4.48,
+      "end": 4.8,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w15",
+      "sectionId": "s1",
+      "text": "the",
+      "start": 4.8,
+      "end": 5.12,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w16",
+      "sectionId": "s1",
+      "text": "main",
+      "start": 5.12,
+      "end": 5.44,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w17",
+      "sectionId": "s1",
+      "text": "deck.",
+      "start": 5.44,
+      "end": 5.76,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w18",
+      "sectionId": "s2",
+      "text": "Towering",
+      "start": 5.76,
+      "end": 6.08,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w19",
+      "sectionId": "s2",
+      "text": "waves",
+      "start": 6.08,
+      "end": 6.4,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w20",
+      "sectionId": "s2",
+      "text": "smashed",
+      "start": 6.4,
+      "end": 6.72,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w21",
+      "sectionId": "s2",
+      "text": "the",
+      "start": 6.72,
+      "end": 7.04,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w22",
+      "sectionId": "s2",
+      "text": "wooden",
+      "start": 7.04,
+      "end": 7.36,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w23",
+      "sectionId": "s2",
+      "text": "lifeboats.",
+      "start": 7.36,
+      "end": 7.68,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w24",
+      "sectionId": "s3",
+      "text": "The",
+      "start": 7.68,
+      "end": 8.0,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w25",
+      "sectionId": "s3",
+      "text": "crew",
+      "start": 8.0,
+      "end": 8.32,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w26",
+      "sectionId": "s3",
+      "text": "rescued",
+      "start": 8.32,
+      "end": 8.64,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w27",
+      "sectionId": "s3",
+      "text": "a",
+      "start": 8.64,
+      "end": 8.96,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w28",
+      "sectionId": "s3",
+      "text": "stranded",
+      "start": 8.96,
+      "end": 9.28,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w29",
+      "sectionId": "s3",
+      "text": "lookout",
+      "start": 9.28,
+      "end": 9.6,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w30",
+      "sectionId": "s3",
+      "text": "from",
+      "start": 9.6,
+      "end": 9.92,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w31",
+      "sectionId": "s3",
+      "text": "the",
+      "start": 9.92,
+      "end": 10.24,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w32",
+      "sectionId": "s3",
+      "text": "mast.",
+      "start": 10.24,
+      "end": 10.56,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w33",
+      "sectionId": "s4",
+      "text": "The",
+      "start": 10.56,
+      "end": 10.88,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w34",
+      "sectionId": "s4",
+      "text": "broken",
+      "start": 10.88,
+      "end": 11.2,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w35",
+      "sectionId": "s4",
+      "text": "hull",
+      "start": 11.2,
+      "end": 11.52,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w36",
+      "sectionId": "s4",
+      "text": "sank",
+      "start": 11.52,
+      "end": 11.84,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w37",
+      "sectionId": "s4",
+      "text": "beneath",
+      "start": 11.84,
+      "end": 12.16,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w38",
+      "sectionId": "s4",
+      "text": "the",
+      "start": 12.16,
+      "end": 12.48,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w39",
+      "sectionId": "s4",
+      "text": "dark",
+      "start": 12.48,
+      "end": 12.8,
+      "provenance": "provider",
+      "confidence": 1.0
+    },
+    {
+      "id": "w40",
+      "sectionId": "s4",
+      "text": "swells.",
+      "start": 12.8,
+      "end": 13.12,
+      "provenance": "provider",
+      "confidence": 1.0
+    }
+  ],
+  "sections": [
+    {
+      "id": "s0",
+      "text": "An iron steamship sailed into a freezing Atlantic gale.",
+      "start": 0.0,
+      "end": 2.88,
+      "wordIds": [
+        "w0",
+        "w1",
+        "w2",
+        "w3",
+        "w4",
+        "w5",
+        "w6",
+        "w7",
+        "w8"
+      ],
+      "sourceIds": []
+    },
+    {
+      "id": "s1",
+      "text": "A boiler fire broke out below the main deck.",
+      "start": 2.88,
+      "end": 5.76,
+      "wordIds": [
+        "w9",
+        "w10",
+        "w11",
+        "w12",
+        "w13",
+        "w14",
+        "w15",
+        "w16",
+        "w17"
+      ],
+      "sourceIds": []
+    },
+    {
+      "id": "s2",
+      "text": "Towering waves smashed the wooden lifeboats.",
+      "start": 5.76,
+      "end": 7.68,
+      "wordIds": [
+        "w18",
+        "w19",
+        "w20",
+        "w21",
+        "w22",
+        "w23"
+      ],
+      "sourceIds": []
+    },
+    {
+      "id": "s3",
+      "text": "The crew rescued a stranded lookout from the mast.",
+      "start": 7.68,
+      "end": 10.56,
+      "wordIds": [
+        "w24",
+        "w25",
+        "w26",
+        "w27",
+        "w28",
+        "w29",
+        "w30",
+        "w31",
+        "w32"
+      ],
+      "sourceIds": []
+    },
+    {
+      "id": "s4",
+      "text": "The broken hull sank beneath the dark swells.",
+      "start": 10.56,
+      "end": 13.12,
+      "wordIds": [
+        "w33",
+        "w34",
+        "w35",
+        "w36",
+        "w37",
+        "w38",
+        "w39",
+        "w40"
+      ],
+      "sourceIds": []
+    }
+  ],
+  "entities": [
+    {
+      "id": "lifeboat",
+      "name": "Wooden Lifeboat",
+      "identity": "generic",
+      "assetIds": [
+        "asset-lifeboat"
+      ],
+      "source": "replicate:flux-1.1-pro"
+    },
+    {
+      "id": "scene-d284d66bb66eeea1",
+      "name": "Iron Steamship in beat s0",
+      "identity": "generic",
+      "assetIds": [
+        "asset-scene-d284d66bb66eeea1"
+      ],
+      "source": "replicate:flux-kontext-pro"
+    },
+    {
+      "id": "scene-462408efb2f77d65",
+      "name": "Iron Steamship in beat s1",
+      "identity": "generic",
+      "assetIds": [
+        "asset-scene-462408efb2f77d65"
+      ],
+      "source": "replicate:flux-kontext-pro"
+    },
+    {
+      "id": "scene-4d83df10216760e4",
+      "name": "Iron Steamship in beat s2",
+      "identity": "generic",
+      "assetIds": [
+        "asset-scene-4d83df10216760e4"
+      ],
+      "source": "replicate:flux-kontext-pro"
+    },
+    {
+      "id": "scene-5e61b46d9b2ae883",
+      "name": "Iron Steamship in beat s3",
+      "identity": "generic",
+      "assetIds": [
+        "asset-scene-5e61b46d9b2ae883"
+      ],
+      "source": "replicate:flux-kontext-pro"
+    },
+    {
+      "id": "scene-47313a57d9f5be93",
+      "name": "Iron Steamship in beat s4",
+      "identity": "generic",
+      "assetIds": [
+        "asset-scene-47313a57d9f5be93"
+      ],
+      "source": "replicate:flux-kontext-pro"
+    }
+  ],
+  "assets": [
+    {
+      "id": "asset-lifeboat",
+      "entityId": "lifeboat",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/33961544e55b7dca64df.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/55b2784500c84f2ad461-cutout.png",
+      "role": "object",
+      "subject": "Wooden Lifeboat",
+      "source": "replicate:flux-1.1-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-1.1-pro",
+      "width": 301,
+      "height": 301,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "b1e42288bbf9dbe81f94df4c755bbd4c5fa169098afce1a6d7ebb157f3cba4ff"
+    },
+    {
+      "id": "asset-scene-d284d66bb66eeea1",
+      "entityId": "scene-d284d66bb66eeea1",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/0c7800ca654ec3e905f9.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/57832c228a0071d53408-cutout.png",
+      "role": "object",
+      "subject": "Iron Steamship in beat s0",
+      "source": "replicate:flux-kontext-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-kontext-pro",
+      "width": 301,
+      "height": 291,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "0ea5873eb50d26d8b2fb1ff05244f0d1adf91986114c0474696124204ecd964e"
+    },
+    {
+      "id": "asset-scene-462408efb2f77d65",
+      "entityId": "scene-462408efb2f77d65",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/36c98644e00d6ff52c21.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/65181cb4f9ec638f1443-cutout.png",
+      "role": "object",
+      "subject": "Iron Steamship in beat s1",
+      "source": "replicate:flux-kontext-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-kontext-pro",
+      "width": 291,
+      "height": 281,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "769eb3b7d1052dab5a404197f4f5f8b2e73cb6c0839b8b183c8aa5494c809e92"
+    },
+    {
+      "id": "asset-scene-4d83df10216760e4",
+      "entityId": "scene-4d83df10216760e4",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/44c2c5f8f3f5c2fbc7f8.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/b4b4449a482956b28395-cutout.png",
+      "role": "object",
+      "subject": "Iron Steamship in beat s2",
+      "source": "replicate:flux-kontext-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-kontext-pro",
+      "width": 301,
+      "height": 301,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "92ed5ec1c2c699887a9b0552c178f5bd450490476270b8462df73bffdd06196b"
+    },
+    {
+      "id": "asset-scene-5e61b46d9b2ae883",
+      "entityId": "scene-5e61b46d9b2ae883",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/2c60d8d235faa04a3cd2.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/d95a1ffafea4d2147cc6-cutout.png",
+      "role": "object",
+      "subject": "Iron Steamship in beat s3",
+      "source": "replicate:flux-kontext-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-kontext-pro",
+      "width": 291,
+      "height": 261,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "0a5fd504c2dc9c1cb6eeda87a16af321a342ba1f1185d14464532eebf98e0dd8"
+    },
+    {
+      "id": "asset-scene-47313a57d9f5be93",
+      "entityId": "scene-47313a57d9f5be93",
+      "path": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/d6f908bdefed9b59d3d1.png",
+      "originalPath": "/Users/klinten/Desktop/My-projects/project-HER/diagnostics/runs/scenario_shipwreck_cold/assets/3946e49aeaa3758e6017-cutout.png",
+      "role": "object",
+      "subject": "Iron Steamship in beat s4",
+      "source": "replicate:flux-kontext-pro",
+      "license": "Generated illustration",
+      "attribution": "replicate:flux-kontext-pro",
+      "width": 301,
+      "height": 291,
+      "alpha": true,
+      "factual": false,
+      "confidence": 0.5,
+      "preparation": "trimmed_alpha",
+      "focalPoint": [
+        0.5,
+        0.5
+      ],
+      "fallback": "AI illustrative reconstruction; not documentary evidence",
+      "sha256": "d9b02239118e47b69288fbcc5de1092aa521eec46a7f45a795ddd82d811d9900"
+    }
+  ],
+  "layers": [
+    {
+      "startFrame": 0,
+      "endFrame": 86,
+      "id": "directed-0",
+      "role": "object",
+      "entityId": "scene-d284d66bb66eeea1",
+      "assetId": "asset-scene-d284d66bb66eeea1",
+      "parentId": null,
+      "bounds": {
+        "x": 110.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 0,
+      "endFrame": 86,
+      "id": "directed-0-label",
+      "role": "label",
+      "entityId": "scene-d284d66bb66eeea1",
+      "assetId": null,
+      "parentId": "directed-0",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "Iron Steamship in\nbeat s0",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 0,
+      "endFrame": 415,
+      "id": "directed-1",
+      "role": "object",
+      "entityId": "lifeboat",
+      "assetId": "asset-lifeboat",
+      "parentId": null,
+      "bounds": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 0,
+      "endFrame": 415,
+      "id": "directed-1-label",
+      "role": "label",
+      "entityId": "lifeboat",
+      "assetId": null,
+      "parentId": "directed-1",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "Wooden Lifeboat",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 86,
+      "endFrame": 173,
+      "id": "directed-2",
+      "role": "object",
+      "entityId": "scene-462408efb2f77d65",
+      "assetId": "asset-scene-462408efb2f77d65",
+      "parentId": null,
+      "bounds": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 86,
+      "endFrame": 173,
+      "id": "directed-2-label",
+      "role": "label",
+      "entityId": "scene-462408efb2f77d65",
+      "assetId": null,
+      "parentId": "directed-2",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "Iron Steamship in\nbeat s1",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 173,
+      "endFrame": 230,
+      "id": "directed-3",
+      "role": "object",
+      "entityId": "scene-4d83df10216760e4",
+      "assetId": "asset-scene-4d83df10216760e4",
+      "parentId": null,
+      "bounds": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 173,
+      "endFrame": 230,
+      "id": "directed-3-label",
+      "role": "label",
+      "entityId": "scene-4d83df10216760e4",
+      "assetId": null,
+      "parentId": "directed-3",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "Iron Steamship in\nbeat s2",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 230,
+      "endFrame": 317,
+      "id": "directed-4",
+      "role": "object",
+      "entityId": "scene-5e61b46d9b2ae883",
+      "assetId": "asset-scene-5e61b46d9b2ae883",
+      "parentId": null,
+      "bounds": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 230,
+      "endFrame": 317,
+      "id": "directed-4-label",
+      "role": "label",
+      "entityId": "scene-5e61b46d9b2ae883",
+      "assetId": null,
+      "parentId": "directed-4",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "Iron Steamship in\nbeat s3",
+        "anticipationFrames": 0
+      },
+      "value": null
+    },
+    {
+      "startFrame": 317,
+      "endFrame": 415,
+      "id": "directed-5",
+      "role": "object",
+      "entityId": "scene-47313a57d9f5be93",
+      "assetId": "asset-scene-47313a57d9f5be93",
+      "parentId": null,
+      "bounds": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "anchor": "screen",
+      "origin": "50% 70%",
+      "z": 10,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": true,
+      "phrase": null,
+      "value": null
+    },
+    {
+      "startFrame": 317,
+      "endFrame": 415,
+      "id": "directed-5-label",
+      "role": "label",
+      "entityId": "scene-47313a57d9f5be93",
+      "assetId": null,
+      "parentId": "directed-5",
+      "bounds": {
+        "x": 0.0,
+        "y": 398.0,
+        "w": 380.0,
+        "h": 150.0
+      },
+      "anchor": "entity",
+      "origin": "50% 70%",
+      "z": 20,
+      "opacity": 1.0,
+      "mask": "none",
+      "shadow": false,
+      "phrase": {
+        "wordIds": [],
+        "lines": [],
+        "emphasis": [],
+        "mode": "entity_label",
+        "size": 36.0,
+        "weight": 600,
+        "align": "center",
+        "label": "Iron Steamship in\nbeat s4",
+        "anticipationFrames": 0
+      },
+      "value": null
+    }
+  ],
+  "beats": [
+    {
+      "startFrame": 0,
+      "endFrame": 86,
+      "id": "atomic-0",
+      "template": "document_photo",
+      "sectionIds": [
+        "s0"
+      ],
+      "layerIds": [
+        "directed-0",
+        "directed-1",
+        "directed-0-label",
+        "directed-1-label"
+      ],
+      "purpose": "An iron steamship sailed into a freezing Atlantic gale."
+    },
+    {
+      "startFrame": 86,
+      "endFrame": 173,
+      "id": "atomic-1",
+      "template": "document_photo",
+      "sectionIds": [
+        "s1"
+      ],
+      "layerIds": [
+        "directed-1",
+        "directed-2",
+        "directed-1-label",
+        "directed-2-label"
+      ],
+      "purpose": "A boiler fire broke out below the main deck."
+    },
+    {
+      "startFrame": 173,
+      "endFrame": 230,
+      "id": "atomic-2",
+      "template": "document_photo",
+      "sectionIds": [
+        "s2"
+      ],
+      "layerIds": [
+        "directed-1",
+        "directed-3",
+        "directed-1-label",
+        "directed-3-label"
+      ],
+      "purpose": "Towering waves smashed the wooden lifeboats."
+    },
+    {
+      "startFrame": 230,
+      "endFrame": 317,
+      "id": "atomic-3",
+      "template": "document_photo",
+      "sectionIds": [
+        "s3"
+      ],
+      "layerIds": [
+        "directed-1",
+        "directed-4",
+        "directed-1-label",
+        "directed-4-label"
+      ],
+      "purpose": "The crew rescued a stranded lookout from the mast."
+    },
+    {
+      "startFrame": 317,
+      "endFrame": 415,
+      "id": "atomic-4",
+      "template": "document_photo",
+      "sectionIds": [
+        "s4"
+      ],
+      "layerIds": [
+        "directed-1",
+        "directed-5",
+        "directed-1-label",
+        "directed-5-label"
+      ],
+      "purpose": "The broken hull sank beneath the dark swells."
+    }
+  ],
+  "events": [
+    {
+      "startFrame": 0,
+      "endFrame": 8,
+      "id": "director-event-0",
+      "type": "settle",
+      "targetIds": [
+        "directed-0"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 1.0088,
+      "scaleTo": 1.04,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 0,
+      "endFrame": 8,
+      "id": "director-event-1",
+      "type": "settle",
+      "targetIds": [
+        "directed-1"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 0.9117999999999999,
+      "scaleTo": 0.94,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 81,
+      "endFrame": 86,
+      "id": "director-event-2",
+      "type": "fade",
+      "targetIds": [
+        "directed-0"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 0.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 86,
+      "endFrame": 94,
+      "id": "director-event-3",
+      "type": "settle",
+      "targetIds": [
+        "directed-2"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 1.0088,
+      "scaleTo": 1.04,
+      "secondaryScale": 0.78,
+      "opacityFrom": 0.9,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 86,
+      "endFrame": 92,
+      "id": "director-event-4",
+      "type": "reframe",
+      "targetIds": [
+        "directed-1"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": {
+        "x": 565.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      },
+      "boundsTo": {
+        "x": 110.0,
+        "y": 710.0,
+        "w": 380.0,
+        "h": 380.0
+      }
+    },
+    {
+      "startFrame": 168,
+      "endFrame": 173,
+      "id": "director-event-5",
+      "type": "fade",
+      "targetIds": [
+        "directed-2"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 0.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 173,
+      "endFrame": 181,
+      "id": "director-event-6",
+      "type": "settle",
+      "targetIds": [
+        "directed-3"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 1.0088,
+      "scaleTo": 1.04,
+      "secondaryScale": 0.78,
+      "opacityFrom": 0.9,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 225,
+      "endFrame": 230,
+      "id": "director-event-7",
+      "type": "fade",
+      "targetIds": [
+        "directed-3"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 0.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 230,
+      "endFrame": 238,
+      "id": "director-event-8",
+      "type": "settle",
+      "targetIds": [
+        "directed-4"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 1.0088,
+      "scaleTo": 1.04,
+      "secondaryScale": 0.78,
+      "opacityFrom": 0.9,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 312,
+      "endFrame": 317,
+      "id": "director-event-9",
+      "type": "fade",
+      "targetIds": [
+        "directed-4"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 0.0,
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "secondaryScale": 0.78,
+      "opacityFrom": 1.0,
+      "opacityTo": 0.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    },
+    {
+      "startFrame": 317,
+      "endFrame": 325,
+      "id": "director-event-10",
+      "type": "settle",
+      "targetIds": [
+        "directed-5"
+      ],
+      "easing": "easeOutCubic",
+      "dx": 0.0,
+      "dy": 12.0,
+      "scaleFrom": 1.0088,
+      "scaleTo": 1.04,
+      "secondaryScale": 0.78,
+      "opacityFrom": 0.9,
+      "opacityTo": 1.0,
+      "fromValue": 0,
+      "toValue": 0,
+      "assetId": null,
+      "angleFrom": -105.0,
+      "angleTo": 0.0,
+      "boundsFrom": null,
+      "boundsTo": null
+    }
+  ],
+  "transitions": [
+    {
+      "startFrame": 0,
+      "endFrame": 8,
+      "kind": "settle",
+      "persist": [],
+      "enter": [
+        "directed-0",
+        "directed-1"
+      ],
+      "leave": []
+    },
+    {
+      "startFrame": 86,
+      "endFrame": 94,
+      "kind": "settle",
+      "persist": [
+        "directed-1"
+      ],
+      "enter": [
+        "directed-2"
+      ],
+      "leave": [
+        "directed-0"
+      ]
+    },
+    {
+      "startFrame": 173,
+      "endFrame": 181,
+      "kind": "settle",
+      "persist": [
+        "directed-1"
+      ],
+      "enter": [
+        "directed-3"
+      ],
+      "leave": [
+        "directed-2"
+      ]
+    },
+    {
+      "startFrame": 230,
+      "endFrame": 238,
+      "kind": "settle",
+      "persist": [
+        "directed-1"
+      ],
+      "enter": [
+        "directed-4"
+      ],
+      "leave": [
+        "directed-3"
+      ]
+    },
+    {
+      "startFrame": 317,
+      "endFrame": 325,
+      "kind": "settle",
+      "persist": [
+        "directed-1"
+      ],
+      "enter": [
+        "directed-5"
+      ],
+      "leave": [
+        "directed-4"
+      ]
+    }
+  ],
+  "subtitleMode": "editorial",
+  "narrationDriven": true,
+  "editorialStyleVersion": "legacy",
+  "warnings": [
+    "AI illustrative reconstruction; not documentary evidence"
+  ],
+  "diagnostics": {
+    "sentenceStoryboard": {
+      "sentences": 5,
+      "plannedPrimaries": 5,
+      "repairAttempts": 0
+    },
+    "assetAcquisition": {
+      "mode": "auto",
+      "assets": [
+        {
+          "entityId": "steamship",
+          "name": "Iron Steamship",
+          "identity": "generic",
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "323ec53beb5ae9c18a9a2349ebc35d8e9117491b36a3b610936da360983db1f4",
+            "model": "black-forest-labs/flux-schnell",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-1.1-pro",
+          "route": "supporting_illustration",
+          "assetId": "asset-steamship",
+          "alpha": true,
+          "source": "replicate:flux-1.1-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 291,
+          "height": 261,
+          "role": "identity_or_secondary",
+          "durationSeconds": 0.005,
+          "bytes": 1428
+        },
+        {
+          "entityId": "lifeboat",
+          "name": "Wooden Lifeboat",
+          "identity": "generic",
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "9c2d6a5d922b9dee4469cbfc1b5b1d193fa39491347f2d2bd49e2c78efde0a8e",
+            "model": "black-forest-labs/flux-schnell",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-1.1-pro",
+          "route": "supporting_illustration",
+          "assetId": "asset-lifeboat",
+          "alpha": true,
+          "source": "replicate:flux-1.1-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 301,
+          "height": 301,
+          "role": "identity_or_secondary",
+          "durationSeconds": 0.007,
+          "bytes": 2495
+        },
+        {
+          "entityId": "scene-d284d66bb66eeea1",
+          "name": "Iron Steamship in beat s0",
+          "identity": "generic",
+          "identityReferences": [
+            "steamship"
+          ],
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sentenceReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "continuityReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "495fe2cdc22e821274582ccc4552bb36eecae2960efce2fa125021a3acfafab7",
+            "model": "black-forest-labs/flux-kontext-pro",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-kontext-pro",
+          "route": "narrative_action_cutout",
+          "assetId": "asset-scene-d284d66bb66eeea1",
+          "alpha": true,
+          "source": "replicate:flux-kontext-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 301,
+          "height": 291,
+          "role": "primary",
+          "durationSeconds": 0.018,
+          "bytes": 2688
+        },
+        {
+          "entityId": "scene-462408efb2f77d65",
+          "name": "Iron Steamship in beat s1",
+          "identity": "generic",
+          "identityReferences": [
+            "steamship"
+          ],
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sentenceReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "continuityReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "ab8a64391191eaa94384787c0eaa9a5ccc8e35bf4749f4d61c1fa90b4d6e4c20",
+            "model": "black-forest-labs/flux-kontext-pro",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-kontext-pro",
+          "route": "narrative_action_cutout",
+          "assetId": "asset-scene-462408efb2f77d65",
+          "alpha": true,
+          "source": "replicate:flux-kontext-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 291,
+          "height": 281,
+          "role": "primary",
+          "durationSeconds": 0.018,
+          "bytes": 1699
+        },
+        {
+          "entityId": "scene-4d83df10216760e4",
+          "name": "Iron Steamship in beat s2",
+          "identity": "generic",
+          "identityReferences": [
+            "steamship"
+          ],
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sentenceReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "continuityReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "f918bb5911f15d3a3bef6d9492d85d1dc85002ff0d19c9143dbf43e436284378",
+            "model": "black-forest-labs/flux-kontext-pro",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-kontext-pro",
+          "route": "narrative_action_cutout",
+          "assetId": "asset-scene-4d83df10216760e4",
+          "alpha": true,
+          "source": "replicate:flux-kontext-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 301,
+          "height": 301,
+          "role": "primary",
+          "durationSeconds": 0.019,
+          "bytes": 2583
+        },
+        {
+          "entityId": "scene-5e61b46d9b2ae883",
+          "name": "Iron Steamship in beat s3",
+          "identity": "generic",
+          "identityReferences": [
+            "steamship"
+          ],
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sentenceReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "continuityReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "bf1727123d9333e92ade0364849334c7727fc1d9d795c1c25982ea39bbe60a93",
+            "model": "black-forest-labs/flux-kontext-pro",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-kontext-pro",
+          "route": "narrative_action_cutout",
+          "assetId": "asset-scene-5e61b46d9b2ae883",
+          "alpha": true,
+          "source": "replicate:flux-kontext-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 291,
+          "height": 261,
+          "role": "primary",
+          "durationSeconds": 0.019,
+          "bytes": 1424
+        },
+        {
+          "entityId": "scene-47313a57d9f5be93",
+          "name": "Iron Steamship in beat s4",
+          "identity": "generic",
+          "identityReferences": [
+            "steamship"
+          ],
+          "cacheHit": false,
+          "generation": {
+            "identityVerified": false,
+            "depiction": "illustration",
+            "subjectReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sentenceReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "continuityReview": {
+              "relevant": true,
+              "actionCorrect": true,
+              "objectsCorrect": true,
+              "portraitSubstitution": false,
+              "problems": [],
+              "subjectMatch": true,
+              "usable": true,
+              "geometricPlaceholder": false,
+              "contextAppropriate": true,
+              "subjectConfidence": 0.96,
+              "recognizable": true,
+              "sameClothingOrFur": true,
+              "distinct": true,
+              "duplicate_pairs": [],
+              "uncertain": false
+            },
+            "sha256": "f5d5452a8125ecbbe6ff467a9a4215d2663169992566762157fc1a5490a248e0",
+            "model": "black-forest-labs/flux-kontext-pro",
+            "segmentation": "rembg:isnet-general-use",
+            "mask": {
+              "alphaCoverage": 0.36
+            },
+            "processingVersion": "isnet-general-use-v1",
+            "reviewVersion": "action-qc-v2"
+          },
+          "provider": "replicate:flux-kontext-pro",
+          "route": "narrative_action_cutout",
+          "assetId": "asset-scene-47313a57d9f5be93",
+          "alpha": true,
+          "source": "replicate:flux-kontext-pro",
+          "depiction": "AI illustrative reconstruction; not documentary evidence",
+          "width": 301,
+          "height": 291,
+          "role": "primary",
+          "durationSeconds": 0.018,
+          "bytes": 2683
+        }
+      ],
+      "actionWorkers": 2
+    },
+    "atomicStoryboard": {
+      "timeUnit": "frames",
+      "fps": 30,
+      "beats": [
+        {
+          "id": "atomic-0",
+          "sectionId": "s0",
+          "startWord": 0,
+          "endWord": 9,
+          "phrase": "An iron steamship sailed into a freezing Atlantic gale.",
+          "primaryEntityId": "scene-d284d66bb66eeea1",
+          "secondaryEntityIds": [
+            "lifeboat"
+          ],
+          "relationship": "event",
+          "action": "introduce",
+          "importance": 1,
+          "confidence": 1,
+          "scriptSpan": [
+            0,
+            55
+          ],
+          "startFrame": 0,
+          "endFrame": 86,
+          "triggerWordIds": [
+            "w0",
+            "w1",
+            "w2",
+            "w3",
+            "w4",
+            "w5",
+            "w6",
+            "w7",
+            "w8"
+          ],
+          "frameQuantizationErrorMs": 0.0,
+          "timingProvenance": "provider",
+          "assetIds": [
+            "asset-scene-d284d66bb66eeea1",
+            "asset-lifeboat"
+          ],
+          "activeLayers": [
+            "directed-0",
+            "directed-1",
+            "directed-0-label",
+            "directed-1-label"
+          ],
+          "persistentLayers": [],
+          "entityStates": [
+            {
+              "entityId": "scene-d284d66bb66eeea1",
+              "assetId": "asset-scene-d284d66bb66eeea1",
+              "layerId": "directed-0",
+              "state": "PRIMARY",
+              "bounds": {
+                "x": 110.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 1.04
+            },
+            {
+              "entityId": "lifeboat",
+              "assetId": "asset-lifeboat",
+              "layerId": "directed-1",
+              "state": "SECONDARY",
+              "bounds": {
+                "x": 565.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 0.94
+            }
+          ],
+          "readabilityWarning": false
+        },
+        {
+          "id": "atomic-1",
+          "sectionId": "s1",
+          "startWord": 0,
+          "endWord": 9,
+          "phrase": "A boiler fire broke out below the main deck.",
+          "primaryEntityId": "scene-462408efb2f77d65",
+          "secondaryEntityIds": [
+            "lifeboat"
+          ],
+          "relationship": "event",
+          "action": "introduce",
+          "importance": 1,
+          "confidence": 1,
+          "scriptSpan": [
+            56,
+            100
+          ],
+          "startFrame": 86,
+          "endFrame": 173,
+          "triggerWordIds": [
+            "w9",
+            "w10",
+            "w11",
+            "w12",
+            "w13",
+            "w14",
+            "w15",
+            "w16",
+            "w17"
+          ],
+          "frameQuantizationErrorMs": 13.333,
+          "timingProvenance": "provider",
+          "assetIds": [
+            "asset-scene-462408efb2f77d65",
+            "asset-lifeboat"
+          ],
+          "activeLayers": [
+            "directed-1",
+            "directed-2",
+            "directed-1-label",
+            "directed-2-label"
+          ],
+          "persistentLayers": [
+            "directed-1"
+          ],
+          "entityStates": [
+            {
+              "entityId": "lifeboat",
+              "assetId": "asset-lifeboat",
+              "layerId": "directed-1",
+              "state": "SECONDARY",
+              "bounds": {
+                "x": 110.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 0.94
+            },
+            {
+              "entityId": "scene-462408efb2f77d65",
+              "assetId": "asset-scene-462408efb2f77d65",
+              "layerId": "directed-2",
+              "state": "PRIMARY",
+              "bounds": {
+                "x": 565.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 1.04
+            }
+          ],
+          "readabilityWarning": false
+        },
+        {
+          "id": "atomic-2",
+          "sectionId": "s2",
+          "startWord": 0,
+          "endWord": 6,
+          "phrase": "Towering waves smashed the wooden lifeboats.",
+          "primaryEntityId": "scene-4d83df10216760e4",
+          "secondaryEntityIds": [
+            "lifeboat"
+          ],
+          "relationship": "event",
+          "action": "introduce",
+          "importance": 1,
+          "confidence": 1,
+          "scriptSpan": [
+            101,
+            145
+          ],
+          "startFrame": 173,
+          "endFrame": 230,
+          "triggerWordIds": [
+            "w18",
+            "w19",
+            "w20",
+            "w21",
+            "w22",
+            "w23"
+          ],
+          "frameQuantizationErrorMs": 6.667,
+          "timingProvenance": "provider",
+          "assetIds": [
+            "asset-scene-4d83df10216760e4",
+            "asset-lifeboat"
+          ],
+          "activeLayers": [
+            "directed-1",
+            "directed-3",
+            "directed-1-label",
+            "directed-3-label"
+          ],
+          "persistentLayers": [
+            "directed-1"
+          ],
+          "entityStates": [
+            {
+              "entityId": "lifeboat",
+              "assetId": "asset-lifeboat",
+              "layerId": "directed-1",
+              "state": "SECONDARY",
+              "bounds": {
+                "x": 110.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 0.94
+            },
+            {
+              "entityId": "scene-4d83df10216760e4",
+              "assetId": "asset-scene-4d83df10216760e4",
+              "layerId": "directed-3",
+              "state": "PRIMARY",
+              "bounds": {
+                "x": 565.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 1.04
+            }
+          ],
+          "readabilityWarning": false
+        },
+        {
+          "id": "atomic-3",
+          "sectionId": "s3",
+          "startWord": 0,
+          "endWord": 9,
+          "phrase": "The crew rescued a stranded lookout from the mast.",
+          "primaryEntityId": "scene-5e61b46d9b2ae883",
+          "secondaryEntityIds": [
+            "lifeboat"
+          ],
+          "relationship": "event",
+          "action": "introduce",
+          "importance": 1,
+          "confidence": 1,
+          "scriptSpan": [
+            146,
+            196
+          ],
+          "startFrame": 230,
+          "endFrame": 317,
+          "triggerWordIds": [
+            "w24",
+            "w25",
+            "w26",
+            "w27",
+            "w28",
+            "w29",
+            "w30",
+            "w31",
+            "w32"
+          ],
+          "frameQuantizationErrorMs": 13.333,
+          "timingProvenance": "provider",
+          "assetIds": [
+            "asset-scene-5e61b46d9b2ae883",
+            "asset-lifeboat"
+          ],
+          "activeLayers": [
+            "directed-1",
+            "directed-4",
+            "directed-1-label",
+            "directed-4-label"
+          ],
+          "persistentLayers": [
+            "directed-1"
+          ],
+          "entityStates": [
+            {
+              "entityId": "lifeboat",
+              "assetId": "asset-lifeboat",
+              "layerId": "directed-1",
+              "state": "SECONDARY",
+              "bounds": {
+                "x": 110.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 0.94
+            },
+            {
+              "entityId": "scene-5e61b46d9b2ae883",
+              "assetId": "asset-scene-5e61b46d9b2ae883",
+              "layerId": "directed-4",
+              "state": "PRIMARY",
+              "bounds": {
+                "x": 565.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 1.04
+            }
+          ],
+          "readabilityWarning": false
+        },
+        {
+          "id": "atomic-4",
+          "sectionId": "s4",
+          "startWord": 0,
+          "endWord": 8,
+          "phrase": "The broken hull sank beneath the dark swells.",
+          "primaryEntityId": "scene-47313a57d9f5be93",
+          "secondaryEntityIds": [
+            "lifeboat"
+          ],
+          "relationship": "event",
+          "action": "introduce",
+          "importance": 1,
+          "confidence": 1,
+          "scriptSpan": [
+            197,
+            242
+          ],
+          "startFrame": 317,
+          "endFrame": 415,
+          "triggerWordIds": [
+            "w33",
+            "w34",
+            "w35",
+            "w36",
+            "w37",
+            "w38",
+            "w39",
+            "w40"
+          ],
+          "frameQuantizationErrorMs": 6.667,
+          "timingProvenance": "provider",
+          "assetIds": [
+            "asset-scene-47313a57d9f5be93",
+            "asset-lifeboat"
+          ],
+          "activeLayers": [
+            "directed-1",
+            "directed-5",
+            "directed-1-label",
+            "directed-5-label"
+          ],
+          "persistentLayers": [
+            "directed-1"
+          ],
+          "entityStates": [
+            {
+              "entityId": "lifeboat",
+              "assetId": "asset-lifeboat",
+              "layerId": "directed-1",
+              "state": "SECONDARY",
+              "bounds": {
+                "x": 110.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 0.94
+            },
+            {
+              "entityId": "scene-47313a57d9f5be93",
+              "assetId": "asset-scene-47313a57d9f5be93",
+              "layerId": "directed-5",
+              "state": "PRIMARY",
+              "bounds": {
+                "x": 565.0,
+                "y": 710.0,
+                "w": 380.0,
+                "h": 380.0
+              },
+              "scale": 1.04
+            }
+          ],
+          "readabilityWarning": false
+        }
+      ]
+    },
+    "sentenceQuality": {
+      "narrationSentences": 5,
+      "storyboardVisualBeats": 5,
+      "primaryAssetsPlanned": 5,
+      "primaryAssetsGenerated": 5,
+      "distinctPrimaryVisuals": 5,
+      "reusedSecondaryAssets": 1,
+      "sentencesWithoutDistinctPrimary": 0,
+      "imagesRejectedForDuplication": 0,
+      "imageGenerationFailures": 0,
+      "fallbackAttempts": 0,
+      "sceneRelevanceFailures": 0,
+      "missingMappings": 0,
+      "acceptancePassed": true,
+      "primaryAssetsInRender": 5,
+      "missingRenderMappings": 0
+    },
+    "sentenceVisualMetrics": {
+      "narrationSentences": 5,
+      "storyboardVisualBeats": 5,
+      "primaryAssetsPlanned": 5,
+      "primaryAssetsGenerated": 5,
+      "distinctPrimaryVisuals": 5,
+      "reusedSecondaryAssets": 1,
+      "sentencesWithoutDistinctPrimary": 0,
+      "imagesRejectedForDuplication": 0,
+      "imageGenerationFailures": 0,
+      "fallbackAttempts": 0,
+      "sceneRelevanceFailures": 0,
+      "missingMappings": 0,
+      "acceptancePassed": true,
+      "primaryAssetsInRender": 5,
+      "missingRenderMappings": 0
+    }
+  }
+}

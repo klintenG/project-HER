@@ -1,0 +1,496 @@
+{
+  "schema_version": "generation-diagnostics-v2",
+  "job_id": "editorial_72666e41632e4dcf97d6cca72cf29210",
+  "outcome": "succeeded",
+  "start_utc": "2026-10-17T11:12:12.524991+00:00",
+  "finish_utc": "2026-10-17T11:12:13.855855+00:00",
+  "total_elapsed_seconds": 1.330864,
+  "measured_wall_seconds": 1.266374,
+  "unattributed_wall_seconds": 0.06449,
+  "peak_image_provider_concurrency": 0,
+  "runtime": [
+    {
+      "host_cpu_count": 10
+    }
+  ],
+  "infrastructure": {
+    "environment": "local",
+    "python_version": "3.9.6",
+    "service": "local_process",
+    "revision": "local",
+    "commit": "working_tree",
+    "region": "unspecified",
+    "configured_action_workers": 2,
+    "configured_remotion_concurrency": "default",
+    "process_peak_rss_native_units": 265748480,
+    "trace_runtimes": [
+      {
+        "host_cpu_count": 10
+      }
+    ]
+  },
+  "process_peak_rss_native_units": 265748480,
+  "revision": null,
+  "commit": null,
+  "video_mode": "reference_editorial",
+  "actual_video_seconds": 12.367,
+  "resolution": [
+    1080,
+    1920
+  ],
+  "fps": 30,
+  "output_size_bytes": null,
+  "visual_metrics": {
+    "sentences": 4,
+    "storyboard_visual_beats": 0,
+    "planned_primaries": 0,
+    "generated_assets": 3,
+    "distinct_primaries": 0,
+    "reused_secondary_assets": 0,
+    "rendered_primaries": 0,
+    "sentences_without_distinct_primary": 4,
+    "images_rejected_for_duplication": 0,
+    "image_generation_failures": 0,
+    "fallback_attempts": 0,
+    "scene_relevance_failures": 0,
+    "invariant_distinct_ge_sentences": false,
+    "acceptance_passed": false
+  },
+  "scene_report": [],
+  "stage_timings": {
+    "resolve": 0.001,
+    "research": 0.001,
+    "script": 0.008,
+    "semantic_beat_planning": 0.002,
+    "word_forced_alignment": 0.341,
+    "scene_planning_and_layout": 0.0,
+    "media": 1.257,
+    "timeline": 0.053,
+    "Remotion_and_FFmpeg": 0.01,
+    "compose": 0.01,
+    "end_to_end": 1.331
+  },
+  "concurrency_analysis": {
+    "total_image_tasks": 3,
+    "total_provider_wait_spans": 0,
+    "peak_image_provider_concurrency": 0,
+    "average_active_image_concurrency": 0.0,
+    "configured_action_workers": 2,
+    "tts_visual_overlap_seconds": 0.065,
+    "speech_wall_seconds": 0.211,
+    "cutouts_wall_seconds": 0.065,
+    "serial_gap_seconds": 0.063,
+    "admission_wait_seconds": 0.0,
+    "rate_limit_responses": 0,
+    "rate_limit_backoff_seconds": 0,
+    "background_removal_total_seconds": 0
+  },
+  "critical_path": [
+    {
+      "stage": "input_fetch_and_extract",
+      "duration_seconds": 0.0011,
+      "effective_advance_seconds": 0.0011,
+      "status": "succeeded"
+    },
+    {
+      "stage": "research_or_script_generation",
+      "duration_seconds": 0.0015,
+      "effective_advance_seconds": 0.0015,
+      "status": "succeeded"
+    },
+    {
+      "stage": "TTS_generation",
+      "duration_seconds": 0.2125,
+      "effective_advance_seconds": 0.2125,
+      "status": "succeeded"
+    },
+    {
+      "stage": "word_forced_alignment",
+      "duration_seconds": 0.3407,
+      "effective_advance_seconds": 0.3408,
+      "status": "succeeded"
+    },
+    {
+      "stage": "audio_normalization",
+      "duration_seconds": 0.7003,
+      "effective_advance_seconds": 0.7003,
+      "status": "succeeded"
+    },
+    {
+      "stage": "timeline_planning",
+      "duration_seconds": 0.0006,
+      "effective_advance_seconds": 0.0006,
+      "status": "succeeded"
+    },
+    {
+      "stage": "render_and_delivery",
+      "duration_seconds": 0.0091,
+      "effective_advance_seconds": 0.0091,
+      "status": "succeeded"
+    }
+  ],
+  "bottleneck_ranking": [
+    {
+      "operation": "word_forced_alignment",
+      "duration_seconds": 0.3407,
+      "percent_of_wall_time": 25.6,
+      "cause_category": "compute",
+      "evidence": "1 span(s), max=0.341s, accumulated=0.341s",
+      "optimization_opportunity": "Use provider word timestamps when available or pre-bundled faster-whisper small model",
+      "confidence": "high"
+    },
+    {
+      "operation": "TTS_generation",
+      "duration_seconds": 0.2125,
+      "percent_of_wall_time": 16.0,
+      "cause_category": "provider",
+      "evidence": "1 span(s), max=0.213s, accumulated=0.213s",
+      "optimization_opportunity": "Overlap TTS with visual planning/sourcing and reduce inter-request pacing when account tier allows",
+      "confidence": "high"
+    },
+    {
+      "operation": "entity_identity_asset_generation",
+      "duration_seconds": 0.0633,
+      "percent_of_wall_time": 4.8,
+      "cause_category": "provider",
+      "evidence": "3 span(s), max=0.043s, accumulated=0.063s",
+      "optimization_opportunity": "Cache recurring character identity boards across retries",
+      "confidence": "high"
+    },
+    {
+      "operation": "render_and_delivery",
+      "duration_seconds": 0.0091,
+      "percent_of_wall_time": 0.7,
+      "cause_category": "compute",
+      "evidence": "1 span(s), max=0.009s, accumulated=0.009s",
+      "optimization_opportunity": "Enable direct BT.709 output in Remotion to eliminate second FFmpeg libx264 re-encode pass",
+      "confidence": "high"
+    },
+    {
+      "operation": "research_or_script_generation",
+      "duration_seconds": 0.0015,
+      "percent_of_wall_time": 0.1,
+      "cause_category": "provider",
+      "evidence": "1 span(s), max=0.001s, accumulated=0.001s",
+      "optimization_opportunity": "Reduce LLM repair iterations and token output size",
+      "confidence": "high"
+    },
+    {
+      "operation": "semantic_beat_planning",
+      "duration_seconds": 0.0013,
+      "percent_of_wall_time": 0.1,
+      "cause_category": "provider",
+      "evidence": "1 span(s), max=0.001s, accumulated=0.001s",
+      "optimization_opportunity": "Single-pass structured storyboard generation with strict schema validation",
+      "confidence": "high"
+    },
+    {
+      "operation": "input_fetch_and_extract",
+      "duration_seconds": 0.0011,
+      "percent_of_wall_time": 0.1,
+      "cause_category": "network",
+      "evidence": "1 span(s), max=0.001s, accumulated=0.001s",
+      "optimization_opportunity": "Cache fetched source text or streamline input classification",
+      "confidence": "high"
+    },
+    {
+      "operation": "research",
+      "duration_seconds": 0.0005,
+      "percent_of_wall_time": 0.0,
+      "cause_category": "network",
+      "evidence": "1 span(s), max=0.000s, accumulated=0.000s",
+      "optimization_opportunity": "Bound web search pages and HTTP timeouts",
+      "confidence": "high"
+    }
+  ],
+  "rendering": {
+    "renderer": "remotion",
+    "frames": 371,
+    "fps": 30,
+    "resolution": [
+      1080,
+      1920
+    ],
+    "remotion_render_seconds": null,
+    "ffmpeg_encode_seconds": null,
+    "audio_delivery_seconds": null,
+    "total_render_and_qa_seconds": 0.01,
+    "video_encode_passes": null,
+    "average_fps_throughput": null,
+    "output_size_bytes": null
+  },
+  "images": [
+    {
+      "task_index": 1,
+      "entityId": "mira",
+      "assetId": "asset-mira",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "visual_concept": "Mira",
+      "provider": "local_or_cache",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.0,
+      "api_duration_seconds": 0,
+      "processing_and_review_seconds": 0.043,
+      "durationSeconds": 0.043,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "ready",
+      "identityReferences": [],
+      "dimensions": [
+        332,
+        491
+      ],
+      "bytes": 5778,
+      "displayed_in_render": true,
+      "origin": "generated"
+    },
+    {
+      "task_index": 2,
+      "entityId": "diamond",
+      "assetId": "asset-diamond",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "visual_concept": "Diamond",
+      "provider": "local_or_cache",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.0,
+      "api_duration_seconds": 0,
+      "processing_and_review_seconds": 0.008,
+      "durationSeconds": 0.008,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "ready",
+      "identityReferences": [],
+      "dimensions": [
+        301,
+        271
+      ],
+      "bytes": 2951,
+      "displayed_in_render": true,
+      "origin": "generated"
+    },
+    {
+      "task_index": 3,
+      "entityId": "microscope",
+      "assetId": "asset-microscope",
+      "sentence_id": "shared_identity",
+      "role": "identity_or_secondary",
+      "visual_concept": "Microscope",
+      "provider": "local_or_cache",
+      "request_start_utc": null,
+      "request_end_utc": null,
+      "queue_wait_seconds": 0.0,
+      "api_duration_seconds": 0,
+      "processing_and_review_seconds": 0.011,
+      "durationSeconds": 0.011,
+      "attempts": 1,
+      "rejected_attempts": 0,
+      "recorded_errors": 0,
+      "cacheHit": false,
+      "route": "ready",
+      "identityReferences": [],
+      "dimensions": [
+        303,
+        419
+      ],
+      "bytes": 4343,
+      "displayed_in_render": true,
+      "origin": "generated"
+    }
+  ],
+  "provider_metrics": {},
+  "errors_and_retries": [],
+  "recommended_next_investigation": [
+    "Remotion output is currently re-encoded by FFmpeg for BT.601->BT.709 color conversion (2 encode passes). Validate HER_EDITORIAL_DIRECT_BT709=1 on target runtime to use -c:v copy."
+  ],
+  "spans": [
+    {
+      "id": "47db6833d9ef45d5ac5c8257bb9dabc7",
+      "name": "end_to_end",
+      "start_utc": "2026-10-17T11:12:12.524991+00:00",
+      "start_offset_seconds": 0.00027562500000000156,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": null,
+      "end_utc": "2026-10-17T11:12:13.855855+00:00",
+      "end_offset_seconds": 1.331073333,
+      "duration_seconds": 1.330797708,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "d587dcbedce54338878b67df312e84a1",
+      "name": "input_fetch_and_extract",
+      "start_utc": "2026-10-17T11:12:12.525234+00:00",
+      "start_offset_seconds": 0.0005154580000001907,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "47db6833d9ef45d5ac5c8257bb9dabc7",
+      "end_utc": "2026-10-17T11:12:12.526378+00:00",
+      "end_offset_seconds": 0.0016588749999999486,
+      "duration_seconds": 0.0011434169999997579,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "de4fdf85aa204374aba76a0c051067a4",
+      "name": "research",
+      "start_utc": "2026-10-17T11:12:12.526630+00:00",
+      "start_offset_seconds": 0.001910291000000175,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "47db6833d9ef45d5ac5c8257bb9dabc7",
+      "end_utc": "2026-10-17T11:12:12.527103+00:00",
+      "end_offset_seconds": 0.002385124999999988,
+      "duration_seconds": 0.000474833999999813,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "b4c5a54fac82421c80bf6a59c459b011",
+      "name": "research_or_script_generation",
+      "start_utc": "2026-10-17T11:12:12.527445+00:00",
+      "start_offset_seconds": 0.002725958000000084,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "47db6833d9ef45d5ac5c8257bb9dabc7",
+      "end_utc": "2026-10-17T11:12:12.528938+00:00",
+      "end_offset_seconds": 0.004221500000000322,
+      "duration_seconds": 0.0014955420000002384,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e138c13edcb4496baf08d86de554b9bf",
+      "name": "TTS_generation",
+      "start_utc": "2026-10-17T11:12:12.535723+00:00",
+      "start_offset_seconds": 0.011007250000000024,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "47db6833d9ef45d5ac5c8257bb9dabc7",
+      "end_utc": "2026-10-17T11:12:12.748231+00:00",
+      "end_offset_seconds": 0.223511083,
+      "duration_seconds": 0.21250383299999998,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "1ee236047b124f57a3623e3607a5661f",
+      "name": "semantic_beat_planning",
+      "start_utc": "2026-10-17T11:12:12.535745+00:00",
+      "start_offset_seconds": 0.011026375000000144,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "47db6833d9ef45d5ac5c8257bb9dabc7",
+      "end_utc": "2026-10-17T11:12:12.537031+00:00",
+      "end_offset_seconds": 0.012312791000000267,
+      "duration_seconds": 0.0012864160000001235,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "6284bc256e5f48c698c948fd8a103f12",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T11:12:12.538251+00:00",
+      "start_offset_seconds": 0.013534041000000219,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "3c38aafb0579dafe"
+      },
+      "parent_span_id": "47db6833d9ef45d5ac5c8257bb9dabc7",
+      "end_utc": "2026-10-17T11:12:12.581542+00:00",
+      "end_offset_seconds": 0.05682812500000001,
+      "duration_seconds": 0.04329408399999979,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "00a730929aaa4543a4cd111385f33d93",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T11:12:12.581965+00:00",
+      "start_offset_seconds": 0.05724358299999999,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "81c9d6128b5fcd7b"
+      },
+      "parent_span_id": "47db6833d9ef45d5ac5c8257bb9dabc7",
+      "end_utc": "2026-10-17T11:12:12.590715+00:00",
+      "end_offset_seconds": 0.06599641599999995,
+      "duration_seconds": 0.00875283299999996,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "e39f1a00d44449259e30e7317573552c",
+      "name": "entity_identity_asset_generation",
+      "start_utc": "2026-10-17T11:12:12.591069+00:00",
+      "start_offset_seconds": 0.06634654100000015,
+      "status": "succeeded",
+      "metadata": {
+        "asset_key": "0f09538d0ea075ee"
+      },
+      "parent_span_id": "47db6833d9ef45d5ac5c8257bb9dabc7",
+      "end_utc": "2026-10-17T11:12:12.602357+00:00",
+      "end_offset_seconds": 0.07763737500000012,
+      "duration_seconds": 0.011290833999999972,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "06026ae8fb474604a905cd29eeaac0a9",
+      "name": "word_forced_alignment",
+      "start_utc": "2026-10-17T11:12:12.749723+00:00",
+      "start_offset_seconds": 0.2249962080000003,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "47db6833d9ef45d5ac5c8257bb9dabc7",
+      "end_utc": "2026-10-17T11:12:13.090478+00:00",
+      "end_offset_seconds": 0.5657405410000003,
+      "duration_seconds": 0.34074433299999995,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "74540bb7651a4e42ae9f6b9f8d180ddc",
+      "name": "audio_normalization",
+      "start_utc": "2026-10-17T11:12:13.091653+00:00",
+      "start_offset_seconds": 0.5669072080000004,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "47db6833d9ef45d5ac5c8257bb9dabc7",
+      "end_utc": "2026-10-17T11:12:13.791950+00:00",
+      "end_offset_seconds": 1.2671922909999997,
+      "duration_seconds": 0.7002850829999994,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "df0d0145f0da492e910b412050e845bb",
+      "name": "timeline_planning",
+      "start_utc": "2026-10-17T11:12:13.792834+00:00",
+      "start_offset_seconds": 1.2680545410000006,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "47db6833d9ef45d5ac5c8257bb9dabc7",
+      "end_utc": "2026-10-17T11:12:13.793422+00:00",
+      "end_offset_seconds": 1.2686420830000005,
+      "duration_seconds": 0.0005875419999998854,
+      "trace_file": "job_trace.json"
+    },
+    {
+      "id": "861d86df6fad4c4482905ebfa44c377b",
+      "name": "render_and_delivery",
+      "start_utc": "2026-10-17T11:12:13.845500+00:00",
+      "start_offset_seconds": 1.3207309580000004,
+      "status": "succeeded",
+      "metadata": {},
+      "parent_span_id": "47db6833d9ef45d5ac5c8257bb9dabc7",
+      "end_utc": "2026-10-17T11:12:13.854616+00:00",
+      "end_offset_seconds": 1.3298379580000006,
+      "duration_seconds": 0.009107000000000198,
+      "trace_file": "job_trace.json"
+    }
+  ],
+  "limitations": [
+    "Browser timings unavailable unless submitted by the client.",
+    "Cold-start/cache comparison requires separate controlled runs; process peak RSS includes earlier jobs.",
+    "Overlapping durations must not be summed. Span nesting expresses dependencies, not a proven critical-path DAG.",
+    "Report serialization and report upload occur after the measured worker interval."
+  ]
+}
