@@ -79,13 +79,15 @@ def run_news(text,*,output_dir=None,source_policy='auto',tone='informative',lang
         begin('cutouts')
         assets=generate_cutouts(script,output,inp.basis,image_generator,processor,cancel_event,llm=llm)
         for asset in assets:
+            if asset.qa=='degraded':warnings.append(f'{next(e.name for e in script.entities if e.id==asset.entity_id)}: visual generation exhausted; completed with contextual typography.')
             if asset.image_model:
                 name=next(e.name for e in script.entities if e.id==asset.entity_id)
                 warnings.append(f'{name}: AI illustration via {asset.image_model}; likeness has not been measured or independently verified.')
         begin('cutout_qa')
         from agent.cutout_processor import mask_statistics
         entities={e.id:e for e in script.entities}
-        for asset in assets: mask_statistics(Image.open(asset.path).convert('RGBA'),allow_geometry=asset.provider=='verified_local',allow_group=entities[asset.entity_id].is_group)
+        for asset in assets:
+            if asset.qa!='degraded':mask_statistics(Image.open(asset.path).convert('RGBA'),allow_geometry=asset.provider=='verified_local',allow_group=entities[asset.entity_id].is_group)
         begin('narrate')
         if effective_tts=='edge_tts' and language in config.LANGUAGE_VOICES:
             voice=config.LANGUAGE_VOICES[language]['voice']
@@ -123,7 +125,7 @@ def run_news(text,*,output_dir=None,source_policy='auto',tone='informative',lang
         manifest.outputs={'video':str(video.resolve()),'srt':str(srt.resolve()),'thumbnail':str(thumb.resolve()),'image_credits':str(credits.resolve()),'description':'Identity reference photos and/or AI editorial illustrations; not claimed to depict the narrated event. Image credits: '+str(credits.resolve())+'. Sources: '+'; '.join(s.url or s.title for s in evidence.sources)}
         manifest_path.write_text(manifest.model_dump_json(indent=2))
         (output/'news_failure.json').unlink(missing_ok=True)
-        return PipelineResult(success=True,video_path=video,srt_path=srt,thumbnail_path=thumb,duration=output_frames(manifest.duration_frames,fps)/fps,resolution=f'{width}x{height}',video_format=video_format,title=script.summary,key_point_count=len(beats),processing_time=time.monotonic()-start,content_type='news',theme='news_editorial_cutout',caption_style='news_phrases',hook=script.sentences[0].text,news_details={'status':'ready','input':inp.model_dump(),'sources':[{'id':s.id,'title':s.title,'url':s.url} for s in evidence.sources],'images':images,'narration':{'provider':audio.provider,'model':audio.model,'fallbacks':audio.fallbacks},'warnings':warnings,'manifest':str(manifest_path.resolve())})
+        return PipelineResult(success=True,video_path=video,srt_path=srt,thumbnail_path=thumb,duration=output_frames(manifest.duration_frames,fps)/fps,resolution=f'{width}x{height}',video_format=video_format,title=script.summary,key_point_count=len(beats),processing_time=time.monotonic()-start,content_type='news',theme='news_editorial_cutout',caption_style='news_phrases',hook=script.sentences[0].text,news_details={'status':'ready','visual_quality':'degraded_completed' if any(a.qa=='degraded' for a in assets) else 'fully_compliant','input':inp.model_dump(),'sources':[{'id':s.id,'title':s.title,'url':s.url} for s in evidence.sources],'images':images,'narration':{'provider':audio.provider,'model':audio.model,'fallbacks':audio.fallbacks},'warnings':warnings,'manifest':str(manifest_path.resolve())})
     except Exception as exc:
         if not isinstance(exc,NewsError):
             logger.exception('News generation %s failed at stage=%s: %s (output: %s)',generation,stage,exc,output)

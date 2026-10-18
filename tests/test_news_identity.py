@@ -61,7 +61,7 @@ class IdentityImageTests(unittest.TestCase):
         asset=self.assets()[0]
         self.assertEqual(asset.origin,'reference_edit');self.assertTrue(asset.illustrative)
         self.assertFalse(asset.identity_verified)
-        self.assertEqual(asset.image_model,'black-forest-labs/flux-kontext-pro')
+        self.assertEqual(asset.image_model,'black-forest-labs/flux-schnell')
         self.assertEqual(self.generator.real_subject.call_args.args[2],self.reference)
         self.assertIn('same identity',asset.prompt)
         self.generator.subject.assert_not_called()

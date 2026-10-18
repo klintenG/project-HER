@@ -79,6 +79,13 @@ class EditorialImages(NewsImageGenerator):
             self.primary_calls+=1
         return await self._prediction(prompt,path,reference,'action' if reference is not None else 'support')
 
+    async def alternate_scene_subject(self,prompt,path):
+        """One bounded second-model attempt after scene-specific repairs fail."""
+        with self._budget_lock:
+            if self.primary_calls>=self.primary_limit:raise NewsError('Sentence primary capacity exhausted after bounded repairs.')
+            self.primary_calls+=1
+        return await self._prediction(prompt,path,None,'support_alternate')
+
     async def action_subject(self,prompt,path,reference=None):
         return await self.real_subject(prompt,path,reference,tier='action')
 
@@ -117,8 +124,8 @@ class EditorialImages(NewsImageGenerator):
         from PIL import Image
         from agent.news_research import fetch
         if not self.replicate_token:raise NewsError('Editorial images require REPLICATE_API_TOKEN.')
-        model=config.EDITORIAL_ACTION_IMAGE_MODEL if tier=='action' else config.EDITORIAL_SUPPORT_IMAGE_MODEL if tier=='support' else config.NEWS_REFERENCE_IMAGE_MODEL if reference else config.NEWS_REAL_IMAGE_MODEL
-        allowed={'black-forest-labs/flux-schnell','black-forest-labs/flux-1.1-pro','black-forest-labs/flux-dev'} if tier=='support' else {'black-forest-labs/flux-kontext-pro','black-forest-labs/flux-1.1-pro','black-forest-labs/flux-dev'}
+        model=config.EDITORIAL_ACTION_IMAGE_MODEL if tier=='action' else config.EDITORIAL_FALLBACK_IMAGE_MODEL if tier=='support_alternate' else config.EDITORIAL_SUPPORT_IMAGE_MODEL if tier=='support' else config.NEWS_REFERENCE_IMAGE_MODEL if reference else config.NEWS_REAL_IMAGE_MODEL
+        allowed={'black-forest-labs/flux-schnell','black-forest-labs/flux-1.1-pro','black-forest-labs/flux-dev'} if tier in ('support','support_alternate') else {'black-forest-labs/flux-kontext-pro','black-forest-labs/flux-1.1-pro','black-forest-labs/flux-dev'}
         if tier=='action':allowed=allowed|{'google/nano-banana-pro'}
         if model not in allowed:raise NewsError('Unsupported editorial image model: '+model)
         inputs={'prompt':prompt,'aspect_ratio':'1:1','output_format':'png'}

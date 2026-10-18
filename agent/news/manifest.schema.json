@@ -136,8 +136,11 @@
           "type": "object"
         },
         "qa": {
-          "const": "passed",
           "default": "passed",
+          "enum": [
+            "passed",
+            "degraded"
+          ],
           "title": "Qa",
           "type": "string"
         },
@@ -756,7 +759,7 @@
           "items": {
             "$ref": "#/$defs/Entity"
           },
-          "maxItems": 12,
+          "maxItems": 24,
           "title": "Entities",
           "type": "array"
         }
@@ -819,6 +822,18 @@
           },
           "title": "Emphasis",
           "type": "array"
+        },
+        "headline_text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Headline Text"
         }
       },
       "required": [

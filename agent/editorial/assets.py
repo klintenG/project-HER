@@ -144,14 +144,14 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
             board_path=output/(hashlib.sha256(e.id.encode()).hexdigest()[:20]+'-identity-board.png');board.save(board_path)
             identity_asset=type('IdentityBoard',(),{'path':str(board_path),'paths':reference_paths})()
         sentence_beat=sentence_beats.get(e.id)
-        is_obj=e.kind!='person' or (sentence_beat is not None and sentence_beat.get('primary_subject_type')=='object')
+        is_obj=e.kind not in ('person','animal') or (sentence_beat is not None and sentence_beat.get('primary_subject_type')=='object')
         if sentence_beat and (is_obj or (sentence_beat.get('primary_asset_request') or {}).get('allow_identity_conditioning') is False):
             identity_asset=None;identity_assets=[]
         action_cutout=e.id in action_ids and sentence_beat is None
         action_beat=next((beat for beat in narrative.beats if e.id in beat.asset_ids),None) if narrative else None
         contact_required=action_beat.contact_required if action_beat else True
         framing_rule=' Preserve the available body, clothing, arms and torso; do not crop to a floating head.' if e.kind=='person' else ' Keep the entire requested subject, prop or focal action intact inside the frame.'
-        prompt=(e.description if action_cutout or sentence_beat else subject_prompt(e))+framing_rule+' No surrounding background objects. Zoom out so the subject occupies at most 70 percent of image height. Leave at least 10 percent blank space above the entire subject, and 10 percent on each side. Never clip the subject at the frame edge.'
+        prompt=(e.description if action_cutout or sentence_beat else subject_prompt(e))+framing_rule+(' Keep only environmental details that prove the narrated action or consequence.' if sentence_beat else ' No surrounding background objects.')+' Zoom out so the subject occupies at most 70 percent of image height. Leave at least 10 percent blank space above the entire subject, and 10 percent on each side. Never clip the subject at the frame edge.'
         action_adapter=(action_cutout or sentence_beat is not None) and callable(getattr(type(image_generator),'action_subject',None))
         scene_adapter=sentence_beat is not None and callable(getattr(type(image_generator),'scene_subject',None))
         model=(config.EDITORIAL_ACTION_IMAGE_MODEL if (reference or identity_asset) else config.EDITORIAL_SUPPORT_IMAGE_MODEL) if scene_adapter else config.EDITORIAL_ACTION_IMAGE_MODEL if action_adapter else config.NEWS_REFERENCE_IMAGE_MODEL if reference or identity_asset else config.EDITORIAL_SUPPORT_IMAGE_MODEL
@@ -179,7 +179,6 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
         feedback=[]
         use_cached=True
         best_unverified=None
-        best_candidate=None
         cutout_seconds=0.0
         review_seconds=0.0
         attempts=config.NEWS_REAL_IMAGE_ATTEMPTS if reference else config.NEWS_ASSET_RETRIES
@@ -193,7 +192,7 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                     proof=json.loads(metadata.read_text())
                     if proof.get('sha256')!=digest(cached):raise NewsError('Cached illustration checksum changed.')
                     shutil.copyfile(cached,raw);provider='replicate:'+model
-                    if proof.get('processingVersion')!=processing_version or proof.get('reviewVersion')!=('sentence-qc-v1-strict' if sentence_beat else 'action-qc-v2'):proof=None
+                    if proof.get('processingVersion')!=processing_version or proof.get('reviewVersion')!=('sentence-qc-v2-action' if sentence_beat else 'action-qc-v2'):proof=None
                     if record is not None:record['cacheHit']=True
                 else:
                     if record is not None:record['cacheHit']=False
@@ -204,14 +203,15 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                     if attempt:
                         revised+=' Create a fresh zoomed-out composition, smaller than the rejected image; do not repeat its crop.'
                         if sentence_beat:
-                            revised=re.sub(r'Identity continuity:.*?\.\s*','',revised)
-                            revised=re.sub(r'Match the supplied established character reference:.*?\.\s*','',revised)
                             if sentence_beat.get('visual_focus'):
-                                revised=f"Visual focus: {sentence_beat['visual_focus']}. No standing portrait or character substitution. "+revised
+                                revised=f"Depict this single event clearly: {sentence_beat['visual_focus']}. Show the subject's action and its result in one readable pose. No standing portrait or character substitution. "+revised
                     revised+=(' Repair the previous attempt: '+'; '.join(feedback)[-1000:] if feedback else '')
-                    conditioning=reference or (identity_asset if not (sentence_beat and attempt>=1) else None)
+                    # A repair must keep the established character design.
+                    conditioning=reference or identity_asset
                     active_model=(config.EDITORIAL_ACTION_IMAGE_MODEL if conditioning else config.EDITORIAL_SUPPORT_IMAGE_MODEL) if scene_adapter else model
-                    request=lambda:_generate(image_generator.scene_subject(revised,raw,conditioning) if scene_adapter else image_generator.action_subject(revised,raw,conditioning) if action_adapter else image_generator.real_subject(revised,raw,conditioning) if conditioning else image_generator.subject(revised,raw),cancel_event)
+                    alternate=scene_adapter and attempt==attempts-1 and conditioning is None and callable(getattr(image_generator,'alternate_scene_subject',None))
+                    if record is not None:record.setdefault('requests',[]).append({'attempt':attempt+1,'prompt':revised,'model':getattr(config,'EDITORIAL_FALLBACK_IMAGE_MODEL',None) if alternate else active_model,'identityConditioned':conditioning is not None})
+                    request=lambda:_generate(image_generator.alternate_scene_subject(revised,raw) if alternate else image_generator.scene_subject(revised,raw,conditioning) if scene_adapter else image_generator.action_subject(revised,raw,conditioning) if action_adapter else image_generator.real_subject(revised,raw,conditioning) if conditioning else image_generator.subject(revised,raw),cancel_event)
                     if trace:
                         with trace.span('image_provider_wait',entity_id=e.id,model=active_model,attempt=attempt+1):provider=request()
                     else:provider=request()
@@ -259,22 +259,18 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                         "2. REJECT INSUFFICIENT KEYWORD OBJECTS: Do NOT approve an image merely because it contains an associated object or prop (such as prayer beads, a conch shell, dance clappers, a hand mirror, or a stone hand statue) when the sentence describes character action or interaction.\n"
                         "3. REJECT UNCHANGED STATIC PORTRAITS: A character standing still or posing statically is NOT sufficient for a sentence describing action, fleeing, dance imitation, or transformation. A character standing intact beside ashes is NOT sufficient for a sentence describing turning into ashes. Set portraitSubstitution=true and relevant=false in those cases.\n"
                         "4. Inanimate objects/props are valid primary subjects ONLY when the sentence itself is genuinely about an inanimate artifact, document, instrument, or symbol (e.g. in real-person stories where living faces are avoided).\n"
-                        "5. Transparent foreground cutouts intentionally have all background scenery and floors removed; do not report missing scenery as a problem.\n"
+                        "5. Judge the full event, including visible consequences. If the sentence says the world darkens, show darkness beyond the cave; if a character hears laughter, show a reaction toward the celebration; if a mirror reveals a reflection, the likeness must be visibly inside the mirror; if sunlight returns, the environment must visibly relight. Set visibleConsequence=false when the result is missing or ambiguous. A small attached environmental fragment is allowed even though the outer background is removed.\n"
+                        "6. Check the recognizable design, clothing and culturally appropriate setting of recurring characters. Set continuityCorrect=false for an obvious change.\n"
                         "Return problems only if relevant, actionCorrect, or objectsCorrect is false, or portraitSubstitution is true."
                     )
-                    check=review(rev_prompt,{'sentence':sentence_beat['narration_text'],'focus':sentence_beat['visual_focus'],'description':sentence_beat['description']},[cut])
+                    check=review(rev_prompt,{'sentence':sentence_beat['narration_text'],'focus':sentence_beat['visual_focus'],'description':sentence_beat['description'],'before':sentence_beat.get('state_before'),'after':sentence_beat.get('state_after'),'location':sentence_beat.get('location'),'emotion':sentence_beat.get('emotional_response'),'continuityReferences':sentence_beat.get('continuity_references',[])},[cut])
                     review_seconds+=time.monotonic()-rev_t0
                     if record is not None:record['visualReviewSeconds']=round(review_seconds,3)
-                    is_obj=e.kind!='person' or (sentence_beat.get('primary_subject_type')=='object')
-                    passed=isinstance(check,dict) and check.get('relevant') is True and check.get('objectsCorrect') is True and check.get('portraitSubstitution') is False and (True if is_obj else check.get('actionCorrect') is True)
+                    passed=isinstance(check,dict) and check.get('relevant') is True and check.get('objectsCorrect') is True and check.get('portraitSubstitution') is False and (check.get('actionCorrect') is True if sentence_beat.get('main_action') else True) and check.get('visibleConsequence') is not False and check.get('continuityCorrect') is not False
                     if isinstance(check,dict) and check.get('relevant') is True and check.get('portraitSubstitution') is False:
                         best_path=output/(file_id+'-best-illustration.png')
                         shutil.copyfile(cut,best_path)
                         best_unverified=(best_path,provider,check)
-                    elif isinstance(check,dict) and check.get('portraitSubstitution') is False and not check.get('geometricPlaceholder'):
-                        cand_path=output/(file_id+'-candidate-illustration.png')
-                        shutil.copyfile(cut,cand_path)
-                        best_candidate=(cand_path,provider,check)
                     if not passed:
                         if record is not None:record.setdefault('rejectedAttempts',[]).append({'attempt':attempt+1,'sentenceReview':check})
                         if isinstance(check,dict):feedback.extend(str(p) for p in check.get('problems',[]))
@@ -304,13 +300,18 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                         raise NewsError('Action cutout changed the established character appearance for '+e.name+'.')
                     proof['continuityReview']=continuity
                 proof=proof or {'identityVerified':False,'depiction':'illustration'}
-                proof.update(sha256=digest(raw),model=model,segmentation=method,mask=stats,processingVersion=processing_version,reviewVersion='sentence-qc-v1-strict' if sentence_beat else 'action-qc-v2')
+                proof.update(sha256=digest(raw),model=model,segmentation=method,mask=stats,processingVersion=processing_version,reviewVersion='sentence-qc-v2-action' if sentence_beat else 'action-qc-v2')
                 cache.mkdir(parents=True,exist_ok=True);shutil.copyfile(raw,cached);metadata.write_text(json.dumps(proof,indent=2))
                 if record is not None:record.update(generation=proof,provider=provider)
                 a=prepare(e,cut,output,source=provider,license='Generated illustration',attribution=provider+('; reference: '+reference.attribution if reference else ''),role='portrait' if e.kind=='person' else 'object',factual=False)
                 return a.model_copy(update={'confidence':proof.get('visualReview',{}).get('confidence',.5),'fallback':'AI illustration; reference likeness reviewed, not identity verified' if reference else 'AI illustrative reconstruction; not documentary evidence'})
             except NewsError as exc:
                 if exc.status=='cancelled':raise
+                if record is not None:
+                    record.setdefault('originalImageRequest',record.get('requests',[{'prompt':prompt}])[0])
+                    record.setdefault('_firstVisualFailureAt',time.monotonic())
+                    record['failureType']='validation' if 'review' in str(exc).lower() or 'match' in str(exc).lower() else 'provider_or_cutout'
+                    record['rejectionReason']=str(exc)
                 if any(reason in str(exc) for reason in ('HTTP 429','HTTP 401','HTTP 402','HTTP 403','outcome unavailable','request unavailable')):
                     # The adapter already bounded rejected-request retries.
                     # Ambiguous accepted work must never become a second paid
@@ -326,16 +327,16 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                         continue
                     # Graceful visual fallback hierarchy:
                     # 1. Best unverified or candidate illustration from retries
-                    chosen=best_unverified or best_candidate
+                    chosen=best_unverified
                     if chosen and chosen[0].is_file():
                         candidate,provider,check=chosen
                         fallback_proof={'identityVerified':False,'depiction':'illustration','subjectReview':check}
-                        fallback_proof['sentenceReview']={'relevant':True,'fallbackAccepted':True,'fallbackMethod':'candidate_illustration','problems':check.get('problems',[]) if isinstance(check,dict) else []}
-                        record and record.update(route='review_uncertain_ai_illustration',degraded=True,fallbackMethod='candidate_illustration',reviewWarning='Sentence primary visual focus depicted; fallback accepted after bounded retries.' if chosen is best_candidate else 'Sentence primary was relevant but action review did not meet the strict threshold.',generation=fallback_proof,provider=provider)
+                        fallback_proof['sentenceReview']={'relevant':check.get('relevant') is True if isinstance(check,dict) else False,'actionCorrect':check.get('actionCorrect') is True if isinstance(check,dict) else False,'fallbackAccepted':True,'fallbackMethod':'candidate_illustration','problems':check.get('problems',[]) if isinstance(check,dict) else []}
+                        record and record.update(route='review_uncertain_ai_illustration',degraded=True,fallbackMethod='candidate_illustration',reviewWarning='Sentence primary was relevant but action review did not meet the strict threshold.',generation=fallback_proof,provider=provider)
                         a=prepare(e,candidate,output,source=provider,license='Generated illustration',attribution=provider,role='portrait' if e.kind=='person' else 'object',factual=False)
                         return a.model_copy(update={'confidence':.35,'fallback':'AI illustrative reconstruction; visual focus depicted'})
                     if str(exc).startswith('Visual review is temporarily unavailable') and cut.is_file():
-                        fallback_proof={'identityVerified':False,'depiction':'illustration','sentenceReview':{'relevant':True,'fallbackAccepted':True,'fallbackMethod':'review_outage_cutout'}}
+                        fallback_proof={'identityVerified':False,'depiction':'illustration','sentenceReview':{'relevant':False,'fallbackAccepted':True,'fallbackMethod':'review_outage_cutout','unverified':True}}
                         record and record.update(route='ai_illustration_after_review_outage',degraded=True,fallbackMethod='review_outage_cutout',reviewWarning='Visual review was unavailable.',generation=fallback_proof,provider=provider)
                         a=prepare(e,cut,output,source=provider,license='Generated illustration',attribution=provider,role='portrait' if e.kind=='person' else 'object',factual=False)
                         return a.model_copy(update={'confidence':.2,'fallback':'AI illustration; subject appearance not independently verified'})
@@ -344,12 +345,10 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                     character_ids=sentence_beat.get('continuity_references',[]) or sentence_beat.get('secondary_entity_ids',[])
                     candidate_master=None
                     for cid in character_ids:
-                        candidate_master=next((m for m in master_assets if m.entityId==cid and m.source!='Project HER subject label'),None)
+                        candidate_master=next((m for m in master_assets if m.entityId==cid and m.source!='Project HER subject label' and Path(m.path).suffix.lower() in ('.png','.jpg','.jpeg','.webp')),None)
                         if candidate_master:break
-                    if not candidate_master and master_assets:
-                        candidate_master=next((m for m in master_assets if m.source!='Project HER subject label'),master_assets[0])
-                    if not candidate_master and assets:
-                        candidate_master=next((prior for prior in assets if prior.source!='Project HER subject label'),assets[0])
+                    # Never substitute an unrelated prior character merely to
+                    # populate the mandatory primary slot.
 
                     if candidate_master and Path(candidate_master.path).is_file():
                         fallback_path=output/(file_id+'-fallback-character.png')
@@ -450,7 +449,7 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
             masters=[prior for prior in master_assets if prior.source!='Project HER subject label' and (prior.entityId in ids or not ids and prior.subject.casefold()==e.name.casefold())]
             record['identityReferences']=[master.entityId for master in masters]
             a=generated(e,record=record,identity_asset=masters[0] if masters else None,identity_assets=masters)
-            if a.source!='Project HER subject label':record['route']='narrative_action_cutout'
+            if a.source!='Project HER subject label' and not record.get('degraded'):record['route']='narrative_action_cutout'
         elif e.identity=='real' and e.kind=='person' and not existing and asset_mode!='local':
             try:identity=people.resolve(e,evidence,llm,diagnostics=record)
             except Exception as exc:
@@ -584,6 +583,10 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
             a=label_fallback(e,output,'Symbolic placeholder replaced with label.')
             record['degraded']=True
             record['fallbackMethod']='typography_fallback'
+        first_failure=record.pop('_firstVisualFailureAt',None)
+        record['retryCount']=max(0,int(record.get('attemptCount',1))-1)
+        record['additionalDelaySeconds']=round(time.monotonic()-first_failure,3) if first_failure is not None else 0.0
+        record['fullyCompliant']=not bool(record.get('degraded')) and (e.id not in sentence_beats or record.get('generation',{}).get('sentenceReview',{}).get('relevant') is True)
         record.update(assetId=a.id,alpha=a.alpha,source=a.source,depiction=a.fallback,
                       width=a.width,height=a.height,sha256=a.sha256,path=a.path,
                       durationSeconds=round(time.monotonic()-asset_started,3),bytes=Path(a.path).stat().st_size);save_audit()

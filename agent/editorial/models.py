@@ -137,7 +137,7 @@ class Event(Interval):
     boundsTo: Optional[Bounds] = None
 
 
-Template = Literal['single_subject', 'comparison', 'person_context', 'object_location', 'document_photo', 'date_year', 'location_transfer', 'process', 'connector', 'conclusion', 'hero-object', 'incremental-claim', 'portrait-event', 'map-event', 'timeline-date', 'document-evidence', 'asset-handoff', 'location-change', 'cause-effect', 'split-outcome', 'typographic-breath', 'final-reveal']
+Template = Literal['single_subject', 'comparison', 'person_context', 'object_location', 'document_photo', 'date_year', 'location_transfer', 'process', 'connector', 'conclusion', 'hero-object', 'incremental-claim', 'portrait-event', 'map-event', 'timeline-date', 'document-evidence', 'asset-handoff', 'location-change', 'cause-effect', 'split-outcome', 'typographic-breath', 'final-reveal', 'event-hero', 'environment-change', 'character-interaction', 'object-closeup', 'dramatic-reveal']
 
 
 class Transition(Interval):

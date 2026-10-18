@@ -19,7 +19,7 @@ export type Asset = {
   "source_basis": string;
   "segmentation": string;
   "mask": Record<string, number>;
-  "qa": "passed";
+  "qa": "passed" | "degraded";
   "fallback": string | null;
 };
 
@@ -133,6 +133,7 @@ export type Sentence = {
   "phrase": string;
   "role": "hook" | "context" | "development" | "meaning" | "close";
   "emphasis": Array<string>;
+  "headline_text": string | null;
 };
 
 export type Source = {
@@ -331,8 +332,11 @@ export const newsJSONSchema = {
           "type": "object"
         },
         "qa": {
-          "const": "passed",
           "default": "passed",
+          "enum": [
+            "passed",
+            "degraded"
+          ],
           "title": "Qa",
           "type": "string"
         },
@@ -951,7 +955,7 @@ export const newsJSONSchema = {
           "items": {
             "$ref": "#/$defs/Entity"
           },
-          "maxItems": 12,
+          "maxItems": 24,
           "title": "Entities",
           "type": "array"
         }
@@ -1014,6 +1018,18 @@ export const newsJSONSchema = {
           },
           "title": "Emphasis",
           "type": "array"
+        },
+        "headline_text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Headline Text"
         }
       },
       "required": [

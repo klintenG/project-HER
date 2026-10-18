@@ -11,11 +11,11 @@ const color='#414249';
 // Label contexts only: historical quotations and narration are never censored.
 const cleanName=(text:string)=>text.replace(/(?:\s*\n\s*|\s+)(?:AI[- ]?generated(?: illustration)?|AI illustration|illustration|stock (?:image|photo)|generated image|concept art|visual)\s*$/i,'').trim();
 
-const PhraseBlock:React.FC<{layer:Layer;words:Map<string,Word>;frame:number}>=({layer,words,frame})=>{
+const PhraseBlock:React.FC<{layer:Layer;words:Map<string,Word>;frame:number;toneColor:string}>=({layer,words,frame,toneColor})=>{
   const p=layer.phrase!;
   // Keep every word in the final geometry from the first frame. Opacity alone
   // changes. Line breaks are measured with the same bundled font in Python.
-  const common={fontFamily:'EditorialPoppins',fontWeight:p.weight,fontSize:p.size,lineHeight:1.19,color,textAlign:p.align} as const;
+  const common={fontFamily:'EditorialPoppins',fontWeight:p.weight,fontSize:p.size,lineHeight:1.19,color:toneColor,textAlign:p.align} as const;
   if(p.label)return <div style={{...common,whiteSpace:'pre-line'}}>{cleanName(p.label)}</div>;
   const first=words.get(p.wordIds[0])!.start*30-p.anticipationFrames;
   return <div style={common}>{p.lines.map((line,n)=><div key={n} style={{whiteSpace:'nowrap',minHeight:p.size*1.19}}>{line.map((id,i)=>{
@@ -62,6 +62,13 @@ const EditorialStory:React.FC<Timeline>=(props)=>{
   const words=useMemo(()=>new Map(m.words.map(w=>[w.id,w])),[m]);
   const assets=useMemo(()=>new Map(m.assets.map(a=>[a.id,a])),[m]);
   const reference=m.editorialStyleVersion==='reference-v2';
+  const current=m.sections.find(s=>s.start*30<=frame&&s.end*30>frame);
+  const beat=m.beats.find(b=>b.startFrame<=frame&&frame<b.endFrame);
+  const progress=current?clamp((frame-current.start*30)/Math.max(1,(current.end-current.start)*30)):0;
+  const darkness=reference&&beat?.template==='environment-change'&&/dark|night|eclips|sun disappeared|light vanished/i.test(current?.text??'');
+  const sunrise=reference&&beat?.template==='dramatic-reveal'&&/sun|light|day|dawn|radiant/i.test(current?.text??'');
+  const toneColor=darkness?'#f9f7f1':color;
+  const background=darkness?`radial-gradient(ellipse at 50% 44%,#888b94 0%,#626977 ${Math.round(50+progress*15)}%,#273349 100%)`:sunrise?`radial-gradient(circle at 53% 45%,#fff8c9 0%,#f3da8a ${Math.round(22+progress*34)}%,#dbb36f 78%,#8a755f 100%)`:reference?'radial-gradient(ellipse at 50% 44%,#f1f0f2 0%,#dedde1 70%,#cbc9ce 100%)':'radial-gradient(ellipse 90% 50% at 50% 50%,#eeeef1 0%,#e2e0e5 35%,#b2b0b7 100%)';
   const [handle]=useState(()=>delayRender('Loading deterministic editorial fonts'));
   useEffect(()=>{
     const fonts=[new FontFace('EditorialPoppins',`url("${url(m.fonts.semibold)}")`,{weight:'600'}),new FontFace('EditorialPoppins',`url("${url(m.fonts.bold)}")`,{weight:'700'})];
@@ -85,21 +92,20 @@ const EditorialStory:React.FC<Timeline>=(props)=>{
       </>}
       {asset&&<Img src={url(asset.path)} style={{...imageStyle,opacity:1-s.swap}}/>}
       {s.swapAsset&&<Img src={url(assets.get(s.swapAsset)!.path)} style={{...imageStyle,position:'absolute',inset:0,opacity:s.swap}}/>}
-      {layer.phrase&&<PhraseBlock layer={layer} words={words} frame={frame}/>}
+      {layer.phrase&&<PhraseBlock layer={layer} words={words} frame={frame} toneColor={toneColor}/>}
       {layer.role==='year'&&<div style={{fontFamily:'EditorialPoppins',fontSize:170,fontWeight:700,color,textAlign:'center',fontVariantNumeric:'tabular-nums'}}>{s.value}</div>}
       {layer.role==='box'&&<><div style={{position:'absolute',left:'-5%',top:'70%',width:'96%',height:'12%',borderRadius:'50%',background:'#252735',opacity:.12,filter:'blur(15px)'}}/><Box angle={s.angle}/></>}
       {m.layers.filter(child=>child.parentId===layer.id).map(child=>draw(child,b))}
     </div>;
   };
-  const current=m.sections.find(s=>s.start*30<=frame&&s.end*30>frame);
   const captionWords=current?current.wordIds.map(id=>words.get(id)!):[];
   const active=Math.max(0,captionWords.reduce((last,w,i)=>w.start*30<=frame?i:last,-1));const chunk=captionWords.slice(Math.floor(active/6)*6,Math.floor(active/6)*6+6);
-  return <AbsoluteFill style={{background:reference?'radial-gradient(ellipse at 50% 44%,#f1f0f2 0%,#dedde1 70%,#cbc9ce 100%)':'radial-gradient(ellipse 90% 50% at 50% 50%,#eeeef1 0%,#e2e0e5 35%,#b2b0b7 100%)',overflow:'hidden'}}>
+  return <AbsoluteFill style={{background,overflow:'hidden'}}>
     {!closing&&m.audio.map((a,i)=><Sequence key={i} from={a.offsetFrames}><Audio src={url(a.path)} volume={a.gain}/></Sequence>)}
     {reference&&m.subtitleMode!=='complete'&&<SemanticRelation timeline={m} frame={frame} words={words}/>}
     {m.layers.filter(l=>!l.parentId).map(layer=>draw(layer))}
-    {!closing&&(m.subtitleMode==='complete'||(m.narrationDriven&&!reference))&&chunk.length>0&&<div style={{position:'absolute',left:90,top:reference?1530:m.narrationDriven?1480:360,width:900,color,fontFamily:'EditorialPoppins',fontSize:m.narrationDriven?48:60,fontWeight:600,textAlign:'center',lineHeight:1.3}}>{chunk.map((w,i)=><React.Fragment key={w.id}><span style={{fontWeight:m.narrationDriven&&w.start*30<=frame&&w.end*30>frame?700:600}}>{w.text}</span>{i<chunk.length-1?' ':''}</React.Fragment>)}</div>}
+    {!closing&&(m.subtitleMode==='complete'||(m.narrationDriven&&!reference))&&chunk.length>0&&<div style={{position:'absolute',left:90,top:reference?1530:m.narrationDriven?1480:360,width:900,color:toneColor,fontFamily:'EditorialPoppins',fontSize:m.narrationDriven?48:60,fontWeight:600,textAlign:'center',lineHeight:1.3}}>{chunk.map((w,i)=><React.Fragment key={w.id}><span style={{fontWeight:m.narrationDriven&&w.start*30<=frame&&w.end*30>frame?700:600}}>{w.text}</span>{i<chunk.length-1?' ':''}</React.Fragment>)}</div>}
   </AbsoluteFill>;
 };
 
-export const EditorialVideo:React.FC<Timeline & {branding?:BrandingInput}>=({branding,...story})=><ProjectHERBrandingController storyFrames={story.durationInFrames} branding={branding} regions={story.layers.filter(l=>l.phrase&&!l.parentId).map(l=>({start:l.startFrame,end:l.endFrame,x:l.bounds.x/story.width,y:l.bounds.y/story.height,w:l.bounds.w/story.width,h:l.bounds.h/story.height}))} windows={story.beats.filter(b=>b.template!=="final-reveal").map(b=>({start:b.startFrame+15,end:b.endFrame-15}))}><EditorialStory {...story}/></ProjectHERBrandingController>;
+export const EditorialVideo:React.FC<Timeline & {branding?:BrandingInput}>=({branding,...story})=><ProjectHERBrandingController storyFrames={story.durationInFrames} branding={{creditEnabled:false,protectiveOverlayEnabled:false,...branding}} regions={story.layers.filter(l=>l.phrase&&!l.parentId).map(l=>({start:l.startFrame,end:l.endFrame,x:l.bounds.x/story.width,y:l.bounds.y/story.height,w:l.bounds.w/story.width,h:l.bounds.h/story.height}))} windows={story.beats.filter(b=>b.template!=="final-reveal").map(b=>({start:b.startFrame+15,end:b.endFrame-15}))}><EditorialStory {...story}/></ProjectHERBrandingController>;

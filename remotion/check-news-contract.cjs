@@ -6,7 +6,7 @@ function load(name){
  const filename=path.resolve(__dirname,'src',name+'.ts');
  const code=ts.transpileModule(fs.readFileSync(filename,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
  const module=new Module(filename);cache[name]=module;module.filename=filename;module.paths=Module._nodeModulePaths(path.dirname(filename));
- const original=module.require.bind(module);module.require=(id)=>id.startsWith('./news-')?load(id.slice(2)):original(id);
+ const original=module.require.bind(module);module.require=(id)=>id.startsWith('./')?load(path.normalize(path.join(path.dirname(name),id))):original(id);
  module._compile(code,filename);return module.exports;
 }
 (async()=>{

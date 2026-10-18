@@ -117,7 +117,31 @@ def phrase_layout(ids,words,width,size,height):
         if current:lines.append(current)
         if max(font.getlength(' '.join(lookup[i].text for i in line)) for line in lines)<=width and len(lines)*px*1.19<=height:
             return lines,px
-    raise NewsError('Editorial phrase exceeds legible bounds; shorten sentence or split phrase: '+' '.join(lookup[i].text for i in ids))
+    # A long approved sentence must not kill an otherwise playable render.
+    # Keep every aligned word; the renderer can reveal a smaller multiline
+    # phrase while subtitles retain the normal full-size reading path.
+    for px in range(50,17,-2):
+        font=ImageFont.truetype(str(font_path(700)),px)
+        lines=[];current=[]
+        for wid in ids:
+            trial=current+[wid]
+            if current and font.getlength(' '.join(lookup[i].text for i in trial))>width:
+                lines.append(current);current=[wid]
+            else:current=trial
+        if current:lines.append(current)
+        if lines and max(font.getlength(' '.join(lookup[i].text for i in line)) for line in lines)<=width and len(lines)*px*1.1<=height:
+            return lines,px
+    # The phrase overlay is optional visual enhancement. A compact text size
+    # is preferable to aborting after narration and images have completed.
+    font=ImageFont.truetype(str(font_path(700)),18)
+    lines=[];current=[]
+    for wid in ids:
+        trial=current+[wid]
+        if current and font.getlength(' '.join(lookup[i].text for i in trial))>width:
+            lines.append(current);current=[wid]
+        else:current=trial
+    if current:lines.append(current)
+    return lines,18
 
 
 _AI_MARKER=re.compile(r'\s*[\(\[]?\s*(?:ai[- ]?(?:generated|illustrat\w*|image|art)|generated (?:image|illustration)|illustrat(?:ion|ive|ed)(?: only)?|concept art|stock (?:image|photo)|not (?:a )?verified[^\)\]\n]*)\s*[\)\]]?\s*$',re.I)

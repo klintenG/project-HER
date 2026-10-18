@@ -75,7 +75,8 @@ export const newsDefaults:Manifest = {
         "entity_ids": [],
         "phrase": "News explainer preview",
         "role": "hook",
-        "emphasis": []
+        "emphasis": [],
+        "headline_text": null
       }
     ],
     "entities": []

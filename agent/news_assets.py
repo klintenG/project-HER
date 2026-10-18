@@ -8,6 +8,7 @@ import json
 import logging
 import re
 import shutil
+import time
 import uuid
 from pathlib import Path
 from urllib.parse import quote
@@ -227,12 +228,34 @@ def _real_cutout(entity,output,processor,generator,source_basis,reference_provid
 def generate_cutouts(script,output,source_basis,generator=None,processor=None,cancel_event=None,reference_provider=None,llm=None):
     processor=processor or CutoutProcessor()
     output=Path(output)/'cutouts'; output.mkdir(parents=True,exist_ok=True)
-    assets=[]
+    assets=[];recovery=[]
+    def degraded_label(entity,reason,requests,started):
+        from PIL import Image, ImageDraw, ImageFont
+        canvas=Image.new('RGBA',(800,800),(0,0,0,0));draw=ImageDraw.Draw(canvas)
+        font=ImageFont.truetype(str(config.BASE_DIR/'assets/fonts/news/Poppins-Bold.ttf'),64)
+        words=entity.name.split();lines=[];line=''
+        for word in words:
+            trial=(line+' '+word).strip()
+            if line and draw.textlength(trial,font=font)>680:lines.append(line);line=word
+            else:line=trial
+        if line:lines.append(line)
+        for index,text in enumerate(lines[:5]):
+            draw.text(((800-draw.textlength(text,font=font))/2,310+index*78),text,font=font,fill='#202632')
+        path=output/(hashlib.sha256(entity.id.encode()).hexdigest()[:20]+'-degraded-label.png');canvas.save(path)
+        sentence_ids=[s.id for s in script.sentences if entity.id in s.entity_ids]
+        recovery.append({'entityId':entity.id,'sentenceIds':sentence_ids,'originalRequest':requests[0] if requests else None,
+            'requests':requests,'failure':reason,'retryCount':max(0,len(requests)-1),'fallbackMethod':'typography',
+            'additionalDelaySeconds':round(time.monotonic()-started,3),'fullyCompliant':False})
+        return Asset(id=f'asset-{entity.id}',entity_id=entity.id,path=str(path.resolve()),raw_path=str(path.resolve()),
+            prompt=requests[0] if requests else entity.description,provider='projecther:typography',origin='generated',
+            source_basis=source_basis,segmentation='typography',mask={},qa='degraded',
+            fallback='Visual generation failed; contextual typography used. '+reason)
     registry=verified_assets()
     from agent.news_references import ReferencePhotos
     reference_provider=reference_provider or ReferencePhotos()
     budget=[0]
     for i,e in enumerate(script.entities):
+        asset_started=time.monotonic()
         if cancel_event is not None and cancel_event.is_set(): raise NewsError("News generation cancelled.","cancelled")
         prompt=subject_prompt(e)
         key=hashlib.sha256(('news|'+e.id+'|'+prompt+'|'+getattr(generator,'provider',config.AI_IMAGE_PROVIDER)+'|'+processor.version).encode()).hexdigest()[:20]
@@ -246,13 +269,18 @@ def generate_cutouts(script,output,source_basis,generator=None,processor=None,ca
             assets.append(Asset(id=f'asset-{e.id}',entity_id=e.id,path=str(cutout.resolve()),raw_path=str(raw.resolve()),prompt='Audited local geometry: '+row['name'],provider='verified_local',origin='verified_local',source_url=row['source_url'],license=row['license'],source_basis='verified asset registry',segmentation=method,mask=stats))
             continue
         if e.identity=='real':
-            assets.append(_real_cutout(e,output,processor,generator,source_basis,reference_provider,llm,cancel_event,budget))
+            try:assets.append(_real_cutout(e,output,processor,generator,source_basis,reference_provider,llm,cancel_event,budget))
+            except NewsError as exc:
+                if exc.status=='cancelled':raise
+                assets.append(degraded_label(e,str(exc),[prompt],asset_started))
             continue
         generator=generator or NewsImageGenerator()
+        requests=[]
         for attempt in range(config.NEWS_ASSET_RETRIES):
             if cancel_event is not None and cancel_event.is_set(): raise NewsError("News generation cancelled.","cancelled")
             try:
                 revised=subject_prompt(e,attempt)
+                requests.append(revised)
                 raw=output/f'{key}-attempt-{attempt+1}-raw.png'
                 provider=_generate(generator.subject(revised,raw),cancel_event)
                 stats,method=processor.process(raw,cutout,allow_group=e.is_group,allow_portrait_crop=e.is_portrait,allow_bottom_crop=True)
@@ -265,5 +293,6 @@ def generate_cutouts(script,output,source_basis,generator=None,processor=None,ca
                 error=exc
                 logger.warning('News cutout %s (%s), attempt %s/%s failed: %s',
                     e.id,e.name,attempt+1,config.NEWS_ASSET_RETRIES,exc)
-        if error: raise NewsError(f'Essential subject {e.name} could not produce a usable transparent cutout: {error}')
+        if error:assets.append(degraded_label(e,str(error),requests,asset_started))
+    if recovery:(output.parent/'news_visual_recovery.json').write_text(__import__('json').dumps(recovery,indent=2))
     return assets

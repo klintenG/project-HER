@@ -170,7 +170,7 @@ class Asset(Model):
     source_basis: str
     segmentation: str
     mask: dict[str, float]
-    qa: Literal["passed"] = "passed"
+    qa: Literal["passed", "degraded"] = "passed"
     fallback: Optional[str] = None
 
 

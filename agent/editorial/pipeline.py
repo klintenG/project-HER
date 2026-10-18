@@ -179,7 +179,7 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
                 export_reports(out,trace.job_id,'succeeded')
             except Exception:pass
         return PipelineResult(success=True,video_path=video,srt_path=out/'subtitles.srt',thumbnail_path=thumb,duration=output_frames(m.durationInFrames,30)/30,resolution='1080x1920',video_format='vertical',title=script.summary,key_point_count=len(m.beats),processing_time=time.monotonic()-started,content_type='news',theme='reference_editorial',caption_style=subtitle_mode,hook=script.sentences[0].text,
-            news_details={'status':'ready','preset':'reference_editorial','output_dir':str(out.resolve()),'manifest':str(manifest.resolve()),'sources':[{'id':s.id,'title':s.title,'url':s.url} for s in evidence.sources],
+            news_details={'status':'ready','visual_quality':'degraded_completed' if diagnostics.get('sentenceQuality') and not diagnostics['sentenceQuality'].get('fullyCompliant',True) else 'fully_compliant','preset':'reference_editorial','output_dir':str(out.resolve()),'manifest':str(manifest.resolve()),'sources':[{'id':s.id,'title':s.title,'url':s.url} for s in evidence.sources],
                 'images':[{'name':a.subject,'origin':'generated' if a.source.startswith('replicate:') else a.preparation,'identity_verified':a.factual,'attribution':a.attribution,'source_url':a.source,
                     'likeness_reviewed':any(r.get('assetId')==a.id and bool(r.get('generation',{}).get('visualReview')) for r in diagnostics['assetAcquisition']['assets'])} for a in assets],
                 'narration':{'provider':audio.provider,'model':audio.model,'fallbacks':audio.fallbacks},'warnings':m.warnings,'audio':stats,

@@ -54,11 +54,51 @@ def grammar(text, role, visuals, assets, first=False, last=False):
     return 'incremental-claim'
 
 
+def narrative_layout(beat):
+    """Select geometry from the planned event, without another model request."""
+    if not beat:
+        return None
+    text=' '.join(str(beat.get(k,'')) for k in ('main_action','state_before','state_after','visual_focus','location')).casefold()
+    if re.search(r'\b(reflect|mirror|reveal(?:s|ed)? her image|reveal(?:s|ed)? his image)\b',text):
+        return 'object-closeup'
+    if re.search(r'\b(emerg|return(?:s|ed)? (?:of )?(?:the )?(?:sun|light)|sunlight|daylight|illuminat|relight|radiant)\w*\b',text):
+        return 'dramatic-reveal'
+    if re.search(r'\b(dark(?:ness|en)?|destruct|destroy|collaps|burn|flood|storm|transform)\w*\b',text):
+        return 'environment-change'
+    if re.search(r'\b(danc|laugh|plead|confront|pull|drag|fight|embrac|react|peek|listen|hear)\w*\b',text):
+        return 'character-interaction'
+    if beat.get('important_object') and not beat.get('identity_reference_ids'):
+        return 'object-closeup'
+    return 'event-hero'
+
+
 def layout(kind, visuals, assets):
     """Each family reserves disjoint text, asset and optional name regions."""
     top=Bounds(x=90,y=300,w=900,h=310)
     lower=Bounds(x=90,y=1360,w=900,h=250)
     if not visuals:return Bounds(x=90,y=620,w=900,h=580),{}
+    if kind in ('event-hero','environment-change','character-interaction','object-closeup','dramatic-reveal'):
+        if kind=='dramatic-reveal':
+            caption=Bounds(x=95,y=1390,w=890,h=220)
+            primary=Bounds(x=70,y=410,w=940,h=910)
+        elif kind=='object-closeup':
+            caption=Bounds(x=95,y=1390,w=890,h=220)
+            primary=Bounds(x=140,y=500,w=800,h=810)
+        elif kind=='environment-change':
+            caption=Bounds(x=95,y=270,w=890,h=230)
+            primary=Bounds(x=60,y=530,w=960,h=850)
+        elif kind=='character-interaction':
+            caption=Bounds(x=95,y=300,w=890,h=220)
+            primary=Bounds(x=80,y=590,w=730 if len(visuals)>1 else 920,h=760)
+        else:
+            caption=Bounds(x=95,y=280,w=890,h=230)
+            primary=Bounds(x=110,y=570,w=860,h=780)
+        targets={visuals[0].id:primary}
+        if len(visuals)>1:
+            targets[visuals[1].id]=Bounds(x=740,y=790,w=290,h=400)
+        if len(visuals)>2:
+            targets[visuals[2].id]=Bounds(x=50,y=1020,w=270,h=330)
+        return caption,targets
     if kind=='portrait-event' and len(visuals)==1:
         return Bounds(x=85,y=660,w=405,h=500),{visuals[0].id:Bounds(x=520,y=600,w=470,h=600)}
     if kind=='timeline-date' and len(visuals)<=2:
@@ -92,6 +132,7 @@ def choreograph(m,script,settings):
     visuals=[l for l in m['layers'] if l.assetId]
     assets={a.id:a for a in m['assets']}
     names=[e.name for e in script.entities]
+    storyboards={b['sentence_id']:b for b in getattr(script,'sentence_storyboard',[])}
     rows=[]
     for sentence in script.sentences:
         sw=[w for w in m['words'] if w.sectionId==sentence.id]
@@ -108,7 +149,7 @@ def choreograph(m,script,settings):
         active=[v for v in visible if v.startFrame<=start<v.endFrame]
         reserved=active or ([min(visible,key=lambda v:v.startFrame)] if visible else [])
         text=' '.join(w.text for w in span)
-        kind=grammar(text,sentence.role,reserved,assets,first=i==0,last=i==len(rows)-1)
+        kind=narrative_layout(storyboards.get(sentence.id)) or grammar(text,sentence.role,reserved,assets,first=i==0,last=i==len(rows)-1)
         if kind=='portrait-event' and len(visible)>1:kind='incremental-claim'
         box,_=layout(kind,reserved,assets)
         ids=[w.id for w in span]

@@ -102,7 +102,9 @@ class SentenceStoryboardTests(unittest.TestCase):
             m=build(script,words,sections,entities,assets,audio,root,'fixture',{},direction=sb.direction(script),visual_settings=VisualSettings())
             self.assertEqual(sb.validate_render(script,m)['primaryAssetsInRender'],6)
             missing=m.model_copy(deep=True);missing.layers=[l for l in missing.layers if l.assetId!=script.sentence_storyboard[0]['primary_asset_id']]
-            with self.assertRaises(NewsError):sb.validate_render(script,missing)
+            render_quality=sb.validate_render(script,missing)
+            self.assertEqual(render_quality['missingRenderMappings'],1)
+            self.assertFalse(render_quality['fullyCompliant'])
             duplicate=copy.deepcopy(assets);primary=[a for a in duplicate if a.entityId.startswith('scene-')]
             primary[1].path=primary[0].path
             dup_result=sb.validate_assets(script,duplicate,diag['assetAcquisition'],review)

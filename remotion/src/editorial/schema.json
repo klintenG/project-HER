@@ -217,7 +217,12 @@
             "cause-effect",
             "split-outcome",
             "typographic-breath",
-            "final-reveal"
+            "final-reveal",
+            "event-hero",
+            "environment-change",
+            "character-interaction",
+            "object-closeup",
+            "dramatic-reveal"
           ],
           "title": "Template",
           "type": "string"

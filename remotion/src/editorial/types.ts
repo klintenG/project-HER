@@ -31,7 +31,7 @@ export type Beat = {
   startFrame: number;
   endFrame: number;
   id: string;
-  template: "single_subject" | "comparison" | "person_context" | "object_location" | "document_photo" | "date_year" | "location_transfer" | "process" | "connector" | "conclusion" | "hero-object" | "incremental-claim" | "portrait-event" | "map-event" | "timeline-date" | "document-evidence" | "asset-handoff" | "location-change" | "cause-effect" | "split-outcome" | "typographic-breath" | "final-reveal";
+  template: "single_subject" | "comparison" | "person_context" | "object_location" | "document_photo" | "date_year" | "location_transfer" | "process" | "connector" | "conclusion" | "hero-object" | "incremental-claim" | "portrait-event" | "map-event" | "timeline-date" | "document-evidence" | "asset-handoff" | "location-change" | "cause-effect" | "split-outcome" | "typographic-breath" | "final-reveal" | "event-hero" | "environment-change" | "character-interaction" | "object-closeup" | "dramatic-reveal";
   sectionIds: (string)[];
   layerIds: (string)[];
   purpose: string;
