@@ -1,5 +1,6 @@
 """Explicit per-job Replicate tiers and bounded calls, without global mutation."""
 import config
+from utils.image_models import adapter_for, build_input, ImageModelConfigError
 import logging
 import threading
 from agent.news_assets import NewsImageGenerator
@@ -73,36 +74,58 @@ class EditorialImages(NewsImageGenerator):
         # Explicit low-cost model; no hidden upgrade through global preferences.
         return await self.real_subject(prompt,path,tier='support')
 
-    async def scene_subject(self,prompt,path,reference=None):
+    async def identity_subject(self,prompt,path):
+        return await self.real_subject(prompt,path,tier='person')
+
+    def _invoke_prediction(self,prompt,path,reference,tier,turbo=None,seed=None,aspect_ratio='1:1'):
+        import inspect
+        kwargs={'turbo':turbo,'seed':seed,'aspect_ratio':aspect_ratio}
+        target=getattr(self._prediction,'side_effect',self._prediction) or self._prediction
+        try:
+            sig=inspect.signature(target)
+            if not any(p.kind==inspect.Parameter.VAR_KEYWORD for p in sig.parameters.values()):
+                kwargs={k:v for k,v in kwargs.items() if k in sig.parameters}
+        except Exception:
+            pass
+        return self._prediction(prompt,path,reference,tier,**kwargs)
+
+    async def scene_subject(self,prompt,path,reference=None,turbo=None,seed=None,aspect_ratio='1:1'):
         with self._budget_lock:
             if self.primary_calls>=self.primary_limit:raise NewsError('Sentence primary capacity exhausted after bounded repairs.')
             self.primary_calls+=1
-        return await self._prediction(prompt,path,reference,'action' if reference is not None else 'support')
+        return await self._invoke_prediction(prompt,path,reference,'action' if reference is not None else 'support',turbo=turbo,seed=seed,aspect_ratio=aspect_ratio)
 
-    async def alternate_scene_subject(self,prompt,path):
+    async def alternate_scene_subject(self,prompt,path,turbo=None,seed=None,aspect_ratio='1:1'):
         """One bounded second-model attempt after scene-specific repairs fail."""
         with self._budget_lock:
             if self.primary_calls>=self.primary_limit:raise NewsError('Sentence primary capacity exhausted after bounded repairs.')
             self.primary_calls+=1
-        return await self._prediction(prompt,path,None,'support_alternate')
+        return await self._invoke_prediction(prompt,path,None,'support_alternate',turbo=turbo,seed=seed,aspect_ratio=aspect_ratio)
 
-    async def action_subject(self,prompt,path,reference=None):
-        return await self.real_subject(prompt,path,reference,tier='action')
+    async def fallback_scene_subject(self,prompt,path,reference,kind='premium',aspect_ratio='1:1'):
+        if kind == 'premium' and not config.PROJECTHER_PREMIUM_FALLBACK_ENABLED:
+            raise NewsError('Premium image fallback is disabled.')
+        if kind == 'alternate_edit' and not config.PROJECTHER_ALTERNATE_EDIT_FALLBACK_ENABLED:
+            raise NewsError('Alternate image editing fallback is disabled.')
+        return await self._invoke_prediction(prompt,path,reference,kind,aspect_ratio=aspect_ratio)
 
-    async def real_subject(self,prompt,path,reference=None,tier='person'):
+    async def action_subject(self,prompt,path,reference=None,turbo=None,seed=None,aspect_ratio='1:1'):
+        return await self.real_subject(prompt,path,reference,tier='action',turbo=turbo,seed=seed,aspect_ratio=aspect_ratio)
+
+    async def real_subject(self,prompt,path,reference=None,tier='person',turbo=None,seed=None,aspect_ratio='1:1'):
         if tier in ('person','action'):
             with self._budget_lock:
                 limit=config.NEWS_MAX_REAL_IMAGE_CALLS+self.primary_limit if self.primary_limit else config.NEWS_MAX_REAL_IMAGE_CALLS
                 if self.real_calls>=limit:raise NewsError('Real-person image call limit reached.')
                 self.real_calls+=1
-        return await self._prediction(prompt,path,reference,tier)
+        return await self._invoke_prediction(prompt,path,reference,tier,turbo=turbo,seed=seed,aspect_ratio=aspect_ratio)
 
-    async def _prediction(self,prompt,path,reference,tier):
+    async def _prediction(self,prompt,path,reference,tier,turbo=None,seed=None,aspect_ratio='1:1'):
         import asyncio
         # The provider deadline starts at first admission; time spent queued
         # behind the shared account rate limit is not provider latency.
         admitted=asyncio.Event()
-        task=asyncio.ensure_future(self._prediction_request(prompt,path,reference,tier,admitted))
+        task=asyncio.ensure_future(self._prediction_request(prompt,path,reference,tier,admitted,turbo=turbo,seed=seed,aspect_ratio=aspect_ratio))
         waiter=asyncio.ensure_future(admitted.wait())
         try:
             await asyncio.wait({task,waiter},return_when=asyncio.FIRST_COMPLETED)
@@ -113,7 +136,7 @@ class EditorialImages(NewsImageGenerator):
         except asyncio.CancelledError:
             task.cancel();waiter.cancel();raise
 
-    async def _prediction_request(self,prompt,path,reference,tier,admitted=None):
+    async def _prediction_request(self,prompt,path,reference,tier,admitted=None,turbo=None,seed=None,aspect_ratio='1:1'):
         import asyncio
         import base64
         from datetime import datetime,timezone
@@ -124,18 +147,19 @@ class EditorialImages(NewsImageGenerator):
         from PIL import Image
         from agent.news_research import fetch
         if not self.replicate_token:raise NewsError('Editorial images require REPLICATE_API_TOKEN.')
-        model=config.EDITORIAL_ACTION_IMAGE_MODEL if tier=='action' else config.EDITORIAL_FALLBACK_IMAGE_MODEL if tier=='support_alternate' else config.EDITORIAL_SUPPORT_IMAGE_MODEL if tier=='support' else config.NEWS_REFERENCE_IMAGE_MODEL if reference else config.NEWS_REAL_IMAGE_MODEL
-        allowed={'black-forest-labs/flux-schnell','black-forest-labs/flux-1.1-pro','black-forest-labs/flux-dev'} if tier in ('support','support_alternate') else {'black-forest-labs/flux-kontext-pro','black-forest-labs/flux-1.1-pro','black-forest-labs/flux-dev'}
-        if tier=='action':allowed=allowed|{'google/nano-banana-pro'}
-        if model not in allowed:raise NewsError('Unsupported editorial image model: '+model)
-        inputs={'prompt':prompt,'aspect_ratio':'1:1','output_format':'png'}
-        if model=='black-forest-labs/flux-schnell':inputs.update(num_outputs=1,num_inference_steps=4)
-        if model=='google/nano-banana-pro':
-            inputs.update(resolution='2K',allow_fallback_model=False)
+        role=tier if tier in ('premium','alternate_edit') else 'support_fallback' if tier=='support_alternate' else 'continuity' if reference else 'support' if tier in ('support','action') else 'identity'
+        model=getattr(config,f'PROJECTHER_IMAGE_{role.upper()}_MODEL') if role in ('premium','alternate_edit','identity') else config.EDITORIAL_ACTION_IMAGE_MODEL if role=='continuity' else config.EDITORIAL_FALLBACK_IMAGE_MODEL if role=='support_fallback' else config.EDITORIAL_SUPPORT_IMAGE_MODEL
+        adapter_name=config.PROJECTHER_IMAGE_ADAPTERS.get(role)
+        adapter=adapter_for(model,adapter_name)
+        is_pruna=adapter.name=='pruna_edit'
+        is_nano=adapter.name=='nano_banana'
+        reference_count=0
         if reference:
-            paths=getattr(reference,'paths',None) if model=='google/nano-banana-pro' else None
+            paths=getattr(reference,'paths',None)
+            source_paths=paths or [reference.path]
+            reference_count=len(source_paths)
             encoded=[]
-            for source_path in paths or [reference.path]:
+            for source_path in source_paths:
                 with Image.open(source_path) as image:
                     if 'A' in image.getbands():
                         rgba=image.convert('RGBA')
@@ -145,16 +169,40 @@ class EditorialImages(NewsImageGenerator):
                         image=canvas.convert('RGB')
                     else:
                         image=image.convert('RGB');image.thumbnail((1024,1024))
-                    buffer=io.BytesIO();image.save(buffer,format='PNG' if model=='google/nano-banana-pro' else 'JPEG',quality=90)
-                encoded.append(('data:image/png;base64,' if model=='google/nano-banana-pro' else 'data:image/jpeg;base64,')+base64.b64encode(buffer.getvalue()).decode())
-            inputs['image_input' if model=='google/nano-banana-pro' else 'input_image']=encoded if model=='google/nano-banana-pro' else encoded[0]
+                    buffer=io.BytesIO()
+                    fmt='PNG' if (is_nano or is_pruna) else 'JPEG'
+                    image.save(buffer,format=fmt,quality=90)
+                mime='image/png' if fmt=='PNG' else 'image/jpeg'
+                encoded.append(f'data:{mime};base64,'+base64.b64encode(buffer.getvalue()).decode())
+        else:encoded=[]
+        try:
+            inputs=build_input(model,prompt,encoded,config.PROJECTHER_IMAGE_ASPECT_RATIO if aspect_ratio=='1:1' else aspect_ratio,
+                config.PROJECTHER_PRUNA_TURBO if turbo is None else turbo,
+                config.PROJECTHER_PRUNA_SEED if seed is None else seed,adapter_name)
+        except ImageModelConfigError as exc:
+            raise NewsError(f'Image model capability error before request: {exc}') from exc
         headers={'Authorization':'Bearer '+self.replicate_token,'Prefer':'wait=10'};prediction=None;finished=False
         iso_now=lambda:datetime.now(timezone.utc).isoformat()
+        estimated_cost=getattr(config,'REPLICATE_MODEL_ESTIMATED_COSTS',{}).get(model,0.010)
+        if role in ('premium','alternate_edit','support_fallback') and config.PROJECTHER_IMAGE_BUDGET_USD > 0:
+            with self._budget_lock:
+                spent=sum(float(r.get('estimated_cost') or 0) for r in self.prediction_records if r.get('prediction_id'))
+            if spent+estimated_cost>config.PROJECTHER_IMAGE_BUDGET_USD:
+                raise NewsError(f'Image planning budget would be exceeded by {role} fallback; no prediction submitted.')
         telemetry={
+            'provider':'replicate',
+            'image_role':role,
+            'configured_model':model,
+            'actual_model':model,
+            'fallback_reason':'quality_retry' if role in ('premium','alternate_edit','support_fallback') else None,
             'model_name':model,
             'model_version':None,
             'tier':tier,
             'target_path':str(path),
+            'reference_count':reference_count,
+            'turbo':inputs.get('turbo') if is_pruna else None,
+            'seed':inputs.get('seed') if is_pruna else None,
+            'estimated_cost':estimated_cost,
             'request_admission_timestamp':iso_now(),
             'admission_wait_seconds':0.0,
             'http_request_start_timestamp':None,
@@ -178,7 +226,7 @@ class EditorialImages(NewsImageGenerator):
         async with httpx.AsyncClient(timeout=25,follow_redirects=False) as client:
             prediction_entered=False
             try:
-                for create_attempt in range(8):
+                for create_attempt in range(config.PROJECTHER_IMAGE_RETRIES+1):
                     with self._budget_lock:blocked=self._provider_blocked_status
                     if blocked:raise NewsError('Replicate image request failed (HTTP '+str(blocked)+'); no further predictions submitted for this job.')
                     from contextlib import nullcontext
@@ -208,7 +256,7 @@ class EditorialImages(NewsImageGenerator):
                     telemetry['prediction_creation_latency_seconds']=round(create_lat,6)
                     if response.status_code in (401,402,403):
                         with self._budget_lock:self._provider_blocked_status=response.status_code
-                    if response.status_code!=429 or create_attempt==7:break
+                    if response.status_code!=429 or create_attempt==config.PROJECTHER_IMAGE_RETRIES:break
                     # Retry only a rejected request; an accepted prediction is
                     # polled by ID, never recreated after a polling failure.
                     delay=15
@@ -227,7 +275,7 @@ class EditorialImages(NewsImageGenerator):
                     telemetry['http_429_count']+=1
                     telemetry['retry_delay_seconds']+=float(delay)
                     self.metric('rateLimitResponses');self.metric('backoffSeconds',delay)
-                    logger.warning('Replicate image request throttled (HTTP 429); waiting %.1fs before retrying the rejected request (%s/7).',delay,create_attempt+1)
+                    logger.warning('Replicate image request throttled (HTTP 429); waiting %.1fs before retrying the rejected request (%s/%s).',delay,create_attempt+1,config.PROJECTHER_IMAGE_RETRIES)
                     await asyncio.sleep(delay)
                 if response.status_code>=500:
                     telemetry['status']='http_5xx'
@@ -266,7 +314,10 @@ class EditorialImages(NewsImageGenerator):
                         telemetry['output_download_duration_seconds']=round(dl_dur,6)
                         telemetry['status']='succeeded'
                         self.metric('downloadDurationSeconds',dl_dur)
-                        path.write_bytes(data);return 'replicate:'+model
+                        path.write_bytes(data)
+                        with Image.open(path) as generated_image:
+                            generated_image.verify()
+                        return 'replicate:'+model
                     if cur_status in ('failed','canceled'):
                         finished=True
                         telemetry['status']=cur_status

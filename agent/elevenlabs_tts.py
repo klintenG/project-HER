@@ -47,7 +47,7 @@ ELEVENLABS_API_KEY = config.os.getenv(
     "",
 )
 ELEVENLABS_BASE_URL = "https://api.elevenlabs.io/v1"
-ELEVENLABS_MODEL = "eleven_multilingual_v2"
+ELEVENLABS_MODEL = config.os.getenv("ELEVENLABS_MODEL", getattr(config, "ELEVENLABS_MODEL", "eleven_multilingual_v2"))
 
 # Retry configuration
 MAX_RETRIES = 3

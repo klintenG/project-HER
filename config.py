@@ -43,7 +43,7 @@ GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite")
 
 # ── Groq AI Settings ──────────────────────────────────
 GROQ_BASE_URL = "https://api.groq.com/openai/v1"
-GROQ_MODEL = "llama-3.1-8b-instant"
+GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
 
 # ── Resolved LLM Settings (auto-set based on provider) ─
 if LLM_PROVIDER in ("gemini", "google"):
@@ -611,22 +611,22 @@ DEFAULT_QUALITY = "standard"
 
 # ── AI Image Generation (Claymorphism Mode) ───────────
 AI_IMAGES_ENABLED = False  # Toggle: True → AI images, False → Pexels
-AI_IMAGE_PROVIDER = "replicate"  # "replicate" (paid, best) | "huggingface" (free) | "pollinations" (free, no key)
+AI_IMAGE_PROVIDER = os.getenv("PROJECTHER_IMAGE_PROVIDER", os.getenv("AI_IMAGE_PROVIDER", "replicate"))
 
 # Replicate (paid, unlimited, best quality + reliability)
 REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN", "")  # https://replicate.com/account/api-tokens
-REPLICATE_MODEL = "black-forest-labs/flux-1.1-pro"  # best quality, $0.04/img
-REPLICATE_SCHNELL_MODEL = "black-forest-labs/flux-schnell"  # fast + cheap, $0.003/img
-REPLICATE_USE_SCHNELL = True  # True = use Schnell ($0.003), False = use Pro ($0.04)
+REPLICATE_MODEL = os.getenv("PROJECTHER_IMAGE_SUPPORT_MODEL", os.getenv("REPLICATE_MODEL", "black-forest-labs/flux-1.1-pro"))
+REPLICATE_SCHNELL_MODEL = os.getenv("PROJECTHER_IMAGE_SUPPORT_MODEL", os.getenv("REPLICATE_SCHNELL_MODEL", "black-forest-labs/flux-schnell"))
+REPLICATE_USE_SCHNELL = os.getenv("REPLICATE_USE_SCHNELL", "1").lower() in ("1", "true", "yes")
 
 # HuggingFace Inference API (free, reliable, high quality)
 HF_API_TOKEN = os.getenv("HF_API_TOKEN", "")  # free at https://huggingface.co/settings/tokens
-HF_IMAGE_MODEL = "black-forest-labs/FLUX.1-schnell"  # fast, high quality
-HF_IMAGE_API_URL = "https://router.huggingface.co/hf-inference/models/"
+HF_IMAGE_MODEL = os.getenv("HF_IMAGE_MODEL", "black-forest-labs/FLUX.1-schnell")  # fast, high quality
+HF_IMAGE_API_URL = os.getenv("HF_IMAGE_API_URL", "https://router.huggingface.co/hf-inference/models/")
 
 # Pollinations.ai fallback (free, no API key, less reliable)
-AI_IMAGE_BASE_URL = "https://image.pollinations.ai/prompt"
-AI_IMAGE_POLLINATIONS_MODEL = "flux"
+AI_IMAGE_BASE_URL = os.getenv("AI_IMAGE_BASE_URL", "https://image.pollinations.ai/prompt")
+AI_IMAGE_POLLINATIONS_MODEL = os.getenv("AI_IMAGE_POLLINATIONS_MODEL", "flux")
 
 # Shared image settings
 AI_IMAGE_WIDTH = 1024
@@ -1079,15 +1079,76 @@ NEWS_DEFAULT_DURATION = max(10, min(600, int(os.getenv("NEWS_DEFAULT_DURATION", 
 NEWS_CUTOUT_BACKEND = os.getenv("NEWS_CUTOUT_BACKEND", "rembg")
 NEWS_CUTOUT_MODELS = [m.strip() for m in os.getenv("NEWS_CUTOUT_MODELS", "isnet-general-use").split(",") if m.strip()][:2]
 NEWS_CUTOUT_CACHE = Path(os.getenv("NEWS_CUTOUT_CACHE", str(TEMP_DIR / "news_cutouts")))
-NEWS_ASSET_RETRIES = 3
-NEWS_REAL_IMAGE_MODEL = os.getenv("NEWS_REAL_IMAGE_MODEL", "black-forest-labs/flux-1.1-pro")
-NEWS_REFERENCE_IMAGE_MODEL = "black-forest-labs/flux-kontext-pro"
+NEWS_ASSET_RETRIES = max(0, int(os.getenv("NEWS_ASSET_RETRIES", "3")))
+PROJECTHER_IMAGE_PROVIDER = os.getenv("PROJECTHER_IMAGE_PROVIDER", "replicate")
+PROJECTHER_IMAGE_IDENTITY_MODEL = os.getenv("PROJECTHER_IMAGE_IDENTITY_MODEL", os.getenv("EDITORIAL_SUPPORT_IMAGE_MODEL", "black-forest-labs/flux-schnell"))
+PROJECTHER_IMAGE_SUPPORT_MODEL = os.getenv("PROJECTHER_IMAGE_SUPPORT_MODEL", os.getenv("EDITORIAL_SUPPORT_IMAGE_MODEL", "black-forest-labs/flux-schnell"))
+PROJECTHER_IMAGE_CONTINUITY_MODEL = os.getenv("PROJECTHER_IMAGE_CONTINUITY_MODEL", os.getenv("EDITORIAL_ACTION_IMAGE_MODEL", os.getenv("PROJECTHER_CHARACTER_EDIT_MODEL", "prunaai/p-image-edit")))
+PROJECTHER_IMAGE_PREMIUM_MODEL = os.getenv("PROJECTHER_IMAGE_PREMIUM_MODEL", "black-forest-labs/flux-kontext-pro")
+PROJECTHER_IMAGE_ALTERNATE_EDIT_MODEL = os.getenv("PROJECTHER_IMAGE_ALTERNATE_EDIT_MODEL", "black-forest-labs/flux-kontext-dev")
+PROJECTHER_IMAGE_SUPPORT_FALLBACK_MODEL = os.getenv("PROJECTHER_IMAGE_SUPPORT_FALLBACK_MODEL", os.getenv("EDITORIAL_FALLBACK_IMAGE_MODEL", "black-forest-labs/flux-1.1-pro"))
+PROJECTHER_IMAGE_ADAPTERS = {role: os.getenv(f"PROJECTHER_IMAGE_{role.upper()}_ADAPTER") for role in ("identity", "support", "continuity", "premium", "alternate_edit", "support_fallback")}
+PROJECTHER_IMAGE_ROUTING_ENABLED = os.getenv("PROJECTHER_IMAGE_ROUTING_ENABLED", "true").lower() in ("1", "true", "yes")
+PROJECTHER_IMAGE_ASPECT_RATIO = os.getenv("PROJECTHER_IMAGE_ASPECT_RATIO", "1:1")
+PROJECTHER_ALTERNATE_EDIT_FALLBACK_ENABLED = os.getenv("PROJECTHER_ALTERNATE_EDIT_FALLBACK_ENABLED", "false").lower() in ("1", "true", "yes")
+PROJECTHER_SUPPORT_FALLBACK_ENABLED = os.getenv("PROJECTHER_SUPPORT_FALLBACK_ENABLED", "false").lower() in ("1", "true", "yes")
+PROJECTHER_IMAGE_MAX_CONCURRENCY = max(1, int(os.getenv("PROJECTHER_IMAGE_MAX_CONCURRENCY", "3")))
+PROJECTHER_IMAGE_RETRIES = max(0, int(os.getenv("PROJECTHER_IMAGE_RETRIES", "2")))
+PROJECTHER_IMAGE_TIMEOUT_SECONDS = max(10, int(os.getenv("PROJECTHER_IMAGE_TIMEOUT_SECONDS", "120")))
+PROJECTHER_IMAGE_BUDGET_USD = float(os.getenv("PROJECTHER_IMAGE_BUDGET_USD", "0.30"))
+NEWS_REAL_IMAGE_MODEL = os.getenv("PROJECTHER_IMAGE_IDENTITY_MODEL", os.getenv("NEWS_REAL_IMAGE_MODEL", "black-forest-labs/flux-1.1-pro"))
+# Default reference-based editing model: Pruna P-Image-Edit ($0.01/img).
+# FLUX Kontext Pro ($0.04/img) remains supported for comparison and rollback.
+PROJECTHER_CHARACTER_EDIT_MODEL = PROJECTHER_IMAGE_CONTINUITY_MODEL  # deprecated alias
+NEWS_REFERENCE_IMAGE_MODEL = os.getenv("PROJECTHER_IMAGE_CONTINUITY_MODEL", os.getenv("NEWS_REFERENCE_IMAGE_MODEL", PROJECTHER_IMAGE_CONTINUITY_MODEL))
+EDITORIAL_ACTION_IMAGE_MODEL = PROJECTHER_IMAGE_CONTINUITY_MODEL
+EDITORIAL_SUPPORT_IMAGE_MODEL = PROJECTHER_IMAGE_SUPPORT_MODEL
+EDITORIAL_FALLBACK_IMAGE_MODEL = PROJECTHER_IMAGE_SUPPORT_FALLBACK_MODEL
+PROJECTHER_PREMIUM_FALLBACK_ENABLED = os.getenv("PROJECTHER_PREMIUM_FALLBACK_ENABLED", "0").lower() in ("1", "true", "yes")
+PROJECTHER_PRUNA_TURBO = os.getenv("PROJECTHER_PRUNA_TURBO", "1").lower() in ("1", "true", "yes")
+PROJECTHER_PRUNA_COMPLEX_SCENE_TURBO = os.getenv("PROJECTHER_PRUNA_COMPLEX_SCENE_TURBO", "false").lower() in ("1", "true", "yes")
+PROJECTHER_PRUNA_RETRY_TURBO = os.getenv("PROJECTHER_PRUNA_RETRY_TURBO", "false").lower() in ("1", "true", "yes")
+PROJECTHER_PRUNA_MAX_ATTEMPTS = max(1, min(5, int(os.getenv("PROJECTHER_PRUNA_MAX_ATTEMPTS", "2"))))
+PROJECTHER_PRUNA_SEED = int(os.getenv("PROJECTHER_PRUNA_SEED", "-1")) if os.getenv("PROJECTHER_PRUNA_SEED") else None
+
+REPLICATE_MODEL_ESTIMATED_COSTS = {
+    "black-forest-labs/flux-schnell": 0.003,
+    "prunaai/p-image-edit": 0.010,
+    "black-forest-labs/flux-kontext-pro": 0.040,
+    "black-forest-labs/flux-1.1-pro": 0.040,
+    "black-forest-labs/flux-dev": 0.025,
+    "black-forest-labs/flux-kontext-dev": 0.025,
+    "google/nano-banana-pro": 0.040,
+}
+# Dynamically register configured models into pricing map
+for _m, _c in [(PROJECTHER_CHARACTER_EDIT_MODEL, 0.010), (EDITORIAL_ACTION_IMAGE_MODEL, 0.010), (EDITORIAL_SUPPORT_IMAGE_MODEL, 0.003), (EDITORIAL_FALLBACK_IMAGE_MODEL, 0.040), (NEWS_REAL_IMAGE_MODEL, 0.040), (NEWS_REFERENCE_IMAGE_MODEL, 0.040)]:
+    if _m and _m not in REPLICATE_MODEL_ESTIMATED_COSTS:
+        REPLICATE_MODEL_ESTIMATED_COSTS[_m] = _c
+
+for _role, _default in (("identity", .003), ("support", .003), ("continuity", .010), ("premium", .040), ("alternate_edit", .025), ("support_fallback", .040)):
+    _model = globals()[f"PROJECTHER_IMAGE_{_role.upper()}_MODEL"]
+    REPLICATE_MODEL_ESTIMATED_COSTS[_model] = float(os.getenv(f"PROJECTHER_IMAGE_{_role.upper()}_ESTIMATED_COST_USD", REPLICATE_MODEL_ESTIMATED_COSTS.get(_model, _default)))
+
+from utils.image_models import validate_role as _validate_image_role, ImageModelConfigError
+if PROJECTHER_IMAGE_PROVIDER != "replicate":
+    raise ImageModelConfigError("PROJECTHER_IMAGE_PROVIDER currently supports only replicate")
+if not PROJECTHER_IMAGE_ROUTING_ENABLED:
+    raise ImageModelConfigError("PROJECTHER_IMAGE_ROUTING_ENABLED=false is unsupported; role routing is required")
+for _role in PROJECTHER_IMAGE_ADAPTERS:
+    _validate_image_role(_role, globals()[f"PROJECTHER_IMAGE_{_role.upper()}_MODEL"], PROJECTHER_IMAGE_ADAPTERS[_role])
+_validate_image_role("continuity", NEWS_REFERENCE_IMAGE_MODEL, PROJECTHER_IMAGE_ADAPTERS['continuity'] if os.getenv('PROJECTHER_IMAGE_CONTINUITY_MODEL') else None)
+_validate_image_role("identity", NEWS_REAL_IMAGE_MODEL, PROJECTHER_IMAGE_ADAPTERS['identity'] if os.getenv('PROJECTHER_IMAGE_IDENTITY_MODEL') else None)
+
 NEWS_REAL_IMAGE_ATTEMPTS = 2
 NEWS_MAX_REAL_IMAGE_CALLS = max(0, min(36, int(os.getenv("NEWS_MAX_REAL_IMAGE_CALLS", "24"))))
 NEWS_REFERENCE_CACHE = TEMP_DIR / "news_references"
 NEWS_IDENTITY_IMAGE_CACHE = TEMP_DIR / "news_identity_images"
-# News-only speech fallback: selected provider -> this model -> free Edge TTS.
+
+# Speech & Alignment models configurable via .env
 NEWS_REPLICATE_TTS_MODEL = os.getenv("NEWS_REPLICATE_TTS_MODEL", "jaaari/kokoro-82m")
+GEMINI_TTS_MODEL = os.getenv("GEMINI_TTS_MODEL", "gemini-2.5-flash-preview-tts")
+ELEVENLABS_MODEL = os.getenv("ELEVENLABS_MODEL", "eleven_multilingual_v2")
+HER_ALIGNMENT_MODEL = os.getenv("HER_ALIGNMENT_MODEL", "small")
 # Explicit Replicate selection keeps one voice/provider; other selections retain
 # their existing fallback chain. Pace uncached speech predictions across jobs.
 NEWS_REPLICATE_ONLY = os.getenv('NEWS_REPLICATE_ONLY', '1').lower() in ('1','true','yes')
@@ -1107,9 +1168,6 @@ POLLINATIONS_API_KEY = os.getenv("POLLINATIONS_API_KEY", "")
 NEWS_POLLINATIONS_MODEL = os.getenv("NEWS_POLLINATIONS_MODEL", "black-forest-labs/flux.1-schnell")
 NEWS_HF_PROVIDER = os.getenv("NEWS_HF_PROVIDER", "auto")
 EDITORIAL_VISION_MODEL = os.getenv("EDITORIAL_VISION_MODEL", GEMINI_MODEL)
-EDITORIAL_SUPPORT_IMAGE_MODEL = os.getenv("EDITORIAL_SUPPORT_IMAGE_MODEL", "black-forest-labs/flux-schnell")
-EDITORIAL_FALLBACK_IMAGE_MODEL = os.getenv("EDITORIAL_FALLBACK_IMAGE_MODEL", "black-forest-labs/flux-1.1-pro")
-EDITORIAL_ACTION_IMAGE_MODEL = os.getenv("EDITORIAL_ACTION_IMAGE_MODEL", "black-forest-labs/flux-kontext-pro")
 EDITORIAL_MAX_SUPPORT_CALLS = max(1,min(48,int(os.getenv("EDITORIAL_MAX_SUPPORT_CALLS", "24"))))
 
 NEWS_MUSIC = os.getenv("NEWS_MUSIC", "0").lower() in ("1", "true", "yes")
@@ -1125,9 +1183,9 @@ EDITORIAL_STYLE_VERSION = os.getenv('HER_EDITORIAL_STYLE_VERSION', 'reference-v2
 NARRATIVE_VISUAL_PLANNER_V2 = os.getenv('HER_NARRATIVE_VISUAL_PLANNER_V2', '1').lower() in ('1','true','yes')
 PARALLEL_ASSET_PIPELINE_V2 = os.getenv('HER_PARALLEL_ASSET_PIPELINE_V2', '1').lower() in ('1','true','yes')
 ACTION_ASSETS_V2 = os.getenv('HER_ACTION_ASSETS_V2', '1').lower() in ('1','true','yes')
-EDITORIAL_ACTION_WORKERS = max(1,min(4,int(os.getenv('HER_EDITORIAL_ACTION_WORKERS','3'))))
+EDITORIAL_ACTION_WORKERS = max(1,min(4,int(os.getenv('PROJECTHER_IMAGE_MAX_CONCURRENCY',os.getenv('HER_EDITORIAL_ACTION_WORKERS','3')))))
 EDITORIAL_IMAGE_MIN_INTERVAL = max(0,min(12,float(os.getenv('HER_EDITORIAL_IMAGE_MIN_INTERVAL','1'))))
-EDITORIAL_IMAGE_TIMEOUT = max(30,min(240,int(os.getenv('HER_EDITORIAL_IMAGE_TIMEOUT','180'))))
+EDITORIAL_IMAGE_TIMEOUT = max(30,min(240,int(os.getenv('PROJECTHER_IMAGE_TIMEOUT_SECONDS',os.getenv('HER_EDITORIAL_IMAGE_TIMEOUT','180')))))
 # Canary only until export comparisons pass on the target renderer/runtime.
 EDITORIAL_DIRECT_BT709 = os.getenv('HER_EDITORIAL_DIRECT_BT709','0').lower() in ('1','true','yes')
 

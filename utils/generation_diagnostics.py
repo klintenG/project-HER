@@ -72,6 +72,8 @@ def export_reports(directory, job_id, outcome=None):
     render_timings=(diag.get('finalAudio') or {}).get('stageTimings',{})
     provider_metrics=acquisition.get('providerMetrics',{})
     prediction_records=_sanitize_obj(acquisition.get('predictionRecords',[]))
+    from utils.cost_tracking import summarize_model_usage_and_costs
+    cost_report=acquisition.get('costReport') or diag.get('costReport') or summarize_model_usage_and_costs(acquisition.get('predictionRecords',[]),acquisition.get('assets',[]))
     narration_settings=diag.get('narrationSettings',{})
     tts_telemetry=_sanitize_obj(narration_settings.get('sentenceTelemetry',[]))
 
@@ -443,6 +445,8 @@ def export_reports(directory, job_id, outcome=None):
         'bottleneck_ranking':candidates,
         'rendering':rendering_info,
         'images':images,
+        'cost_report':cost_report,
+        'model_usage':cost_report,
         'provider_metrics':provider_metrics,
         'errors_and_retries':error_records,
         'recommended_next_investigation':recommendations,
@@ -521,6 +525,22 @@ def export_reports(directory, job_id, outcome=None):
         f'Sentence-Primary Invariant (distinct >= sentences): {visual_metrics["invariant_distinct_ge_sentences"]}',
         f'Output Size: {output_bytes if output_bytes is not None else "N/A"} bytes',
         f'Result: {report["outcome"]}',
+        '',
+        '## MODEL USAGE',
+        f'FLUX Schnell: {cost_report["flux_schnell"]["count"]} images — ${cost_report["flux_schnell"]["cost"]:.3f}',
+        f'Pruna P-Image-Edit: {cost_report["pruna_p_image_edit"]["count"]} images — ${cost_report["pruna_p_image_edit"]["cost"]:.3f}',
+        f'Kontext Pro: {cost_report["flux_kontext_pro"]["count"]} images — ${cost_report["flux_kontext_pro"]["cost"]:.3f}',
+        f'Rejected Attempts: {cost_report["rejected_attempts"]}',
+        f'Cost of Rejected Images: ${cost_report["cost_of_rejected_images"]:.3f}',
+        f'Total Estimated Replicate Cost: ${cost_report["total_estimated_replicate_cost"]:.3f}',
+        'Actual Billed Cost: N/A (estimated based on published Replicate pricing)',
+        '',
+        'Cost Breakdown by Category:',
+        f"- Initial character generation: ${cost_report['role_breakdown']['initial_character']:.3f}",
+        f"- Scene-specific editing: ${cost_report['role_breakdown']['scene_editing']:.3f}",
+        f"- Supporting objects: ${cost_report['role_breakdown']['supporting_objects']:.3f}",
+        f"- Retry cost: ${cost_report['role_breakdown']['retries']:.3f}",
+        f"- Premium fallback cost: ${cost_report['role_breakdown']['premium_fallback']:.3f}",
         '',
         '## B. Stage Duration Breakdown (Inclusive Spans; Parallel Stages Overlap)',
         f'{"Stage":<36} | {"Duration (s)":>12} | {"% Wall":>7} | {"Status":<10} | Metadata',

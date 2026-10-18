@@ -142,7 +142,8 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                     individual.save(individual_path);reference_paths.append(str(individual_path))
                     board.paste(source,(start_x+i*slot_w+(slot_w-source.width)//2,(1024-source.height)//2),source)
             board_path=output/(hashlib.sha256(e.id.encode()).hexdigest()[:20]+'-identity-board.png');board.save(board_path)
-            identity_asset=type('IdentityBoard',(),{'path':str(board_path),'paths':reference_paths})()
+            char_names=[getattr(master,'subject',None) or getattr(master,'name',None) or master.entityId for master in identity_assets]
+            identity_asset=type('IdentityBoard',(),{'path':str(board_path),'paths':reference_paths,'characters':char_names,'assets':identity_assets})()
         sentence_beat=sentence_beats.get(e.id)
         is_obj=e.kind not in ('person','animal') or (sentence_beat is not None and sentence_beat.get('primary_subject_type')=='object')
         if sentence_beat and (is_obj or (sentence_beat.get('primary_asset_request') or {}).get('allow_identity_conditioning') is False):
@@ -151,28 +152,70 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
         action_beat=next((beat for beat in narrative.beats if e.id in beat.asset_ids),None) if narrative else None
         contact_required=action_beat.contact_required if action_beat else True
         framing_rule=' Preserve the available body, clothing, arms and torso; do not crop to a floating head.' if e.kind=='person' else ' Keep the entire requested subject, prop or focal action intact inside the frame.'
-        prompt=(e.description if action_cutout or sentence_beat else subject_prompt(e))+framing_rule+(' Keep only environmental details that prove the narrated action or consequence.' if sentence_beat else ' No surrounding background objects.')+' Zoom out so the subject occupies at most 70 percent of image height. Leave at least 10 percent blank space above the entire subject, and 10 percent on each side. Never clip the subject at the frame edge.'
         action_adapter=(action_cutout or sentence_beat is not None) and callable(getattr(type(image_generator),'action_subject',None))
         scene_adapter=sentence_beat is not None and callable(getattr(type(image_generator),'scene_subject',None))
-        model=(config.EDITORIAL_ACTION_IMAGE_MODEL if (reference or identity_asset) else config.EDITORIAL_SUPPORT_IMAGE_MODEL) if scene_adapter else config.EDITORIAL_ACTION_IMAGE_MODEL if action_adapter else config.NEWS_REFERENCE_IMAGE_MODEL if reference or identity_asset else config.EDITORIAL_SUPPORT_IMAGE_MODEL
-        if reference:
-            # A fresh textual portrait description can override the supplied
-            # face/clothing. Reference editing must preserve the photo itself.
-            prompt='Edit the supplied photograph into one isolated paper-collage cutout. Preserve this exact person, face, expression, age, skin tone, hairstyle, facial hair, body proportions and original clothing with photographic detail. Change only the background to a flat contrasting mid-gray. Recompose with blank canvas margins: keep the entire available torso/body, all head/hair/hat and shoulders; leave at least 10 percent empty space above and on both sides. Do not copy a clipped input crop. Do not invent lower body, change clothing, beautify or replace the face, add people or depict an event. No text, border, watermark or baked shadow.'
-        if not action_cutout:
-            prompt+=' Story context, for period, location and appearance only: '+script.narration
-        if action_cutout:
-            prompt+=(' The requested subject is one isolated interaction cutout. Repose the referenced participants into the exact narrated contact, never separate standing portraits.' if contact_required else ' The requested subject is one isolated event cutout. Show the released object separated from the reacting character; no portrait substitutes or duplicate figures.')
-        elif not sentence_beat:prompt+=' Show only the requested subject, not additional story characters or a composite scene.'
-        if action_cutout:
-            prompt+=' Depict exactly one instance of each requested character. Preserve natural animal anatomy from its reference; do not add human torsos, arms, clothing or an anthropomorphic body unless that is the established character design. Non-gory biting may hide the hand at a closed jaw; never require blood or exposed severed anatomy.'
-        prompt+=' Use the era described; do not replace historical equipment with modern weapons or vehicles. Never use a cube, square, box icon, silhouette icon or geometric placeholder to represent a missing subject.'
-        if identity_asset and not is_obj:
-            prompt+=' Match the supplied established character reference: preserve fur/skin color, face, hair, clothing, silhouette and character design while reposing the character and adding any narrated restraints/chains/boulders/contact required by the action.'
-        if action_cutout and not contact_required:
-            prompt+=' This event depicts release/separation: show the object clearly detached from the character, with the exact narrated direction. Do not force hands onto the released object. Separation is required rather than contact.'
+        conditioning=reference or identity_asset
+        from utils.image_models import adapter_for
+        model=(config.EDITORIAL_ACTION_IMAGE_MODEL if conditioning else config.EDITORIAL_SUPPORT_IMAGE_MODEL) if scene_adapter else config.EDITORIAL_ACTION_IMAGE_MODEL if action_adapter and conditioning else config.NEWS_REFERENCE_IMAGE_MODEL if conditioning else config.PROJECTHER_IMAGE_IDENTITY_MODEL if e.kind=='person' and not sentence_beat else config.EDITORIAL_SUPPORT_IMAGE_MODEL
+        is_pruna_model = adapter_for(model,config.PROJECTHER_IMAGE_ADAPTERS.get('continuity' if conditioning else 'identity' if e.kind=='person' and not sentence_beat else 'support')).name=='pruna_edit'
+
+        if is_pruna_model and conditioning:
+            # Construct scene-specific editing prompt for Pruna P-Image-Edit referencing images
+            ref_paths=getattr(conditioning,'paths',None) or [getattr(conditioning,'path',str(reference.path if reference else ''))]
+            char_names=getattr(conditioning,'characters',[])
+            if len(ref_paths)>1 and char_names and len(char_names)>=2:
+                action_text=(sentence_beat.get('main_action') if sentence_beat else '') or (action_beat.visual_goal if action_beat else e.description)
+                prompt=(
+                    f"Use image 1 as the exact visual identity of {char_names[0]} and image 2 as the visual identity of {char_names[1]}. "
+                    f"Depict {action_text}. "
+                    f"Preserve both characters' clothing, hairstyle, appearance, colors, and illustration style. "
+                    f"Show a clear interaction between them rather than placing two unrelated portraits side by side. "
+                    + (f"Setting: {sentence_beat.get('location')}. " if sentence_beat and sentence_beat.get('location') else "")
+                    + (f"Emotion: {sentence_beat.get('emotional_response')}. " if sentence_beat and sentence_beat.get('emotional_response') else "")
+                    + "Produce a clean editorial illustration centered on a flat contrasting neutral background suitable for foreground cutout extraction. No text, border, or watermark."
+                )
+            else:
+                cname=char_names[0] if char_names else (sentence_beat.get('primary_subject') if sentence_beat else e.name)
+                action_text=(sentence_beat.get('main_action') if sentence_beat else '') or (sentence_beat.get('visual_focus') if sentence_beat else '') or (action_beat.visual_goal if action_beat else e.description)
+                objs=sentence_beat.get('important_objects') if sentence_beat else []
+                obj_clause=f"Make {', '.join(objs)} the main focus of interaction. " if objs and objs!=['none'] else ""
+                prompt=(
+                    f"Using image 1 as the identity reference, depict the exact same {cname} {action_text}. "
+                    f"Preserve facial appearance, hairstyle, clothing, costume colors, distinctive accessories, body proportions, and artistic style. "
+                    f"Change pose, expression, and environment to show the decisive moment of the narrated action: {action_text}. "
+                    f"{obj_clause}"
+                    + (f"Setting: {sentence_beat.get('location')}. " if sentence_beat and sentence_beat.get('location') else "")
+                    + (f"Emotion: {sentence_beat.get('emotional_response')}. " if sentence_beat and sentence_beat.get('emotional_response') else "")
+                    + "Produce a clean editorial illustration centered on a flat contrasting neutral background suitable for foreground cutout extraction. No text, border, or watermark."
+                )
+        else:
+            prompt=(e.description if action_cutout or sentence_beat else subject_prompt(e))+framing_rule+(' Keep only environmental details that prove the narrated action or consequence.' if sentence_beat else ' No surrounding background objects.')+' Zoom out so the subject occupies at most 70 percent of image height. Leave at least 10 percent blank space above the entire subject, and 10 percent on each side. Never clip the subject at the frame edge.'
+            if reference:
+                prompt='Edit the supplied photograph into one isolated paper-collage cutout. Preserve this exact person, face, expression, age, skin tone, hairstyle, facial hair, body proportions and original clothing with photographic detail. Change only the background to a flat contrasting mid-gray. Recompose with blank canvas margins: keep the entire available torso/body, all head/hair/hat and shoulders; leave at least 10 percent empty space above and on both sides. Do not copy a clipped input crop. Do not invent lower body, change clothing, beautify or replace the face, add people or depict an event. No text, border, watermark or baked shadow.'
+            if not action_cutout:
+                prompt+=' Story context, for period, location and appearance only: '+script.narration
+            if action_cutout:
+                prompt+=(' The requested subject is one isolated interaction cutout. Repose the referenced participants into the exact narrated contact, never separate standing portraits.' if contact_required else ' The requested subject is one isolated event cutout. Show the released object separated from the reacting character; no portrait substitutes or duplicate figures.')
+            elif not sentence_beat:prompt+=' Show only the requested subject, not additional story characters or a composite scene.'
+            if action_cutout:
+                prompt+=' Depict exactly one instance of each requested character. Preserve natural animal anatomy from its reference; do not add human torsos, arms, clothing or an anthropomorphic body unless that is the established character design. Non-gory biting may hide the hand at a closed jaw; never require blood or exposed severed anatomy.'
+            prompt+=' Use the era described; do not replace historical equipment with modern weapons or vehicles. Never use a cube, square, box icon, silhouette icon or geometric placeholder to represent a missing subject.'
+            if identity_asset and not is_obj:
+                prompt+=' Match the supplied established character reference: preserve fur/skin color, face, hair, clothing, silhouette and character design while reposing the character and adding any narrated restraints/chains/boulders/contact required by the action.'
+            if action_cutout and not contact_required:
+                prompt+=' This event depicts release/separation: show the object clearly detached from the character, with the exact narrated direction. Do not force hands onto the released object. Separation is required rather than contact.'
+
         beat_scope=('|'+e.id+'|'+str(sentence_beat.get('sentence_id',''))) if sentence_beat else ''
-        key=hashlib.sha256(('editorial-cutout-v11|'+prompt+'|'+model+'|'+(digest(reference.path) if reference else digest(identity_asset.path) if identity_asset else '')+beat_scope).encode()).hexdigest()
+        ref_digest=''
+        if reference:ref_digest=digest(reference.path)
+        elif identity_asset:
+            paths=getattr(identity_asset,'paths',None) or [identity_asset.path]
+            ref_digest='|'.join(digest(Path(p)) for p in paths if Path(p).is_file())
+        complex_scene=bool(sentence_beat and (len(getattr(conditioning,'paths',[]) or [])>1 or sentence_beat.get('scene_complexity')=='complex'))
+        turbo_initial=config.PROJECTHER_PRUNA_COMPLEX_SCENE_TURBO if complex_scene else config.PROJECTHER_PRUNA_TURBO
+        turbo_scope=str(turbo_initial)+'|'+str(config.PROJECTHER_PRUNA_RETRY_TURBO) if is_pruna_model else ''
+        seed_scope=str(getattr(config,'PROJECTHER_PRUNA_SEED','')) if is_pruna_model else ''
+        key=hashlib.sha256((('pruna-v2|' if is_pruna_model else 'editorial-cutout-v12|')+f'{e.id}|{prompt}|{config.PROJECTHER_IMAGE_PROVIDER}|{model}|{config.PROJECTHER_IMAGE_ADAPTERS.get("continuity" if conditioning else "support")}|{config.PROJECTHER_IMAGE_ASPECT_RATIO}|{turbo_scope}|{seed_scope}|{ref_digest}{beat_scope}').encode()).hexdigest()
         file_id=hashlib.sha256(e.id.encode()).hexdigest()[:20]
         cache=config.NEWS_IDENTITY_IMAGE_CACHE/key;raw=output/(file_id+'-generated.png');cut=output/(file_id+'-cutout.png')
         metadata=cache/'review.json';cached=cache/'image.png'
@@ -181,8 +224,8 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
         best_unverified=None
         cutout_seconds=0.0
         review_seconds=0.0
-        attempts=config.NEWS_REAL_IMAGE_ATTEMPTS if reference else config.NEWS_ASSET_RETRIES
-        for attempt in range(attempts+1):
+        attempts=config.PROJECTHER_PRUNA_MAX_ATTEMPTS if (is_pruna_model and conditioning) else (config.NEWS_REAL_IMAGE_ATTEMPTS if reference else config.NEWS_ASSET_RETRIES)
+        for attempt in range(attempts if is_pruna_model and conditioning else attempts+1):
             if cancel_event and cancel_event.is_set():raise NewsError('Editorial generation cancelled','cancelled')
             if record is not None:record['attemptCount']=attempt+1
             raw=output/(file_id+f'-generated-{attempt+1}.png')
@@ -190,30 +233,45 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                 proof=None
                 if use_cached and cached.is_file() and metadata.is_file():
                     proof=json.loads(metadata.read_text())
-                    if proof.get('sha256')!=digest(cached):raise NewsError('Cached illustration checksum changed.')
+                    if proof.get('sha256')!=digest(cached) or proof.get('model')!=model:raise NewsError('Cached illustration model or checksum changed.')
                     shutil.copyfile(cached,raw);provider='replicate:'+model
                     if proof.get('processingVersion')!=processing_version or proof.get('reviewVersion')!=('sentence-qc-v2-action' if sentence_beat else 'action-qc-v2'):proof=None
                     if record is not None:record['cacheHit']=True
                 else:
                     if record is not None:record['cacheHit']=False
                     revised=prompt
-                    if not reference and not action_cutout and attempt:
+                    if not is_pruna_model and not reference and not action_cutout and attempt:
                         revised+=' '+subject_prompt(e,attempt)
-                    revised+=' Framing is mandatory: subject centered, occupying at most 60 percent of canvas height and width; leave at least 20 percent empty margin on every side. Flat solid backdrop contrasting with the entire subject, no floor, shadows or scenery.'
+                    if not is_pruna_model:
+                        revised+=' Framing is mandatory: subject centered, occupying at most 60 percent of canvas height and width; leave at least 20 percent empty margin on every side. Flat solid backdrop contrasting with the entire subject, no floor, shadows or scenery.'
                     if attempt:
                         revised+=' Create a fresh zoomed-out composition, smaller than the rejected image; do not repeat its crop.'
-                        if sentence_beat:
-                            if sentence_beat.get('visual_focus'):
-                                revised=f"Depict this single event clearly: {sentence_beat['visual_focus']}. Show the subject's action and its result in one readable pose. No standing portrait or character substitution. "+revised
+                        if sentence_beat and sentence_beat.get('visual_focus'):
+                            revised=f"Depict this single event clearly: {sentence_beat['visual_focus']}. Show the subject's action and its result in one readable pose. No standing portrait or character substitution. "+revised
                     revised+=(' Repair the previous attempt: '+'; '.join(feedback)[-1000:] if feedback else '')
                     # A repair must keep the established character design.
                     conditioning=reference or identity_asset
                     active_model=(config.EDITORIAL_ACTION_IMAGE_MODEL if conditioning else config.EDITORIAL_SUPPORT_IMAGE_MODEL) if scene_adapter else model
-                    alternate=scene_adapter and attempt==attempts-1 and conditioning is None and callable(getattr(image_generator,'alternate_scene_subject',None))
-                    if record is not None:record.setdefault('requests',[]).append({'attempt':attempt+1,'prompt':revised,'model':getattr(config,'EDITORIAL_FALLBACK_IMAGE_MODEL',None) if alternate else active_model,'identityConditioned':conditioning is not None})
-                    request=lambda:_generate(image_generator.alternate_scene_subject(revised,raw) if alternate else image_generator.scene_subject(revised,raw,conditioning) if scene_adapter else image_generator.action_subject(revised,raw,conditioning) if action_adapter else image_generator.real_subject(revised,raw,conditioning) if conditioning else image_generator.subject(revised,raw),cancel_event)
+                    support_fallback=scene_adapter and attempt==attempts-1 and conditioning is None and config.PROJECTHER_SUPPORT_FALLBACK_ENABLED and callable(getattr(image_generator,'alternate_scene_subject',None))
+                    edit_fallback=scene_adapter and attempt==attempts-1 and conditioning is not None and callable(getattr(image_generator,'fallback_scene_subject',None))
+                    fallback_kind='alternate_edit' if edit_fallback and config.PROJECTHER_ALTERNATE_EDIT_FALLBACK_ENABLED else 'premium' if edit_fallback and config.PROJECTHER_PREMIUM_FALLBACK_ENABLED else None
+                    executed_model=config.PROJECTHER_IMAGE_ALTERNATE_EDIT_MODEL if fallback_kind=='alternate_edit' else config.PROJECTHER_IMAGE_PREMIUM_MODEL if fallback_kind=='premium' else config.EDITORIAL_FALLBACK_IMAGE_MODEL if support_fallback else active_model
+                    if record is not None:record.setdefault('requests',[]).append({'attempt':attempt+1,'prompt':revised,'model':executed_model,'identityConditioned':conditioning is not None,'fallbackReason':'quality_retry' if fallback_kind or support_fallback else None})
+                    turbo_mode=turbo_initial if attempt==0 else config.PROJECTHER_PRUNA_RETRY_TURBO
+                    turbo_kwargs={'turbo':turbo_mode} if is_pruna_model else {}
+                    def _call_gen(fn, *args, **kwargs):
+                        import inspect
+                        target = getattr(fn, 'side_effect', fn) or fn
+                        try:
+                            sig = inspect.signature(target)
+                            if not any(p.kind == inspect.Parameter.VAR_KEYWORD for p in sig.parameters.values()):
+                                kwargs = {k: v for k, v in kwargs.items() if k in sig.parameters}
+                        except Exception:
+                            pass
+                        return fn(*args, **kwargs)
+                    request=lambda:_generate(_call_gen(image_generator.fallback_scene_subject,revised,raw,conditioning,kind=fallback_kind) if fallback_kind else _call_gen(image_generator.alternate_scene_subject,revised,raw,**turbo_kwargs) if support_fallback else _call_gen(image_generator.scene_subject,revised,raw,conditioning,**turbo_kwargs) if scene_adapter else _call_gen(image_generator.action_subject,revised,raw,conditioning,**turbo_kwargs) if action_adapter else _call_gen(image_generator.real_subject,revised,raw,conditioning,**turbo_kwargs) if conditioning else _call_gen(image_generator.identity_subject,revised,raw) if e.kind=='person' and not sentence_beat and callable(getattr(type(image_generator),'identity_subject',None)) else image_generator.subject(revised,raw),cancel_event)
                     if trace:
-                        with trace.span('image_provider_wait',entity_id=e.id,model=active_model,attempt=attempt+1):provider=request()
+                        with trace.span('image_provider_wait',entity_id=e.id,model=executed_model,attempt=attempt+1):provider=request()
                     else:provider=request()
                 process=trace.call if trace else lambda name,fn,*args,**kwargs:fn(*args,**kwargs)
                 cut_t0=time.monotonic()
@@ -300,13 +358,19 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                         raise NewsError('Action cutout changed the established character appearance for '+e.name+'.')
                     proof['continuityReview']=continuity
                 proof=proof or {'identityVerified':False,'depiction':'illustration'}
-                proof.update(sha256=digest(raw),model=model,segmentation=method,mask=stats,processingVersion=processing_version,reviewVersion='sentence-qc-v2-action' if sentence_beat else 'action-qc-v2')
+                proof.update(sha256=digest(raw),model=provider.removeprefix('replicate:') if isinstance(provider,str) and provider.startswith('replicate:') else model,segmentation=method,mask=stats,processingVersion=processing_version,reviewVersion='sentence-qc-v2-action' if sentence_beat else 'action-qc-v2')
                 cache.mkdir(parents=True,exist_ok=True);shutil.copyfile(raw,cached);metadata.write_text(json.dumps(proof,indent=2))
                 if record is not None:record.update(generation=proof,provider=provider)
+                if image_generator is not None and getattr(image_generator,'prediction_records',None):
+                    rec_pred=image_generator.prediction_records[-1]
+                    rec_pred.update(outcome='accepted',final_asset_path=str(cut.resolve()),sentence_id=sentence_beat.get('sentence_id') if sentence_beat else None,entity_id=e.id,character_or_object=e.name,retry_number=attempt+1)
                 a=prepare(e,cut,output,source=provider,license='Generated illustration',attribution=provider+('; reference: '+reference.attribution if reference else ''),role='portrait' if e.kind=='person' else 'object',factual=False)
                 return a.model_copy(update={'confidence':proof.get('visualReview',{}).get('confidence',.5),'fallback':'AI illustration; reference likeness reviewed, not identity verified' if reference else 'AI illustrative reconstruction; not documentary evidence'})
             except NewsError as exc:
                 if exc.status=='cancelled':raise
+                if image_generator is not None and getattr(image_generator,'prediction_records',None):
+                    rec_pred=image_generator.prediction_records[-1]
+                    rec_pred.update(outcome='rejected',rejection_reason=str(exc),sentence_id=sentence_beat.get('sentence_id') if sentence_beat else None,entity_id=e.id,character_or_object=e.name,retry_number=attempt+1)
                 if record is not None:
                     record.setdefault('originalImageRequest',record.get('requests',[{'prompt':prompt}])[0])
                     record.setdefault('_firstVisualFailureAt',time.monotonic())
@@ -446,7 +510,12 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
         elif action_entity and asset_mode in ('auto','ai'):
             plan=getattr(script,'narrative_plan',None)
             ids=sentence_beats[e.id]['continuity_references'] if e.id in sentence_beats else next((beat.identity_reference_ids for beat in plan.beats if e.id in beat.asset_ids),[]) if plan else []
-            masters=[prior for prior in master_assets if prior.source!='Project HER subject label' and (prior.entityId in ids or not ids and prior.subject.casefold()==e.name.casefold())]
+            masters=[]
+            for mid in ids:
+                found=next((p for p in master_assets if p.entityId==mid and p.source!='Project HER subject label'),None)
+                if found and found not in masters:masters.append(found)
+            if not masters:
+                masters=[prior for prior in master_assets if prior.source!='Project HER subject label' and (prior.entityId in ids or not ids and prior.subject.casefold()==e.name.casefold())]
             record['identityReferences']=[master.entityId for master in masters]
             a=generated(e,record=record,identity_asset=masters[0] if masters else None,identity_assets=masters)
             if a.source!='Project HER subject label' and not record.get('degraded'):record['route']='narrative_action_cutout'
@@ -647,7 +716,16 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
     finally:
         if image_generator is not None and isinstance(getattr(image_generator,'metrics',None),dict):
             audit['providerMetrics']=dict(image_generator.metrics)
-            if hasattr(image_generator,'prediction_records'):audit['predictionRecords']=list(image_generator.prediction_records)
+            if hasattr(image_generator,'prediction_records'):
+                preds=list(image_generator.prediction_records)
+                audit['predictionRecords']=preds
+                try:
+                    from utils.cost_tracking import summarize_model_usage_and_costs
+                    cost_summary=summarize_model_usage_and_costs(preds,audit.get('assets',[]))
+                    audit['costReport']=cost_summary
+                    diagnostics['costReport']=cost_summary
+                    diagnostics['modelUsage']=cost_summary
+                except Exception:pass
         save_audit()
     order={e.id:i for i,e in enumerate(script.entities)}
     entities=[e for e in entities if e.id in order];assets=[a for a in assets if a.entityId in order]

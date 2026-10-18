@@ -61,8 +61,7 @@ GOOGLE_TTS_API_KEY = (
     or getattr(config, "GEMINI_API_KEY", "")
 )
 
-# Gemini TTS model
-GEMINI_TTS_MODEL = "gemini-2.5-flash-preview-tts"
+GEMINI_TTS_MODEL = os.getenv("GEMINI_TTS_MODEL", getattr(config, "GEMINI_TTS_MODEL", "gemini-2.5-flash-preview-tts"))
 GEMINI_API_BASE = "https://generativelanguage.googleapis.com/v1beta"
 
 # ── Rate Limiting ──────────────────────────────────

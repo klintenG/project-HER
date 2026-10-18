@@ -37,8 +37,7 @@ logger = logging.getLogger("replicate_tts")
 
 REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN", getattr(config, "REPLICATE_API_TOKEN", ""))
 
-# Model identifiers on Replicate
-KOKORO_MODEL = "jaaari/kokoro-82m"
+KOKORO_MODEL = os.getenv("NEWS_REPLICATE_TTS_MODEL", getattr(config, "NEWS_REPLICATE_TTS_MODEL", "jaaari/kokoro-82m"))
 
 # ── Voice Presets ─────────────────────────────────
 # Kokoro uses voice codes: a=American, b=British, f=female, m=male

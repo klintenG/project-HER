@@ -71,18 +71,19 @@ class NewsImageGenerator(AIImageGenerator):
         if not self.replicate_token:
             raise NewsError('Real-subject AI images need REPLICATE_API_TOKEN; no generic substitute was used.')
         model=config.NEWS_REFERENCE_IMAGE_MODEL if reference else config.NEWS_REAL_IMAGE_MODEL
-        if model not in {'black-forest-labs/flux-1.1-pro','black-forest-labs/flux-dev','black-forest-labs/flux-kontext-pro'}:
-            raise NewsError('Select flux-1.1-pro or flux-dev for NEWS_REAL_IMAGE_MODEL; expensive models are not enabled automatically.')
-        inputs={'prompt':prompt,'aspect_ratio':'1:1','output_format':'png'}
+        from utils.image_models import build_input, ImageModelConfigError
+        encoded=[]
         if reference:
             with Image.open(reference.path) as image:
                 image.thumbnail((1024,1024)); buffer=io.BytesIO(); image.convert('RGB').save(buffer,format='JPEG',quality=90)
-            inputs['input_image']='data:image/jpeg;base64,'+base64.b64encode(buffer.getvalue()).decode()
-            inputs['prompt_upsampling']=False
-        elif model.endswith('/flux-dev'):
-            inputs.update(num_outputs=1,num_inference_steps=28,megapixels='1')
-        else:
-            inputs['prompt_upsampling']=False
+            encoded='data:image/jpeg;base64,'+base64.b64encode(buffer.getvalue()).decode()
+            encoded=[encoded]
+        try:
+            inputs=build_input(model,prompt,encoded,turbo=config.PROJECTHER_PRUNA_TURBO,
+                seed=config.PROJECTHER_PRUNA_SEED,
+                adapter_name=config.PROJECTHER_IMAGE_ADAPTERS.get('continuity' if reference else 'identity'))
+        except ImageModelConfigError as exc:
+            raise NewsError(f'Unsupported image model; expensive models require explicit adapter configuration: {exc}') from exc
         headers={'Authorization':'Bearer '+self.replicate_token}
         prediction=None;finished=False
         async with httpx.AsyncClient(timeout=25,follow_redirects=False) as client:
@@ -242,7 +243,7 @@ def generate_cutouts(script,output,source_basis,generator=None,processor=None,ca
         for index,text in enumerate(lines[:5]):
             draw.text(((800-draw.textlength(text,font=font))/2,310+index*78),text,font=font,fill='#202632')
         path=output/(hashlib.sha256(entity.id.encode()).hexdigest()[:20]+'-degraded-label.png');canvas.save(path)
-        sentence_ids=[s.id for s in script.sentences if entity.id in s.entity_ids]
+        sentence_ids=[s.id for s in getattr(script,'sentences',[]) if entity.id in getattr(s,'entity_ids',[])]
         recovery.append({'entityId':entity.id,'sentenceIds':sentence_ids,'originalRequest':requests[0] if requests else None,
             'requests':requests,'failure':reason,'retryCount':max(0,len(requests)-1),'fallbackMethod':'typography',
             'additionalDelaySeconds':round(time.monotonic()-started,3),'fullyCompliant':False})
@@ -271,7 +272,7 @@ def generate_cutouts(script,output,source_basis,generator=None,processor=None,ca
         if e.identity=='real':
             try:assets.append(_real_cutout(e,output,processor,generator,source_basis,reference_provider,llm,cancel_event,budget))
             except NewsError as exc:
-                if exc.status=='cancelled':raise
+                if exc.status=='cancelled' or 'call limit' in str(exc).lower():raise
                 assets.append(degraded_label(e,str(exc),[prompt],asset_started))
             continue
         generator=generator or NewsImageGenerator()

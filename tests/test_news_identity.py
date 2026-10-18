@@ -61,7 +61,7 @@ class IdentityImageTests(unittest.TestCase):
         asset=self.assets()[0]
         self.assertEqual(asset.origin,'reference_edit');self.assertTrue(asset.illustrative)
         self.assertFalse(asset.identity_verified)
-        self.assertEqual(asset.image_model,'black-forest-labs/flux-schnell')
+        self.assertEqual(asset.image_model,config.NEWS_REFERENCE_IMAGE_MODEL)
         self.assertEqual(self.generator.real_subject.call_args.args[2],self.reference)
         self.assertIn('same identity',asset.prompt)
         self.generator.subject.assert_not_called()
@@ -70,7 +70,7 @@ class IdentityImageTests(unittest.TestCase):
         self.references.find.return_value=[]
         first=self.assets()[0];second=self.assets(directory='another-job')[0]
         self.assertEqual(self.generator.real_subject.call_count,1)
-        self.assertEqual(first.image_model,'black-forest-labs/flux-1.1-pro')
+        self.assertEqual(first.image_model,config.NEWS_REAL_IMAGE_MODEL)
         self.assertIn('Donald Trump',first.prompt);self.assertEqual(first.origin,'generated')
         self.assertFalse(first.identity_verified);self.assertNotEqual(first.path,second.path)
         self.generator.subject.assert_not_called()
@@ -190,7 +190,9 @@ class IdentityImageTests(unittest.TestCase):
                 await generator.real_subject('Preserve Donald Trump',self.root/'generated.png',reference)
             return calls
         for reference in (None,self.reference):
-            calls=asyncio.run(run(reference));self.assertEqual(len(calls),1)
+            with patch.object(config,'NEWS_REAL_IMAGE_MODEL','black-forest-labs/flux-1.1-pro'), patch.object(config,'NEWS_REFERENCE_IMAGE_MODEL','black-forest-labs/flux-kontext-pro'):
+                calls=asyncio.run(run(reference))
+            self.assertEqual(len(calls),1)
             data=json.loads(calls[0].content)['input']
             self.assertEqual(data['aspect_ratio'],'1:1');self.assertFalse(data['prompt_upsampling'])
             self.assertNotIn('num_outputs',data)

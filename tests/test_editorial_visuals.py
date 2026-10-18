@@ -33,7 +33,7 @@ class EditorialVisualTests(unittest.TestCase):
         self.reference=ReferencePhoto(str(self.image),'https://commons.wikimedia.org/wiki/File:Portrait.png','Public domain','Fixture artist','https://www.wikidata.org/wiki/Q123')
         self.people=MagicMock();self.people.resolve.return_value={'kind':'real','sources':[self.reference.entity_url],'references':[self.reference]}
         self.generator=MagicMock()
-        async def create(prompt,path,reference=None):subject_image('mira').save(path);return 'replicate:black-forest-labs/flux-schnell' if reference else 'replicate:black-forest-labs/flux-schnell'
+        async def create(prompt,path,reference=None):subject_image('mira').save(path);return 'replicate:'+str(config.NEWS_REFERENCE_IMAGE_MODEL if reference else config.EDITORIAL_SUPPORT_IMAGE_MODEL)
         self.generator.subject=AsyncMock(side_effect=create);self.generator.real_subject=AsyncMock(side_effect=create)
         self.review=MagicMock(return_value={'sameLikeness':True,'singlePerson':True,'bodyPreserved':True,'confidence':.94,'problems':[],'subjectMatch':True,'usable':True,'geometricPlaceholder':False,'contextAppropriate':True,'subjectConfidence':.95})
         review_patch=patch('agent.editorial.vision.VisualReview',return_value=self.review);review_patch.start();self.patches.append(review_patch)
@@ -436,7 +436,7 @@ class EditorialVisualTests(unittest.TestCase):
             self.assertIn('flux-schnell',support.args[0]);self.assertEqual(support.kwargs['json']['input']['num_inference_steps'],4)
             asyncio.run(generator.real_subject('Preserve reference person',self.root/'person.png',self.reference))
             premium=client.post.call_args
-            self.assertIn('flux-schnell',premium.args[0]);self.assertTrue(premium.kwargs['json']['input']['input_image'].startswith('data:image/jpeg;base64,'))
+            self.assertIn('p-image-edit',premium.args[0]);self.assertTrue(premium.kwargs['json']['input']['images'][0].startswith('data:image/'))
             self.assertEqual(generator.support_calls,1);self.assertEqual(generator.real_calls,1)
         self.assertEqual(config.REPLICATE_USE_SCHNELL,old)
 

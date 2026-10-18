@@ -60,7 +60,7 @@ class Aligner:
         except ImportError:
             raise NewsError('reference_editorial needs true word timing. Install requirements-editorial.txt for local forced alignment or use validated Edge/ElevenLabs timestamps.') from None
         import config
-        model=os.getenv('HER_ALIGNMENT_MODEL','small')
+        model = getattr(config, 'HER_ALIGNMENT_MODEL', os.getenv('HER_ALIGNMENT_MODEL', 'small'))
         try:
             self.model=WhisperModel(model,device='cpu',compute_type='int8',cpu_threads=4,
                 download_root=str(config.ASSETS_DIR/'alignment'),local_files_only=os.getenv('HER_ALIGNMENT_DOWNLOAD','0')!='1')
@@ -163,7 +163,8 @@ def assemble(script,clips,output,language='en',native=None,gap=.12):
     for i,(section,clip) in enumerate(zip(script.sentences,clips)):
         sec_start_mono=time.monotonic()
         data=samples(clip)
-        key=hashlib.sha256((digest(clip)+section.text+'alignment-v5-'+os.getenv('HER_ALIGNMENT_MODEL','small')+'-faster-whisper-1.2.1-'+language).encode()).hexdigest()
+        align_model = getattr(config, 'HER_ALIGNMENT_MODEL', os.getenv('HER_ALIGNMENT_MODEL', 'small'))
+        key=hashlib.sha256((digest(clip)+section.text+'alignment-v5-'+align_model+'-faster-whisper-1.2.1-'+language).encode()).hexdigest()
         cache=output/(key+'.alignment.json')
         shared_cache=shared_cache_dir/(key+'.alignment.json')
         rows=native.get(section.id) if native else None
