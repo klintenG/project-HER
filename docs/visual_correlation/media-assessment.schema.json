@@ -1,0 +1,50 @@
+{
+  "properties": {
+    "relevant": {
+      "title": "Relevant",
+      "type": "boolean"
+    },
+    "actionCorrect": {
+      "title": "Actioncorrect",
+      "type": "boolean"
+    },
+    "objectsCorrect": {
+      "title": "Objectscorrect",
+      "type": "boolean"
+    },
+    "continuityCorrect": {
+      "title": "Continuitycorrect",
+      "type": "boolean"
+    },
+    "requirementsVisible": {
+      "title": "Requirementsvisible",
+      "type": "boolean"
+    },
+    "forbiddenAbsent": {
+      "title": "Forbiddenabsent",
+      "type": "boolean"
+    },
+    "portraitSubstitution": {
+      "title": "Portraitsubstitution",
+      "type": "boolean"
+    },
+    "problems": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Problems",
+      "type": "array"
+    }
+  },
+  "required": [
+    "relevant",
+    "actionCorrect",
+    "objectsCorrect",
+    "continuityCorrect",
+    "requirementsVisible",
+    "forbiddenAbsent",
+    "portraitSubstitution"
+  ],
+  "title": "MediaAssessment",
+  "type": "object"
+}

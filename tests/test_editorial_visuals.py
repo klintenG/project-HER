@@ -459,6 +459,60 @@ class EditorialVisualTests(unittest.TestCase):
         self.assertNotIn('input_image',payload)
         self.assertEqual(generator.real_calls,1)
 
+    def test_event_scene_subject_with_nano_banana_passes_multiple_references(self):
+        import asyncio
+        from agent.editorial.images import EditorialImages
+        response=MagicMock(status_code=201);response.json.return_value={'id':'fixture1','status':'succeeded','output':['https://public.example/image.png']}
+        client=MagicMock();client.post=AsyncMock(return_value=response)
+        context=MagicMock();context.__aenter__=AsyncMock(return_value=client);context.__aexit__=AsyncMock(return_value=False)
+        reference=type('References',(),{'path':self.image,'paths':[self.image,self.image]})()
+        with patch.object(config,'REPLICATE_API_TOKEN','fixture-token'),patch.object(config,'EDITORIAL_EVENT_IMAGE_MODEL','google/nano-banana-pro'),patch('httpx.AsyncClient',return_value=context),patch('agent.news_research.fetch',return_value=(self.image.read_bytes(),'https://public.example/image.png')):
+            generator=EditorialImages(primary_count=1)
+            asyncio.run(generator.event_scene_subject('Event action',self.root/'event.png',reference))
+        request=client.post.call_args
+        self.assertIn('google/nano-banana-pro',request.args[0])
+        payload=request.kwargs['json']['input']
+        self.assertEqual(len(payload['image_input']),2)
+        self.assertEqual(payload['resolution'],'2K')
+        self.assertFalse(payload['allow_fallback_model'])
+        self.assertEqual(generator.primary_calls,1)
+
+    def test_event_scene_subject_with_flux_schnell_omits_references_and_succeeds(self):
+        import asyncio
+        from agent.editorial.images import EditorialImages
+        response=MagicMock(status_code=201);response.json.return_value={'id':'fixture2','status':'succeeded','output':['https://public.example/image.png']}
+        client=MagicMock();client.post=AsyncMock(return_value=response)
+        context=MagicMock();context.__aenter__=AsyncMock(return_value=client);context.__aexit__=AsyncMock(return_value=False)
+        reference=type('References',(),{'path':self.image,'paths':[self.image,self.image]})()
+        with patch.object(config,'REPLICATE_API_TOKEN','fixture-token'),patch.object(config,'EDITORIAL_EVENT_IMAGE_MODEL','black-forest-labs/flux-schnell'),patch('httpx.AsyncClient',return_value=context),patch('agent.news_research.fetch',return_value=(self.image.read_bytes(),'https://public.example/image.png')):
+            generator=EditorialImages(primary_count=1)
+            asyncio.run(generator.event_scene_subject('Event action',self.root/'event.png',reference))
+        request=client.post.call_args
+        self.assertIn('black-forest-labs/flux-schnell',request.args[0])
+        payload=request.kwargs['json']['input']
+        self.assertNotIn('image',payload)
+        self.assertNotIn('images',payload)
+        self.assertNotIn('image_input',payload)
+        self.assertEqual(payload['num_inference_steps'],4)
+        self.assertEqual(generator.primary_calls,1)
+
+    def test_event_scene_subject_with_flux_kontext_uses_single_composite_reference(self):
+        import asyncio
+        from agent.editorial.images import EditorialImages
+        response=MagicMock(status_code=201);response.json.return_value={'id':'fixture3','status':'succeeded','output':['https://public.example/image.png']}
+        client=MagicMock();client.post=AsyncMock(return_value=response)
+        context=MagicMock();context.__aenter__=AsyncMock(return_value=client);context.__aexit__=AsyncMock(return_value=False)
+        reference=type('References',(),{'path':self.image,'paths':[self.image,self.image]})()
+        with patch.object(config,'REPLICATE_API_TOKEN','fixture-token'),patch.object(config,'EDITORIAL_EVENT_IMAGE_MODEL','black-forest-labs/flux-kontext-pro'),patch('httpx.AsyncClient',return_value=context),patch('agent.news_research.fetch',return_value=(self.image.read_bytes(),'https://public.example/image.png')):
+            generator=EditorialImages(primary_count=1)
+            asyncio.run(generator.event_scene_subject('Event action',self.root/'event.png',reference))
+        request=client.post.call_args
+        self.assertIn('black-forest-labs/flux-kontext-pro',request.args[0])
+        payload=request.kwargs['json']['input']
+        self.assertIn('input_image',payload)
+        self.assertEqual(generator.primary_calls,1)
+
+
     def test_billing_failure_stops_further_job_predictions(self):
         import asyncio
         from agent.editorial.images import EditorialImages

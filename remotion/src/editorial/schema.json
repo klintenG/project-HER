@@ -222,7 +222,13 @@
             "environment-change",
             "character-interaction",
             "object-closeup",
-            "dramatic-reveal"
+            "dramatic-reveal",
+            "hero-intro",
+            "dual-tension",
+            "action-focus",
+            "event-montage",
+            "twist-composition",
+            "reaction-beat"
           ],
           "title": "Template",
           "type": "string"
@@ -646,6 +652,17 @@
           "title": "Shadow",
           "type": "boolean"
         },
+        "motion": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LayerMotion"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
         "phrase": {
           "anyOf": [
             {
@@ -678,6 +695,186 @@
         "bounds"
       ],
       "title": "Layer",
+      "type": "object"
+    },
+    "LayerMotion": {
+      "additionalProperties": false,
+      "description": "Bounded, deterministic editorial motion for one story cutout; no arbitrary CSS.",
+      "properties": {
+        "entrance": {
+          "default": "rise",
+          "enum": [
+            "rise",
+            "slide_left",
+            "slide_right",
+            "pop",
+            "punch",
+            "slam",
+            "fade"
+          ],
+          "title": "Entrance",
+          "type": "string"
+        },
+        "exit": {
+          "default": "fade",
+          "enum": [
+            "fade",
+            "shrink",
+            "none"
+          ],
+          "title": "Exit",
+          "type": "string"
+        },
+        "entranceFrames": {
+          "default": 14,
+          "maximum": 40,
+          "minimum": 1,
+          "title": "Entranceframes",
+          "type": "integer"
+        },
+        "driftX": {
+          "default": 0,
+          "maximum": 160,
+          "minimum": -160,
+          "title": "Driftx",
+          "type": "number"
+        },
+        "driftY": {
+          "default": 0,
+          "maximum": 160,
+          "minimum": -160,
+          "title": "Drifty",
+          "type": "number"
+        },
+        "scaleTo": {
+          "default": 1,
+          "maximum": 1.25,
+          "minimum": 0.85,
+          "title": "Scaleto",
+          "type": "number"
+        },
+        "tilt": {
+          "default": 0,
+          "maximum": 12,
+          "minimum": -12,
+          "title": "Tilt",
+          "type": "number"
+        },
+        "parallaxDepth": {
+          "default": 0.5,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Parallaxdepth",
+          "type": "number"
+        },
+        "initialOpacity": {
+          "default": 0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Initialopacity",
+          "type": "number"
+        },
+        "exitFrames": {
+          "default": 6,
+          "maximum": 30,
+          "minimum": 0,
+          "title": "Exitframes",
+          "type": "integer"
+        },
+        "focusFrame": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Focusframe"
+        },
+        "focusScale": {
+          "default": 1,
+          "maximum": 1.08,
+          "minimum": 1,
+          "title": "Focusscale",
+          "type": "number"
+        },
+        "entranceTravel": {
+          "default": 240,
+          "maximum": 240,
+          "minimum": 0,
+          "title": "Entrancetravel",
+          "type": "number"
+        },
+        "elements": {
+          "items": {
+            "$ref": "#/$defs/MotionElement"
+          },
+          "maxItems": 4,
+          "title": "Elements",
+          "type": "array"
+        }
+      },
+      "title": "LayerMotion",
+      "type": "object"
+    },
+    "MotionElement": {
+      "additionalProperties": false,
+      "description": "One separately animated piece of a layer's cutout (positions are fractions of the fitted image).",
+      "properties": {
+        "assetId": {
+          "title": "Assetid",
+          "type": "string"
+        },
+        "x": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Y",
+          "type": "number"
+        },
+        "w": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "W",
+          "type": "number"
+        },
+        "h": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "H",
+          "type": "number"
+        },
+        "depth": {
+          "default": 0.5,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Depth",
+          "type": "number"
+        },
+        "delayFrames": {
+          "default": 0,
+          "maximum": 60,
+          "minimum": 0,
+          "title": "Delayframes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "assetId",
+        "x",
+        "y",
+        "w",
+        "h"
+      ],
+      "title": "MotionElement",
       "type": "object"
     },
     "Phrase": {
@@ -761,6 +958,16 @@
           "minimum": 0,
           "title": "Anticipationframes",
           "type": "integer"
+        },
+        "animation": {
+          "default": "word_slide",
+          "enum": [
+            "word_slide",
+            "group_slide",
+            "line_reveal"
+          ],
+          "title": "Animation",
+          "type": "string"
         }
       },
       "required": [

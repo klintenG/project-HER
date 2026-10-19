@@ -1,0 +1,321 @@
+{
+  "provenance": "Curated original comedy acceptance fixture; not a live planner result",
+  "source_script": {
+    "summary": "Comedy",
+    "narration": "A baker carried a towering cake across his kitchen. He slipped on spilled flour, caught the cake against his chest, and landed safely in a chair. Then he took a triumphant bite.",
+    "sentences": [
+      {
+        "id": "s0",
+        "text": "A baker carried a towering cake across his kitchen.",
+        "claim_ids": [
+          "source"
+        ],
+        "entity_ids": [
+          "baker"
+        ],
+        "phrase": "A baker carried a towering",
+        "role": "development"
+      },
+      {
+        "id": "s1",
+        "text": "He slipped on spilled flour, caught the cake against his chest, and landed safely in a chair.",
+        "claim_ids": [
+          "source"
+        ],
+        "entity_ids": [
+          "baker"
+        ],
+        "phrase": "He slipped on spilled flour,",
+        "role": "development"
+      },
+      {
+        "id": "s2",
+        "text": "Then he took a triumphant bite.",
+        "claim_ids": [
+          "source"
+        ],
+        "entity_ids": [
+          "baker"
+        ],
+        "phrase": "Then he took a triumphant",
+        "role": "development"
+      }
+    ],
+    "entities": [
+      {
+        "id": "baker",
+        "name": "The baker",
+        "kind": "person",
+        "identity": "fictional",
+        "description": "A cheerful stocky middle-aged fictional baker, round face, curly dark hair and thick moustache, white chef hat, cream shirt with rolled sleeves, blue apron and brown trousers. Warm storybook editorial illustration, no modern brand marks."
+      }
+    ]
+  },
+  "response": {
+    "continuity_bible": [
+      {
+        "entity_id": "baker",
+        "description": "A cheerful stocky middle-aged fictional baker, round face, curly dark hair and thick moustache, white chef hat, cream shirt with rolled sleeves, blue apron and brown trousers. Warm storybook editorial illustration, no modern brand marks.",
+        "wardrobe_states": {
+          "base": "as described"
+        },
+        "prop_designs": []
+      }
+    ],
+    "beats": [
+      {
+        "beat_id": "comedy-1",
+        "section_id": "s0",
+        "narration_excerpt": "A baker carried a towering cake across his kitchen.",
+        "event_type": "carrying",
+        "actor_ids": [
+          "baker"
+        ],
+        "verb": "carrying",
+        "object_ids": [],
+        "setting": "as narrated",
+        "causal_link": "chronological",
+        "visual_intent": "The baker walks across a compact kitchen, both hands supporting a tall three-tier pink-frosted cake on a platter; oven and counter establish kitchen. He is moving carefully, cake still upright.",
+        "must_show": [
+          "Baker physically carrying tall cake with both hands",
+          "Kitchen counter and oven visible"
+        ],
+        "must_not_show": [
+          "static portrait",
+          "cake floating"
+        ],
+        "role": "action_tableau",
+        "criticality": "P0",
+        "confidence": 1,
+        "media_source": "generated_scene",
+        "source_entity_id": null,
+        "concept": {
+          "subject": "The baker",
+          "action": "The baker walks across a compact kitchen, both hands supporting a tall three-tier pink-frosted cake on a platter; oven and counter establish kitchen. He is moving carefully, cake still upright.",
+          "important_objects": [],
+          "setting": "as narrated",
+          "emotion": "comic surprise",
+          "state_change": "carrying",
+          "state_before": "preceding event",
+          "state_after": "carrying",
+          "location": "as narrated",
+          "narrative_significance": "carrying",
+          "visual_focus": "The baker walks across a compact kitchen, both hands supporting a tall three-tier pink-frosted cake on a platter; oven and counter establish kitchen. He is moving carefully, cake still upright.",
+          "description": "The baker walks across a compact kitchen, both hands supporting a tall three-tier pink-frosted cake on a platter; oven and counter establish kitchen. He is moving carefully, cake still upright.. Clean premium editorial illustration, soft natural colors, coherent readable phone-scale scene with warm light neutral outer margins, no text.",
+          "identity_ids": [
+            "baker"
+          ],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": null
+      },
+      {
+        "beat_id": "comedy-2",
+        "section_id": "s1",
+        "narration_excerpt": "He slipped on spilled flour,",
+        "event_type": "slipping",
+        "actor_ids": [
+          "baker"
+        ],
+        "verb": "slipping",
+        "object_ids": [],
+        "setting": "as narrated",
+        "causal_link": "chronological",
+        "visual_intent": "The baker slides one foot across a visible spill of white flour on the kitchen floor, body tilting backward, tall pink cake tilting out of the platter; alarmed face and loose stance clearly show loss of balance.",
+        "must_show": [
+          "Foot sliding through flour spill",
+          "Baker losing balance while cake tilts"
+        ],
+        "must_not_show": [
+          "already seated",
+          "cake safely upright"
+        ],
+        "role": "action_tableau",
+        "criticality": "P0",
+        "confidence": 1,
+        "media_source": "generated_scene",
+        "source_entity_id": null,
+        "concept": {
+          "subject": "The baker",
+          "action": "The baker slides one foot across a visible spill of white flour on the kitchen floor, body tilting backward, tall pink cake tilting out of the platter; alarmed face and loose stance clearly show loss of balance.",
+          "important_objects": [],
+          "setting": "as narrated",
+          "emotion": "comic surprise",
+          "state_change": "slipping",
+          "state_before": "preceding event",
+          "state_after": "slipping",
+          "location": "as narrated",
+          "narrative_significance": "slipping",
+          "visual_focus": "The baker slides one foot across a visible spill of white flour on the kitchen floor, body tilting backward, tall pink cake tilting out of the platter; alarmed face and loose stance clearly show loss of balance.",
+          "description": "The baker slides one foot across a visible spill of white flour on the kitchen floor, body tilting backward, tall pink cake tilting out of the platter; alarmed face and loose stance clearly show loss of balance.. Clean premium editorial illustration, soft natural colors, coherent readable phone-scale scene with warm light neutral outer margins, no text.",
+          "identity_ids": [
+            "baker"
+          ],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": "slipped"
+      },
+      {
+        "beat_id": "comedy-3",
+        "section_id": "s1",
+        "narration_excerpt": "caught the cake against his chest,",
+        "event_type": "catching",
+        "actor_ids": [
+          "baker"
+        ],
+        "verb": "catching",
+        "object_ids": [],
+        "setting": "as narrated",
+        "causal_link": "chronological",
+        "visual_intent": "The baker clutches the tall pink cake against his blue-aproned chest with both arms while regaining balance; frosting visibly squashes against apron, empty platter falling nearby.",
+        "must_show": [
+          "Both arms catch cake against chest",
+          "Cake and chest physical contact",
+          "Pink frosting on blue apron"
+        ],
+        "must_not_show": [
+          "cake floating",
+          "standing portrait"
+        ],
+        "role": "action_tableau",
+        "criticality": "P0",
+        "confidence": 1,
+        "media_source": "generated_scene",
+        "source_entity_id": null,
+        "concept": {
+          "subject": "The baker",
+          "action": "The baker clutches the tall pink cake against his blue-aproned chest with both arms while regaining balance; frosting visibly squashes against apron, empty platter falling nearby.",
+          "important_objects": [],
+          "setting": "as narrated",
+          "emotion": "comic surprise",
+          "state_change": "catching",
+          "state_before": "preceding event",
+          "state_after": "catching",
+          "location": "as narrated",
+          "narrative_significance": "catching",
+          "visual_focus": "The baker clutches the tall pink cake against his blue-aproned chest with both arms while regaining balance; frosting visibly squashes against apron, empty platter falling nearby.",
+          "description": "The baker clutches the tall pink cake against his blue-aproned chest with both arms while regaining balance; frosting visibly squashes against apron, empty platter falling nearby.. Clean premium editorial illustration, soft natural colors, coherent readable phone-scale scene with warm light neutral outer margins, no text.",
+          "identity_ids": [
+            "baker"
+          ],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": "caught"
+      },
+      {
+        "beat_id": "comedy-4",
+        "section_id": "s1",
+        "narration_excerpt": "and landed safely in a chair.",
+        "event_type": "landing",
+        "actor_ids": [
+          "baker"
+        ],
+        "verb": "landing",
+        "object_ids": [],
+        "setting": "as narrated",
+        "causal_link": "chronological",
+        "visual_intent": "The baker drops backward into a wooden kitchen chair, seat supports him, feet briefly raised, arms still wrapped around the squashed pink cake against his blue apron; relief on face.",
+        "must_show": [
+          "Baker visibly landing in chair",
+          "Cake held against chest",
+          "Relieved expression"
+        ],
+        "must_not_show": [
+          "falling to floor",
+          "cake missing"
+        ],
+        "role": "action_tableau",
+        "criticality": "P0",
+        "confidence": 1,
+        "media_source": "generated_scene",
+        "source_entity_id": null,
+        "concept": {
+          "subject": "The baker",
+          "action": "The baker drops backward into a wooden kitchen chair, seat supports him, feet briefly raised, arms still wrapped around the squashed pink cake against his blue apron; relief on face.",
+          "important_objects": [],
+          "setting": "as narrated",
+          "emotion": "comic surprise",
+          "state_change": "landing",
+          "state_before": "preceding event",
+          "state_after": "landing",
+          "location": "as narrated",
+          "narrative_significance": "landing",
+          "visual_focus": "The baker drops backward into a wooden kitchen chair, seat supports him, feet briefly raised, arms still wrapped around the squashed pink cake against his blue apron; relief on face.",
+          "description": "The baker drops backward into a wooden kitchen chair, seat supports him, feet briefly raised, arms still wrapped around the squashed pink cake against his blue apron; relief on face.. Clean premium editorial illustration, soft natural colors, coherent readable phone-scale scene with warm light neutral outer margins, no text.",
+          "identity_ids": [
+            "baker"
+          ],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": "landed"
+      },
+      {
+        "beat_id": "comedy-5",
+        "section_id": "s2",
+        "narration_excerpt": "Then he took a triumphant bite.",
+        "event_type": "biting",
+        "actor_ids": [
+          "baker"
+        ],
+        "verb": "biting",
+        "object_ids": [],
+        "setting": "as narrated",
+        "causal_link": "chronological",
+        "visual_intent": "The seated baker grins triumphantly while biting a large forkful of the saved pink cake, cake on his lap and frosting smeared across blue apron; kitchen chair and flour spill remain in background.",
+        "must_show": [
+          "Baker taking a bite of saved cake",
+          "Seated in kitchen chair",
+          "Cake and frosting on apron"
+        ],
+        "must_not_show": [
+          "standing portrait",
+          "cake absent"
+        ],
+        "role": "aftermath",
+        "criticality": "P0",
+        "confidence": 1,
+        "media_source": "generated_scene",
+        "source_entity_id": null,
+        "concept": {
+          "subject": "The baker",
+          "action": "The seated baker grins triumphantly while biting a large forkful of the saved pink cake, cake on his lap and frosting smeared across blue apron; kitchen chair and flour spill remain in background.",
+          "important_objects": [],
+          "setting": "as narrated",
+          "emotion": "comic surprise",
+          "state_change": "biting",
+          "state_before": "preceding event",
+          "state_after": "biting",
+          "location": "as narrated",
+          "narrative_significance": "biting",
+          "visual_focus": "The seated baker grins triumphantly while biting a large forkful of the saved pink cake, cake on his lap and frosting smeared across blue apron; kitchen chair and flour spill remain in background.",
+          "description": "The seated baker grins triumphantly while biting a large forkful of the saved pink cake, cake on his lap and frosting smeared across blue apron; kitchen chair and flour spill remain in background.. Clean premium editorial illustration, soft natural colors, coherent readable phone-scale scene with warm light neutral outer margins, no text.",
+          "identity_ids": [
+            "baker"
+          ],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": "took"
+      }
+    ]
+  }
+}

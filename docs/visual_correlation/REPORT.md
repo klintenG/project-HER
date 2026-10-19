@@ -1,0 +1,29 @@
+# ProjectHER narration-to-visual correlation implementation
+
+The event-first code path is implemented and three real videos have been rendered and manually reviewed. The Thor sample now visibly depicts the missing hammer, theft, demand/refusal, Loki's proposal, full bridal disguise, wedding arrival, feast, explanation, hammer delivery/grip, reveal, confrontation and comic aftermath. The original Thor narration/audio is preserved.
+
+**Readiness boundary:** the configured Gemini credential returned HTTP 401, after earlier Pro-model quota failures. The user chose manual review. The sample storyboards are explicitly curated acceptance fixtures; they do not certify the blocked autonomous live planner or hosted app. No deployment or credential change was performed.
+
+## Outputs
+
+| Sample | Final video | Encoded contact sheet | Interactive event review | Manually reviewed coverage |
+|---|---|---|---|---|
+| Thor | [63.082-second video](../../output/visual_correlation/thor_curated/editorial.mp4) | [before/after](../../output/visual_correlation/thor_curated/before_after_contact_sheet.jpg), [full sampling](../../output/visual_correlation/thor_curated/contact_sheet.jpg) | [review page](../../output/visual_correlation/thor_curated/review.html) | 14/14 critical events |
+| NASA history | [28.480-second video](../../output/visual_correlation/history/editorial.mp4) | [contact sheet](../../output/visual_correlation/history/contact_sheet.jpg) | [review page](../../output/visual_correlation/history/review.html) | 5/5 events |
+| Original comedy | [13.248-second video](../../output/visual_correlation/comedy/editorial.mp4) | [contact sheet](../../output/visual_correlation/comedy/contact_sheet.jpg) | [review page](../../output/visual_correlation/comedy/review.html) | 5/5 critical events |
+
+All 24 final assets and corresponding encoded event frames have checksum-bound manual observations. Zero critical events use a generic portrait substitute. Exact spoken action/prop anchors control entrances; non-opening entrances differ from their supplied word timestamps by less than one frame. The opening deliberately pre-rolls its relevant image by 60 ms. These are compiled timing deltas against actual provider/forced alignment, not independently measured acoustic-onset accuracy.
+
+The ending image remains through the final narration and closing hold; the existing 2.7-second ProjectHER outro begins afterwards. Branding, typography, emphasis, vertical geometry, TTS contracts, audio levels and existing other-mode routing remain in the established renderer. Final encoded audio is near −15 LUFS, true peaks below −1.5 dBTP; duration/color/black-frame delivery checks pass. Per-run manifests retain exact measurements and render latency.
+
+## Requested deliverables
+
+1. **Root causes:** [actual module/function ledger and traced baseline](ROOT_CAUSES.md). The preserved run attempted nine primary scenes, then replaced every one with character fallback after adapter/alpha failures. Sentence-level planning, reference/costume restrictions, and misleading acceptance semantics compounded the problem.
+2. **Code/architecture:** [implementation and affected modules](IMPLEMENTATION.md). Core additions are versioned events/continuity, scene-specific provider prompts, a quality image tier, real semantic checks and protected failure behavior, audio binding/EDL, and encoded-frame review. Atomic PNG preparation also fixes a concurrency race exposed by regression testing.
+3. **Schemas/prompts:** [event plan](event-plan.schema.json), [event spec](event-spec.schema.json), [media assessment](media-assessment.schema.json), [planning prompt](planner-prompt.txt), [visual-review instruction](media-verification-prompt.txt). Complete actual per-scene requests and reference paths are retained in each asset acquisition record.
+4. **Before/after storyboard:** [every important spoken event, chosen scene, narration interval and visual entrance](../../output/visual_correlation/BEFORE_AFTER.md).
+5. **Actual media:** videos/contact sheets/review pages above; images, original/rejected candidates, SRT/VTT, Remotion manifests and frame observations reside beside them. The original supplied clips/reference remain untouched.
+6. **Metrics:** [machine-readable quality and provider telemetry summary](../../output/visual_correlation/quality_metrics.json). Thor required 28 scene predictions plus four identity predictions across the rejected and replacement batches; comedy used ten scene predictions plus one identity. History used five attributed NASA archive images. Provider 429/retry records are retained. Actual billed dollar cost is unavailable and is not invented.
+7. **Tests:** [commands and regression matrix](VALIDATION.md). **347 tests passed**, TypeScript contract checks passed, and `git diff --check` passed. Additional real-media runs rendered through Remotion with actual narration and forced word alignment. Synthetic unit fixtures are clearly distinguished from these samples.
+8. **Limitations:** live autonomous planning and live visual-judge acceptance remain unverified until Gemini authentication is restored. Manual asset/frame review was used as authorized. Reference conditioning is supported and actually used by the selected multi-reference image adapter. Word timestamps come from real speech/provider/forced alignment; no independent phonetic-onset measurement is claimed. Minor illustration simplification of the comedy cake layers is recorded in its review.
+9. **Deployment:** [readiness and rollback](IMPLEMENTATION.md#readiness-and-limitations). Existing Cloud Run/container dependencies and shared Remotion schema are unchanged. No deployment occurred. Restore LLM/vision access, run the live review command on all three narratives, and review hosting timeouts for the quality image tier before production acceptance. `HER_EVENT_STORYBOARD_ENABLED=0` rolls back the new route.

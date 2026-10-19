@@ -375,6 +375,8 @@ def compile_direction(m, script, direction, settings):
 
 
 def save_summary(timeline, output):
+    if 'shotDirection' in timeline.diagnostics:
+        Path(output,'shot_plan.json').write_text(json.dumps(timeline.diagnostics['shotDirection'],ensure_ascii=False,indent=2))
     rows=timeline.diagnostics.get('atomicStoryboard',{}).get('beats',[])
     Path(output,'storyboard_summary.json').write_text(json.dumps({'script':timeline.script,'words':[w.model_dump() for w in timeline.words],
         'entities':[e.model_dump() for e in timeline.entities], 'assets':[a.model_dump() for a in timeline.assets],

@@ -20,6 +20,7 @@ class EditorialScript(Script):
     sentence_storyboard: list[dict] = Field(default_factory=list)
     identity_registry: list[Entity] = Field(default_factory=list)
     narrative_plan: Optional[NarrativeBeatPlan] = None
+    event_plan: Optional[dict] = None
 
 
 def anchor_index(text,anchor):

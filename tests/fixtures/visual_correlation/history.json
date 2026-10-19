@@ -1,0 +1,369 @@
+{
+  "provenance": "Curated factual-history fixture; NASA archival metadata and mission overview https://www.nasa.gov/history/apollo-11-mission-overview/; not a live planner result",
+  "source_script": {
+    "summary": "History",
+    "narration": "Neil Armstrong, Michael Collins and Buzz Aldrin formed the Apollo 11 crew. On July 16, 1969, Apollo 11 launched from Florida. After the lunar landing, Aldrin climbed down from Eagle onto the Moon. On the lunar surface, Aldrin used a core sampler to collect material. On July 24, 1969, the recovered command module was hoisted aboard the USS Hornet.",
+    "sentences": [
+      {
+        "id": "s0",
+        "text": "Neil Armstrong, Michael Collins and Buzz Aldrin formed the Apollo 11 crew.",
+        "claim_ids": [
+          "source"
+        ],
+        "entity_ids": [
+          "apollo11"
+        ],
+        "phrase": "Neil Armstrong, Michael Collins and",
+        "role": "development"
+      },
+      {
+        "id": "s1",
+        "text": "On July 16, 1969, Apollo 11 launched from Florida.",
+        "claim_ids": [
+          "source"
+        ],
+        "entity_ids": [
+          "apollo11"
+        ],
+        "phrase": "On July 16, 1969, Apollo",
+        "role": "development"
+      },
+      {
+        "id": "s2",
+        "text": "After the lunar landing, Aldrin climbed down from Eagle onto the Moon.",
+        "claim_ids": [
+          "source"
+        ],
+        "entity_ids": [
+          "apollo11"
+        ],
+        "phrase": "After the lunar landing, Aldrin",
+        "role": "development"
+      },
+      {
+        "id": "s3",
+        "text": "On the lunar surface, Aldrin used a core sampler to collect material.",
+        "claim_ids": [
+          "source"
+        ],
+        "entity_ids": [
+          "apollo11"
+        ],
+        "phrase": "On the lunar surface, Aldrin",
+        "role": "development"
+      },
+      {
+        "id": "s4",
+        "text": "On July 24, 1969, the recovered command module was hoisted aboard the USS Hornet.",
+        "claim_ids": [
+          "source"
+        ],
+        "entity_ids": [
+          "apollo11"
+        ],
+        "phrase": "On July 24, 1969, the",
+        "role": "development"
+      }
+    ],
+    "entities": [
+      {
+        "id": "apollo11",
+        "name": "Apollo 11",
+        "kind": "object",
+        "identity": "real",
+        "description": "NASA Apollo 11 mission, July 1969. Use only correctly attributed mission-specific archival photographs; do not substitute another Apollo crew or mission."
+      }
+    ]
+  },
+  "response": {
+    "continuity_bible": [
+      {
+        "entity_id": "apollo11",
+        "description": "NASA Apollo 11 mission, July 1969. Use only correctly attributed mission-specific archival photographs; do not substitute another Apollo crew or mission.",
+        "wardrobe_states": {
+          "base": "as described"
+        },
+        "prop_designs": []
+      }
+    ],
+    "beats": [
+      {
+        "beat_id": "history-1",
+        "section_id": "s0",
+        "narration_excerpt": "Neil Armstrong, Michael Collins and Buzz Aldrin formed the Apollo 11 crew.",
+        "event_type": "introduce",
+        "actor_ids": [
+          "apollo11"
+        ],
+        "verb": "introduce",
+        "object_ids": [],
+        "setting": "as narrated",
+        "causal_link": "chronological",
+        "visual_intent": "Official NASA portrait of the three Apollo 11 astronauts",
+        "must_show": [
+          "Official NASA portrait of the three Apollo 11 astronauts"
+        ],
+        "must_not_show": [
+          "different Apollo mission",
+          "AI reconstruction presented as archive"
+        ],
+        "role": "character_intro",
+        "criticality": "P1",
+        "confidence": 1,
+        "media_source": "verified_reference",
+        "source_entity_id": "apollo11",
+        "concept": {
+          "subject": "Apollo 11",
+          "action": "Official NASA portrait of the three Apollo 11 astronauts",
+          "important_objects": [],
+          "setting": "as narrated",
+          "emotion": "documentary",
+          "state_change": "introduce",
+          "state_before": "preceding event",
+          "state_after": "introduce",
+          "location": "as narrated",
+          "narrative_significance": "introduce",
+          "visual_focus": "Official NASA portrait of the three Apollo 11 astronauts",
+          "description": "Official NASA portrait of the three Apollo 11 astronauts",
+          "identity_ids": [],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": null
+      },
+      {
+        "beat_id": "history-2",
+        "section_id": "s1",
+        "narration_excerpt": "On July 16, 1969, Apollo 11 launched from Florida.",
+        "event_type": "launch",
+        "actor_ids": [
+          "apollo11"
+        ],
+        "verb": "launch",
+        "object_ids": [],
+        "setting": "as narrated",
+        "causal_link": "chronological",
+        "visual_intent": "Archival photograph of Apollo 11 lifting off from Florida, rocket plume visible",
+        "must_show": [
+          "Archival photograph of Apollo 11 lifting off from Florida, rocket plume visible"
+        ],
+        "must_not_show": [
+          "different Apollo mission",
+          "AI reconstruction presented as archive"
+        ],
+        "role": "action_tableau",
+        "criticality": "P0",
+        "confidence": 1,
+        "media_source": "verified_reference",
+        "source_entity_id": "apollo11",
+        "concept": {
+          "subject": "Apollo 11",
+          "action": "Archival photograph of Apollo 11 lifting off from Florida, rocket plume visible",
+          "important_objects": [],
+          "setting": "as narrated",
+          "emotion": "documentary",
+          "state_change": "launch",
+          "state_before": "preceding event",
+          "state_after": "launch",
+          "location": "as narrated",
+          "narrative_significance": "launch",
+          "visual_focus": "Archival photograph of Apollo 11 lifting off from Florida, rocket plume visible",
+          "description": "Archival photograph of Apollo 11 lifting off from Florida, rocket plume visible",
+          "identity_ids": [],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": "launched"
+      },
+      {
+        "beat_id": "history-3",
+        "section_id": "s2",
+        "narration_excerpt": "After the lunar landing, Aldrin climbed down from Eagle onto the Moon.",
+        "event_type": "descend",
+        "actor_ids": [
+          "apollo11"
+        ],
+        "verb": "descend",
+        "object_ids": [],
+        "setting": "as narrated",
+        "causal_link": "chronological",
+        "visual_intent": "Actual Apollo 11 photograph of Aldrin descending the lunar module ladder",
+        "must_show": [
+          "Actual Apollo 11 photograph of Aldrin descending the lunar module ladder"
+        ],
+        "must_not_show": [
+          "different Apollo mission",
+          "AI reconstruction presented as archive"
+        ],
+        "role": "action_tableau",
+        "criticality": "P0",
+        "confidence": 1,
+        "media_source": "verified_reference",
+        "source_entity_id": "apollo11",
+        "concept": {
+          "subject": "Apollo 11",
+          "action": "Actual Apollo 11 photograph of Aldrin descending the lunar module ladder",
+          "important_objects": [],
+          "setting": "as narrated",
+          "emotion": "documentary",
+          "state_change": "descend",
+          "state_before": "preceding event",
+          "state_after": "descend",
+          "location": "as narrated",
+          "narrative_significance": "descend",
+          "visual_focus": "Actual Apollo 11 photograph of Aldrin descending the lunar module ladder",
+          "description": "Actual Apollo 11 photograph of Aldrin descending the lunar module ladder",
+          "identity_ids": [],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": "climbed"
+      },
+      {
+        "beat_id": "history-4",
+        "section_id": "s3",
+        "narration_excerpt": "On the lunar surface, Aldrin used a core sampler to collect material.",
+        "event_type": "sample",
+        "actor_ids": [
+          "apollo11"
+        ],
+        "verb": "sample",
+        "object_ids": [],
+        "setting": "as narrated",
+        "causal_link": "chronological",
+        "visual_intent": "Actual Apollo 11 photograph of Aldrin using a core sampling tool on the Moon",
+        "must_show": [
+          "Actual Apollo 11 photograph of Aldrin using a core sampling tool on the Moon"
+        ],
+        "must_not_show": [
+          "different Apollo mission",
+          "AI reconstruction presented as archive"
+        ],
+        "role": "action_tableau",
+        "criticality": "P0",
+        "confidence": 1,
+        "media_source": "verified_reference",
+        "source_entity_id": "apollo11",
+        "concept": {
+          "subject": "Apollo 11",
+          "action": "Actual Apollo 11 photograph of Aldrin using a core sampling tool on the Moon",
+          "important_objects": [],
+          "setting": "as narrated",
+          "emotion": "documentary",
+          "state_change": "sample",
+          "state_before": "preceding event",
+          "state_after": "sample",
+          "location": "as narrated",
+          "narrative_significance": "sample",
+          "visual_focus": "Actual Apollo 11 photograph of Aldrin using a core sampling tool on the Moon",
+          "description": "Actual Apollo 11 photograph of Aldrin using a core sampling tool on the Moon",
+          "identity_ids": [],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": "used"
+      },
+      {
+        "beat_id": "history-5",
+        "section_id": "s4",
+        "narration_excerpt": "On July 24, 1969, the recovered command module was hoisted aboard the USS Hornet.",
+        "event_type": "recover",
+        "actor_ids": [
+          "apollo11"
+        ],
+        "verb": "recover",
+        "object_ids": [],
+        "setting": "as narrated",
+        "causal_link": "chronological",
+        "visual_intent": "Actual Apollo 11 command module being hoisted aboard recovery ship USS Hornet",
+        "must_show": [
+          "Actual Apollo 11 command module being hoisted aboard recovery ship USS Hornet"
+        ],
+        "must_not_show": [
+          "different Apollo mission",
+          "AI reconstruction presented as archive"
+        ],
+        "role": "action_tableau",
+        "criticality": "P0",
+        "confidence": 1,
+        "media_source": "verified_reference",
+        "source_entity_id": "apollo11",
+        "concept": {
+          "subject": "Apollo 11",
+          "action": "Actual Apollo 11 command module being hoisted aboard recovery ship USS Hornet",
+          "important_objects": [],
+          "setting": "as narrated",
+          "emotion": "documentary",
+          "state_change": "recover",
+          "state_before": "preceding event",
+          "state_after": "recover",
+          "location": "as narrated",
+          "narrative_significance": "recover",
+          "visual_focus": "Actual Apollo 11 command module being hoisted aboard recovery ship USS Hornet",
+          "description": "Actual Apollo 11 command module being hoisted aboard recovery ship USS Hornet",
+          "identity_ids": [],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": "hoisted"
+      }
+    ]
+  },
+  "supplied_assets": {
+    "history-1": {
+      "url": "https://images-assets.nasa.gov/image/8903695/8903695~medium.jpg",
+      "source": "https://images.nasa.gov/details/8903695",
+      "attribution": "NASA",
+      "license": "NASA imagery; NASA media usage guidelines",
+      "factual": true,
+      "nasa_id": "8903695"
+    },
+    "history-2": {
+      "url": "https://www.nasa.gov/wp-content/uploads/2023/03/apollo_11_launch_-_gpn-2000-000630_1.jpg",
+      "source": "https://www.nasa.gov/image-article/apollo-11-launches-into-history/",
+      "attribution": "NASA",
+      "license": "NASA imagery; NASA media usage guidelines",
+      "factual": true,
+      "nasa_id": "GPN-2000-000630"
+    },
+    "history-3": {
+      "url": "https://images-assets.nasa.gov/image/6900935/6900935~medium.jpg",
+      "source": "https://images.nasa.gov/details/6900935",
+      "attribution": "NASA",
+      "license": "NASA imagery; NASA media usage guidelines",
+      "factual": true,
+      "nasa_id": "6900935"
+    },
+    "history-4": {
+      "url": "https://images-assets.nasa.gov/image/6900972/6900972~medium.jpg",
+      "source": "https://images.nasa.gov/details/6900972",
+      "attribution": "NASA",
+      "license": "NASA imagery; NASA media usage guidelines",
+      "factual": true,
+      "nasa_id": "6900972"
+    },
+    "history-5": {
+      "url": "https://images-assets.nasa.gov/image/S69-21783/S69-21783~medium.jpg",
+      "source": "https://images.nasa.gov/details/S69-21783",
+      "attribution": "NASA",
+      "license": "NASA imagery; NASA media usage guidelines",
+      "factual": true,
+      "nasa_id": "S69-21783"
+    }
+  }
+}

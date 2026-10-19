@@ -96,6 +96,36 @@ class Phrase(Model):
     # Static labels are distinguished from spoken words and subtitles.
     label: Optional[str] = None
     anticipationFrames: int = Field(default=0, ge=0, le=3)
+    animation: Literal['word_slide', 'group_slide', 'line_reveal'] = 'word_slide'
+
+
+class MotionElement(Model):
+    """One separately animated piece of a layer's cutout (positions are fractions of the fitted image)."""
+    assetId: str
+    x: float = Field(ge=0, le=1)
+    y: float = Field(ge=0, le=1)
+    w: float = Field(gt=0, le=1)
+    h: float = Field(gt=0, le=1)
+    depth: float = Field(default=.5, ge=0, le=1)
+    delayFrames: int = Field(default=0, ge=0, le=60)
+
+
+class LayerMotion(Model):
+    """Bounded, deterministic editorial motion for one story cutout; no arbitrary CSS."""
+    entrance: Literal['rise', 'slide_left', 'slide_right', 'pop', 'punch', 'slam', 'fade'] = 'rise'
+    exit: Literal['fade', 'shrink', 'none'] = 'fade'
+    entranceFrames: int = Field(default=14, ge=1, le=40)
+    driftX: float = Field(default=0, ge=-160, le=160)
+    driftY: float = Field(default=0, ge=-160, le=160)
+    scaleTo: float = Field(default=1, ge=.85, le=1.25)
+    tilt: float = Field(default=0, ge=-12, le=12)
+    parallaxDepth: float = Field(default=.5, ge=0, le=1)
+    initialOpacity: float = Field(default=0, ge=0, le=1)
+    exitFrames: int = Field(default=6, ge=0, le=30)
+    focusFrame: Optional[int] = Field(default=None, ge=0)
+    focusScale: float = Field(default=1, ge=1, le=1.08)
+    entranceTravel: float = Field(default=240, ge=0, le=240)
+    elements: list[MotionElement] = Field(default_factory=list, max_length=4)
 
 
 class Layer(Interval):
@@ -111,6 +141,7 @@ class Layer(Interval):
     opacity: float = Field(default=1, ge=0, le=1)
     mask: Literal['none', 'lower_fade'] = 'none'
     shadow: bool = False
+    motion: Optional[LayerMotion] = None
     phrase: Optional[Phrase] = None
     value: Optional[int] = None
 
@@ -137,7 +168,7 @@ class Event(Interval):
     boundsTo: Optional[Bounds] = None
 
 
-Template = Literal['single_subject', 'comparison', 'person_context', 'object_location', 'document_photo', 'date_year', 'location_transfer', 'process', 'connector', 'conclusion', 'hero-object', 'incremental-claim', 'portrait-event', 'map-event', 'timeline-date', 'document-evidence', 'asset-handoff', 'location-change', 'cause-effect', 'split-outcome', 'typographic-breath', 'final-reveal', 'event-hero', 'environment-change', 'character-interaction', 'object-closeup', 'dramatic-reveal']
+Template = Literal['single_subject', 'comparison', 'person_context', 'object_location', 'document_photo', 'date_year', 'location_transfer', 'process', 'connector', 'conclusion', 'hero-object', 'incremental-claim', 'portrait-event', 'map-event', 'timeline-date', 'document-evidence', 'asset-handoff', 'location-change', 'cause-effect', 'split-outcome', 'typographic-breath', 'final-reveal', 'event-hero', 'environment-change', 'character-interaction', 'object-closeup', 'dramatic-reveal', 'hero-intro', 'dual-tension', 'action-focus', 'event-montage', 'twist-composition', 'reaction-beat']
 
 
 class Transition(Interval):
@@ -224,6 +255,14 @@ class Timeline(Model):
         for layer in self.layers:
             if layer.entityId and layer.entityId not in e: fail('Unresolved layer entity')
             if layer.assetId and (layer.assetId not in a or a[layer.assetId].entityId!=layer.entityId): fail('Unresolved layer asset')
+            if layer.motion:
+                if layer.motion.focusFrame is not None and not layer.startFrame<=layer.motion.focusFrame<layer.endFrame:
+                    fail('Motion focus outside layer interval')
+                for element in layer.motion.elements:
+                    if element.assetId not in a or a[element.assetId].entityId!=layer.entityId or not a[element.assetId].alpha:
+                        fail('Unresolved alpha motion element')
+                    if element.x+element.w>1.000001 or element.y+element.h>1.000001:
+                        fail('Motion element outside fitted image')
             if layer.role in ('subject','object','map','photo','document','shadow') and not layer.assetId:fail('Visual layer requires an asset')
             if layer.role in ('heading','phrase','label') and not layer.phrase:fail('Text layer requires a phrase')
             if layer.role=='year' and layer.value is None:fail('Year layer requires a value')

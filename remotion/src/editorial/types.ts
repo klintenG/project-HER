@@ -31,7 +31,7 @@ export type Beat = {
   startFrame: number;
   endFrame: number;
   id: string;
-  template: "single_subject" | "comparison" | "person_context" | "object_location" | "document_photo" | "date_year" | "location_transfer" | "process" | "connector" | "conclusion" | "hero-object" | "incremental-claim" | "portrait-event" | "map-event" | "timeline-date" | "document-evidence" | "asset-handoff" | "location-change" | "cause-effect" | "split-outcome" | "typographic-breath" | "final-reveal" | "event-hero" | "environment-change" | "character-interaction" | "object-closeup" | "dramatic-reveal";
+  template: "single_subject" | "comparison" | "person_context" | "object_location" | "document_photo" | "date_year" | "location_transfer" | "process" | "connector" | "conclusion" | "hero-object" | "incremental-claim" | "portrait-event" | "map-event" | "timeline-date" | "document-evidence" | "asset-handoff" | "location-change" | "cause-effect" | "split-outcome" | "typographic-breath" | "final-reveal" | "event-hero" | "environment-change" | "character-interaction" | "object-closeup" | "dramatic-reveal" | "hero-intro" | "dual-tension" | "action-focus" | "event-montage" | "twist-composition" | "reaction-beat";
   sectionIds: (string)[];
   layerIds: (string)[];
   purpose: string;
@@ -91,8 +91,34 @@ export type Layer = {
   opacity: number;
   mask: "none" | "lower_fade";
   shadow: boolean;
+  motion: LayerMotion | null;
   phrase: Phrase | null;
   value: number | null;
+}
+export type LayerMotion = {
+  entrance: "rise" | "slide_left" | "slide_right" | "pop" | "punch" | "slam" | "fade";
+  exit: "fade" | "shrink" | "none";
+  entranceFrames: number;
+  driftX: number;
+  driftY: number;
+  scaleTo: number;
+  tilt: number;
+  parallaxDepth: number;
+  initialOpacity: number;
+  exitFrames: number;
+  focusFrame: number | null;
+  focusScale: number;
+  entranceTravel: number;
+  elements: (MotionElement)[];
+}
+export type MotionElement = {
+  assetId: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  depth: number;
+  delayFrames: number;
 }
 export type Phrase = {
   wordIds: (string)[];
@@ -104,6 +130,7 @@ export type Phrase = {
   align: "left" | "center" | "right";
   label: string | null;
   anticipationFrames: number;
+  animation: "word_slide" | "group_slide" | "line_reveal";
 }
 export type Section = {
   id: string;

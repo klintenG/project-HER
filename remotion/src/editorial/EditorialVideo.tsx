@@ -4,7 +4,8 @@ import React,{useEffect,useMemo,useState} from 'react';
 import {AbsoluteFill,Audio,Sequence,Img,staticFile,useCurrentFrame,delayRender,continueRender,cancelRender} from 'remotion';
 import {Timeline,Layer,Word,Bounds} from './types';
 import {validateTimeline} from './contract';
-import {clamp,stateAt} from './motion';
+import {clamp,ease,stateAt} from './motion';
+import {cutoutMotionAt} from './cutoutMotion';
 
 const url=(s:string)=>staticFile(s);
 const color='#414249';
@@ -18,10 +19,13 @@ const PhraseBlock:React.FC<{layer:Layer;words:Map<string,Word>;frame:number;tone
   const common={fontFamily:'EditorialPoppins',fontWeight:p.weight,fontSize:p.size,lineHeight:1.19,color:toneColor,textAlign:p.align} as const;
   if(p.label)return <div style={{...common,whiteSpace:'pre-line'}}>{cleanName(p.label)}</div>;
   const first=words.get(p.wordIds[0])!.start*30-p.anticipationFrames;
-  return <div style={common}>{p.lines.map((line,n)=><div key={n} style={{whiteSpace:'nowrap',minHeight:p.size*1.19}}>{line.map((id,i)=>{
+  const grouped=p.animation==='group_slide'||p.animation==='line_reveal';
+  const group=ease((frame-first+1)/8);
+  const groupStyle:React.CSSProperties=grouped?{transform:`translateY(${(1-group)*24}px)`,clipPath:p.animation==='line_reveal'?`inset(0 0 ${(1-group)*100}% 0)`:undefined}:{};
+  return <div style={{...common,...groupStyle}}>{p.lines.map((line,n)=><div key={n} style={{whiteSpace:'nowrap',minHeight:p.size*1.19}}>{line.map((id,i)=>{
     const w=words.get(id)!;const onset=(p.mode==='phrase_reveal'||p.mode==='connector')?first:w.start*30-p.anticipationFrames;
     const t=clamp((frame-onset+1)/6);const eased=1-Math.pow(1-t,3);
-    return <span key={id} style={{display:'inline-block',opacity:t,fontWeight:p.emphasis.includes(id)?700:p.weight,transform:`translateY(${(1-eased)*18}px)`}}>{w.text}{i<line.length-1?'\u00a0':''}</span>;
+    return <span key={id} style={{display:'inline-block',opacity:t,fontWeight:p.emphasis.includes(id)?700:p.weight,transform:grouped?undefined:`translateY(${(1-eased)*18}px)`}}>{w.text}{i<line.length-1?'\u00a0':''}</span>;
   })}</div>)}</div>;
 };
 
@@ -81,8 +85,13 @@ const EditorialStory:React.FC<Timeline>=(props)=>{
     if((closing||m.subtitleMode==='complete')&&layer.phrase?.wordIds.length)return null;
     const s=stateAt(layer,m.events,frame),b=parentBounds?{...s.bounds,y:parentBounds.h+18,w:parentBounds.w}:s.bounds;
     const asset=s.assetId?assets.get(s.assetId):null;
+    const mo=asset&&layer.motion&&!layer.parentId?cutoutMotionAt(layer,frame):null;
     const style:React.CSSProperties={position:'absolute',left:b.x,top:b.y,width:b.w,height:b.h,zIndex:layer.z,
-      transformOrigin:layer.origin,transform:`translate(${s.x}px,${s.y}px) scale(${s.scale})`,opacity:s.opacity};
+      transformOrigin:layer.origin,transform:`translate(${s.x+(mo?mo.x:0)}px,${s.y+(mo?mo.y:0)}px) scale(${s.scale*(mo?mo.scale:1)}) rotate(${mo?mo.rotate:0}deg)`,opacity:s.opacity*(mo?mo.opacity:1)};
+    // Fitted (object-fit: contain) image rectangle, used to place separately animated elements.
+    const fit=asset?Math.min(b.w/asset.width,b.h/asset.height):1;const fw=asset?asset.width*fit:0,fh=asset?asset.height*fit:0;
+    const ox=(b.w-fw)/2,oy=(b.h-fh)/2;
+    const pieces=asset&&layer.motion&&layer.motion.elements.length&&!layer.parentId?layer.motion.elements:null;
     const imageStyle:React.CSSProperties={width:'100%',height:'100%',objectFit:'contain',maskImage:layer.mask==='lower_fade'?'linear-gradient(to bottom,black 0%,black 75%,transparent 100%)':undefined};
     return <div key={layer.id} style={style}>
       {asset&&layer.shadow&&<>
@@ -90,7 +99,10 @@ const EditorialStory:React.FC<Timeline>=(props)=>{
         <Img src={url(asset.path)} style={{...imageStyle,position:'absolute',inset:0,transformOrigin:'50% 97%',transform:'skewX(48deg) scaleY(.24)',filter:'brightness(0) blur(5px)',opacity:.13*(1-s.swap)}}/>
         {s.swapAsset&&<Img src={url(assets.get(s.swapAsset)!.path)} style={{...imageStyle,position:'absolute',inset:0,transformOrigin:'50% 97%',transform:'skewX(48deg) scaleY(.24)',filter:'brightness(0) blur(5px)',opacity:.13*s.swap}}/>}
       </>}
-      {asset&&<Img src={url(asset.path)} style={{...imageStyle,opacity:1-s.swap}}/>}
+      {asset&&!pieces&&<Img src={url(asset.path)} style={{...imageStyle,opacity:1-s.swap}}/>}
+      {pieces&&pieces.map((el,i)=>{const ms=cutoutMotionAt(layer,frame,el.delayFrames,el.depth);const part=assets.get(el.assetId)!;
+        return <Img key={el.assetId+i} src={url(part.path)} style={{position:'absolute',left:ox+el.x*fw,top:oy+el.y*fh,width:el.w*fw,height:el.h*fh,objectFit:'contain',
+          transform:`translate(${ms.x-(mo?mo.x:0)}px,${ms.y-(mo?mo.y:0)}px) scale(${ms.scale/(mo?mo.scale:1)})`,opacity:Math.min(1,ms.opacity/Math.max(.001,mo?mo.opacity:1)),zIndex:i}}/>;})}
       {s.swapAsset&&<Img src={url(assets.get(s.swapAsset)!.path)} style={{...imageStyle,position:'absolute',inset:0,opacity:s.swap}}/>}
       {layer.phrase&&<PhraseBlock layer={layer} words={words} frame={frame} toneColor={toneColor}/>}
       {layer.role==='year'&&<div style={{fontFamily:'EditorialPoppins',fontSize:170,fontWeight:700,color,textAlign:'center',fontVariantNumeric:'tabular-nums'}}>{s.value}</div>}

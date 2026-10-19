@@ -21,6 +21,10 @@ export function validateTimeline(value:unknown):Timeline {
   for(const row of [...m.layers,...m.events,...m.beats,...m.transitions])assert(row.startFrame<row.endFrame&&row.endFrame<=m.durationInFrames,'interval');
   for(const l of m.layers){
     assert(!l.entityId||entities.has(l.entityId),'layer entity');assert(!l.assetId||assets.get(l.assetId)?.entityId===l.entityId,'layer asset');
+    if(l.motion){
+      assert(l.motion.focusFrame==null||(l.startFrame<=l.motion.focusFrame&&l.motion.focusFrame<l.endFrame),'motion focus interval');
+      for(const el of l.motion.elements)assert(assets.get(el.assetId)?.entityId===l.entityId&&assets.get(el.assetId)?.alpha&&el.x+el.w<=1.000001&&el.y+el.h<=1.000001,'alpha motion element');
+    }
     if(['subject','object','map','photo','document','shadow'].includes(l.role))assert(l.assetId,'visual asset required');
     if(['heading','phrase','label'].includes(l.role))assert(l.phrase,'phrase required');
     if(l.role==='year')assert(l.value!==null,'year value');

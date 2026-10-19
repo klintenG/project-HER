@@ -95,6 +95,13 @@ class EditorialImages(NewsImageGenerator):
             self.primary_calls+=1
         return await self._invoke_prediction(prompt,path,reference,'action' if reference is not None else 'support',turbo=turbo,seed=seed,aspect_ratio=aspect_ratio)
 
+    async def event_scene_subject(self,prompt,path,reference=None,turbo=None,seed=None,aspect_ratio='1:1'):
+        """Event scenes use the explicit multi-reference quality tier."""
+        with self._budget_lock:
+            if self.primary_calls>=self.primary_limit:raise NewsError('Event scene capacity exhausted after bounded repairs.')
+            self.primary_calls+=1
+        return await self._invoke_prediction(prompt,path,reference,'event',turbo=turbo,seed=seed,aspect_ratio=aspect_ratio)
+
     async def alternate_scene_subject(self,prompt,path,turbo=None,seed=None,aspect_ratio='1:1'):
         """One bounded second-model attempt after scene-specific repairs fail."""
         with self._budget_lock:
@@ -130,7 +137,7 @@ class EditorialImages(NewsImageGenerator):
         try:
             await asyncio.wait({task,waiter},return_when=asyncio.FIRST_COMPLETED)
             waiter.cancel()
-            return await asyncio.wait_for(task,timeout=config.EDITORIAL_IMAGE_TIMEOUT)
+            return await asyncio.wait_for(task,timeout=max(config.EDITORIAL_IMAGE_TIMEOUT,300) if tier=='event' else config.EDITORIAL_IMAGE_TIMEOUT)
         except asyncio.TimeoutError:
             raise NewsError('Image prediction outcome unavailable after its deadline; no automatic new prediction will be submitted.') from None
         except asyncio.CancelledError:
@@ -147,34 +154,42 @@ class EditorialImages(NewsImageGenerator):
         from PIL import Image
         from agent.news_research import fetch
         if not self.replicate_token:raise NewsError('Editorial images require REPLICATE_API_TOKEN.')
-        role=tier if tier in ('premium','alternate_edit') else 'support_fallback' if tier=='support_alternate' else 'continuity' if reference else 'support' if tier in ('support','action') else 'identity'
+        role=tier if tier in ('premium','alternate_edit','event') else 'support_fallback' if tier=='support_alternate' else 'continuity' if reference else 'support' if tier in ('support','action') else 'identity'
         model=getattr(config,f'PROJECTHER_IMAGE_{role.upper()}_MODEL') if role in ('premium','alternate_edit','identity') else config.EDITORIAL_ACTION_IMAGE_MODEL if role=='continuity' else config.EDITORIAL_FALLBACK_IMAGE_MODEL if role=='support_fallback' else config.EDITORIAL_SUPPORT_IMAGE_MODEL
         adapter_name=config.PROJECTHER_IMAGE_ADAPTERS.get(role)
+        if tier=='event':
+            model=config.EDITORIAL_EVENT_IMAGE_MODEL
+            adapter_name=None  # Capability is selected from the event model, not the legacy tier.
         adapter=adapter_for(model,adapter_name)
         is_pruna=adapter.name=='pruna_edit'
         is_nano=adapter.name=='nano_banana'
         reference_count=0
-        if reference:
-            paths=getattr(reference,'paths',None)
-            source_paths=paths or [reference.path]
-            reference_count=len(source_paths)
-            encoded=[]
+        if reference and adapter.references != 0:
+            if adapter.references == 1:
+                source_paths = [reference.path]
+            else:
+                paths = getattr(reference, 'paths', None)
+                source_paths = paths or [reference.path]
+            reference_count = len(source_paths)
+            encoded = []
             for source_path in source_paths:
                 with Image.open(source_path) as image:
                     if 'A' in image.getbands():
-                        rgba=image.convert('RGBA')
-                        rgba.thumbnail((640,640))
-                        canvas=Image.new('RGBA',(1024,1024),(216,216,216,255))
-                        canvas.alpha_composite(rgba,((1024-rgba.width)//2,(1024-rgba.height)//2))
-                        image=canvas.convert('RGB')
+                        rgba = image.convert('RGBA')
+                        rgba.thumbnail((640, 640))
+                        canvas = Image.new('RGBA', (1024, 1024), (216, 216, 216, 255))
+                        canvas.alpha_composite(rgba, ((1024 - rgba.width) // 2, (1024 - rgba.height) // 2))
+                        image = canvas.convert('RGB')
                     else:
-                        image=image.convert('RGB');image.thumbnail((1024,1024))
-                    buffer=io.BytesIO()
-                    fmt='PNG' if (is_nano or is_pruna) else 'JPEG'
-                    image.save(buffer,format=fmt,quality=90)
-                mime='image/png' if fmt=='PNG' else 'image/jpeg'
-                encoded.append(f'data:{mime};base64,'+base64.b64encode(buffer.getvalue()).decode())
-        else:encoded=[]
+                        image = image.convert('RGB')
+                        image.thumbnail((1024, 1024))
+                    buffer = io.BytesIO()
+                    fmt = 'PNG' if (is_nano or is_pruna) else 'JPEG'
+                    image.save(buffer, format=fmt, quality=90)
+                mime = 'image/png' if fmt == 'PNG' else 'image/jpeg'
+                encoded.append(f'data:{mime};base64,' + base64.b64encode(buffer.getvalue()).decode())
+        else:
+            encoded = []
         try:
             inputs=build_input(model,prompt,encoded,config.PROJECTHER_IMAGE_ASPECT_RATIO if aspect_ratio=='1:1' else aspect_ratio,
                 config.PROJECTHER_PRUNA_TURBO if turbo is None else turbo,

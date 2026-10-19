@@ -1,0 +1,990 @@
+{
+  "provenance": "Curated acceptance storyboard derived from supplied exact narration; not a live planner result",
+  "source_script": {
+    "summary": "In this Norse myth, Thor disguises himself as a bride to infiltrate a giant's palace and retrieve his stolen hammer, Mjölnir, from the giant Thrym.",
+    "narration": "The mighty God of Thunder, Thor, faced a crisis when his magical hammer, Mjölnir, was stolen by a giant named Thrym. According to the supplied account, Thrym demanded to marry the goddess Freyja in exchange for the weapon, but she refused the giant's proposal. Loki devised a plan for Thor to dress as Freyja in a bridal gown and veil to infiltrate the giant's palace. Thor reluctantly agreed to the disguise and traveled to the giant's home to reclaim his property. During the wedding dinner, Thor consumed an entire ox, eight salmon, and three barrels of mead. Loki explained the bride's massive appetite by claiming she had not eaten for eight days due to wedding excitement. During the ceremony, Thrym ordered Mjölnir to be placed in the bride's lap to bless the union. Thor immediately grabbed the hammer, ripped off his disguise, and killed Thrym and the gathered giants. Thrym had spent days preparing for a wedding, but instead invited the God of Thunder to his own funeral.",
+    "sentences": [
+      {
+        "id": "s1",
+        "text": "The mighty God of Thunder, Thor, faced a crisis when his magical hammer, Mjölnir, was stolen by a giant named Thrym.",
+        "claim_ids": [
+          "c1"
+        ],
+        "entity_ids": [
+          "Thor",
+          "Thrym"
+        ],
+        "phrase": "Thor's hammer stolen by Thrym",
+        "role": "hook",
+        "emphasis": [
+          "Thor",
+          "hammer",
+          "Thrym"
+        ],
+        "headline_text": null
+      },
+      {
+        "id": "s2",
+        "text": "According to the supplied account, Thrym demanded to marry the goddess Freyja in exchange for the weapon, but she refused the giant's proposal.",
+        "claim_ids": [
+          "c2"
+        ],
+        "entity_ids": [
+          "Thrym",
+          "Freyja"
+        ],
+        "phrase": "Thrym demanded to marry Freyja",
+        "role": "context",
+        "emphasis": [
+          "Thrym",
+          "Freyja"
+        ],
+        "headline_text": null
+      },
+      {
+        "id": "s3",
+        "text": "Loki devised a plan for Thor to dress as Freyja in a bridal gown and veil to infiltrate the giant's palace.",
+        "claim_ids": [
+          "c3"
+        ],
+        "entity_ids": [
+          "Loki",
+          "Thor"
+        ],
+        "phrase": "Loki's plan to dress Thor",
+        "role": "context",
+        "emphasis": [
+          "Loki",
+          "Thor",
+          "bridal gown"
+        ],
+        "headline_text": null
+      },
+      {
+        "id": "s4",
+        "text": "Thor reluctantly agreed to the disguise and traveled to the giant's home to reclaim his property.",
+        "claim_ids": [
+          "c3"
+        ],
+        "entity_ids": [
+          "Thor"
+        ],
+        "phrase": "Thor travels to the palace",
+        "role": "development",
+        "emphasis": [
+          "Thor",
+          "disguise"
+        ],
+        "headline_text": null
+      },
+      {
+        "id": "s5",
+        "text": "During the wedding dinner, Thor consumed an entire ox, eight salmon, and three barrels of mead.",
+        "claim_ids": [
+          "c4"
+        ],
+        "entity_ids": [
+          "Thor"
+        ],
+        "phrase": "Thor eats at the dinner",
+        "role": "development",
+        "emphasis": [
+          "Thor",
+          "ox",
+          "mead"
+        ],
+        "headline_text": null
+      },
+      {
+        "id": "s6",
+        "text": "Loki explained the bride's massive appetite by claiming she had not eaten for eight days due to wedding excitement.",
+        "claim_ids": [
+          "c4"
+        ],
+        "entity_ids": [
+          "Loki"
+        ],
+        "phrase": "Loki explains the appetite",
+        "role": "development",
+        "emphasis": [
+          "Loki",
+          "appetite"
+        ],
+        "headline_text": null
+      },
+      {
+        "id": "s7",
+        "text": "During the ceremony, Thrym ordered Mjölnir to be placed in the bride's lap to bless the union.",
+        "claim_ids": [
+          "c5"
+        ],
+        "entity_ids": [
+          "Thrym",
+          "Thor"
+        ],
+        "phrase": "Mjölnir placed in bride's lap",
+        "role": "development",
+        "emphasis": [
+          "Mjölnir",
+          "Thrym"
+        ],
+        "headline_text": null
+      },
+      {
+        "id": "s8",
+        "text": "Thor immediately grabbed the hammer, ripped off his disguise, and killed Thrym and the gathered giants.",
+        "claim_ids": [
+          "c5"
+        ],
+        "entity_ids": [
+          "Thor",
+          "Thrym"
+        ],
+        "phrase": "Thor reveals his identity",
+        "role": "meaning",
+        "emphasis": [
+          "Thor",
+          "hammer",
+          "Thrym"
+        ],
+        "headline_text": null
+      },
+      {
+        "id": "s9",
+        "text": "Thrym had spent days preparing for a wedding, but instead invited the God of Thunder to his own funeral.",
+        "claim_ids": [
+          "c5"
+        ],
+        "entity_ids": [
+          "Thrym",
+          "Thor"
+        ],
+        "phrase": "Thrym's accidental funeral invitation",
+        "role": "close",
+        "emphasis": [
+          "Thrym",
+          "Thor",
+          "funeral"
+        ],
+        "headline_text": null
+      }
+    ],
+    "entities": [
+      {
+        "id": "Thor",
+        "name": "Thor",
+        "kind": "person",
+        "description": "A muscular, bearded man with long hair, wearing a bridal gown and veil over his traditional Norse tunic.",
+        "identity": "fictional",
+        "reference_query": "Thor Norse mythology",
+        "exact_asset": null
+      },
+      {
+        "id": "Loki",
+        "name": "Loki",
+        "kind": "person",
+        "description": "A cunning-looking man with sharp features and dark hair, standing and gesturing while speaking.",
+        "identity": "fictional",
+        "reference_query": "Loki Norse mythology",
+        "exact_asset": null
+      },
+      {
+        "id": "Thrym",
+        "name": "Thrym",
+        "kind": "person",
+        "description": "A massive, hulking giant with rugged features and primitive furs, standing in a palace hall.",
+        "identity": "fictional",
+        "reference_query": "Thrym Norse mythology",
+        "exact_asset": null
+      },
+      {
+        "id": "Freyja",
+        "name": "Freyja",
+        "kind": "person",
+        "description": "A beautiful goddess with flowing blonde hair and elegant, flowing robes.",
+        "identity": "fictional",
+        "reference_query": "Freyja Norse mythology",
+        "exact_asset": null
+      }
+    ]
+  },
+  "response": {
+    "continuity_bible": [
+      {
+        "entity_id": "Thor",
+        "description": "Norse mythic editorial illustration of a muscular broad-shouldered man, long copper-red hair and thick red beard, strong brows; blue-gray wool tunic, leather belt, brown boots and fur cloak, no hammer in the base reference. No modern clothing.",
+        "wardrobe_states": {
+          "base": "Norse wool tunic, leather belt and fur cloak",
+          "bride": "Full ivory bridal gown with long sleeves, long skirt and elaborate veil, no warrior armor",
+          "revealed": "Torn ivory gown and removed veil, face exposed"
+        },
+        "prop_designs": [
+          "Mjölnir is a small short-handled broad rectangular dark iron hammer with engraved knotwork and brown leather handle"
+        ]
+      },
+      {
+        "entity_id": "Loki",
+        "description": "Norse mythic editorial illustration of a slim man with sharp features, shoulder-length black hair, clean-shaven face, forest-green medieval wool tunic, brown belt and green cloak. No suit, necktie, lapels or modern costume.",
+        "wardrobe_states": {},
+        "prop_designs": [
+          "Mjölnir is a small short-handled broad rectangular dark iron hammer with engraved knotwork and brown leather handle"
+        ]
+      },
+      {
+        "entity_id": "Thrym",
+        "description": "Norse mythic editorial illustration of a towering stocky giant, shaggy dark brown hair and beard, broad nose, rough brown fur and leather tunic, thick limbs, considerably larger than Thor. No modern clothing.",
+        "wardrobe_states": {},
+        "prop_designs": [
+          "Mjölnir is a small short-handled broad rectangular dark iron hammer with engraved knotwork and brown leather handle"
+        ]
+      },
+      {
+        "entity_id": "Freyja",
+        "description": "Norse mythic editorial illustration of a woman with long braided golden hair, gold necklace, pale blue Norse linen gown and gold brooch, expressive face. No contemporary fashion.",
+        "wardrobe_states": {},
+        "prop_designs": [
+          "Mjölnir is a small short-handled broad rectangular dark iron hammer with engraved knotwork and brown leather handle"
+        ]
+      }
+    ],
+    "beats": [
+      {
+        "beat_id": "thor-01-discovery",
+        "section_id": "s1",
+        "narration_excerpt": "The mighty God of Thunder, Thor, faced a crisis when his magical hammer, Mjölnir,",
+        "event_type": "discovery",
+        "actor_ids": [
+          "Thor"
+        ],
+        "verb": "discovery",
+        "object_ids": [],
+        "setting": "Norse timber home",
+        "causal_link": "previous narrated event",
+        "visual_intent": "Thor bends over the conspicuously empty hammer stand, open empty hands and distressed expression",
+        "must_show": [
+          "Thor searching an empty hammer stand, clearly distressed",
+          "Both hands empty",
+          "Timber room fragment and empty weapon stand"
+        ],
+        "must_not_show": [
+          "hammer in Thor hands",
+          "bridal attire"
+        ],
+        "role": "action_tableau",
+        "criticality": "P0",
+        "confidence": 1,
+        "concept": {
+          "subject": "Thor",
+          "action": "Thor bends over the conspicuously empty hammer stand, open empty hands and distressed expression",
+          "important_objects": [],
+          "setting": "Norse timber home",
+          "emotion": "mythic comic tension",
+          "state_change": "base; hammer absent",
+          "state_before": "As established by the previous event; no later action yet",
+          "state_after": "base; hammer absent",
+          "location": "Norse timber home",
+          "narrative_significance": "discovery",
+          "visual_focus": "Thor bends over the conspicuously empty hammer stand, open empty hands and distressed expression",
+          "description": "Thor bends over the conspicuously empty hammer stand, open empty hands and distressed expression. One coherent premium editorial illustration, muted natural colors, clean bold silhouettes, lightly textured painted detail, readable phone-scale relationships; centered scene fragment with spacious light warm-gray margins, no lettering or borders.",
+          "identity_ids": [
+            "Thor"
+          ],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": null
+      },
+      {
+        "beat_id": "thor-02-theft",
+        "section_id": "s1",
+        "narration_excerpt": "was stolen by a giant named Thrym.",
+        "event_type": "theft",
+        "actor_ids": [
+          "Thrym"
+        ],
+        "verb": "theft",
+        "object_ids": [],
+        "setting": "giant timber hall",
+        "causal_link": "previous narrated event",
+        "visual_intent": "Thrym crouches in his giant hall, hiding the short-handled engraved iron hammer inside an open stone niche with a furtive expression",
+        "must_show": [
+          "Thrym physically hiding Mjölnir in an open stone niche",
+          "Hammer clearly visible in giant hand",
+          "Timber hall context"
+        ],
+        "must_not_show": [
+          "Thor holding hammer",
+          "modern clothing"
+        ],
+        "role": "action_tableau",
+        "criticality": "P0",
+        "confidence": 1,
+        "concept": {
+          "subject": "Thrym",
+          "action": "Thrym crouches in his giant hall, hiding the short-handled engraved iron hammer inside an open stone niche with a furtive expression",
+          "important_objects": [
+            "Mjölnir"
+          ],
+          "setting": "giant timber hall",
+          "emotion": "mythic comic tension",
+          "state_change": "giant has hammer",
+          "state_before": "As established by the previous event; no later action yet",
+          "state_after": "giant has hammer",
+          "location": "giant timber hall",
+          "narrative_significance": "theft",
+          "visual_focus": "Thrym crouches in his giant hall, hiding the short-handled engraved iron hammer inside an open stone niche with a furtive expression",
+          "description": "Thrym crouches in his giant hall, hiding the short-handled engraved iron hammer inside an open stone niche with a furtive expression. One coherent premium editorial illustration, muted natural colors, clean bold silhouettes, lightly textured painted detail, readable phone-scale relationships; centered scene fragment with spacious light warm-gray margins, no lettering or borders.",
+          "identity_ids": [
+            "Thrym"
+          ],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": "was stolen"
+      },
+      {
+        "beat_id": "thor-03-demand",
+        "section_id": "s2",
+        "narration_excerpt": "According to the supplied account, Thrym demanded to marry the goddess Freyja in exchange for the weapon,",
+        "event_type": "demand",
+        "actor_ids": [
+          "Thrym",
+          "Freyja"
+        ],
+        "verb": "demand",
+        "object_ids": [],
+        "setting": "giant hall",
+        "causal_link": "previous narrated event",
+        "visual_intent": "Thrym holds the hammer away in one hand while extending his other hand toward Freyja, demanding marriage; Freyja stands at a distance, tense and unwilling",
+        "must_show": [
+          "Giant gesturing a marriage demand toward Freyja",
+          "Giant keeps hammer out of her reach",
+          "Norse hall fragment"
+        ],
+        "must_not_show": [
+          "wedding already taking place",
+          "Freyja smiling in agreement"
+        ],
+        "role": "interaction",
+        "criticality": "P0",
+        "confidence": 1,
+        "concept": {
+          "subject": "Thrym",
+          "action": "Thrym holds the hammer away in one hand while extending his other hand toward Freyja, demanding marriage; Freyja stands at a distance, tense and unwilling",
+          "important_objects": [],
+          "setting": "giant hall",
+          "emotion": "mythic comic tension",
+          "state_change": "giant holds hammer",
+          "state_before": "As established by the previous event; no later action yet",
+          "state_after": "giant holds hammer",
+          "location": "giant hall",
+          "narrative_significance": "demand",
+          "visual_focus": "Thrym holds the hammer away in one hand while extending his other hand toward Freyja, demanding marriage; Freyja stands at a distance, tense and unwilling",
+          "description": "Thrym holds the hammer away in one hand while extending his other hand toward Freyja, demanding marriage; Freyja stands at a distance, tense and unwilling. One coherent premium editorial illustration, muted natural colors, clean bold silhouettes, lightly textured painted detail, readable phone-scale relationships; centered scene fragment with spacious light warm-gray margins, no lettering or borders.",
+          "identity_ids": [
+            "Thrym",
+            "Freyja"
+          ],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": "Thrym demanded"
+      },
+      {
+        "beat_id": "thor-04-refusal",
+        "section_id": "s2",
+        "narration_excerpt": "but she refused the giant's proposal.",
+        "event_type": "refusal",
+        "actor_ids": [
+          "Freyja",
+          "Thrym"
+        ],
+        "verb": "refusal",
+        "object_ids": [],
+        "setting": "giant hall",
+        "causal_link": "previous narrated event",
+        "visual_intent": "Freyja turns her body away from Thrym, one palm firmly raised in refusal, brows furious; he recoils from her unmistakable rejection",
+        "must_show": [
+          "Freyja visibly turning away with rejecting palm",
+          "Angry refusing expression",
+          "Thrym visibly receives rejection"
+        ],
+        "must_not_show": [
+          "neutral portrait",
+          "acceptance",
+          "Thor"
+        ],
+        "role": "reaction",
+        "criticality": "P0",
+        "confidence": 1,
+        "concept": {
+          "subject": "Freyja",
+          "action": "Freyja turns her body away from Thrym, one palm firmly raised in refusal, brows furious; he recoils from her unmistakable rejection",
+          "important_objects": [],
+          "setting": "giant hall",
+          "emotion": "mythic comic tension",
+          "state_change": "Freyja refuses; giant retains hammer",
+          "state_before": "As established by the previous event; no later action yet",
+          "state_after": "Freyja refuses; giant retains hammer",
+          "location": "giant hall",
+          "narrative_significance": "refusal",
+          "visual_focus": "Freyja turns her body away from Thrym, one palm firmly raised in refusal, brows furious; he recoils from her unmistakable rejection",
+          "description": "Freyja turns her body away from Thrym, one palm firmly raised in refusal, brows furious; he recoils from her unmistakable rejection. One coherent premium editorial illustration, muted natural colors, clean bold silhouettes, lightly textured painted detail, readable phone-scale relationships; centered scene fragment with spacious light warm-gray margins, no lettering or borders.",
+          "identity_ids": [
+            "Freyja",
+            "Thrym"
+          ],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": "refused"
+      },
+      {
+        "beat_id": "thor-05-plan",
+        "section_id": "s3",
+        "narration_excerpt": "Loki devised a plan for Thor to dress as Freyja in a bridal gown and veil to infiltrate the giant's palace.",
+        "event_type": "plan",
+        "actor_ids": [
+          "Loki",
+          "Thor"
+        ],
+        "verb": "plan",
+        "object_ids": [],
+        "setting": "Norse preparation room",
+        "causal_link": "previous narrated event",
+        "visual_intent": "Loki holds up a full ivory bridal gown and elaborate veil toward skeptical furious Thor, who still wears a Norse tunic and folds his arms; both examine the costume",
+        "must_show": [
+          "Loki physically presenting gown and veil to Thor",
+          "Skeptical Thor in base tunic",
+          "Both interact with visible costume"
+        ],
+        "must_not_show": [
+          "Thor already at banquet",
+          "modern suit",
+          "hammer"
+        ],
+        "role": "interaction",
+        "criticality": "P0",
+        "confidence": 1,
+        "concept": {
+          "subject": "Loki",
+          "action": "Loki holds up a full ivory bridal gown and elaborate veil toward skeptical furious Thor, who still wears a Norse tunic and folds his arms; both examine the costume",
+          "important_objects": [],
+          "setting": "Norse preparation room",
+          "emotion": "mythic comic tension",
+          "state_change": "Thor base tunic; Loki presents disguise proposal",
+          "state_before": "As established by the previous event; no later action yet",
+          "state_after": "Thor base tunic; Loki presents disguise proposal",
+          "location": "Norse preparation room",
+          "narrative_significance": "plan",
+          "visual_focus": "Loki holds up a full ivory bridal gown and elaborate veil toward skeptical furious Thor, who still wears a Norse tunic and folds his arms; both examine the costume",
+          "description": "Loki holds up a full ivory bridal gown and elaborate veil toward skeptical furious Thor, who still wears a Norse tunic and folds his arms; both examine the costume. One coherent premium editorial illustration, muted natural colors, clean bold silhouettes, lightly textured painted detail, readable phone-scale relationships; centered scene fragment with spacious light warm-gray margins, no lettering or borders.",
+          "identity_ids": [
+            "Loki",
+            "Thor"
+          ],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": "Loki devised"
+      },
+      {
+        "beat_id": "thor-06-disguise",
+        "section_id": "s4",
+        "narration_excerpt": "Thor reluctantly agreed to the disguise",
+        "event_type": "disguise",
+        "actor_ids": [
+          "Thor",
+          "Loki"
+        ],
+        "verb": "disguise",
+        "object_ids": [],
+        "setting": "Norse preparation room",
+        "causal_link": "previous narrated event",
+        "visual_intent": "Loki adjusts the elaborate veil while Thor awkwardly pulls on a full long ivory bridal gown over his broad body, long sleeves and skirt obvious, red beard visible under veil; clothing preparation in progress",
+        "must_show": [
+          "Thor being dressed in a full bridal gown and veil",
+          "Loki visibly adjusts bridal costume",
+          "Long ivory skirt and sleeves cover warrior clothes"
+        ],
+        "must_not_show": [
+          "token veil on warrior tunic",
+          "hammer",
+          "banquet"
+        ],
+        "role": "action_tableau",
+        "criticality": "P0",
+        "confidence": 1,
+        "concept": {
+          "subject": "Thor",
+          "action": "Loki adjusts the elaborate veil while Thor awkwardly pulls on a full long ivory bridal gown over his broad body, long sleeves and skirt obvious, red beard visible under veil; clothing preparation in progress",
+          "important_objects": [],
+          "setting": "Norse preparation room",
+          "emotion": "mythic comic tension",
+          "state_change": "Thor changes base tunic to full bridal gown",
+          "state_before": "As established by the previous event; no later action yet",
+          "state_after": "Thor changes base tunic to full bridal gown",
+          "location": "Norse preparation room",
+          "narrative_significance": "disguise",
+          "visual_focus": "Loki adjusts the elaborate veil while Thor awkwardly pulls on a full long ivory bridal gown over his broad body, long sleeves and skirt obvious, red beard visible under veil; clothing preparation in progress",
+          "description": "Loki adjusts the elaborate veil while Thor awkwardly pulls on a full long ivory bridal gown over his broad body, long sleeves and skirt obvious, red beard visible under veil; clothing preparation in progress. One coherent premium editorial illustration, muted natural colors, clean bold silhouettes, lightly textured painted detail, readable phone-scale relationships; centered scene fragment with spacious light warm-gray margins, no lettering or borders.",
+          "identity_ids": [
+            "Thor",
+            "Loki"
+          ],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": null
+      },
+      {
+        "beat_id": "thor-07-arrival",
+        "section_id": "s4",
+        "narration_excerpt": "and traveled to the giant's home to reclaim his property.",
+        "event_type": "arrival",
+        "actor_ids": [
+          "Thor",
+          "Loki",
+          "Thrym"
+        ],
+        "verb": "arrival",
+        "object_ids": [],
+        "setting": "giant wedding hall entrance",
+        "causal_link": "previous narrated event",
+        "visual_intent": "Thor in full ivory bridal gown and elaborate veil walks through the carved wooden entrance of the giant wedding hall, Loki escorts him, Thrym welcomes them from inside; garlands and benches establish wedding",
+        "must_show": [
+          "Disguised Thor physically entering giant wedding hall",
+          "Loki escorts bride",
+          "Giant welcoming them inside hall"
+        ],
+        "must_not_show": [
+          "Thor unveiled",
+          "hammer in Thor hand"
+        ],
+        "role": "location",
+        "criticality": "P0",
+        "confidence": 1,
+        "concept": {
+          "subject": "Thor",
+          "action": "Thor in full ivory bridal gown and elaborate veil walks through the carved wooden entrance of the giant wedding hall, Loki escorts him, Thrym welcomes them from inside; garlands and benches establish wedding",
+          "important_objects": [],
+          "setting": "giant wedding hall entrance",
+          "emotion": "mythic comic tension",
+          "state_change": "Thor veiled bride; giant retains hammer offscreen",
+          "state_before": "As established by the previous event; no later action yet",
+          "state_after": "Thor veiled bride; giant retains hammer offscreen",
+          "location": "giant wedding hall entrance",
+          "narrative_significance": "arrival",
+          "visual_focus": "Thor in full ivory bridal gown and elaborate veil walks through the carved wooden entrance of the giant wedding hall, Loki escorts him, Thrym welcomes them from inside; garlands and benches establish wedding",
+          "description": "Thor in full ivory bridal gown and elaborate veil walks through the carved wooden entrance of the giant wedding hall, Loki escorts him, Thrym welcomes them from inside; garlands and benches establish wedding. One coherent premium editorial illustration, muted natural colors, clean bold silhouettes, lightly textured painted detail, readable phone-scale relationships; centered scene fragment with spacious light warm-gray margins, no lettering or borders.",
+          "identity_ids": [
+            "Thor",
+            "Loki",
+            "Thrym"
+          ],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": "traveled"
+      },
+      {
+        "beat_id": "thor-08-eating",
+        "section_id": "s5",
+        "narration_excerpt": "During the wedding dinner, Thor consumed an entire ox, eight salmon, and three barrels of mead.",
+        "event_type": "eating",
+        "actor_ids": [
+          "Thor",
+          "Thrym",
+          "Loki"
+        ],
+        "verb": "eating",
+        "object_ids": [],
+        "setting": "giant wedding banquet",
+        "causal_link": "previous narrated event",
+        "visual_intent": "At the wedding banquet, red-bearded Thor in full ivory bridal gown and veil sits at a long timber table and actively bites a huge piece of roast meat, heaped roasted ox and whole salmon dominate foreground, three mead barrels beside table; huge Thrym leans back astonished while Loki watches anxiously",
+        "must_show": [
+          "Thor actively eating at food-filled wedding table",
+          "Full bridal gown and veil clearly visible",
+          "Roasted ox, whole salmon and mead barrels present",
+          "Thrym astonished at enormous appetite"
+        ],
+        "must_not_show": [
+          "standing portrait",
+          "empty banquet",
+          "hammer"
+        ],
+        "role": "action_tableau",
+        "criticality": "P0",
+        "confidence": 1,
+        "concept": {
+          "subject": "Thor",
+          "action": "At the wedding banquet, red-bearded Thor in full ivory bridal gown and veil sits at a long timber table and actively bites a huge piece of roast meat, heaped roasted ox and whole salmon dominate foreground, three mead barrels beside table; huge Thrym leans back astonished while Loki watches anxiously",
+          "important_objects": [],
+          "setting": "giant wedding banquet",
+          "emotion": "mythic comic tension",
+          "state_change": "Thor remains fully disguised; hammer absent",
+          "state_before": "As established by the previous event; no later action yet",
+          "state_after": "Thor remains fully disguised; hammer absent",
+          "location": "giant wedding banquet",
+          "narrative_significance": "eating",
+          "visual_focus": "At the wedding banquet, red-bearded Thor in full ivory bridal gown and veil sits at a long timber table and actively bites a huge piece of roast meat, heaped roasted ox and whole salmon dominate foreground, three mead barrels beside table; huge Thrym leans back astonished while Loki watches anxiously",
+          "description": "At the wedding banquet, red-bearded Thor in full ivory bridal gown and veil sits at a long timber table and actively bites a huge piece of roast meat, heaped roasted ox and whole salmon dominate foreground, three mead barrels beside table; huge Thrym leans back astonished while Loki watches anxiously. One coherent premium editorial illustration, muted natural colors, clean bold silhouettes, lightly textured painted detail, readable phone-scale relationships; centered scene fragment with spacious light warm-gray margins, no lettering or borders.",
+          "identity_ids": [
+            "Thor",
+            "Thrym",
+            "Loki"
+          ],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": "consumed"
+      },
+      {
+        "beat_id": "thor-09-explanation",
+        "section_id": "s6",
+        "narration_excerpt": "Loki explained the bride's massive appetite by claiming she had not eaten for eight days due to wedding excitement.",
+        "event_type": "explanation",
+        "actor_ids": [
+          "Loki",
+          "Thrym",
+          "Thor"
+        ],
+        "verb": "explanation",
+        "object_ids": [],
+        "setting": "giant wedding banquet",
+        "causal_link": "previous narrated event",
+        "visual_intent": "Loki leans urgently toward suspicious Thrym at the wedding table, open explanatory hand pointing toward the bride while speaking; Thrym raises one doubtful eyebrow; veiled Thor still seated by remnants of the enormous feast",
+        "must_show": [
+          "Loki visibly explaining to suspicious giant at table",
+          "Giant reacts doubtfully",
+          "Veiled bride and feast remnants remain in context"
+        ],
+        "must_not_show": [
+          "modern suit",
+          "solo Loki portrait",
+          "hammer in Thor hand"
+        ],
+        "role": "interaction",
+        "criticality": "P0",
+        "confidence": 1,
+        "concept": {
+          "subject": "Loki",
+          "action": "Loki leans urgently toward suspicious Thrym at the wedding table, open explanatory hand pointing toward the bride while speaking; Thrym raises one doubtful eyebrow; veiled Thor still seated by remnants of the enormous feast",
+          "important_objects": [],
+          "setting": "giant wedding banquet",
+          "emotion": "mythic comic tension",
+          "state_change": "Thor still veiled; Loki deflects suspicion",
+          "state_before": "As established by the previous event; no later action yet",
+          "state_after": "Thor still veiled; Loki deflects suspicion",
+          "location": "giant wedding banquet",
+          "narrative_significance": "explanation",
+          "visual_focus": "Loki leans urgently toward suspicious Thrym at the wedding table, open explanatory hand pointing toward the bride while speaking; Thrym raises one doubtful eyebrow; veiled Thor still seated by remnants of the enormous feast",
+          "description": "Loki leans urgently toward suspicious Thrym at the wedding table, open explanatory hand pointing toward the bride while speaking; Thrym raises one doubtful eyebrow; veiled Thor still seated by remnants of the enormous feast. One coherent premium editorial illustration, muted natural colors, clean bold silhouettes, lightly textured painted detail, readable phone-scale relationships; centered scene fragment with spacious light warm-gray margins, no lettering or borders.",
+          "identity_ids": [
+            "Loki",
+            "Thrym",
+            "Thor"
+          ],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": "Loki explained"
+      },
+      {
+        "beat_id": "thor-10-handoff",
+        "section_id": "s7",
+        "narration_excerpt": "During the ceremony, Thrym ordered Mjölnir to be placed in the bride's lap to bless the union.",
+        "event_type": "handoff",
+        "actor_ids": [
+          "Thrym",
+          "Thor"
+        ],
+        "verb": "handoff",
+        "object_ids": [],
+        "setting": "giant wedding ceremony",
+        "causal_link": "previous narrated event",
+        "visual_intent": "Thrym carefully lowers the short-handled engraved dark iron hammer onto the lap of seated Thor in ivory bridal gown and full veil, giant hands still presenting the hammer, Thor hands waiting beside it; wedding garlands and timber hall visible",
+        "must_show": [
+          "Giant physically placing Mjölnir in veiled bride lap",
+          "Hammer visibly contacts bridal skirt",
+          "Thor remains veiled and does not yet raise hammer"
+        ],
+        "must_not_show": [
+          "floating hammer",
+          "Thor already revealed",
+          "battle"
+        ],
+        "role": "interaction",
+        "criticality": "P0",
+        "confidence": 1,
+        "concept": {
+          "subject": "Thrym",
+          "action": "Thrym carefully lowers the short-handled engraved dark iron hammer onto the lap of seated Thor in ivory bridal gown and full veil, giant hands still presenting the hammer, Thor hands waiting beside it; wedding garlands and timber hall visible",
+          "important_objects": [
+            "Mjölnir"
+          ],
+          "setting": "giant wedding ceremony",
+          "emotion": "mythic comic tension",
+          "state_change": "giant transfers hammer to veiled bride lap; Thor not yet seizing",
+          "state_before": "As established by the previous event; no later action yet",
+          "state_after": "giant transfers hammer to veiled bride lap; Thor not yet seizing",
+          "location": "giant wedding ceremony",
+          "narrative_significance": "handoff",
+          "visual_focus": "Thrym carefully lowers the short-handled engraved dark iron hammer onto the lap of seated Thor in ivory bridal gown and full veil, giant hands still presenting the hammer, Thor hands waiting beside it; wedding garlands and timber hall visible",
+          "description": "Thrym carefully lowers the short-handled engraved dark iron hammer onto the lap of seated Thor in ivory bridal gown and full veil, giant hands still presenting the hammer, Thor hands waiting beside it; wedding garlands and timber hall visible. One coherent premium editorial illustration, muted natural colors, clean bold silhouettes, lightly textured painted detail, readable phone-scale relationships; centered scene fragment with spacious light warm-gray margins, no lettering or borders.",
+          "identity_ids": [
+            "Thrym",
+            "Thor"
+          ],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": "placed"
+      },
+      {
+        "beat_id": "thor-11-grab",
+        "section_id": "s8",
+        "narration_excerpt": "Thor immediately grabbed the hammer,",
+        "event_type": "grab",
+        "actor_ids": [
+          "Thor"
+        ],
+        "verb": "grab",
+        "object_ids": [],
+        "setting": "giant wedding ceremony",
+        "causal_link": "previous narrated event",
+        "visual_intent": "Tight medium view of red-bearded Thor still under bridal veil, one muscular hand closes tightly around the short leather-wrapped hammer handle resting across his bridal lap; engraved iron head and firm hand contact are unmistakable",
+        "must_show": [
+          "Thor hand visibly gripping hammer handle",
+          "Hammer still across ivory bridal lap",
+          "Veil remains in place"
+        ],
+        "must_not_show": [
+          "floating separate hammer",
+          "veil already removed",
+          "battle"
+        ],
+        "role": "object_detail",
+        "criticality": "P0",
+        "confidence": 1,
+        "concept": {
+          "subject": "Thor",
+          "action": "Tight medium view of red-bearded Thor still under bridal veil, one muscular hand closes tightly around the short leather-wrapped hammer handle resting across his bridal lap; engraved iron head and firm hand contact are unmistakable",
+          "important_objects": [
+            "Mjölnir"
+          ],
+          "setting": "giant wedding ceremony",
+          "emotion": "mythic comic tension",
+          "state_change": "Thor seizes hammer; veil still on",
+          "state_before": "As established by the previous event; no later action yet",
+          "state_after": "Thor seizes hammer; veil still on",
+          "location": "giant wedding ceremony",
+          "narrative_significance": "grab",
+          "visual_focus": "Tight medium view of red-bearded Thor still under bridal veil, one muscular hand closes tightly around the short leather-wrapped hammer handle resting across his bridal lap; engraved iron head and firm hand contact are unmistakable",
+          "description": "Tight medium view of red-bearded Thor still under bridal veil, one muscular hand closes tightly around the short leather-wrapped hammer handle resting across his bridal lap; engraved iron head and firm hand contact are unmistakable. One coherent premium editorial illustration, muted natural colors, clean bold silhouettes, lightly textured painted detail, readable phone-scale relationships; centered scene fragment with spacious light warm-gray margins, no lettering or borders.",
+          "identity_ids": [
+            "Thor"
+          ],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": "grabbed"
+      },
+      {
+        "beat_id": "thor-12-reveal",
+        "section_id": "s8",
+        "narration_excerpt": "ripped off his disguise,",
+        "event_type": "reveal",
+        "actor_ids": [
+          "Thor",
+          "Thrym"
+        ],
+        "verb": "reveal",
+        "object_ids": [],
+        "setting": "giant wedding ceremony",
+        "causal_link": "previous narrated event",
+        "visual_intent": "Thor rises abruptly from the wedding seat, gripping the engraved hammer in his right hand while his left hand tears the elaborate veil away from his red-bearded face; torn ivory gown hangs from muscular frame, Thrym recoils in shocked recognition",
+        "must_show": [
+          "Thor physically pulling veil away",
+          "Revealed red-bearded face",
+          "Hammer gripped firmly",
+          "Giant shocked by reveal"
+        ],
+        "must_not_show": [
+          "unchanged veiled portrait",
+          "hammer in giant hand"
+        ],
+        "role": "reveal",
+        "criticality": "P0",
+        "confidence": 1,
+        "concept": {
+          "subject": "Thor",
+          "action": "Thor rises abruptly from the wedding seat, gripping the engraved hammer in his right hand while his left hand tears the elaborate veil away from his red-bearded face; torn ivory gown hangs from muscular frame, Thrym recoils in shocked recognition",
+          "important_objects": [
+            "Mjölnir"
+          ],
+          "setting": "giant wedding ceremony",
+          "emotion": "mythic comic tension",
+          "state_change": "Thor removes veil; hammer in Thor hand",
+          "state_before": "As established by the previous event; no later action yet",
+          "state_after": "Thor removes veil; hammer in Thor hand",
+          "location": "giant wedding ceremony",
+          "narrative_significance": "reveal",
+          "visual_focus": "Thor rises abruptly from the wedding seat, gripping the engraved hammer in his right hand while his left hand tears the elaborate veil away from his red-bearded face; torn ivory gown hangs from muscular frame, Thrym recoils in shocked recognition",
+          "description": "Thor rises abruptly from the wedding seat, gripping the engraved hammer in his right hand while his left hand tears the elaborate veil away from his red-bearded face; torn ivory gown hangs from muscular frame, Thrym recoils in shocked recognition. One coherent premium editorial illustration, muted natural colors, clean bold silhouettes, lightly textured painted detail, readable phone-scale relationships; centered scene fragment with spacious light warm-gray margins, no lettering or borders.",
+          "identity_ids": [
+            "Thor",
+            "Thrym"
+          ],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": "ripped"
+      },
+      {
+        "beat_id": "thor-13-confrontation",
+        "section_id": "s8",
+        "narration_excerpt": "and killed Thrym and the gathered giants.",
+        "event_type": "confrontation",
+        "actor_ids": [
+          "Thor",
+          "Thrym"
+        ],
+        "verb": "confrontation",
+        "object_ids": [],
+        "setting": "wrecked giant wedding hall",
+        "causal_link": "previous narrated event",
+        "visual_intent": "Non-graphic mythic confrontation: unveiled red-bearded Thor in torn ivory bridal gown swings his short-handled iron hammer toward Thrym, giant falling backward amid overturned wedding benches and fleeing giant silhouettes; clear action pose, no blood or gore",
+        "must_show": [
+          "Unveiled Thor actively swinging hammer",
+          "Thrym falling back defeated",
+          "Overturned wedding benches and retreating giants"
+        ],
+        "must_not_show": [
+          "static portrait",
+          "blood",
+          "graphic injury"
+        ],
+        "role": "action_tableau",
+        "criticality": "P0",
+        "confidence": 1,
+        "concept": {
+          "subject": "Thor",
+          "action": "Non-graphic mythic confrontation: unveiled red-bearded Thor in torn ivory bridal gown swings his short-handled iron hammer toward Thrym, giant falling backward amid overturned wedding benches and fleeing giant silhouettes; clear action pose, no blood or gore",
+          "important_objects": [
+            "Mjölnir"
+          ],
+          "setting": "wrecked giant wedding hall",
+          "emotion": "mythic comic tension",
+          "state_change": "Thor unveiled with hammer; giants defeated",
+          "state_before": "As established by the previous event; no later action yet",
+          "state_after": "Thor unveiled with hammer; giants defeated",
+          "location": "wrecked giant wedding hall",
+          "narrative_significance": "confrontation",
+          "visual_focus": "Non-graphic mythic confrontation: unveiled red-bearded Thor in torn ivory bridal gown swings his short-handled iron hammer toward Thrym, giant falling backward amid overturned wedding benches and fleeing giant silhouettes; clear action pose, no blood or gore",
+          "description": "Non-graphic mythic confrontation: unveiled red-bearded Thor in torn ivory bridal gown swings his short-handled iron hammer toward Thrym, giant falling backward amid overturned wedding benches and fleeing giant silhouettes; clear action pose, no blood or gore. One coherent premium editorial illustration, muted natural colors, clean bold silhouettes, lightly textured painted detail, readable phone-scale relationships; centered scene fragment with spacious light warm-gray margins, no lettering or borders.",
+          "identity_ids": [
+            "Thor",
+            "Thrym"
+          ],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": "killed"
+      },
+      {
+        "beat_id": "thor-14-comic_aftermath",
+        "section_id": "s9",
+        "narration_excerpt": "Thrym had spent days preparing for a wedding, but instead invited the God of Thunder to his own funeral.",
+        "event_type": "comic_aftermath",
+        "actor_ids": [
+          "Thor",
+          "Thrym"
+        ],
+        "verb": "comic_aftermath",
+        "object_ids": [],
+        "setting": "ruined giant wedding hall",
+        "causal_link": "previous narrated event",
+        "visual_intent": "Comic aftermath of ruined wedding: Thor in torn ivory gown strides out holding reclaimed hammer, casting an exasperated look at the torn bridal veil dangling from his free hand; Thrym lies defeated non-graphically under collapsed wedding garlands and broken banquet benches, discarded wedding flowers beside him",
+        "must_show": [
+          "Thor leaving ruined wedding holding hammer and discarded veil",
+          "Defeated giant under collapsed wedding decorations",
+          "Readable absurd bridal aftermath"
+        ],
+        "must_not_show": [
+          "actual modern funeral",
+          "standing giant portrait",
+          "gore"
+        ],
+        "role": "aftermath",
+        "criticality": "P0",
+        "confidence": 1,
+        "concept": {
+          "subject": "Thor",
+          "action": "Comic aftermath of ruined wedding: Thor in torn ivory gown strides out holding reclaimed hammer, casting an exasperated look at the torn bridal veil dangling from his free hand; Thrym lies defeated non-graphically under collapsed wedding garlands and broken banquet benches, discarded wedding flowers beside him",
+          "important_objects": [
+            "Mjölnir"
+          ],
+          "setting": "ruined giant wedding hall",
+          "emotion": "mythic comic tension",
+          "state_change": "Thor leaves with hammer; wedding ruined",
+          "state_before": "As established by the previous event; no later action yet",
+          "state_after": "Thor leaves with hammer; wedding ruined",
+          "location": "ruined giant wedding hall",
+          "narrative_significance": "comic_aftermath",
+          "visual_focus": "Comic aftermath of ruined wedding: Thor in torn ivory gown strides out holding reclaimed hammer, casting an exasperated look at the torn bridal veil dangling from his free hand; Thrym lies defeated non-graphically under collapsed wedding garlands and broken banquet benches, discarded wedding flowers beside him",
+          "description": "Comic aftermath of ruined wedding: Thor in torn ivory gown strides out holding reclaimed hammer, casting an exasperated look at the torn bridal veil dangling from his free hand; Thrym lies defeated non-graphically under collapsed wedding garlands and broken banquet benches, discarded wedding flowers beside him. One coherent premium editorial illustration, muted natural colors, clean bold silhouettes, lightly textured painted detail, readable phone-scale relationships; centered scene fragment with spacious light warm-gray margins, no lettering or borders.",
+          "identity_ids": [
+            "Thor",
+            "Thrym"
+          ],
+          "secondary_ids": [],
+          "relevance": 1,
+          "narrative_importance": 1,
+          "novelty": 1,
+          "readability": 1
+        },
+        "onset_anchor": "but instead"
+      }
+    ]
+  }
+}

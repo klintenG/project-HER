@@ -5,7 +5,9 @@ randomness. The original director owns identity and subject lifetimes. This
 compiler owns readable phrases, semantic layouts, and their visual handoffs.
 """
 import re
-from .models import Beat, Bounds, Event, Layer, Phrase, frames
+from pathlib import Path
+from .models import Asset, Beat, Bounds, Event, Layer, LayerMotion, MotionElement, Phrase, digest, frames
+from . import scene_plan, cutout_style
 
 
 def chunks(words, names):
@@ -72,8 +74,12 @@ def narrative_layout(beat):
     return 'event-hero'
 
 
-def layout(kind, visuals, assets):
+def layout(kind, visuals, assets, variant=0, mirror=False):
     """Each family reserves disjoint text, asset and optional name regions."""
+    if kind in scene_plan.TEMPLATES:
+        if not visuals:return Bounds(x=90,y=620,w=900,h=580),{}
+        caption,boxes=scene_plan.geometry(kind,len(visuals),mirror=mirror,text_below=bool(variant%2))
+        return Bounds(**caption),{v.id:Bounds(**box) for v,box in zip(visuals,boxes)}
     top=Bounds(x=90,y=300,w=900,h=310)
     lower=Bounds(x=90,y=1360,w=900,h=250)
     if not visuals:return Bounds(x=90,y=620,w=900,h=580),{}
@@ -134,6 +140,7 @@ def choreograph(m,script,settings):
     names=[e.name for e in script.entities]
     storyboards={b['sentence_id']:b for b in getattr(script,'sentence_storyboard',[])}
     rows=[]
+    sentence_order={sentence.id:n for n,sentence in enumerate(script.sentences)}
     for sentence in script.sentences:
         sw=[w for w in m['words'] if w.sectionId==sentence.id]
         for span in chunks(sw,names):rows.append((sentence,span))
@@ -149,9 +156,12 @@ def choreograph(m,script,settings):
         active=[v for v in visible if v.startFrame<=start<v.endFrame]
         reserved=active or ([min(visible,key=lambda v:v.startFrame)] if visible else [])
         text=' '.join(w.text for w in span)
-        kind=narrative_layout(storyboards.get(sentence.id)) or grammar(text,sentence.role,reserved,assets,first=i==0,last=i==len(rows)-1)
+        row=storyboards.get(sentence.id) or {}
+        scene=row.get('scene_plan') or {}
+        kind=scene.get('template') or narrative_layout(row or None) or grammar(text,sentence.role,reserved,assets,first=i==0,last=i==len(rows)-1)
+        scene_mirror=bool(scene.get('mirror'));scene_variant=sentence_order[sentence.id]
         if kind=='portrait-event' and len(visible)>1:kind='incremental-claim'
-        box,_=layout(kind,reserved,assets)
+        box,_=layout(kind,reserved,assets,scene_variant,scene_mirror)
         ids=[w.id for w in span]
         size=140 if kind=='timeline-date' and len(span)<=2 else 106
         lines,px=phrase_layout(ids,m['words'],box.w,size,box.h)
@@ -167,7 +177,7 @@ def choreograph(m,script,settings):
         for j,at in enumerate(boundaries):
             until=boundaries[j+1] if j+1<len(boundaries) else end
             live=[v for v in visuals if v.startFrame<=at<v.endFrame]
-            _,targets=layout(kind,live,assets)
+            _,targets=layout(kind,live,assets,scene_variant,scene_mirror)
             # Side-by-side pressure and resistance have a visible spatial
             # consequence; these are symbolic relations, not battle footage.
             for v in live:
@@ -186,6 +196,28 @@ def choreograph(m,script,settings):
                       'textBounds':box.model_dump(),'timingProvenance':sorted({w.provenance for w in span}),
                       'revealErrorMs':round(abs(frames(span[0].start)/30-span[0].start)*1000,3),
                       'readabilityWarning':(end-start)/30<.7})
+    # Scene motion: each story cutout gets an entrance, drift, scale/tilt and exit chosen from its beat
+    # type; multi-piece compositions animate their pieces with staggered, depth-weighted parallax.
+    scenes={r.get('primary_entity_id'):r['scene_plan'] for r in storyboards.values() if r.get('scene_plan')}
+    for v in visuals:
+        scene=scenes.get(v.entityId)
+        if not scene or v.parentId or v.role not in ('subject','object'):continue
+        parent=assets[v.assetId];elements=[]
+        for k,piece in enumerate(cutout_style.read_elements(parent.path)):
+            part_id=f'{parent.id}-element-{k}'
+            if part_id not in assets:
+                part_path=Path(piece['path'])
+                if not part_path.is_file():continue
+                assets[part_id]=Asset(id=part_id,entityId=parent.entityId,path=str(part_path),originalPath=parent.originalPath,role='object',subject=parent.subject,
+                    source=parent.source,license=parent.license,attribution=parent.attribution,width=piece['width'],height=piece['height'],alpha=True,factual=False,
+                    confidence=parent.confidence,preparation='trimmed_alpha',fallback=parent.fallback or 'Generated element of an illustrative scene',sha256=digest(part_path))
+                m['assets'].append(assets[part_id])
+            # Stagger by reading order (left to right), larger pieces first for a clear hero hierarchy.
+            elements.append(MotionElement(assetId=part_id,x=piece['x'],y=piece['y'],w=piece['w'],h=piece['h'],
+                depth=min(1,max(0,.35+piece['share']*-.6+(.3 if k else 0))),delayFrames=min(60,k*5)))
+        v.motion=LayerMotion(**scene['motion'],elements=elements)
+    m['diagnostics']['sceneMotion']=[{'layer':v.id,'beatType':scenes[v.entityId]['beat_type'],'template':scenes[v.entityId]['template'],
+        'entrance':v.motion.entrance,'elements':len(v.motion.elements)} for v in visuals if v.motion]
     # Names remain optional identification. Source type, licenses, reconstruction
     # notices and all original asset fields remain in the manifest/credits.
     from .director import should_render_label
@@ -210,3 +242,5 @@ def choreograph(m,script,settings):
     m['diagnostics']['referenceStoryboard']={'version':2,'timeUnit':'absolute frames','fps':30,'beats':audit,
         'estimatedWordIds':estimated,'grammarCount':len({r['grammar'] for r in audit}),
         'warnings':['Review supplied illustrations for historical accuracy; choreography does not authenticate assets.']}
+    from .shot_direction import direct
+    direct(m,script,settings)

@@ -1196,3 +1196,11 @@ CUTOUT_MATTE_REPAIR = os.getenv('HER_CUTOUT_MATTE_REPAIR','0').lower() in ('1','
 SENTENCE_PRIMARY_VISUALS = os.getenv('HER_SENTENCE_PRIMARY_VISUALS', '1').lower() in ('1','true','yes')
 PERF_DIAGNOSTICS = os.getenv('PROJECTHER_PERF_DIAGNOSTICS', '1').lower() in ('1','true','yes')
 DIAGNOSTICS_RUNS_DIR = BASE_DIR / 'diagnostics' / 'runs'
+
+# Event semantics supersede sentence-only visuals within reference_editorial.
+# Disable to roll back without changing News/story/export contracts.
+EVENT_STORYBOARD_ENABLED = os.getenv("HER_EVENT_STORYBOARD_ENABLED", "1").lower() in ("1", "true", "yes")
+# The semantic planner uses a text model; image models belong to the separate
+# event-image setting below. Keep provider/model overrides under operator control.
+EDITORIAL_EVENT_MODEL = os.getenv("HER_EDITORIAL_EVENT_MODEL", GEMINI_MODEL)
+EDITORIAL_EVENT_IMAGE_MODEL = os.getenv("HER_EDITORIAL_EVENT_IMAGE_MODEL", "google/nano-banana-pro")
