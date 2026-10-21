@@ -39,7 +39,7 @@ LLM_PROVIDER = os.getenv("LLM_PROVIDER", "gemini")
 
 # ── Google Gemini AI Settings ─────────────────────────
 GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/"
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite")
 
 # ── Groq AI Settings ──────────────────────────────────
 GROQ_BASE_URL = "https://api.groq.com/openai/v1"
