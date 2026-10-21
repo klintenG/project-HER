@@ -146,7 +146,7 @@ def direct(m, script, visual_settings, settings=None):
             box=Bounds(**placements[layer.id][0]['bounds'])
             asset=assets[layer.assetId]
             generated=not asset.factual and not asset.alpha and asset.preparation=='rectangle'
-            if generated:raise ValueError(f'{sid}: generated story asset {asset.id} has no alpha; refusing rectangular scene-card fallback')
+            if generated:raise ValueError(f'{sid}: generated story asset {asset.id} has no alpha; rectangular scene-card fallback is prohibited')
             documentary=asset.factual or asset.role in ('photo','map','document')
             if not cfg.allowDocumentaryFrames and documentary and not asset.alpha:
                 raise ValueError(f'{sid}: documentary frames disabled; choose an alpha asset or enable documentary frames')

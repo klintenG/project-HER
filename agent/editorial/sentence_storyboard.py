@@ -215,6 +215,10 @@ def direction(script):
     cues=[]
     for sentence,beat in zip(script.sentences,script.sentence_storyboard):
         start=anchor_index(sentence.text,beat['onset_anchor']) if beat.get('onset_anchor') else 0
+        if start is None and beat.get('onset_anchor'):
+            from .event_storyboard import realign_onset_anchor
+            aligned=realign_onset_anchor(sentence.text,beat['onset_anchor'])
+            start=anchor_index(sentence.text,aligned) if aligned else None
         if start is None:raise NewsError('Visual onset anchor is not in approved narration')
         cues.append(Cue(sectionId=sentence.id,startWord=start,endWord=len(sentence.text.split()),phrase=' '.join(sentence.text.split()[start:]),
             primaryEntityId=beat['primary_entity_id'],secondaryEntityIds=beat['secondary_entity_ids'],relationship='event'))

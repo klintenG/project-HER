@@ -2,6 +2,7 @@
 from __future__ import annotations
 from agent.branding import output_frames
 import json
+import os
 import time
 import uuid
 import threading
@@ -71,6 +72,33 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
         stage=name;phase=time.monotonic();tracker.start_stage(stage,message)
     try:
         tracker.start_stage(stage);check_configuration(renderer,video_format,subtitle_mode,asset_mode)
+        # Exact-request checkpoints stop a failed media job becoming another
+        # set of image charges when the user presses Generate again.
+        from .image_recovery import request_fingerprint
+        request_key=request_fingerprint(text,source_policy=source_policy,tone=tone,language=language,duration=target_duration,voice=voice,tts=tts_provider,speed=speed,music=music,music_path=str(music_path),subtitles=subtitle_mode,asset_mode=asset_mode)
+        previous_job=None
+        if output_dir is None and config.IMAGE_FAILURE_POLICY=='deliver_with_warnings':
+            candidates=sorted(config.OUTPUT_DIR.glob('editorial_*/request_checkpoint.json'),key=lambda p:p.stat().st_mtime,reverse=True)
+            for candidate in candidates:
+                try:checkpoint=json.loads(candidate.read_text())
+                except (OSError,ValueError):continue
+                prior=candidate.parent
+                if checkpoint.get('request_key')==request_key and time.time()-candidate.stat().st_mtime<=config.IMAGE_SAVED_JOB_REUSE_SECONDS and (prior/'visual_plan.json').exists() and (prior/'assets/image_prediction_ledger.json').exists() and ((prior/'editorial_failure.json').exists() or (prior/'editorial.mp4').exists() or (prior/'recovered.mp4').exists() or (prior/'recovered-cutout.mp4').exists()):
+                    previous_job=prior;break
+        (out/'request_checkpoint.json').write_text(json.dumps({'request_key':request_key},indent=2))
+        if previous_job:
+            from .recovery import recover
+            tracker.update_stage(stage,detail='Recovering saved images and narration; no new generation calls')
+            video=next((p for p in (previous_job/'recovered-cutout.mp4',previous_job/'recovered.mp4',previous_job/'editorial.mp4') if p.is_file() and p.stat().st_size>0),None)
+            if video is not None:
+                saved_manifest=next((p for p in (previous_job/'recovered_manifest.json',previous_job/'editorial_manifest.json') if p.exists()),None)
+                if saved_manifest and saved_manifest.stat().st_mtime>video.stat().st_mtime:video=None
+            if video is None:
+                recover(previous_job)
+                video=previous_job/'recovered.mp4'
+            from agent.news_audio import probe_duration
+            total_span.__exit__(None,None,None)
+            return PipelineResult(success=True,video_path=video,srt_path=previous_job/('recovered-subtitles.srt' if video.name.startswith('recovered') else 'subtitles.srt'),duration=probe_duration(video),resolution='1080x1920',video_format='vertical',processing_time=time.monotonic()-started,content_type='news',theme='reference_editorial',news_details={'status':'ready','visual_quality':'needs_review','output_dir':str(previous_job),'recovered':True,'paid_generation_requests':0,'warnings':['Recovered saved artwork; semantic quality warnings remain in quality_report.json.']})
         supplied_llm=llm is not None
         llm=llm or NewsLLM();inp=trace.call('input_fetch_and_extract',analyze_input,text,source_policy,llm,diagnostics_path=out/'input_classification.json')
         begin('research');evidence,warnings=trace.call('research',research,inp,llm)
@@ -90,21 +118,32 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
         begin('media','Planning narrative visuals and generating narration')
         def speech():
             speech_started=time.monotonic()
-            try:return trace.call('TTS_generation',synthesize,approved_script,out,tts_provider or config.TTS_PROVIDER,voice,speed,tts_engine,pause=0,language=language,cancel_event=cancel_event,diagnostic_sink=narration_settings)
+            try:
+                result=trace.call('TTS_generation',synthesize,approved_script,out,tts_provider or config.TTS_PROVIDER,voice,speed,tts_engine,pause=0,language=language,cancel_event=cancel_event,diagnostic_sink=narration_settings)
+                (out/'narration_checkpoint.json').write_text(result.model_dump_json(indent=2))
+                return result
             finally:media_timings['actualSpeechSeconds']=round(time.monotonic()-speech_started,3)
-        # The approved narration is immutable under visual planning. Start TTS
-        # while the optional visual LLM decides which cutouts are needed.
+        # Reserve the complete plan before submitting paid narration or images.
         speech_pool=ThreadPoolExecutor(max_workers=1) if config.PARALLEL_ASSET_PIPELINE_V2 else None
-        speech_future=speech_pool.submit(speech) if speech_pool else None
+        speech_future=None
         visual_diagnostics={}
         # Local registries intentionally specify every supplied subject; they
         # retain the script plan instead of adding unregistered illustrations.
         visual_started=time.monotonic()
         script,cues=trace.call('semantic_beat_planning',event_storyboard.plan if event_enabled else storyboard.plan if strict else plan_visuals,script,evidence,(llm if supplied_llm or not event_enabled else NewsLLM(provider='gemini',model=config.EDITORIAL_EVENT_MODEL)) if strict or asset_mode!='local' else None,visual_diagnostics)
+        from .image_policy import enabled
+        if enabled('IMAGE_ASSET_PLANNER_ENABLED') and asset_mode != 'local':
+            from .asset_planner import finalize
+            allow_overrun = os.getenv('PROJECTHER_ALLOW_ASSET_OVERRUN', 'false').lower() in ('true', '1', 'yes')
+            script.asset_generation_plan=trace.call('asset_generation_planning',finalize,script,out,not allow_overrun)
         timings['semantic_beat_planning']=round(time.monotonic()-visual_started,3)
-        if event_enabled:(out/'event_plan.json').write_text(json.dumps(script.event_plan,ensure_ascii=False,indent=2))
+        if event_enabled:
+            (out/'event_plan.json').write_text(json.dumps(script.event_plan,ensure_ascii=False,indent=2))
+            from . import quality_artifacts
+            quality_artifacts.write(out,script)
         if strict:(out/'sentence_storyboard.json').write_text(json.dumps(script.sentence_storyboard,ensure_ascii=False,indent=2))
         (out/'visual_plan.json').write_text(json.dumps({'script':script.model_dump(),'sections':cues,'diagnostics':visual_diagnostics},ensure_ascii=False,indent=2))
+        speech_future=speech_pool.submit(speech) if speech_pool else None
         tracker.update_stage('media',detail='Generating narration and sourcing cutouts together')
         # Remote speech and cutout sourcing are independent after the approved
         # visual script. Finish cutouts before loading Whisper for alignment so
@@ -123,6 +162,9 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
         align_started=time.monotonic()
         raw,words,sections,diagnostics=trace.call('word_forced_alignment',prepare_existing,approved_script if event_enabled else script,audio,out/'audio',code)
         if event_enabled:words,sections=event_storyboard.bind_audio(script,words)
+        if script.asset_generation_plan:
+            from .asset_planner import bind_timing
+            bind_timing(script.asset_generation_plan,words,out)
         timings['word_forced_alignment']=round(time.monotonic()-align_started,3)
         if getattr(script,'narrative_plan',None):
             script.narrative_plan.bind_audio(words).validate_script(script)
@@ -154,9 +196,13 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
         # for inspection without a redundant LLM layout request in this mode.
         plan=trace.call('timeline_planning',semantic_plan,script,None if direction is not None else llm,diagnostics=diagnostics);(out/'semantic_plan.json').write_text(json.dumps(plan,indent=2))
         m=build(script,words,sections,entities,assets,mix,out,generation,diagnostics,plan,subtitle_mode,visual_cues=cues,direction=direction,visual_settings=visual_settings)
+        from .typography import integrate as integrate_typography
+        m=integrate_typography(m,script)
         if event_enabled:
             event_qc=event_storyboard.save_report(script,assets,asset_diagnostics.get('assetAcquisition',{}),words,out,m)
             m.diagnostics['eventQuality']=event_qc['metrics']
+            quality_artifacts.write(out,script,assets,asset_diagnostics.get('assetAcquisition',{}),event_qc)
+            quality_artifacts.enforce(event_qc)
             if not event_qc['metrics']['acceptance_passed']:
                 m.warnings.append('Critical event visuals need review; event_edl.json records failed or unverified requirements. This render is not approved for publication.')
         if strict and not event_enabled:
@@ -176,8 +222,14 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
         render_started=time.monotonic()
         video,stats=trace.call('render_and_delivery',render,m,out/'editorial.mp4',cancel_event,trace=trace)
         if event_enabled:
-            event_qc=event_storyboard.verify_rendered(script,m,video,out)
+            quality_artifacts.contact_sheet(video,out)
+            try:event_qc=event_storyboard.verify_rendered(script,m,video,out)
+            except Exception as qa_error:
+                if config.IMAGE_FAILURE_POLICY=='strict':raise
+                m.warnings.append('Encoded visual QA unavailable; video retained: '+type(qa_error).__name__)
             m.diagnostics['eventQuality']=event_qc['metrics']
+            quality_artifacts.write(out,script,assets,asset_diagnostics.get('assetAcquisition',{}),event_qc)
+            quality_artifacts.enforce(event_qc)
             if not event_qc['metrics']['acceptance_passed']:m.warnings.append('Encoded event frames require visual review; see event_edl.json.')
         timings['Remotion_and_FFmpeg']=round(time.monotonic()-render_started,3)
         thumb=out/'thumbnail.jpg';run(['ffmpeg','-v','error','-y','-ss','1','-i',str(video),'-frames:v','1',str(thumb)])
@@ -199,6 +251,8 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
                 'narration':{'provider':audio.provider,'model':audio.model,'fallbacks':audio.fallbacks},'warnings':m.warnings,'audio':stats,
                 'event_quality':event_qc['metrics'] if event_enabled else None,'narrative_quality':diagnostics.get('narrativeQuality'),'sentence_quality':diagnostics.get('sentenceQuality')})
     except Exception as exc:
+        from . import quality_artifacts
+        quality_artifacts.write(out,locals().get('script'),locals().get('assets',()),status='failed')
         if 'visual_diagnostics' in locals():
             (out/'planning_diagnostics.json').write_text(json.dumps(visual_diagnostics,ensure_ascii=False,indent=2))
         if 'speech_pool' in locals() and speech_pool:speech_pool.shutdown(wait=True,cancel_futures=True)

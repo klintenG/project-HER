@@ -5,6 +5,7 @@ export type Asset = {
   path: string;
   originalPath: string;
   role: "portrait" | "object" | "context" | "photo" | "document" | "map" | "symbol";
+  assetRole: "ACTOR_ONLY" | "EVENT_ACTION" | "EVENT_OUTCOME" | "CONTEXT" | null;
   subject: string;
   source: string;
   license: string;

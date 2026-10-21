@@ -228,3 +228,84 @@ def portrait_fade(image):
     ramp=np.clip((image.height-np.arange(image.height))/(image.height*.13),0,1)
     image.putalpha(Image.fromarray((a*ramp[:,None]).astype('uint8')))
     return image
+
+
+def usable_cutout(image):
+    """Structural alpha check, not a semantic/anatomical quality judgment.
+
+    RGBA mode, rounded panel corners or a transparent border alone do not make
+    an image a cutout: the tight foreground box must have a nonrectangular mask.
+    """
+    if image.mode!='RGBA':return False
+    a=np.asarray(image.getchannel('A'));fg=a>32
+    coverage=float(fg.mean())
+    if not .001<coverage<.94 or float((a<8).mean())<.06:return False
+    ys,xs=np.where(fg)
+    if not len(xs):return False
+    bounded=fg[ys.min():ys.max()+1,xs.min():xs.max()+1]
+    return float(bounded.mean())<.96
+
+
+def repair_cutout(source, dest, processor=None):
+    """Recover segmentation locally without regenerating or admitting a panel.
+
+    Source-edge clipping remains a recorded quality limitation. Crop/pad makes
+    an existing irregular mask compositable; it does not reconstruct anatomy.
+    """
+    from scipy import ndimage
+    processor=processor or CutoutProcessor()
+    source,dest=Path(source),Path(dest)
+    original=ImageOps.exif_transpose(Image.open(source)).convert('RGBA')
+    repair_version='editorial-alpha-recovery-v1'
+    key=hashlib.sha256(source.read_bytes()+repair_version.encode()).hexdigest()
+    cached=Path(config.NEWS_CUTOUT_CACHE)/(key+'-repair.png')
+    if cached.exists():
+        with Image.open(cached) as im:
+            if usable_cutout(im):
+                dest.parent.mkdir(parents=True,exist_ok=True);im.save(dest);return 'cached_local_alpha_repair'
+    def finish(image,method):
+        image=image.copy().convert('RGBA')
+        a=np.asarray(image.getchannel('A')).copy()
+        # Drop isolated alpha dust while retaining multiple actors/props.
+        labels,n=ndimage.label(a>20)
+        if n:
+            counts=np.bincount(labels.ravel());counts[0]=0
+            keep=counts>=max(8,int(counts.max()*.0005))
+            a[~keep[labels]]=0
+        a[a<8]=0;image.putalpha(Image.fromarray(a))
+        if not usable_cutout(image):return None
+        box=image.getchannel('A').point(lambda v:255 if v>12 else 0).getbbox()
+        image=image.crop(box)
+        image=ImageOps.expand(image,border=max(12,round(max(image.size)*.055)),fill=(0,0,0,0))
+        if not usable_cutout(image):return None
+        dest.parent.mkdir(parents=True,exist_ok=True);cached.parent.mkdir(parents=True,exist_ok=True)
+        image.save(dest,format='PNG')
+        temporary=cached.with_name(cached.stem+'-'+uuid.uuid4().hex+'.tmp')
+        image.save(temporary,format='PNG');temporary.replace(cached)
+        return method
+    if usable_cutout(original):
+        return finish(original,'preserved_existing_alpha')
+    errors=[]
+    for model in processor.models:
+        try:
+            segmented=processor.segment(original,model).convert('RGBA')
+            result=finish(segmented,'local_segmentation_margin_repair:'+model)
+            if result:return result
+        except Exception as exc:errors.append(type(exc).__name__)
+    # Last local attempt: remove only border-connected near-neutral matte.
+    # This is appropriate for the uniform backgrounds requested by our prompt,
+    # not a reliable general-purpose semantic foreground detector.
+    rgb=np.asarray(original.convert('RGB'),dtype=float)
+    h,w=rgb.shape[:2];edge=max(1,min(h,w)//50)
+    border=np.concatenate((rgb[:edge].reshape(-1,3),rgb[-edge:].reshape(-1,3),rgb[:,:edge].reshape(-1,3),rgb[:,-edge:].reshape(-1,3)))
+    color=np.median(border,axis=0)
+    if color.max()-color.min()<35:
+        distance=np.sqrt(((rgb-color)**2).sum(axis=2))
+        eligible=(distance<55)&((rgb.max(axis=2)-rgb.min(axis=2))<42)
+        seed=np.zeros((h,w),dtype=bool);seed[0]=eligible[0];seed[-1]=eligible[-1];seed[:,0]=eligible[:,0];seed[:,-1]=eligible[:,-1]
+        background=ndimage.binary_propagation(seed,mask=eligible)
+        matte=original.copy();alpha=np.asarray(matte.getchannel('A')).copy();alpha[background]=0
+        matte.putalpha(Image.fromarray(alpha))
+        result=finish(matte,'border_connected_neutral_matte')
+        if result:return result
+    raise CutoutQualityError('No usable nonrectangular alpha mask after local recovery. Original image retained; no generation requested. '+', '.join(errors))

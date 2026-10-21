@@ -14,7 +14,7 @@ The visual failure comes from conflating a recurring entity with its current act
 - `visuals.py` and `action_beats.py`: structured semantic extraction in the existing planning call, grounded anchors, conservative general action guards and bounded fallback. Distinct events cannot be swallowed by a broad semantic span. Mental/context verbs do not automatically request physical gestures. Narration remains unchanged. Story names occur in fixtures, not runtime special cases.
 - `assets.py`: canonical identity masters precede dependent action assets; independent context acquisition overlaps ready actions. Bounded workers, padded references, multi-character conditioning, current-event-only generation/review, persistent restraint state, strict action/contact/continuity gates. Failed action assets are reported as degraded; portraits do not count as successful action coverage. Existing multi-cutout layouts remain.
 - `images.py`: explicit image tiers, bounded budgets/deadlines, account admission metrics, retry rejected creates only; poll the accepted ID after transient polling errors. Ambiguous outcomes do not trigger another paid prediction. Cancellation attempts cancel the accepted prediction. HTTP 401/402/403 closes further creates for the job; a create-side server error has an ambiguous outcome and is never automatically resubmitted.
-- Optional `google/nano-banana-pro` action adapter uses separate reference images, 2K PNG, and `allow_fallback_model=false`. Existing Flux Kontext remains the default. This is an explicit quality experiment, not a measured speed improvement.
+- The action adapter uses Seedream 4 with separate original master references, 2K output, `max_images=1` and `sequential_image_generation=disabled`; no automatic image regeneration or model switching.
 - `utils/provider_admission.py`: credential-hashed, file-locked account pacing across processes on one host, shared by narration and editorial images. Epoch timestamps coordinate processes (this Mac’s Python 3.9 monotonic origin is process-local; two independent interpreters measured 0.0069s and 0.0046s). Waiters commit no future reservations, so cancellation cannot leave a phantom queue. This does not coordinate separate Cloud Run instances.
 - `utils/job_trace.py`: success/failure spans, monotonic elapsed and UTC, parent IDs, runtime CPU/memory, durable structured logs; queue, provider admission, generation, matte, review, render and upload are distinguishable. Overlapping durations are never summed as job time. Logs omit narration, credentials and image payloads.
 - Narration starts alongside semantic planning under the parallel flag. The existing renderer retains audio/output QA and branding. An opt-in direct BT.709 path removes a second encode only when metadata qualifies; it remains off pending color review.
@@ -30,7 +30,7 @@ The visual failure comes from conflating a recurring entity with its current act
 | `HER_EDITORIAL_ACTION_WORKERS` | `2` | Action concurrency, capped at two |
 | `HER_EDITORIAL_IMAGE_MIN_INTERVAL` | `1` | Effective pacing also respects narration account interval |
 | `HER_EDITORIAL_IMAGE_TIMEOUT` | `180` | Prediction deadline in seconds |
-| `EDITORIAL_ACTION_IMAGE_MODEL` | `black-forest-labs/flux-kontext-pro` | Explicit action tier; optional Nano Banana Pro |
+| `ACTION_IMAGE_MODEL` | `bytedance/seedream-4` | Reference-guided action tier; no regeneration retries |
 | `HER_EDITORIAL_DIRECT_BT709` | `0` | Experimental single video encode |
 | `HER_CUTOUT_MATTE_REPAIR` | `0` | Optional matte consolidation |
 

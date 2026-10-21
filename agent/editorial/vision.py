@@ -10,7 +10,7 @@ from utils.llm_client import get_llm_client
 
 class VisualReview:
     def __init__(self):
-        self.client,self.model=get_llm_client('gemini',config.EDITORIAL_VISION_MODEL)
+        self.client,self.model=get_llm_client('gemini',config.IMAGE_VISION_QA_MODEL or config.EDITORIAL_VISION_MODEL)
 
     def __call__(self,instruction,data,paths):
         content=[{'type':'text','text':json.dumps(data,ensure_ascii=False)}]

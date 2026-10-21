@@ -1,32 +1,20 @@
-"""
-Project HER v2.0 – AI Image Generator (Claymorphism Mode)
-Generates AI images using Replicate (primary, paid, unlimited)
-with HuggingFace + Pollinations.ai as free fallbacks.
-All prompts are augmented with Claymorphism style directives.
+"""General styled image generation through the configured FLUX Schnell model.
 
-Providers (priority order):
-  • Replicate  – FLUX Schnell/Pro via API ($0.003–$0.04/image, unlimited)
-  • HuggingFace – FLUX.1-schnell via Inference API (free HF token required)
-  • Pollinations – URL-based generation (no key, less reliable)
+Reference-guided action assets use Seedream 4 in the editorial/news pipeline.
+There are no alternative image providers or model-switching fallbacks.
 """
 
 from __future__ import annotations
 
 import asyncio
-import functools
 import hashlib
 import logging
 import time
-import urllib.parse
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
 import httpx
-try:
-    import replicate as replicate_sdk
-except ImportError:
-    replicate_sdk = None
 
 import config
 from agent.story_splitter import ScreenSegment
@@ -51,9 +39,7 @@ class AIImageAsset:
 
 class AIImageGenerator:
     """
-    Generates images via Replicate (primary, paid, unlimited),
-    HuggingFace (free fallback), or Pollinations.ai (final fallback)
-    with Claymorphism style.
+    Generates styled images with FLUX Schnell through Replicate.
 
     Enhanced mode (Generate tab): 9:16 portrait images with negative prompts.
     Kids Story mode: original 1024×1024 square images.
@@ -82,38 +68,11 @@ class AIImageGenerator:
 
         # Replicate settings (paid, primary)
         self.replicate_token = config.REPLICATE_API_TOKEN
-        self.replicate_model = (
-            config.REPLICATE_SCHNELL_MODEL
-            if config.REPLICATE_USE_SCHNELL
-            else config.REPLICATE_MODEL
-        )
-
-        # HuggingFace settings (free fallback)
-        self.hf_token = config.HF_API_TOKEN
-        self.hf_model = config.HF_IMAGE_MODEL
-        self.hf_api_url = config.HF_IMAGE_API_URL
-
-        # Pollinations settings (final fallback)
-        self.pollinations_url = config.AI_IMAGE_BASE_URL
-        self.pollinations_model = config.AI_IMAGE_POLLINATIONS_MODEL
-
-        # Early-abort flags
-        self._hf_credits_depleted = False
-
-        # Auto-select provider with cascading fallback
-        if self.provider == "replicate" and not self.replicate_token:
-            logger.warning(
-                "REPLICATE_API_TOKEN not set — falling back to HuggingFace. "
-                "Get a token at https://replicate.com/account/api-tokens"
-            )
-            self.provider = "huggingface"
-
-        if self.provider == "huggingface" and not self.hf_token:
-            logger.warning(
-                "HF_API_TOKEN not set — falling back to Pollinations.ai. "
-                "Get a free token at https://huggingface.co/settings/tokens"
-            )
-            self.provider = "pollinations"
+        self.replicate_model = config.SIMPLE_IMAGE_MODEL
+        from utils.image_models import validate_role, ImageModelConfigError
+        validate_role('support',self.replicate_model)
+        if self.provider!='replicate':
+            raise ImageModelConfigError('Only the Replicate image provider is supported')
 
         logger.info("AI image provider: %s", self.provider)
 
@@ -151,11 +110,7 @@ class AIImageGenerator:
             logger.warning("No image generation tasks found")
             return []
 
-        provider_label = {
-            "replicate": f"Replicate ({self.replicate_model.split('/')[-1]})",
-            "huggingface": f"HuggingFace ({self.hf_model.split('/')[-1]})",
-            "pollinations": "Pollinations.ai",
-        }.get(self.provider, self.provider)
+        provider_label = f"Replicate ({self.replicate_model.split('/')[-1]})"
         logger.info("Generating %d AI images via %s", len(tasks), provider_label)
         start = time.time()
 
@@ -178,15 +133,9 @@ class AIImageGenerator:
         # Create semaphore inside the running loop (Python 3.9 compat)
         self.semaphore = asyncio.Semaphore(self._concurrency)
 
-        # Configure Replicate SDK token if using Replicate
-        if self.provider == "replicate" and self.replicate_token:
-            import os
-            os.environ["REPLICATE_API_TOKEN"] = self.replicate_token
-
+        if not self.replicate_token:
+            raise ValueError('Image generation requires REPLICATE_API_TOKEN')
         headers = {}
-        if self.provider == "huggingface":
-            headers["Authorization"] = f"Bearer {self.hf_token}"
-
         async with httpx.AsyncClient(
             timeout=httpx.Timeout(self.timeout, connect=30.0),
             follow_redirects=True,
@@ -204,7 +153,7 @@ class AIImageGenerator:
         task: dict,
         output_dir: Path,
     ) -> Optional[AIImageAsset]:
-        """Generate a single image with retry logic + cascading fallback."""
+        """Generate one Schnell asset with bounded retries."""
         async with self.semaphore:
             prompt = task["prompt"]
             screen_idx = task["screen_index"]
@@ -230,52 +179,7 @@ class AIImageGenerator:
                     height=self.height,
                 )
 
-            # Build fallback chain based on primary provider
-            fallback_chain = self._build_fallback_chain()
-
-            for provider in fallback_chain:
-                # Skip HuggingFace if credits depleted
-                if provider == "huggingface" and self._hf_credits_depleted:
-                    logger.info(
-                        "  [%d.%d] HF credits depleted — skipping",
-                        screen_idx, sub_idx,
-                    )
-                    continue
-
-                result = await self._try_provider(
-                    client, provider, styled_prompt,
-                    screen_idx, sub_idx, filepath,
-                )
-                if result:
-                    return result
-
-                # Log fallback
-                logger.info(
-                    "  [%d.%d] %s failed — trying next fallback",
-                    screen_idx, sub_idx, provider,
-                )
-
-            logger.error(
-                "  [%d.%d] All providers failed for: %s",
-                screen_idx, sub_idx, prompt[:50],
-            )
-            return None
-
-    def _build_fallback_chain(self) -> list[str]:
-        """Build ordered list of providers to try."""
-        all_providers = ["replicate", "huggingface", "pollinations"]
-        # Start with the selected provider, then try the rest in order
-        chain = [self.provider]
-        for p in all_providers:
-            if p not in chain:
-                # Skip replicate in fallback if no token
-                if p == "replicate" and not self.replicate_token:
-                    continue
-                # Skip huggingface in fallback if no token
-                if p == "huggingface" and not self.hf_token:
-                    continue
-                chain.append(p)
-        return chain
+            return await self._try_provider(client,'replicate',styled_prompt,screen_idx,sub_idx,filepath)
 
     async def _try_provider(
         self,
@@ -292,18 +196,10 @@ class AIImageGenerator:
         delay from the error message and waits accordingly instead of
         giving up after 3 fast retries.
         """
-        # Use more retries for rate-limited providers (Replicate 429 with burst=1)
-        max_attempts = self.max_retries + 4  # 7 total — enough for ~10s resets
+        # Schnell generation attempts obey the configured retry limit.
+        max_attempts = self.max_retries + 1
 
         for attempt in range(1, max_attempts + 1):
-            # Abort immediately if HF credits depleted mid-retry
-            if provider == "huggingface" and self._hf_credits_depleted:
-                logger.info(
-                    "  [%d.%d] HF credits depleted — aborting retries",
-                    screen_idx, sub_idx,
-                )
-                return None
-
             try:
                 logger.info(
                     "  [%d.%d] %s attempt %d: %s",
@@ -311,18 +207,8 @@ class AIImageGenerator:
                     styled_prompt[:55] + ("..." if len(styled_prompt) > 55 else ""),
                 )
 
-                if provider == "huggingface":
-                    image_bytes = await self._call_huggingface(
-                        client, styled_prompt
-                    )
-                elif provider == "replicate":
-                    image_bytes = await self._call_replicate(
-                        client, styled_prompt
-                    )
-                else:
-                    image_bytes = await self._call_pollinations(
-                        client, styled_prompt
-                    )
+                if provider!='replicate':raise ValueError('Only Replicate image generation is supported')
+                image_bytes = await self._call_replicate(client,styled_prompt)
 
                 if image_bytes and len(image_bytes) > 1000:
                     filepath.write_bytes(image_bytes)
@@ -392,15 +278,9 @@ class AIImageGenerator:
             "Content-Type": "application/json",
         }
         create_url = f"https://api.replicate.com/v1/models/{self.replicate_model}/predictions"
-        payload = {
-            "input": {
-                "prompt": prompt,
-                "num_outputs": 1,
-                "aspect_ratio": aspect,
-                "output_format": "png",
-                "output_quality": 90,
-            }
-        }
+        from utils.image_models import build_input,validate_role
+        validate_role('support',self.replicate_model)
+        payload = {'input':build_input(self.replicate_model,prompt,aspect_ratio=aspect)}
 
         try:
             # 1. Create prediction
@@ -452,112 +332,6 @@ class AIImageGenerator:
             error_msg = str(e)
             logger.warning("  Replicate API error: %s", error_msg)
             raise
-
-    # ── HuggingFace Inference API ─────────────────────
-
-    async def _call_huggingface(
-        self,
-        client: httpx.AsyncClient,
-        prompt: str,
-    ) -> Optional[bytes]:
-        """
-        Call HuggingFace Inference API for image generation.
-        POST https://api-inference.huggingface.co/models/{model}
-        Body: {"inputs": "prompt"}
-        Returns raw image bytes.
-        """
-        url = f"{self.hf_api_url}{self.hf_model}"
-
-        resp = await client.post(
-            url,
-            json={"inputs": prompt},
-        )
-
-        # Handle model loading (503 = model is loading)
-        if resp.status_code == 503:
-            body = resp.json() if resp.headers.get("content-type", "").startswith("application/json") else {}
-            wait_time = body.get("estimated_time", 30)
-            logger.info(
-                "  HuggingFace model loading, waiting %.0fs...",
-                min(wait_time, 60),
-            )
-            await asyncio.sleep(min(wait_time, 60))
-            # Retry once after model loads
-            resp = await client.post(
-                url,
-                json={"inputs": prompt},
-            )
-
-        if resp.status_code == 200:
-            content_type = resp.headers.get("content-type", "")
-            if "image" in content_type:
-                return resp.content
-            else:
-                logger.warning(
-                    "  HuggingFace returned non-image: %s (%d bytes)",
-                    content_type, len(resp.content),
-                )
-                return None
-
-        # Log error details
-        error_msg = ""
-        try:
-            err_body = resp.json()
-            error_msg = err_body.get("error", str(err_body))
-        except Exception:
-            error_msg = resp.text[:200]
-
-        logger.warning(
-            "  HuggingFace HTTP %d: %s", resp.status_code, error_msg
-        )
-
-        # 402 = credits depleted — set flag to skip ALL remaining HF requests
-        if resp.status_code == 402:
-            self._hf_credits_depleted = True
-            logger.error(
-                "  HuggingFace credits DEPLETED — all remaining images "
-                "will use Pollinations fallback only"
-            )
-
-        return None
-
-    # ── Pollinations.ai (Fallback) ────────────────────
-
-    async def _call_pollinations(
-        self,
-        client: httpx.AsyncClient,
-        prompt: str,
-    ) -> Optional[bytes]:
-        """
-        Call Pollinations.ai for image generation (no API key).
-        GET https://image.pollinations.ai/prompt/{encoded_prompt}?params
-        Returns raw image bytes.
-        """
-        encoded = urllib.parse.quote(prompt, safe="")
-        url = (
-            f"{self.pollinations_url}/{encoded}"
-            f"?width={self.width}"
-            f"&height={self.height}"
-            f"&model={self.pollinations_model}"
-            f"&nologo=true"
-            f"&seed={hash(prompt) % 100000}"
-        )
-
-        resp = await client.get(url)
-
-        if resp.status_code == 200:
-            content_type = resp.headers.get("content-type", "")
-            if "image" in content_type:
-                return resp.content
-            else:
-                logger.warning(
-                    "  Pollinations returned non-image: %s (%d bytes)",
-                    content_type, len(resp.content),
-                )
-                return None
-
-        logger.warning("  Pollinations HTTP %d", resp.status_code)
-        return None
 
     # ── Prompt Engineering ────────────────────────────
 

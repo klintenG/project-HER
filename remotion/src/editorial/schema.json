@@ -32,6 +32,24 @@
           "title": "Role",
           "type": "string"
         },
+        "assetRole": {
+          "anyOf": [
+            {
+              "enum": [
+                "ACTOR_ONLY",
+                "EVENT_ACTION",
+                "EVENT_OUTCOME",
+                "CONTEXT"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Assetrole"
+        },
         "subject": {
           "title": "Subject",
           "type": "string"

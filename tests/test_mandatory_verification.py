@@ -199,9 +199,9 @@ class MockImageGenerator:
             self.prediction_records.append({'target_path': str(path), 'status': 'failed', 'error': 'Simulated provider error'})
             raise NewsError('Simulated provider generation failure', 'provider_unavailable')
         # Render a simple distinguishable image
-        im = Image.new('RGBA', (400, 400), (40, 60, 100, 255))
+        im = Image.new('RGBA', (400, 400), (0, 0, 0, 0))
         draw = ImageDraw.Draw(im)
-        draw.rectangle((50, 50, 350, 350), fill=(200, 160, 60, 255))
+        draw.ellipse((50, 50, 350, 350), fill=(200, 160, 60, 255))
         draw.text((60, 60), prompt[:30], fill=(0, 0, 0, 255))
         im.save(path)
         rec = {'target_path': str(path), 'status': 'succeeded', 'totalPredictionSeconds': 0.1, 'admissionWaitSeconds': 0.05}
@@ -244,6 +244,12 @@ def reliable_review(instruction, data, paths):
 
 
 class MandatoryVerificationTests(unittest.TestCase):
+    def setUp(self):
+        # These cases exercise explicit strict-mode rejection. Delivery-mode
+        # preservation is covered by test_image_delivery_recovery.
+        mode=patch.object(config,'IMAGE_FAILURE_POLICY','strict')
+        mode.start();self.addCleanup(mode.stop)
+
     """Verifies all mandatory test requirements."""
 
     def test_mandatory_1_bhasmasura_action_visual_storytelling(self):
@@ -366,8 +372,8 @@ class MandatoryVerificationTests(unittest.TestCase):
             self.assertIsNotNone(manifest)
             self.assertGreaterEqual(len(manifest.beats), 7)
 
-    def test_mandatory_3_repeated_relevance_validation_rejection_bounded_recovery(self):
-        """Test 3: Simulate repeated visual review rejection; must recover without endless loops or fatal crash."""
+    def test_mandatory_3_seedream_validation_rejection_requires_review_without_regeneration(self):
+        """Test 3: Seedream rejection stops with a review requirement and no repeat generation."""
         script = make_bhasmasura_script()
         planned, _ = sb.plan(script, None, bhasmasura_action_planner, {})
 
@@ -381,26 +387,14 @@ class MandatoryVerificationTests(unittest.TestCase):
             root = Path(root)
             generator = MockImageGenerator()
             diag = {}
-            with patch.object(config, 'NEWS_IDENTITY_IMAGE_CACHE', root / 'cache'):
-                entities, assets = acquire(
-                    planned,
-                    root / 'assets',
-                    image_generator=generator,
-                    processor=MockProcessor(),
-                    visual_review=rejecting_review,
-                    diagnostics=diag
-                )
-
-            # Verification:
-            # 1. Did not raise NewsError('Mandatory sentence primary failed after bounded retries')
-            self.assertGreaterEqual(len(assets), 7)
-            # 2. Retries were bounded (not runaway)
-            self.assertLessEqual(generator.attempts, 30)
-            # 3. Assets were accepted under degraded fallback
-            val = sb.validate_assets(planned, assets, diag['assetAcquisition'], rejecting_review)
-            self.assertTrue(val['acceptancePassed'])
-            self.assertFalse(val['fullyCompliant'])
-            self.assertGreater(val['fallbackAttempts'], 0)
+            with patch.object(config, 'PROJECTHER_ALLOW_CRITICAL_EVENT_FALLBACK', False), patch.object(config, 'NEWS_IDENTITY_IMAGE_CACHE', root / 'cache'):
+                with self.assertRaisesRegex(NewsError,'regeneration prohibited'):
+                    acquire(planned,root/'assets',image_generator=generator,processor=MockProcessor(),visual_review=rejecting_review,diagnostics=diag)
+            rejected=[r for r in diag['assetAcquisition']['assets'] if r.get('route')=='needs_review_seedream']
+            self.assertTrue(rejected)
+            self.assertTrue(all(r.get('attemptCount')==1 for r in rejected))
+            self.assertTrue(all(len(r.get('requests',[]))==1 for r in rejected))
+            self.assertTrue(all('fallbackMethod' not in r for r in rejected))
 
     def test_mandatory_4_regression_compositions_and_labels(self):
         """Test 4: Regression coverage for prominent compositions, hierarchical 3-cutouts, and label filtering."""

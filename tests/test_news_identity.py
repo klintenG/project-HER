@@ -190,19 +190,22 @@ class IdentityImageTests(unittest.TestCase):
                 await generator.real_subject('Preserve Donald Trump',self.root/'generated.png',reference)
             return calls
         for reference in (None,self.reference):
-            with patch.object(config,'NEWS_REAL_IMAGE_MODEL','black-forest-labs/flux-1.1-pro'), patch.object(config,'NEWS_REFERENCE_IMAGE_MODEL','black-forest-labs/flux-kontext-pro'):
+            with patch.object(config,'NEWS_REAL_IMAGE_MODEL','black-forest-labs/flux-schnell'), patch.object(config,'NEWS_REFERENCE_IMAGE_MODEL','bytedance/seedream-4'):
                 calls=asyncio.run(run(reference))
             self.assertEqual(len(calls),1)
             data=json.loads(calls[0].content)['input']
-            self.assertEqual(data['aspect_ratio'],'1:1');self.assertFalse(data['prompt_upsampling'])
-            self.assertNotIn('num_outputs',data)
-            self.assertEqual('input_image' in data,reference is not None)
-            if reference:self.assertTrue(data['input_image'].startswith('data:image/jpeg;base64,'))
+            self.assertEqual(data['aspect_ratio'],'1:1')
+            self.assertEqual('image_input' in data,reference is not None)
+            if reference:
+                self.assertTrue(data['image_input'][0].startswith('data:image/jpeg;base64,'))
+                self.assertEqual(data['max_images'],1)
+                self.assertEqual(data['sequential_image_generation'],'disabled')
+            else:self.assertEqual(data['num_outputs'],1)
 
     def test_expensive_model_is_rejected_before_network(self):
         generator=object.__new__(NewsImageGenerator);generator.replicate_token='test-token'
         with patch.object(config,'NEWS_REAL_IMAGE_MODEL','expensive/ultra-model'),patch('agent.news_assets.httpx.AsyncClient') as client:
-            with self.assertRaisesRegex(NewsError,'expensive models'):
+            with self.assertRaisesRegex(NewsError,'only FLUX Schnell and Seedream 4'):
                 asyncio.run(generator.real_subject('A subject',self.root/'image.png'))
         client.assert_not_called()
 

@@ -11,7 +11,6 @@ import shutil
 import time
 import uuid
 from pathlib import Path
-from urllib.parse import quote
 import httpx
 from PIL import Image
 from agent.ai_visuals import AIImageGenerator
@@ -26,7 +25,12 @@ def subject_prompt(entity, attempt=0):
     """Describe a cutout, overriding any scene language in the script's description."""
     prompt=('Recognizable '+entity.name+'. ' if entity.identity in ('real','fictional') else 'One isolated ')+entity.description+'. '
     if entity.kind=='person':
-        prompt+='Fully colored editorial illustration, natural skin tones, visible faces and recognizable anatomy, no black silhouettes. '
+        desc_lower = (entity.name + ' ' + entity.description).lower()
+        is_ethereal = any(k in desc_lower for k in ('death', 'ethereal', 'ghost', 'spirit', 'shadow', 'wraith', 'phantom', 'skeleton', 'spectral', 'underworld', 'dark figure'))
+        if is_ethereal:
+            prompt+='Fully colored editorial illustration, recognizable anatomy and clear silhouette details, no modern clothing. '
+        else:
+            prompt+='Fully colored editorial illustration, natural skin tones, visible faces and recognizable anatomy, no black silhouettes. '
     if entity.kind=='animal':
         prompt+='One representative animal of the described species, natural colors, realistic recognizable anatomy, full head/neck/body/legs/feet visible. Use a single animal even when the species name is plural; no flock, no silhouette icon or abstract shape. '
     if entity.is_group and entity.identity!='real':
@@ -67,7 +71,7 @@ class NewsImageGenerator(AIImageGenerator):
         self.width=self.height=1024
 
     async def real_subject(self,prompt,path,reference=None):
-        """One bounded premium prediction; never silently fall back to a generic model."""
+        """One prediction: Schnell for a subject, Seedream 4 for reference-guided editing."""
         if not self.replicate_token:
             raise NewsError('Real-subject AI images need REPLICATE_API_TOKEN; no generic substitute was used.')
         model=config.NEWS_REFERENCE_IMAGE_MODEL if reference else config.NEWS_REAL_IMAGE_MODEL
@@ -79,11 +83,10 @@ class NewsImageGenerator(AIImageGenerator):
             encoded='data:image/jpeg;base64,'+base64.b64encode(buffer.getvalue()).decode()
             encoded=[encoded]
         try:
-            inputs=build_input(model,prompt,encoded,turbo=config.PROJECTHER_PRUNA_TURBO,
-                seed=config.PROJECTHER_PRUNA_SEED,
+            inputs=build_input(model,prompt,encoded,
                 adapter_name=config.PROJECTHER_IMAGE_ADAPTERS.get('continuity' if reference else 'identity'))
         except ImageModelConfigError as exc:
-            raise NewsError(f'Unsupported image model; expensive models require explicit adapter configuration: {exc}') from exc
+            raise NewsError(f'Unsupported image model; only FLUX Schnell and Seedream 4 are supported: {exc}') from exc
         headers={'Authorization':'Bearer '+self.replicate_token}
         prediction=None;finished=False
         async with httpx.AsyncClient(timeout=25,follow_redirects=False) as client:
@@ -98,10 +101,22 @@ class NewsImageGenerator(AIImageGenerator):
                 for _ in range(60):
                     if row.get('status')=='succeeded':
                         finished=True
-                        outputs=row.get('output'); url=outputs[0] if isinstance(outputs,list) and outputs else outputs
+                        outputs=row.get('output')
+                        if reference and isinstance(outputs,list) and len(outputs)!=1:raise NewsError('Seedream must return exactly one output; regeneration prohibited','needs_review')
+                        url=outputs[0] if isinstance(outputs,list) and outputs else outputs
                         # Download through the same public-DNS-pinned bounded fetcher as references.
                         from agent.news_research import fetch
-                        data,_=await asyncio.get_running_loop().run_in_executor(None,lambda:fetch(url,types=('image/png','image/jpeg','image/webp'),limit=15_000_000))
+                        data=None; dl_err=None
+                        for dl_attempt in range(3):
+                            try:
+                                data,_=await asyncio.get_running_loop().run_in_executor(None,lambda:fetch(url,types=('image/png','image/jpeg','image/webp'),limit=15_000_000))
+                                break
+                            except Exception as exc:
+                                dl_err=exc
+                                if dl_attempt<2:
+                                    await asyncio.sleep(2.0**dl_attempt)
+                        if data is None:
+                            raise NewsError(f'Failed to download real subject image from {url}: {dl_err}') from dl_err
                         path.write_bytes(data)
                         return 'replicate:'+model
                     if row.get('status') in ('failed','canceled'):
@@ -121,32 +136,7 @@ class NewsImageGenerator(AIImageGenerator):
                     except httpx.HTTPError: pass
 
     async def subject(self,prompt,path):
-        async with httpx.AsyncClient(timeout=self.timeout,follow_redirects=False) as client:
-            for provider in self._build_fallback_chain():
-                if provider=='replicate' and not self.replicate_token: continue
-                if provider=='huggingface' and not self.hf_token: continue
-                if provider=='pollinations' and not config.POLLINATIONS_API_KEY: continue
-                try:
-                    if provider=='replicate':
-                        data=await self._call_replicate(client,prompt)
-                    elif provider=='huggingface':
-                        from huggingface_hub import InferenceClient
-                        def generate():
-                            inference=InferenceClient(provider=config.NEWS_HF_PROVIDER,api_key=self.hf_token,timeout=60)
-                            image=inference.text_to_image(prompt,model=self.hf_model,width=1024,height=1024)
-                            out=io.BytesIO(); image.save(out,format='PNG'); return out.getvalue()
-                        data=await asyncio.get_running_loop().run_in_executor(None,generate)
-                    else:
-                        response=await client.get('https://gen.pollinations.ai/image/'+quote(prompt,safe=''),
-                            params={'model':config.NEWS_POLLINATIONS_MODEL,'width':1024,'height':1024,'seed':int(hashlib.sha256(prompt.encode()).hexdigest()[:8],16)%100000},
-                            headers={'Authorization':'Bearer '+config.POLLINATIONS_API_KEY},timeout=90)
-                        data=response.content if response.status_code==200 and response.headers.get('content-type','').startswith('image/') else None
-                    if data and 1000<len(data)<30_000_000:
-                        path.write_bytes(data); return provider
-                except Exception:
-                    # Do not leak credential-bearing provider responses into progress/logs.
-                    continue
-        raise NewsError('News image generation failed. Configure a working REPLICATE_API_TOKEN, HF_API_TOKEN/provider/model, or POLLINATIONS_API_KEY. No rectangular fallback was used.')
+        return await self.real_subject(prompt,path)
 
 
 def _generate(awaitable,cancel_event):
@@ -188,7 +178,8 @@ def _real_cutout(entity,output,processor,generator,source_basis,reference_provid
             logger.warning('News reference cutout %s failed QA: %s',entity.name,exc)
     reference=references[0] if references else None
     model=config.NEWS_REFERENCE_IMAGE_MODEL if reference else config.NEWS_REAL_IMAGE_MODEL
-    for attempt in range(config.NEWS_REAL_IMAGE_ATTEMPTS):
+    attempts=1 if reference else 1+config.SCHNELL_MAX_RETRIES
+    for attempt in range(attempts):
         check_cancel()
         prompt=subject_prompt(entity,attempt)
         if reference:
@@ -222,7 +213,7 @@ def _real_cutout(entity,output,processor,generator,source_basis,reference_provid
                 segmentation=method,mask=stats,fallback='Reference photo needed a cutout edit' if reference else 'No suitable Commons reference; named-subject AI illustration')
         except NewsError as exc:
             if exc.status=='cancelled': raise
-            logger.warning('News real subject %s attempt %s/%s failed: %s',entity.name,attempt+1,config.NEWS_REAL_IMAGE_ATTEMPTS,exc)
+            logger.warning('News real subject %s attempt %s/%s failed: %s',entity.name,attempt+1,attempts,exc)
     raise NewsError('Could not create a usable identity-aware image for '+entity.name+'. Supply an audited reference asset or retry; no anonymous substitute was used.')
 
 

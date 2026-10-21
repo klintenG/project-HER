@@ -3,6 +3,7 @@ import config
 from utils.image_models import adapter_for, build_input, ImageModelConfigError
 import logging
 import threading
+from pathlib import Path
 from agent.news_assets import NewsImageGenerator
 from agent.news_models import NewsError
 logger=logging.getLogger(__name__)
@@ -12,7 +13,7 @@ class EditorialImages(NewsImageGenerator):
     def __init__(self,trace=None,primary_count=0):
         super().__init__()
         self.replicate_model=config.EDITORIAL_SUPPORT_IMAGE_MODEL
-        self.primary_limit=primary_count*(2+config.NEWS_ASSET_RETRIES)+4 if primary_count else 0
+        self.primary_limit=(primary_count*(1+config.PROJECTHER_IMAGE_EXTRA_ATTEMPTS_PER_EVENT)+config.PROJECTHER_IMAGE_SPARE_CALLS if primary_count else 0)  # hard paid-call cap per video; configurable in .env
         self.primary_calls=0
         self.support_calls=0
         self.real_calls=0
@@ -39,6 +40,27 @@ class EditorialImages(NewsImageGenerator):
             'peakProviderConcurrency':0,
             'predictionRecords':self.prediction_records,
         }
+
+    def configure_plan(self, plan, output):
+        """Bind immutable routing and durable request reservations to this job."""
+        import hashlib, json
+        from pathlib import Path
+        from .image_policy import ImagePolicy
+        self.smart_policy=ImagePolicy.load()
+        self.smart_assets={hashlib.sha256(a['id'].encode()).hexdigest()[:20]:a for a in plan['assets']}
+        self.ledger_path=Path(output)/'image_prediction_ledger.json'
+        if self.ledger_path.exists():
+            prior=json.loads(self.ledger_path.read_text())
+            self.prediction_records.extend(prior)
+
+    def _save_ledger(self):
+        if not hasattr(self,'ledger_path'):return
+        import json, os, uuid
+        temporary=self.ledger_path.with_suffix('.'+uuid.uuid4().hex+'.tmp')
+        with temporary.open('w') as f:
+            json.dump(self.prediction_records,f,indent=2)
+            f.flush();os.fsync(f.fileno())
+        temporary.replace(self.ledger_path)
 
     def metric(self,name,value=1):
         with self._budget_lock:self.metrics[name]+=value
@@ -77,9 +99,9 @@ class EditorialImages(NewsImageGenerator):
     async def identity_subject(self,prompt,path):
         return await self.real_subject(prompt,path,tier='person')
 
-    def _invoke_prediction(self,prompt,path,reference,tier,turbo=None,seed=None,aspect_ratio='1:1'):
+    def _invoke_prediction(self,prompt,path,reference,tier,seed=None,aspect_ratio='1:1'):
         import inspect
-        kwargs={'turbo':turbo,'seed':seed,'aspect_ratio':aspect_ratio}
+        kwargs={'seed':seed,'aspect_ratio':aspect_ratio}
         target=getattr(self._prediction,'side_effect',self._prediction) or self._prediction
         try:
             sig=inspect.signature(target)
@@ -89,50 +111,36 @@ class EditorialImages(NewsImageGenerator):
             pass
         return self._prediction(prompt,path,reference,tier,**kwargs)
 
-    async def scene_subject(self,prompt,path,reference=None,turbo=None,seed=None,aspect_ratio='1:1'):
+    async def scene_subject(self,prompt,path,reference=None,seed=None,aspect_ratio='1:1'):
         with self._budget_lock:
             if self.primary_calls>=self.primary_limit:raise NewsError('Sentence primary capacity exhausted after bounded repairs.')
             self.primary_calls+=1
-        return await self._invoke_prediction(prompt,path,reference,'action' if reference is not None else 'support',turbo=turbo,seed=seed,aspect_ratio=aspect_ratio)
+        return await self._invoke_prediction(prompt,path,reference,'action' if reference is not None else 'support',seed=seed,aspect_ratio=aspect_ratio)
 
-    async def event_scene_subject(self,prompt,path,reference=None,turbo=None,seed=None,aspect_ratio='1:1'):
+    async def event_scene_subject(self,prompt,path,reference=None,seed=None,aspect_ratio='1:1'):
         """Event scenes use the explicit multi-reference quality tier."""
         with self._budget_lock:
             if self.primary_calls>=self.primary_limit:raise NewsError('Event scene capacity exhausted after bounded repairs.')
             self.primary_calls+=1
-        return await self._invoke_prediction(prompt,path,reference,'event',turbo=turbo,seed=seed,aspect_ratio=aspect_ratio)
+        return await self._invoke_prediction(prompt,path,reference,'event',seed=seed,aspect_ratio=aspect_ratio)
 
-    async def alternate_scene_subject(self,prompt,path,turbo=None,seed=None,aspect_ratio='1:1'):
-        """One bounded second-model attempt after scene-specific repairs fail."""
-        with self._budget_lock:
-            if self.primary_calls>=self.primary_limit:raise NewsError('Sentence primary capacity exhausted after bounded repairs.')
-            self.primary_calls+=1
-        return await self._invoke_prediction(prompt,path,None,'support_alternate',turbo=turbo,seed=seed,aspect_ratio=aspect_ratio)
+    async def action_subject(self,prompt,path,reference=None,seed=None,aspect_ratio='1:1'):
+        return await self.real_subject(prompt,path,reference,tier='action',seed=seed,aspect_ratio=aspect_ratio)
 
-    async def fallback_scene_subject(self,prompt,path,reference,kind='premium',aspect_ratio='1:1'):
-        if kind == 'premium' and not config.PROJECTHER_PREMIUM_FALLBACK_ENABLED:
-            raise NewsError('Premium image fallback is disabled.')
-        if kind == 'alternate_edit' and not config.PROJECTHER_ALTERNATE_EDIT_FALLBACK_ENABLED:
-            raise NewsError('Alternate image editing fallback is disabled.')
-        return await self._invoke_prediction(prompt,path,reference,kind,aspect_ratio=aspect_ratio)
-
-    async def action_subject(self,prompt,path,reference=None,turbo=None,seed=None,aspect_ratio='1:1'):
-        return await self.real_subject(prompt,path,reference,tier='action',turbo=turbo,seed=seed,aspect_ratio=aspect_ratio)
-
-    async def real_subject(self,prompt,path,reference=None,tier='person',turbo=None,seed=None,aspect_ratio='1:1'):
+    async def real_subject(self,prompt,path,reference=None,tier='person',seed=None,aspect_ratio='1:1'):
         if tier in ('person','action'):
             with self._budget_lock:
                 limit=config.NEWS_MAX_REAL_IMAGE_CALLS+self.primary_limit if self.primary_limit else config.NEWS_MAX_REAL_IMAGE_CALLS
                 if self.real_calls>=limit:raise NewsError('Real-person image call limit reached.')
                 self.real_calls+=1
-        return await self._invoke_prediction(prompt,path,reference,tier,turbo=turbo,seed=seed,aspect_ratio=aspect_ratio)
+        return await self._invoke_prediction(prompt,path,reference,tier,seed=seed,aspect_ratio=aspect_ratio)
 
-    async def _prediction(self,prompt,path,reference,tier,turbo=None,seed=None,aspect_ratio='1:1'):
+    async def _prediction(self,prompt,path,reference,tier,seed=None,aspect_ratio='1:1'):
         import asyncio
         # The provider deadline starts at first admission; time spent queued
         # behind the shared account rate limit is not provider latency.
         admitted=asyncio.Event()
-        task=asyncio.ensure_future(self._prediction_request(prompt,path,reference,tier,admitted,turbo=turbo,seed=seed,aspect_ratio=aspect_ratio))
+        task=asyncio.ensure_future(self._prediction_request(prompt,path,reference,tier,admitted,seed=seed,aspect_ratio=aspect_ratio))
         waiter=asyncio.ensure_future(admitted.wait())
         try:
             await asyncio.wait({task,waiter},return_when=asyncio.FIRST_COMPLETED)
@@ -143,7 +151,7 @@ class EditorialImages(NewsImageGenerator):
         except asyncio.CancelledError:
             task.cancel();waiter.cancel();raise
 
-    async def _prediction_request(self,prompt,path,reference,tier,admitted=None,turbo=None,seed=None,aspect_ratio='1:1'):
+    async def _prediction_request(self,prompt,path,reference,tier,admitted=None,seed=None,aspect_ratio='1:1'):
         import asyncio
         import base64
         from datetime import datetime,timezone
@@ -154,15 +162,23 @@ class EditorialImages(NewsImageGenerator):
         from PIL import Image
         from agent.news_research import fetch
         if not self.replicate_token:raise NewsError('Editorial images require REPLICATE_API_TOKEN.')
-        role=tier if tier in ('premium','alternate_edit','event') else 'support_fallback' if tier=='support_alternate' else 'continuity' if reference else 'support' if tier in ('support','action') else 'identity'
-        model=getattr(config,f'PROJECTHER_IMAGE_{role.upper()}_MODEL') if role in ('premium','alternate_edit','identity') else config.EDITORIAL_ACTION_IMAGE_MODEL if role=='continuity' else config.EDITORIAL_FALLBACK_IMAGE_MODEL if role=='support_fallback' else config.EDITORIAL_SUPPORT_IMAGE_MODEL
-        adapter_name=config.PROJECTHER_IMAGE_ADAPTERS.get(role)
-        if tier=='event':
-            model=config.EDITORIAL_EVENT_IMAGE_MODEL
-            adapter_name=None  # Capability is selected from the event model, not the legacy tier.
+        if tier not in ('event','action','support','person'):
+            raise NewsError('Unsupported image generation role; model switching is not available')
+        role='event' if tier=='event' else 'continuity' if reference or tier=='action' else 'support' if tier=='support' else 'identity'
+        model=config.EDITORIAL_EVENT_IMAGE_MODEL if role=='event' else config.EDITORIAL_ACTION_IMAGE_MODEL if role=='continuity' else config.EDITORIAL_SUPPORT_IMAGE_MODEL if role=='support' else config.PROJECTHER_IMAGE_IDENTITY_MODEL
+        adapter_name=None
+        smart_spec=getattr(self,'smart_assets',{}).get(Path(path).name[:20])
+        if hasattr(self,'smart_policy') and smart_spec is None:
+            raise NewsError('Unplanned image asset; finalize the asset plan before requesting generation')
+        if smart_spec:
+            if smart_spec['mode'] not in ('schnell','seedream'):
+                raise NewsError('Unplanned paid request for reused or typography asset')
+            model=smart_spec['model'];adapter_name=None
         adapter=adapter_for(model,adapter_name)
-        is_pruna=adapter.name=='pruna_edit'
-        is_nano=adapter.name=='nano_banana'
+        if smart_spec and reference and not adapter.references:
+            raise NewsError('Configured simple model cannot edit a reference; use the verified original cutout or review the plan')
+        if adapter.name=='seedream' and smart_spec and len(getattr(reference,'paths',None) or ([reference.path] if reference else [])) < len(smart_spec['reference_ids']):
+            raise NewsError('Seedream action missing original canonical character references')
         reference_count=0
         if reference and adapter.references != 0:
             if adapter.references == 1:
@@ -184,40 +200,40 @@ class EditorialImages(NewsImageGenerator):
                         image = image.convert('RGB')
                         image.thumbnail((1024, 1024))
                     buffer = io.BytesIO()
-                    fmt = 'PNG' if (is_nano or is_pruna) else 'JPEG'
+                    fmt = 'JPEG'
                     image.save(buffer, format=fmt, quality=90)
                 mime = 'image/png' if fmt == 'PNG' else 'image/jpeg'
                 encoded.append(f'data:{mime};base64,' + base64.b64encode(buffer.getvalue()).decode())
         else:
             encoded = []
+        from .scene_plan import CUTOUT_SUFFIX
+        if CUTOUT_SUFFIX not in prompt:prompt += ' '+CUTOUT_SUFFIX
         try:
             inputs=build_input(model,prompt,encoded,config.PROJECTHER_IMAGE_ASPECT_RATIO if aspect_ratio=='1:1' else aspect_ratio,
-                config.PROJECTHER_PRUNA_TURBO if turbo is None else turbo,
-                config.PROJECTHER_PRUNA_SEED if seed is None else seed,adapter_name)
+                seed=seed,adapter_name=adapter_name,size=config.IMAGE_ACTION_SIZE,enhance_prompt=config.IMAGE_ENHANCE_PROMPT)
         except ImageModelConfigError as exc:
             raise NewsError(f'Image model capability error before request: {exc}') from exc
         headers={'Authorization':'Bearer '+self.replicate_token,'Prefer':'wait=10'};prediction=None;finished=False
         iso_now=lambda:datetime.now(timezone.utc).isoformat()
-        estimated_cost=getattr(config,'REPLICATE_MODEL_ESTIMATED_COSTS',{}).get(model,0.010)
-        if role in ('premium','alternate_edit','support_fallback') and config.PROJECTHER_IMAGE_BUDGET_USD > 0:
-            with self._budget_lock:
-                spent=sum(float(r.get('estimated_cost') or 0) for r in self.prediction_records if r.get('prediction_id'))
-            if spent+estimated_cost>config.PROJECTHER_IMAGE_BUDGET_USD:
-                raise NewsError(f'Image planning budget would be exceeded by {role} fallback; no prediction submitted.')
+        estimated_cost=self.smart_policy.price(model) if hasattr(self,'smart_policy') else config.REPLICATE_MODEL_ESTIMATED_COSTS[model]
+        asset_key=smart_spec['id'] if smart_spec else str(Path(path).resolve()).split('-generated-')[0]
         telemetry={
+            'asset_key':asset_key,
             'provider':'replicate',
             'image_role':role,
             'configured_model':model,
             'actual_model':model,
-            'fallback_reason':'quality_retry' if role in ('premium','alternate_edit','support_fallback') else None,
+            'fallback_reason':None,
             'model_name':model,
             'model_version':None,
             'tier':tier,
             'target_path':str(path),
             'reference_count':reference_count,
-            'turbo':inputs.get('turbo') if is_pruna else None,
-            'seed':inputs.get('seed') if is_pruna else None,
+            'prompt':prompt,
+            'input_sha256':__import__('hashlib').sha256(__import__('json').dumps(inputs,sort_keys=True).encode()).hexdigest(),
+            'seed':inputs.get('seed'),
             'estimated_cost':estimated_cost,
+            'retry_number':int(re.search(r'-generated-(\d+)\.',str(path)).group(1)) if re.search(r'-generated-(\d+)\.',str(path)) else 1,
             'request_admission_timestamp':iso_now(),
             'admission_wait_seconds':0.0,
             'http_request_start_timestamp':None,
@@ -237,11 +253,23 @@ class EditorialImages(NewsImageGenerator):
             'status':'started',
         }
         with self._budget_lock:
+            # Reserve capacity atomically across every tier, including identities
+            # and fallback adapters. Uncertain provider outcomes retain a slot.
+            if self.primary_limit and len(self.prediction_records)>=self.primary_limit:
+                raise NewsError('Video paid-image prediction capacity exhausted.')
+            reserved=sum(float(r.get('estimated_cost') or 0) for r in self.prediction_records)
+            if config.PROJECTHER_IMAGE_BUDGET_USD>0 and reserved+estimated_cost>config.PROJECTHER_IMAGE_BUDGET_USD+1e-9:
+                raise NewsError('Image planning budget would be exceeded; no prediction submitted.')
+            if any(r.get('asset_key')==asset_key and r.get('model_name')==config.ACTION_IMAGE_MODEL for r in self.prediction_records):
+                raise NewsError('Seedream asset already reserved/submitted; recover its existing prediction, never regenerate','needs_review')
+            if hasattr(self,'smart_policy'):
+                self.smart_policy.check(reserved,estimated_cost)
             self.prediction_records.append(telemetry)
+            self._save_ledger()
         async with httpx.AsyncClient(timeout=25,follow_redirects=False) as client:
             prediction_entered=False
             try:
-                for create_attempt in range(config.PROJECTHER_IMAGE_RETRIES+1):
+                for create_attempt in range(1 if adapter.name=='seedream' else config.PROJECTHER_IMAGE_RETRIES+1):
                     with self._budget_lock:blocked=self._provider_blocked_status
                     if blocked:raise NewsError('Replicate image request failed (HTTP '+str(blocked)+'); no further predictions submitted for this job.')
                     from contextlib import nullcontext
@@ -271,7 +299,7 @@ class EditorialImages(NewsImageGenerator):
                     telemetry['prediction_creation_latency_seconds']=round(create_lat,6)
                     if response.status_code in (401,402,403):
                         with self._budget_lock:self._provider_blocked_status=response.status_code
-                    if response.status_code!=429 or create_attempt==config.PROJECTHER_IMAGE_RETRIES:break
+                    if response.status_code!=429 or adapter.name=='seedream' or create_attempt==config.PROJECTHER_IMAGE_RETRIES:break
                     # Retry only a rejected request; an accepted prediction is
                     # polled by ID, never recreated after a polling failure.
                     delay=15
@@ -301,6 +329,7 @@ class EditorialImages(NewsImageGenerator):
                 row=response.json();prediction=row.get('id')
                 if not isinstance(prediction,str) or not re.fullmatch('[a-zA-Z0-9_-]+',prediction):prediction=None;raise NewsError('Invalid image prediction ID.')
                 telemetry['prediction_id']=prediction
+                with self._budget_lock:self._save_ledger()
                 telemetry['model_version']=row.get('version')
                 initial_status=row.get('status') or 'starting'
                 telemetry['prediction_state_transitions'].append({'status':initial_status,'at':iso_now(),'offset_seconds':0.0})
@@ -322,9 +351,22 @@ class EditorialImages(NewsImageGenerator):
                         if isinstance(metrics_obj.get('predict_time'),(int,float)):
                             telemetry['provider_reported_predict_time_seconds']=round(float(metrics_obj['predict_time']),6)
                         self.metric('apiDurationSeconds',provider_wait)
-                        result=row.get('output');url=result[0] if isinstance(result,list) and result else result
+                        result=row.get('output')
+                        if adapter.name=='seedream' and isinstance(result,list) and len(result)!=1:
+                            raise NewsError('Seedream returned an unexpected output count; no regeneration permitted')
+                        url=result[0] if isinstance(result,list) and result else result
                         dl_start=time.monotonic()
-                        data,_=await asyncio.get_running_loop().run_in_executor(None,lambda:fetch(url,types=('image/png','image/jpeg','image/webp'),limit=15_000_000))
+                        data=None; dl_err=None
+                        for dl_attempt in range(3):
+                            try:
+                                data,_=await asyncio.get_running_loop().run_in_executor(None,lambda:fetch(url,types=('image/png','image/jpeg','image/webp'),limit=15_000_000))
+                                break
+                            except Exception as exc:
+                                dl_err=exc
+                                if dl_attempt<2:
+                                    await asyncio.sleep(2.0**dl_attempt)
+                        if data is None:
+                            raise NewsError(f'Failed to download generated image from {url}: {dl_err}') from dl_err
                         dl_dur=time.monotonic()-dl_start
                         telemetry['output_download_duration_seconds']=round(dl_dur,6)
                         telemetry['status']='succeeded'

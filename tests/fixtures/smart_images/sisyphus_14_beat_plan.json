@@ -1,0 +1,333 @@
+{
+  "narration": "Sisyphus was a mortal king, remembered for his cleverness and pride. Zeus ruled above him, watching the affairs of gods and mortals. A massive boulder would become the instrument of the king\u2019s punishment. A steep mountain rose above the dark and silent underworld. His royal crown recalled the authority he had once enjoyed. His empty throne stood as a reminder of his vanished power. Far away, the city he had ruled continued without him. Zeus seized Sisyphus by the wrist and confronted the defiant king. Sisyphus pressed both hands against the boulder and pushed it uphill. At the summit, the boulder slipped away and rolled back down. Every time, the promise of an ending dissolved into another beginning. The punishment was measured in repetition, rather than passing years. Hope and exhaustion became the two sides of the same struggle. And still, he faced the thought of doing it all again.",
+  "typography_pacing": {
+    "positions": [
+      5,
+      7,
+      11,
+      13
+    ],
+    "passed": true,
+    "issues": []
+  },
+  "version": 1,
+  "assets": [
+    {
+      "id": "scene-4bde2bc20a4d9795",
+      "mode": "reuse",
+      "model": null,
+      "reference_ids": [],
+      "reuse_id": "sisyphus",
+      "estimated_cost_usd": 0
+    },
+    {
+      "id": "scene-0de8b8d70c6b3661",
+      "mode": "reuse",
+      "model": null,
+      "reference_ids": [],
+      "reuse_id": "zeus",
+      "estimated_cost_usd": 0
+    },
+    {
+      "id": "scene-df315d8e00d1932e",
+      "mode": "schnell",
+      "model": "black-forest-labs/flux-schnell",
+      "reference_ids": [],
+      "reuse_id": null,
+      "estimated_cost_usd": 0.003
+    },
+    {
+      "id": "scene-205bd7557590330d",
+      "mode": "schnell",
+      "model": "black-forest-labs/flux-schnell",
+      "reference_ids": [],
+      "reuse_id": null,
+      "estimated_cost_usd": 0.003
+    },
+    {
+      "id": "scene-368cef05130823e4",
+      "mode": "typography",
+      "model": null,
+      "reference_ids": [],
+      "reuse_id": null,
+      "estimated_cost_usd": 0
+    },
+    {
+      "id": "scene-8097868e8aa1e79d",
+      "mode": "schnell",
+      "model": "black-forest-labs/flux-schnell",
+      "reference_ids": [],
+      "reuse_id": null,
+      "estimated_cost_usd": 0.003
+    },
+    {
+      "id": "scene-2fcb2de05ea13c28",
+      "mode": "typography",
+      "model": null,
+      "reference_ids": [],
+      "reuse_id": null,
+      "estimated_cost_usd": 0
+    },
+    {
+      "id": "scene-8beac414f147d70d",
+      "mode": "seedream",
+      "model": "bytedance/seedream-4",
+      "reference_ids": [
+        "sisyphus",
+        "zeus"
+      ],
+      "reuse_id": null,
+      "estimated_cost_usd": 0.03
+    },
+    {
+      "id": "scene-7dc25da8d4b09a85",
+      "mode": "seedream",
+      "model": "bytedance/seedream-4",
+      "reference_ids": [
+        "sisyphus"
+      ],
+      "reuse_id": null,
+      "estimated_cost_usd": 0.03
+    },
+    {
+      "id": "scene-475d2f14f797365f",
+      "mode": "seedream",
+      "model": "bytedance/seedream-4",
+      "reference_ids": [
+        "sisyphus"
+      ],
+      "reuse_id": null,
+      "estimated_cost_usd": 0.03
+    },
+    {
+      "id": "scene-3dcb7163408a7ffa",
+      "mode": "typography",
+      "model": null,
+      "reference_ids": [],
+      "reuse_id": null,
+      "estimated_cost_usd": 0
+    },
+    {
+      "id": "scene-25d1325a2ee47cf2",
+      "mode": "reuse",
+      "model": null,
+      "reference_ids": [],
+      "reuse_id": "sisyphus",
+      "estimated_cost_usd": 0
+    },
+    {
+      "id": "scene-9fd95efae8a00c74",
+      "mode": "typography",
+      "model": null,
+      "reference_ids": [],
+      "reuse_id": null,
+      "estimated_cost_usd": 0
+    },
+    {
+      "id": "scene-884a9dbc95ec4a27",
+      "mode": "reuse",
+      "model": null,
+      "reference_ids": [],
+      "reuse_id": "sisyphus",
+      "estimated_cost_usd": 0
+    },
+    {
+      "id": "sisyphus",
+      "mode": "schnell",
+      "model": "black-forest-labs/flux-schnell",
+      "reference_ids": [],
+      "reuse_id": null,
+      "estimated_cost_usd": 0.003
+    },
+    {
+      "id": "zeus",
+      "mode": "schnell",
+      "model": "black-forest-labs/flux-schnell",
+      "reference_ids": [],
+      "reuse_id": null,
+      "estimated_cost_usd": 0.003
+    }
+  ],
+  "beats": [
+    {
+      "section_id": "event-000",
+      "asset_id": "scene-4bde2bc20a4d9795",
+      "mode": "reuse",
+      "timing": {
+        "estimated_start_sec": 0.0,
+        "estimated_end_sec": 4.4,
+        "start_fraction": 0.0,
+        "end_fraction": 0.07333333333333333,
+        "provenance": "planning_word_fraction; bind to measured audio before render"
+      }
+    },
+    {
+      "section_id": "event-001",
+      "asset_id": "scene-0de8b8d70c6b3661",
+      "mode": "reuse",
+      "timing": {
+        "estimated_start_sec": 4.4,
+        "estimated_end_sec": 8.8,
+        "start_fraction": 0.07333333333333333,
+        "end_fraction": 0.14666666666666667,
+        "provenance": "planning_word_fraction; bind to measured audio before render"
+      }
+    },
+    {
+      "section_id": "event-002",
+      "asset_id": "scene-df315d8e00d1932e",
+      "mode": "schnell",
+      "timing": {
+        "estimated_start_sec": 8.8,
+        "estimated_end_sec": 13.2,
+        "start_fraction": 0.14666666666666667,
+        "end_fraction": 0.22,
+        "provenance": "planning_word_fraction; bind to measured audio before render"
+      }
+    },
+    {
+      "section_id": "event-003",
+      "asset_id": "scene-205bd7557590330d",
+      "mode": "schnell",
+      "timing": {
+        "estimated_start_sec": 13.2,
+        "estimated_end_sec": 17.2,
+        "start_fraction": 0.22,
+        "end_fraction": 0.2866666666666667,
+        "provenance": "planning_word_fraction; bind to measured audio before render"
+      }
+    },
+    {
+      "section_id": "event-004",
+      "asset_id": "scene-368cef05130823e4",
+      "mode": "typography",
+      "timing": {
+        "estimated_start_sec": 17.2,
+        "estimated_end_sec": 21.2,
+        "start_fraction": 0.2866666666666667,
+        "end_fraction": 0.35333333333333333,
+        "provenance": "planning_word_fraction; bind to measured audio before render"
+      }
+    },
+    {
+      "section_id": "event-005",
+      "asset_id": "scene-8097868e8aa1e79d",
+      "mode": "schnell",
+      "timing": {
+        "estimated_start_sec": 21.2,
+        "estimated_end_sec": 25.6,
+        "start_fraction": 0.35333333333333333,
+        "end_fraction": 0.4266666666666667,
+        "provenance": "planning_word_fraction; bind to measured audio before render"
+      }
+    },
+    {
+      "section_id": "event-006",
+      "asset_id": "scene-2fcb2de05ea13c28",
+      "mode": "typography",
+      "timing": {
+        "estimated_start_sec": 25.6,
+        "estimated_end_sec": 29.6,
+        "start_fraction": 0.4266666666666667,
+        "end_fraction": 0.49333333333333335,
+        "provenance": "planning_word_fraction; bind to measured audio before render"
+      }
+    },
+    {
+      "section_id": "event-007",
+      "asset_id": "scene-8beac414f147d70d",
+      "mode": "seedream",
+      "timing": {
+        "estimated_start_sec": 29.6,
+        "estimated_end_sec": 34.0,
+        "start_fraction": 0.49333333333333335,
+        "end_fraction": 0.5666666666666667,
+        "provenance": "planning_word_fraction; bind to measured audio before render"
+      }
+    },
+    {
+      "section_id": "event-008",
+      "asset_id": "scene-7dc25da8d4b09a85",
+      "mode": "seedream",
+      "timing": {
+        "estimated_start_sec": 34.0,
+        "estimated_end_sec": 38.4,
+        "start_fraction": 0.5666666666666667,
+        "end_fraction": 0.64,
+        "provenance": "planning_word_fraction; bind to measured audio before render"
+      }
+    },
+    {
+      "section_id": "event-009",
+      "asset_id": "scene-475d2f14f797365f",
+      "mode": "seedream",
+      "timing": {
+        "estimated_start_sec": 38.4,
+        "estimated_end_sec": 42.8,
+        "start_fraction": 0.64,
+        "end_fraction": 0.7133333333333334,
+        "provenance": "planning_word_fraction; bind to measured audio before render"
+      }
+    },
+    {
+      "section_id": "event-010",
+      "asset_id": "scene-3dcb7163408a7ffa",
+      "mode": "typography",
+      "timing": {
+        "estimated_start_sec": 42.8,
+        "estimated_end_sec": 47.2,
+        "start_fraction": 0.7133333333333334,
+        "end_fraction": 0.7866666666666666,
+        "provenance": "planning_word_fraction; bind to measured audio before render"
+      }
+    },
+    {
+      "section_id": "event-011",
+      "asset_id": "scene-25d1325a2ee47cf2",
+      "mode": "reuse",
+      "timing": {
+        "estimated_start_sec": 47.2,
+        "estimated_end_sec": 51.2,
+        "start_fraction": 0.7866666666666666,
+        "end_fraction": 0.8533333333333334,
+        "provenance": "planning_word_fraction; bind to measured audio before render"
+      }
+    },
+    {
+      "section_id": "event-012",
+      "asset_id": "scene-9fd95efae8a00c74",
+      "mode": "typography",
+      "timing": {
+        "estimated_start_sec": 51.2,
+        "estimated_end_sec": 55.6,
+        "start_fraction": 0.8533333333333334,
+        "end_fraction": 0.9266666666666666,
+        "provenance": "planning_word_fraction; bind to measured audio before render"
+      }
+    },
+    {
+      "section_id": "event-013",
+      "asset_id": "scene-884a9dbc95ec4a27",
+      "mode": "reuse",
+      "timing": {
+        "estimated_start_sec": 55.6,
+        "estimated_end_sec": 60.0,
+        "start_fraction": 0.9266666666666666,
+        "end_fraction": 1.0,
+        "provenance": "planning_word_fraction; bind to measured audio before render"
+      }
+    }
+  ],
+  "estimated_image_cost_usd": 0.105,
+  "other_services_reserved_usd": 0.08,
+  "estimated_total_reserved_usd": 0.185,
+  "schnell_count": 5,
+  "seedream_count": 3,
+  "schnell_ratio": 0.625,
+  "soft_image_target": 8,
+  "warnings": [
+    "Schnell ratio below target; preserve essential actions instead of padding asset count"
+  ],
+  "conflicts": [],
+  "status": "ready"
+}

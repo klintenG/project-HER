@@ -1,0 +1,71 @@
+{
+  "scope": "Full orchestration and real Remotion/FFmpeg export; offline synthetic artwork/audio and mocked visual review. Live generation quality unverified.",
+  "success": true,
+  "errors": [],
+  "video": "output/smart_images_original_story_pacing/editorial.mp4",
+  "paid_requests": 0,
+  "mock_prediction_requests": 8,
+  "render_validation": {
+    "resolution": "1080x1920",
+    "video_codec": "h264",
+    "audio_codec": "aac",
+    "pixel_format": "yuv420p",
+    "color": "bt709",
+    "format_duration_seconds": 54.25,
+    "encoded_video_duration_seconds": 54.233333,
+    "black_intervals": [],
+    "integrated_lufs": -15.01,
+    "true_peak_dbtp": -12.21,
+    "narration_words": 150,
+    "typography_beats": 4
+  },
+  "asset_plan": {
+    "schnell": 5,
+    "seedream": 3,
+    "image_estimate_usd": 0.105,
+    "other_services_reservation_usd": 0.08,
+    "total_reserved_estimate_usd": 0.185,
+    "additional_reused_character_beats": [
+      12,
+      14
+    ],
+    "warnings": [
+      "Schnell ratio below target; preserve essential actions instead of padding asset count"
+    ]
+  },
+  "limitations": [
+    "Offline synthetic artwork and audio; visual judgments are mocked.",
+    "Live character likeness, anatomy, actual natural speech synchronization and billing remain unverified.",
+    "Smart planning applies to reference_editorial; other presets retain their existing generation behavior.",
+    "Other service costs are a reservation rather than metered actual charges.",
+    "Automatic cross-process prediction recovery is not implemented; duplicate Seedream submissions fail closed."
+  ],
+  "automated_checks": {
+    "python_unittest": {
+      "tests": 404,
+      "passed": true,
+      "environment": ".venv"
+    },
+    "typescript_no_emit": {
+      "passed": true
+    },
+    "git_diff_check": {
+      "passed": true
+    }
+  },
+  "typography_pacing": {
+    "positions": [
+      5,
+      7,
+      11,
+      13
+    ],
+    "passed": true,
+    "issues": []
+  },
+  "model_counts": {
+    "schnell": 5,
+    "seedream": 3
+  },
+  "narration_matches_previous_validation": true
+}

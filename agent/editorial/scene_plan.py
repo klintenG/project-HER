@@ -192,10 +192,10 @@ def select_layout(beat_type: str, previous_template: Optional[str] = None, previ
 # ---- Beat-aware cutout prompts -----------------------------------------------------------------
 CUTOUT_SUFFIX = (
     'OUTPUT RULES FOR CUTOUT COMPOSITING: one single isolated foreground cutout on a perfectly flat, solid, '
-    'evenly lit mid-gray (#808080) backdrop that shares no colour with the subject. All figures and props touch or overlap '
-    'so they form ONE connected silhouette. At least 15 percent empty margin on every side; nothing cropped at the frame edge. '
-    'NO scenery, NO room interior, NO walls, NO floor plane, NO horizon, NO vignette, NO border, NO frame, NO cast background shadow. '
-    'At most small attached props that physically touch the subject. Crisp clean edges, readable at phone size, '
+    'evenly lit mid-gray (#808080) backdrop that shares no colour with the subject. Keep the narrated spatial relationships; separated actors or released props must stay separated. '
+    'A compact attached terrain fragment may connect the scene when needed to show weight, slope or direction. At least 15 percent empty margin on every side; nothing cropped at the frame edge. '
+    'NO scenery, NO room interior, NO walls, NO full background floor plane, NO horizon, NO vignette, NO border, NO frame, NO square or rectangular picture card, NO baked checkerboard, NO cast background shadow. '
+    'Retain all essential action props at their narrated scale, including enormous rocks. A compact incline supporting feet and rock is allowed and required when pushing or rolling uphill/downhill is narrated. Crisp clean edges, readable at phone size, '
     'premium editorial illustration, same illustration style and character designs as the supplied references. '
     'No text, lettering, captions, logos or watermarks.')
 

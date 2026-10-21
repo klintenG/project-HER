@@ -39,6 +39,12 @@ def review(*args):
 
 
 class SentenceStoryboardTests(unittest.TestCase):
+    def setUp(self):
+        # These cases exercise explicit strict-mode rejection. Delivery-mode
+        # preservation is covered by test_image_delivery_recovery.
+        mode=patch.object(config,'IMAGE_FAILURE_POLICY','strict')
+        mode.start();self.addCleanup(mode.stop)
+
     def test_punctuation_and_full_spoken_mapping(self):
         text='Dr. A. Smith paid 3.14 dollars. “Really?” Yes!'
         self.assertEqual(sb.split_spoken(text),['Dr. A. Smith paid 3.14 dollars.','“Really?”','Yes!'])
@@ -216,7 +222,7 @@ class SentenceStoryboardTests(unittest.TestCase):
                 async def subject(self,prompt,path):return await self.scene_subject(prompt,path)
                 async def scene_subject(self,prompt,path,reference=None):
                     im=Image.new('RGBA',(320,320));draw=ImageDraw.Draw(im)
-                    draw.rectangle((60,50,250,270),fill=(80,140,220,255));im.save(path)
+                    draw.ellipse((60,50,250,270),fill=(80,140,220,255));im.save(path)
                     return 'fixture:generated'
                 action_subject=scene_subject
                 real_subject=scene_subject
@@ -230,18 +236,13 @@ class SentenceStoryboardTests(unittest.TestCase):
                     return dict(relevant=False,actionCorrect=False,objectsCorrect=False,portraitSubstitution=True,problems=['Background studio omitted'])
                 return review(instruction,data,paths)
             diag={}
-            with patch.object(config,'NEWS_IDENTITY_IMAGE_CACHE',root/'cache'):
-                entities,assets=acquire(planned,root/'assets',image_generator=Generator(),processor=Processor(),visual_review=strict_sentence_review,diagnostics=diag)
-            self.assertTrue(len(assets)>=1)
-            primary_asset=next(a for a in assets if a.entityId.startswith('scene-'))
-            self.assertIsNotNone(primary_asset)
-            audit_record=next(r for r in diag['assetAcquisition']['assets'] if r['entityId']==primary_asset.entityId)
-            self.assertTrue(audit_record.get('degraded'))
-            self.assertIn('fallbackMethod',audit_record)
-            val=sb.validate_assets(planned,assets,diag['assetAcquisition'],review)
-            self.assertTrue(val['acceptancePassed'])
-            self.assertFalse(val['fullyCompliant'])
-            self.assertIn('s1',val['degradedSentences'])
+            with patch.object(config,'PROJECTHER_ALLOW_CRITICAL_EVENT_FALLBACK',False), patch.object(config,'NEWS_IDENTITY_IMAGE_CACHE',root/'cache'):
+                with self.assertRaisesRegex(NewsError,'regeneration prohibited'):
+                    acquire(planned,root/'assets',image_generator=Generator(),processor=Processor(),visual_review=strict_sentence_review,diagnostics=diag)
+            audit_record=next(r for r in diag['assetAcquisition']['assets'] if r['entityId'].startswith('scene-'))
+            self.assertEqual(audit_record['route'],'needs_review_seedream')
+            self.assertEqual(audit_record['attemptCount'],1)
+            self.assertNotIn('fallbackMethod',audit_record)
 
     def test_fictional_standalone_object_primary_disables_character_identity_conditioning(self):
         demon=Entity(id='bhasmasura',name='Bhasmasura',kind='person',identity='fictional',description='A powerful demon with dark muscular build')
@@ -273,7 +274,7 @@ class SentenceStoryboardTests(unittest.TestCase):
                 async def scene_subject(self,prompt,path,reference=None):
                     captured_prompts.append(prompt)
                     captured_references.append(reference)
-                    im=Image.new('RGBA',(320,320),(128,128,128,255));im.save(path)
+                    im=Image.new('RGBA',(320,320));ImageDraw.Draw(im).ellipse((55,45,265,275),fill=(128,128,128,255));im.save(path)
                     return 'fixture:generated'
                 action_subject=scene_subject
                 real_subject=scene_subject
@@ -317,7 +318,7 @@ class SentenceStoryboardTests(unittest.TestCase):
             class Generator:
                 async def subject(self,prompt,path):return await self.scene_subject(prompt,path)
                 async def scene_subject(self,prompt,path,reference=None):
-                    im=Image.new('RGBA',(320,320),(180,140,50,255));im.save(path)
+                    im=Image.new('RGBA',(320,320));ImageDraw.Draw(im).ellipse((55,45,265,275),fill=(180,140,50,255));im.save(path)
                     return 'fixture:generated'
                 action_subject=scene_subject
                 real_subject=scene_subject

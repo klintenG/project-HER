@@ -613,26 +613,32 @@ DEFAULT_QUALITY = "standard"
 AI_IMAGES_ENABLED = False  # Toggle: True → AI images, False → Pexels
 AI_IMAGE_PROVIDER = os.getenv("PROJECTHER_IMAGE_PROVIDER", os.getenv("AI_IMAGE_PROVIDER", "replicate"))
 
-# Replicate (paid, unlimited, best quality + reliability)
-REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN", "")  # https://replicate.com/account/api-tokens
-REPLICATE_MODEL = os.getenv("PROJECTHER_IMAGE_SUPPORT_MODEL", os.getenv("REPLICATE_MODEL", "black-forest-labs/flux-1.1-pro"))
-REPLICATE_SCHNELL_MODEL = os.getenv("PROJECTHER_IMAGE_SUPPORT_MODEL", os.getenv("REPLICATE_SCHNELL_MODEL", "black-forest-labs/flux-schnell"))
-REPLICATE_USE_SCHNELL = os.getenv("REPLICATE_USE_SCHNELL", "1").lower() in ("1", "true", "yes")
-
-# HuggingFace Inference API (free, reliable, high quality)
-HF_API_TOKEN = os.getenv("HF_API_TOKEN", "")  # free at https://huggingface.co/settings/tokens
-HF_IMAGE_MODEL = os.getenv("HF_IMAGE_MODEL", "black-forest-labs/FLUX.1-schnell")  # fast, high quality
-HF_IMAGE_API_URL = os.getenv("HF_IMAGE_API_URL", "https://router.huggingface.co/hf-inference/models/")
-
-# Pollinations.ai fallback (free, no API key, less reliable)
-AI_IMAGE_BASE_URL = os.getenv("AI_IMAGE_BASE_URL", "https://image.pollinations.ai/prompt")
-AI_IMAGE_POLLINATIONS_MODEL = os.getenv("AI_IMAGE_POLLINATIONS_MODEL", "flux")
+# Exactly two image models. Role-specific settings are the only model selectors.
+REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN", "")
+CHARACTER_IMAGE_MODEL = os.getenv("IMAGE_CHARACTER_MODEL", os.getenv("CHARACTER_IMAGE_MODEL", "black-forest-labs/flux-schnell"))
+OBJECT_IMAGE_MODEL = os.getenv("IMAGE_PROP_MODEL", os.getenv("OBJECT_IMAGE_MODEL", "black-forest-labs/flux-schnell"))
+BACKGROUND_IMAGE_MODEL = os.getenv("BACKGROUND_IMAGE_MODEL", "black-forest-labs/flux-schnell")
+SIMPLE_IMAGE_MODEL = os.getenv("SIMPLE_IMAGE_MODEL", "black-forest-labs/flux-schnell")
+ACTION_IMAGE_MODEL = os.getenv("IMAGE_ACTION_MODEL", os.getenv("ACTION_IMAGE_MODEL", "bytedance/seedream-4"))
+SCHNELL_MAX_RETRIES = max(0, int(os.getenv("SCHNELL_MAX_RETRIES", "2")))
+SCHNELL_ESTIMATED_COST_USD = float(os.getenv("SCHNELL_ESTIMATED_COST_USD", "0.003"))
+SEEDREAM_ESTIMATED_COST_USD = float(os.getenv("SEEDREAM_ESTIMATED_COST_USD", "0.030"))
+from utils.image_models import validate_role as _validate_image_role, ImageModelConfigError
+for _role, _model in (("identity",CHARACTER_IMAGE_MODEL),("object",OBJECT_IMAGE_MODEL),
+                       ("background",BACKGROUND_IMAGE_MODEL),("support",SIMPLE_IMAGE_MODEL),
+                       ("action",ACTION_IMAGE_MODEL)):
+    _validate_image_role(_role,_model)
+if AI_IMAGE_PROVIDER != "replicate":
+    raise ImageModelConfigError("Image generation supports only Replicate with FLUX Schnell and Seedream 4")
+# Read-only compatibility names used by existing pipeline components.
+REPLICATE_MODEL = SIMPLE_IMAGE_MODEL
+REPLICATE_SCHNELL_MODEL = SIMPLE_IMAGE_MODEL
 
 # Shared image settings
 AI_IMAGE_WIDTH = 1024
 AI_IMAGE_HEIGHT = 1024
 AI_IMAGE_TIMEOUT = 90  # seconds per image (HF can be slow on cold start)
-AI_IMAGE_MAX_RETRIES = 3
+AI_IMAGE_MAX_RETRIES = SCHNELL_MAX_RETRIES
 AI_IMAGE_CONCURRENT = 2  # max concurrent image generations
 
 # Claymorphism design tokens
@@ -1073,7 +1079,7 @@ CONTENT_MODES["news"] = {
 AVAILABLE_CONTENT_MODES = list(CONTENT_MODES)
 SERPER_API_KEY = os.getenv("SERPER_API_KEY", "")
 NEWS_MAX_PAGES = max(1, min(3, int(os.getenv("NEWS_MAX_PAGES", "3"))))
-NEWS_HTTP_TIMEOUT = max(2, min(20, int(os.getenv("NEWS_HTTP_TIMEOUT", "12"))))
+NEWS_HTTP_TIMEOUT = max(2, min(120, int(os.getenv("NEWS_HTTP_TIMEOUT", "30"))))
 NEWS_PAGE_BYTES = 2_000_000
 NEWS_DEFAULT_DURATION = max(10, min(600, int(os.getenv("NEWS_DEFAULT_DURATION", "75"))))
 NEWS_CUTOUT_BACKEND = os.getenv("NEWS_CUTOUT_BACKEND", "rembg")
@@ -1081,65 +1087,33 @@ NEWS_CUTOUT_MODELS = [m.strip() for m in os.getenv("NEWS_CUTOUT_MODELS", "isnet-
 NEWS_CUTOUT_CACHE = Path(os.getenv("NEWS_CUTOUT_CACHE", str(TEMP_DIR / "news_cutouts")))
 NEWS_ASSET_RETRIES = max(0, int(os.getenv("NEWS_ASSET_RETRIES", "3")))
 PROJECTHER_IMAGE_PROVIDER = os.getenv("PROJECTHER_IMAGE_PROVIDER", "replicate")
-PROJECTHER_IMAGE_IDENTITY_MODEL = os.getenv("PROJECTHER_IMAGE_IDENTITY_MODEL", os.getenv("EDITORIAL_SUPPORT_IMAGE_MODEL", "black-forest-labs/flux-schnell"))
-PROJECTHER_IMAGE_SUPPORT_MODEL = os.getenv("PROJECTHER_IMAGE_SUPPORT_MODEL", os.getenv("EDITORIAL_SUPPORT_IMAGE_MODEL", "black-forest-labs/flux-schnell"))
-PROJECTHER_IMAGE_CONTINUITY_MODEL = os.getenv("PROJECTHER_IMAGE_CONTINUITY_MODEL", os.getenv("EDITORIAL_ACTION_IMAGE_MODEL", os.getenv("PROJECTHER_CHARACTER_EDIT_MODEL", "prunaai/p-image-edit")))
-PROJECTHER_IMAGE_PREMIUM_MODEL = os.getenv("PROJECTHER_IMAGE_PREMIUM_MODEL", "black-forest-labs/flux-kontext-pro")
-PROJECTHER_IMAGE_ALTERNATE_EDIT_MODEL = os.getenv("PROJECTHER_IMAGE_ALTERNATE_EDIT_MODEL", "black-forest-labs/flux-kontext-dev")
-PROJECTHER_IMAGE_SUPPORT_FALLBACK_MODEL = os.getenv("PROJECTHER_IMAGE_SUPPORT_FALLBACK_MODEL", os.getenv("EDITORIAL_FALLBACK_IMAGE_MODEL", "black-forest-labs/flux-1.1-pro"))
-PROJECTHER_IMAGE_ADAPTERS = {role: os.getenv(f"PROJECTHER_IMAGE_{role.upper()}_ADAPTER") for role in ("identity", "support", "continuity", "premium", "alternate_edit", "support_fallback")}
-PROJECTHER_IMAGE_ROUTING_ENABLED = os.getenv("PROJECTHER_IMAGE_ROUTING_ENABLED", "true").lower() in ("1", "true", "yes")
+PROJECTHER_IMAGE_IDENTITY_MODEL = CHARACTER_IMAGE_MODEL
+PROJECTHER_IMAGE_SUPPORT_MODEL = SIMPLE_IMAGE_MODEL
+PROJECTHER_IMAGE_CONTINUITY_MODEL = ACTION_IMAGE_MODEL
+# Adapters are inferred from the strict model registry; no configurable override.
+PROJECTHER_IMAGE_ADAPTERS = dict.fromkeys(("identity","support","continuity"))
 PROJECTHER_IMAGE_ASPECT_RATIO = os.getenv("PROJECTHER_IMAGE_ASPECT_RATIO", "1:1")
-PROJECTHER_ALTERNATE_EDIT_FALLBACK_ENABLED = os.getenv("PROJECTHER_ALTERNATE_EDIT_FALLBACK_ENABLED", "false").lower() in ("1", "true", "yes")
-PROJECTHER_SUPPORT_FALLBACK_ENABLED = os.getenv("PROJECTHER_SUPPORT_FALLBACK_ENABLED", "false").lower() in ("1", "true", "yes")
 PROJECTHER_IMAGE_MAX_CONCURRENCY = max(1, int(os.getenv("PROJECTHER_IMAGE_MAX_CONCURRENCY", "3")))
-PROJECTHER_IMAGE_RETRIES = max(0, int(os.getenv("PROJECTHER_IMAGE_RETRIES", "2")))
+PROJECTHER_IMAGE_RETRIES = SCHNELL_MAX_RETRIES
 PROJECTHER_IMAGE_TIMEOUT_SECONDS = max(10, int(os.getenv("PROJECTHER_IMAGE_TIMEOUT_SECONDS", "120")))
-PROJECTHER_IMAGE_BUDGET_USD = float(os.getenv("PROJECTHER_IMAGE_BUDGET_USD", "0.30"))
-NEWS_REAL_IMAGE_MODEL = os.getenv("PROJECTHER_IMAGE_IDENTITY_MODEL", os.getenv("NEWS_REAL_IMAGE_MODEL", "black-forest-labs/flux-1.1-pro"))
-# Default reference-based editing model: Pruna P-Image-Edit ($0.01/img).
-# FLUX Kontext Pro ($0.04/img) remains supported for comparison and rollback.
-PROJECTHER_CHARACTER_EDIT_MODEL = PROJECTHER_IMAGE_CONTINUITY_MODEL  # deprecated alias
-NEWS_REFERENCE_IMAGE_MODEL = os.getenv("PROJECTHER_IMAGE_CONTINUITY_MODEL", os.getenv("NEWS_REFERENCE_IMAGE_MODEL", PROJECTHER_IMAGE_CONTINUITY_MODEL))
-EDITORIAL_ACTION_IMAGE_MODEL = PROJECTHER_IMAGE_CONTINUITY_MODEL
-EDITORIAL_SUPPORT_IMAGE_MODEL = PROJECTHER_IMAGE_SUPPORT_MODEL
-EDITORIAL_FALLBACK_IMAGE_MODEL = PROJECTHER_IMAGE_SUPPORT_FALLBACK_MODEL
-PROJECTHER_PREMIUM_FALLBACK_ENABLED = os.getenv("PROJECTHER_PREMIUM_FALLBACK_ENABLED", "0").lower() in ("1", "true", "yes")
-PROJECTHER_PRUNA_TURBO = os.getenv("PROJECTHER_PRUNA_TURBO", "1").lower() in ("1", "true", "yes")
-PROJECTHER_PRUNA_COMPLEX_SCENE_TURBO = os.getenv("PROJECTHER_PRUNA_COMPLEX_SCENE_TURBO", "false").lower() in ("1", "true", "yes")
-PROJECTHER_PRUNA_RETRY_TURBO = os.getenv("PROJECTHER_PRUNA_RETRY_TURBO", "false").lower() in ("1", "true", "yes")
-PROJECTHER_PRUNA_MAX_ATTEMPTS = max(1, min(5, int(os.getenv("PROJECTHER_PRUNA_MAX_ATTEMPTS", "2"))))
-PROJECTHER_PRUNA_SEED = int(os.getenv("PROJECTHER_PRUNA_SEED", "-1")) if os.getenv("PROJECTHER_PRUNA_SEED") else None
-
+PROJECTHER_IMAGE_BUDGET_USD = float(os.getenv("MAX_IMAGE_BUDGET_USD", "0.60"))
+PROJECTHER_ALLOW_ASSET_OVERRUN = os.getenv("PROJECTHER_ALLOW_ASSET_OVERRUN", "true").lower() in ("true", "1", "yes")
+NEWS_REAL_IMAGE_MODEL = CHARACTER_IMAGE_MODEL
+NEWS_REFERENCE_IMAGE_MODEL = ACTION_IMAGE_MODEL
+EDITORIAL_ACTION_IMAGE_MODEL = ACTION_IMAGE_MODEL
+EDITORIAL_SUPPORT_IMAGE_MODEL = SIMPLE_IMAGE_MODEL
+PROJECTHER_EVENT_MAX_ATTEMPTS = max(1, min(2, int(os.getenv("PROJECTHER_EVENT_MAX_ATTEMPTS", "2"))))
+PROJECTHER_IMAGE_EXTRA_ATTEMPTS_PER_EVENT = max(0, min(1, int(os.getenv("PROJECTHER_IMAGE_EXTRA_ATTEMPTS_PER_EVENT", "1"))))
+PROJECTHER_IMAGE_SPARE_CALLS = max(0, min(2, int(os.getenv("PROJECTHER_IMAGE_SPARE_CALLS", "2"))))
 REPLICATE_MODEL_ESTIMATED_COSTS = {
-    "black-forest-labs/flux-schnell": 0.003,
-    "prunaai/p-image-edit": 0.010,
-    "black-forest-labs/flux-kontext-pro": 0.040,
-    "black-forest-labs/flux-1.1-pro": 0.040,
-    "black-forest-labs/flux-dev": 0.025,
-    "black-forest-labs/flux-kontext-dev": 0.025,
-    "google/nano-banana-pro": 0.040,
+    SIMPLE_IMAGE_MODEL: SCHNELL_ESTIMATED_COST_USD,
+    ACTION_IMAGE_MODEL: SEEDREAM_ESTIMATED_COST_USD,
 }
-# Dynamically register configured models into pricing map
-for _m, _c in [(PROJECTHER_CHARACTER_EDIT_MODEL, 0.010), (EDITORIAL_ACTION_IMAGE_MODEL, 0.010), (EDITORIAL_SUPPORT_IMAGE_MODEL, 0.003), (EDITORIAL_FALLBACK_IMAGE_MODEL, 0.040), (NEWS_REAL_IMAGE_MODEL, 0.040), (NEWS_REFERENCE_IMAGE_MODEL, 0.040)]:
-    if _m and _m not in REPLICATE_MODEL_ESTIMATED_COSTS:
-        REPLICATE_MODEL_ESTIMATED_COSTS[_m] = _c
-
-for _role, _default in (("identity", .003), ("support", .003), ("continuity", .010), ("premium", .040), ("alternate_edit", .025), ("support_fallback", .040)):
-    _model = globals()[f"PROJECTHER_IMAGE_{_role.upper()}_MODEL"]
-    REPLICATE_MODEL_ESTIMATED_COSTS[_model] = float(os.getenv(f"PROJECTHER_IMAGE_{_role.upper()}_ESTIMATED_COST_USD", REPLICATE_MODEL_ESTIMATED_COSTS.get(_model, _default)))
-
-from utils.image_models import validate_role as _validate_image_role, ImageModelConfigError
 if PROJECTHER_IMAGE_PROVIDER != "replicate":
-    raise ImageModelConfigError("PROJECTHER_IMAGE_PROVIDER currently supports only replicate")
-if not PROJECTHER_IMAGE_ROUTING_ENABLED:
-    raise ImageModelConfigError("PROJECTHER_IMAGE_ROUTING_ENABLED=false is unsupported; role routing is required")
-for _role in PROJECTHER_IMAGE_ADAPTERS:
-    _validate_image_role(_role, globals()[f"PROJECTHER_IMAGE_{_role.upper()}_MODEL"], PROJECTHER_IMAGE_ADAPTERS[_role])
-_validate_image_role("continuity", NEWS_REFERENCE_IMAGE_MODEL, PROJECTHER_IMAGE_ADAPTERS['continuity'] if os.getenv('PROJECTHER_IMAGE_CONTINUITY_MODEL') else None)
-_validate_image_role("identity", NEWS_REAL_IMAGE_MODEL, PROJECTHER_IMAGE_ADAPTERS['identity'] if os.getenv('PROJECTHER_IMAGE_IDENTITY_MODEL') else None)
+    raise ImageModelConfigError("Image generation supports only Replicate")
+if int(os.getenv("SEEDREAM_MAX_RETRIES","0")) != 0 or int(os.getenv("SEEDREAM_MAX_IMAGES","1")) != 1 or os.getenv("SEEDREAM_SEQUENTIAL_GENERATION","disabled") != "disabled":
+    raise ImageModelConfigError("Seedream 4 requires zero regeneration retries, one image, and disabled sequential generation")
 
-NEWS_REAL_IMAGE_ATTEMPTS = 2
 NEWS_MAX_REAL_IMAGE_CALLS = max(0, min(36, int(os.getenv("NEWS_MAX_REAL_IMAGE_CALLS", "24"))))
 NEWS_REFERENCE_CACHE = TEMP_DIR / "news_references"
 NEWS_IDENTITY_IMAGE_CACHE = TEMP_DIR / "news_identity_images"
@@ -1164,9 +1138,6 @@ NEWS_STYLE_SUFFIX = (
     "no extra people, no scenery, no text, no watermark, no frame, no border, no baked-in shadow, "
     "no sticker outline, no torn paper, no clay or plastic; illustrative asset, not documentary evidence"
 )
-POLLINATIONS_API_KEY = os.getenv("POLLINATIONS_API_KEY", "")
-NEWS_POLLINATIONS_MODEL = os.getenv("NEWS_POLLINATIONS_MODEL", "black-forest-labs/flux.1-schnell")
-NEWS_HF_PROVIDER = os.getenv("NEWS_HF_PROVIDER", "auto")
 EDITORIAL_VISION_MODEL = os.getenv("EDITORIAL_VISION_MODEL", GEMINI_MODEL)
 EDITORIAL_MAX_SUPPORT_CALLS = max(1,min(48,int(os.getenv("EDITORIAL_MAX_SUPPORT_CALLS", "24"))))
 
@@ -1200,7 +1171,31 @@ DIAGNOSTICS_RUNS_DIR = BASE_DIR / 'diagnostics' / 'runs'
 # Event semantics supersede sentence-only visuals within reference_editorial.
 # Disable to roll back without changing News/story/export contracts.
 EVENT_STORYBOARD_ENABLED = os.getenv("HER_EVENT_STORYBOARD_ENABLED", "1").lower() in ("1", "true", "yes")
+# Allow critical (P0) events to use candidate cutouts or character fallbacks instead of hard-failing
+PROJECTHER_ALLOW_CRITICAL_EVENT_FALLBACK = os.getenv("PROJECTHER_ALLOW_CRITICAL_EVENT_FALLBACK", "false").lower() in ("1", "true", "yes")
 # The semantic planner uses a text model; image models belong to the separate
 # event-image setting below. Keep provider/model overrides under operator control.
 EDITORIAL_EVENT_MODEL = os.getenv("HER_EDITORIAL_EVENT_MODEL", GEMINI_MODEL)
-EDITORIAL_EVENT_IMAGE_MODEL = os.getenv("HER_EDITORIAL_EVENT_IMAGE_MODEL", "google/nano-banana-pro")
+EDITORIAL_EVENT_IMAGE_MODEL = ACTION_IMAGE_MODEL
+
+# Event correctness controls; aliases preserve the existing smart-image settings.
+IMAGE_ACTION_MAX_ATTEMPTS = int(os.getenv('IMAGE_ACTION_MAX_ATTEMPTS', '1'))
+if IMAGE_ACTION_MAX_ATTEMPTS != 1:
+    raise ImageModelConfigError('IMAGE_ACTION_MAX_ATTEMPTS must be 1; revise the creative brief explicitly to generate again')
+IMAGE_ACTION_SIZE = os.getenv('IMAGE_ACTION_SIZE', '2K')
+IMAGE_ENHANCE_PROMPT = os.getenv('IMAGE_ENHANCE_PROMPT', 'true').lower() in ('1','true','yes')
+IMAGE_VISION_QA_MODEL = os.getenv('IMAGE_VISION_QA_MODEL', '')
+ENABLE_EXPENSIVE_IMAGE_MODELS = os.getenv('ENABLE_EXPENSIVE_IMAGE_MODELS', 'false').lower() in ('1','true','yes')
+RENDER_BLOCK_ON_CRITICAL_VISUAL_FAILURE = os.getenv('RENDER_BLOCK_ON_CRITICAL_VISUAL_FAILURE', 'false').lower() in ('1','true','yes')
+VISUAL_QA_CONTACT_SHEET_FPS = float(os.getenv('VISUAL_QA_CONTACT_SHEET_FPS', '1'))
+if IMAGE_ACTION_SIZE not in ('1K','2K','4K') or not 0 < VISUAL_QA_CONTACT_SHEET_FPS <= 30:
+    raise ImageModelConfigError('Invalid action size or contact sheet FPS')
+if os.getenv('IMAGE_ESTIMATED_BUDGET_USD'):
+    PROJECTHER_IMAGE_BUDGET_USD = float(os.environ['IMAGE_ESTIMATED_BUDGET_USD'])
+
+# Delivery is independent of probabilistic visual approval. Strict mode is opt-in.
+IMAGE_FAILURE_POLICY = os.getenv('IMAGE_FAILURE_POLICY', 'deliver_with_warnings')
+if IMAGE_FAILURE_POLICY not in ('deliver_with_warnings', 'strict'):
+    raise ImageModelConfigError('IMAGE_FAILURE_POLICY must be deliver_with_warnings or strict')
+
+IMAGE_SAVED_JOB_REUSE_SECONDS = max(0,int(os.getenv('IMAGE_SAVED_JOB_REUSE_SECONDS','86400')))

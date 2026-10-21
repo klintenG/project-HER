@@ -64,6 +64,11 @@ class EventStoryboardTests(unittest.TestCase):
             if change=='missing':r['beats'][0]['narration_excerpt']='lifted it'
             if change=='unknown':r['beats'][0]['actor_ids']=['stranger']
             if change=='duplicate':r['beats']*=2
+            if change!='unknown':
+                # Recoverable planner slips are repaired onto the exact frozen words.
+                result,_=ev.plan(source,None,lambda instruction,*_: {'accepted':True} if instruction.startswith('Audit event') else r,{})
+                self.assertEqual(' '.join(x['narration_excerpt'] for x in result.event_plan['beats']).split(),source.narration.split())
+                continue
             with self.assertRaises(NewsError):ev.plan(source,None,lambda instruction,*_: {'accepted':True} if instruction.startswith('Audit event') else r,{})
         _,script,_=planned(['She lifted it.'])
         with self.assertRaises(ValueError):ev.EventPlan.model_validate(script.event_plan).validate_script(source)
@@ -213,7 +218,7 @@ class EventStoryboardTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp,patch.object(config,'EVENT_STORYBOARD_ENABLED',True),patch.object(config,'SENTENCE_PRIMARY_VISUALS',True):
             root=Path(tmp)
             def rendered(script,m,video,out):return json.loads((Path(out)/'event_edl.json').read_text())
-            with patch('agent.editorial.pipeline.acquire',side_effect=acquisition),patch('agent.editorial.pipeline.render',side_effect=lambda m,p,*a,**k:(p,{})),patch('agent.editorial.pipeline.run'),patch('agent.editorial.vision.VisualReview'),patch.object(ev,'verify_rendered',side_effect=rendered):
+            with patch('agent.editorial.pipeline.acquire',side_effect=acquisition),patch('agent.editorial.pipeline.render',side_effect=lambda m,p,*a,**k:(p,{})),patch('agent.editorial.pipeline.run'),patch('agent.editorial.vision.VisualReview'),patch.object(ev,'verify_rendered',side_effect=rendered),patch('agent.editorial.quality_artifacts.contact_sheet'):
                 result=run_editorial(ACCOUNT,output_dir=root,source_policy='supplied',llm=LLM(),tts_provider='edge_tts',tts_engine=FixtureTTS(),music=False)
             self.assertTrue(result.success,result.errors)
             edl=json.loads((root/'event_edl.json').read_text())

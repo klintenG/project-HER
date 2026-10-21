@@ -26,7 +26,7 @@ def story():
 class EditorialVisualTests(unittest.TestCase):
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name)
-        self.patches=[patch.object(config,'NEWS_IDENTITY_IMAGE_CACHE',self.root/'images'),patch.object(config,'NEWS_CUTOUT_CACHE',self.root/'cutouts'),
+        self.patches=[patch.object(config,'IMAGE_FAILURE_POLICY','strict'),patch.object(config,'NEWS_IDENTITY_IMAGE_CACHE',self.root/'images'),patch.object(config,'NEWS_CUTOUT_CACHE',self.root/'cutouts'),
                       patch('utils.provider_admission.ProviderAdmission.wait',new_callable=AsyncMock)]
         for p in self.patches:p.start()
         self.image=self.root/'reference.png';subject_image('mira').save(self.image)
@@ -57,30 +57,25 @@ class EditorialVisualTests(unittest.TestCase):
         image=Image.open(assets[0].path)
         self.assertLess(image.getchannel('A').getextrema()[0],255)
 
-    def test_premium_fallback_checks_reference_and_caches_only_accepted_likeness(self):
+    def test_reference_edit_checks_reference_and_caches_only_accepted_likeness(self):
         diagnostics={};_,assets=self.assets(processor=self.failed_photo_processor(),diagnostics=diagnostics)
         self.assertTrue(assets[0].alpha);self.assertFalse(assets[0].factual)
         self.assertIn('reference likeness reviewed',assets[0].fallback)
         self.assertEqual(self.generator.real_subject.call_count,1);self.generator.subject.assert_not_called()
         self.assertEqual(self.review.call_args.args[2][0],self.reference.path)
-        self.assertEqual(diagnostics['assetAcquisition']['assets'][0]['route'],'premium_reference_illustration')
+        self.assertEqual(diagnostics['assetAcquisition']['assets'][0]['route'],'reference_illustration')
         self.assets(processor=self.failed_photo_processor())
         self.assertEqual(self.generator.real_subject.call_count,1);self.assertEqual(self.review.call_count,1)
 
-    def test_wrong_likeness_gets_bounded_retries_then_disclosed_illustration(self):
+    def test_seedream_wrong_likeness_stops_after_one_request_without_model_switch(self):
         self.review.return_value={'sameLikeness':False,'singlePerson':True,'bodyPreserved':True,'confidence':.2,'problems':['Wrong face'],'subjectMatch':True,'usable':True,'geometricPlaceholder':False,'contextAppropriate':True,'subjectConfidence':.95}
-        _,assets=self.assets(processor=self.failed_photo_processor())
-        self.assertEqual(self.generator.real_subject.call_count,2)
-        self.generator.subject.assert_called_once()
-        self.assertFalse(assets[0].factual)
-        self.assertEqual(assets[0].fallback,'AI illustration; identity/likeness not verified')
-        cached=[json.loads(p.read_text()) for p in (self.root/'images').glob('*/review.json')]
-        self.assertEqual(len(cached),1)
-        self.assertFalse(cached[0]['identityVerified'])
-        self.assertNotIn('visualReview',cached[0])
+        with self.assertRaisesRegex(NewsError,'regeneration prohibited'):
+            self.assets(processor=self.failed_photo_processor())
+        self.assertEqual(self.generator.real_subject.call_count,1)
+        self.generator.subject.assert_not_called()
+        self.assertFalse(list((self.root/'images').glob('*/review.json')))
         audit=json.loads((self.root/'job'/'asset_acquisition.json').read_text())
-        self.assertEqual(len(audit['assets'][0]['rejectedAttempts']),2)
-        self.assertEqual(audit['assets'][0]['route'],'unverified_identity_ai_illustration')
+        self.assertEqual(audit['assets'][0]['route'],'needs_review_seedream')
 
     def test_cutout_retry_zooms_out_and_preserves_rejected_raw_attempt(self):
         calls=[]
@@ -108,7 +103,7 @@ class EditorialVisualTests(unittest.TestCase):
         processor=MagicMock();processor.process.side_effect=CutoutQualityError('Subject touches image edge')
         _,assets=acquire(script,self.root/'failed',processor=processor,image_generator=self.generator)
         self.assertIn('Subject name only',assets[0].fallback)
-        self.assertEqual(self.generator.subject.call_count,config.NEWS_ASSET_RETRIES+1)
+        self.assertEqual(self.generator.subject.call_count,config.SCHNELL_MAX_RETRIES+1)
         self.assertFalse(list((self.root/'failed').glob('*-symbol.svg')))
 
     def test_missing_real_emu_photo_uses_reviewed_illustration_instead_of_cube(self):
@@ -156,15 +151,15 @@ class EditorialVisualTests(unittest.TestCase):
         self.assertIn('not verified',assets[0].fallback)
         self.assertNotEqual(assets[0].preparation,'symbolic')
 
-    def test_rejected_ai_subject_uses_final_labelled_rescue(self):
+    def test_rejected_ai_subject_stops_at_configured_schnell_attempts(self):
         self.review.return_value={**self.review.return_value,'subjectMatch':False,'geometricPlaceholder':True,'problems':['Unrelated box']}
         script=story();script.entities[0]=Entity(id='emu',name='Emu',kind='animal',identity='generic',description='Large Australian flightless bird')
         _,assets=acquire(script,self.root/'rescue',image_generator=self.generator,visual_review=self.review)
         self.assertEqual(len(assets),1)
         self.assertFalse(assets[0].factual)
-        self.assertIn('Approximate AI illustration',assets[0].fallback)
-        self.assertGreaterEqual(self.generator.subject.call_count,config.NEWS_ASSET_RETRIES+1)
-        self.assertTrue(list((self.root/'rescue').glob('*-rescue.png')))
+        self.assertIn('Subject name only',assets[0].fallback)
+        self.assertEqual(self.generator.subject.call_count,config.SCHNELL_MAX_RETRIES+1)
+        self.assertFalse(list((self.root/'rescue').glob('*-rescue.png')))
 
     def test_review_outage_uses_generated_asset_without_fake_identity(self):
         self.review.side_effect=TimeoutError('vision offline')
@@ -428,17 +423,17 @@ class EditorialVisualTests(unittest.TestCase):
         response=MagicMock(status_code=201);response.json.return_value={'id':'fixture1','status':'succeeded','output':['https://public.example/image.png']}
         client=MagicMock();client.post=AsyncMock(return_value=response)
         context=MagicMock();context.__aenter__=AsyncMock(return_value=client);context.__aexit__=AsyncMock(return_value=False)
-        old=config.REPLICATE_USE_SCHNELL
+        old=config.SIMPLE_IMAGE_MODEL
         with patch.object(config,'REPLICATE_API_TOKEN','fixture-token'),patch('httpx.AsyncClient',return_value=context),patch('agent.news_research.fetch',return_value=(self.image.read_bytes(),'https://public.example/image.png')):
             generator=EditorialImages()
             asyncio.run(generator.subject('One isolated cup',self.root/'support.png'))
             support=client.post.call_args
-            self.assertIn('flux-schnell',support.args[0]);self.assertEqual(support.kwargs['json']['input']['num_inference_steps'],4)
+            self.assertIn('flux-schnell',support.args[0])
             asyncio.run(generator.real_subject('Preserve reference person',self.root/'person.png',self.reference))
             premium=client.post.call_args
-            self.assertIn('p-image-edit',premium.args[0]);self.assertTrue(premium.kwargs['json']['input']['images'][0].startswith('data:image/'))
+            self.assertIn('seedream-4',premium.args[0]);self.assertTrue(premium.kwargs['json']['input']['image_input'][0].startswith('data:image/'))
             self.assertEqual(generator.support_calls,1);self.assertEqual(generator.real_calls,1)
-        self.assertEqual(config.REPLICATE_USE_SCHNELL,old)
+        self.assertEqual(config.SIMPLE_IMAGE_MODEL,old)
 
     def test_action_model_has_multiple_references_and_no_hidden_fallback(self):
         import asyncio
@@ -447,70 +442,60 @@ class EditorialVisualTests(unittest.TestCase):
         client=MagicMock();client.post=AsyncMock(return_value=response)
         context=MagicMock();context.__aenter__=AsyncMock(return_value=client);context.__aexit__=AsyncMock(return_value=False)
         reference=type('References',(),{'path':self.image,'paths':[self.image,self.image]})()
-        with patch.object(config,'REPLICATE_API_TOKEN','fixture-token'),patch.object(config,'EDITORIAL_ACTION_IMAGE_MODEL','google/nano-banana-pro'),patch('httpx.AsyncClient',return_value=context),patch('agent.news_research.fetch',return_value=(self.image.read_bytes(),'https://public.example/image.png')):
+        with patch.object(config,'REPLICATE_API_TOKEN','fixture-token'),patch.object(config,'EDITORIAL_ACTION_IMAGE_MODEL','bytedance/seedream-4'),patch('httpx.AsyncClient',return_value=context),patch('agent.news_research.fetch',return_value=(self.image.read_bytes(),'https://public.example/image.png')):
             generator=EditorialImages()
             asyncio.run(generator.action_subject('Exact contact',self.root/'action.png',reference))
         request=client.post.call_args
-        self.assertIn('google/nano-banana-pro',request.args[0])
+        self.assertIn('bytedance/seedream-4',request.args[0])
         payload=request.kwargs['json']['input']
         self.assertEqual(len(payload['image_input']),2)
-        self.assertEqual(payload['resolution'],'2K')
-        self.assertFalse(payload['allow_fallback_model'])
+        self.assertEqual(payload['size'],'2K')
+        self.assertEqual(payload['max_images'],1);self.assertEqual(payload['sequential_image_generation'],'disabled')
         self.assertNotIn('input_image',payload)
         self.assertEqual(generator.real_calls,1)
 
-    def test_event_scene_subject_with_nano_banana_passes_multiple_references(self):
+    def test_event_scene_subject_with_seedream_passes_multiple_references(self):
         import asyncio
         from agent.editorial.images import EditorialImages
         response=MagicMock(status_code=201);response.json.return_value={'id':'fixture1','status':'succeeded','output':['https://public.example/image.png']}
         client=MagicMock();client.post=AsyncMock(return_value=response)
         context=MagicMock();context.__aenter__=AsyncMock(return_value=client);context.__aexit__=AsyncMock(return_value=False)
         reference=type('References',(),{'path':self.image,'paths':[self.image,self.image]})()
-        with patch.object(config,'REPLICATE_API_TOKEN','fixture-token'),patch.object(config,'EDITORIAL_EVENT_IMAGE_MODEL','google/nano-banana-pro'),patch('httpx.AsyncClient',return_value=context),patch('agent.news_research.fetch',return_value=(self.image.read_bytes(),'https://public.example/image.png')):
+        with patch.object(config,'REPLICATE_API_TOKEN','fixture-token'),patch.object(config,'EDITORIAL_EVENT_IMAGE_MODEL','bytedance/seedream-4'),patch('httpx.AsyncClient',return_value=context),patch('agent.news_research.fetch',return_value=(self.image.read_bytes(),'https://public.example/image.png')):
             generator=EditorialImages(primary_count=1)
             asyncio.run(generator.event_scene_subject('Event action',self.root/'event.png',reference))
         request=client.post.call_args
-        self.assertIn('google/nano-banana-pro',request.args[0])
+        self.assertIn('bytedance/seedream-4',request.args[0])
         payload=request.kwargs['json']['input']
         self.assertEqual(len(payload['image_input']),2)
-        self.assertEqual(payload['resolution'],'2K')
-        self.assertFalse(payload['allow_fallback_model'])
+        self.assertEqual(payload['size'],'2K')
+        self.assertEqual(payload['max_images'],1);self.assertEqual(payload['sequential_image_generation'],'disabled')
         self.assertEqual(generator.primary_calls,1)
 
-    def test_event_scene_subject_with_flux_schnell_omits_references_and_succeeds(self):
+    def test_simple_scene_with_schnell_has_one_output_without_references(self):
         import asyncio
         from agent.editorial.images import EditorialImages
         response=MagicMock(status_code=201);response.json.return_value={'id':'fixture2','status':'succeeded','output':['https://public.example/image.png']}
         client=MagicMock();client.post=AsyncMock(return_value=response)
         context=MagicMock();context.__aenter__=AsyncMock(return_value=client);context.__aexit__=AsyncMock(return_value=False)
-        reference=type('References',(),{'path':self.image,'paths':[self.image,self.image]})()
-        with patch.object(config,'REPLICATE_API_TOKEN','fixture-token'),patch.object(config,'EDITORIAL_EVENT_IMAGE_MODEL','black-forest-labs/flux-schnell'),patch('httpx.AsyncClient',return_value=context),patch('agent.news_research.fetch',return_value=(self.image.read_bytes(),'https://public.example/image.png')):
+        with patch.object(config,'REPLICATE_API_TOKEN','fixture-token'),patch('httpx.AsyncClient',return_value=context),patch('agent.news_research.fetch',return_value=(self.image.read_bytes(),'https://public.example/image.png')):
             generator=EditorialImages(primary_count=1)
-            asyncio.run(generator.event_scene_subject('Event action',self.root/'event.png',reference))
+            asyncio.run(generator.scene_subject('Standalone cup',self.root/'event.png'))
         request=client.post.call_args
         self.assertIn('black-forest-labs/flux-schnell',request.args[0])
         payload=request.kwargs['json']['input']
-        self.assertNotIn('image',payload)
-        self.assertNotIn('images',payload)
         self.assertNotIn('image_input',payload)
         self.assertEqual(payload['num_inference_steps'],4)
-        self.assertEqual(generator.primary_calls,1)
+        self.assertEqual(payload['num_outputs'],1)
 
-    def test_event_scene_subject_with_flux_kontext_uses_single_composite_reference(self):
+    def test_unknown_event_model_is_rejected_before_submission(self):
         import asyncio
         from agent.editorial.images import EditorialImages
-        response=MagicMock(status_code=201);response.json.return_value={'id':'fixture3','status':'succeeded','output':['https://public.example/image.png']}
-        client=MagicMock();client.post=AsyncMock(return_value=response)
-        context=MagicMock();context.__aenter__=AsyncMock(return_value=client);context.__aexit__=AsyncMock(return_value=False)
-        reference=type('References',(),{'path':self.image,'paths':[self.image,self.image]})()
-        with patch.object(config,'REPLICATE_API_TOKEN','fixture-token'),patch.object(config,'EDITORIAL_EVENT_IMAGE_MODEL','black-forest-labs/flux-kontext-pro'),patch('httpx.AsyncClient',return_value=context),patch('agent.news_research.fetch',return_value=(self.image.read_bytes(),'https://public.example/image.png')):
+        with patch.object(config,'REPLICATE_API_TOKEN','fixture-token'),patch.object(config,'EDITORIAL_EVENT_IMAGE_MODEL','vendor/unsupported-image-model'),patch('httpx.AsyncClient') as client:
             generator=EditorialImages(primary_count=1)
-            asyncio.run(generator.event_scene_subject('Event action',self.root/'event.png',reference))
-        request=client.post.call_args
-        self.assertIn('black-forest-labs/flux-kontext-pro',request.args[0])
-        payload=request.kwargs['json']['input']
-        self.assertIn('input_image',payload)
-        self.assertEqual(generator.primary_calls,1)
+            with self.assertRaisesRegex(ValueError,'Unsupported image model'):
+                asyncio.run(generator.event_scene_subject('Event action',self.root/'event.png'))
+            client.assert_not_called()
 
 
     def test_billing_failure_stops_further_job_predictions(self):

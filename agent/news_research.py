@@ -77,6 +77,8 @@ def fetch(url, headers=None, types=("text/html", "application/xhtml+xml", "text/
                     raise NewsError("Source exceeded retrieval size/time limits.")
                 chunks.append(chunk)
             return b"".join(chunks), url
+        except (urllib3.exceptions.HTTPError, TimeoutError, OSError) as exc:
+            raise NewsError(f"Network error fetching {url}: {exc}") from exc
         finally:
             if response:
                 response.close()

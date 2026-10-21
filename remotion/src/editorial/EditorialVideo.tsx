@@ -12,7 +12,7 @@ const color='#414249';
 // Label contexts only: historical quotations and narration are never censored.
 const cleanName=(text:string)=>text.replace(/(?:\s*\n\s*|\s+)(?:AI[- ]?generated(?: illustration)?|AI illustration|illustration|stock (?:image|photo)|generated image|concept art|visual)\s*$/i,'').trim();
 
-const PhraseBlock:React.FC<{layer:Layer;words:Map<string,Word>;frame:number;toneColor:string}>=({layer,words,frame,toneColor})=>{
+const PhraseBlock:React.FC<{layer:Layer;words:Map<string,Word>;frame:number;toneColor:string;depth?:boolean}>=({layer,words,frame,toneColor,depth=false})=>{
   const p=layer.phrase!;
   // Keep every word in the final geometry from the first frame. Opacity alone
   // changes. Line breaks are measured with the same bundled font in Python.
@@ -22,10 +22,10 @@ const PhraseBlock:React.FC<{layer:Layer;words:Map<string,Word>;frame:number;tone
   const grouped=p.animation==='group_slide'||p.animation==='line_reveal';
   const group=ease((frame-first+1)/8);
   const groupStyle:React.CSSProperties=grouped?{transform:`translateY(${(1-group)*24}px)`,clipPath:p.animation==='line_reveal'?`inset(0 0 ${(1-group)*100}% 0)`:undefined}:{};
-  return <div style={{...common,...groupStyle}}>{p.lines.map((line,n)=><div key={n} style={{whiteSpace:'nowrap',minHeight:p.size*1.19}}>{line.map((id,i)=>{
+  return <div style={{...common,...groupStyle,perspective:depth?1100:undefined,transformStyle:depth?'preserve-3d':undefined}}>{p.lines.map((line,n)=><div key={n} style={{whiteSpace:'nowrap',minHeight:p.size*1.19}}>{line.map((id,i)=>{
     const w=words.get(id)!;const onset=(p.mode==='phrase_reveal'||p.mode==='connector')?first:w.start*30-p.anticipationFrames;
     const t=clamp((frame-onset+1)/6);const eased=1-Math.pow(1-t,3);
-    return <span key={id} style={{display:'inline-block',opacity:t,fontWeight:p.emphasis.includes(id)?700:p.weight,transform:grouped?undefined:`translateY(${(1-eased)*18}px)`}}>{w.text}{i<line.length-1?'\u00a0':''}</span>;
+    return <span key={id} style={{display:'inline-block',opacity:t,fontWeight:p.emphasis.includes(id)?700:p.weight,transform:depth?`translateY(${(1-eased)*24}px) translateZ(${(1-eased)*45}px) rotateX(${(1-eased)*-8}deg)`:grouped?undefined:`translateY(${(1-eased)*18}px)`}}>{w.text}{i<line.length-1?'\u00a0':''}</span>;
   })}</div>)}</div>;
 };
 
@@ -65,6 +65,8 @@ const EditorialStory:React.FC<Timeline>=(props)=>{
   const closing=useBrandClosing();const m=useMemo(()=>validateTimeline(props),[props]);const frame=useCurrentFrame();
   const words=useMemo(()=>new Map(m.words.map(w=>[w.id,w])),[m]);
   const assets=useMemo(()=>new Map(m.assets.map(a=>[a.id,a])),[m]);
+  const typePlan=m.diagnostics.plannedTypography as {depthEnabled?:boolean;wordIds?:string[]}|undefined;
+  const typographyWords=useMemo(()=>new Set(typePlan?.wordIds??[]),[typePlan]);
   const reference=m.editorialStyleVersion==='reference-v2';
   const current=m.sections.find(s=>s.start*30<=frame&&s.end*30>frame);
   const beat=m.beats.find(b=>b.startFrame<=frame&&frame<b.endFrame);
@@ -82,9 +84,11 @@ const EditorialStory:React.FC<Timeline>=(props)=>{
   const draw=(layer:Layer,parentBounds?:Bounds):React.ReactNode=>{
     if(frame<layer.startFrame||frame>=layer.endFrame)return null;
     // Complete captions replace editorial spoken text; identity labels remain.
-    if((closing||m.subtitleMode==='complete')&&layer.phrase?.wordIds.length)return null;
+    const typography=Boolean(layer.phrase?.wordIds.some(id=>typographyWords.has(id)));
+    if((closing||(m.subtitleMode==='complete'&&!typography))&&layer.phrase?.wordIds.length)return null;
     const s=stateAt(layer,m.events,frame),b=parentBounds?{...s.bounds,y:parentBounds.h+18,w:parentBounds.w}:s.bounds;
     const asset=s.assetId?assets.get(s.assetId):null;
+    if(asset?.source==='Remotion typography composition')return null;
     const mo=asset&&layer.motion&&!layer.parentId?cutoutMotionAt(layer,frame):null;
     const style:React.CSSProperties={position:'absolute',left:b.x,top:b.y,width:b.w,height:b.h,zIndex:layer.z,
       transformOrigin:layer.origin,transform:`translate(${s.x+(mo?mo.x:0)}px,${s.y+(mo?mo.y:0)}px) scale(${s.scale*(mo?mo.scale:1)}) rotate(${mo?mo.rotate:0}deg)`,opacity:s.opacity*(mo?mo.opacity:1)};
@@ -104,7 +108,7 @@ const EditorialStory:React.FC<Timeline>=(props)=>{
         return <Img key={el.assetId+i} src={url(part.path)} style={{position:'absolute',left:ox+el.x*fw,top:oy+el.y*fh,width:el.w*fw,height:el.h*fh,objectFit:'contain',
           transform:`translate(${ms.x-(mo?mo.x:0)}px,${ms.y-(mo?mo.y:0)}px) scale(${ms.scale/(mo?mo.scale:1)})`,opacity:Math.min(1,ms.opacity/Math.max(.001,mo?mo.opacity:1)),zIndex:i}}/>;})}
       {s.swapAsset&&<Img src={url(assets.get(s.swapAsset)!.path)} style={{...imageStyle,position:'absolute',inset:0,opacity:s.swap}}/>}
-      {layer.phrase&&<PhraseBlock layer={layer} words={words} frame={frame} toneColor={toneColor}/>}
+      {layer.phrase&&<PhraseBlock layer={layer} words={words} frame={frame} toneColor={toneColor} depth={Boolean(typePlan?.depthEnabled&&typography)}/>}
       {layer.role==='year'&&<div style={{fontFamily:'EditorialPoppins',fontSize:170,fontWeight:700,color,textAlign:'center',fontVariantNumeric:'tabular-nums'}}>{s.value}</div>}
       {layer.role==='box'&&<><div style={{position:'absolute',left:'-5%',top:'70%',width:'96%',height:'12%',borderRadius:'50%',background:'#252735',opacity:.12,filter:'blur(15px)'}}/><Box angle={s.angle}/></>}
       {m.layers.filter(child=>child.parentId===layer.id).map(child=>draw(child,b))}

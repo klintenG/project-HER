@@ -307,7 +307,7 @@ def compile_direction(m, script, direction, settings):
             layer=Layer(id=lid,role='subject' if asset.role=='portrait' else 'object',entityId=eid,assetId=asset.id,startFrame=onset,endFrame=total,bounds=box,shadow=True)
             ent=entities[eid]
             label=None
-            if should_render_label(ent):
+            if asset.source!='Remotion typography composition' and should_render_label(ent):
                 label=Layer(id=lid+'-label',role='label',entityId=eid,parentId=lid,anchor='entity',startFrame=onset,endFrame=total,
                     bounds=Bounds(x=0,y=box.h+18,w=box.w,h=150),z=20,
                         phrase=Phrase(wordIds=[],lines=[],mode='entity_label',size=36,label=label_lines(ent.name,box.w)))

@@ -21,6 +21,7 @@ class EditorialScript(Script):
     identity_registry: list[Entity] = Field(default_factory=list)
     narrative_plan: Optional[NarrativeBeatPlan] = None
     event_plan: Optional[dict] = None
+    asset_generation_plan: Optional[dict] = None
 
 
 def anchor_index(text,anchor):

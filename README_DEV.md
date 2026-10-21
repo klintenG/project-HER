@@ -30,10 +30,9 @@ Project HER takes text input (a URL, article, or raw story) and produces a ready
 ### Visuals
 - **Pexels stock images** – Auto-fetched royalty-free images matching each key point
 - **AI-generated images (Claymorphism mode)** – Toggle `--ai-images` to generate unique visuals using:
-  - **Replicate** (primary, paid) – FLUX Schnell ($0.003/img) or FLUX Pro ($0.04/img), unlimited
-  - **HuggingFace** (free fallback) – FLUX.1-schnell via Inference API
-  - **Pollinations.ai** (final fallback) – No API key required
-  - 3-tier automatic fallback chain with retry logic and credit depletion detection
+  - **FLUX Schnell through Replicate** – straightforward subjects, estimated $0.003/image.
+  - **Seedream 4 through Replicate** – reference-guided action/interaction assets, estimated $0.030/output.
+  - No alternative image provider or model-switching fallback; Seedream generates once per asset.
 - **11 visual styles** – claymorphism, glassmorphism, neon_punk, vintage_paper, watercolor, comic_book, minimalist, cyberpunk, pastel_dream, dark_elegance, retro_futurism
 - **Claymorphism design system** – Soft 3D clay-rendered style with pastel palette, rounded cards, and warm lighting
 
@@ -138,7 +137,7 @@ One flag sets format, duration, bitrate, FPS, and recommended theme:
 | Scraper | `agent/scraper.py` | URL extraction + raw text handling |
 | Analyzer | `agent/analyzer.py` | Multi-provider LLM content analysis |
 | Visuals | `agent/visuals.py` | Pexels image fetching |
-| AI Visuals | `agent/ai_visuals.py` | Replicate/HF/Pollinations image generation |
+| AI Visuals | `agent/ai_visuals.py` | Schnell/Seedream image generation through Replicate |
 | Story Splitter | `agent/story_splitter.py` | AI screen segmentation with emotion/layout |
 | Narration | `agent/narration.py` | Edge-TTS with word-level timing |
 | Compositor | `agent/compositor.py` | Standard video rendering (MoviePy) |
@@ -210,7 +209,6 @@ cp .env.example .env
 #   GROQ_API_KEY        (required)  – https://console.groq.com
 #   PEXELS_API_KEY      (required)  – https://www.pexels.com/api/
 #   REPLICATE_API_TOKEN (optional)  – https://replicate.com/account/api-tokens
-#   HF_API_TOKEN        (optional)  – https://huggingface.co/settings/tokens
 ```
 
 ### Generate
@@ -253,15 +251,15 @@ python main.py generate --help # All generation options
 
 ---
 
-## AI Image Providers
+## AI Image Models
 
-| Provider | Cost | Quality | Reliability | API Key |
-|---|---|---|---|---|
-| **Replicate** (default) | ~$0.003/img | Excellent | Unlimited | Required |
-| **HuggingFace** | Free | Excellent | Rate-limited | Required |
-| **Pollinations** | Free | Good | Unreliable | None |
+| Model | Configurable estimate | Use |
+|---|---|---|
+| **FLUX Schnell** | $0.003/image | Characters, objects, backgrounds and simple subjects |
+| **Seedream 4** | $0.030/output | Actions and reference-guided interactions; one output, no retries |
 
-The system auto-falls back through the chain if any provider fails.
+Both use Replicate and require `REPLICATE_API_TOKEN`. See [image configuration](IMAGE_MODEL_CONFIGURATION.md).
+There are no automatic provider/model-switching fallbacks.
 
 ---
 
@@ -286,7 +284,7 @@ output/video_20260219_155311/
 | Layer | Technology |
 |---|---|
 | AI/LLM | Groq (Llama 3.1), Copilot Bridge, OpenAI-compatible APIs |
-| Image Gen | Replicate (FLUX), HuggingFace, Pollinations |
+| Image Gen | Replicate (FLUX Schnell + Seedream 4) |
 | Stock Images | Pexels API |
 | TTS | Microsoft Edge TTS (15+ voices, 12+ languages) |
 | Video (Python) | MoviePy 2.1 + Pillow |

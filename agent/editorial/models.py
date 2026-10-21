@@ -55,6 +55,7 @@ class Asset(Model):
     path: str
     originalPath: str
     role: Literal['portrait', 'object', 'context', 'photo', 'document', 'map', 'symbol']
+    assetRole: Optional[Literal['ACTOR_ONLY','EVENT_ACTION','EVENT_OUTCOME','CONTEXT']] = None
     subject: str
     source: str
     license: str

@@ -92,7 +92,27 @@ def stage(timeline,output):
         destination=stage/name
         if path.resolve()!=destination.resolve():shutil.copyfile(path,destination)
         return f'editorial/{m.generationId}/{name}'
-    for i,a in enumerate(m.assets):props['assets'][i]['path']=copy(a.path,f'asset-{i}{Path(a.path).suffix}',a.sha256)
+    for i,a in enumerate(m.assets):
+        from PIL import Image
+        from agent.cutout_processor import usable_cutout, repair_cutout
+        if Path(a.path).suffix.lower() in ('.png','.jpg','.jpeg','.webp'):
+            with Image.open(a.path) as image:
+                empty=image.mode=='RGBA' and image.getchannel('A').getbbox() is None
+                valid=usable_cutout(image)
+            if not empty and not valid:
+                repaired=Path(output)/'render_cutouts'/(a.id+'.png')
+                try:repair_cutout(a.path,repaired)
+                except NewsError as mask_error:
+                    from .image_recovery import preserve
+                    from agent.news_models import Entity as ScriptEntity
+                    subject=ScriptEntity(id=a.entityId,name=a.subject,kind='person' if a.role=='portrait' else 'object',identity='generic',description='Saved artwork for local cutout recovery')
+                    fallback=preserve(subject,a.path,None,repaired.parent,str(mask_error),provider=a.source)
+                    repaired=Path(fallback.path)
+                    props['warnings'].append('Saved scene could not be isolated; explicit unavailable visual used instead of a rectangular panel: '+a.id)
+                with Image.open(repaired) as image:width,height=image.size
+                a=a.model_copy(update={'path':str(repaired.resolve()),'sha256':digest(repaired),'alpha':True,'preparation':'trimmed_alpha','width':width,'height':height})
+                props['assets'][i]=a.model_dump()
+        props['assets'][i]['path']=copy(a.path,f'asset-{i}{Path(a.path).suffix}',a.sha256)
     for i,a in enumerate(m.audio):props['audio'][i]['path']=copy(a.path,f'audio-{i}.wav',a.sha256)
     props['fonts']['semibold']=copy(m.fonts.semibold,'Poppins-SemiBold.ttf')
     props['fonts']['bold']=copy(m.fonts.bold,'Poppins-Bold.ttf')
