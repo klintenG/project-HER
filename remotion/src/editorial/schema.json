@@ -366,7 +366,8 @@
             "representation_swap",
             "emphasis",
             "fade",
-            "reframe"
+            "reframe",
+            "spotlight"
           ],
           "title": "Type",
           "type": "string"

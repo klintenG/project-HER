@@ -117,7 +117,7 @@ class Layer(Interval):
 
 class Event(Interval):
     id: str
-    type: Literal['focus_shift', 'settle', 'context_change', 'transfer', 'map_separate', 'year_counter', 'object_action', 'representation_swap', 'emphasis', 'fade', 'reframe']
+    type: Literal['focus_shift', 'settle', 'context_change', 'transfer', 'map_separate', 'year_counter', 'object_action', 'representation_swap', 'emphasis', 'fade', 'reframe', 'spotlight']
     targetIds: list[str] = Field(min_length=1)
     easing: Literal['linear', 'easeOutCubic'] = 'easeOutCubic'
     # Explicit bounded parameters; no arbitrary CSS, JavaScript or catalog names.

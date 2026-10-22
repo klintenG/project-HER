@@ -53,7 +53,7 @@ export type Event = {
   startFrame: number;
   endFrame: number;
   id: string;
-  type: "focus_shift" | "settle" | "context_change" | "transfer" | "map_separate" | "year_counter" | "object_action" | "representation_swap" | "emphasis" | "fade" | "reframe";
+  type: "focus_shift" | "settle" | "context_change" | "transfer" | "map_separate" | "year_counter" | "object_action" | "representation_swap" | "emphasis" | "fade" | "reframe" | "spotlight";
   targetIds: (string)[];
   easing: "linear" | "easeOutCubic";
   dx: number;

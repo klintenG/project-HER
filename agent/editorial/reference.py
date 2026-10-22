@@ -72,63 +72,10 @@ def narrative_layout(beat):
     return 'event-hero'
 
 
-def layout(kind, visuals, assets):
-    """Each family reserves disjoint text, asset and optional name regions."""
-    top=Bounds(x=90,y=300,w=900,h=310)
-    lower=Bounds(x=90,y=1360,w=900,h=250)
-    if not visuals:return Bounds(x=90,y=620,w=900,h=580),{}
-    if kind in ('event-hero','environment-change','character-interaction','object-closeup','dramatic-reveal'):
-        if kind=='dramatic-reveal':
-            caption=Bounds(x=95,y=1390,w=890,h=220)
-            primary=Bounds(x=150,y=480,w=780,h=820)
-        elif kind=='object-closeup':
-            caption=Bounds(x=95,y=1390,w=890,h=220)
-            primary=Bounds(x=160,y=530,w=760,h=760)
-        elif kind=='environment-change':
-            caption=Bounds(x=95,y=270,w=890,h=230)
-            primary=Bounds(x=150,y=570,w=780,h=760)
-        elif kind=='character-interaction':
-            caption=Bounds(x=95,y=300,w=890,h=220)
-            primary=Bounds(x=95 if len(visuals)>1 else 150,y=590,w=560 if len(visuals)>1 else 780,h=740)
-        else:
-            caption=Bounds(x=95,y=280,w=890,h=230)
-            primary=Bounds(x=150,y=570,w=780,h=760)
-        if len(visuals)==2:
-            primary=Bounds(x=95,y=590,w=560,h=680)
-        elif len(visuals)==3:
-            primary=Bounds(x=340,y=590,w=400,h=600)
-        targets={visuals[0].id:primary}
-        if len(visuals)>1:
-            targets[visuals[1].id]=Bounds(x=710,y=790,w=275,h=400)
-        if len(visuals)>2:
-            targets[visuals[1].id]=Bounds(x=65,y=790,w=250,h=360)
-            targets[visuals[2].id]=Bounds(x=765,y=790,w=250,h=360)
-        return caption,targets
-    if kind=='portrait-event' and len(visuals)==1:
-        return Bounds(x=85,y=660,w=405,h=500),{visuals[0].id:Bounds(x=520,y=600,w=470,h=600)}
-    if kind=='timeline-date' and len(visuals)<=2:
-        return top,{v.id:Bounds(x=120+i*460 if len(visuals)>1 else 180,y=720,w=420 if len(visuals)>1 else 720,h=520 if len(visuals)>1 else 660) for i,v in enumerate(visuals)}
-    if len(visuals)==1:
-        v=visuals[0]
-        if kind=='document-evidence':return top,{v.id:Bounds(x=140,y=660,w=800,h=640)}
-        if kind=='final-reveal':return lower,{v.id:Bounds(x=160,y=520,w=760,h=760)}
-        if kind=='asset-handoff':return lower,{v.id:Bounds(x=160,y=540,w=760,h=740)}
-        if kind in ('map-event','location-change'):return top,{v.id:Bounds(x=110,y=640,w=860,h=660)}
-        return top,{v.id:Bounds(x=160,y=600,w=760,h=720)}
-    if len(visuals)==3:
-        # Hierarchical composition: prominent hero cutout, two smaller flanked cutouts
-        return top,{
-            visuals[0].id: Bounds(x=340, y=600, w=400, h=520),
-            visuals[1].id: Bounds(x=70,  y=720, w=300, h=420),
-            visuals[2].id: Bounds(x=710, y=720, w=300, h=420),
-        }
-    if kind in ('map-event','location-change'):
-        return top,{visuals[0].id:Bounds(x=100,y=720,w=400,h=480),visuals[1].id:Bounds(x=540,y=620,w=460,h=580)}
-    return lower if kind=='split-outcome' else top,{visuals[0].id:Bounds(x=80,y=600 if kind=='split-outcome' else 640,w=460,h=580),visuals[1].id:Bounds(x=540,y=640 if kind=='split-outcome' else 700,w=460,h=540)}
-
 
 def choreograph(m,script,settings):
     from .planner import phrase_layout, label_lines, emphasis_key
+    from .staging import focus_cues, focus_at, stage
     m['editorialStyleVersion']='reference-v2'
     m['layers']=[l for l in m['layers'] if l.entityId]
     # Rebuild geometric choreography, preserving the director's exact asset
@@ -137,13 +84,16 @@ def choreograph(m,script,settings):
     visuals=[l for l in m['layers'] if l.assetId]
     assets={a.id:a for a in m['assets']}
     names=[e.name for e in script.entities]
+    names.extend(e.name for e in getattr(script,'identity_registry',[]))
+    spoken_focus=focus_cues(m,script)
+    atomic=m['diagnostics'].get('atomicStoryboard',{}).get('beats',[])
     storyboards={b['sentence_id']:b for b in getattr(script,'sentence_storyboard',[])}
     rows=[]
     for sentence in script.sentences:
         sw=[w for w in m['words'] if w.sectionId==sentence.id]
         for span in chunks(sw,names):rows.append((sentence,span))
     if not rows:raise ValueError('Reference-v2 requires aligned spoken phrases')
-    m['beats']=[];audit=[];positions={}
+    m['beats']=[];audit=[];positions={};presented=set();sides={};spotlights={};staging=[];previous_live=[]
     for i,(sentence,span) in enumerate(rows):
         start=0 if i==0 else frames(span[0].start)
         end=frames(rows[i+1][1][0].start) if i+1<len(rows) else m['durationInFrames']
@@ -156,7 +106,14 @@ def choreograph(m,script,settings):
         text=' '.join(w.text for w in span)
         kind='final-reveal' if i==len(rows)-1 else narrative_layout(storyboards.get(sentence.id)) or grammar(text,sentence.role,reserved,assets,first=i==0)
         if kind=='portrait-event' and len(visible)>1:kind='incremental-claim'
-        box,_=layout(kind,reserved,assets)
+        focus=focus_at(reserved,start,spoken_focus,atomic)
+        if len(reserved)==1:
+            lid=reserved[0].id
+            if re.match(r'^(?:but|yet|instead|however)\b',text,re.I):
+                sides[lid]='right' if sides.get(lid,'left')=='left' else 'left'
+        reveal=bool(reserved) and (reserved[0].id not in presented or len(previous_live)>1)
+        box,_=stage(reserved,focus,reveal,sides.get(focus,'left'),final=i==len(rows)-1)
+        if len(visible)>1:box=Bounds(x=90,y=300,w=900,h=310)
         ids=[w.id for w in span]
         size=140 if kind=='timeline-date' and len(span)<=2 else 106
         lines,px=phrase_layout(ids,m['words'],box.w,size,box.h)
@@ -168,24 +125,37 @@ def choreograph(m,script,settings):
         m['layers'].append(layer)
         # Asset layout responds at phrase and identity boundaries. Positions are
         # absolute targets; seek order cannot accumulate offsets or drift.
-        boundaries=sorted({start,*[v.startFrame for v in visible if start<v.startFrame<end],*[v.endFrame for v in visible if start<v.endFrame<end]})
+        boundaries=sorted({start,*[v.startFrame for v in visible if start<v.startFrame<end],*[v.endFrame for v in visible if start<v.endFrame<end],
+            *[c['frame'] for c in spoken_focus if start<c['frame']<end]})
         for j,at in enumerate(boundaries):
             until=boundaries[j+1] if j+1<len(boundaries) else end
             live=[v for v in visuals if v.startFrame<=at<v.endFrame]
-            _,targets=layout(kind,live,assets)
+            focused=focus_at(live,at,spoken_focus,atomic)
+            revealing=bool(live) and (live[0].id not in presented or len(previous_live)>1 and len(live)==1)
+            _,targets=stage(live,focused,revealing,sides.get(focused,'left'),final=i==len(rows)-1)
+            stop=min(until,at+(18 if settings.enableContextualTransitions else 1))
+            staging.append({'frame':at,'endFrame':stop,'focusedLayerId':focused,
+                'layerIds':[v.id for v in live],
+                'persistedLayerIds':[v.id for v in live if v.id in previous_live],
+                'targets':{lid:b.model_dump() for lid,b in targets.items()}})
             # Side-by-side pressure and resistance have a visible spatial
             # consequence; these are symbolic relations, not battle footage.
             for v in live:
                 target=targets[v.id]
-                if kind=='cause-effect' and len(live)==2:
-                    target=target.model_copy(update={'x':target.x+(30 if live.index(v)==0 else -30)})
                 if v.id not in positions:
                     v.bounds=target;positions[v.id]=target
                 elif positions[v.id]!=target:
-                    stop=min(until,v.endFrame,at+18)
                     if stop>at:
                         m['events'].append(Event(id=f'reference-reframe-{i}-{j}-{v.id}',type='reframe',targetIds=[v.id],startFrame=at,endFrame=stop,boundsFrom=positions[v.id],boundsTo=target))
                     positions[v.id]=target
+                opacity=1 if v.id==focused or len(live)==1 else .64
+                prior=spotlights.get(v.id,1)
+                if prior!=opacity and stop>at:
+                    m['events'].append(Event(id=f'reference-spotlight-{i}-{j}-{v.id}',type='spotlight',targetIds=[v.id],
+                        startFrame=at,endFrame=min(stop,v.endFrame),opacityFrom=prior,opacityTo=opacity))
+                spotlights[v.id]=opacity
+            previous_live=[v.id for v in live]
+        presented.update(v.id for v in visible)
         m['beats'].append(Beat(id=f'reference-beat-{i}',startFrame=start,endFrame=end,template=kind,sectionIds=[sentence.id],layerIds=[layer.id,*[v.id for v in visible]],purpose=text))
         audit.append({'id':f'reference-beat-{i}','grammar':kind,'phrase':text,'wordIds':ids,'startFrame':start,'endFrame':end,
                       'textBounds':box.model_dump(),'timingProvenance':sorted({w.provenance for w in span}),
@@ -215,5 +185,6 @@ def choreograph(m,script,settings):
     m['diagnostics']['referenceStoryboard']={'version':2,'timeUnit':'absolute frames','fps':30,'beats':audit,
         'estimatedWordIds':estimated,'grammarCount':len({r['grammar'] for r in audit}),
         'warnings':['Review supplied illustrations for historical accuracy; choreography does not authenticate assets.']}
+    m['diagnostics']['narrationStaging']={'source':'branch-1 persistent reframe grammar','focusCues':spoken_focus,'stages':staging}
     from .choreography import choreograph_actions
     choreograph_actions(m,script,settings)

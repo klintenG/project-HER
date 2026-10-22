@@ -3,6 +3,7 @@ export const clamp=(v:number)=>Math.max(0,Math.min(1,v));
 export const ease=(v:number)=>1-Math.pow(1-clamp(v),3);
 export const progress=(e:Event,f:number)=>e.easing==='linear'?clamp((f-e.startFrame)/(e.endFrame-e.startFrame)):ease((f-e.startFrame)/(e.endFrame-e.startFrame));
 export function stateAt(layer:Layer,events:Event[],frame:number){
+  let spotlight=1;
   const s={x:0,y:0,scale:1,opacity:layer.opacity,assetId:layer.assetId,swapAsset:null as string|null,swap:0,value:layer.value,angle:-105,bounds:{...layer.bounds}};
   for(const e of events.filter(e=>e.targetIds.includes(layer.id)&&frame>=e.startFrame)){
     const t=progress(e,frame),index=e.targetIds.indexOf(layer.id);
@@ -14,9 +15,11 @@ export function stateAt(layer:Layer,events:Event[],frame:number){
     if(e.type==='object_action')s.angle=e.angleFrom+(e.angleTo-e.angleFrom)*t;
     if(e.type==='representation_swap'){s.swapAsset=e.assetId;s.swap=t;}
     if(e.type==='fade')s.opacity*=e.opacityFrom+(e.opacityTo-e.opacityFrom)*t;
+    if(e.type==='spotlight')spotlight=e.opacityFrom+(e.opacityTo-e.opacityFrom)*t;
     if(e.type==='reframe'&&e.boundsFrom&&e.boundsTo){
       for(const key of ['x','y','w','h'] as const)s.bounds[key]=e.boundsFrom[key]+(e.boundsTo[key]-e.boundsFrom[key])*t;
     }
   }
+  s.opacity*=spotlight;
   return s;
 }

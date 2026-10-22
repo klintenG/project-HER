@@ -53,7 +53,7 @@ def cached_review(baseline,out,overrides_path=None):
     from agent.editorial.models import Timeline
     from agent.editorial.visuals import EditorialScript
     from agent.editorial.narrative import storyboard_narrative
-    from agent.editorial.director import VisualSettings
+    from agent.editorial.director import VisualSettings,Direction
     from agent.editorial.planner import build
     from agent.editorial.render import render
     from agent.editorial.sentence_storyboard import direction,embedded_members
@@ -69,21 +69,24 @@ def cached_review(baseline,out,overrides_path=None):
         old.assets[index]=selected.model_copy(update={'id':replacement.id,'entityId':replacement.entityId,
             'fallback':(selected.fallback or '')+' Curated cached event illustration; cross-run identity continuity needs review.'})
     script=EditorialScript.model_validate(json.loads((baseline/'visual_plan.json').read_text())['script'])
-    script.sentence_storyboard=json.loads((baseline/'sentence_storyboard.json').read_text())
+    storyboard_path=baseline/'sentence_storyboard.json'
+    script.sentence_storyboard=json.loads(storyboard_path.read_text()) if storyboard_path.exists() else []
     registry={e.id:e for e in script.identity_registry}
     for row in script.sentence_storyboard:
         depicted=embedded_members(row['visual_description'],registry.values(),row.get('identity_reference_ids',[]))
         row['depicted_entity_ids']=depicted
         row['secondary_entity_ids']=[eid for eid in row['secondary_entity_ids'] if eid not in depicted]
-    script.narrative_plan=storyboard_narrative(script).bind_audio(old.words)
+    if script.sentence_storyboard:
+        script.narrative_plan=storyboard_narrative(script).bind_audio(old.words)
+    directed=direction(script) if script.sentence_storyboard else Direction.model_validate_json((baseline/'visual_direction.json').read_text())
     out.mkdir(parents=True,exist_ok=True)
     canonical=lock_script(script)
     (out/'canonical_script.json').write_text(json.dumps(canonical,indent=2))
     m=build(script,old.words,old.sections,old.entities,old.assets,Path(old.audio[0].path),out,
-        'recompose_'+hashlib.sha256(str(out.resolve()).encode()).hexdigest()[:16],{},direction=direction(script),visual_settings=VisualSettings.configured())
+        'recompose_'+hashlib.sha256(str(out.resolve()).encode()).hexdigest()[:16],{},direction=directed,visual_settings=VisualSettings.configured())
     m.diagnostics['integrationQuality']=audit_timeline(script,m,canonical)
     m.warnings.append('Cached-asset recompose retains the original narration and artwork; physical-action visual acceptance still requires review.')
-    (out/'narrative_beat_plan.json').write_text(script.narrative_plan.model_dump_json(indent=2))
+    if script.narrative_plan:(out/'narrative_beat_plan.json').write_text(script.narrative_plan.model_dump_json(indent=2))
     (out/'sentence_storyboard.json').write_text(json.dumps(script.sentence_storyboard,indent=2))
     (out/'visual_plan.json').write_text(json.dumps({'script':script.model_dump()},indent=2))
     (out/'curated_asset_provenance.json').write_text(json.dumps(overrides,indent=2))

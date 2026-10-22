@@ -1,5 +1,7 @@
 # Three-branch integration report
 
+Latest narration-driven motion revision: see [NARRATION_MOTION_REPORT.md](NARRATION_MOTION_REPORT.md) and `output/three_branch_narration_motion_final/osiris-review.mp4`.
+
 22 October 2026. Branch: `integration/three-branch-editorial`, based on `working-branch-3` f858ab3. This is a real rendered review build, **not a claim that every production acceptance criterion passes**. Physical articulation, several image defects and full listening/playback review remain open.
 
 ## Result and provenance
