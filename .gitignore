@@ -47,3 +47,7 @@ remotion/public/editorial/
 
 # Local Chromium downloaded by render verification.
 .remotion/
+
+
+# Diagnostic run outputs
+diagnostics/
