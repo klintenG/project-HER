@@ -20,8 +20,8 @@ const PhraseBlock:React.FC<{layer:Layer;words:Map<string,Word>;frame:number;tone
   const first=words.get(p.wordIds[0])!.start*30-p.anticipationFrames;
   return <div style={common}>{p.lines.map((line,n)=><div key={n} style={{whiteSpace:'nowrap',minHeight:p.size*1.19}}>{line.map((id,i)=>{
     const w=words.get(id)!;const onset=(p.mode==='phrase_reveal'||p.mode==='connector')?first:w.start*30-p.anticipationFrames;
-    const t=clamp((frame-onset+1)/6);const eased=1-Math.pow(1-t,3);
-    return <span key={id} style={{display:'inline-block',opacity:t,fontWeight:p.emphasis.includes(id)?700:p.weight,transform:`translateY(${(1-eased)*18}px)`}}>{w.text}{i<line.length-1?'\u00a0':''}</span>;
+    const t=clamp((frame-onset)/6);const eased=1-Math.pow(1-t,3);
+    return <span key={id} style={{display:'inline-block',visibility:frame>=onset?'visible':'hidden',clipPath:`inset(0 0 ${(1-eased)*100}% 0)`,fontWeight:p.emphasis.includes(id)?700:p.weight,transform:`translateY(${(1-eased)*18}px)`}}>{w.text}{i<line.length-1?'\u00a0':''}</span>;
   })}</div>)}</div>;
 };
 

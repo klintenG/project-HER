@@ -34,6 +34,19 @@ class SentenceVisual(Model):
     candidates: list[Concept] = Field(min_length=1, max_length=3)
 
 
+def embedded_members(description,registry,initial=(),excluded=()):
+    """Conservative planned membership, including props inside an interaction."""
+    result=list(initial)
+    for e in registry:
+        if e.id in excluded or e.kind not in ('person','animal','object'):continue
+        names=[e.name]
+        if e.kind=='object' and len(e.name.split())>1 and len(e.name.split()[-1])>3:
+            names.append(e.name.split()[-1])
+        if any(re.search(r'(?<!\w)'+re.escape(name)+r'(?!\w)',description,re.I) for name in names):
+            result.append(e.id)
+    return list(dict.fromkeys(result))
+
+
 def split_spoken(text):
     """Conservative Unicode boundaries; protect decimals, titles and initials.
 
@@ -102,6 +115,11 @@ def plan(script, evidence, llm, diagnostics):
             extra_sec=primary_ids[1:]
             primary_ids=primary_ids[:1]
         clean_desc=re.sub(r'(?i)\bsplit[- ]screen composition\b','isolated foreground composition',concept.description)
+        if extra_sec:
+            # The rejected collage is decomposed into independent actors.
+            # Explicitly exclude supporting actors from the generated primary.
+            clean_desc=('One isolated cutout of '+known[primary_ids[0]].name+'. '+known[primary_ids[0]].description+
+                '. Show a reaction to the narrated conflict. Do not depict '+', '.join(known[eid].name for eid in extra_sec)+'.')
         refs=[known[eid] for eid in primary_ids if eid in known]
         real_person_refs=[e for e in refs if e.kind=='person' and e.identity=='real']
         for rp in real_people:
@@ -148,7 +166,11 @@ def plan(script, evidence, llm, diagnostics):
         # Supporting secondary cutouts come from explicit secondary_ids or
         # real-person references, avoiding automatic dumping of unused sentence characters
         # that forces a repetitive 3-image catalog layout.
-        explicit_sec=[eid for eid in [*extra_sec,*concept.secondary_ids] if eid in known and eid not in conditioned_ids]
+        # Identity membership describes who is actually depicted, independent
+        # of whether a provider supports reference conditioning for that asset.
+        depicted_ids=[] if is_standalone_object else embedded_members(
+            concept.subject+' '+focus_desc+' '+clean_desc,known.values(),primary_ids,extra_sec)
+        explicit_sec=[eid for eid in [*extra_sec,*concept.secondary_ids] if eid in known and eid not in depicted_ids]
         real_sec=[e.id for e in real_person_refs]
         secondary=list(dict.fromkeys(real_sec+explicit_sec))[:2]
         sentences.append(sentence.model_copy(update={'entity_ids':[key,*secondary]}))
@@ -169,6 +191,7 @@ def plan(script, evidence, llm, diagnostics):
                'state_before':state_before,'state_after':state_after,'location':setting,
                'narrative_significance':concept.narrative_significance or concept.state_change},
             identity_reference_ids=conditioned_ids,
+            depicted_entity_ids=depicted_ids,
             primary_entity_id=key,
             primary_asset_id=None,
             primary_asset_is_distinct=False,
@@ -203,6 +226,8 @@ def plan(script, evidence, llm, diagnostics):
     result=EditorialScript.model_validate({**script.model_dump(),'entities':[e.model_dump() for e in entities.values() if e.id in used],
         'sentences':[s.model_dump() for s in sentences],'sentence_storyboard':storyboard,
         'identity_registry':[e.model_dump() for e in known.values()]})
+    from .narrative import storyboard_narrative
+    result.narrative_plan=storyboard_narrative(result)
     diagnostics['visualPlan']={'mode':'sentence_storyboard','warnings':[],'errors':errors}
     diagnostics['sentenceStoryboard']={'sentences':len(sentences),'plannedPrimaries':len(storyboard),'repairAttempts':len(errors),'validationPlannedGeSentences':len(storyboard)>=len(sentences)}
     return result,cues

@@ -1,0 +1,25 @@
+{
+  "title": "Osiris: two kingdoms",
+  "version": 1,
+  "variant": "Plutarch-derived chest and recovery tradition, with Horus succeeding as living king; details vary among tellings.",
+  "sources": [
+    "https://fitzmuseum.cam.ac.uk/explore-our-collection/highlights/context/stories-and-histories/osiris",
+    "https://www.britishmuseum.org/learn/schools/ages-7-11/ancient-egypt/ancient-egyptian-gods-and-goddesses"
+  ],
+  "sentences": [
+    "Seth murdered his brother for a throne, but Osiris would become ruler of the dead.",
+    "In this telling of the Egyptian myth, Osiris ruled alongside Isis, while Seth envied his brother's power.",
+    "At a feast, Seth opened a magnificent chest, promising it to whoever fitted inside.",
+    "Osiris stepped inside the chest.",
+    "Seth slammed the lid shut, sealed the chest, and threw it into the Nile.",
+    "Isis searched for her husband and recovered his body.",
+    "Seth later cut the body into pieces and scattered them across Egypt.",
+    "Isis gathered the remains and restored Osiris through magic.",
+    "Their son Horus would become his father's heir.",
+    "Osiris became ruler of the underworld, while Horus grew up to challenge Seth.",
+    "Horus defeated Seth and claimed the throne of Egypt.",
+    "Seth had tried to end his brother's reign; instead, Osiris ruled the dead, and his son ruled the living."
+  ],
+  "required_actions": ["opening", "entering", "sealing", "disposal", "search", "recovery", "scattering", "gathering", "restoration", "confrontation"],
+  "required_outcomes": ["underworld", "Horus defeated Seth", "son ruled the living"]
+}

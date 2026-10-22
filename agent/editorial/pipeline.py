@@ -82,6 +82,9 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
         from . import sentence_storyboard as storyboard
         strict=config.SENTENCE_PRIMARY_VISUALS
         if strict:script=trace.call('narration_segmentation',storyboard.segment,script)
+        from .canonical import lock_script, assert_locked
+        canonical=lock_script(script)
+        (out/'canonical_script.json').write_text(json.dumps(canonical,ensure_ascii=False,indent=2))
         narration_settings={};asset_diagnostics={};media_timings={}
         approved_script=script
         begin('media','Planning narrative visuals and generating narration')
@@ -89,18 +92,20 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
             speech_started=time.monotonic()
             try:return trace.call('TTS_generation',synthesize,approved_script,out,tts_provider or config.TTS_PROVIDER,voice,speed,tts_engine,pause=0,language=language,cancel_event=cancel_event,diagnostic_sink=narration_settings)
             finally:media_timings['actualSpeechSeconds']=round(time.monotonic()-speech_started,3)
-        # The approved narration is immutable under visual planning. Start TTS
-        # while the optional visual LLM decides which cutouts are needed.
+        # Validate the semantic contract before starting paid media. Speech and
+        # asset acquisition still overlap once the scene plan is usable.
         speech_pool=ThreadPoolExecutor(max_workers=1) if config.PARALLEL_ASSET_PIPELINE_V2 else None
-        speech_future=speech_pool.submit(speech) if speech_pool else None
+        speech_future=None
         visual_diagnostics={}
         # Local registries intentionally specify every supplied subject; they
         # retain the script plan instead of adding unregistered illustrations.
         visual_started=time.monotonic()
         script,cues=trace.call('semantic_beat_planning',storyboard.plan if strict else plan_visuals,script,evidence,llm if strict or asset_mode!='local' else None,visual_diagnostics)
+        assert_locked(script,canonical)
         timings['semantic_beat_planning']=round(time.monotonic()-visual_started,3)
         if strict:(out/'sentence_storyboard.json').write_text(json.dumps(script.sentence_storyboard,ensure_ascii=False,indent=2))
         (out/'visual_plan.json').write_text(json.dumps({'script':script.model_dump(),'sections':cues,'diagnostics':visual_diagnostics},ensure_ascii=False,indent=2))
+        speech_future=speech_pool.submit(speech) if speech_pool else None
         tracker.update_stage('media',detail='Generating narration and sourcing cutouts together')
         # Remote speech and cutout sourcing are independent after the approved
         # visual script. Finish cutouts before loading Whisper for alignment so
@@ -115,6 +120,7 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
             from .vision import VisualReview
             visual_diagnostics['sentenceQuality']=trace.call('sentence_asset_validation',storyboard.validate_assets,script,assets,asset_diagnostics.get('assetAcquisition',{}),VisualReview())
         tracker.update_stage('media',progress=.75,detail='Aligning approved narration to audio')
+        assert_locked(script,canonical)
         code=LANGUAGES.get(language.lower(),language.lower()).split('-')[0]
         align_started=time.monotonic()
         raw,words,sections,diagnostics=trace.call('word_forced_alignment',prepare_existing,script,audio,out/'audio',code)
@@ -149,6 +155,10 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
         # for inspection without a redundant LLM layout request in this mode.
         plan=trace.call('timeline_planning',semantic_plan,script,None if direction is not None else llm,diagnostics=diagnostics);(out/'semantic_plan.json').write_text(json.dumps(plan,indent=2))
         m=build(script,words,sections,entities,assets,mix,out,generation,diagnostics,plan,subtitle_mode,visual_cues=cues,direction=direction,visual_settings=visual_settings)
+        from .quality import audit_timeline
+        diagnostics['integrationQuality']=audit_timeline(script,m,canonical)
+        m.diagnostics['integrationQuality']=diagnostics['integrationQuality']
+        (out/'integration_quality.json').write_text(json.dumps(diagnostics['integrationQuality'],indent=2))
         if strict:
             diagnostics['sentenceQuality'].update(trace.call('sentence_render_validation',storyboard.validate_render,script,m))
             (out/'sentence_storyboard.json').write_text(json.dumps(script.sentence_storyboard,ensure_ascii=False,indent=2))
@@ -156,6 +166,8 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
         m.warnings.extend(warnings+diagnostics.get('alignmentWarnings',[])+diagnostics.get('semanticPlan',{}).get('warnings',[])+diagnostics.get('visualPlan',{}).get('warnings',[]))
         if diagnostics.get('narrativeQuality',{}).get('degradedBeats'):
             m.warnings.append('Some required action visuals are degraded; review narrative_beat_plan.json before publishing.')
+        if diagnostics.get('integrationQuality',{}).get('compositeFallbackActions'):
+            m.warnings.append('Action scenes use whole-cutout motion; independently articulated action acceptance requires visual review.')
         if diagnostics.get('sentenceQuality',{}).get('degraded_sentences') or (diagnostics.get('sentenceQuality') and not diagnostics['sentenceQuality'].get('fullyCompliant',True)):
             m.warnings.append('Some sentence visuals used graceful fallback; video completed with degraded visual flags.')
         if target_duration and abs(m.durationInFrames/30-target_duration)>max(5,target_duration*.2):m.warnings.append('Actual speech duration differs from target; no padding added.')
@@ -179,11 +191,12 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
                 export_reports(out,trace.job_id,'succeeded')
             except Exception:pass
         return PipelineResult(success=True,video_path=video,srt_path=out/'subtitles.srt',thumbnail_path=thumb,duration=output_frames(m.durationInFrames,30)/30,resolution='1080x1920',video_format='vertical',title=script.summary,key_point_count=len(m.beats),processing_time=time.monotonic()-started,content_type='news',theme='reference_editorial',caption_style=subtitle_mode,hook=script.sentences[0].text,
-            news_details={'status':'ready','visual_quality':'degraded_completed' if diagnostics.get('sentenceQuality') and not diagnostics['sentenceQuality'].get('fullyCompliant',True) else 'fully_compliant','preset':'reference_editorial','output_dir':str(out.resolve()),'manifest':str(manifest.resolve()),'sources':[{'id':s.id,'title':s.title,'url':s.url} for s in evidence.sources],
+            news_details={'status':'ready','visual_quality':'degraded_completed' if (diagnostics.get('sentenceQuality') and not diagnostics['sentenceQuality'].get('fullyCompliant',True)) or diagnostics.get('integrationQuality',{}).get('visualAcceptancePassed') is False else 'fully_compliant','preset':'reference_editorial','output_dir':str(out.resolve()),'manifest':str(manifest.resolve()),'sources':[{'id':s.id,'title':s.title,'url':s.url} for s in evidence.sources],
                 'images':[{'name':a.subject,'origin':'generated' if a.source.startswith('replicate:') else a.preparation,'identity_verified':a.factual,'attribution':a.attribution,'source_url':a.source,
                     'likeness_reviewed':any(r.get('assetId')==a.id and bool(r.get('generation',{}).get('visualReview')) for r in diagnostics['assetAcquisition']['assets'])} for a in assets],
                 'narration':{'provider':audio.provider,'model':audio.model,'fallbacks':audio.fallbacks},'warnings':m.warnings,'audio':stats,
-                'narrative_quality':diagnostics.get('narrativeQuality'),'sentence_quality':diagnostics.get('sentenceQuality')})
+                'narrative_quality':diagnostics.get('narrativeQuality'),'sentence_quality':diagnostics.get('sentenceQuality'),
+                'integration_quality':diagnostics.get('integrationQuality')})
     except Exception as exc:
         if 'speech_pool' in locals() and speech_pool:speech_pool.shutdown(wait=True,cancel_futures=True)
         tracker.fail_stage(stage,str(exc));details=exc.response() if isinstance(exc,NewsError) else {'status':'error','error':str(exc)}

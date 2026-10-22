@@ -113,6 +113,20 @@ class NarrativeBeatPlan(Model):
             beat.timing_provenance = selected[0].provenance
         return self
 
+
+    def validate_coverage(self, script):
+        self.validate_script(script)
+        for sentence in script.sentences:
+            spans=sorted((b.start_word,b.end_word) for b in self.beats if b.section_id==sentence.id)
+            cursor=0
+            for start,end in spans:
+                if start != cursor:
+                    raise ValueError('Missing or duplicated narrative words: '+sentence.id)
+                cursor=end
+            if cursor != len(sentence.text.split()):
+                raise ValueError('Incomplete narrative sentence: '+sentence.id)
+        return self
+
     def assess_assets(self, assets, acquisition):
         """Coverage means a reviewed action, never merely a new filename."""
         records={r.get('entityId'):r for r in acquisition.get('assets',[])}
@@ -141,3 +155,40 @@ class NarrativeBeatPlan(Model):
         return (action.get('actionVisible') is True and action.get('portraitOnly') is False
             and not action.get('problems',[]) and (not beat.contact_required or action.get('contactVisible') is True)
             and continuity.get('recognizable') is True and continuity.get('sameClothingOrFur') is True and not continuity.get('problems',[]))
+
+
+def storyboard_narrative(script):
+    """Bridge the default sentence planner to the shared exact-word contract.
+
+    No generation requests. Multiple verbs remain separate traceable beats even
+    when artwork is a single composite; that limitation is explicit downstream.
+    """
+    from .action_beats import action_events
+    registry={e.id:e for e in [*script.identity_registry,*script.entities]}
+    rows={b['sentence_id']:b for b in script.sentence_storyboard}
+    beats=[];offset=0
+    for sentence in script.sentences:
+        tokens=list(re.finditer(r'\S+',sentence.text));row=rows[sentence.id]
+        events=action_events(sentence.text)
+        boundaries=sorted({0,len(tokens),*[e['start_word'] for e in events]})
+        by_start={e['start_word']:e for e in events}
+        for index,(start,end) in enumerate(zip(boundaries,boundaries[1:])):
+            event=by_start.get(start);physical=event is not None
+            refs=row.get('depicted_entity_ids',row.get('identity_reference_ids',[]))
+            beats.append(NarrativeBeat(id=f'beat-{sentence.id}-{index}',section_id=sentence.id,
+                text=sentence.text[tokens[start].start():tokens[end-1].end()],
+                start_char=offset+tokens[start].start(),end_char=offset+tokens[end-1].end(),
+                start_word=start,end_word=end,kind='physical_action' if physical else 'context',
+                verb=event['verb'] if physical else '',
+                actor_ids=[eid for eid in refs if registry[eid].kind in ('person','animal')],
+                target_ids=[eid for eid in refs if registry[eid].kind not in ('person','animal')],identity_reference_ids=refs,
+                visual_goal=row.get('visual_focus') or sentence.text,
+                result_state=row.get('state_after',''),state_before=row.get('state_before',''),
+                priority=.9 if physical else .5,required_action_visible=physical,
+                contact_required=physical and event['verb'] in ('opening','entering','sealing','recovery','gathering','restoration'),
+                asset_ids=[row['primary_entity_id']],decision='reuse_action_variant'))
+        offset+=len(sentence.text)+1
+    plan=NarrativeBeatPlan(script_sha256=hashlib.sha256(script.narration.encode()).hexdigest(),
+        entities=[IdentityPack(entity_id=e.id,name=e.name,description=e.description,kind=e.kind,identity=e.identity) for e in registry.values()],
+        beats=beats,extraction='sentence_storyboard_with_action_guard')
+    return plan.validate_coverage(script)

@@ -112,7 +112,7 @@ class SentenceStoryboardTests(unittest.TestCase):
             self.assertFalse(dup_result['fullyCompliant'])
             self.assertGreater(dup_result['imagesRejectedForDuplication'],0)
 
-    def test_secondary_cutouts_preserved_without_duplicating_conditioned_primary_identity(self):
+    def test_embedded_character_and_manipulated_prop_are_not_duplicated(self):
         e1=Entity(id='hero',name='Hero',kind='person',identity='fictional',description='A hero in bronze armor')
         e2=Entity(id='relic',name='Relic',kind='object',identity='generic',description='An ancient glowing crown')
         s=Sentence(id='s0',text='The hero lifted the ancient relic.',claim_ids=['c'],entity_ids=['hero','relic'],phrase='Hero lifted relic',role='development')
@@ -126,10 +126,10 @@ class SentenceStoryboardTests(unittest.TestCase):
                 relevance=.95,narrative_importance=.9,novelty=.9,readability=.9)]}]}
         planned,_=sb.plan(script,None,planner,{})
         beat=planned.sentence_storyboard[0]
-        # 'hero' is already conditioned into the primary scene cutout, so only 'relic' remains secondary
+        # Both hero and relic are already depicted by the lifting interaction.
         self.assertEqual(beat['continuity_references'],['hero'])
-        self.assertEqual(beat['secondary_entity_ids'],['relic'])
-        self.assertEqual(beat['composition_type'],'multi_cutout')
+        self.assertEqual(beat['secondary_entity_ids'],[])
+        self.assertEqual(beat['composition_type'],'layered_cutout')
 
     def test_failure_reports_are_sanitized_and_retrievable_files(self):
         with tempfile.TemporaryDirectory() as root:

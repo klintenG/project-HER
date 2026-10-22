@@ -178,7 +178,7 @@ def label_lines(text,width):
 def build(script,words,sections,entities,assets,audio_path,output,generation_id,diagnostics=None,plan=None,subtitle_mode='editorial',visual_cues=None,direction=None,visual_settings=None):
     from .audio import samples
     from agent.news_audio import probe_duration
-    duration=probe_duration(audio_path);total=math.ceil(duration*30)+18
+    duration=probe_duration(audio_path);total=max(math.ceil(duration*30)+18,math.ceil(max((w.end for w in words),default=duration)*30)+30)
     m=dict(schemaVersion='2.0',preset='reference_editorial',contentMode='news',durationInFrames=total,generationId=generation_id,
         script=script.narration,scriptHash=hashlib.sha256(script.narration.encode()).hexdigest(),
         fonts=Fonts(semibold=str(font_path().resolve()),bold=str(font_path(700).resolve()),version=digest(font_path())+digest(font_path(700))),

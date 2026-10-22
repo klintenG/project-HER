@@ -8,13 +8,23 @@ from agent.news_models import Entity
 # Conservative offline coverage. The live visual planner also supplies semantic
 # events, including actions outside this vocabulary. No story names occur here.
 ACTION_PATTERNS = (
+    ('opening', r'\b(?:opens?|opened|opening)\b'),
+    ('entering', r'\b(?:enters?|entered|entering|stepped inside)\b'),
+    ('sealing', r'\b(?:slams?|slammed|slamming|seals?|sealed|sealing|shuts?|shutting)\b'),
+    ('disposal', r'\b(?:throws?|threw|throwing|tossed|tossing)\b'),
+    ('search', r'\b(?:search(?:es|ed|ing)?|looked for)\b'),
+    ('recovery', r'\b(?:recovers?|recovered|recovering|finds?|found)\b'),
+    ('scattering', r'\b(?:scatters?|scattered|scattering|dismembers?|dismembered|cut (?:it|them|the body) into)\b'),
+    ('gathering', r'\b(?:gathers?|gathered|gathering)\b(?=.{0,60}\b(?:remains|pieces|fragments|parts|objects|belongings)\b)|\b(?:reassembles?|reassembled)\b'),
+    ('restoration', r'\b(?:restores?|restored|restoring|revives?|revived|reviving|resurrects?|resurrected)\b'),
+    ('confrontation', r'\b(?:challenges?|challenged|challenging|confronts?|confronted)\b'),
     ('bite', r'\b(?:bite|bit|bitten|biting|bites)\b'),
     ('hand_contact', r'\b(?:his|her|their)\s+hand\b(?=.{0,65}\b(?:jaws?|mouth)\b)'),
     ('breaking', r'\b(?:break|broke|breaks|breaking|shatter|shattered|shattering)\b'),
     ('binding', r'\b(?:bind|bound|binding|tied|tie|tighten|tightened|tightening|chained)\b'),
     ('uphill_push', r'\b(?:push|pushed|pushes|pushing|roll|rolled|rolling)\b(?=.{0,100}\b(?:uphill|up (?:the|a) (?:hill|slope))\b)'),
     ('downhill_return', r'\b(?:roll|rolled|rolling|fall|fell|falling|tumble|tumbled|tumbling)\b(?=.{0,45}\b(?:back|downhill|down (?:the|a) (?:hill|slope))\b)'),
-    ('physical_interaction', r'\b(?:lifted|lifting|carried|carrying|struck|striking|grabbed|grabbing|pulled|pulling|rescued|rescuing|embraced|embracing|opened|opening|destroyed|destroying|escaped|escaping)\b'),
+    ('physical_interaction', r'\b(?:lifted|lifting|carried|carrying|struck|striking|grabbed|grabbing|pulled|pulling|rescued|rescuing|embraced|embracing|destroyed|destroying|escaped|escaping)\b'),
 )
 
 

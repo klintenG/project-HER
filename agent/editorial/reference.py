@@ -80,24 +80,29 @@ def layout(kind, visuals, assets):
     if kind in ('event-hero','environment-change','character-interaction','object-closeup','dramatic-reveal'):
         if kind=='dramatic-reveal':
             caption=Bounds(x=95,y=1390,w=890,h=220)
-            primary=Bounds(x=70,y=410,w=940,h=910)
+            primary=Bounds(x=150,y=480,w=780,h=820)
         elif kind=='object-closeup':
             caption=Bounds(x=95,y=1390,w=890,h=220)
-            primary=Bounds(x=140,y=500,w=800,h=810)
+            primary=Bounds(x=160,y=530,w=760,h=760)
         elif kind=='environment-change':
             caption=Bounds(x=95,y=270,w=890,h=230)
-            primary=Bounds(x=60,y=530,w=960,h=850)
+            primary=Bounds(x=150,y=570,w=780,h=760)
         elif kind=='character-interaction':
             caption=Bounds(x=95,y=300,w=890,h=220)
-            primary=Bounds(x=80,y=590,w=730 if len(visuals)>1 else 920,h=760)
+            primary=Bounds(x=95 if len(visuals)>1 else 150,y=590,w=560 if len(visuals)>1 else 780,h=740)
         else:
             caption=Bounds(x=95,y=280,w=890,h=230)
-            primary=Bounds(x=110,y=570,w=860,h=780)
+            primary=Bounds(x=150,y=570,w=780,h=760)
+        if len(visuals)==2:
+            primary=Bounds(x=95,y=590,w=560,h=680)
+        elif len(visuals)==3:
+            primary=Bounds(x=340,y=590,w=400,h=600)
         targets={visuals[0].id:primary}
         if len(visuals)>1:
-            targets[visuals[1].id]=Bounds(x=740,y=790,w=290,h=400)
+            targets[visuals[1].id]=Bounds(x=710,y=790,w=275,h=400)
         if len(visuals)>2:
-            targets[visuals[2].id]=Bounds(x=50,y=1020,w=270,h=330)
+            targets[visuals[1].id]=Bounds(x=65,y=790,w=250,h=360)
+            targets[visuals[2].id]=Bounds(x=765,y=790,w=250,h=360)
         return caption,targets
     if kind=='portrait-event' and len(visuals)==1:
         return Bounds(x=85,y=660,w=405,h=500),{visuals[0].id:Bounds(x=520,y=600,w=470,h=600)}
@@ -149,7 +154,7 @@ def choreograph(m,script,settings):
         active=[v for v in visible if v.startFrame<=start<v.endFrame]
         reserved=active or ([min(visible,key=lambda v:v.startFrame)] if visible else [])
         text=' '.join(w.text for w in span)
-        kind=narrative_layout(storyboards.get(sentence.id)) or grammar(text,sentence.role,reserved,assets,first=i==0,last=i==len(rows)-1)
+        kind='final-reveal' if i==len(rows)-1 else narrative_layout(storyboards.get(sentence.id)) or grammar(text,sentence.role,reserved,assets,first=i==0)
         if kind=='portrait-event' and len(visible)>1:kind='incremental-claim'
         box,_=layout(kind,reserved,assets)
         ids=[w.id for w in span]
@@ -210,3 +215,5 @@ def choreograph(m,script,settings):
     m['diagnostics']['referenceStoryboard']={'version':2,'timeUnit':'absolute frames','fps':30,'beats':audit,
         'estimatedWordIds':estimated,'grammarCount':len({r['grammar'] for r in audit}),
         'warnings':['Review supplied illustrations for historical accuracy; choreography does not authenticate assets.']}
+    from .choreography import choreograph_actions
+    choreograph_actions(m,script,settings)
