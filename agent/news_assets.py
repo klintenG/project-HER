@@ -84,7 +84,7 @@ class NewsImageGenerator(AIImageGenerator):
             inputs['prompt_upsampling']=False
         headers={'Authorization':'Bearer '+self.replicate_token}
         prediction=None;finished=False
-        async with httpx.AsyncClient(timeout=25,follow_redirects=False) as client:
+        async with httpx.AsyncClient(timeout=httpx.Timeout(60.0,connect=15.0),follow_redirects=False) as client:
             try:
                 response=await client.post(f'https://api.replicate.com/v1/models/{model}/predictions',headers=headers,json={'input':inputs})
                 if response.status_code not in (200,201):
@@ -93,7 +93,7 @@ class NewsImageGenerator(AIImageGenerator):
                 if not isinstance(prediction,str) or not re.fullmatch('[a-zA-Z0-9_-]+',prediction):
                     prediction=None
                     raise NewsError('Replicate returned an invalid prediction ID.')
-                for _ in range(60):
+                for _ in range(120):
                     if row.get('status')=='succeeded':
                         finished=True
                         outputs=row.get('output'); url=outputs[0] if isinstance(outputs,list) and outputs else outputs
@@ -105,11 +105,17 @@ class NewsImageGenerator(AIImageGenerator):
                     if row.get('status') in ('failed','canceled'):
                         finished=True
                         raise NewsError('Replicate real-subject prediction failed or was cancelled; no generic substitute was used.')
-                    await asyncio.sleep(1.5)
-                    response=await client.get(f'https://api.replicate.com/v1/predictions/{prediction}',headers=headers)
-                    if response.status_code!=200:
-                        raise NewsError(f'Replicate prediction status failed (HTTP {response.status_code}).')
-                    row=response.json()
+                    await asyncio.sleep(2.0)
+                    try:
+                        poll_resp=await client.get(f'https://api.replicate.com/v1/predictions/{prediction}',headers=headers)
+                        if poll_resp.status_code==200:
+                            row=poll_resp.json()
+                        elif poll_resp.status_code in (429,502,503,504):
+                            continue
+                        else:
+                            raise NewsError(f'Replicate prediction status failed (HTTP {poll_resp.status_code}).')
+                    except httpx.TimeoutException:
+                        continue
                 raise NewsError('Replicate real-subject prediction exceeded its polling limit.')
             except (httpx.HTTPError,ValueError,TypeError,KeyError):
                 raise NewsError('Replicate real-subject request was unavailable or invalid; check model access/credits.') from None

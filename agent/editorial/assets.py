@@ -136,7 +136,9 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                 return a.model_copy(update={'confidence':proof.get('visualReview',{}).get('confidence',.5),'fallback':'AI illustration; reference likeness reviewed, not identity verified' if reference else 'AI illustrative reconstruction; not documentary evidence'})
             except NewsError as exc:
                 if exc.status=='cancelled':raise
-                feedback.append(str(exc))
+                msg=str(exc)
+                if not any(err in msg for err in ('ReadTimeout','polling limit','unavailable','HTTP','credentials','credits','timeout')):
+                    feedback.append(msg)
                 # A rejected cache entry must not consume every retry with the same pixels.
                 use_cached=False
                 if record is not None:record.setdefault('errors',[]).append(str(exc));save_audit()
