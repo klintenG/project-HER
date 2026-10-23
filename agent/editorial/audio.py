@@ -62,7 +62,7 @@ class Aligner:
         import config
         model=os.getenv('HER_ALIGNMENT_MODEL','small')
         try:
-            self.model=WhisperModel(model,device='cpu',compute_type='int8',cpu_threads=4,
+            self.model=WhisperModel(model,device='cpu',compute_type='int8',cpu_threads=max(1,min(8,int(os.getenv("HER_INFERENCE_THREADS","2")))),
                 download_root=str(config.ASSETS_DIR/'alignment'),local_files_only=os.getenv('HER_ALIGNMENT_DOWNLOAD','0')!='1')
         except Exception as exc:
             raise NewsError('Local alignment model is unavailable. Install requirements-editorial.txt and download the model with scripts/setup_editorial.py, or use validated Edge/ElevenLabs timestamps. '+type(exc).__name__) from None

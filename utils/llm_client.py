@@ -141,6 +141,24 @@ class _ResilientCompletions:
         import time
         import random
 
+        # Optional wall-clock budget across retries/models, not per attempt.
+        budget = kwargs.pop("retry_budget_seconds", None)
+        deadline = time.monotonic() + float(budget) if budget is not None else None
+        def remaining():
+            return None if deadline is None else deadline-time.monotonic()
+        def bounded_kwargs(values):
+            values=dict(values)
+            if deadline is not None:
+                left=remaining()
+                if left<=0:
+                    if last_error is not None:raise last_error
+                    raise TimeoutError('LLM retry budget exhausted')
+                timeout=values.get('timeout',left)
+                values['timeout']=min(float(timeout),left) if isinstance(timeout,(int,float)) else left
+            return values
+        def backoff(seconds):
+            time.sleep(seconds if deadline is None else max(0,min(seconds,remaining())))
+
         requested_model = kwargs.get("model") or self._primary_model
         # Construct model priority list starting with the requested model
         models_to_try = [requested_model]
@@ -157,8 +175,11 @@ class _ResilientCompletions:
             max_retries = 2 if len(models_to_try) > 1 else 3
 
             for attempt in range(max_retries):
+                if deadline is not None and remaining()<=0:
+                    if last_error is not None:raise last_error
+                    raise TimeoutError("LLM retry budget exhausted")
                 try:
-                    return self._primary.chat.completions.create(**call_kwargs)
+                    return self._primary.chat.completions.create(**bounded_kwargs(call_kwargs))
                 except (RateLimitError, APITimeoutError, APIConnectionError) as exc:
                     last_error = exc
                     wait_time = min(2.0 * (2 ** attempt) + random.uniform(0.2, 0.8), 8.0)
@@ -166,7 +187,7 @@ class _ResilientCompletions:
                         "LLM transient error on model %s (%s). Retrying in %.1fs (attempt %d/%d)...",
                         target_model, exc, wait_time, attempt + 1, max_retries,
                     )
-                    time.sleep(wait_time)
+                    backoff(wait_time)
                 except APIStatusError as exc:
                     last_error = exc
                     if exc.status_code in self.TRANSIENT_STATUS_CODES:
@@ -176,7 +197,7 @@ class _ResilientCompletions:
                             exc.status_code, target_model, exc.message if hasattr(exc, "message") else exc,
                             wait_time, attempt + 1, max_retries,
                         )
-                        time.sleep(wait_time)
+                        backoff(wait_time)
                     elif exc.status_code == 404:
                         # Model not available / deprecated, immediately switch to next model
                         logger.warning(
@@ -203,7 +224,7 @@ class _ResilientCompletions:
                     self._groq = OpenAI(api_key=self._groq_api_key, base_url=self._groq_base_url)
                 groq_kwargs = dict(kwargs)
                 groq_kwargs["model"] = self._groq_model
-                return self._groq.chat.completions.create(**groq_kwargs)
+                return self._groq.chat.completions.create(**bounded_kwargs(groq_kwargs))
             except Exception as groq_exc:
                 logger.error("Groq fallback also failed: %s", groq_exc)
                 if last_error:

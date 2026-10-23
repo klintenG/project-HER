@@ -72,12 +72,7 @@ const EditorialStory:React.FC<Timeline>=(props)=>{
     if(frame<layer.startFrame||frame>=layer.endFrame)return null;
     // Complete captions replace editorial spoken text; identity labels remain.
     if((closing||m.subtitleMode==='complete')&&layer.phrase?.wordIds.length)return null;
-    if(reference&&layer.parentId&&layer.phrase?.label){
-      const name=cleanName(layer.phrase.label).replace(/\s+/g,' ').toLowerCase();
-      const activeText=m.layers.filter(l=>l.role==='phrase'&&l.startFrame<=frame&&frame<l.endFrame)
-        .flatMap(l=>l.phrase?.wordIds.map(id=>words.get(id)!.text)||[]).join(' ').toLowerCase();
-      if(activeText.includes(name))return null;
-    }
+    // Identity labels enter with their parent, including while its name is spoken.
     const s=stateAt(layer,m.events,frame),b=parentBounds?{...s.bounds,y:parentBounds.h+18,w:parentBounds.w}:s.bounds;
     const asset=s.assetId?assets.get(s.assetId):null;
     const style:React.CSSProperties={position:'absolute',left:b.x,top:b.y,width:b.w,height:b.h,zIndex:layer.z,

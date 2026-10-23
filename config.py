@@ -1119,3 +1119,6 @@ NEWS_VERIFIED_ASSETS_JSON = os.getenv("NEWS_VERIFIED_ASSETS_JSON", "")
 import json as _visual_json
 NARRATION_VISUAL_SETTINGS = _visual_json.loads(os.getenv('HER_NARRATION_VISUAL_SETTINGS', '{}'))
 EDITORIAL_STYLE_VERSION = os.getenv('HER_EDITORIAL_STYLE_VERSION', 'reference-v2')
+
+# Overlap image provider waits, while segmentation remains serialized.
+EDITORIAL_ASSET_WORKERS = max(1, min(3, int(os.getenv("EDITORIAL_ASSET_WORKERS", "2"))))

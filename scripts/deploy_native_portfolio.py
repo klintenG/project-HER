@@ -40,10 +40,12 @@ def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--approve-cloud-changes',action='store_true')
     parser.add_argument('--clear-maintenance',action='store_true',help='Clear stale maintenance lock if previous deployment was interrupted')
+    parser.add_argument('--performance-profile',action='store_true',help='Use 4 CPU/8Gi, two render tabs and three asset workers; increases Cloud Run billing')
     parser.add_argument('--image',help='Deploy an existing container image directly without rebuilding from source')
     args=parser.parse_args()
-    print('Plan: Firestore (default) in us-central1; private bucket '+BUCKET+'; signing/operator secrets; scoped IAM; deploy project-her with native API + legacy lock, min/max instances 1, existing 2 CPU/4Gi, private output lifecycle, daily quota 10 / network identity 2.')
+    print('Plan: Firestore (default) in us-central1; private bucket '+BUCKET+'; signing/operator secrets; scoped IAM; deploy project-her with native API + legacy lock, min/max instances 1, preserve existing CPU/RAM, private output lifecycle, daily quota 10 / network identity 2.')
     print('Existing provider secrets/settings are preserved. One minimum instance changes idle billing. This does not publish the portfolio or submit a paid generation.')
+    if args.performance_profile:print('Performance override: 4 CPU / 8Gi, 2 render tabs, 3 image workers, 4 inference threads. Higher idle and active billing; end-to-end latency must be measured.')
     if not args.approve_cloud_changes:return
     os.umask(0o077)
     source=Path(__file__).resolve().parents[1];os.chdir(source)
@@ -82,6 +84,7 @@ def main():
         'GOOGLE_CLOUD_PROJECT':PROJECT,'HER_PORTFOLIO_ORIGINS':'https://klinteng.com,https://www.klinteng.com',
         'HER_PORTFOLIO_DAILY_LIMIT':'10','HER_PORTFOLIO_VISITOR_LIMIT':'2','HER_PORTFOLIO_CONCURRENCY':'1',
         'HER_TRUSTED_PROXY_HOPS':'0','HER_ALIGNMENT_MODEL':'small','HER_ALIGNMENT_DOWNLOAD':'0'}
+    if args.performance_profile:values.update(HER_REMOTION_CONCURRENCY='2',EDITORIAL_ASSET_WORKERS='3',OMP_NUM_THREADS='4',HER_INFERENCE_THREADS='4')
     local_env=dotenv_values(Path(source)/'.env')
     for key in ('GEMINI_API_KEY','GOOGLE_TTS_API_KEY','PEXELS_API_KEY','GROQ_API_KEY'):
         val=os.getenv(key) or local_env.get(key)
@@ -91,9 +94,10 @@ def main():
     sys.path.insert(0,str(source))
     from utils.deployment_guard import DeploymentGuard
     target_deploy = ['--image='+args.image] if args.image else ['--source='+str(source)]
+    resource_flags=['--cpu=4','--memory=8Gi'] if args.performance_profile else []
     with DeploymentGuard(PROJECT, force_maintenance_clear=args.clear_maintenance):
         deploy=run(['run','deploy',SERVICE,*target_deploy,'--region='+REGION,
-            '--no-cpu-throttling','--min-instances=1','--max-instances=1','--concurrency=20','--cpu=2','--memory=4Gi','--timeout=3600',
+            '--no-cpu-throttling','--min-instances=1','--max-instances=1','--concurrency=20',*resource_flags,'--timeout=3600',
             '--update-env-vars='+env,'--update-secrets=HER_PORTFOLIO_SIGNING_KEY=her-portfolio-signing-key:latest,HER_OPERATOR_KEY=her-portfolio-operator-key:latest,'+provider_binding])
     print('Cloud Run deployment completed. Next: check /api/portfolio/config, run one explicitly allowed smoke generation, then publish the reviewed portfolio changes.')
 

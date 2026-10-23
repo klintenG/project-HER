@@ -1,6 +1,7 @@
 """Explicit per-job Replicate tiers and bounded calls, without global mutation."""
 import config
 import logging
+import threading
 from agent.news_assets import NewsImageGenerator
 from agent.news_models import NewsError
 logger=logging.getLogger(__name__)
@@ -10,21 +11,24 @@ class EditorialImages(NewsImageGenerator):
     def __init__(self):
         super().__init__()
         self.replicate_model=config.EDITORIAL_SUPPORT_IMAGE_MODEL
+        self._budget_lock=threading.Lock()
         self.support_calls=0
         self.real_calls=0
 
     async def subject(self,prompt,path):
-        if self.support_calls>=config.EDITORIAL_MAX_SUPPORT_CALLS:
-            raise NewsError('Supporting-image call limit reached; reuse cached assets or increase EDITORIAL_MAX_SUPPORT_CALLS.')
-        self.support_calls+=1
+        with self._budget_lock:
+            if self.support_calls>=config.EDITORIAL_MAX_SUPPORT_CALLS:
+                raise NewsError('Supporting-image call limit reached; reuse cached assets or increase EDITORIAL_MAX_SUPPORT_CALLS.')
+            self.support_calls+=1
         if not self.replicate_token:raise NewsError('Editorial illustrations require REPLICATE_API_TOKEN.')
         # Explicit low-cost model; no hidden upgrade through global preferences.
         return await self.real_subject(prompt,path,tier='support')
 
     async def real_subject(self,prompt,path,reference=None,tier='person'):
         if tier=='person':
-            if self.real_calls>=config.NEWS_MAX_REAL_IMAGE_CALLS:raise NewsError('Real-person image call limit reached.')
-            self.real_calls+=1
+            with self._budget_lock:
+                if self.real_calls>=config.NEWS_MAX_REAL_IMAGE_CALLS:raise NewsError('Real-person image call limit reached.')
+                self.real_calls+=1
         return await self._prediction(prompt,path,reference,tier)
 
     async def _prediction(self,prompt,path,reference,tier):

@@ -47,7 +47,9 @@ ARG INSTALL_NEWS_CUTOUTS=1
 RUN pip install --upgrade pip && pip install -r requirements.txt -r requirements-portfolio.txt -r requirements-editorial.txt \
     && if [ "$INSTALL_NEWS_CUTOUTS" = "1" ]; then pip install -r requirements-news.txt; fi
 ENV U2NET_HOME=/app/temp/news-models \
-    NUMBA_CACHE_DIR=/app/temp/numba
+    NUMBA_CACHE_DIR=/app/temp/numba \
+    OMP_NUM_THREADS=2 \
+    HER_INFERENCE_THREADS=2
 
 # Pre-install Remotion npm dependencies (leverages Docker cache)
 COPY remotion/package.json remotion/package-lock.json /app/remotion/
@@ -69,6 +71,8 @@ RUN mkdir -p output temp assets/fonts assets/music assets/sfx \
 USER appuser
 RUN cd /app/remotion && npx remotion browser ensure
 RUN python scripts/setup_editorial.py
+# Avoid first-job segmentation downloads after every revision/cold instance.
+RUN if [ "$INSTALL_NEWS_CUTOUTS" = "1" ]; then python -c "import config; from rembg import new_session; [new_session(model) for model in config.NEWS_CUTOUT_MODELS]"; fi
 
 # Cloud Run injects $PORT (default 8080). One worker + threads keeps in-memory
 # job state/SSE consistent; long timeout allows video renders.

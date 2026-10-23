@@ -240,12 +240,17 @@ class Runtime:
         out=config.OUTPUT_DIR/('portfolio_'+jid);out.mkdir(parents=True,exist_ok=True)
         self.update(jid,status='running')
         models_released=False
+        stage_timings={}
         def progress(stage):
             nonlocal models_released
             if os.getenv('K_SERVICE') and stage.name=='compose' and stage.status=='running' and not models_released:
                 release_cloud_models();models_released=True
             # Stage status comes from the real pipeline. No synthesized percent
             # or prompts, provider logs, private paths or transcript are exposed.
+            if stage.status=='completed':
+                stage_timings[stage.name]=round(stage.elapsed,3)
+                logger.info('Portfolio timing | job=%s | stage=%s | seconds=%.3f',jid,stage.name,stage.elapsed)
+                self.update(jid,stage_timings=dict(stage_timings))
             self.update(jid,stage={'name':stage.name,'label':stage.label,'status':stage.status,'elapsed':round(stage.elapsed,1)})
         try:
             if cancel.is_set():raise NewsError('Generation cancelled.','cancelled')
@@ -291,7 +296,7 @@ class Runtime:
                 vtt.write_text('WEBVTT\n\n'+captions)
                 assets['captions']=self.media.upload(vtt,f'portfolio/{jid}/captions.vtt','text/vtt')
             if cancel.is_set():raise NewsError('Generation cancelled.','cancelled')
-            self.update(jid,status='completed',result={'title':result.title,'duration':result.duration,'resolution':result.resolution,'language':data.language,'assets':assets},stage=None)
+            self.update(jid,status='completed',performance=(result.news_details or {}).get('performance',{}),result={'title':result.title,'duration':result.duration,'resolution':result.resolution,'language':data.language,'assets':assets},stage=None)
             logger.info('Portfolio job %s completed; duration=%.2f',jid,result.duration)
         except Exception as exc:
             current=self.store.get('job:'+jid) or {}
@@ -342,7 +347,9 @@ def cloud_worker(jid,data):
     # Keep prompt/media caches private to the child. The supervising process
     # removes this workspace even after a hard timeout or cancellation.
     config.TEMP_DIR=config.TEMP_DIR/'portfolio-work'/jid
-    os.environ['HER_REMOTION_CONCURRENCY']='1'
+    os.environ.setdefault('HER_REMOTION_CONCURRENCY','1')
+    os.environ.setdefault('OMP_NUM_THREADS','2')
+    logging.getLogger().setLevel(logging.INFO)
     config.TEMP_DIR.mkdir(parents=True,exist_ok=True)
     for name,folder in (('CACHE_DIR','cache'),('NEWS_TTS_CACHE','speech'),
                         ('NEWS_REFERENCE_CACHE','references'),('NEWS_IDENTITY_IMAGE_CACHE','images'),

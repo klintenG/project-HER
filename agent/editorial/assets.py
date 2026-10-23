@@ -57,17 +57,28 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
     from .vision import VisualReview
     import config
     output=Path(output);output.mkdir(parents=True,exist_ok=True)
+    from concurrent.futures import ThreadPoolExecutor
+    import threading
+    import time
     processor=processor or CutoutProcessor();people=people or People()
+    # Overlap provider/network waits; keep CPU segmentation single-file to bound RAM.
+    process_lock=threading.Lock();audit_lock=threading.Lock();init_lock=threading.Lock()
+    stop=threading.Event();external_cancel=cancel_event
+    class AcquisitionCancel:
+        def is_set(self):return stop.is_set() or (external_cancel is not None and external_cancel.is_set())
+    cancel_event=AcquisitionCancel()
+    def process(*args,**kwargs):
+        with process_lock:return processor.process(*args,**kwargs)
     audit={'mode':asset_mode,'assets':[]}
     if diagnostics is not None:diagnostics['assetAcquisition']=audit
     def save_audit():
-        (output/'asset_acquisition.json').write_text(json.dumps(audit,ensure_ascii=False,indent=2))
+        with audit_lock:(output/'asset_acquisition.json').write_text(json.dumps(audit,ensure_ascii=False,indent=2))
     def review(instruction,data,paths):
         nonlocal visual_review
         for attempt in range(2):
             if cancel_event and cancel_event.is_set():raise NewsError('Editorial generation cancelled','cancelled')
             try:
-                visual_review=visual_review or VisualReview()
+                with init_lock:visual_review=visual_review or VisualReview()
                 return visual_review(instruction,data,paths)
             except Exception as exc:
                 if getattr(exc,'status',None)=='cancelled':raise
@@ -76,7 +87,7 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                 # because its validation request lost its connection.
     def generated(e,reference=None,record=None):
         nonlocal image_generator
-        image_generator=image_generator or EditorialImages()
+        with init_lock:image_generator=image_generator or EditorialImages()
         prompt=subject_prompt(e)+' Preserve the available body, clothing, arms and torso; do not crop to a floating head. No surrounding background objects. Zoom out so the subject occupies at most 70 percent of image height. Leave at least 10 percent blank space above the entire head, hat or hair, and 10 percent on each side. Never clip a hat, head, shoulder, hand or foot.'
         model=config.NEWS_REFERENCE_IMAGE_MODEL if reference else config.EDITORIAL_SUPPORT_IMAGE_MODEL
         if reference:
@@ -109,7 +120,7 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                         revised+=' Create a fresh zoomed-out composition, smaller than the rejected image; do not repeat its crop.'
                     revised+=(' Repair the previous attempt: '+'; '.join(feedback)[-1000:] if feedback else '')
                     provider=_generate(image_generator.real_subject(revised,raw,reference) if reference else image_generator.subject(revised,raw),cancel_event)
-                stats,method=processor.process(raw,cut,allow_group=e.is_group,allow_portrait_crop=e.kind=='person' and not e.is_group,allow_bottom_crop=True)
+                stats,method=process(raw,cut,allow_group=e.is_group,allow_portrait_crop=e.kind=='person' and not e.is_group,allow_bottom_crop=True)
                 if reference and proof is None:
                     check=review('Compare image 1 (identity-linked reference) and image 2 (generated cutout). Assess visual likeness only, not legal or biometric identity. Reject a different face, changed age/ethnicity, anonymous lookalike, extra people, distorted anatomy, missing torso/clothing that existed in the reference, or unusable cutout. Return {sameLikeness:boolean, singlePerson:boolean, bodyPreserved:boolean, confidence:number from 0 to 1, problems:[strings]}. Uncertainty must fail.',
                         {'subject':e.name,'referenceSource':reference.source_url},[reference.path,cut])
@@ -149,7 +160,8 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                         raise
     registry=json.loads(Path(local_registry).read_text()) if local_registry else {}
     old={a.entity_id:a for a in (existing or [])};assets=[];entities=[]
-    for e in script.entities:
+    def acquire_one(e):
+        started=time.monotonic()
         if cancel_event and cancel_event.is_set():raise NewsError('Editorial generation cancelled','cancelled')
         record={'entityId':e.id,'name':e.name,'identity':e.identity};audit['assets'].append(record);save_audit()
         file_id=hashlib.sha256(e.id.encode()).hexdigest()[:20]
@@ -159,7 +171,7 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
             if not all(row.get(k) for k in required) or row['subject']!=e.name:raise NewsError('Local asset needs exact subject, role and provenance: '+e.name)
             path=row['path']
             if e.kind=='person':
-                cut=output/(file_id+'-local-cutout.png');processor.process(path,cut,allow_group=e.is_group,allow_portrait_crop=not e.is_group,allow_bottom_crop=True);path=cut
+                cut=output/(file_id+'-local-cutout.png');process(path,cut,allow_group=e.is_group,allow_portrait_crop=not e.is_group,allow_bottom_crop=True);path=cut
             a=prepare(e,path,output,source=row['source'],license=row['license'],attribution=row['attribution'],role=row['role'])
         elif e.id in old and old[e.id].origin=='photo' and old[e.id].identity_verified and e.kind=='person':
             a0=old[e.id];a=prepare(e,a0.path,output,source=a0.source_url,license=a0.license,attribution=a0.attribution)
@@ -191,7 +203,7 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                 if r.license.startswith('Reference only'):continue
                 try:
                     cut=Path(output)/(file_id+'-cutout.png');cut.parent.mkdir(parents=True,exist_ok=True)
-                    processor.process(Path(r.path),cut,allow_portrait_crop=True,allow_bottom_crop=True)
+                    process(Path(r.path),cut,allow_portrait_crop=True,allow_bottom_crop=True)
                     a=prepare(e,cut,output,source=r.source_url,license=r.license,attribution=r.attribution)
                     record['route']='reference_cutout';break
                 except NewsError as exc:record.setdefault('errors',[]).append(str(exc))
@@ -262,13 +274,13 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                 try:
                     Path(output).mkdir(parents=True,exist_ok=True)
                     query=e.reference_query or e.name+' '+e.description
-                    row=finder._search_and_download(KeyPoint(index=len(assets),headline=e.name,narration='',visual_query=query),Path(output),'portrait')
+                    row=finder._search_and_download(KeyPoint(index=next(i for i,v in enumerate(script.entities) if v.id==e.id),headline=e.name,narration='',visual_query=query),Path(output),'portrait')
                 finally:finder.session.close()
             # The existing broad fallback/placeholder chain is intentionally not
             # used: a stock photograph illustrates a class, never a named entity.
             if row:
                 try:
-                    cut=output/(file_id+'-stock-cutout.png');processor.process(row.local_path,cut,allow_group=e.is_group,allow_portrait_crop=e.kind=='person',allow_bottom_crop=True)
+                    cut=output/(file_id+'-stock-cutout.png');process(row.local_path,cut,allow_group=e.is_group,allow_portrait_crop=e.kind=='person',allow_bottom_crop=True)
                     a=prepare(e,cut,output,source=row.source_url,license='Pexels license',attribution=row.photographer+' / Pexels',role='portrait' if e.kind=='person' else 'object',factual=False)
                 except NewsError:a=generated(e,record=record)
             else:a=generated(e,record=record);record['route']='ai_after_missing_stock'
@@ -278,6 +290,24 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
             raise NewsError('No verified asset for '+e.name+'. Supply the required local/exact asset; a geometric placeholder will not be rendered.')
         if a.preparation=='symbolic':
             raise NewsError('Missing visual for '+e.name+'; geometric placeholder assets cannot be rendered.')
-        record.update(assetId=a.id,alpha=a.alpha,source=a.source,depiction=a.fallback);save_audit()
-        assets.append(a);entities.append(Entity(id=e.id,name=e.name,identity=e.identity,assetIds=[a.id],source=a.source))
+        record.update(assetId=a.id,alpha=a.alpha,source=a.source,depiction=a.fallback,elapsedSeconds=round(time.monotonic()-started,3));save_audit()
+        return Entity(id=e.id,name=e.name,identity=e.identity,assetIds=[a.id],source=a.source),a
+    workers=min(config.EDITORIAL_ASSET_WORKERS,max(1,len(script.entities)))
+    audit['workers']=workers
+    failure=[]
+    def guarded(e):
+        try:return acquire_one(e)
+        except Exception as exc:
+            with audit_lock:
+                if not failure:failure.append(exc)
+            stop.set()
+            raise
+    with ThreadPoolExecutor(max_workers=workers,thread_name_prefix='editorial-assets') as pool:
+        # map preserves narration order even when later subjects finish first.
+        try:
+            for entity,asset in pool.map(guarded,script.entities):
+                entities.append(entity);assets.append(asset)
+        except Exception:
+            stop.set()
+            raise failure[0]
     return entities,assets
