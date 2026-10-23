@@ -373,6 +373,10 @@ def research(inp, llm, search=None, fetcher=fetch):
                     warnings.append(f"Related source unavailable: {exc}")
         except Exception as exc:
             warnings.append(str(exc))
+    if not sources and notes and inp.source_policy != "online":
+        sources.append(Source(id="input",title="User-supplied account",text=notes,retrieved_at=datetime.now(timezone.utc).isoformat(),event_date=inp.event_date))
+        if inp.basis != "fictional":
+            inp.basis = "user_supplied"
     if not sources:
         raise NewsError("No readable evidence found. Configure SERPER_API_KEY, provide a readable article URL, or choose Use my account and supply who/what/where/when details.")
     # Restrict supplied mode to user facts, even if URLs/extra sources were fetched.

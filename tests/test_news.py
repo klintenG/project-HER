@@ -406,6 +406,14 @@ class NewsTests(unittest.TestCase):
         with self.assertRaises(NewsError):research(inp,FixtureLLM(),search,fetcher)
         self.assertEqual(fetcher.call_count,config.NEWS_MAX_PAGES*2)
 
+    def test_auto_mode_falls_back_to_supplied_notes_when_search_unavailable(self):
+        inp=Input(original='A rich custom story about ancient mythology',normalized='A rich custom story about ancient mythology',kind='topic_query',subject='Mythology',source_policy='auto')
+        search=MagicMock();search.search.side_effect=NewsError('Search service offline')
+        evidence,warnings=research(inp,FixtureLLM(),search)
+        self.assertEqual(len(evidence.sources),1)
+        self.assertEqual(evidence.sources[0].id,'input')
+        self.assertEqual(evidence.verification,'user_supplied')
+
     def test_gradio_news_dispatch_preserves_notes_and_renderer(self):
         import os
         from agent.orchestrator import PipelineResult
