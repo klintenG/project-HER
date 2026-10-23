@@ -82,6 +82,10 @@ def main():
         'GOOGLE_CLOUD_PROJECT':PROJECT,'HER_PORTFOLIO_ORIGINS':'https://klinteng.com,https://www.klinteng.com',
         'HER_PORTFOLIO_DAILY_LIMIT':'10','HER_PORTFOLIO_VISITOR_LIMIT':'2','HER_PORTFOLIO_CONCURRENCY':'1',
         'HER_TRUSTED_PROXY_HOPS':'0','HER_ALIGNMENT_MODEL':'small','HER_ALIGNMENT_DOWNLOAD':'0'}
+    local_env=dotenv_values(Path(source)/'.env')
+    for key in ('GEMINI_API_KEY','GOOGLE_TTS_API_KEY','PEXELS_API_KEY','GROQ_API_KEY'):
+        val=os.getenv(key) or local_env.get(key)
+        if val: values[key]=val
     env='^~^'+'~'.join(k+'='+v for k,v in values.items())
     import sys
     sys.path.insert(0,str(source))

@@ -22,6 +22,9 @@ class DeploymentGuard:
         if not self.token or self.clock()-self.token_time>1800:
             self.token=self.token_provider();self.token_time=self.clock()
         response=self.session.request(method,self.root+key,headers={'Authorization':'Bearer '+self.token},timeout=30,**kwargs)
+        if response.status_code==401:
+            self.token=self.token_provider();self.token_time=self.clock()
+            response=self.session.request(method,self.root+key,headers={'Authorization':'Bearer '+self.token},timeout=30,**kwargs)
         if method=='GET' and response.status_code==404:return None
         response.raise_for_status();return response.json()
 
