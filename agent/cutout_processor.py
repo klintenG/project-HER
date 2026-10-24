@@ -22,7 +22,7 @@ _SESSION_LOCK = threading.Lock()
 _SESSIONS = {}
 
 
-def mask_statistics(image, require_margin=True, allow_geometry=False, allow_group=False, allow_portrait_crop=False, allow_bottom_crop=False):
+def mask_statistics(image, require_margin=True, allow_geometry=False, allow_group=False, allow_portrait_crop=False, allow_bottom_crop=False, allow_tight_margin=False):
     if image.mode != "RGBA":
         raise NewsError("Cutout must be RGBA.")
     a = np.asarray(image.getchannel("A"))
@@ -36,14 +36,20 @@ def mask_statistics(image, require_margin=True, allow_geometry=False, allow_grou
     if require_margin and margin < .018:
         # Actual head-and-shoulders photos are intentionally cropped at the torso.
         # Never permit clipped hair/head or side clipping in the upper 55%.
-        inset=max(1,round(image.width*.018)); upper=fg[:round(image.height*.55)]
-        top_clipped = fg[:inset, :].sum() > 4
+        # Source images with a complete silhouette can be padded safely. Only
+        # the actual boundary indicates lost pixels; final assets still need
+        # the normal display margin. Use separate insets for non-square images.
+        inset=1 if allow_tight_margin else max(1,round(image.width*.018))
+        vertical_inset=1 if allow_tight_margin else max(1,round(image.height*.018))
+        upper=fg[:round(image.height*.55)]
+        top_clipped = fg[:vertical_inset, :].sum() > 4
         upper_left_clipped = upper[:, :inset].sum() > 4
         upper_right_clipped = upper[:, -inset:].sum() > 4
-        bottom_clipped = fg[-inset:, :].sum() > 4
+        bottom_clipped = fg[-vertical_inset:, :].sum() > 4
         allow_bottom = allow_portrait_crop or allow_bottom_crop
         portrait_ok = (allow_bottom and not top_clipped and not upper_left_clipped and not upper_right_clipped)
-        noise_only = not (top_clipped or upper_left_clipped or upper_right_clipped or bottom_clipped)
+        side_clipped = fg[:, :inset].sum() > 4 or fg[:, -inset:].sum() > 4
+        noise_only = not (top_clipped or side_clipped or bottom_clipped)
         if not (portrait_ok or noise_only):
             raise NewsError("Subject touches image edge; possible clipped head/limb/object.")
     if float((a<8).mean()) < .1:
@@ -96,10 +102,10 @@ def mask_statistics(image, require_margin=True, allow_geometry=False, allow_grou
 
 
 class CutoutProcessor:
-    version = "news-cutout-1.5-rembg-2.0.57"
+    version = "news-cutout-1.6-rembg-2.0.57"
     def __init__(self, backend=None, models=None, segmenter=None):
         self.backend = backend or config.NEWS_CUTOUT_BACKEND
-        self.models = models or config.NEWS_CUTOUT_MODELS
+        self.models = config.NEWS_CUTOUT_MODELS if models is None else models
         self.segmenter = segmenter
 
     def segment(self,image,model):
@@ -150,7 +156,6 @@ class CutoutProcessor:
             return remove(image,session=_SESSIONS[model],alpha_matting=False)
 
     def process(self,source,dest,allow_geometry=False,allow_group=False,allow_portrait_crop=False,allow_bottom_crop=False):
-        allow_bottom = allow_portrait_crop or allow_bottom_crop
         source,dest = Path(source),Path(dest)
         data=source.read_bytes()
         if len(data)>30_000_000:
@@ -175,10 +180,6 @@ class CutoutProcessor:
             cleaned = prune_detached_components(candidate_image) if not allow_group else None
             if cleaned is not None:
                 yield cleaned
-            if method != "provider_alpha":
-                yield soft_edge_fade(candidate_image, fade_bottom=not allow_bottom)
-                if cleaned is not None:
-                    yield soft_edge_fade(cleaned, fade_bottom=not allow_bottom)
         for model in [None]+list(self.models):
             if model is not None:
                 try:
@@ -193,7 +194,7 @@ class CutoutProcessor:
                 for image in iter_variants(method, candidate_image):
                     try:
                         # Validate source borders before cropping: adding padding cannot repair a clipped subject.
-                        mask_statistics(image,allow_geometry=allow_geometry,allow_group=allow_group,allow_portrait_crop=allow_portrait_crop,allow_bottom_crop=allow_bottom_crop)
+                        mask_statistics(image,allow_geometry=allow_geometry,allow_group=allow_group,allow_portrait_crop=allow_portrait_crop,allow_bottom_crop=allow_bottom_crop,allow_tight_margin=True)
                         alpha=image.getchannel('A')
                         # Tiny alpha dust is removed without eroding hair/fur or stripping white highlights.
                         alpha=alpha.point(lambda x: 0 if x<5 else x)

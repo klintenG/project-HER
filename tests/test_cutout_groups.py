@@ -33,6 +33,35 @@ class GroupCutoutTests(unittest.TestCase):
         self.team = Entity(id="france", name="France national football team", kind="person",
             description="A group of athletes in dark blue jerseys standing on a field.")
 
+    def test_intact_tight_source_is_padded_and_cached_without_segmentation(self):
+        image = Image.new("RGBA", (400, 600))
+        ImageDraw.Draw(image).ellipse((2, 2, 397, 597), fill="blue")
+        source = self.root / "tight.png"
+        image.save(source)
+        processor = CutoutProcessor(backend="none", models=[])
+        for name in ("first.png", "cached.png"):
+            stats, method = processor.process(source, self.root / name)
+            self.assertEqual(method, "provider_alpha")
+            self.assertGreaterEqual(stats["transparent_margin"], .018)
+            with Image.open(self.root / name) as result:
+                self.assertEqual(sum(v > 32 for v in result.getchannel("A").getdata()),
+                                 sum(v > 32 for v in image.getchannel("A").getdata()))
+
+    def test_segmented_clipped_subject_is_not_hidden_by_edge_fading(self):
+        source = self.root / "opaque.png"
+        Image.new("RGB", (400, 600), "gray").save(source)
+        for box in ((100, 0, 300, 400), (0, 200, 300, 550), (100, 200, 399, 550)):
+            segmented = Image.new("RGBA", (400, 600))
+            ImageDraw.Draw(segmented).ellipse(box, fill="blue")
+            processor = CutoutProcessor(segmenter=lambda image, model: segmented)
+            with self.subTest(box=box), self.assertRaisesRegex(NewsError, "image edge"):
+                processor.process(source, self.root / "clipped.png")
+        self.assertFalse((self.root / "clipped.png").exists())
+
+    def test_explicit_empty_models_disables_segmentation(self):
+        processor = CutoutProcessor(models=[])
+        self.assertEqual(processor.models, [])
+
     def test_only_explicit_human_groups_enable_multiple_silhouettes(self):
         self.assertTrue(self.team.is_group)
         for entity in (

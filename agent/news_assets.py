@@ -37,6 +37,7 @@ def subject_prompt(entity, attempt=0):
         prompt+='Association football (soccer): ordinary soccer shirts and shorts, no helmets, no shoulder pads, no American football uniforms. '
     prompt+=config.NEWS_STYLE_SUFFIX
     prompt+=' Background instruction takes precedence over setting references: show only the subject against one solid neutral color, no field, grass, pitch, floor, ground plane or cast shadows. No invented badges, logos or lettering. '
+    prompt+=' Keep the complete subject centered within 60 percent of canvas width and height, with at least 20 percent empty space on every side. Use a backdrop that contrasts with clothing, hair and all subject edges. '
     if attempt==1:
         prompt+='Regenerate with a solid mid-gray studio backdrop. Use a simpler composition, clear silhouette edges and wide empty margins. '
     elif attempt>=2:
