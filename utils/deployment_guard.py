@@ -39,7 +39,11 @@ class DeploymentGuard:
         return self.request('PATCH','policy',params=params,json={'fields':fields})
 
     def reopen(self):
-        current=self.request('GET','policy')
+        try:
+            current=self.request('GET','policy')
+        except Exception:
+            self.session=requests.Session()
+            current=self.request('GET','policy')
         if current and current['fields'].get('maintenance_owner',{}).get('stringValue')==self.owner:
             self.set_maintenance(False,current)
             print('Deployment maintenance cleared; prior daily/emergency settings preserved.',flush=True)
