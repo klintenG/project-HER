@@ -124,13 +124,33 @@ class Runtime:
     def digest(self,value):return hmac.new(self.secret.encode(),value.encode(),hashlib.sha256).hexdigest()
     def capability(self,jid):return self.digest('job-access:'+jid)
     def update(self,jid,**fields):
+        from .run_diagnostics import new_record,transition
         def change(tx):
             job=tx.get('job:'+jid)
             if not job:return None
             # A late worker cannot overwrite a recorded timeout or cancellation.
             if job['status'] in TERMINAL:return job
-            job.update(fields,updated_at=time.time());tx.set('job:'+jid,job);return job
+            previous_stage=job.get('stage')
+            stage=fields.get('stage')
+            changed=('status' in fields and fields['status']!=job['status']) or (stage and (not previous_stage or (stage['name'],stage['status'])!=(previous_stage['name'],previous_stage['status'])))
+            diagnostic=(tx.get('diagnostic:'+jid) or new_record(job)) if changed else None
+            job.update(fields,updated_at=time.time())
+            if diagnostic is not None:
+                transition(diagnostic,job,fields,previous_stage)
+                tx.set('diagnostic:'+jid,diagnostic)
+            tx.set('job:'+jid,job);return job
         return self.store.atomic(change)
+    def diagnostic_events(self,jid,events):
+        if not events:return
+        from .run_diagnostics import append
+        def save(tx):
+            record=tx.get('diagnostic:'+jid)
+            if not record:return
+            for event in events:append(record,event)
+            tx.set('diagnostic:'+jid,record)
+        try:self.store.atomic(save)
+        except Exception:logger.warning('Diagnostic event persistence unavailable | job=%s',jid)
+
     def reserve(self,data,identity,key):
         if not self.enabled or min(self.daily,self.visitor,self.concurrent)<=0:raise APIError('Public generation is temporarily unavailable. Previously generated examples remain available.',503)
         now=time.time();day=datetime.now(timezone.utc).date().isoformat()
@@ -159,6 +179,8 @@ class Runtime:
                  'cancel_supported':data.content_mode=='news','cancel_requested':False,'stage':None,'result':None,'error':None}
             quota['total']+=1;quota['visitors'][owner]=quota['visitors'].get(owner,0)+1
             slots['jobs'][jid]=min(deadline,now+120);slots['expires_at']=now+7*86400
+            from .run_diagnostics import new_record
+            tx.set('diagnostic:'+jid,new_record(job))
             tx.set('quota:'+day,quota);tx.set('active',slots);tx.set('job:'+jid,job)
             tx.set('request:'+request_key,{'job_id':jid,'payload_hash':payload_hash,'expires_at':job['expires_at']})
             return job,True
@@ -239,10 +261,13 @@ class Runtime:
         job=self.get_job(jid);cancel=DurableCancel(self,jid,job['deadline'])
         out=config.OUTPUT_DIR/('portfolio_'+jid);out.mkdir(parents=True,exist_ok=True)
         self.update(jid,status='running')
+        from .run_diagnostics import ProviderEvents,failure_details
+        diagnostic_handler=ProviderEvents();logging.getLogger().addHandler(diagnostic_handler)
         models_released=False
         stage_timings={}
         def progress(stage):
             nonlocal models_released
+            self.diagnostic_events(jid,diagnostic_handler.drain())
             if os.getenv('K_SERVICE') and stage.name=='compose' and stage.status=='running' and not models_released:
                 release_cloud_models();models_released=True
             # Stage status comes from the real pipeline. No synthesized percent
@@ -303,9 +328,12 @@ class Runtime:
             is_cancelled=current.get('cancel_requested') and data.content_mode=='news'
             message='Generation cancelled.' if is_cancelled else safe_message(exc) if isinstance(exc,NewsError) else 'Generation failed. Please adjust the input and retry. No automatic paid retry was made.'
             if time.time()>job['deadline']:message='Generation exceeded its deadline. No automatic paid retry was made.'
-            self.update(jid,status='cancelled' if is_cancelled else 'failed',error=message,stage=None)
+            self.update(jid,status='cancelled' if is_cancelled else 'failed',error=message,stage=None,failure=failure_details(exc))
             logger.warning('Portfolio job %s ended | type=%s | cancelled=%s',jid,type(exc).__name__,is_cancelled)
-        finally:self.release(jid)
+        finally:
+            logging.getLogger().removeHandler(diagnostic_handler)
+            self.diagnostic_events(jid,diagnostic_handler.drain());diagnostic_handler.close()
+            self.release(jid)
 
 
 def env_enabled(name):return os.getenv(name,'0').lower() in ('1','true','yes')
@@ -471,6 +499,30 @@ def install(app):
         if not record:raise APIError('The previous submission could not be located. Its acknowledgement may still be pending; do not submit with a new key immediately.',404)
         job=rt.get_job(record['job_id'])
         return jsonify({'job_id':job['job_id'],'access_token':rt.capability(job['job_id']),'expires_at':job['expires_at'],'status':job['status'],'cancel_supported':job['cancel_supported']})
+    @bp.route('/operator/jobs/<jid>/diagnostics')
+    def diagnostics(jid):
+        # Always protected, even when the optional legacy lock is disabled.
+        operator=os.getenv('HER_OPERATOR_KEY','');auth=request.authorization
+        if not (operator and auth and auth.type=='basic' and auth.username=='operator' and hmac.compare_digest(auth.password or '',operator)):
+            return jsonify({'error':'Operator authentication required.'}),401,{'WWW-Authenticate':'Basic realm="Project HER operator"'}
+        if not re.fullmatch(r'[0-9a-f]{32}',jid):raise APIError('Job not found.',404)
+        record=runtime().store.get('diagnostic:'+jid)
+        if not record:raise APIError('Diagnostics unavailable for this run. Logging applies to runs created after deployment.',404)
+        if record['expires_at']<=time.time():raise APIError('Diagnostics expired.',410)
+        record.pop('delete_after',None)
+        format=request.args.get('format','json')
+        if format not in ('json','jsonl'):raise APIError('Choose json or jsonl.',400)
+        timings={k:v for k,v in record['stage_seconds'].items() if v is not None}
+        record['slowest_completed_stage']=max(timings,key=timings.get) if timings else None
+        record['observed_elapsed_seconds']=round((record.get('finished_at') or time.time())-record['created_at'],3)
+        if format=='jsonl':
+            summary={k:v for k,v in record.items() if k!='events'}
+            body='\n'.join(json.dumps(row) for row in [{'kind':'summary',**summary},*record['events']])+'\n'
+        else:body=json.dumps(record,indent=2)+'\n'
+        return Response(body,mimetype='application/x-ndjson' if format=='jsonl' else 'application/json',headers={
+            'Content-Disposition':f'attachment; filename="her-{jid}-diagnostics.{format}"',
+            'X-Content-Type-Options':'nosniff'})
+
     @bp.route('/jobs/<jid>')
     def status(jid):
         rt=runtime();return jsonify(rt.present(rt.authorized(jid)))
