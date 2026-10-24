@@ -24,6 +24,7 @@ logger = logging.getLogger(__name__)
 def subject_prompt(entity, attempt=0):
     """Describe a cutout, overriding any scene language in the script's description."""
     prompt=('Recognizable '+entity.name+'. ' if entity.identity in ('real','fictional') else 'One isolated ')+entity.description+'. '
+    prompt+='Standalone cutout on a seamless solid background; show only the subject with zero environmental scenery, no background room or landscape, no floor plane, no ground, no furniture, no surrounding objects. '
     if entity.kind=='person':
         prompt+='Fully colored editorial illustration, natural skin tones, visible faces and recognizable anatomy, no black silhouettes. '
     if entity.kind=='animal':

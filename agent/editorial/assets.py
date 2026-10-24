@@ -88,13 +88,13 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
     def generated(e,reference=None,record=None):
         nonlocal image_generator
         with init_lock:image_generator=image_generator or EditorialImages()
-        prompt=subject_prompt(e)+' Preserve the available body, clothing, arms and torso; do not crop to a floating head. No surrounding background objects. Zoom out so the subject occupies at most 70 percent of image height. Leave at least 10 percent blank space above the entire head, hat or hair, and 10 percent on each side. Never clip a hat, head, shoulder, hand or foot.'
+        prompt=subject_prompt(e)+' Single subject cutout. Preserve the available body, clothing, arms and torso; do not crop to a floating head. No surrounding background objects, no floor, no scenery, no environment. Zoom out so the subject occupies at most 70 percent of image height. Leave at least 15 percent blank space on every side. Never clip a hat, head, shoulder, hand or foot.'
         model=config.NEWS_REFERENCE_IMAGE_MODEL if reference else config.EDITORIAL_SUPPORT_IMAGE_MODEL
         if reference:
             # A fresh textual portrait description can override the supplied
             # face/clothing. Reference editing must preserve the photo itself.
             prompt='Edit the supplied photograph into one isolated paper-collage cutout. Preserve this exact person, face, expression, age, skin tone, hairstyle, facial hair, body proportions and original clothing with photographic detail. Change only the background to a flat contrasting mid-gray. Recompose with blank canvas margins: keep the entire available torso/body, all head/hair/hat and shoulders; leave at least 10 percent empty space above and on both sides. Do not copy a clipped input crop. Do not invent lower body, change clothing, beautify or replace the face, add people or depict an event. No text, border, watermark or baked shadow.'
-        prompt+=' Story context, for period, location and appearance only: '+script.narration+' Show only the requested subject, not additional story characters or a composite scene. Use the era described; do not replace historical equipment with modern weapons or vehicles. Never use a cube, square, box icon, silhouette icon or geometric placeholder to represent a missing subject.'
+        prompt+=' Story era context for clothing/period only: '+script.narration+' Strict cutout rule: depict solely the single named subject isolated on a solid backdrop. Do NOT illustrate the full scene, no additional story characters, no environmental setting or landscape. Use the era described; do not replace historical equipment with modern weapons or vehicles. Never use a cube, square, box icon, silhouette icon or geometric placeholder to represent a missing subject.'
         key=hashlib.sha256(('editorial-cutout-v5|'+prompt+'|'+model+'|'+(digest(reference.path) if reference else '')).encode()).hexdigest()
         file_id=hashlib.sha256(e.id.encode()).hexdigest()[:20]
         cache=config.NEWS_IDENTITY_IMAGE_CACHE/key;raw=output/(file_id+'-generated.png');cut=output/(file_id+'-cutout.png')
@@ -115,7 +115,7 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
                     revised=prompt
                     if not reference and attempt:
                         revised+=' '+subject_prompt(e,attempt)
-                    revised+=' Framing is mandatory: subject centered, occupying at most 60 percent of canvas height and width; leave at least 20 percent empty margin on every side. Flat solid backdrop contrasting with the entire subject, no floor, shadows or scenery.'
+                    revised+=' Framing is mandatory: subject centered, occupying at most 60 percent of canvas height and width; leave at least 20 percent empty margin on every side. Pure solid monochromatic backdrop contrasting with the entire subject, zero floor, zero ground plane, zero cast shadows, no environmental scenery or background characters.'
                     if attempt:
                         revised+=' Create a fresh zoomed-out composition, smaller than the rejected image; do not repeat its crop.'
                     revised+=(' Repair the previous attempt: '+'; '.join(feedback)[-1000:] if feedback else '')

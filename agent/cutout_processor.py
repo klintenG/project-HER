@@ -143,8 +143,13 @@ class CutoutProcessor:
                     errors.append(str(exc)); continue
             for method,candidate_image in candidates:
                 variants = [candidate_image]
+                cleaned = prune_detached_components(candidate_image) if not allow_group else None
+                if cleaned is not None:
+                    variants.append(cleaned)
                 if method != "provider_alpha":
                     variants.append(soft_edge_fade(candidate_image, fade_bottom=not allow_bottom))
+                    if cleaned is not None:
+                        variants.append(soft_edge_fade(cleaned, fade_bottom=not allow_bottom))
                 for v_idx, image in enumerate(variants):
                     try:
                         # Validate source borders before cropping: adding padding cannot repair a clipped subject.
@@ -171,6 +176,37 @@ class CutoutProcessor:
                         if v_idx == len(variants) - 1:
                             errors.append(f"{method}: {exc}")
         raise CutoutQualityError("Cutout quality failed; regenerate isolated subject on a contrasting neutral background. "+"; ".join(errors))
+
+
+def prune_detached_components(image, min_dominance=0.55):
+    """Clean isolated single subject by zeroing out detached background clutter/artifacts."""
+    a = np.asarray(image.getchannel('A'))
+    fg = a > 32
+    if not fg.any():
+        return None
+    from scipy.ndimage import label, binary_dilation
+    structure = np.ones((3, 3), dtype=int)
+    labeled, num_features = label(fg, structure=structure)
+    if num_features <= 1:
+        return None
+    counts = np.bincount(labeled.ravel())
+    largest_label = int(np.argmax(counts[1:]) + 1)
+    largest_size = counts[largest_label]
+    total_fg = counts[1:].sum()
+    dominance = largest_size / total_fg
+    sorted_sizes = sorted(counts[1:], reverse=True)
+    second_ratio = sorted_sizes[1] / largest_size
+    if dominance >= min_dominance or second_ratio < 0.35:
+        primary_mask = (labeled == largest_label)
+        dilated = binary_dilation(primary_mask, iterations=6)
+        keep_labels = set(np.unique(labeled[dilated])) - {0}
+        keep_mask = np.isin(labeled, list(keep_labels))
+        clean_a = np.where(keep_mask, a, 0).astype(np.uint8)
+        if (clean_a < a).any():
+            cleaned = image.copy()
+            cleaned.putalpha(Image.fromarray(clean_a))
+            return cleaned
+    return None
 
 
 def soft_edge_fade(image, inset_pct=0.025, fade_bottom=True):

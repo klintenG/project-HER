@@ -137,6 +137,24 @@ class GroupCutoutTests(unittest.TestCase):
         manifest.assets[0] = assets[0]
         self.assertEqual(NewsFrames(manifest).frame(30).shape, (960, 540, 3))
 
+    def test_single_subject_prunes_detached_background_clutter_successfully(self):
+        source = self.root / "cluttered.png"
+        image = Image.new("RGBA", (512, 512))
+        draw = ImageDraw.Draw(image)
+        # Dominant centered subject
+        draw.ellipse((200, 60, 310, 140), fill="#b68e73")
+        draw.polygon([(200, 135), (310, 135), (320, 330), (290, 450), (265, 340), (240, 450), (210, 330)], fill="#18305a")
+        # Detached background debris
+        draw.rectangle((30, 410, 90, 480), fill="#555555")
+        draw.ellipse((420, 80, 470, 130), fill="#444444")
+        image.save(source)
+
+        dest = self.root / "cleaned-cutout.png"
+        processor = CutoutProcessor(backend="none", models=[])
+        stats, method = processor.process(source, dest, allow_group=False)
+        self.assertTrue(dest.exists())
+        self.assertEqual(stats["detached_fraction"], 0.0)
+
 
 if __name__ == "__main__":
     unittest.main()
