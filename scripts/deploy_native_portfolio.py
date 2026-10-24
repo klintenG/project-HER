@@ -84,7 +84,7 @@ def main():
         'GOOGLE_CLOUD_PROJECT':PROJECT,'HER_PORTFOLIO_ORIGINS':'https://klinteng.com,https://www.klinteng.com',
         'HER_PORTFOLIO_DAILY_LIMIT':'10','HER_PORTFOLIO_VISITOR_LIMIT':'2','HER_PORTFOLIO_CONCURRENCY':'1',
         'HER_TRUSTED_PROXY_HOPS':'0','HER_ALIGNMENT_MODEL':'small','HER_ALIGNMENT_DOWNLOAD':'0'}
-    if args.performance_profile:values.update(HER_REMOTION_CONCURRENCY='2',EDITORIAL_ASSET_WORKERS='3',OMP_NUM_THREADS='4',HER_INFERENCE_THREADS='4')
+    if args.performance_profile:values.update(HER_REMOTION_CONCURRENCY='3',EDITORIAL_ASSET_WORKERS='3',OMP_NUM_THREADS='2',HER_CUTOUT_THREADS='2',HER_INFERENCE_THREADS='4',MODEL_CHECKSUM_DISABLED='1')
     local_env=dotenv_values(Path(source)/'.env')
     for key in ('GEMINI_API_KEY','GOOGLE_TTS_API_KEY','PEXELS_API_KEY','GROQ_API_KEY'):
         val=os.getenv(key) or local_env.get(key)

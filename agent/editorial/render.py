@@ -81,10 +81,27 @@ def finalize_audio(m,intermediate,output,cancel_event=None):
         replacement.replace(output)
 
 
+def _remotion_error_summary(log_path):
+    raw=Path(log_path).read_text(errors='replace')
+    cleaned=re.sub(r'(?s)^-------------\nVersion mismatch:.*?-------------\n*','',raw)
+    lines=[line for line in cleaned.splitlines() if not re.match(r'^(?:Bundling|Copying|Downloading|Rendered|Encoding)\b',line.strip())]
+    summary='\n'.join(lines).strip() or raw.strip()
+    logger.error('Editorial Remotion failed:\n%s',summary[-2500:])
+    return summary[-420:]
+
+
 def stage(timeline,output):
     m=Timeline.model_validate(timeline.model_dump());props=m.model_dump();props['branding']=branding_settings(m.generationId)
     if digest(m.fonts.semibold)+digest(m.fonts.bold)!=m.fonts.version:raise NewsError('Editorial font changed; rebuild measured phrase geometry before rendering.')
-    stage=config.BASE_DIR/'remotion/public/editorial'/m.generationId;stage.mkdir(parents=True,exist_ok=True)
+    editorial_root=config.BASE_DIR/'remotion/public/editorial'
+    stage=editorial_root/m.generationId;stage.mkdir(parents=True,exist_ok=True)
+    try:
+        cutoff=time.time()-7200
+        stale=[d for d in editorial_root.iterdir() if d.is_dir() and d.name!=m.generationId and re.fullmatch(r'editorial_[0-9a-f]{32}',d.name)]
+        if len(stale)>10:
+            for old in sorted(stale,key=lambda p:p.stat().st_mtime)[:-5]:
+                if old.stat().st_mtime<cutoff:shutil.rmtree(old,ignore_errors=True)
+    except OSError:pass
     def copy(source,name,sha=None):
         path=Path(source)
         if not path.is_file():raise NewsError('Missing editorial render asset: '+str(path))
@@ -108,17 +125,18 @@ def render(m,output,cancel_event=None):
     with log.open('w') as handle:
         p=subprocess.Popen([str(cli),'render','src/index.ts','ProjectHEREditorial',str(intermediate.resolve()),'--props',str(props),
             '--concurrency',str(remotion_concurrency()),
+            '--x264-preset','ultrafast',
             '--codec','h264','--crf','16','--pixel-format','yuv420p','--overwrite'],cwd=root,stdout=handle,stderr=subprocess.STDOUT,start_new_session=True)
         deadline=time.monotonic()+1200
         while p.poll() is None:
             if (cancel_event and cancel_event.is_set()) or time.monotonic()>deadline:
                 os.killpg(p.pid,signal.SIGTERM);p.wait(timeout=10);raise NewsError('Editorial render cancelled or timed out; see '+str(log))
             time.sleep(.2)
-    if p.returncode:raise NewsError('Editorial Remotion failed: '+log.read_text()[-2500:])
+    if p.returncode:raise NewsError('Editorial Remotion failed: '+_remotion_error_summary(log))
     # Remotion 4.0.242 emits full-range BT.470bg here. Explicit conversion, not
     # merely relabeling metadata, keeps the stage neutral and exports limited 709.
     subprocess.run(['ffmpeg','-v','error','-y','-i',str(intermediate),'-vf',
-        'scale=in_range=pc:out_range=tv:in_color_matrix=bt601:out_color_matrix=bt709,format=yuv420p','-c:v','libx264','-crf','17','-preset','medium',
+        'scale=in_range=pc:out_range=tv:in_color_matrix=bt601:out_color_matrix=bt709,format=yuv420p','-c:v','libx264','-crf','17','-preset','ultrafast',
         '-x264-params','colorprim=bt709:transfer=bt709:colormatrix=bt709:range=tv',
         '-color_range','tv','-colorspace','bt709','-color_primaries','bt709','-color_trc','bt709',
         '-c:a','aac','-b:a','192k','-ar','48000','-ac','2','-movflags','+faststart',str(output)],capture_output=True,check=True,timeout=240)
@@ -128,15 +146,20 @@ def render(m,output,cancel_event=None):
     video_stream=next(s for s in metadata['streams'] if s['codec_type']=='video')
     expected=output_frames(m.durationInFrames,m.fps)/m.fps
     duration=float(video_stream.get('duration',0))
-    scan=subprocess.run(['ffmpeg','-hide_banner','-i',str(output),'-vf','blackdetect=d=0.25:pix_th=0.05:pic_th=0.98','-an','-f','null','-'],capture_output=True,text=True,check=True,timeout=180)
+    from concurrent.futures import ThreadPoolExecutor
+    def _run_blackdetect():
+        return subprocess.run(['ffmpeg','-hide_banner','-i',str(output),'-vf','scale=180:320,blackdetect=d=0.25:pix_th=0.05:pic_th=0.98','-an','-f','null','-'],capture_output=True,text=True,check=True,timeout=180)
+    with ThreadPoolExecutor(max_workers=2) as qa_pool:
+        black_future=qa_pool.submit(_run_blackdetect)
+        activity_future=qa_pool.submit(lambda:__import__('agent.editorial.qa',fromlist=['activity']).activity(output)) if m.editorialStyleVersion=='reference-v2' else None
+        scan=black_future.result()
+        report=activity_future.result() if activity_future is not None else None
     black=[{'start':float(a),'end':float(b),'duration':float(c)} for a,b,c in re.findall(r'black_start:([\d.]+) black_end:([\d.]+) black_duration:([\d.]+)',scan.stderr)]
     quality={'expectedDuration':expected,'encodedDuration':duration,'blackIntervals':black,'passed':abs(duration-expected)<=2/m.fps and not black}
     output.with_name(output.stem+'-visual-quality.json').write_text(json.dumps(quality,indent=2))
     if not quality['passed']:raise NewsError('Encoded video failed duration/black-frame checks; see '+str(output.with_name(output.stem+'-visual-quality.json')))
     stats['visualQuality']=quality
-    if m.editorialStyleVersion=='reference-v2':
-        from .qa import activity
-        report=activity(output)
+    if report is not None:
         spans=[];start=None
         for interval in report['intervals']:
             if interval['meanDelta']<.9:

@@ -375,8 +375,10 @@ def cloud_worker(jid,data):
     # Keep prompt/media caches private to the child. The supervising process
     # removes this workspace even after a hard timeout or cancellation.
     config.TEMP_DIR=config.TEMP_DIR/'portfolio-work'/jid
-    os.environ.setdefault('HER_REMOTION_CONCURRENCY','1')
+    os.environ.setdefault('HER_REMOTION_CONCURRENCY','3')
     os.environ.setdefault('OMP_NUM_THREADS','2')
+    os.environ.setdefault('HER_CUTOUT_THREADS','2')
+    os.environ.setdefault('MODEL_CHECKSUM_DISABLED','1')
     logging.getLogger().setLevel(logging.INFO)
     config.TEMP_DIR.mkdir(parents=True,exist_ok=True)
     for name,folder in (('CACHE_DIR','cache'),('NEWS_TTS_CACHE','speech'),

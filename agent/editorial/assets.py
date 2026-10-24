@@ -39,13 +39,15 @@ def prepare(entity,path,output,*,source,license,attribution,role='portrait',fact
             box=alpha.point(lambda x:255 if x>12 else 0).getbbox()
             if not box: raise NewsError('Empty editorial alpha mask')
             image=image.crop(box)
+            if max(image.size)>640:
+                image.thumbnail((640,640),Image.Resampling.LANCZOS)
         image.save(prepared)
     return Asset(id='asset-'+entity.id,entityId=entity.id,path=str(prepared.resolve()),originalPath=str(path.resolve()),role=role,
         subject=entity.name,source=source,license=license,attribution=attribution,width=image.width,height=image.height,alpha=has_alpha,factual=factual,
         confidence=1 if factual else .5,preparation='trimmed_alpha' if has_alpha else 'rectangle',fallback=None if factual else 'Generic illustration; not documentary evidence',sha256=digest(prepared))
 
 
-def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',llm=None,cancel_event=None,image_generator=None,processor=None,evidence=None,visual_review=None,people=None,diagnostics=None):
+def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',llm=None,cancel_event=None,image_generator=None,processor=None,evidence=None,visual_review=None,people=None,diagnostics=None,process_lock=None):
     """Only explicitly matching role assets count as factual. P18 identity alone
     cannot establish that a constellation diagram is a terminal photograph.
     Local registry keys are canonical names; never arbitrary LLM paths.
@@ -62,7 +64,7 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
     import time
     processor=processor or CutoutProcessor();people=people or People()
     # Overlap provider/network waits; keep CPU segmentation single-file to bound RAM.
-    process_lock=threading.Lock();audit_lock=threading.Lock();init_lock=threading.Lock()
+    process_lock=process_lock or threading.Lock();audit_lock=threading.Lock();init_lock=threading.Lock()
     stop=threading.Event();external_cancel=cancel_event
     class AcquisitionCancel:
         def is_set(self):return stop.is_set() or (external_cancel is not None and external_cancel.is_set())
@@ -210,7 +212,7 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
             if a is None and identity['kind'] in ('historical','fictional'):
                 a=generated(e,record=record);record['route']='historical_illustration' if identity['kind']=='historical' else 'fictional_illustration'
             elif a is None:
-                for r in refs[:3]:
+                for r in refs[:1]:
                     if r.license.startswith('Reference only'):
                         check=review('Assess this candidate reference photograph. The accompanying source page identifies the intended subject. Return {singlePerson:boolean, usable:boolean, problems:[strings]}. Require exactly one clear person and a visible face suitable for reference-guided illustration. Reject group photographs, unrelated objects, screenshots, unreadable faces and ambiguous subjects.',{'subject':e.name,'source':r.source_url},[r.path])
                         if not isinstance(check,dict) or check.get('singlePerson') is not True or check.get('usable') is not True:continue
@@ -236,7 +238,7 @@ def acquire(script,output,existing=None,local_registry=None,asset_mode='auto',ll
             candidates=[];seen=set();record['query']=e.reference_query or e.name+' '+e.description
             try:
                 refs=ReferencePhotos().find(e,llm)
-                for ref in refs:
+                for ref in refs[:2]:
                     if cancel_event and cancel_event.is_set():raise NewsError('Editorial generation cancelled','cancelled')
                     checksum=digest(ref.path)
                     if checksum in seen:continue

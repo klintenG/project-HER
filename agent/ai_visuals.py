@@ -405,7 +405,7 @@ class AIImageGenerator:
         try:
             # 1. Create prediction
             create_resp = await client.post(create_url, headers=headers, json=payload, timeout=20.0)
-            if create_resp.status_code not in (200, 201):
+            if create_resp.status_code not in (200, 201, 202):
                 logger.warning("  Replicate create prediction HTTP %d: %s", create_resp.status_code, create_resp.text[:120])
                 return None
 

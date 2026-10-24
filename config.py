@@ -1091,7 +1091,7 @@ NEWS_REPLICATE_TTS_MODEL = os.getenv("NEWS_REPLICATE_TTS_MODEL", "jaaari/kokoro-
 # Explicit Replicate selection keeps one voice/provider; other selections retain
 # their existing fallback chain. Pace uncached speech predictions across jobs.
 NEWS_REPLICATE_ONLY = os.getenv('NEWS_REPLICATE_ONLY', '1').lower() in ('1','true','yes')
-NEWS_REPLICATE_MIN_INTERVAL = max(0,min(60,float(os.getenv('NEWS_REPLICATE_MIN_INTERVAL', '12'))))
+NEWS_REPLICATE_MIN_INTERVAL = max(0,min(60,float(os.getenv('NEWS_REPLICATE_MIN_INTERVAL', '0'))))
 NEWS_REPLICATE_RATE_LIMIT_RETRIES = max(0,min(20,int(os.getenv('NEWS_REPLICATE_RATE_LIMIT_RETRIES', '7'))))
 NEWS_REPLICATE_RATE_LIMIT_WAIT = max(0,min(1800,float(os.getenv('NEWS_REPLICATE_RATE_LIMIT_WAIT', '600'))))
 NEWS_TTS_CACHE = TEMP_DIR / "news_speech"
@@ -1121,4 +1121,4 @@ NARRATION_VISUAL_SETTINGS = _visual_json.loads(os.getenv('HER_NARRATION_VISUAL_S
 EDITORIAL_STYLE_VERSION = os.getenv('HER_EDITORIAL_STYLE_VERSION', 'reference-v2')
 
 # Overlap image provider waits, while segmentation remains serialized.
-EDITORIAL_ASSET_WORKERS = max(1, min(3, int(os.getenv("EDITORIAL_ASSET_WORKERS", "2"))))
+EDITORIAL_ASSET_WORKERS = max(1, min(4, int(os.getenv("EDITORIAL_ASSET_WORKERS", "3"))))

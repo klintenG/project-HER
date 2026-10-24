@@ -49,12 +49,12 @@ class EditorialImages(NewsImageGenerator):
             with Image.open(reference.path) as image:
                 image=image.convert('RGB');image.thumbnail((1024,1024));buffer=io.BytesIO();image.save(buffer,format='JPEG',quality=90)
             inputs['input_image']='data:image/jpeg;base64,'+base64.b64encode(buffer.getvalue()).decode()
-        headers={'Authorization':'Bearer '+self.replicate_token};prediction=None;finished=False
+        headers={'Authorization':'Bearer '+self.replicate_token};post_headers={**headers,'Prefer':'wait=10','Cancel-After':'2m'};prediction=None;finished=False
         async with httpx.AsyncClient(timeout=httpx.Timeout(60.0,connect=15.0),follow_redirects=False) as client:
             try:
                 for create_attempt in range(3):
                     try:
-                        response=await client.post('https://api.replicate.com/v1/models/'+model+'/predictions',headers=headers,json={'input':inputs})
+                        response=await client.post('https://api.replicate.com/v1/models/'+model+'/predictions',headers=post_headers,json={'input':inputs})
                         if response.status_code!=429 or create_attempt==2:break
                         delay=30
                         try:
@@ -67,7 +67,7 @@ class EditorialImages(NewsImageGenerator):
                         if create_attempt==2:raise
                         logger.warning('Replicate create prediction timed out; retrying creation attempt (%s/2).',create_attempt+1)
                         await asyncio.sleep(2)
-                if response.status_code not in (200,201):raise NewsError('Replicate image request failed (HTTP '+str(response.status_code)+'); check model access and credits.')
+                if response.status_code not in (200,201,202):raise NewsError('Replicate image request failed (HTTP '+str(response.status_code)+'); check model access and credits.')
                 row=response.json();prediction=row.get('id')
                 if not isinstance(prediction,str) or not re.fullmatch('[a-zA-Z0-9_-]+',prediction):prediction=None;raise NewsError('Invalid image prediction ID.')
                 for _ in range(120):
@@ -76,10 +76,10 @@ class EditorialImages(NewsImageGenerator):
                         data,_=await asyncio.get_running_loop().run_in_executor(None,lambda:fetch(url,types=('image/png','image/jpeg','image/webp'),limit=15_000_000))
                         path.write_bytes(data);return 'replicate:'+model
                     if row.get('status') in ('failed','canceled'):finished=True;raise NewsError('Replicate image prediction failed or was cancelled.')
-                    await asyncio.sleep(2.0)
+                    await asyncio.sleep(.8)
                     try:
                         poll_resp=await client.get('https://api.replicate.com/v1/predictions/'+prediction,headers=headers)
-                        if poll_resp.status_code==200:
+                        if poll_resp.status_code in (200,201,202):
                             row=poll_resp.json()
                         elif poll_resp.status_code in (429,502,503,504):
                             logger.warning('Replicate image poll transient status HTTP %d; continuing poll.',poll_resp.status_code)

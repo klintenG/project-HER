@@ -49,7 +49,10 @@ RUN pip install --upgrade pip && pip install -r requirements.txt -r requirements
 ENV U2NET_HOME=/app/temp/news-models \
     NUMBA_CACHE_DIR=/app/temp/numba \
     OMP_NUM_THREADS=2 \
-    HER_INFERENCE_THREADS=2
+    HER_CUTOUT_THREADS=2 \
+    HER_INFERENCE_THREADS=4 \
+    HER_REMOTION_CONCURRENCY=3 \
+    EDITORIAL_ASSET_WORKERS=3
 
 # Pre-install Remotion npm dependencies (leverages Docker cache)
 COPY remotion/package.json remotion/package-lock.json /app/remotion/
@@ -72,7 +75,8 @@ USER appuser
 RUN cd /app/remotion && npx remotion browser ensure
 RUN python scripts/setup_editorial.py
 # Avoid first-job segmentation downloads after every revision/cold instance.
-RUN if [ "$INSTALL_NEWS_CUTOUTS" = "1" ]; then python -c "import config; from rembg import new_session; [new_session(model) for model in config.NEWS_CUTOUT_MODELS]"; fi
+RUN if [ "$INSTALL_NEWS_CUTOUTS" = "1" ]; then python -c "import config; from rembg import new_session; [new_session(model) for model in dict.fromkeys([*config.NEWS_CUTOUT_MODELS, 'u2net_human_seg'])]"; fi
+ENV MODEL_CHECKSUM_DISABLED=1
 
 # Cloud Run injects $PORT (default 8080). One worker + threads keeps in-memory
 # job state/SSE consistent; long timeout allows video renders.

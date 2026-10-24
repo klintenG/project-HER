@@ -82,6 +82,7 @@ class NewsReplicateTTS:
         self.speed = max(.5, min(2., 1 + int(NarrationEngine._normalize_rate(speed).rstrip('%')) / 100))
         self.cancel_event = cancel_event
         self._throttle_wait = 0
+        self._throttle_lock = threading.Lock()
         self._session = requests.Session()
         self._session.headers.update({'Authorization':'Bearer '+token})
 
@@ -118,9 +119,10 @@ class NewsReplicateTTS:
                 try:wait=max(1,math.ceil(parsedate_to_datetime(str(wait)).timestamp()-time.time()))+1
                 except (ValueError,TypeError,OverflowError,AttributeError):wait=15
             response.close()
-            if attempt==retries or self._throttle_wait+wait>config.NEWS_REPLICATE_RATE_LIMIT_WAIT:
-                raise NewsError('Replicate speech is rate-limited (HTTP 429); retry/wait budget exhausted. Wait before retrying or increase NEWS_REPLICATE_RATE_LIMIT_WAIT.')
-            self._throttle_wait += wait
+            with self._throttle_lock:
+                if attempt==retries or self._throttle_wait+wait>config.NEWS_REPLICATE_RATE_LIMIT_WAIT:
+                    raise NewsError('Replicate speech is rate-limited (HTTP 429); retry/wait budget exhausted. Wait before retrying or increase NEWS_REPLICATE_RATE_LIMIT_WAIT.')
+                self._throttle_wait += wait
             if config.NEWS_REPLICATE_MIN_INTERVAL>0:
                 while not NewsReplicateTTS._pacing_lock.acquire(timeout=.2):cancelled(self.cancel_event)
                 try:
@@ -142,7 +144,7 @@ class NewsReplicateTTS:
         try:
             row = self._request('POST','https://api.replicate.com/v1/predictions',
                 json={'version':VERSIONS[self.model], 'input':inputs},
-                headers={'Cancel-After':'2m', 'Prefer':'wait=5'})
+                headers={'Cancel-After':'2m', 'Prefer':'wait=20'})
             prediction = row.get('id')
             if not isinstance(prediction,str) or not re.fullmatch('[a-zA-Z0-9_-]+',prediction):
                 prediction = None
@@ -166,9 +168,9 @@ class NewsReplicateTTS:
                 if time.monotonic() >= deadline:
                     raise NewsError('Replicate speech timed out; prediction cancellation requested.')
                 if self.cancel_event is not None:
-                    self.cancel_event.wait(1)
+                    self.cancel_event.wait(.5)
                 else:
-                    time.sleep(1)
+                    time.sleep(.5)
                 row = self._request('GET',f'https://api.replicate.com/v1/predictions/{prediction}')
         finally:
             if prediction and not finished:
@@ -178,6 +180,7 @@ class NewsReplicateTTS:
                     logger.warning('Could not confirm remote speech cancellation; Cancel-After remains in effect.')
 
     def generate_narration(self, points, output_dir):
+        from concurrent.futures import ThreadPoolExecutor
         from agent.news_audio import probe_duration
         cancelled(self.cancel_event)
         # Validate every input before the first paid call. News sentences are short; never truncate them.
@@ -187,8 +190,11 @@ class NewsReplicateTTS:
             raise NewsError('Chatterbox Turbo allows at most 500 characters per News sentence; use Kokoro or Edge.')
         output_dir = Path(output_dir)/'audio'; output_dir.mkdir(parents=True,exist_ok=True)
         cache = Path(config.NEWS_TTS_CACHE); cache.mkdir(parents=True,exist_ok=True)
-        clips = []
-        for point in points:
+        stop = threading.Event()
+        def synthesize_point(point):
+            if stop.is_set():
+                cancelled(self.cancel_event)
+                raise NewsError('Replicate speech aborted after earlier sentence failure.')
             cancelled(self.cancel_event)
             inputs = {'text':point.narration, 'voice':self.voice}
             if self.model == KOKORO: inputs['speed'] = self.speed
@@ -214,5 +220,22 @@ class NewsReplicateTTS:
             else:
                 logger.info('Replicate speech | model=%s | sentence=%s | cache=hit',self.model,point.index)
             shutil.copyfile(cached,path)
-            clips.append(SimpleNamespace(index=point.index,audio_path=path,duration=duration,word_timings=[]))
-        return clips
+            return SimpleNamespace(index=point.index,audio_path=path,duration=duration,word_timings=[])
+        if len(points) <= 1 or config.NEWS_REPLICATE_MIN_INTERVAL >= 2:
+            return [synthesize_point(point) for point in points]
+        workers = min(3, len(points))
+        failure = []
+        def guarded(point):
+            try:
+                return synthesize_point(point)
+            except Exception as exc:
+                if not failure:
+                    failure.append(exc)
+                stop.set()
+                raise
+        with ThreadPoolExecutor(max_workers=workers, thread_name_prefix='news-tts') as pool:
+            try:
+                return list(pool.map(guarded, points))
+            except Exception:
+                stop.set()
+                raise failure[0]

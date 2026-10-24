@@ -80,15 +80,15 @@ const EditorialStory:React.FC<Timeline>=(props)=>{
     const imageStyle:React.CSSProperties={width:'100%',height:'100%',objectFit:'contain',maskImage:layer.mask==='lower_fade'?'linear-gradient(to bottom,black 0%,black 75%,transparent 100%)':undefined};
     return <div key={layer.id} style={style}>
       {asset&&layer.shadow&&<>
-        {layer.role!=='map'&&<div style={{position:'absolute',left:'-6%',bottom:'-1%',width:'100%',height:'10%',borderRadius:'50%',background:'#252735',opacity:.1,filter:'blur(15px)'}}/>}
-        <Img src={url(asset.path)} style={{...imageStyle,position:'absolute',inset:0,transformOrigin:'50% 97%',transform:'skewX(48deg) scaleY(.24)',filter:'brightness(0) blur(5px)',opacity:.13*(1-s.swap)}}/>
-        {s.swapAsset&&<Img src={url(assets.get(s.swapAsset)!.path)} style={{...imageStyle,position:'absolute',inset:0,transformOrigin:'50% 97%',transform:'skewX(48deg) scaleY(.24)',filter:'brightness(0) blur(5px)',opacity:.13*s.swap}}/>}
+        {layer.role!=='map'&&<div style={{position:'absolute',left:'-10%',bottom:'-3%',width:'108%',height:'14%',borderRadius:'50%',background:'radial-gradient(closest-side,rgba(37,39,53,.14),rgba(37,39,53,0))'}}/>}
+        <Img src={url(asset.path)} style={{...imageStyle,position:'absolute',inset:0,transformOrigin:'50% 97%',transform:'skewX(48deg) scaleY(.24)',filter:'brightness(0)',opacity:.11*(1-s.swap)}}/>
+        {s.swapAsset&&<Img src={url(assets.get(s.swapAsset)!.path)} style={{...imageStyle,position:'absolute',inset:0,transformOrigin:'50% 97%',transform:'skewX(48deg) scaleY(.24)',filter:'brightness(0)',opacity:.11*s.swap}}/>}
       </>}
       {asset&&<Img src={url(asset.path)} style={{...imageStyle,opacity:1-s.swap}}/>}
       {s.swapAsset&&<Img src={url(assets.get(s.swapAsset)!.path)} style={{...imageStyle,position:'absolute',inset:0,opacity:s.swap}}/>}
       {layer.phrase&&<PhraseBlock layer={layer} words={words} frame={frame}/>}
       {layer.role==='year'&&<div style={{fontFamily:'EditorialPoppins',fontSize:170,fontWeight:700,color,textAlign:'center',fontVariantNumeric:'tabular-nums'}}>{s.value}</div>}
-      {layer.role==='box'&&<><div style={{position:'absolute',left:'-5%',top:'70%',width:'96%',height:'12%',borderRadius:'50%',background:'#252735',opacity:.12,filter:'blur(15px)'}}/><Box angle={s.angle}/></>}
+      {layer.role==='box'&&<><div style={{position:'absolute',left:'-5%',top:'70%',width:'96%',height:'12%',borderRadius:'50%',background:'radial-gradient(closest-side,rgba(37,39,53,.16),rgba(37,39,53,0))'}}/><Box angle={s.angle}/></>}
       {m.layers.filter(child=>child.parentId===layer.id).map(child=>draw(child,b))}
     </div>;
   };

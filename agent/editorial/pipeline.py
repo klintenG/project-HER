@@ -53,27 +53,48 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
         begin('narrate','Generating speech, aligning exact script and removing redundant clip padding')
         narration_settings={}
         audio=synthesize(script,out,tts_provider or config.TTS_PROVIDER,voice,speed,tts_engine,pause=0,language=language,cancel_event=cancel_event,diagnostic_sink=narration_settings)
-        code=LANGUAGES.get(language.lower(),language.lower()).split('-')[0]
-        raw,words,sections,diagnostics=prepare_existing(script,audio,out/'audio',code)
-        diagnostics.update(visual_diagnostics)
-        from .director import VisualSettings,direct,save_summary
-        visual_settings=VisualSettings.configured()
-        direction=direct(script,words,cues,None if asset_mode=='local' else llm,visual_settings,diagnostics) if visual_settings.narrationDrivenVisualsEnabled else None
-        if direction is not None:
-            (out/'visual_direction.json').write_text(direction.model_dump_json(indent=2))
-        cancelled(cancel_event)
-        from agent.news_audio import probe_duration
-        diagnostics.update(provider=audio.provider,providerModel=audio.model,providerFallbacks=audio.fallbacks,narrationSettings=narration_settings,input=inp.model_dump(),evidence=evidence.model_dump())
-        if voice and narration_settings.get('resolvedVoice') not in (None,voice):warnings.append('Requested voice '+voice+' resolved to '+str(narration_settings['resolvedVoice'])+' for '+audio.provider+'.')
-        if speed not in ('+0%','0%',0,None) and narration_settings.get('resolvedSpeed') is None:warnings.append(audio.provider+' does not expose this speed control; its natural recorded timing is used.')
-        mix_source=raw
-        if (config.NEWS_MUSIC if music is None else music):
-            mixed=mix_music(audio.model_copy(update={'path':str(raw.resolve()),'duration':probe_duration(raw)}),out,music_path)
-            mix_source=Path(mixed.path);diagnostics['music']={'enabled':True,'source':str(music_path or 'existing procedural music engine'),'ducking':True}
-        else:diagnostics['music']={'enabled':False}
-        mix=out/'master.wav';diagnostics['loudness']=normalize(mix_source,mix)
-        begin('cutouts','Finding portraits, checking generated likenesses and preparing contextual cutouts')
-        entities,assets=acquire(script,out/'assets',local_registry=local_assets,asset_mode=asset_mode,llm=llm,cancel_event=cancel_event,image_generator=image_generator,processor=processor,evidence=evidence,diagnostics=diagnostics)
+        from concurrent.futures import ThreadPoolExecutor
+        import threading
+        prefetch_stop=threading.Event()
+        cpu_lock=threading.Lock()
+        class _PrefetchCancel:
+            def is_set(self):return prefetch_stop.is_set() or (cancel_event is not None and cancel_event.is_set())
+        acquisition_diagnostics={}
+        cutout_pool=ThreadPoolExecutor(max_workers=1,thread_name_prefix='editorial-assets-coord')
+        # Acquire cpu_lock before submitting acquire() so network image generation
+        # overlaps with Whisper alignment while CPU-heavy rembg waits until Whisper finishes.
+        cpu_lock.acquire()
+        cutout_future=cutout_pool.submit(acquire,script,out/'assets',local_registry=local_assets,asset_mode=asset_mode,llm=llm,cancel_event=_PrefetchCancel(),image_generator=image_generator,processor=processor,evidence=evidence,diagnostics=acquisition_diagnostics,process_lock=cpu_lock)
+        try:
+            try:
+                code=LANGUAGES.get(language.lower(),language.lower()).split('-')[0]
+                raw,words,sections,diagnostics=prepare_existing(script,audio,out/'audio',code)
+            finally:
+                cpu_lock.release()
+            diagnostics.update(visual_diagnostics)
+            from .director import VisualSettings,direct,save_summary
+            visual_settings=VisualSettings.configured()
+            direction=direct(script,words,cues,None if asset_mode=='local' else llm,visual_settings,diagnostics) if visual_settings.narrationDrivenVisualsEnabled else None
+            if direction is not None:
+                (out/'visual_direction.json').write_text(direction.model_dump_json(indent=2))
+            cancelled(cancel_event)
+            from agent.news_audio import probe_duration
+            diagnostics.update(provider=audio.provider,providerModel=audio.model,providerFallbacks=audio.fallbacks,narrationSettings=narration_settings,input=inp.model_dump(),evidence=evidence.model_dump())
+            if voice and narration_settings.get('resolvedVoice') not in (None,voice):warnings.append('Requested voice '+voice+' resolved to '+str(narration_settings['resolvedVoice'])+' for '+audio.provider+'.')
+            if speed not in ('+0%','0%',0,None) and narration_settings.get('resolvedSpeed') is None:warnings.append(audio.provider+' does not expose this speed control; its natural recorded timing is used.')
+            mix_source=raw
+            if (config.NEWS_MUSIC if music is None else music):
+                mixed=mix_music(audio.model_copy(update={'path':str(raw.resolve()),'duration':probe_duration(raw)}),out,music_path)
+                mix_source=Path(mixed.path);diagnostics['music']={'enabled':True,'source':str(music_path or 'existing procedural music engine'),'ducking':True}
+            else:diagnostics['music']={'enabled':False}
+            mix=out/'master.wav';diagnostics['loudness']=normalize(mix_source,mix)
+            begin('cutouts','Finding portraits, checking generated likenesses and preparing contextual cutouts')
+            diagnostics.update(acquisition_diagnostics)
+            entities,assets=cutout_future.result()
+            diagnostics.update(acquisition_diagnostics)
+        finally:
+            prefetch_stop.set()
+            cutout_pool.shutdown(wait=True)
         begin('timeline','Aligning semantic beats to the final master track')
         # The atomic director already owns layout intent. Keep the legacy plan
         # for inspection without a redundant LLM layout request in this mode.

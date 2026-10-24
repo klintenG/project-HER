@@ -22,6 +22,13 @@ def run(args):
 
 
 def samples(path, rate=48000):
+    try:
+        with wave.open(str(path),'rb') as f:
+            if f.getsampwidth()==2 and f.getcomptype()=='NONE' and f.getframerate()==rate:
+                raw=np.frombuffer(f.readframes(f.getnframes()),dtype='<i2').astype(np.float32)/32768.0
+                return raw.reshape(-1,f.getnchannels()).mean(axis=1) if f.getnchannels()>1 else raw
+    except (wave.Error,OSError,EOFError):
+        pass
     p=subprocess.run(['ffmpeg','-v','error','-i',str(path),'-f','f32le','-ac','1','-ar',str(rate),'-'],capture_output=True,check=True,timeout=60)
     return np.frombuffer(p.stdout,dtype='<f4').copy()
 
@@ -34,9 +41,9 @@ def write_wave(path, data, rate=48000):
 
 
 def measure(path,*,true_peak=-1.5):
-    result=run(['ffmpeg','-hide_banner','-i',str(path),'-af',f'loudnorm=I=-15:TP={true_peak}:LRA=7:print_format=json','-f','null','-'])
+    result=run(['ffmpeg','-hide_banner','-i',str(path),'-af',f'silencedetect=noise=-40dB:d=0.15,loudnorm=I=-15:TP={true_peak}:LRA=7:print_format=json','-f','null','-'])
     stats=json.loads(re.findall(r'\{[^{}]+\}',result.stderr)[-1])
-    silence=run(['ffmpeg','-hide_banner','-i',str(path),'-af','silencedetect=noise=-40dB:d=0.15','-f','null','-']).stderr
+    silence=result.stderr
     starts=[float(x) for x in re.findall(r'silence_start: ([\d.]+)',silence)]
     ends=[float(x) for x in re.findall(r'silence_end: ([\d.]+)',silence)]
     finite=lambda value:float(value) if math.isfinite(float(value)) else None
@@ -62,7 +69,7 @@ class Aligner:
         import config
         model=os.getenv('HER_ALIGNMENT_MODEL','small')
         try:
-            self.model=WhisperModel(model,device='cpu',compute_type='int8',cpu_threads=max(1,min(8,int(os.getenv("HER_INFERENCE_THREADS","2")))),
+            self.model=WhisperModel(model,device='cpu',compute_type='int8',cpu_threads=max(1,min(8,int(os.getenv("HER_INFERENCE_THREADS","4")))),
                 download_root=str(config.ASSETS_DIR/'alignment'),local_files_only=os.getenv('HER_ALIGNMENT_DOWNLOAD','0')!='1')
         except Exception as exc:
             raise NewsError('Local alignment model is unavailable. Install requirements-editorial.txt and download the model with scripts/setup_editorial.py, or use validated Edge/ElevenLabs timestamps. '+type(exc).__name__) from None
@@ -223,10 +230,15 @@ def prepare_existing(script,audio,output,language='en'):
     Never converts missing v1 word timings into fictional timestamps.
     """
     root=Path(output);root.mkdir(parents=True,exist_ok=True);clips=[];native={}
+    full=samples(audio.path,48000)
     for i,section in enumerate(script.sentences):
         phrase=next(p for p in audio.phrases if p.sentence_id==section.id)
         path=root/f'section-{i}.wav'
-        run(['ffmpeg','-v','error','-y','-i',audio.path,'-ss',str(phrase.start),'-t',str(phrase.end-phrase.start),'-ac','1','-ar','48000',str(path)])
+        start_idx=max(0,int(round(phrase.start*48000)))
+        end_idx=min(len(full),max(start_idx+1,int(round(phrase.end*48000))))
+        with wave.open(str(path),'wb') as f:
+            f.setnchannels(1);f.setsampwidth(2);f.setframerate(48000)
+            f.writeframes((np.clip(full[start_idx:end_idx],-1,1)*32767).astype('<i2').tobytes())
         clips.append(path)
         boundaries=[w for w in audio.words if w.sentence_id==section.id]
         if boundaries and audio.method=='native_words':

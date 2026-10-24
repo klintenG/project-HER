@@ -42,7 +42,7 @@ export const ProjectHERBrandingController:React.FC<{storyFrames:number;branding?
  const event=!closing?events.find(e=>frame>=e.start&&frame<e.end):undefined;
  return <AbsoluteFill>
   <Sequence durationInFrames={storyFrames}>{children}</Sequence>
-  {closing&&<Closing.Provider value={true}><Freeze frame={storyFrames-1}><AbsoluteFill style={{filter:`blur(${bg*10*s}px)`}}>{children}</AbsoluteFill></Freeze></Closing.Provider>}
+  {closing&&<Closing.Provider value={true}><Freeze frame={storyFrames-1}><AbsoluteFill>{children}</AbsoluteFill></Freeze></Closing.Provider>}
   {closing&&<AbsoluteFill style={{opacity:bg,background:c.outro.theme==='ivory'?'radial-gradient(ellipse at 50% 48%,#fffdf8,#F7F5F0)':c.outro.theme==='softBlur'?'rgba(17,27,43,.88)':'radial-gradient(ellipse at 50% 48%,#19283e,#111B2B 72%)'}}/>}
   <AbsoluteFill style={{zIndex:1000,pointerEvents:'none',overflow:'hidden'}}>
    {event?.kind==='credit'&&<ProjectHERMadeWithCredit event={event} frame={frame} color={initial} bottom={creditBottom}/>}

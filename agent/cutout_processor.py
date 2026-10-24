@@ -3,7 +3,10 @@ from __future__ import annotations
 import hashlib
 import io
 import json
+import os
+import sys
 import threading
+import types
 import uuid
 from pathlib import Path
 import numpy as np
@@ -104,6 +107,26 @@ class CutoutProcessor:
             return self.segmenter(image,model)
         if self.backend != "rembg":
             raise NewsError("Opaque News asset needs NEWS_CUTOUT_BACKEND=rembg or a configured segmentation adapter.")
+        # CutoutProcessor always calls remove(..., alpha_matting=False), so pymatting
+        # is never executed. Stubbing pymatting before importing rembg avoids Numba
+        # eagerly JIT-compiling 12 matrix solvers at import time in spawned workers.
+        import sys, types
+        if "rembg" not in sys.modules:
+            for mod_name in (
+                "pymatting",
+                "pymatting.alpha",
+                "pymatting.alpha.estimate_alpha_cf",
+                "pymatting.foreground",
+                "pymatting.foreground.estimate_foreground_ml",
+                "pymatting.util",
+                "pymatting.util.util",
+            ):
+                if mod_name not in sys.modules:
+                    stub = types.ModuleType(mod_name)
+                    stub.estimate_alpha_cf = None
+                    stub.estimate_foreground_ml = None
+                    stub.stack_images = None
+                    sys.modules[mod_name] = stub
         try:
             from rembg import new_session, remove
         except ImportError as exc:
@@ -111,7 +134,19 @@ class CutoutProcessor:
         # Session initialization and inference serialized for safe worker reuse, never per frame.
         with _SESSION_LOCK:
             if model not in _SESSIONS:
-                _SESSIONS[model] = new_session(model,providers=["CPUExecutionProvider"])
+                u2net_dir = Path(os.path.expanduser(os.getenv("U2NET_HOME", os.path.join(os.getenv("XDG_DATA_HOME", "~"), ".u2net"))))
+                if (u2net_dir / f"{model}.onnx").is_file():
+                    os.environ.setdefault("MODEL_CHECKSUM_DISABLED", "1")
+                prev_omp = os.environ.get("OMP_NUM_THREADS")
+                os.environ["OMP_NUM_THREADS"] = str(max(1, min(2, int(os.getenv("HER_CUTOUT_THREADS", "2")))))
+                try:
+                    session = new_session(model,providers=["CPUExecutionProvider"])
+                finally:
+                    if prev_omp is None:
+                        os.environ.pop("OMP_NUM_THREADS", None)
+                    else:
+                        os.environ["OMP_NUM_THREADS"] = prev_omp
+                _SESSIONS[model] = session
             return remove(image,session=_SESSIONS[model],alpha_matting=False)
 
     def process(self,source,dest,allow_geometry=False,allow_group=False,allow_portrait_crop=False,allow_bottom_crop=False):
@@ -135,6 +170,15 @@ class CutoutProcessor:
             return stats,json.loads(meta.read_text())["segmentation"]
         candidates=[("provider_alpha",original)]
         errors=[]
+        def iter_variants(method, candidate_image):
+            yield candidate_image
+            cleaned = prune_detached_components(candidate_image) if not allow_group else None
+            if cleaned is not None:
+                yield cleaned
+            if method != "provider_alpha":
+                yield soft_edge_fade(candidate_image, fade_bottom=not allow_bottom)
+                if cleaned is not None:
+                    yield soft_edge_fade(cleaned, fade_bottom=not allow_bottom)
         for model in [None]+list(self.models):
             if model is not None:
                 try:
@@ -142,15 +186,11 @@ class CutoutProcessor:
                 except Exception as exc:
                     errors.append(str(exc)); continue
             for method,candidate_image in candidates:
-                variants = [candidate_image]
-                cleaned = prune_detached_components(candidate_image) if not allow_group else None
-                if cleaned is not None:
-                    variants.append(cleaned)
-                if method != "provider_alpha":
-                    variants.append(soft_edge_fade(candidate_image, fade_bottom=not allow_bottom))
-                    if cleaned is not None:
-                        variants.append(soft_edge_fade(cleaned, fade_bottom=not allow_bottom))
-                for v_idx, image in enumerate(variants):
+                if method == "provider_alpha" and candidate_image.getchannel("A").getextrema()[0] >= 248:
+                    errors.append(f"{method}: Unusable foreground coverage (1.000); empty/opaque rectangle.")
+                    continue
+                last_exc = None
+                for image in iter_variants(method, candidate_image):
                     try:
                         # Validate source borders before cropping: adding padding cannot repair a clipped subject.
                         mask_statistics(image,allow_geometry=allow_geometry,allow_group=allow_group,allow_portrait_crop=allow_portrait_crop,allow_bottom_crop=allow_bottom_crop)
@@ -173,8 +213,9 @@ class CutoutProcessor:
                         metadata.write_text(json.dumps({"segmentation":method,"mask":stats})); metadata.replace(meta)
                         return stats,method
                     except Exception as exc:
-                        if v_idx == len(variants) - 1:
-                            errors.append(f"{method}: {exc}")
+                        last_exc = exc
+                if last_exc is not None:
+                    errors.append(f"{method}: {last_exc}")
         raise CutoutQualityError("Cutout quality failed; regenerate isolated subject on a contrasting neutral background. "+"; ".join(errors))
 
 

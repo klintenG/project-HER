@@ -83,12 +83,12 @@ class NewsImageGenerator(AIImageGenerator):
             inputs.update(num_outputs=1,num_inference_steps=28,megapixels='1')
         else:
             inputs['prompt_upsampling']=False
-        headers={'Authorization':'Bearer '+self.replicate_token}
+        headers={'Authorization':'Bearer '+self.replicate_token};post_headers={**headers,'Prefer':'wait=15','Cancel-After':'2m'}
         prediction=None;finished=False
         async with httpx.AsyncClient(timeout=httpx.Timeout(60.0,connect=15.0),follow_redirects=False) as client:
             try:
-                response=await client.post(f'https://api.replicate.com/v1/models/{model}/predictions',headers=headers,json={'input':inputs})
-                if response.status_code not in (200,201):
+                response=await client.post(f'https://api.replicate.com/v1/models/{model}/predictions',headers=post_headers,json={'input':inputs})
+                if response.status_code not in (200,201,202):
                     raise NewsError(f'Replicate real-subject request failed (HTTP {response.status_code}); check model access/credits.')
                 row=response.json(); prediction=row.get('id')
                 if not isinstance(prediction,str) or not re.fullmatch('[a-zA-Z0-9_-]+',prediction):
@@ -109,7 +109,7 @@ class NewsImageGenerator(AIImageGenerator):
                     await asyncio.sleep(2.0)
                     try:
                         poll_resp=await client.get(f'https://api.replicate.com/v1/predictions/{prediction}',headers=headers)
-                        if poll_resp.status_code==200:
+                        if poll_resp.status_code in (200,201,202):
                             row=poll_resp.json()
                         elif poll_resp.status_code in (429,502,503,504):
                             continue
