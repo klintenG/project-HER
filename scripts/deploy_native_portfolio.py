@@ -94,9 +94,9 @@ def main():
         'AUTOPILOT_DAILY_COST_LIMIT_USD':'6','AUTOPILOT_MAX_INPUT_CHARS':'48000'}
     if args.performance_profile:values.update(HER_REMOTION_CONCURRENCY='3',EDITORIAL_ASSET_WORKERS='3',OMP_NUM_THREADS='2',HER_CUTOUT_THREADS='2',HER_INFERENCE_THREADS='4',MODEL_CHECKSUM_DISABLED='1')
     local_env=dotenv_values(Path(source)/'.env')
-    for key in ('GEMINI_API_KEY','GOOGLE_TTS_API_KEY','PEXELS_API_KEY','GROQ_API_KEY','AUTOPILOT_LLM_MODEL','BUFFER_ORGANIZATION_ID','BUFFER_INSTAGRAM_CHANNEL_ID','BUFFER_YOUTUBE_CHANNEL_ID'):
+    for key in ('GEMINI_API_KEY','GOOGLE_TTS_API_KEY','PEXELS_API_KEY','GROQ_API_KEY','AUTOPILOT_LLM_MODEL','BUFFER_ORGANIZATION_ID','BUFFER_INSTAGRAM_CHANNEL_ID','BUFFER_YOUTUBE_CHANNEL_ID','AUTOPILOT_ENABLED','BUFFER_DRY_RUN','AUTOPILOT_LIVE_VALIDATED','BUFFER_YOUTUBE_CATEGORY_ID','BUFFER_YOUTUBE_PRIVACY','VIDEO_WATERMARK_TEXT'):
         val=os.getenv(key) or local_env.get(key)
-        if val: values[key]=val
+        if val: values[key]=str(val)
     env='^~^'+'~'.join(k+'='+v for k,v in values.items())
     import sys
     sys.path.insert(0,str(source))
@@ -110,7 +110,7 @@ def main():
     if not run(['run','jobs','describe','her-autopilot','--region='+REGION],allow_failure=True).returncode:
         updated=json.loads(run(['run','services','describe',SERVICE,'--region='+REGION,'--format=json']).stdout)
         deployed_image=updated['spec']['template']['spec']['containers'][0]['image']
-        run(['run','jobs','update','her-autopilot','--region='+REGION,'--image='+deployed_image])
+        run(['run','jobs','update','her-autopilot','--region='+REGION,'--image='+deployed_image,'--update-env-vars='+env])
     print('Cloud Run deployment completed. Next: check /api/portfolio/config, run one explicitly allowed smoke generation, then publish the reviewed portfolio changes.')
 
 if __name__=='__main__':main()
