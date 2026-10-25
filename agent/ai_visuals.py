@@ -304,6 +304,9 @@ class AIImageGenerator:
                 )
                 return None
 
+            # Optional Autopilot ceiling is checked outside provider error/fallback handling.
+            from automation.engine_budget import charge_image
+            charge_image(provider)
             try:
                 logger.info(
                     "  [%d.%d] %s attempt %d: %s",

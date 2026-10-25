@@ -1,8 +1,9 @@
 import {z} from 'zod';
 export const BrandingSchema=z.object({
+  watermarkText:z.string().min(1).max(80).default('@project.HER'),
   enabled:z.boolean().default(true),theme:z.literal('projecther').default('projecther'),
   alwaysOnCornerLogo:z.boolean().default(true),showTaglineWhenReadable:z.boolean().default(true),
-  creditEnabled:z.boolean().default(true),creditHoldSeconds:z.number().min(3).max(5).default(4),
+  creditEnabled:z.boolean().default(true),creditHoldSeconds:z.number().min(1).max(5).default(1.8),
   creditWindowStrategy:z.literal('midTimeline').default('midTimeline'),
   protectiveOverlayEnabled:z.boolean().default(true),protectiveOverlayOccurrences:z.number().int().min(0).max(6).default(2),
   protectiveOverlayHoldSeconds:z.number().min(3).max(5).default(4),

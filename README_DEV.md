@@ -317,3 +317,5 @@ output/video_20260219_155311/
 ## License
 
 Private project. All rights reserved.
+
+Autonomous stories and Buffer publishing are documented in [Autopilot operations](docs/autopilot/OPERATIONS.md), with the [technical audit](docs/autopilot/AUDIT.md), [model evaluation](docs/autopilot/MODEL_EVALUATION.md), and paused Cloud Run/Scheduler configuration under `deploy/autopilot/`. Open `/autopilot` for authenticated administration. Defaults leave generation paused and Buffer in dry-run.

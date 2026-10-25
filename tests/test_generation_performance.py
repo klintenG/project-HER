@@ -72,7 +72,7 @@ class PerformanceTests(unittest.TestCase):
         self.assertTrue(diagnostics['visualPlan']['warnings'])
         self.assertIn('diversity_guidance',llm.call_args_list[0].args[1])
 
-    def test_sufficient_visual_plan_skips_redundant_diversity_retry(self):
+    def test_short_visual_plan_gets_one_bounded_diversity_retry(self):
         script=story()
         text=' '.join(['Example Person examined the cup bowl plate book lamp and clock in the room.']*15)
         script=script.model_copy(update={'narration':text,'sentences':[script.sentences[0].model_copy(update={'text':text})]})
@@ -80,11 +80,11 @@ class PerformanceTests(unittest.TestCase):
                   for i,n in enumerate(('cup','bowl','plate','book','lamp','clock'))]
         cues=[{'entityId':'person','anchor':'Example Person'},*[{'entityId':s['id'],'anchor':s['name']} for s in subjects]]
         plan={'subjects':subjects,'sections':[{'sectionId':'s1','cues':cues}]}
-        llm=MagicMock(side_effect=[plan,{'supported':True}]);diagnostics={}
+        llm=MagicMock(side_effect=[plan,{'supported':True},plan,{'supported':True}]);diagnostics={}
         result,_=plan_visuals(script,llm=llm,diagnostics=diagnostics)
         self.assertEqual(len(result.entities),7)
-        self.assertEqual(diagnostics['visualPlan']['attempts'],1)
-        self.assertEqual(llm.call_count,2)
+        self.assertEqual(diagnostics['visualPlan']['attempts'],2)
+        self.assertEqual(llm.call_count,4)
 
     def test_clean_cutout_skips_lazy_morphology_variants(self):
         from PIL import Image

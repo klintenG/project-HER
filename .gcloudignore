@@ -11,7 +11,8 @@ __pycache__/
 # generated media / history
 output/
 temp/
-data/
+data/autopilot/
+data/daily_runs/
 image1.png
 image2.png
 

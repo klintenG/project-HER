@@ -1264,6 +1264,8 @@ def api_daily_pipeline_history():
 
 from agent.portfolio_api import install as install_portfolio_api
 install_portfolio_api(app)
+from automation.autopilot_api import install as install_autopilot_api
+install_autopilot_api(app)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 7860))

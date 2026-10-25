@@ -51,7 +51,7 @@ def plan_visuals(script,evidence=None,llm=None,diagnostics=None):
     if diagnostics is not None:diagnostics['visualPlan']=audit
     if llm is None:return script,base
     # A diversity target, not a quota: never invent filler for short/simple stories.
-    target=min(12,max(1,math.ceil(len(script.narration.split())/15)))
+    target=min(12,max(1,math.ceil(len(script.narration.split())/12)))
     audit['targetSubjects']=target
     accepted=None
     previous=None
@@ -88,7 +88,7 @@ def plan_visuals(script,evidence=None,llm=None,diagnostics=None):
             if not isinstance(review,dict) or review.get('supported') is not True:raise ValueError('Contextual visual support check failed: '+str(review.get('problems',[]) if isinstance(review,dict) else 'invalid reply'))
             accepted=(planned,copy.deepcopy(rows))
             audit.update(mode='llm',subjects=len(planned.entities),contextualSubjects=len(new))
-            if len(planned.entities)<min(target,6) and attempt==0:
+            if len(planned.entities)<target and attempt==0:
                 audit['errors'].append(f'The supported plan has only {len(planned.entities)} distinct subjects for {len(script.narration.split())} words. Aim for {target} if the story supports it: add omitted concrete objects, settings and important actions with exact spoken anchors. Do not add decorative filler or duplicate the same character.')
                 continue
             return accepted

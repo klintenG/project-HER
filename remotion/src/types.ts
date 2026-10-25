@@ -104,6 +104,7 @@ export const VideoPropsSchema = z.object({
   source_duration_frames:z.number().int().positive().optional(),
   title: z.string(),
   hook: z.string().default(""),
+  autopilot_hook: z.string().max(90).optional(),
   brand_text: z.string().default(""),
   watermark: z.string().default(""),
   mood: z.string().default("neutral"),

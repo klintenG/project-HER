@@ -53,3 +53,6 @@ remotion/public/branding-renders/
 # Diagnostic run outputs
 diagnostics/
 *diagnostics.json
+
+# Autopilot local state and worker logs
+data/autopilot/

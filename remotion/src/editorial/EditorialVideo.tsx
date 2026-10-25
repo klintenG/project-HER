@@ -1,3 +1,4 @@
+import {AutopilotHook} from '../components/AutopilotHook';
 import {ProjectHERBrandingController,useBrandClosing} from '../branding/Branding';
 import {BrandingInput} from '../branding/timing';
 import React,{useEffect,useMemo,useState} from 'react';
@@ -99,6 +100,7 @@ const EditorialStory:React.FC<Timeline>=(props)=>{
     {!closing&&m.audio.map((a,i)=><Sequence key={i} from={a.offsetFrames}><Audio src={url(a.path)} volume={a.gain}/></Sequence>)}
     {reference&&m.subtitleMode!=='complete'&&<SemanticRelation timeline={m} frame={frame} words={words}/>}
     {m.layers.filter(l=>!l.parentId).map(layer=>draw(layer))}
+    {!closing && typeof m.diagnostics.autopilotHook==='string' && <AutopilotHook text={m.diagnostics.autopilotHook}/>}
     {!closing&&(m.subtitleMode==='complete'||(m.narrationDriven&&!reference))&&chunk.length>0&&<div style={{position:'absolute',left:90,top:reference?1530:m.narrationDriven?1480:360,width:900,color,fontFamily:'EditorialPoppins',fontSize:m.narrationDriven?48:60,fontWeight:600,textAlign:'center',lineHeight:1.3}}>{chunk.map((w,i)=><React.Fragment key={w.id}><span style={{fontWeight:m.narrationDriven&&w.start*30<=frame&&w.end*30>frame?700:600}}>{w.text}</span>{i<chunk.length-1?' ':''}</React.Fragment>)}</div>}
   </AbsoluteFill>;
 };

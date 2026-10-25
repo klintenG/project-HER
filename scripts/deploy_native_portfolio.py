@@ -79,14 +79,22 @@ def main():
             run(['secrets','create',name,'--replication-policy=automatic','--data-file=-'],data=secrets.token_urlsafe(48))
         run(['secrets','add-iam-policy-binding',name,'--member=serviceAccount:'+account,'--role=roles/secretmanager.secretAccessor'])
     provider_binding=ensure_replicate_secret(account,source)
+    secret_bindings=['HER_PORTFOLIO_SIGNING_KEY=her-portfolio-signing-key:latest','HER_OPERATOR_KEY=her-portfolio-operator-key:latest',provider_binding]
+    for env_key,secret_name in (('AUTOPILOT_ADMIN_TOKEN','her-autopilot-admin-token'),('BUFFER_API_KEY','her-provider-buffer-key')):
+        if not run(['secrets','describe',secret_name,'--format=value(name)'],allow_failure=True).returncode:
+            run(['secrets','add-iam-policy-binding',secret_name,'--member=serviceAccount:'+account,'--role=roles/secretmanager.secretAccessor'])
+            secret_bindings.append(env_key+'='+secret_name+':latest')
     run(['firestore','fields','ttls','update','delete_after','--collection-group=her_portfolio','--database=(default)','--enable-ttl','--async'])
     values={'HER_PORTFOLIO_ENABLED':'1','HER_PORTFOLIO_LOCK_LEGACY':'1','HER_PORTFOLIO_BUCKET':BUCKET,
         'GOOGLE_CLOUD_PROJECT':PROJECT,'HER_PORTFOLIO_ORIGINS':'https://klinteng.com,https://www.klinteng.com',
         'HER_PORTFOLIO_DAILY_LIMIT':'10','HER_PORTFOLIO_VISITOR_LIMIT':'2','HER_PORTFOLIO_CONCURRENCY':'1',
-        'HER_TRUSTED_PROXY_HOPS':'0','HER_ALIGNMENT_MODEL':'small','HER_ALIGNMENT_DOWNLOAD':'0'}
+        'HER_TRUSTED_PROXY_HOPS':'0','HER_ALIGNMENT_MODEL':'small','HER_ALIGNMENT_DOWNLOAD':'0',
+        'AUTOPILOT_PUBLIC_BUCKET':PROJECT+'-autopilot-media','AUTOPILOT_JOB_NAME':'her-autopilot','AUTOPILOT_JOB_REGION':REGION,
+        # Preserve operational publishing state; deployment is not live validation.
+        'AUTOPILOT_DAILY_COST_LIMIT_USD':'6','AUTOPILOT_MAX_INPUT_CHARS':'48000'}
     if args.performance_profile:values.update(HER_REMOTION_CONCURRENCY='3',EDITORIAL_ASSET_WORKERS='3',OMP_NUM_THREADS='2',HER_CUTOUT_THREADS='2',HER_INFERENCE_THREADS='4',MODEL_CHECKSUM_DISABLED='1')
     local_env=dotenv_values(Path(source)/'.env')
-    for key in ('GEMINI_API_KEY','GOOGLE_TTS_API_KEY','PEXELS_API_KEY','GROQ_API_KEY'):
+    for key in ('GEMINI_API_KEY','GOOGLE_TTS_API_KEY','PEXELS_API_KEY','GROQ_API_KEY','AUTOPILOT_LLM_MODEL','BUFFER_ORGANIZATION_ID','BUFFER_INSTAGRAM_CHANNEL_ID','BUFFER_YOUTUBE_CHANNEL_ID'):
         val=os.getenv(key) or local_env.get(key)
         if val: values[key]=val
     env='^~^'+'~'.join(k+'='+v for k,v in values.items())
@@ -98,7 +106,11 @@ def main():
     with DeploymentGuard(PROJECT, force_maintenance_clear=args.clear_maintenance):
         deploy=run(['run','deploy',SERVICE,*target_deploy,'--region='+REGION,
             '--no-cpu-throttling','--min-instances=1','--max-instances=1','--concurrency=20',*resource_flags,'--timeout=3600',
-            '--update-env-vars='+env,'--update-secrets=HER_PORTFOLIO_SIGNING_KEY=her-portfolio-signing-key:latest,HER_OPERATOR_KEY=her-portfolio-operator-key:latest,'+provider_binding])
+            '--update-env-vars='+env,'--update-secrets='+','.join(secret_bindings)])
+    if not run(['run','jobs','describe','her-autopilot','--region='+REGION],allow_failure=True).returncode:
+        updated=json.loads(run(['run','services','describe',SERVICE,'--region='+REGION,'--format=json']).stdout)
+        deployed_image=updated['spec']['template']['spec']['containers'][0]['image']
+        run(['run','jobs','update','her-autopilot','--region='+REGION,'--image='+deployed_image])
     print('Cloud Run deployment completed. Next: check /api/portfolio/config, run one explicitly allowed smoke generation, then publish the reviewed portfolio changes.')
 
 if __name__=='__main__':main()

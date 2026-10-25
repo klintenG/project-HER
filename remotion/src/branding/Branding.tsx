@@ -18,10 +18,10 @@ export const ProjectHERMadeWithCredit:React.FC<{event:Event;frame:number;color:s
  <span style={{width:100*s*p,height:s,background:color,opacity:.5}}/><span>Made with</span><ProjectHERBrandMark width={144*s} color={color} tagline={false}/><span style={{width:100*s*p,height:s,background:color,opacity:.5}}/>
  </div>;
 };
-export const ProjectHERProtectiveOverlay:React.FC<{event:Event;frame:number;color:string;regions:ProtectedRegion[]}>=({event,frame,color,regions})=>{
+export const ProjectHERProtectiveOverlay:React.FC<{event:Event;frame:number;color:string;regions:ProtectedRegion[];text?:string}>=({event,frame,color,regions,text="@project.HER"})=>{
  const {width,height}=useVideoConfig();const drift=16*clamp((frame-event.start)/Math.max(1,event.end-event.start));
  const mask=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}"><rect width="100%" height="100%" fill="white"/>${regions.filter(r=>r.start<=frame&&frame<r.end).map(r=>`<rect x="${r.x*width}" y="${r.y*height}" width="${r.w*width}" height="${r.h*height}" rx="12" fill="black"/>`).join('')}</svg>`;
- return <AbsoluteFill style={{maskImage:`url("data:image/svg+xml,${encodeURIComponent(mask)}")`,maskSize:'100% 100%'}}><div style={{position:'absolute',left:width*.5+drift,top:height*(event.anchor?.58:.46),transform:'translate(-50%,-50%) rotate(-32deg)',opacity:envelope(event,frame)*event.opacity}}><ProjectHERBrandMark width={Math.min(width*.9,height*.68)} color={color} accent={color} tagline={false}/></div></AbsoluteFill>;
+ return <AbsoluteFill style={{maskImage:`url("data:image/svg+xml,${encodeURIComponent(mask)}")`,maskSize:'100% 100%'}}><div style={{position:'absolute',left:width*.5+drift,top:height*(event.anchor?.58:.46),transform:'translate(-50%,-50%) rotate(-32deg)',opacity:envelope(event,frame)*event.opacity}}><svg width={Math.min(width*.9,height*.68)} height={Math.min(width*.9,height*.68)*.1833} viewBox="0 8 240 44" aria-label={text} style={{display:"block",overflow:"visible"}}><text textLength="240" lengthAdjust="spacingAndGlyphs" y="43" fontFamily="ProjectHERBrand" fontWeight="500" fontSize="40" letterSpacing="-1.6" fill={color}>{text}</text></svg></div></AbsoluteFill>;
 };
 export const ProjectHERBrandingController:React.FC<{storyFrames:number;branding?:BrandingInput;windows?:QuietWindow[];regions?:ProtectedRegion[];children:React.ReactNode}>=({storyFrames,branding,windows,regions=[],children})=>{
  const frame=useCurrentFrame(),{width,height,fps}=useVideoConfig(),c=config(branding);
@@ -46,7 +46,7 @@ export const ProjectHERBrandingController:React.FC<{storyFrames:number;branding?
   {closing&&<AbsoluteFill style={{opacity:bg,background:c.outro.theme==='ivory'?'radial-gradient(ellipse at 50% 48%,#fffdf8,#F7F5F0)':c.outro.theme==='softBlur'?'rgba(17,27,43,.88)':'radial-gradient(ellipse at 50% 48%,#19283e,#111B2B 72%)'}}/>}
   <AbsoluteFill style={{zIndex:1000,pointerEvents:'none',overflow:'hidden'}}>
    {event?.kind==='credit'&&<ProjectHERMadeWithCredit event={event} frame={frame} color={initial} bottom={creditBottom}/>}
-   {event?.kind==='protective'&&<ProjectHERProtectiveOverlay event={event} frame={frame} color={initial} regions={regions}/>}
+   {event?.kind==='protective'&&<ProjectHERProtectiveOverlay event={event} frame={frame} color={initial} regions={regions} text={c.watermarkText}/>}
    {(c.alwaysOnCornerLogo||closing)&&<div style={{position:'absolute',left:x,top:y,transform:'translate(-50%,-50%)'}}><ProjectHERBrandMark width={size} color={color} tagline={c.showTaglineWhenReadable&&(corner>=130||closing)}/>
     {closing&&<div style={{position:'absolute',top:'120%',left:'43%',width:`${14*smooth((t-.65)/.55)}%`,height:2*s,background:gold,opacity:smooth((t-.65)/.55)}}/>}
    </div>}

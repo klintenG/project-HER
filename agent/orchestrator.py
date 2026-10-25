@@ -149,6 +149,10 @@ class AgentOrchestrator:
         editorial_text: str = "editorial",
         editorial_assets: str = "auto",
         local_assets: Optional[str] = None,
+        autopilot_hook: str = "",
+        autopilot_scene_validator=None,
+        autopilot_image_generator=None,
+        autopilot_story_id: str = "",
     ) -> PipelineResult:
         """
         Execute the full article-to-video pipeline with all v2.0 enhancements.
@@ -179,7 +183,9 @@ class AgentOrchestrator:
                 renderer=renderer,voice=voice,tts_provider=tts_provider,speed=speed,quality=quality,
                 brand_text=brand_text,progress_callback=progress_callback,music=news_music,music_path=news_music_path,
                 llm=NewsLLM(self._llm_provider,self._llm_model),subtitle_mode=editorial_text,
-                asset_mode=editorial_assets,local_assets=local_assets)
+                asset_mode=editorial_assets,local_assets=local_assets,
+                autopilot_hook=autopilot_hook,autopilot_scene_validator=autopilot_scene_validator,
+                image_generator=autopilot_image_generator,autopilot_story_id=autopilot_story_id)
         if visual_preset == "reference_editorial" and content_mode != "news":
             return PipelineResult(errors=["reference_editorial supports article, topic, story and News inputs."])
         if content_mode == "news":
@@ -231,6 +237,8 @@ class AgentOrchestrator:
                 episode_number=episode_number,
                 deep_dive_sources=deep_dive_sources,
                 deep_dive_text=deep_dive_text,
+                autopilot_hook=autopilot_hook,
+                autopilot_scene_validator=autopilot_scene_validator,
                 renderer=renderer,
                 target_duration=target_duration,
             )
@@ -770,6 +778,12 @@ class AgentOrchestrator:
                 f"{len(screenplay.screens)} screen segments created",
             )
 
+            if kwargs.get("autopilot_scene_validator"):
+                screenplay.screens = [s for s in screenplay.screens if not s.is_intro and not s.is_outro]
+                if not screenplay.screens:
+                    raise ValueError("Autopilot requires narrated story scenes")
+                kwargs["autopilot_scene_validator"](screenplay)
+
             # ── Stage 3: AI VISUALS (Pollinations) ────────
             tracker.start_stage("visuals", "Generating AI images...")
             portrait_mode = (
@@ -1035,11 +1049,14 @@ class AgentOrchestrator:
                             brand_text=brand_text,
                             layout_mode=layout_mode,
                             scene_silence_ms=scene_silence_ms,
+                            autopilot_hook=kwargs.get("autopilot_hook", ""),
                         ),
                         tracker,
                         max_retries=1,
                     )
                 except Exception as remotion_err:
+                    if kwargs.get("autopilot_hook"):
+                        raise  # Autopilot requires the designed Remotion cover; fail closed.
                     logger.warning("Remotion render failed (%s); seamlessly falling back to ClayCompositor", remotion_err)
                     tracker.start_stage("compose", "Composing video (high-speed fallback)...")
                     compositor = ClayCompositor(

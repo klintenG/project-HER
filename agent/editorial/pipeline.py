@@ -22,7 +22,7 @@ def check_configuration(renderer,video_format,subtitle_mode,asset_mode):
     if asset_mode not in ('auto','stock','ai','local'):raise NewsError('Editorial assets must be auto, stock, ai, or local.')
 
 
-def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative',language='english',target_duration=0,video_format='vertical',renderer='remotion',voice=None,tts_provider=None,speed='+0%',quality='high',brand_text='',progress_callback=None,cancel_event=None,music=None,music_path=None,llm=None,image_generator=None,processor=None,tts_engine=None,subtitle_mode='editorial',asset_mode='auto',local_assets=None):
+def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative',language='english',target_duration=0,video_format='vertical',renderer='remotion',voice=None,tts_provider=None,speed='+0%',quality='high',brand_text='',progress_callback=None,cancel_event=None,music=None,music_path=None,llm=None,image_generator=None,processor=None,tts_engine=None,subtitle_mode='editorial',asset_mode='auto',local_assets=None,autopilot_hook='',autopilot_scene_validator=None,autopilot_story_id=''):
     from agent.orchestrator import PipelineResult
     from agent.news_script import NewsLLM,write_script
     from agent.news_research import analyze_input,research
@@ -50,6 +50,8 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
         # retain the script plan instead of adding unregistered illustrations.
         script,cues=plan_visuals(script,evidence,None if asset_mode=='local' else llm,visual_diagnostics)
         (out/'visual_plan.json').write_text(json.dumps({'script':script.model_dump(),'sections':cues,'diagnostics':visual_diagnostics},ensure_ascii=False,indent=2))
+        if autopilot_scene_validator:
+            autopilot_scene_validator({'script':script.model_dump(),'visual_cues':cues})
         begin('narrate','Generating speech, aligning exact script and removing redundant clip padding')
         narration_settings={}
         audio=synthesize(script,out,tts_provider or config.TTS_PROVIDER,voice,speed,tts_engine,pause=0,language=language,cancel_event=cancel_event,diagnostic_sink=narration_settings)
@@ -100,6 +102,9 @@ def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative'
         # for inspection without a redundant LLM layout request in this mode.
         plan=semantic_plan(script,None if direction is not None else llm,diagnostics=diagnostics);(out/'semantic_plan.json').write_text(json.dumps(plan,indent=2))
         m=build(script,words,sections,entities,assets,mix,out,generation,diagnostics,plan,subtitle_mode,visual_cues=cues,direction=direction,visual_settings=visual_settings)
+        if autopilot_hook:
+            m.diagnostics['autopilotHook']=autopilot_hook
+            m.diagnostics['autopilotStoryId']=autopilot_story_id
         m.warnings.extend(diagnostics.get('visualDirector',{}).get('warnings',[]))
         m.warnings.extend(warnings+diagnostics.get('alignmentWarnings',[])+diagnostics['semanticPlan']['warnings']+diagnostics['visualPlan']['warnings'])
         if target_duration and abs(m.durationInFrames/30-target_duration)>max(5,target_duration*.2):m.warnings.append('Actual speech duration differs from target; no padding added.')

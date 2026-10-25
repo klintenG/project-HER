@@ -477,7 +477,7 @@ SFX_ENABLED = True
 SFX_VOLUME = 0.3
 
 # ── Watermark / Branding ──────────────────────────────
-WATERMARK_TEXT = os.getenv("WATERMARK_TEXT", "Klin10 Creations")     # Brand name watermark
+WATERMARK_TEXT = os.getenv("VIDEO_WATERMARK_TEXT", "@project.HER")     # Brand name watermark
 WATERMARK_IMAGE = os.getenv("WATERMARK_IMAGE", "")   # path to PNG logo
 WATERMARK_OPACITY = 0.35
 WATERMARK_POSITION = "anti_crop"  # "anti_crop" = right-center + bottom-center

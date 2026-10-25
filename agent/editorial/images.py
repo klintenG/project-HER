@@ -8,8 +8,9 @@ logger=logging.getLogger(__name__)
 
 
 class EditorialImages(NewsImageGenerator):
-    def __init__(self):
+    def __init__(self,autopilot_budget=None):
         super().__init__()
+        self.autopilot_budget=autopilot_budget
         self.replicate_model=config.EDITORIAL_SUPPORT_IMAGE_MODEL
         self._budget_lock=threading.Lock()
         self.support_calls=0
@@ -54,6 +55,7 @@ class EditorialImages(NewsImageGenerator):
             try:
                 for create_attempt in range(3):
                     try:
+                        if self.autopilot_budget is not None:self.autopilot_budget.charge_image('replicate')
                         response=await client.post('https://api.replicate.com/v1/models/'+model+'/predictions',headers=post_headers,json={'input':inputs})
                         if response.status_code!=429 or create_attempt==2:break
                         delay=30

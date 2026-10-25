@@ -93,6 +93,7 @@ class RemotionRenderer:
         brand_text: str = "",
         layout_mode: str = "classic",
         scene_silence_ms: int = 0,
+        autopilot_hook: str = "",
     ) -> dict:
         """
         Render video using Remotion. Returns dict with:
@@ -116,6 +117,15 @@ class RemotionRenderer:
             layout_mode=layout_mode,
             scene_silence_ms=scene_silence_ms,
         )
+
+        # Optional Autopilot overlay shares the opening scene and immediate narration.
+        if autopilot_hook:
+            props["autopilot_hook"] = autopilot_hook
+            required = [p for s in props["screens"] for p in [*s["image_paths"], s["audio_path"]] if p]
+            missing = [p for p in required if not (REMOTION_DIR / "public" / p).is_file()]
+            props["autopilot_asset_audit"] = {"passed": bool(required) and not missing, "missing": missing}
+            if missing:
+                raise ValueError("Autopilot render is missing required assets")
 
         # Step 2: Write props to JSON file
         props_path = output_dir / "remotion_props.json"

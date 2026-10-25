@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project HER — Autopilot Command Center</title>
+
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" crossorigin="anonymous">
+
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg-primary: #0a0e14;
+            --bg-secondary: #0f1620;
+            --bg-card: #111822;
+            --bg-card-hover: #16202e;
+            --bg-input: #0b111a;
+            --border: #1e2a3c;
+            --border-light: rgba(255, 255, 255, 0.08);
+            --border-gold: rgba(201, 168, 76, 0.38);
+
+            --accent: #c9a84c;
+            --accent-light: #e0c56e;
+            --accent-dim: #997e33;
+            --accent-glow: rgba(201, 168, 76, 0.18);
+
+            --emerald: #10b981;
+            --emerald-bg: rgba(16, 185, 129, 0.12);
+            --amber: #f59e0b;
+            --amber-bg: rgba(245, 158, 11, 0.12);
+            --danger: #ef4444;
+            --danger-bg: rgba(239, 68, 68, 0.12);
+            --sky: #38bdf8;
+            --sky-bg: rgba(56, 189, 248, 0.12);
+
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-full: 9999px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            line-height: 1.55;
+            margin: 0;
+            padding: 0;
+            min-block-size: 100dvh;
+            background-image:
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(201, 168, 76, 0.08), transparent 70%),
+                radial-gradient(circle at 10% 90%, rgba(30, 42, 60, 0.45), transparent 50%);
+            background-attachment: fixed;
+        }
+
+        a {
+            color: var(--accent-light);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* ── Top Header ── */
+        .app-header {
+            background: rgba(15, 22, 32, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-block-end: 1px solid var(--border);
+            position: sticky;
+            inset-block-start: 0;
+            z-index: 100;
+            padding-block: 0.75rem;
+            padding-inline: 1rem;
+        }
+
+        .header-inner {
+            max-inline-size: 1380px;
+            margin-inline: auto;
+            display: flex;
+            align-items: safe center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .brand-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .brand-logo {
+            inline-size: 40px;
+            block-size: 40px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, var(--accent), var(--accent-dim));
+            color: #090d12;
+            display: grid;
+            place-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .brand-title {
+            margin: 0;
+            font-size: clamp(1rem, 0.85rem + 0.6vw, 1.25rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .brand-subtitle {
+            margin: 0;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: safe center;
+            flex-wrap: wrap;
+            flex-wrap: balance;
+            gap: 0.5rem;
+        }
+
+        .nav-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.45rem 0.8rem;
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-light);
+            color: var(--text-secondary);
+            transition: border-color 0.2s, color 0.2s, background 0.2s;
+        }
+        .nav-pill:hover {
+            border-color: var(--border-gold);
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.38rem;
+            padding: 0.3rem 0.7rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: var(--font-mono);
+            letter-spacing: 0.02em;
+            border: 1px solid var(--border-light);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+        }
+        .status-badge.emerald {
+            background: var(--emerald-bg);
+            border-color: rgba(16, 185, 129, 0.35);
+            color: #34d399;
+        }
+        .status-badge.amber {
+            background: var(--amber-bg);
+            border-color: rgba(245, 158, 11, 0.35);
+            color: #fbbf24;
+        }
+        .status-badge.danger {
+            background: var(--danger-bg);
+            border-color: rgba(239, 68, 68, 0.35);
+            color: #f87171;
+        }
+        .status-badge.sky {
+            background: var(--sky-bg);
+            border-color: rgba(56, 189, 248, 0.35);
+            color: #7dd3fc;
+        }
+        .status-badge.gold {
+            background: rgba(201, 168, 76, 0.14);
+            border-color: var(--border-gold);
+            color: var(--accent-light);
+        }
+
+        .pulse-dot {
+            inline-size: 8px;
+            block-size: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            box-shadow: 0 0 8px currentColor;
+        }
+
+        /* ── Main Container ── */
+        .shell {
+            max-inline-size: 1380px;
+            margin-inline: auto;
+            padding-block: 1.5rem 3.5rem;
+            padding-inline: 1rem;
+        }
+
+        /* ── Status Banner / Toast Feedback ── */
+        #message {
+            margin-block: 0 1rem;
+            padding: 0.85rem 1.1rem;
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid var(--border-gold);
+            background: rgba(201, 168, 76, 0.1);
+            color: var(--accent-light);
+            white-space: pre-wrap;
+        }
+        #message:empty {
+            display: none;
+        }
+        #message.error {
+            border-color: rgba(239, 68, 68, 0.45);
+            background: var(--danger-bg);
+            color: #fca5a5;
+        }
+
+        /* ── Cards & Sections ── */
+        .panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: clamp(1rem, 2vw, 1.5rem);
+            margin-block-end: 1.25rem;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.32);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: safe center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-block-end: 1rem;
+            padding-block-end: 0.75rem;
+            border-block-end: 1px solid var(--border-light);
+        }
+
+        .panel-title {
+            margin: 0;
+            font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.25rem);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            color: var(--text-primary);
+        }
+        .panel-title i {
+            color: var(--accent);
+        }
+
+        .panel-subtitle {
+            margin: 0.15rem 0 0;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+
+        /* ── Login Card ── */
+        .auth-card {
+            max-inline-size: 560px;
+            margin-inline: auto;
+            margin-block: 2rem;
+        }
+
+        /* ── Forms & Inputs ── */
+        .field-group {
+            margin-block-end: 1.1rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-block-end: 0.35rem;
+        }
+
+        .field-hint {
+            display: block;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin-block-start: 0.3rem;
+        }
+
+        input[type="password"],
+        input[type="text"],
+        input[type="time"],
+        input[type="number"],
+        textarea {
+            inline-size: 100%;
+            font-family: inherit;
+            font-size: 1rem;
+            min-block-size: 48px;
+            padding: 0.65rem 0.9rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background: var(--bg-input);
+            color: var(--text-primary);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        textarea {
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            min-block-size: 120px;
+            resize: vertical;
+        }
+
+        input:focus-visible,
+        textarea:focus-visible,
+        button:focus-visible,
+        summary:focus-visible {
+            outline: 2px solid var(--accent-light);
+            outline-offset: 2px;
+            border-color: var(--accent);
+        }
+
+        input:invalid:user-invalid,
+        textarea:invalid:user-invalid {
+            border-color: var(--danger);
+        }
+
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-block: 0.75rem;
+            cursor: pointer;
+        }
+        .checkbox-row input[type="checkbox"] {
+            inline-size: 1.15rem;
+            block-size: 1.15rem;
+            accent-color: var(--accent);
+            margin: 0;
+        }
+
+        /* ── Buttons (min 48px touch target) ── */
+        button {
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            min-block-size: 48px;
+            padding: 0.65rem 1.1rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: transform 0.15s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
+        }
+        button:hover:not(:disabled) {
+            border-color: var(--accent);
+            background: var(--bg-card-hover);
+        }
+        button:active:not(:disabled) {
+            transform: translateY(1px);
+        }
+        button:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dim));
+            color: #080c11;
+            border-color: var(--accent-light);
+            font-weight: 700;
+            box-shadow: 0 4px 18px var(--accent-glow);
+        }
+        .btn-gold:hover:not(:disabled) {
+            background: linear-gradient(135deg, var(--accent-light), var(--accent));
+            color: #080c11;
+            box-shadow: 0 6px 24px rgba(201, 168, 76, 0.32);
+        }
+
+        .btn-emerald {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: rgba(16, 185, 129, 0.4);
+            color: #34d399;
+        }
+        .btn-emerald:hover:not(:disabled) {
+            background: rgba(16, 185, 129, 0.24);
+            border-color: #34d399;
+        }
+
+        .btn-danger-soft {
+            background: rgba(239, 68, 68, 0.12);
+            border-color: rgba(239, 68, 68, 0.35);
+            color: #fca5a5;
+        }
+        .btn-danger-soft:hover:not(:disabled) {
+            background: rgba(239, 68, 68, 0.22);
+            border-color: #f87171;
+        }
+
+        @media (pointer: coarse) {
+            input[type="password"],
+            input[type="text"],
+            input[type="time"],
+            input[type="number"],
+            button {
+                min-block-size: 52px;
+            }
+        }
+
+        /* ── KPI Metric Grid ── */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 0.9rem;
+            margin-block-end: 1.25rem;
+        }
+
+        .kpi-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1rem 1.15rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 0.4rem;
+            position: relative;
+            overflow: clip;
+        }
+        .kpi-card::before {
+            content: "";
+            position: absolute;
+            inset-block-start: 0;
+            inset-inline: 0;
+            block-size: 3px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+            opacity: 0.7;
+        }
+
+        .kpi-label {
+            font-size: 0.76rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .kpi-label i {
+            color: var(--accent);
+            font-size: 0.95rem;
+        }
+
+        .kpi-value {
+            font-size: clamp(1.35rem, 1.1rem + 0.8vw, 1.85rem);
+            font-weight: 800;
+            font-family: var(--font-mono);
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+
+        .kpi-meta {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            min-inline-size: 0;
+            overflow-wrap: anywhere;
+        }
+
+        .progress-track {
+            block-size: 6px;
+            background: var(--bg-input);
+            border-radius: var(--radius-full);
+            overflow: clip;
+            margin-block-start: 0.35rem;
+        }
+        .progress-fill {
+            block-size: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            border-radius: var(--radius-full);
+            transition: inline-size 0.3s ease;
+        }
+
+        /* ── Manual Action Center ── */
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 0.85rem;
+        }
+
+        .action-tile {
+            background: rgba(15, 22, 32, 0.7);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+        .action-tile.highlight {
+            border-color: var(--border-gold);
+            background: linear-gradient(160deg, rgba(201, 168, 76, 0.1), rgba(15, 22, 32, 0.85));
+        }
+
+        .action-tile h3 {
+            margin: 0;
+            font-size: 0.95rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+        .action-tile p {
+            margin: 0.25rem 0 0;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .controls-bar {
+            display: flex;
+            flex-wrap: wrap;
+            flex-wrap: balance;
+            gap: 0.6rem;
+            align-items: safe center;
+        }
+
+        /* ── Two-Column Layout on Desktop ── */
+        .split-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+            gap: 1.25rem;
+            margin-block-end: 1.25rem;
+        }
+        .split-grid > .panel {
+            margin-block-end: 0;
+        }
+
+        /* ── Story Cards with Container Queries ── */
+        .filter-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            flex-wrap: balance;
+            gap: 0.45rem;
+        }
+        .tab-btn {
+            min-block-size: 38px;
+            padding: 0.35rem 0.8rem;
+            font-size: 0.8rem;
+            border-radius: var(--radius-full);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-light);
+            color: var(--text-secondary);
+        }
+        .tab-btn.active {
+            background: rgba(201, 168, 76, 0.16);
+            border-color: var(--border-gold);
+            color: var(--accent-light);
+        }
+
+        #stories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 520px), 1fr));
+            gap: 1rem;
+        }
+
+        .story-container {
+            container-type: inline-size;
+        }
+
+        .story-card {
+            background: rgba(15, 22, 32, 0.78);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.15rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            block-size: 100%;
+        }
+
+        @media (min-width: 640px) {
+            .story-card.has-media {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+        }
+
+        @supports (container-type: inline-size) {
+            @media (min-width: 640px) {
+                .story-card.has-media {
+                    flex-direction: column;
+                }
+            }
+            @container (min-width: 500px) {
+                .story-card.has-media {
+                    flex-direction: row;
+                    align-items: flex-start;
+                }
+            }
+        }
+
+        .story-media-col {
+            flex: 0 0 210px;
+            max-inline-size: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .story-media-col video {
+            display: block;
+            inline-size: 100%;
+            max-inline-size: 230px;
+            aspect-ratio: 9 / 16;
+            background: #000;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            object-fit: cover;
+        }
+
+        .story-media-col img {
+            display: block;
+            inline-size: 100%;
+            max-inline-size: 230px;
+            aspect-ratio: 9 / 16;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            object-fit: cover;
+        }
+
+        .story-body-col {
+            flex: 1 1 240px;
+            min-inline-size: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        .story-title {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            flex-wrap: balance;
+            gap: 0.4rem;
+        }
+
+        .hook-quote {
+            margin: 0;
+            padding: 0.55rem 0.75rem;
+            border-inline-start: 3px solid var(--accent);
+            background: rgba(201, 168, 76, 0.06);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            font-size: 0.86rem;
+            font-weight: 600;
+            color: var(--accent-light);
+        }
+
+        .story-summary {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            line-clamp: 3;
+            overflow: clip;
+        }
+
+        details {
+            background: var(--bg-input);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            padding: 0.55rem 0.8rem;
+            font-size: 0.82rem;
+        }
+        summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        details[open] summary {
+            margin-block-end: 0.55rem;
+            color: var(--accent-light);
+        }
+
+        pre {
+            margin: 0;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
+            color: var(--text-secondary);
+            max-block-size: 280px;
+            overflow-y: auto;
+            scrollbar-gutter: stable;
+            overscroll-behavior: contain;
+        }
+
+        /* ── Responsive Table (with Sticky Headers + Mobile Stacked Cards) ── */
+        .table-wrapper {
+            overflow: auto;
+            max-inline-size: 100%;
+            max-block-size: min(520px, 75dvh);
+            container-type: inline-size;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            scrollbar-gutter: stable;
+            overscroll-behavior: contain;
+        }
+
+        table {
+            inline-size: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.86rem;
+            --label-1: "Date & Platform";
+            --label-2: "Status";
+            --label-3: "Remote Post";
+            --label-4: "Schedule / Details";
+        }
+
+        caption {
+            text-align: start;
+            padding: 0.75rem 1rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
+            border-block-end: 1px solid var(--border);
+        }
+
+        thead {
+            position: sticky;
+            inset-block-start: 0;
+            z-index: 2;
+            background: var(--bg-secondary);
+        }
+
+        th, td {
+            text-align: start;
+            padding: 0.8rem 1rem;
+            border-block-end: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        thead th {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
+        }
+
+        tbody th {
+            position: sticky;
+            inset-inline-start: 0;
+            z-index: 1;
+            background: var(--bg-card);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        @container (width < 600px) {
+            table, thead, tbody, tr, th, td {
+                display: block;
+            }
+            thead {
+                display: none;
+            }
+            tr {
+                margin: 0.75rem;
+                border: 1px solid var(--border);
+                border-radius: var(--radius-sm);
+                background: var(--bg-card);
+                overflow: clip;
+            }
+            tbody th {
+                position: sticky;
+                inset-block-start: 0;
+                z-index: 2;
+                background: var(--bg-secondary);
+                border-block-end: 1px solid var(--border);
+            }
+            td {
+                border-block-end: 1px solid var(--border-light);
+            }
+            td:last-child {
+                border-block-end: 0;
+            }
+            td:nth-child(2)::before {
+                content: var(--label-2) ": ";
+                font-weight: 600;
+                color: var(--text-secondary);
+            }
+            td:nth-child(3)::before {
+                content: var(--label-3) ": ";
+                font-weight: 600;
+                color: var(--text-secondary);
+            }
+            td:nth-child(4)::before {
+                content: var(--label-4) ": ";
+                font-weight: 600;
+                color: var(--text-secondary);
+            }
+        }
+
+        /* ── Activity Log Lists ── */
+        .feed-list {
+            max-block-size: 340px;
+            overflow-y: auto;
+            scrollbar-gutter: stable;
+            overscroll-behavior: contain;
+            display: flex;
+            flex-direction: column;
+            gap: 0.55rem;
+        }
+
+        .feed-item {
+            padding: 0.7rem 0.9rem;
+            border-radius: var(--radius-sm);
+            background: rgba(15, 22, 32, 0.65);
+            border: 1px solid var(--border-light);
+            font-size: 0.84rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .feed-item-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .empty-note {
+            color: var(--text-muted);
+            font-size: 0.86rem;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+
+        fieldset {
+            border: 0;
+            padding: 0;
+            margin: 0;
+            min-inline-size: 0;
+        }
+        legend {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-block-end: 0.75rem;
+            color: var(--accent-light);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="header-inner">
+            <div class="brand-group">
+                <div class="brand-logo" aria-hidden="true"><i class="bi bi-broadcast-pin"></i></div>
+                <div>
+                    <h1 class="brand-title">
+                        Project HER · Autopilot
+                        <span id="headerStateBadge" class="status-badge gold">Connecting</span>
+                    </h1>
+                    <p class="brand-subtitle">Autonomous Story Engine · Daily 18:00–19:00 IST · Instagram Reels &amp; YouTube Shorts</p>
+                </div>
+            </div>
+
+            <nav class="nav-links" aria-label="Dashboard navigation">
+                <a href="/" class="nav-pill"><i class="bi bi-arrow-left"></i> Studio</a>
+                <a href="#controls" class="nav-pill"><i class="bi bi-sliders"></i> Controls</a>
+                <a href="#queue" class="nav-pill"><i class="bi bi-collection-play"></i> Queue</a>
+                <a href="#history" class="nav-pill"><i class="bi bi-send-check"></i> Publications</a>
+                <button type="button" id="refreshBtn" class="nav-pill" hidden><i class="bi bi-arrow-clockwise"></i> Refresh</button>
+                <button type="button" id="logoutBtn" class="nav-pill" hidden><i class="bi bi-lock"></i> Lock</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="shell">
+        <p id="message" role="status" aria-live="polite"></p>
+
+        <!-- Authentication Card -->
+        <section id="login" class="panel auth-card">
+            <div class="panel-header">
+                <div>
+                    <h2 class="panel-title"><i class="bi bi-shield-lock"></i> Operator Authentication</h2>
+                    <p class="panel-subtitle">Enter your Autopilot administrator token to inspect the live pipeline and trigger cloud jobs.</p>
+                </div>
+            </div>
+
+            <form id="loginForm" action="/api/autopilot" method="POST" novalidate>
+                <fieldset>
+                    <legend class="visually-hidden" style="position:absolute;clip-path:inset(50%);width:1px;height:1px;overflow:hidden;">Connect to Autopilot</legend>
+                    <div class="field-group">
+                        <label for="token">Administrator Token</label>
+                        <div style="display:flex;gap:0.5rem;align-items:stretch;">
+                            <input
+                                type="password"
+                                id="token"
+                                name="token"
+                                autocomplete="current-password"
+                                autocorrect="off"
+                                autocapitalize="off"
+                                spellcheck="false"
+                                enterkeyhint="done"
+                                minlength="32"
+                                aria-describedby="tokenHint"
+                                required>
+                            <button type="button" id="toggleTokenBtn" aria-pressed="false" aria-label="Show administrator token">
+                                <i class="bi bi-eye" id="toggleTokenIcon"></i>
+                            </button>
+                        </div>
+                        <span id="tokenHint" class="field-hint">Required (minimum 32 characters). Authenticated requests use HTTPS Bearer headers.</span>
+                    </div>
+
+                    <label class="checkbox-row" for="rememberDevice">
+                        <input type="checkbox" id="rememberDevice" name="remember_device" checked>
+                        <span>Remember token on this device (mobile/browser convenience)</span>
+                    </label>
+
+                    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-block-start:1rem;">
+                        <button type="submit" id="connect" class="btn-gold">
+                            <i class="bi bi-plug-fill"></i> Connect Dashboard
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+
+        <!-- Main Authenticated Dashboard -->
+        <main hidden id="main">
+
+            <!-- KPI Metrics Bar -->
+            <section aria-label="Pipeline health metrics" class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label"><span>Pipeline Status</span> <i class="bi bi-activity"></i></div>
+                    <div class="kpi-value" id="kpiStatus">—</div>
+                    <div class="kpi-meta" id="metrics">Loading pipeline state...</div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-label"><span>Ready in Queue</span> <i class="bi bi-layers-fill"></i></div>
+                    <div class="kpi-value" id="kpiReady">0 / 3</div>
+                    <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="kpiReadyBar" style="inline-size:0%"></div></div>
+                    <div class="kpi-meta" id="kpiReadyMeta">Validated 9:16 MP4 inventory</div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-label"><span>Created &amp; Published</span> <i class="bi bi-check2-all"></i></div>
+                    <div class="kpi-value" id="kpiTotals">0 / 0</div>
+                    <div class="kpi-meta" id="latest">Latest generated: None</div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-label"><span>Next Publish Slot (IST)</span> <i class="bi bi-calendar-event"></i></div>
+                    <div class="kpi-value" id="kpiNextSlot" style="font-size:1.1rem;">—</div>
+                    <div class="kpi-meta" id="kpiWindowNote">Daily window: 18:00–19:00 IST</div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-label"><span>Today’s AI Spend (IST)</span> <i class="bi bi-currency-dollar"></i></div>
+                    <div class="kpi-value" id="kpiCost">$0.00</div>
+                    <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="kpiCostBar" style="inline-size:0%"></div></div>
+                    <div class="kpi-meta" id="kpiCostMeta">Daily safety cap</div>
+                </div>
+            </section>
+
+            <!-- Manual Command Center & Pipeline Controls -->
+            <section id="controls" class="panel">
+                <div class="panel-header">
+                    <div>
+                        <h2 class="panel-title"><i class="bi bi-lightning-charge-fill"></i> Pipeline Command Center</h2>
+                        <p class="panel-subtitle">Trigger story selection, video generation, and Buffer scheduling on demand from mobile or desktop.</p>
+                    </div>
+                    <div class="controls-bar">
+                        <span id="connections" class="status-badge">Connections not checked.</span>
+                        <button type="button" id="checkChannels"><i class="bi bi-broadcast"></i> Check Buffer connections</button>
+                        <button type="button" data-enabled="true" class="btn-emerald"><i class="bi bi-play-fill"></i> Enable Autopilot</button>
+                        <button type="button" data-enabled="false" class="btn-danger-soft"><i class="bi bi-pause-fill"></i> Pause Autopilot</button>
+                    </div>
+                </div>
+
+                <div class="action-grid">
+                    <div class="action-tile highlight">
+                        <div>
+                            <h3><i class="bi bi-stars" style="color:var(--accent)"></i> Full Pipeline (Generate + Schedule)</h3>
+                            <p>Selects a new story, renders &amp; validates the 9:16 video, uploads to GCS, and schedules it on Instagram &amp; YouTube for the next 18:00–19:00 IST slot.</p>
+                        </div>
+                        <button type="button" data-action="pipeline" class="btn-gold">
+                            <i class="bi bi-rocket-takeoff-fill"></i> Generate &amp; Schedule Now
+                        </button>
+                    </div>
+
+                    <div class="action-tile">
+                        <div>
+                            <h3><i class="bi bi-film"></i> Create video for review</h3>
+                            <p>Runs story ideation, scriptwriting, voiceover, AI scene rendering, and media and story quality checks into the READY queue.</p>
+                        </div>
+                        <button type="button" data-action="generate">
+                            <i class="bi bi-plus-circle"></i> Create video → Ready queue
+                        </button>
+                    </div>
+
+                    <div class="action-tile">
+                        <div>
+                            <h3><i class="bi bi-calendar2-check"></i> Schedule Ready Video</h3>
+                            <p>Assigns the oldest READY video in the queue and schedules automatic Buffer posts for Instagram Reels &amp; YouTube Shorts.</p>
+                        </div>
+                        <button type="button" data-action="schedule">
+                            <i class="bi bi-send"></i> Schedule ready video
+                        </button>
+                    </div>
+
+                    <div class="action-tile">
+                        <div>
+                            <h3><i class="bi bi-wrench-adjustable"></i> Diagnostics &amp; Recovery</h3>
+                            <p>Test Buffer payloads without posting, reconcile remote post status, or recover failed media/publications.</p>
+                        </div>
+                        <div class="controls-bar">
+                            <button type="button" data-action="dry-run" style="flex:1 1 120px;"><i class="bi bi-shield-check"></i> Dry-run test</button>
+                            <button type="button" data-action="verify" style="flex:1 1 120px;"><i class="bi bi-arrow-repeat"></i> Verify status</button>
+                            <button type="button" data-action="retry" style="flex:1 1 120px;"><i class="bi bi-arrow-clockwise"></i> Retry failed</button>
+                            <button type="button" data-action="prepare" style="flex:1 1 120px;"><i class="bi bi-cloud-arrow-up"></i> Retry media</button>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin:0.85rem 0 0;"><small style="color:var(--text-secondary);">Dry-run creates no Buffer posts. Pausing stops new generation and scheduling; posts already scheduled in Buffer retain their schedule.</small></p>
+            </section>
+
+            <!-- Story Queue & Video Previews -->
+            <section id="queue" class="panel">
+                <div class="panel-header">
+                    <div>
+                        <h2 class="panel-title"><i class="bi bi-collection-play-fill"></i> Story Queue &amp; Video Previews</h2>
+                        <p class="panel-subtitle">Preview rendered 9:16 videos, inspect quality reports, and manage queued stories.</p>
+                    </div>
+                    <div class="filter-tabs" role="tablist" aria-label="Filter stories">
+                        <button type="button" class="tab-btn active" data-filter="ALL">All (<span id="countAll">0</span>)</button>
+                        <button type="button" class="tab-btn" data-filter="READY">Ready Queue (<span id="countReady">0</span>)</button>
+                        <button type="button" class="tab-btn" data-filter="SCHEDULED">Scheduled (<span id="countScheduled">0</span>)</button>
+                        <button type="button" class="tab-btn" data-filter="PUBLISHED">Published (<span id="countPub">0</span>)</button>
+                        <button type="button" class="tab-btn" data-filter="FAILED">Failed / Skipped (<span id="countFail">0</span>)</button>
+                    </div>
+                </div>
+                <div id="stories"></div>
+            </section>
+
+            <!-- Publishing History (Responsive Table) -->
+            <section id="history" class="panel">
+                <div class="panel-header">
+                    <div>
+                        <h2 class="panel-title"><i class="bi bi-journal-check"></i> Publishing History (Instagram &amp; YouTube)</h2>
+                        <p class="panel-subtitle">Per-platform Buffer delivery records, scheduled timestamps, and live post links.</p>
+                    </div>
+                </div>
+                <div tabindex="0" role="region" aria-labelledby="history-table-caption" class="table-wrapper">
+                    <table>
+                        <caption id="history-table-caption">Daily Instagram Reels and YouTube Shorts publication records</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Date / Platform</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Remote Post</th>
+                                <th scope="col">Schedule / Details</th>
+                            </tr>
+                        </thead>
+                        <tbody id="posts"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Split Grid: Worker Operations & Editorial Settings / Alerts -->
+            <div class="split-grid">
+                <section class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <h2 class="panel-title"><i class="bi bi-cpu-fill"></i> Cloud Run Worker Operations</h2>
+                            <p class="panel-subtitle">Recent background executions dispatched to <code>her-autopilot</code>.</p>
+                        </div>
+                    </div>
+                    <div id="commands" class="feed-list" aria-live="polite"></div>
+
+                    <div class="panel-header" style="margin-block-start:1.25rem;">
+                        <div>
+                            <h2 class="panel-title"><i class="bi bi-exclamation-triangle-fill"></i> Recent Alerts &amp; Failures</h2>
+                            <p class="panel-subtitle">Diagnostic logs from story generation, quality gates, or Buffer reconciliation.</p>
+                        </div>
+                    </div>
+                    <div id="alerts" class="feed-list"></div>
+                </section>
+
+                <section class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <h2 class="panel-title"><i class="bi bi-sliders2"></i> Editorial &amp; Schedule Settings</h2>
+                            <p class="panel-subtitle">Configure daily IST publish time, queue depth target, and genre distribution.</p>
+                        </div>
+                    </div>
+
+                    <form id="settingsForm" action="/api/autopilot/settings" method="POST" novalidate>
+                        <fieldset>
+                            <legend>Non-secret Runtime Configuration</legend>
+                            <div class="settings-grid">
+                                <div class="field-group">
+                                    <label for="publishTime">Publication Time (IST)</label>
+                                    <input id="publishTime" name="publish_time" type="time" min="18:00" max="19:00" required aria-describedby="publishTimeHint">
+                                    <span id="publishTimeHint" class="field-hint">Must be within 18:00–19:00 IST.</span>
+                                </div>
+
+                                <div class="field-group">
+                                    <label for="target">Ready Inventory Target</label>
+                                    <input id="target" name="ready_queue_target" type="number" min="1" max="10" required aria-describedby="targetHint">
+                                    <span id="targetHint" class="field-hint">Number of READY videos kept in reserve (1–10).</span>
+                                </div>
+                            </div>
+
+                            <div class="field-group">
+                                <label for="weights">Category Weights (JSON)</label>
+                                <textarea id="weights" name="category_weights" required aria-describedby="weightsHint"></textarea>
+                                <span id="weightsHint" class="field-hint">Relative weights for MYTHOLOGY, FANTASY, SCIFI, FOLKLORE, and OTHER.</span>
+                            </div>
+
+                            <button type="submit" id="save" class="btn-gold">
+                                <i class="bi bi-check2-circle"></i> Save Editorial Settings
+                            </button>
+                        </fieldset>
+                    </form>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'her_autopilot_admin_token';
+        let key = '', timer = null, editing = false, currentFilter = 'ALL', lastData = null;
+        const $ = id => document.getElementById(id);
+
+        function note(text, error = false) {
+            const el = $('message');
+            el.textContent = text;
+            el.className = error ? 'error' : '';
+        }
+
+        function node(tag, text, className) {
+            const n = document.createElement(tag);
+            if (text !== undefined) n.textContent = text;
+            if (className) n.className = className;
+            return n;
+        }
+
+        function safeURL(value) {
+            try {
+                const url = new URL(value);
+                return url.protocol === 'https:' ? url.href : null;
+            } catch {
+                return null;
+            }
+        }
+
+        function formatIST(isoOrEpoch) {
+            if (!isoOrEpoch) return '—';
+            const d = typeof isoOrEpoch === 'number' ? new Date(isoOrEpoch * 1000) : new Date(isoOrEpoch);
+            if (Number.isNaN(d.getTime())) return String(isoOrEpoch);
+            return d.toLocaleString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                day: '2-digit',
+                month: 'short',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            }) + ' IST';
+        }
+
+        function statusTone(status) {
+            const s = String(status || '').toUpperCase();
+            if (['READY', 'PUBLISHED', 'SENT', 'PASS', 'COMPLETED', 'ENABLED'].includes(s)) return 'emerald';
+            if (['SCHEDULED', 'ASSIGNED', 'RUNNING', 'QUEUED', 'GENERATING', 'RESERVED', 'PREPARED', 'SENDING'].includes(s)) return 'sky';
+            if (['PARTIAL', 'RETRY', 'PENDING', 'DRY-RUN', 'SKIPPED'].includes(s)) return 'amber';
+            if (['FAILED', 'BLOCKED', 'REMOTE_ERROR', 'UNKNOWN', 'PAUSED'].includes(s)) return 'danger';
+            return 'gold';
+        }
+
+        function badge(text, tone) {
+            const span = node('span', text, 'status-badge ' + (tone || statusTone(text)));
+            return span;
+        }
+
+        async function api(path = '', data) {
+            const response = await fetch('/api/autopilot' + path, {
+                method: data ? 'POST' : 'GET',
+                headers: {
+                    Authorization: 'Bearer ' + key,
+                    ...(data ? { 'Content-Type': 'application/json' } : {})
+                },
+                body: data ? JSON.stringify(data) : undefined
+            });
+            const body = await response.json();
+            if (!response.ok) throw Error(body.error || 'Operation failed');
+            return body;
+        }
+
+        function matchesFilter(story, filter) {
+            if (filter === 'ALL') return story.creation_mode !== 'LEGACY';
+            if (filter === 'READY') return story.generation_status === 'READY' && story.publication_status === 'UNUSED';
+            if (filter === 'SCHEDULED') return ['ASSIGNED', 'SCHEDULED'].includes(story.publication_status);
+            if (filter === 'PUBLISHED') return ['PARTIAL', 'PUBLISHED'].includes(story.publication_status);
+            if (filter === 'FAILED') return ['FAILED', 'SKIPPED'].includes(story.generation_status);
+            return true;
+        }
+
+        function renderStories(stories) {
+            const activeStories = stories.filter(s => s.creation_mode !== 'LEGACY');
+            const readyStories = stories.filter(s => s.generation_status === 'READY' && s.publication_status === 'UNUSED');
+            const pubStories = stories.filter(s => ['ASSIGNED', 'SCHEDULED', 'PARTIAL', 'PUBLISHED'].includes(s.publication_status));
+            const failStories = stories.filter(s => ['FAILED', 'SKIPPED'].includes(s.generation_status));
+
+            $('countAll').textContent = activeStories.length;
+            $('countReady').textContent = readyStories.length;
+            $('countScheduled').textContent = stories.filter(s => ['ASSIGNED','SCHEDULED'].includes(s.publication_status)).length;
+            $('countPub').textContent = stories.filter(s => ['PARTIAL','PUBLISHED'].includes(s.publication_status)).length;
+            $('countFail').textContent = failStories.length;
+
+            const filtered = stories.filter(s => matchesFilter(s, currentFilter));
+            $('stories').replaceChildren();
+
+            if (!filtered.length) {
+                $('stories').append(node('p', 'No stories match this filter yet.', 'empty-note'));
+                return;
+            }
+
+            for (const story of filtered) {
+                const wrapper = node('div', undefined, 'story-container');
+                const hasMedia = Boolean(safeURL(story.media_url) || safeURL(story.cover_url));
+                const article = node('article', undefined, 'story-card' + (hasMedia ? ' has-media' : ''));
+
+                if (hasMedia) {
+                    const mediaCol = node('div', undefined, 'story-media-col');
+                    if (safeURL(story.media_url)) {
+                        const video = node('video');
+                        video.controls = true;
+                        video.preload = 'none';
+                        if (safeURL(story.cover_url)) video.poster = safeURL(story.cover_url);
+                        video.src = safeURL(story.media_url);
+                        if (safeURL(story.cover_url)) video.poster = safeURL(story.cover_url);
+                        mediaCol.append(video);
+                    } else if (safeURL(story.cover_url)) {
+                        const img = node('img');
+                        img.src = safeURL(story.cover_url);
+                        img.alt = story.script?.hook_text || story.title;
+                        img.loading = 'lazy';
+                        mediaCol.append(img);
+                    }
+                    article.append(mediaCol);
+                }
+
+                const bodyCol = node('div', undefined, 'story-body-col');
+                bodyCol.append(node('h3', story.title, 'story-title'));
+
+                const badges = node('div', undefined, 'badge-row');
+                badges.append(
+                    badge(story.category || 'STORY', 'gold'),
+                    badge('Gen: ' + story.generation_status, statusTone(story.generation_status)),
+                    badge('Pub: ' + story.publication_status, statusTone(story.publication_status))
+                );
+                if (story.editorial_score) {
+                    badges.append(badge('Score: ' + Number(story.editorial_score).toFixed(1) + '/10', 'emerald'));
+                }
+                if (story.quality?.duration) {
+                    badges.append(badge(Number(story.quality.duration).toFixed(1) + 's · 9:16', 'sky'));
+                }
+                bodyCol.append(badges);
+
+                bodyCol.append(node('small', `Created: ${formatIST(story.created_at)} · Planned date: ${story.scheduled_date || 'Next available slot'}`));
+
+                if (story.script?.hook_text) {
+                    bodyCol.append(node('p', '“' + story.script.hook_text + '”', 'hook-quote'));
+                }
+                if (story.story_summary) {
+                    bodyCol.append(node('p', story.story_summary, 'story-summary'));
+                }
+                if (story.cover?.visual_assets?.length) bodyCol.append(node('small', 'Cover: ' + story.cover.visual_assets.map(a => a.subject).join(', ')));
+                if (story.error) {
+                    const errNote = node('p', 'Error: ' + story.error);
+                    errNote.style.color = '#fca5a5';
+                    errNote.style.fontSize = '0.82rem';
+                    errNote.style.margin = '0';
+                    bodyCol.append(errNote);
+                }
+
+                const details = node('details');
+                const passCount = story.quality?.checks ? story.quality.checks.filter(c => c.result === 'PASS').length : 0;
+                const totalChecks = story.quality?.checks ? story.quality.checks.length : 0;
+                const summaryLabel = totalChecks
+                    ? `Story script, social copy & quality report (${passCount}/${totalChecks} checks PASS)`
+                    : 'Story script, social copy, cost & diagnostic report';
+                details.append(
+                    node('summary', summaryLabel),
+                    node('pre', JSON.stringify({
+                        narration: story.script?.narration,
+                        plot: story.major_plot_events,
+                        metadata: story.social_metadata,
+                        costs: story.costs,
+                        visual_plan: story.scene_plan?.visual_cues,
+                        cover: story.cover,
+                        quality: story.quality,
+                        error: story.error
+                    }, null, 2))
+                );
+                bodyCol.append(details);
+
+                const actionRow = node('div', undefined, 'controls-bar');
+                if (safeURL(story.media_url)) {
+                    const openLink = node('a', 'Open MP4', 'nav-pill');
+                    openLink.href = safeURL(story.media_url);
+                    openLink.target = '_blank';
+                    openLink.rel = 'noopener';
+                    actionRow.append(openLink);
+                }
+                if (story.generation_status === 'READY' && ['UNUSED','ASSIGNED','SCHEDULED','PARTIAL'].includes(story.publication_status)) {
+                    const publish = node('button', 'Publish now · Instagram + YouTube', 'btn-gold');
+                    publish.type = 'button';
+                    publish.disabled = !lastData?.live_publishing_validated || lastData?.settings?.dry_run;
+                    publish.title = publish.disabled ? 'Validated live publishing must be configured first' : 'Send this video immediately through Buffer';
+                    publish.onclick = () => act('publish-now', {story_id: story.story_id}, publish);
+                    actionRow.append(publish);
+                }
+                if (story.publication_status === 'UNUSED'  && !['SKIPPED', 'FAILED'].includes(story.generation_status)) {
+                    const skip = node('button', 'Skip story', 'btn-danger-soft');
+                    skip.type = 'button';
+                    skip.style.minBlockSize = '38px';
+                    skip.style.padding = '0.35rem 0.75rem';
+                    skip.style.fontSize = '0.8rem';
+                    skip.onclick = () => act('skip', { story_id: story.story_id });
+                    actionRow.append(skip);
+                }
+                if (actionRow.childNodes.length) bodyCol.append(actionRow);
+
+                article.append(bodyCol);
+                wrapper.append(article);
+                $('stories').append(wrapper);
+            }
+        }
+
+        async function refresh() {
+            const playing = [...document.querySelectorAll('#stories video')].some(video => !video.paused);
+            try {
+                const data = await api();
+                lastData = data;
+                $('login').hidden = true;
+                $('main').hidden = false;
+                $('refreshBtn').hidden = false;
+                $('logoutBtn').hidden = false;
+
+                const cfg = data.settings;
+                const counts = data.counts || {};
+                const stateLabel = cfg.enabled ? (cfg.dry_run ? 'Enabled (Dry-Run)' : 'Live Autonomous') : 'Paused';
+                $('headerStateBadge').textContent = stateLabel;
+                $('headerStateBadge').className = 'status-badge ' + (cfg.enabled ? (cfg.dry_run ? 'amber' : 'emerald') : 'danger');
+
+                $('kpiStatus').textContent = cfg.enabled ? 'ACTIVE' : 'PAUSED';
+                $('metrics').textContent = `${cfg.enabled ? 'Enabled' : 'Paused'} · ${cfg.dry_run ? 'Dry-run' : 'Live publishing'} · ${data.ready_count} ready · Next slot: ${data.next_publication ? formatIST(data.next_publication) : 'Tomorrow (' + formatIST(data.next_scheduled_slot) + ')'}`;
+
+                $('kpiReady').textContent = `${data.ready_count} / ${cfg.ready_queue_target}`;
+                const readyPct = Math.min(100, Math.round((data.ready_count / Math.max(1, cfg.ready_queue_target)) * 100));
+                $('kpiReadyBar').style.inlineSize = readyPct + '%';
+                $('kpiReadyMeta').textContent = counts.generating
+                    ? `${counts.generating} currently generating · ${counts.ready_unused || data.ready_count} ready to post`
+                    : `${data.ready_count} validated unused video(s) in reserve`;
+
+                const genCount = counts.autopilot_generated ?? data.stories.filter(s => s.creation_mode === 'AUTOPILOT').length;
+                const pubCount = (counts.published || 0) + (counts.scheduled || 0);
+                $('kpiTotals').textContent = `${genCount} gen · ${pubCount} pub`;
+                const latestGen = data.stories.find(s => s.media_url)?.title || 'None';
+                const latestPub = data.stories.find(s => ['PUBLISHED', 'SCHEDULED'].includes(s.publication_status))?.title || 'None';
+                $('latest').textContent = `Latest generated: ${latestGen} · Latest scheduled/published: ${latestPub}`;
+
+                const slotIso = data.next_publication || data.next_scheduled_slot;
+                $('kpiNextSlot').textContent = slotIso ? formatIST(slotIso) : (cfg.publish_time + ' IST');
+                $('kpiWindowNote').textContent = data.next_publication
+                    ? `Today’s window open (${cfg.publish_start}–${cfg.publish_end} IST)`
+                    : `Today’s window passed · Queued for tomorrow ${cfg.publish_time} IST`;
+
+                const spent = Number(data.cost_today?.reserved_usd || 0);
+                const limit = Number(cfg.daily_cost_limit_usd || 6);
+                $('kpiCost').textContent = `$${spent.toFixed(2)} / $${limit.toFixed(2)}`;
+                $('kpiCostBar').style.inlineSize = Math.min(100, Math.round((spent / Math.max(0.01, limit)) * 100)) + '%';
+                $('kpiCostMeta').textContent = `${(data.cost_today?.entries || []).length} provider reservation(s) today`;
+
+                if (!editing) {
+                    $('publishTime').value = cfg.publish_time;
+                    $('target').value = cfg.ready_queue_target;
+                    $('weights').value = JSON.stringify(cfg.category_weights, null, 2);
+                }
+
+                if (!playing) renderStories(data.stories);
+
+                $('posts').replaceChildren();
+                if (!data.publications.length) {
+                    const tr = node('tr');
+                    const td = node('td', 'No scheduled or published Buffer posts yet. Click "Schedule ready video" or "Generate & Schedule Now" to schedule the next slot.', 'empty-note');
+                    td.colSpan = 4;
+                    tr.append(td);
+                    $('posts').append(tr);
+                } else {
+                    for (const post of data.publications) {
+                        const tr = node('tr');
+                        const th = node('th', `${post.publication_date} · ${String(post.platform).toUpperCase()}`);
+                        th.scope = 'row';
+                        const statusTd = node('td');
+                        statusTd.append(badge(post.status, statusTone(post.status)));
+                        const linkTd = node('td');
+                        if (safeURL(post.external_url)) {
+                            const a = node('a', 'View published post ↗');
+                            a.href = safeURL(post.external_url);
+                            a.target = '_blank';
+                            a.rel = 'noopener';
+                            linkTd.append(a);
+                        } else {
+                            linkTd.textContent = post.buffer_post_id ? `Buffer ID: ${post.buffer_post_id}` : 'Pending confirmation';
+                        }
+                        const detailText = post.error || post.remote_error || (post.due_at ? 'Scheduled: ' + formatIST(post.due_at) : '—');
+                        tr.append(th, statusTd, linkTd, node('td', detailText));
+                        $('posts').append(tr);
+                    }
+                }
+
+                $('commands').replaceChildren();
+                const cmds = data.commands.filter(Boolean);
+                if (!cmds.length) {
+                    $('commands').append(node('p', 'No manual worker commands dispatched yet.', 'empty-note'));
+                } else {
+                    for (const c of cmds) {
+                        const item = node('div', undefined, 'feed-item');
+                        const head = node('div', undefined, 'feed-item-head');
+                        head.append(
+                            node('strong', String(c.action).toUpperCase()),
+                            badge(c.status, statusTone(c.status))
+                        );
+                        item.append(head);
+                        item.append(node('small', `Triggered: ${formatIST(c.created_at)}${c.completed_at ? ' · Finished: ' + formatIST(c.completed_at) : ''}`));
+                        if (c.progress) {
+                            item.append(node('span', `${c.progress.label} · ${c.progress.percent}%`));
+                            const progress = node('progress'); progress.max = 100;
+                            progress.value = c.status === 'completed' ? 100 : c.progress.percent;
+                            progress.setAttribute('aria-label', c.progress.label);
+                            progress.style.width = '100%'; item.append(progress);
+                            if (c.progress.detail) item.append(node('small', c.progress.detail));
+                        }
+                        if (c.result?.generation_status === 'READY') item.append(node('strong', 'Video ready — review it in the queue and publish when ready.'));
+                        if (c.error) {
+                            const err = node('span', c.error);
+                            err.style.color = '#fca5a5';
+                            item.append(err);
+                        }
+                        if (c.result?.payloads) {
+                            const d = node('details');
+                            d.append(node('summary', 'Inspect Dry-run Buffer Payloads'), node('pre', JSON.stringify(c.result.payloads, null, 2)));
+                            item.append(d);
+                        }
+                        $('commands').append(item);
+                    }
+                }
+
+                $('alerts').replaceChildren();
+                if (!data.alerts.length) {
+                    $('alerts').append(node('p', 'No recent alerts.', 'empty-note'));
+                } else {
+                    for (const a of data.alerts) {
+                        const item = node('div', undefined, 'feed-item');
+                        item.append(
+                            node('small', formatIST(a.at)),
+                            node('span', a.message)
+                        );
+                        $('alerts').append(item);
+                    }
+                }
+            } catch (error) {
+                note(error.message, true);
+                if (/authorization/i.test(error.message)) {
+                    $('login').hidden = false;
+                    $('main').hidden = true;
+                }
+            }
+        }
+
+        async function act(action, extra = {}, buttonEl = null) {
+            if (buttonEl) buttonEl.disabled = true;
+            try {
+                const result = await api('/actions', { action, ...extra });
+                note(result.command_id
+                    ? `Cloud Run job '${action}' queued (ID: ${result.command_id.slice(0, 8)}). Dashboard will auto-refresh every 5s.`
+                    : 'Story updated.');
+                await refresh();
+            } catch (error) {
+                note(error.message, true);
+            } finally {
+                if (buttonEl) buttonEl.disabled = false;
+            }
+        }
+
+        // Form validation lifecycle (blur validates, input clears custom errors)
+        const tokenInput = $('token');
+        tokenInput.addEventListener('blur', () => {
+            if (tokenInput.value && tokenInput.value.trim().length < 32) {
+                tokenInput.setCustomValidity('Administrator token must be at least 32 characters.');
+            } else {
+                tokenInput.setCustomValidity('');
+            }
+        });
+        tokenInput.addEventListener('input', () => {
+            tokenInput.setCustomValidity('');
+        });
+
+        $('toggleTokenBtn').addEventListener('click', () => {
+            const show = tokenInput.type === 'password';
+            tokenInput.type = show ? 'text' : 'password';
+            $('toggleTokenBtn').setAttribute('aria-pressed', String(show));
+            $('toggleTokenIcon').className = show ? 'bi bi-eye-slash' : 'bi bi-eye';
+        });
+
+        $('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const supplied = tokenInput.value.trim();
+            if (supplied.length < 32) {
+                tokenInput.setCustomValidity('Administrator token must be at least 32 characters.');
+                tokenInput.reportValidity();
+                return;
+            }
+            const btn = $('connect');
+            btn.disabled = true;
+            key = supplied;
+            try {
+                await refresh();
+                if ($('rememberDevice').checked) {
+                    try { localStorage.setItem(STORAGE_KEY, key); } catch {}
+                } else {
+                    try { localStorage.removeItem(STORAGE_KEY); } catch {}
+                }
+                tokenInput.value = '';
+                note('Connected to Project HER Autopilot Command Center.');
+                clearInterval(timer);
+                timer = setInterval(refresh, 5000);
+            } finally {
+                btn.disabled = false;
+            }
+        });
+
+        $('refreshBtn').addEventListener('click', () => refresh());
+
+        $('logoutBtn').addEventListener('click', () => {
+            key = '';
+            clearInterval(timer);
+            try { localStorage.removeItem(STORAGE_KEY); } catch {}
+            $('main').hidden = true;
+            $('refreshBtn').hidden = true;
+            $('logoutBtn').hidden = true;
+            $('login').hidden = false;
+            $('headerStateBadge').textContent = 'Locked';
+            $('headerStateBadge').className = 'status-badge gold';
+            note('Dashboard locked and saved token cleared from this device.');
+        });
+
+        $('checkChannels').addEventListener('click', async () => {
+            const btn = $('checkChannels');
+            btn.disabled = true;
+            try {
+                const data = await api('/channels');
+                const summary = Object.entries(data.channels)
+                    .map(([p, c]) => `${p}: ${c.displayName} (connected)`)
+                    .join(' · ');
+                $('connections').textContent = summary;
+                $('connections').className = 'status-badge emerald';
+                note('Buffer channels verified: ' + summary);
+            } catch (error) {
+                $('connections').textContent = error.message;
+                $('connections').className = 'status-badge danger';
+                note(error.message, true);
+            } finally {
+                btn.disabled = false;
+            }
+        });
+
+        document.querySelectorAll('[data-action]').forEach(b => {
+            b.addEventListener('click', () => act(b.dataset.action, {}, b));
+        });
+
+        document.querySelectorAll('[data-enabled]').forEach(b => {
+            b.addEventListener('click', async () => {
+                b.disabled = true;
+                try {
+                    await api('/settings', { enabled: b.dataset.enabled === 'true' });
+                    note(b.dataset.enabled === 'true' ? 'Autopilot enabled.' : 'Autopilot paused.');
+                    await refresh();
+                } catch (error) {
+                    note(error.message, true);
+                } finally {
+                    b.disabled = false;
+                }
+            });
+        });
+
+        document.querySelectorAll('[data-filter]').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('[data-filter]').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentFilter = tab.dataset.filter;
+                if (lastData) renderStories(lastData.stories);
+            });
+        });
+
+        ['publishTime', 'target', 'weights'].forEach(id => {
+            $(id).addEventListener('input', () => {
+                editing = true;
+                $(id).setCustomValidity('');
+            });
+        });
+
+        $('weights').addEventListener('blur', () => {
+            try {
+                JSON.parse($('weights').value);
+                $('weights').setCustomValidity('');
+            } catch {
+                $('weights').setCustomValidity('Category weights must be valid JSON.');
+            }
+        });
+
+        $('settingsForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const saveBtn = $('save');
+            saveBtn.disabled = true;
+            try {
+                let parsedWeights;
+                try {
+                    parsedWeights = JSON.parse($('weights').value);
+                } catch {
+                    $('weights').setCustomValidity('Category weights must be valid JSON.');
+                    $('weights').reportValidity();
+                    return;
+                }
+                await api('/settings', {
+                    publish_time: $('publishTime').value,
+                    ready_queue_target: Number($('target').value),
+                    category_weights: parsedWeights
+                });
+                editing = false;
+                note('Settings saved.');
+                await refresh();
+            } catch (error) {
+                note(error.message, true);
+            } finally {
+                saveBtn.disabled = false;
+            }
+        });
+
+        // Auto-connect if token is saved in localStorage
+        (async function initSavedSession() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved && saved.length >= 32) {
+                    key = saved;
+                    await refresh();
+                    clearInterval(timer);
+                    timer = setInterval(refresh, 5000);
+                }
+            } catch {}
+        })();
+    </script>
+</body>
+</html>

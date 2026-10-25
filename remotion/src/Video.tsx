@@ -1,3 +1,4 @@
+import {AutopilotHook} from './components/AutopilotHook';
 import {ProjectHERBrandingController,useBrandClosing} from './branding/Branding';
 import {classicFrames,screenFrames,config} from './branding/timing';
 /**
@@ -215,6 +216,8 @@ const StoryVideo: React.FC<VideoProps> = (props) => {
       })}
 
       {!closing && timeline.entries.map(({screen,startFrame,durationFrames},i)=>screen.audio_path ? <Sequence key={`audio-${i}`} from={startFrame} durationInFrames={durationFrames}><Audio src={staticFile(screen.audio_path)}/></Sequence> : null)}
+
+      {props.autopilot_hook && <AutopilotHook text={props.autopilot_hook}/>}
 
       {/* Global anti-crop watermark — renders above all scenes/transitions */}
       {!config(props.branding).enabled && watermark && (

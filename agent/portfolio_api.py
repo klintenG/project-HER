@@ -579,6 +579,7 @@ def install(app):
     @app.before_request
     def protect_legacy():
         if not env_enabled('HER_PORTFOLIO_LOCK_LEGACY'):return
+        if request.path=='/api/autopilot' or request.path.startswith('/api/autopilot/'):return
         protected=request.path.startswith(('/api/','/output/','/daily-output/','/effect-previews/')) and not request.path.startswith(PREFIX+'/')
         if not protected:return
         operator=os.getenv('HER_OPERATOR_KEY','')

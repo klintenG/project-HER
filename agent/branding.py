@@ -8,7 +8,10 @@ def branding_settings(seed='projecther'):
     settings=json.loads(os.environ.get('HER_BRANDING_JSON','{}'))
     if not isinstance(settings,dict):
         raise ValueError('HER_BRANDING_JSON must be an object')
+    settings.setdefault('creditEnabled',True)
+    settings.setdefault('creditHoldSeconds',1.8)
     settings.setdefault('deterministicSeed',str(seed))
+    settings.setdefault('watermarkText',os.environ.get('VIDEO_WATERMARK_TEXT','@project.HER'))
     return settings
 
 
