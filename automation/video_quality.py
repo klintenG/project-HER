@@ -5,7 +5,7 @@ import json
 import re
 import subprocess
 from pathlib import Path
-from PIL import Image, ImageStat, ImageDraw, ImageFont, ImageOps
+from PIL import Image, ImageStat
 import config
 
 
@@ -21,69 +21,22 @@ def file_hash(path):
 
 
 class ThumbnailComposer:
-    # Fully entered at .45s, exit starts at 2.3s in the common Remotion overlay.
+    # Inside the shared two-second title card; Buffer uses this exported frame.
     offset_ms=1500
     def compose(self,video,story):
         target=Path(video).with_name('thumbnail.png')
         command(['ffmpeg','-v','error','-y','-ss',str(self.offset_ms/1000),'-i',str(video),'-frames:v','1',str(target)])
-        props_path=Path(video).parent/'editorial_props.json'
-        selected=[]
-        if props_path.exists():
-            props=json.loads(props_path.read_text())
-            candidates=[a for a in props['assets'] if a.get('alpha') and a.get('role') in ('portrait','object')]
-            names=[n.casefold() for n in story.get('primary_characters',[])]
-            candidates.sort(key=lambda a: (not any(n in a['subject'].casefold() for n in names),a.get('role')!='portrait'))
-            if candidates:
-                asset=candidates[0];source=config.BASE_DIR/'remotion/public'/asset['path']
-                with Image.open(source) as original:
-                    cutout=original.convert('RGBA')
-                    bbox=cutout.getbbox()
-                    if not bbox:raise ValueError('Selected cover cutout is empty')
-                    cutout=ImageOps.contain(cutout.crop(bbox),(900,1060),Image.Resampling.LANCZOS)
-                cover=Image.new('RGBA',(1080,1920),'#dedde1')
-                cover.alpha_composite(cutout,((1080-cutout.width)//2,740+(1060-cutout.height)//2))
-                draw=ImageDraw.Draw(cover)
-                bold=str(config.BASE_DIR/'remotion/public/branding/Poppins-Bold.ttf')
-                medium=str(config.BASE_DIR/'remotion/public/branding/Poppins-Medium.ttf')
-                title=story['script']['hook_text']
-                for size in range(82,35,-2):
-                    font=ImageFont.truetype(bold,size);lines=[];line=''
-                    for word in title.split():
-                        proposed=(line+' '+word).strip()
-                        if draw.textlength(proposed,font=font)>820 and line:lines.append(line);line=word
-                        else:line=proposed
-                    lines.append(line)
-                    if len(lines)<=3 and all(draw.textlength(l,font=font)<=820 for l in lines):break
-                draw.rounded_rectangle((86,346,994,700),radius=20,fill='#111b2b')
-                draw.rectangle((86,365,94,680),fill='#cba96e')
-                for i,line in enumerate(lines):draw.text((540,375+i*(size+12)),line,font=font,fill='#f7f5f0',anchor='mt')
-                draw.text((540,180),'projectHER',font=ImageFont.truetype(bold,48),fill='#111b2b',anchor='mt')
-                draw.text((540,1830),'STORIES IN MOTION',font=ImageFont.truetype(medium,24),fill='#111b2b',anchor='mt')
-                cover.convert('RGB').save(target)
-                selected=[{'id':asset['id'],'subject':asset['subject'],'path':asset['path']}]
-                # Buffer selects an exported frame rather than accepting a cover upload.
-                # Replace a brief opening interval without shifting audio or caption times.
-                embedded=Path(video).with_name('cover-embedded.mp4')
-                try:
-                    command(['ffmpeg','-v','error','-y','-i',str(video),'-i',str(target),
-                        '-filter_complex',"[0:v][1:v]overlay=0:0:enable='between(t,1.1,1.9)'[v]",
-                        '-map','[v]','-map','0:a','-c:v','libx264','-preset','fast','-crf','18',
-                        '-pix_fmt','yuv420p','-c:a','copy','-movflags','+faststart',str(embedded)],timeout=900)
-                    embedded.replace(video)
-                finally:embedded.unlink(missing_ok=True)
         with Image.open(target) as image:
             gray=image.convert('L')
             if image.size!=(1080,1920) or ImageStat.Stat(gray).stddev[0]<8 or ImageStat.Stat(gray).mean[0]<5:
                 raise ValueError('Cover is incomplete, black, or incorrectly sized')
-            panel=gray.crop((86,346,994,538))
-            dark=sum(panel.histogram()[:90])/max(1,panel.width*panel.height)
-            text=gray.crop((130,370,950,442))
-            light=sum(text.histogram()[210:])/max(1,text.width*text.height)
-            if dark<.4 or light<.01:
-                raise ValueError('Cover hook panel is obscured or its text is not readable')
-        metadata={'path':str(target),'offset_ms':self.offset_ms,'hook_text':story['script']['hook_text'],
-            'visual_assets':selected,'additional_image_generations':0,
-            'composition':'Single story cutout with editorial palette, typography and concise title' if selected else 'Opening frame fallback','size':[1080,1920]}
+        opening_path=Path(video).with_name('opening.json')
+        opening=json.loads(opening_path.read_text()) if opening_path.exists() else {}
+        if opening and opening.get('video_sha256')!=file_hash(video):raise ValueError('Opening export checksum mismatch')
+        metadata={'path':str(target),'offset_ms':self.offset_ms,
+            'hook_text':opening.get('title',story['script']['hook_text']),
+            'visual_assets':[opening['asset']] if opening else [],'additional_image_generations':0,
+            'composition':'Exported two-second story opening' if opening else 'Legacy opening-frame fallback','size':[1080,1920]}
         target.with_suffix('.json').write_text(json.dumps(metadata,indent=2))
         return metadata
 
@@ -99,10 +52,14 @@ class VideoQualityValidator:
         streams=probe['streams'];v=next((s for s in streams if s['codec_type']=='video'),{})
         a=next((s for s in streams if s['codec_type']=='audio'),{})
         duration=float(probe['format'].get('duration',0))
+        opening_path=video.with_name('opening.json')
+        opening=json.loads(opening_path.read_text()) if opening_path.exists() else {}
+        lead=float(opening.get('duration_seconds',0))
+        if opening:check('story_opening',lead==2 and opening.get('video_sha256')==file_hash(video) and bool(opening.get('asset')))
         check('container','mp4' in probe['format'].get('format_name',''))
         check('codecs',v.get('codec_name')=='h264' and a.get('codec_name')=='aac')
         check('portrait',(v.get('width'),v.get('height'))==(1080,1920))
-        check('duration',settings.min_video_seconds<=duration<=settings.max_video_seconds,str(duration))
+        check('duration',settings.min_video_seconds<=duration-lead<=settings.max_video_seconds,str(duration))
         check('cover_timestamp',0<cover['offset_ms']<duration*1000 and Path(cover['path']).is_file())
         editorial_path=video.parent/'editorial_props.json'
         if editorial_path.exists():
@@ -125,7 +82,7 @@ class VideoQualityValidator:
                     and file_hash(config.BASE_DIR/'remotion/public'/a.path)==a.sha256 for a in assets))
                 check('narration_and_captions',bool(timeline.words) and bool(timeline.audio))
                 check('caption_timing',bool(timeline.words)) # Full alignment is validated by Timeline.
-                check('ending_not_truncated',duration>=timeline.durationInFrames/timeline.fps-.1)
+                check('ending_not_truncated',duration>=lead+timeline.durationInFrames/timeline.fps-.1)
                 last_frame=timeline.words[-1].start*timeline.fps if timeline.words else 0
                 ending=[l for l in timeline.layers if l.assetId and l.startFrame<=last_frame<l.endFrame]
                 check('ending_has_visual',bool(ending))
@@ -151,7 +108,7 @@ class VideoQualityValidator:
                     last=end
             check('caption_timing',timing_ok)
             planned=sum(max(s.get('duration',0),s.get('audio_duration',0),max([w['end'] for w in s.get('word_timings',[])]+[0])) for s in screens)
-            check('ending_not_truncated',duration>=planned-.1)
+            check('ending_not_truncated',duration>=lead+planned-.1)
             check('ending_has_visual',bool(narration) and bool(narration[-1].get('image_paths')))
         # Decode the entire file and inspect signal rather than trusting metadata.
         scan=command(['ffmpeg','-hide_banner','-nostats','-i',str(video),'-af','volumedetect,silencedetect=noise=-40dB:d=2',
@@ -160,7 +117,7 @@ class VideoQualityValidator:
         check('audible_audio',bool(volume) and float(volume[1])>-38)
         from agent.branding import outro_frames
         intentional_outro=outro_frames(30,branding)/30
-        silences=[max(0,float(length)-(intentional_outro if float(end)>=duration-.15 else 0))
+        silences=[max(0,float(length)-(intentional_outro if float(end)>=duration-.15 else 0)-max(0,min(float(end),lead)-max(0,float(end)-float(length))))
                   for end,length in re.findall(r'silence_end:\s*([\d.]+)\s*\|\s*silence_duration:\s*([\d.]+)',scan)]
         check('no_long_silence',all(x<=2 for x in silences) and sum(silences)<=duration*.12)
         check('no_black_intervals','black_start:' not in scan)

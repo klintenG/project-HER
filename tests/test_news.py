@@ -373,7 +373,7 @@ class NewsTests(unittest.TestCase):
             return run_news(ACCOUNT,source_policy='supplied',renderer=renderer,voice=voice,llm=FixtureLLM(),
                 image_generator=FixtureImages(),processor=CutoutProcessor(backend='none'),tts_engine=FixtureTTS(),
                 tts_provider='edge_tts',output_dir=self.root/renderer)
-        with patch('agent.news_renderer.render_remotion',side_effect=fake_render),patch('agent.news_compositor.render_moviepy',side_effect=fake_render):
+        with patch('agent.news_renderer.render_remotion',side_effect=fake_render),patch('agent.news_compositor.render_moviepy',side_effect=fake_render),patch('agent.story_opening.add_opening',side_effect=lambda result,*args:result):
             with ThreadPoolExecutor(max_workers=2) as executor:
                 results=list(executor.map(lambda args:job(*args), [('moviepy','aria'),('remotion','guy')]))
         for result in results: self.assertTrue(result.success,result.errors)

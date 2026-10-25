@@ -17,6 +17,7 @@ Phase 7 enhancements:
 """
 
 from __future__ import annotations
+from agent.story_opening import with_story_opening
 
 import json
 import logging
@@ -104,6 +105,7 @@ class AgentOrchestrator:
             self._visual_finder = VisualFinder(api_key=self._pexels_api_key)
         return self._visual_finder
 
+    @with_story_opening
     def run(
         self,
         input_source: str,
@@ -458,6 +460,9 @@ class AgentOrchestrator:
 
             # ── Build Result ───────────────────────────────
             elapsed = time.time() - start_time
+            (output_dir / 'opening-assets.json').write_text(json.dumps([
+                {'path':str(Path(image.local_path).resolve()),'subject':getattr(image,'query','') or getattr(image,'prompt',''),'role':'object'}
+                for image in images if Path(image.local_path).is_file()],default=str))
             result.success = True
             result.video_path = compose_result["video_path"]
             result.srt_path = compose_result.get("srt_path")
@@ -1101,6 +1106,9 @@ class AgentOrchestrator:
 
             # ── Build Result ───────────────────────────────
             elapsed = time.time() - start_time
+            (output_dir / 'opening-assets.json').write_text(json.dumps([
+                {'path':str(Path(image.local_path).resolve()),'subject':getattr(image,'query','') or getattr(image,'prompt',''),'role':'object'}
+                for image in images if Path(image.local_path).is_file()],default=str))
             result.success = True
             result.video_path = compose_result["video_path"]
             result.srt_path = compose_result.get("srt_path")

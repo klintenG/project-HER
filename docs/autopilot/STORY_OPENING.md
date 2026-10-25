@@ -1,0 +1,15 @@
+# Two-second story opening
+
+Every successful export through `AgentOrchestrator.run`, `run_editorial`, or `run_news` receives a two-second opening before its original narration. The local studio, deployed web service, portfolio generation and autonomous Cloud Run worker share these routes. Deploy the same current source image to web and worker to activate it remotely. No environment toggle is required. Previously generated/queued MP4 files are not rewritten automatically.
+
+The opening uses a short approved title and one existing story cutout. Autonomous videos prefer their approved `hook_text`. Manual editorial/News script prompts request a specific, accurate 3–8-word title in the existing summary field. Longer legacy titles receive a bounded wording-only fallback rather than a fabricated promise. Candidate images are ranked by title relevance, with portraits/objects preferred; exact maps, documents and geometric symbols are excluded. Existing opaque images can be segmented using the established cutout processor. Missing/unusable cutouts fail explicitly rather than rendering an unrelated asset.
+
+The layout retains the editorial paper palette, Poppins typography and ProjectHER branding, with a large readable title and a single prominent subject. A brief fade leads into/out of the two-second hold. The narration is silent during the opening and the original video—including its synchronized visual events, captions, watermark and outro—follows intact. It adds two seconds to the exported duration. SRT/VTT cues shift by exactly two seconds. Canonical story manifests retain narration-relative timing; `opening.json` records the delivery offset, selected asset, title, poster and exported-video checksum.
+
+The opening is applied once across nested pipeline calls. A checksum prevents accidental double-prepending to an already finalized file. The exported opening becomes the local thumbnail/history poster. Buffer's 1,500-ms Instagram thumbnail selector captures the same card from the delivered MP4; thumbnail extraction never overlays or re-encodes the story. YouTube cover selection remains subject to platform support.
+
+This implementation reuses generated assets and buys no new images. Final delivery requires one extra local FFmpeg encoding pass; the former autonomous cover overlay pass has been removed. Encoding respects cancellation and preserves the original MP4 if the pass fails. Autopilot quality checks account for the deliberate two-second opening when evaluating duration, leading silence and ending completeness.
+
+Validation covers actual media duration, narration starting at two seconds, SRT/VTT offsets, normal story visuals after the card, idempotence, matching cover frames and extraction without modifying the video. The complete offline suite and TypeScript checks were run. A cached-asset visual preview is available at `output/opening-preview/osiris-opening.png`.
+
+Deployment is intentionally left to the user. Restart the local Flask process before generating a fresh video.

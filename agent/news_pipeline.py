@@ -1,5 +1,6 @@
 """Integrated additive News orchestration; no daily publication or global mutation."""
 from __future__ import annotations
+from agent.story_opening import with_story_opening
 from agent.branding import output_frames
 import math
 import logging
@@ -29,6 +30,7 @@ def preview_news(text,source_policy='auto',tone='informative',language='english'
     return {'status':'ready','content_mode':'news','input':inp.model_dump(),'evidence':evidence.model_dump(),'script':script.model_dump(),'warnings':warnings}
 
 
+@with_story_opening
 def run_news(text,*,output_dir=None,source_policy='auto',tone='informative',language='english',target_duration=0,video_format='vertical',renderer='remotion',voice=None,tts_provider=None,speed='+0%',quality='high',brand_text='',progress_callback=None,cancel_event=None,music=None,music_path=None,llm=None,image_generator=None,processor=None,tts_engine=None,visual_preset="news_editorial_cutout",subtitle_mode="editorial",asset_mode="auto",local_assets=None):
     from agent.orchestrator import PipelineResult
     if visual_preset == "reference_editorial":

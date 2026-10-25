@@ -1,5 +1,6 @@
 """Reference editorial preset through the existing News script/TTS routes."""
 from __future__ import annotations
+from agent.story_opening import with_story_opening
 from agent.branding import output_frames
 import json
 import time
@@ -22,6 +23,7 @@ def check_configuration(renderer,video_format,subtitle_mode,asset_mode):
     if asset_mode not in ('auto','stock','ai','local'):raise NewsError('Editorial assets must be auto, stock, ai, or local.')
 
 
+@with_story_opening
 def run_editorial(text,*,output_dir=None,source_policy='auto',tone='informative',language='english',target_duration=0,video_format='vertical',renderer='remotion',voice=None,tts_provider=None,speed='+0%',quality='high',brand_text='',progress_callback=None,cancel_event=None,music=None,music_path=None,llm=None,image_generator=None,processor=None,tts_engine=None,subtitle_mode='editorial',asset_mode='auto',local_assets=None,autopilot_hook='',autopilot_scene_validator=None,autopilot_story_id=''):
     from agent.orchestrator import PipelineResult
     from agent.news_script import NewsLLM,write_script
