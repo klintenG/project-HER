@@ -177,6 +177,27 @@ class EditorialVisualTests(unittest.TestCase):
         self.assertEqual(len(calls),2)
         self.assertEqual(self.generator.subject.call_count,2)
 
+    def test_contextual_place_prompt_allows_a_compact_landscape_and_keeps_its_name(self):
+        script=story();script.entities[0]=Entity(id='egypt',name='Egypt',kind='place',identity='generic',
+            description='An ancient desert kingdom landscape featuring sandstone monuments')
+        _,assets=acquire(script,self.root/'egypt',image_generator=self.generator,visual_review=self.review)
+        prompt=self.generator.subject.call_args.args[0]
+        self.assertIn('representing Egypt',prompt)
+        self.assertIn('interior may contain landscape',prompt)
+        self.assertNotIn('no environmental setting or landscape',prompt)
+        self.assertNotIn('no floor, no scenery, no environment',prompt)
+        self.assertEqual(assets[0].role,'context')
+        self.assertFalse(assets[0].factual)
+        self.assertIn('Representative contextual location vignette',self.review.call_args.args[1]['depictionPolicy'])
+
+    def test_wrong_region_is_still_rejected_with_the_review_reason(self):
+        script=story();script.entities[0]=Entity(id='egypt',name='Egypt',kind='place',identity='generic',description='Ancient Egypt landscape')
+        self.review.return_value={**self.review.return_value,'subjectMatch':False,'subjectConfidence':.1,
+            'problems':['Architecture belongs to another period and region']}
+        with self.assertRaisesRegex(NewsError,'another period and region'):
+            acquire(script,self.root/'wrong-egypt',image_generator=self.generator,visual_review=self.review)
+        self.assertEqual(self.generator.subject.call_count,config.NEWS_ASSET_RETRIES)
+
     def test_real_person_without_any_reference_does_not_claim_a_verified_ai_face(self):
         self.people.resolve.return_value={'kind':'real','sources':['https://public.example/biography'],'references':[]}
         _,assets=self.assets()

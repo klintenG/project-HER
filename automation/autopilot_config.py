@@ -23,9 +23,9 @@ class Settings(BaseModel):
     min_video_seconds: int = Field(default=45, ge=15, le=180)
     max_video_seconds: int = Field(default=75, ge=15, le=180)
     llm_model: str = ''
-    max_llm_calls: int = Field(default=8, ge=4, le=20)
+    max_llm_calls: int = Field(default=12, ge=4, le=24)
     max_candidate_batches: int = Field(default=2, ge=1, le=3)
-    max_script_revisions: int = Field(default=1, ge=0, le=2)
+    max_script_revisions: int = Field(default=2, ge=0, le=4)
     max_output_tokens: int = Field(default=3000, ge=500, le=6000)
     model_timeout: int = Field(default=120, ge=15, le=300)
     max_input_chars: int = Field(default=48000, ge=2000, le=100000)
