@@ -67,6 +67,16 @@ resource "google_storage_bucket_iam_member" "archive" {
   role = each.value
   member = "serviceAccount:${google_service_account.worker.email}"
 }
+locals {
+  job_env = merge(var.runtime_env, {
+    GOOGLE_CLOUD_PROJECT = var.project,
+    HER_PORTFOLIO_BUCKET = var.private_bucket,
+    AUTOPILOT_PUBLIC_BUCKET = var.public_bucket,
+    AUTOPILOT_ENABLED = tostring(var.autopilot_enabled),
+    BUFFER_DRY_RUN = tostring(var.buffer_dry_run),
+    AUTOPILOT_LIVE_VALIDATED = tostring(var.live_publishing_validated)
+  })
+}
 resource "google_cloud_run_v2_job" "autopilot" {
   name = "her-autopilot"
   location = var.region
@@ -84,14 +94,7 @@ resource "google_cloud_run_v2_job" "autopilot" {
         args = ["-m", "automation.autopilot_worker", "verify"]
         resources { limits = { cpu = "4", memory = "8Gi" } }
         dynamic "env" {
-          for_each = merge(var.runtime_env, {
-            GOOGLE_CLOUD_PROJECT = var.project,
-            HER_PORTFOLIO_BUCKET = var.private_bucket,
-            AUTOPILOT_PUBLIC_BUCKET = var.public_bucket,
-            AUTOPILOT_ENABLED = tostring(var.autopilot_enabled),
-            BUFFER_DRY_RUN = tostring(var.buffer_dry_run),
-            AUTOPILOT_LIVE_VALIDATED = tostring(var.live_publishing_validated)
-          })
+          for_each = local.job_env
           content { name = env.key
             value = env.value
           }
@@ -109,6 +112,52 @@ resource "google_cloud_run_v2_job" "autopilot" {
     }
   }
 }
+# Buffer/Firestore-only steps (schedule, verify, retry) never render or hash video.
+# Running them on a 1 vCPU / 2 GiB job avoids ~60 one-minute-minimum starts a day on
+# the 4 vCPU / 8 GiB render job. Same image, service account, env and secrets.
+resource "google_cloud_run_v2_job" "autopilot_light" {
+  name = "her-autopilot-light"
+  location = var.region
+  deletion_protection = true
+  template {
+    task_count = 1
+    parallelism = 1
+    template {
+      service_account = google_service_account.worker.email
+      max_retries = 0
+      timeout = "900s"
+      containers {
+        image = var.image
+        command = ["python"]
+        args = ["-m", "automation.autopilot_worker", "verify"]
+        resources { limits = { cpu = "1", memory = "2Gi" } }
+        dynamic "env" {
+          for_each = local.job_env
+          content { name = env.key
+            value = env.value
+          }
+        }
+        dynamic "env" {
+          for_each = var.secrets
+          content {
+            name = env.key
+            value_source { secret_key_ref { secret = env.value
+              version = "latest"
+            } }
+          }
+        }
+      }
+    }
+  }
+}
+resource "google_cloud_run_v2_job_iam_member" "invoke_light" {
+  for_each = toset([google_service_account.scheduler.email, var.web_service_account])
+  project = var.project
+  location = var.region
+  name = google_cloud_run_v2_job.autopilot_light.name
+  role = "roles/run.jobsExecutorWithOverrides"
+  member = "serviceAccount:${each.value}"
+}
 resource "google_cloud_run_v2_job_iam_member" "invoke" {
   for_each = toset([google_service_account.scheduler.email, var.web_service_account])
   project = var.project
@@ -125,6 +174,14 @@ locals {
     verify = "*/10 18-23 * * *"
     retry = "5,15,25,35,45,55 18 * * *"
   }
+  # generate renders video and prepare hashes/uploads MP4s: keep those on the 4 vCPU job.
+  step_job = {
+    generate = google_cloud_run_v2_job.autopilot.id
+    prepare = google_cloud_run_v2_job.autopilot.id
+    schedule = google_cloud_run_v2_job.autopilot_light.id
+    verify = google_cloud_run_v2_job.autopilot_light.id
+    retry = google_cloud_run_v2_job.autopilot_light.id
+  }
 }
 resource "google_cloud_scheduler_job" "step" {
   for_each = local.schedules
@@ -140,7 +197,7 @@ resource "google_cloud_scheduler_job" "step" {
   }
   http_target {
     http_method = "POST"
-    uri = "https://run.googleapis.com/v2/${google_cloud_run_v2_job.autopilot.id}:run"
+    uri = "https://run.googleapis.com/v2/${local.step_job[each.key]}:run"
     headers = { "Content-Type" = "application/json" }
     body = base64encode(jsonencode({ overrides = { containerOverrides = [{ args = ["-m", "automation.autopilot_worker", each.key] }] } }))
     oauth_token { service_account_email = google_service_account.scheduler.email

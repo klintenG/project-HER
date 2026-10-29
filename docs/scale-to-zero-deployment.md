@@ -49,17 +49,19 @@ the service's env/secret bindings, and grants the service account
 
 ## Autopilot (Buffer) scheduling
 
-Keep `her-autopilot` at 4 vCPU / 8 GiB, but stop starting it every 10 minutes.
-Each Job execution bills at least one minute plus a multi-GB image start.
+`deploy/autopilot/main.tf` started the 4 vCPU / 8 GiB `her-autopilot` job **68 times a day**
+(generate 4, prepare 4, schedule 18, verify 36, retry 6); every start bills at least one minute.
+`schedule`, `verify` and `retry` only call Buffer and Firestore, so they now run on a new
+`her-autopilot-light` job (1 vCPU / 2 GiB, 15 min timeout, same image/service account/env/secrets).
+`generate` and `prepare` render, hash and upload video, so they stay on the heavy job.
 
-| Time (IST) | Job | Action |
-|---|---|---|
-| 09:00 | `her-autopilot` (4/8) | generate + prepare (or `pipeline`, if it chains them) |
-| 16:45 | `her-autopilot-light` (1 vCPU / 2 GiB) | schedule (Buffer posts at 18:30) |
-| 17:30 | `her-autopilot-light` | retry |
-| 21:00 | `her-autopilot-light` | verify |
-
-Make the change in the Terraform scheduler variables so it doesn't drift.
+* Schedule times, actions and publish-window logic are unchanged: this is a cost change only.
+* The existing `her-autopilot` Terraform address is untouched (it has `deletion_protection`),
+  so `terraform plan` should show only additions: the light job, its IAM members, and changed
+  scheduler URIs. There must be **no destroy/replace** of `her-autopilot`.
+* `deploy_native_portfolio.py` updates the image of both jobs.
+* Optional further saving (a behaviour decision, not done here): verify every 10 min from 18:00 to
+  23:59 is 36 starts; hourly after ~20:00 would cut most of them.
 
 ## Validate
 

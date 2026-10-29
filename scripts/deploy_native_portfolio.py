@@ -158,10 +158,13 @@ def main():
             deploy_worker_job(account,backup.parent,args)
         else:
             run(['run','services','update',SERVICE,'--region='+REGION,'--remove-env-vars=HER_PORTFOLIO_WORKER_JOB,HER_PORTFOLIO_WORKER_REGION'],allow_failure=True)
-    if not run(['run','jobs','describe','her-autopilot','--region='+REGION],allow_failure=True).returncode:
-        updated=json.loads(run(['run','services','describe',SERVICE,'--region='+REGION,'--format=json']).stdout)
+    # Keep every Autopilot job (render job + small Buffer-only job) on the deployed image.
+    updated=None
+    for autopilot_job in ('her-autopilot','her-autopilot-light'):
+        if run(['run','jobs','describe',autopilot_job,'--region='+REGION],allow_failure=True).returncode:continue
+        if updated is None:updated=json.loads(run(['run','services','describe',SERVICE,'--region='+REGION,'--format=json']).stdout)
         deployed_image=updated['spec']['template']['spec']['containers'][0]['image']
-        run(['run','jobs','update','her-autopilot','--region='+REGION,'--image='+deployed_image,'--update-env-vars='+env])
+        run(['run','jobs','update',autopilot_job,'--region='+REGION,'--image='+deployed_image,'--update-env-vars='+env])
     print('Cloud Run deployment completed. Next: check /api/portfolio/config, run one explicitly allowed smoke generation, then publish the reviewed portfolio changes.')
 
 if __name__=='__main__':main()
