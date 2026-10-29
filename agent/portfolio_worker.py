@@ -71,7 +71,8 @@ def main(argv=None):
     if not re.fullmatch(r'[0-9a-f]{32}',jid):
         logger.error('A 32-character job id argument is required.');return 2
     from .portfolio_api import CreateJob,cleanup_cloud_job,configured_runtime,prepare_worker_environment
-    prepare_worker_environment(jid)
+    # Open the store before prepare_worker_environment() moves config.TEMP_DIR:
+    # a local SQLite store lives under it and must resolve like the web process.
     rt=configured_runtime()
     owner=os.getenv('CLOUD_RUN_EXECUTION') or f'local-{os.getpid()}'
     state,request=rt.claim(jid,owner)
@@ -82,6 +83,7 @@ def main(argv=None):
     try:data=CreateJob.model_validate(request)
     except Exception:
         rt.update(jid,status='failed',error='The stored request is invalid. No paid work was submitted.');rt.release(jid);return 0
+    prepare_worker_environment(jid)
     job=rt.store.get('job:'+jid)
     stop=threading.Event()
     guard=threading.Thread(target=watchdog,args=(rt,jid,job['deadline'],stop),daemon=True);guard.start()

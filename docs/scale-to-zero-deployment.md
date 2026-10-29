@@ -63,6 +63,24 @@ the service's env/secret bindings, and grants the service account
 * Optional further saving (a behaviour decision, not done here): verify every 10 min from 18:00 to
   23:59 is 36 starts; hourly after ~20:00 would cut most of them.
 
+## Local rehearsal (no Google Cloud)
+
+`HER_PORTFOLIO_LOCAL_WORKER=1` makes the local server dispatch each job to the real
+`agent.portfolio_worker` as a separate process, sharing the SQLite store. It exercises
+dispatch, the transactional claim, heartbeats and slot release. Providers are real,
+so a generation spends provider credits; Google Cloud is not used.
+
+```sh
+export HER_PORTFOLIO_ENABLED=1 HER_PORTFOLIO_LOCAL_WORKER=1 PORT=8765
+export HER_PORTFOLIO_SIGNING_KEY=$(python3 -c "import secrets;print(secrets.token_urlsafe(48))")
+export HER_PORTFOLIO_LOCAL_DIR=$PWD/temp/rehearsal HER_PORTFOLIO_DAILY_LIMIT=5 HER_PORTFOLIO_VISITOR_LIMIT=5
+python web_ui.py
+# in another shell; Origin must be an allowed local origin (http://localhost:8766):
+curl -s -X POST localhost:8765/api/portfolio/jobs -H 'Origin: http://localhost:8766' \
+  -H 'Content-Type: application/json' -H 'Idempotency-Key: local-rehearsal-key-0001' \
+  -d '{"text":"A fictional red cup stands on a table."}'
+```
+
 ## Validate
 
 1. `curl -s -H 'Origin: https://klinteng.com' $SERVICE/api/portfolio/config` → `"enabled": true`. The first call after idle is a cold start.

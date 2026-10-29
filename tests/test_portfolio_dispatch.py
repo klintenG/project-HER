@@ -117,5 +117,28 @@ class DispatchTests(unittest.TestCase):
                 rt=configured_runtime();self.assertIsNone(rt.dispatcher)
                 stores['FirestoreStore'].assert_called_with('proj')  # Job uses durable stores, not SQLite
 
+    def test_local_worker_mode_spawns_real_worker_process_and_shares_store(self):
+        env={'HER_PORTFOLIO_SIGNING_KEY':'s'*48,'HER_PORTFOLIO_LOCAL_WORKER':'1','HER_PORTFOLIO_LOCAL_DIR':str(self.root/'local')}
+        with patch.dict('os.environ',env,clear=True):
+            rt=configured_runtime();self.assertIsNotNone(rt.dispatcher)
+            with patch('subprocess.Popen') as popen:
+                popen.return_value.pid=4242
+                self.assertEqual(rt.dispatcher('a'*32),'local-process-4242')
+                args=popen.call_args.args[0];self.assertEqual(args[1:3],['-m','agent.portfolio_worker']);self.assertEqual(args[3],'a'*32)
+            with patch('subprocess.Popen',side_effect=OSError('no exec')),self.assertRaises(ValueError):rt.dispatcher('a'*32)
+            with self.assertRaises(ValueError):rt.dispatcher('../x')
+        with patch.dict('os.environ',{k:v for k,v in env.items() if k!='HER_PORTFOLIO_LOCAL_WORKER'},clear=True):
+            self.assertIsNone(configured_runtime().dispatcher)
+
+    def test_worker_opens_store_before_redirecting_scratch_dir(self):
+        # A local SQLite store lives under config.TEMP_DIR; the worker must resolve it like the web process.
+        order=[]
+        jid=self.create().json['job_id']
+        with patch('agent.portfolio_api.configured_runtime',side_effect=lambda:order.append('store') or self.rt),\
+             patch('agent.portfolio_api.prepare_worker_environment',side_effect=lambda j:order.append('scratch')),\
+             patch('agent.portfolio_api.cleanup_cloud_job'),patch.object(self.rt,'execute'):
+            portfolio_worker.main([jid])
+        self.assertEqual(order,['store','scratch'])
+
 
 if __name__=='__main__':unittest.main()

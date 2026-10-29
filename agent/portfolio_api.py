@@ -483,6 +483,22 @@ def cloud_job_dispatcher(project,region,job):
     return dispatch
 
 
+def local_worker_dispatcher():
+    """Development rehearsal of the Cloud Run Job path (HER_PORTFOLIO_LOCAL_WORKER=1).
+
+    Spawns the real worker module as a separate local process. Providers are
+    real, so a generation still spends provider credits; only Google Cloud is skipped.
+    """
+    def dispatch(jid):
+        if not re.fullmatch(r'[0-9a-f]{32}',jid):raise ValueError('Invalid native job identifier')
+        import subprocess
+        import sys
+        try:process=subprocess.Popen([sys.executable,'-m','agent.portfolio_worker',jid],cwd=str(config.BASE_DIR),start_new_session=True)
+        except OSError as exc:raise ValueError('local worker could not start') from exc
+        return f'local-process-{process.pid}'
+    return dispatch
+
+
 def configured_runtime():
     cloud=on_cloud_run()
     dispatcher=None
@@ -507,6 +523,7 @@ def configured_runtime():
     else:
         root=Path(os.getenv('HER_PORTFOLIO_LOCAL_DIR',str(config.TEMP_DIR/'portfolio')))
         store=SQLiteStore(root/'jobs.sqlite3');media=LocalMedia(root/'media')
+        if env_enabled('HER_PORTFOLIO_LOCAL_WORKER'):dispatcher=local_worker_dispatcher()
     return Runtime(store,media,secret,enabled=env_enabled('HER_PORTFOLIO_ENABLED'),daily=int(os.getenv('HER_PORTFOLIO_DAILY_LIMIT','10')),
         visitor=int(os.getenv('HER_PORTFOLIO_VISITOR_LIMIT','2')),concurrent=int(os.getenv('HER_PORTFOLIO_CONCURRENCY','1')),
         dispatcher=dispatcher,start_grace=int(os.getenv('HER_PORTFOLIO_START_GRACE','900')))
