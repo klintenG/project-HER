@@ -114,13 +114,26 @@ class DurableCancel(threading.Event):
         return self.is_set()
 
 
+def on_cloud_run():
+    """True in a Cloud Run service (K_SERVICE) or a Cloud Run Job (CLOUD_RUN_JOB)."""
+    return bool(os.getenv('K_SERVICE') or os.getenv('CLOUD_RUN_JOB'))
+
+
+# Errors where Cloud Run definitely rejected the run request, so no execution
+# (and no paid provider work) can exist. Anything else is treated as ambiguous.
+DEFINITE_DISPATCH_FAILURES={'PermissionDenied','NotFound','InvalidArgument','FailedPrecondition','Unauthenticated','Unauthorized','BadRequest','Forbidden','ValueError','TypeError','ImportError','ModuleNotFoundError'}
+
+
 class Runtime:
-    def __init__(self,store,media,secret,*,enabled=True,daily=10,visitor=2,concurrent=1,timeout=2700,executor=None):
+    def __init__(self,store,media,secret,*,enabled=True,daily=10,visitor=2,concurrent=1,timeout=2700,executor=None,dispatcher=None,start_grace=900):
         if len(secret)<32:raise ValueError('Portfolio signing key must contain at least 32 characters.')
         self.store=store;self.media=media;self.secret=secret;self.enabled=enabled
         self.daily=daily;self.visitor=visitor;self.concurrent=concurrent;self.timeout=timeout
         self.tickets=URLSafeTimedSerializer(secret,salt='her-media-v1')
-        self.executor=executor or (self.execute_cloud if os.getenv('K_SERVICE') else self.execute_local)
+        # dispatcher(job_id) -> execution name. When set, renders run in a
+        # separate Cloud Run Job and this web instance can scale to zero.
+        self.dispatcher=dispatcher;self.start_grace=start_grace
+        self.executor=executor or (self.execute_cloud if on_cloud_run() else self.execute_local)
     def digest(self,value):return hmac.new(self.secret.encode(),value.encode(),hashlib.sha256).hexdigest()
     def capability(self,jid):return self.digest('job-access:'+jid)
     def update(self,jid,**fields):
@@ -229,6 +242,57 @@ class Runtime:
             if process.is_alive():terminate_worker(process)
             try:cleanup_cloud_job(jid)
             finally:self.release(jid)
+    def dispatch(self,jid,data):
+        """Start one Cloud Run Job execution for an admitted job.
+
+        Runs synchronously inside the submission request so it works with
+        request-based CPU. The request payload is stored privately (TTL'd with
+        the job) because 6000 characters do not belong in execution args. The
+        worker's transactional claim makes a duplicate execution harmless.
+        """
+        now=time.time()
+        def prepare(tx):
+            job=tx.get('job:'+jid)
+            if not job or job['status'] in TERMINAL or job.get('dispatch'):return False
+            slots=tx.get('active') or {'jobs':{}}
+            # Hold the concurrency slot through the worker's cold start.
+            slots['jobs'][jid]=min(job['deadline'],now+self.start_grace);slots['expires_at']=now+7*86400
+            job.update(dispatch='requested',heartbeat_at=now,updated_at=now)
+            tx.set('payload:'+jid,{'request':data.model_dump(),'expires_at':job['expires_at']})
+            tx.set('job:'+jid,job);tx.set('active',slots)
+            return True
+        if not self.store.atomic(prepare):return
+        try:execution=self.dispatcher(jid)
+        except Exception as exc:
+            if type(exc).__name__ in DEFINITE_DISPATCH_FAILURES:
+                logger.error('Portfolio dispatch rejected job=%s type=%s',jid,type(exc).__name__)
+                self.update(jid,status='failed',dispatch='rejected',error='The rendering worker could not start. No model work was submitted.')
+                self.release(jid)
+            else:
+                # The execution may exist. Never re-dispatch blindly: a live
+                # worker will claim it; otherwise start-grace staleness fails it.
+                logger.warning('Portfolio dispatch outcome unknown job=%s type=%s',jid,type(exc).__name__)
+                self.update(jid,dispatch='unknown')
+            return
+        self.update(jid,dispatch='dispatched',execution=execution or '')
+    def claim(self,jid,owner):
+        """Worker-side transactional claim: ('claimed',request) | ('cancelled'|'expired'|'skip',None)."""
+        now=time.time()
+        def claim(tx):
+            job=tx.get('job:'+jid);payload=tx.get('payload:'+jid)
+            if not job or job['status']!='queued' or job.get('worker'):return 'skip',None
+            if not payload or 'request' not in payload:return 'skip',None
+            consumed={'consumed':True,'expires_at':payload['expires_at']}
+            if job.get('cancel_requested'):
+                job.update(status='cancelled',error='Generation cancelled.',updated_at=now)
+                tx.set('job:'+jid,job);tx.set('payload:'+jid,consumed);return 'cancelled',None
+            if now>job['deadline']:
+                job.update(status='failed',error='The rendering worker started after the generation deadline. No paid work was submitted.',updated_at=now)
+                tx.set('job:'+jid,job);tx.set('payload:'+jid,consumed);return 'expired',None
+            job.update(worker=owner,heartbeat_at=now,updated_at=now)
+            tx.set('job:'+jid,job);tx.set('payload:'+jid,consumed)
+            return 'claimed',payload['request']
+        return self.store.atomic(claim)
     def release(self,jid):
         def release(tx):
             active=tx.get('active') or {'jobs':{}}
@@ -238,7 +302,10 @@ class Runtime:
     def get_job(self,jid):
         job=self.store.get('job:'+jid)
         if not job or job['expires_at']<time.time():raise APIError('This job or its output has expired. Create another video.',410)
-        if job['status'] not in TERMINAL and (job['deadline']<time.time() or job.get('heartbeat_at',job['created_at'])<time.time()-120):
+        # A dispatched job may wait for a Cloud Run Job cold start (image pull,
+        # imports) before its first heartbeat; running workers beat every 15s.
+        stale=self.start_grace if job['status']=='queued' and job.get('dispatch') else 120
+        if job['status'] not in TERMINAL and (job['deadline']<time.time() or job.get('heartbeat_at',job['created_at'])<time.time()-stale):
             job=self.update(jid,status='failed',error='The worker stopped or the generation deadline expired. No automatic paid retry was made.')
             self.release(jid)
         return job
@@ -268,7 +335,7 @@ class Runtime:
         def progress(stage):
             nonlocal models_released
             self.diagnostic_events(jid,diagnostic_handler.drain())
-            if os.getenv('K_SERVICE') and stage.name=='compose' and stage.status=='running' and not models_released:
+            if on_cloud_run() and stage.name=='compose' and stage.status=='running' and not models_released:
                 release_cloud_models();models_released=True
             # Stage status comes from the real pipeline. No synthesized percent
             # or prompts, provider logs, private paths or transcript are exposed.
@@ -374,6 +441,12 @@ def cleanup_cloud_job(jid):
 def cloud_worker(jid,data):
     # Keep prompt/media caches private to the child. The supervising process
     # removes this workspace even after a hard timeout or cancellation.
+    prepare_worker_environment(jid)
+    configured_runtime().execute(jid,CreateJob.model_validate(data))
+
+
+def prepare_worker_environment(jid):
+    """Per-job scratch/caches and public-demo provider caps (child process or Job)."""
     config.TEMP_DIR=config.TEMP_DIR/'portfolio-work'/jid
     os.environ.setdefault('HER_REMOTION_CONCURRENCY','3')
     os.environ.setdefault('OMP_NUM_THREADS','2')
@@ -389,11 +462,30 @@ def cloud_worker(jid,data):
     config.NARRATION_VISUAL_SETTINGS={**config.NARRATION_VISUAL_SETTINGS,'allowPhraseTimingFallback':False}
     config.NEWS_MAX_REAL_IMAGE_CALLS=min(config.NEWS_MAX_REAL_IMAGE_CALLS,4)
     config.EDITORIAL_MAX_SUPPORT_CALLS=min(config.EDITORIAL_MAX_SUPPORT_CALLS,24)
-    configured_runtime().execute(jid,CreateJob.model_validate(data))
+
+
+def cloud_job_dispatcher(project,region,job):
+    """Return dispatcher(job_id) that starts one execution of the worker Job."""
+    name=job if job.startswith('projects/') else f'projects/{project}/locations/{region}/jobs/{job}'
+    state={'client':None};lock=threading.Lock()
+    def dispatch(jid):
+        if not re.fullmatch(r'[0-9a-f]{32}',jid):raise ValueError('Invalid native job identifier')
+        from google.cloud import run_v2
+        with lock:
+            if state['client'] is None:state['client']=run_v2.JobsClient()
+        overrides=run_v2.RunJobRequest.Overrides(container_overrides=[
+            run_v2.RunJobRequest.Overrides.ContainerOverride(args=['-m','agent.portfolio_worker',jid])])
+        # No client retry: a retried RunJob could start a second execution.
+        # (The worker claim would make it a no-op, but avoid paying its start.)
+        operation=state['client'].run_job(request=run_v2.RunJobRequest(name=name,overrides=overrides),retry=None,timeout=30)
+        try:return operation.metadata.name
+        except Exception:return ''
+    return dispatch
 
 
 def configured_runtime():
-    cloud=bool(os.getenv('K_SERVICE'))
+    cloud=on_cloud_run()
+    dispatcher=None
     secret=os.getenv('HER_PORTFOLIO_SIGNING_KEY','')
     if len(secret)<32:raise APIError('Native generation is unavailable until secure job access is configured.',503)
     if cloud:
@@ -408,11 +500,16 @@ def configured_runtime():
         if importlib.util.find_spec('faster_whisper') is None or not any(cache.glob('snapshots/*/model.bin')):
             raise APIError('Public generation is unavailable until the exact speech-alignment model is installed in the backend image.',503)
         store=FirestoreStore(project);media=GCSMedia(bucket,project)
+        worker_job=os.getenv('HER_PORTFOLIO_WORKER_JOB','').strip()
+        # Only the web service dispatches; the worker Job itself never does.
+        if worker_job and os.getenv('K_SERVICE') and not os.getenv('CLOUD_RUN_JOB'):
+            dispatcher=cloud_job_dispatcher(project,os.getenv('HER_PORTFOLIO_WORKER_REGION','us-central1'),worker_job)
     else:
         root=Path(os.getenv('HER_PORTFOLIO_LOCAL_DIR',str(config.TEMP_DIR/'portfolio')))
         store=SQLiteStore(root/'jobs.sqlite3');media=LocalMedia(root/'media')
     return Runtime(store,media,secret,enabled=env_enabled('HER_PORTFOLIO_ENABLED'),daily=int(os.getenv('HER_PORTFOLIO_DAILY_LIMIT','10')),
-        visitor=int(os.getenv('HER_PORTFOLIO_VISITOR_LIMIT','2')),concurrent=int(os.getenv('HER_PORTFOLIO_CONCURRENCY','1')))
+        visitor=int(os.getenv('HER_PORTFOLIO_VISITOR_LIMIT','2')),concurrent=int(os.getenv('HER_PORTFOLIO_CONCURRENCY','1')),
+        dispatcher=dispatcher,start_grace=int(os.getenv('HER_PORTFOLIO_START_GRACE','900')))
 
 
 def install(app):
@@ -487,7 +584,10 @@ def install(app):
                 try:public_url(url.rstrip('.,)'))
                 except NewsError:raise APIError('Article links must resolve only to public HTTP(S) addresses on standard ports.',422)
         rt=runtime();job,fresh=rt.reserve(data,identity(),key)
-        if fresh:
+        if fresh and rt.dispatcher:
+            # Synchronous: with request-based CPU nothing may run after the response.
+            rt.dispatch(job['job_id'],data);job=rt.store.get('job:'+job['job_id']) or job
+        elif fresh:
             try:threading.Thread(target=rt.executor,args=(job['job_id'],data),daemon=True).start()
             except Exception:
                 rt.update(job['job_id'],status='failed',error='The worker could not start. No model work was submitted.');rt.release(job['job_id']);raise

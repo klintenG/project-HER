@@ -2,3 +2,5 @@
 google-cloud-firestore>=2.19,<3
 google-cloud-storage>=3.1,<4
 psutil>=6,<8
+# Web service dispatches each public render to a Cloud Run Job execution.
+google-cloud-run>=0.10,<1

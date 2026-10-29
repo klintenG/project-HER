@@ -30,7 +30,7 @@ def new_record(job):
             'status':'queued','events':[],'dropped_events':0,'stage_seconds':{},
             'revision':identifier(os.getenv('K_REVISION','local')),
             'configuration':{key:os.getenv(key,default) for key,default in (
-                ('HER_REMOTION_CONCURRENCY','1' if os.getenv('K_SERVICE') else '2'),
+                ('HER_REMOTION_CONCURRENCY','1' if (os.getenv('K_SERVICE') or os.getenv('CLOUD_RUN_JOB')) else '2'),
                 ('EDITORIAL_ASSET_WORKERS','2'),('HER_INFERENCE_THREADS','2'),
                 ('HER_ALIGNMENT_MODEL','small'))}}
 
@@ -98,7 +98,7 @@ class ProviderEvents(logging.Handler):
 
     def emit(self,record):
         import threading
-        if record.thread!=self.owner and not (os.getenv('K_SERVICE') and threading.current_thread().name.startswith('editorial-assets')):return
+        if record.thread!=self.owner and not ((os.getenv('K_SERVICE') or os.getenv('CLOUD_RUN_JOB')) and threading.current_thread().name.startswith('editorial-assets')):return
         if not record.name.startswith(('agent.','utils.llm_client')) or record.name==__name__:return
         try:
             message=record.getMessage()
