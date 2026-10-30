@@ -125,7 +125,7 @@ DEFINITE_DISPATCH_FAILURES={'PermissionDenied','NotFound','InvalidArgument','Fai
 
 
 class Runtime:
-    def __init__(self,store,media,secret,*,enabled=True,daily=10,visitor=2,concurrent=1,timeout=2700,executor=None,dispatcher=None,start_grace=900):
+    def __init__(self,store,media,secret,*,enabled=True,daily=10,visitor=2,concurrent=1,timeout=2700,executor=None,dispatcher=None,start_grace=900,budget=None):
         if len(secret)<32:raise ValueError('Portfolio signing key must contain at least 32 characters.')
         self.store=store;self.media=media;self.secret=secret;self.enabled=enabled
         self.daily=daily;self.visitor=visitor;self.concurrent=concurrent;self.timeout=timeout
@@ -133,6 +133,8 @@ class Runtime:
         # dispatcher(job_id) -> execution name. When set, renders run in a
         # separate Cloud Run Job and this web instance can scale to zero.
         self.dispatcher=dispatcher;self.start_grace=start_grace
+        # ComputeBudget (utils.compute_meter) or None. Visitors only get what Autopilot's daily video leaves.
+        self.budget=budget
         self.executor=executor or (self.execute_cloud if on_cloud_run() else self.execute_local)
     def digest(self,value):return hmac.new(self.secret.encode(),value.encode(),hashlib.sha256).hexdigest()
     def capability(self,jid):return self.digest('job-access:'+jid)
@@ -185,6 +187,9 @@ class Runtime:
                 raise APIError('This submission expired. Start a new submission.',410)
             slots['jobs']={j:d for j,d in slots['jobs'].items() if d>now}
             if len(slots['jobs'])>=self.concurrent:raise APIError('A video is already rendering. Please try again after it finishes.',429)
+            if self.budget and not policy.get('compute_budget_disabled'):
+                from utils.compute_meter import month_key
+                if not self.budget.admits_visitor(tx.get(month_key(now)),now)[0]:raise APIError('The studio has used this month\'s free rendering time. Previously generated examples remain available; please return next month.',429)
             if not policy.get('daily_limits_disabled') and quota['total']>=self.daily:raise APIError('The public daily generation budget has been reached. Please return tomorrow.',429)
             if not policy.get('daily_limits_disabled') and quota['visitors'].get(owner,0)>=self.visitor:raise APIError('Your daily generation limit has been reached. Please return tomorrow.',429)
             deadline=now+self.timeout
@@ -483,6 +488,11 @@ def cloud_job_dispatcher(project,region,job):
     return dispatch
 
 
+def compute_budget():
+    from utils import compute_meter
+    return compute_meter.ComputeBudget.from_env() if compute_meter.enabled() else None
+
+
 def local_worker_dispatcher():
     """Development rehearsal of the Cloud Run Job path (HER_PORTFOLIO_LOCAL_WORKER=1).
 
@@ -526,7 +536,7 @@ def configured_runtime():
         if env_enabled('HER_PORTFOLIO_LOCAL_WORKER'):dispatcher=local_worker_dispatcher()
     return Runtime(store,media,secret,enabled=env_enabled('HER_PORTFOLIO_ENABLED'),daily=int(os.getenv('HER_PORTFOLIO_DAILY_LIMIT','10')),
         visitor=int(os.getenv('HER_PORTFOLIO_VISITOR_LIMIT','2')),concurrent=int(os.getenv('HER_PORTFOLIO_CONCURRENCY','1')),
-        dispatcher=dispatcher,start_grace=int(os.getenv('HER_PORTFOLIO_START_GRACE','900')))
+        dispatcher=dispatcher,start_grace=int(os.getenv('HER_PORTFOLIO_START_GRACE','900')),budget=compute_budget())
 
 
 def install(app):
@@ -564,7 +574,12 @@ def install(app):
         rt.media.exists({'key':'health-check','size':0,'content_type':'application/octet-stream'})
         policy=rt.store.get('policy') or {}
         enabled=rt.enabled and min(rt.daily,rt.visitor,rt.concurrent)>0 and not policy.get('disabled') and not policy.get('maintenance')
-        return jsonify({'version':1,'enabled':enabled,'limits':{'input_characters':6000,'duration_seconds':90,'output_seconds':180,'daily_jobs':rt.daily,'visitor_daily_jobs':rt.visitor,'daily_limits_disabled':bool(policy.get('daily_limits_disabled')), 'concurrent_jobs':rt.concurrent,'output_hours':48},
+        compute_open=True
+        if rt.budget and not policy.get('compute_budget_disabled'):
+            from utils.compute_meter import month_key
+            compute_open=rt.budget.admits_visitor(rt.store.get(month_key(time.time())),time.time())[0]
+        enabled=enabled and compute_open
+        return jsonify({'version':1,'enabled':enabled,'compute_budget_open':compute_open,'limits':{'input_characters':6000,'duration_seconds':90,'output_seconds':180,'daily_jobs':rt.daily,'visitor_daily_jobs':rt.visitor,'daily_limits_disabled':bool(policy.get('daily_limits_disabled')), 'concurrent_jobs':rt.concurrent,'output_hours':48},
             'options':{'tone':list(config.TONE_PRESETS),'visual_style':list(config.VISUAL_STYLES),
                        'format':['vertical','horizontal','square'],'renderer':['remotion','moviepy'],
                        'tts_provider':['replicate','edge_tts','google_tts','elevenlabs','chatterbox_turbo']},

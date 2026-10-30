@@ -13,6 +13,7 @@ def main():
     parser.add_argument('--force',action='store_true')
     args=parser.parse_args()
     logging.basicConfig(level=logging.INFO)
+    started=time.monotonic()
     service=Autopilot();registry=service.registry
     row={}
     key='command:'+args.command_id if args.command_id else None
@@ -43,6 +44,8 @@ def main():
         raise
     finally:
         if key and token:registry.release('lock:'+key,token)
+        from utils.compute_meter import record_best_effort
+        record_best_effort('autopilot',started)
 
 
 if __name__=='__main__':main()

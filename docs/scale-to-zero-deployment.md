@@ -47,21 +47,77 @@ stay paused) creates/updates `her-portfolio-worker` from the same image, copies
 the service's env/secret bindings, and grants the service account
 `roles/run.jobsExecutorWithOverrides` on that Job only.
 
-## Autopilot (Buffer) scheduling
+## Free-tier budget: ~31 heavy minutes a day
 
-`deploy/autopilot/main.tf` started the 4 vCPU / 8 GiB `her-autopilot` job **68 times a day**
-(generate 4, prepare 4, schedule 18, verify 36, retry 6); every start bills at least one minute.
-`schedule`, `verify` and `retry` only call Buffer and Firestore, so they now run on a new
-`her-autopilot-light` job (1 vCPU / 2 GiB, 15 min timeout, same image/service account/env/secrets).
-`generate` and `prepare` render, hash and upload video, so they stay on the heavy job.
+Cloud Run's monthly free tier for Jobs is 240,000 vCPU-seconds and 450,000 GiB-seconds per
+billing account. On the 4 vCPU / 8 GiB render job memory runs out first:
+450,000 / 8 = 56,250 s = 937 minutes a month = **about 31 minutes a day**. A 1 vCPU / 2 GiB job
+counts a quarter as much per minute. Every start bills at least one minute.
 
-* Schedule times, actions and publish-window logic are unchanged: this is a cost change only.
-* The existing `her-autopilot` Terraform address is untouched (it has `deletion_protection`),
-  so `terraform plan` should show only additions: the light job, its IAM members, and changed
-  scheduler URIs. There must be **no destroy/replace** of `her-autopilot`.
-* `deploy_native_portfolio.py` updates the image of both jobs.
-* Optional further saving (a behaviour decision, not done here): verify every 10 min from 18:00 to
-  23:59 is 36 starts; hourly after ~20:00 would cut most of them.
+### What changed to fit
+| Change | Why |
+|---|---|
+| `autopilot_schedules` variable, lean defaults (see below) | The original schedule started the 4 vCPU job 68 times a day |
+| `prepare` runs on `her-autopilot-light` | It only re-uploads an already validated MP4 (recovery step); it never renders |
+| `render_timeout_seconds` = 3000 (was 7200) | A hung 2-hour render would burn about four days of free minutes |
+| Shared compute meter (`utils/compute_meter.py`) | Every Job execution adds its billed, weighted seconds to `compute:<YYYY-MM>` in Firestore |
+| Visitor admission uses the meter | A visitor render is admitted only if the pool still covers Autopilot's expected need for the rest of the month plus the render |
+| `scripts/compute_budget_report.py` | Reads real executions from Cloud Run and compares them with the free tier |
+
+Default schedule (IST, set `autopilot_schedules` in tfvars to change):
+
+| Step | Cron | Starts/day | Job |
+|---|---|---|---|
+| generate | `0 9,13 * * *` | 2 | `her-autopilot` (4 vCPU / 8 GiB). Renders one story per run; exits cheaply with `queue_full` when stocked |
+| prepare | `10 10,14 * * *` | 2 | `her-autopilot-light` |
+| schedule | `0 16,17,18 * * *` | 3 | `her-autopilot-light` |
+| retry | `5,20,35,50 18 * * *` | 4 | `her-autopilot-light` (dense inside the 18:00-19:00 window; needs >= 5 min lead) |
+| verify | `10 19,21 * * *` | 2 | `her-autopilot-light` (`retry` already verifies first) |
+
+That is 13 starts/day (was 68). Start overhead is about 4 heavy-minutes/day, so the daily budget is
+roughly `render time + 4 minutes` against 31.
+
+### What fits (estimates; measure with the report script)
+| Median render | Autopilot per day | Left for visitors per month | Visitor videos per month (25 min each, conservative) |
+|---|---|---|---|
+| 10 min | ~14 min | ~520 min | ~20 |
+| 15 min | ~19 min | ~370 min | ~14 |
+| 20 min | ~24 min | ~220 min | ~8 |
+| 25 min | ~29 min | ~65 min | ~2 |
+| 27+ min | at or over budget | none | none: reduce render time or accept a small overage |
+
+The only measured render in the repo (docs/generation-performance-review.md) took 21 minutes on 2 CPU / 4 GiB.
+The 4 vCPU / 8 GiB time is **not measured yet**. Treat the table as a model until `compute_budget_report.py` shows real numbers.
+
+### Keep the ready queue small
+Steady state renders one video a day whatever the queue target is, but a target of 3 means three renders
+while the queue first fills. Set the Autopilot ready queue target to **2** (dashboard setting or
+`AUTOPILOT_READY_QUEUE_TARGET`): one day of cushion if a render fails, one extra render once.
+
+### Visitor admission (HER_COMPUTE_BUDGET=1)
+```
+headroom = pool(56,250) - used_this_month - days_left_in_month x 1,500   # Autopilot reserve
+admit a visitor render only if headroom >= 1,500 (assumed visitor render, in heavy-seconds)
+```
+Tunable: `HER_COMPUTE_POOL_SECONDS`, `HER_COMPUTE_AUTOPILOT_DAILY_SECONDS`, `HER_COMPUTE_VISITOR_JOB_SECONDS`
+(set it to the measured median render). When closed, `/api/portfolio/config` returns `enabled: false` and
+`compute_budget_open: false`, and new submissions get HTTP 429. Existing jobs and resubmissions are untouched.
+The month is the UTC calendar month; Google's billing month follows Pacific time, so expect a few hours of skew.
+Operator override: set `compute_budget_disabled: true` on the Firestore `her_portfolio/policy` document
+(you accept paid minutes, about $0.16 per render), or redeploy with `HER_COMPUTE_BUDGET=0`.
+
+### Check reality
+```sh
+python scripts/compute_budget_report.py --days 30     # read-only; needs gcloud access
+```
+It prints per-day pool usage, the median render duration (use it for `HER_COMPUTE_VISITOR_JOB_SECONDS`) and
+a verdict. The Cloud Billing report remains the source of truth.
+
+### Limits of this design
+* The meter is for admission control, not billing. It estimates startup time and cannot see other workloads in the same billing account.
+* If Firestore is unreachable, metering is skipped (jobs never fail because of it), so usage is under-counted.
+* Failed renders still cost minutes. Provider outages on bad days can double the day's render time (generate runs twice).
+* Request-based web service CPU has its own free tier (180,000 vCPU-s, 2 million requests); the web tier is far below it.
 
 ## Local rehearsal (no Google Cloud)
 

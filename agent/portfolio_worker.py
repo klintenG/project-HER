@@ -35,7 +35,7 @@ def stop_descendants():
         except psutil.NoSuchProcess:pass
 
 
-def watchdog(rt,jid,deadline,stop,*,exit_process=os._exit,clock=time.time,interval=HEARTBEAT_SECONDS):
+def watchdog(rt,jid,deadline,stop,*,exit_process=os._exit,clock=time.time,interval=HEARTBEAT_SECONDS,on_exit=None):
     """Heartbeat; hard-stop when cancellation is ignored or the deadline passes.
 
     Cooperative cancellation inside the News pipeline is tried first (it polls
@@ -43,6 +43,13 @@ def watchdog(rt,jid,deadline,stop,*,exit_process=os._exit,clock=time.time,interv
     that used to run in the web instance.
     """
     cancel_at=None
+    def leave():
+        # os._exit skips finally blocks: meter the billed time first (best effort).
+        stop_descendants()
+        if on_exit:
+            try:on_exit()
+            except Exception:pass
+        exit_process(0)
     while not stop.wait(interval):
         try:
             rt.heartbeat(jid)
@@ -53,7 +60,7 @@ def watchdog(rt,jid,deadline,stop,*,exit_process=os._exit,clock=time.time,interv
             # Normal completion also lands here while diagnostics upload; allow it to finish.
             if stop.wait(180):return
             # Terminal recorded (e.g. stale detection) but the pipeline is still running.
-            stop_descendants();exit_process(0);return
+            leave();return
         if job.get('cancel_requested') and cancel_at is None:cancel_at=clock()
         expired=clock()>deadline
         if expired or (cancel_at is not None and clock()-cancel_at>CANCEL_GRACE):
@@ -61,7 +68,7 @@ def watchdog(rt,jid,deadline,stop,*,exit_process=os._exit,clock=time.time,interv
             rt.update(jid,status='cancelled' if cancelled else 'failed',stage=None,
                       error='Generation cancelled.' if cancelled else 'Generation exceeded its deadline. No automatic paid retry was made.')
             rt.release(jid)
-            stop_descendants();exit_process(0);return
+            leave();return
 
 
 def main(argv=None):
@@ -74,6 +81,14 @@ def main(argv=None):
     # Open the store before prepare_worker_environment() moves config.TEMP_DIR:
     # a local SQLite store lives under it and must resolve like the web process.
     rt=configured_runtime()
+    started=time.monotonic()
+    from utils.compute_meter import record_best_effort
+    meter=lambda:record_best_effort('portfolio',started,store=rt.store)
+    try:return run_claimed(rt,jid,CreateJob,cleanup_cloud_job,prepare_worker_environment,meter)
+    finally:meter()  # every start is billed (>= 1 minute), including duplicate or cancelled ones
+
+
+def run_claimed(rt,jid,CreateJob,cleanup_cloud_job,prepare_worker_environment,meter):
     owner=os.getenv('CLOUD_RUN_EXECUTION') or f'local-{os.getpid()}'
     state,request=rt.claim(jid,owner)
     if state in ('cancelled','expired'):
@@ -86,7 +101,7 @@ def main(argv=None):
     prepare_worker_environment(jid)
     job=rt.store.get('job:'+jid)
     stop=threading.Event()
-    guard=threading.Thread(target=watchdog,args=(rt,jid,job['deadline'],stop),daemon=True);guard.start()
+    guard=threading.Thread(target=watchdog,args=(rt,jid,job['deadline'],stop),kwargs={'on_exit':meter},daemon=True);guard.start()
     try:
         rt.execute(jid,data)  # records completed/failed/cancelled and releases the slot
     finally:

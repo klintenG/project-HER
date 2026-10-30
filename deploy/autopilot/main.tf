@@ -27,6 +27,33 @@ variable "live_publishing_validated" { type = bool
 variable "schedulers_paused" { type = bool
   default = true
 }
+# Free-tier budget: ~31 heavy minutes/day (see docs/scale-to-zero-deployment.md). The original
+# schedule started the 4 vCPU job 68 times a day. Starts bill a 1-minute minimum each, so:
+#   generate  renders one story per run and exits cheaply when the ready queue is full.
+#   prepare   only recovers failed media delivery -> small job, twice a day.
+#   schedule  creates the day's Buffer posts; later runs are idempotent.
+#   retry     must stay dense inside the 18:00-19:00 IST window (needs >= 5 min lead).
+#   verify    final reconciliation after the window; retry already verifies first.
+# Original (cost-heavy) values: generate "0 9,11,13,15 * * *", prepare "10 10,12,14,16 * * *",
+# schedule "*/10 16-18 * * *", verify "*/10 18-23 * * *", retry "5,15,25,35,45,55 18 * * *".
+variable "autopilot_schedules" {
+  type = map(string)
+  default = {
+    generate = "0 9,13 * * *"
+    prepare = "10 10,14 * * *"
+    schedule = "0 16,17,18 * * *"
+    verify = "10 19,21 * * *"
+    retry = "5,20,35,50 18 * * *"
+  }
+  validation {
+    condition = toset(keys(var.autopilot_schedules)) == toset(["generate", "prepare", "schedule", "verify", "retry"])
+    error_message = "autopilot_schedules must define exactly: generate, prepare, schedule, verify, retry."
+  }
+}
+# A hung render must not burn days of free minutes: the 4 vCPU / 8 GiB job bills for its whole lifetime.
+variable "render_timeout_seconds" { type = number
+  default = 3000
+}
 provider "google" { project = var.project
   region = var.region
 }
@@ -74,7 +101,8 @@ locals {
     AUTOPILOT_PUBLIC_BUCKET = var.public_bucket,
     AUTOPILOT_ENABLED = tostring(var.autopilot_enabled),
     BUFFER_DRY_RUN = tostring(var.buffer_dry_run),
-    AUTOPILOT_LIVE_VALIDATED = tostring(var.live_publishing_validated)
+    AUTOPILOT_LIVE_VALIDATED = tostring(var.live_publishing_validated),
+    HER_COMPUTE_BUDGET = "1"
   })
 }
 resource "google_cloud_run_v2_job" "autopilot" {
@@ -87,14 +115,14 @@ resource "google_cloud_run_v2_job" "autopilot" {
     template {
       service_account = google_service_account.worker.email
       max_retries = 0 # Paid generation is never replayed automatically by Cloud Run.
-      timeout = "7200s"
+      timeout = "${var.render_timeout_seconds}s"
       containers {
         image = var.image
         command = ["python"]
         args = ["-m", "automation.autopilot_worker", "verify"]
         resources { limits = { cpu = "4", memory = "8Gi" } }
         dynamic "env" {
-          for_each = local.job_env
+          for_each = merge(local.job_env, { HER_COMPUTE_WEIGHT = "1" })
           content { name = env.key
             value = env.value
           }
@@ -112,7 +140,7 @@ resource "google_cloud_run_v2_job" "autopilot" {
     }
   }
 }
-# Buffer/Firestore-only steps (schedule, verify, retry) never render or hash video.
+# Steps that never render video: schedule, verify, retry (Buffer/Firestore) and prepare (re-upload).
 # Running them on a 1 vCPU / 2 GiB job avoids ~60 one-minute-minimum starts a day on
 # the 4 vCPU / 8 GiB render job. Same image, service account, env and secrets.
 resource "google_cloud_run_v2_job" "autopilot_light" {
@@ -132,7 +160,7 @@ resource "google_cloud_run_v2_job" "autopilot_light" {
         args = ["-m", "automation.autopilot_worker", "verify"]
         resources { limits = { cpu = "1", memory = "2Gi" } }
         dynamic "env" {
-          for_each = local.job_env
+          for_each = merge(local.job_env, { HER_COMPUTE_WEIGHT = "0.25" })
           content { name = env.key
             value = env.value
           }
@@ -167,17 +195,12 @@ resource "google_cloud_run_v2_job_iam_member" "invoke" {
   member = "serviceAccount:${each.value}"
 }
 locals {
-  schedules = {
-    generate = "0 9,11,13,15 * * *"
-    prepare = "10 10,12,14,16 * * *"
-    schedule = "*/10 16-18 * * *"
-    verify = "*/10 18-23 * * *"
-    retry = "5,15,25,35,45,55 18 * * *"
-  }
-  # generate renders video and prepare hashes/uploads MP4s: keep those on the 4 vCPU job.
+  schedules = var.autopilot_schedules
+  # Only generate renders video (4 vCPU job). prepare re-uploads an already validated MP4
+  # (download, hash, upload) and fits the 1 vCPU / 2 GiB job.
   step_job = {
     generate = google_cloud_run_v2_job.autopilot.id
-    prepare = google_cloud_run_v2_job.autopilot.id
+    prepare = google_cloud_run_v2_job.autopilot_light.id
     schedule = google_cloud_run_v2_job.autopilot_light.id
     verify = google_cloud_run_v2_job.autopilot_light.id
     retry = google_cloud_run_v2_job.autopilot_light.id

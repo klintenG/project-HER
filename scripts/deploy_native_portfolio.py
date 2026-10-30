@@ -55,6 +55,7 @@ def deploy_worker_job(account,workdir,args):
         ref=(item.get('valueFrom') or {}).get('secretKeyRef')
         if ref:secret_refs.append(item['name']+'='+ref['name']+':'+ref.get('key','latest'))
         else:plain[item['name']]=item.get('value','')
+    plain['HER_COMPUTE_WEIGHT']='1'  # this job is the full-weight 4 vCPU / 8 GiB size
     env_file=workdir/'worker-env.yaml'
     env_file.write_text(''.join(k+': '+json.dumps(v)+'\n' for k,v in plain.items()))
     command=['run','jobs','deploy',WORKER_JOB,'--image='+container['image'],'--region='+REGION,
@@ -140,7 +141,8 @@ def main():
         val=os.getenv(key) or local_env.get(key)
         if val: values[key]=str(val)
     if args.executor=='job':
-        values.update({'HER_PORTFOLIO_WORKER_JOB':WORKER_JOB,'HER_PORTFOLIO_WORKER_REGION':REGION,'HER_PORTFOLIO_START_GRACE':'900'})
+        # HER_COMPUTE_BUDGET: admit visitor renders only from the free-tier minutes Autopilot's daily video leaves.
+        values.update({'HER_PORTFOLIO_WORKER_JOB':WORKER_JOB,'HER_PORTFOLIO_WORKER_REGION':REGION,'HER_PORTFOLIO_START_GRACE':'900','HER_COMPUTE_BUDGET':'1'})
         # Web tier only validates, enqueues and serves status/media: small, request-billed, scale to zero.
         scaling=['--cpu-throttling','--min-instances=0','--max-instances=1','--concurrency=20','--cpu='+args.service_cpu,'--memory='+args.service_memory,'--timeout=300']
     else:
